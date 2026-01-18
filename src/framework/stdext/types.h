@@ -23,6 +23,10 @@
 #ifndef STDEXT_TYPES_H
 #define STDEXT_TYPES_H
 
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX
+#endif
+
 #include <cstdint>
 #include <cstddef>
 

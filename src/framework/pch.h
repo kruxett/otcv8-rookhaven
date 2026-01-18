@@ -23,6 +23,10 @@
 #ifndef PCH_H
 #define PCH_H
 
+#if defined(_WIN32) && !defined(NOMINMAX)
+#define NOMINMAX
+#endif
+
 // common C headers
 #include <cstdio>
 #include <cstdlib>
@@ -65,12 +69,14 @@
 #ifdef ANDROID
 #define BOOST_UUID_RANDOM_PROVIDER_FORCE_POSIX
 #endif
+
+#include "boost/asio/io_service.hpp"
+
 #include <boost/system/config.hpp>
 #include <boost/system/error_code.hpp>
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
 
-#include <boost/asio/io_service.hpp>
 #include <boost/asio/ip/tcp.hpp>
 #ifndef __EMSCRIPTEN__
 #include <boost/asio/ssl.hpp>

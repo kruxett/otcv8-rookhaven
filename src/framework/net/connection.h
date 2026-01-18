@@ -32,6 +32,7 @@ class Connection : public LuaObject
 {
     typedef std::function<void(const boost::system::error_code&)> ErrorCallback;
     typedef std::function<void(uint8*, uint32)> RecvCallback;
+    using ResolverResults = asio::ip::tcp::resolver::results_type;
 
     static constexpr int32_t READ_TIMEOUT = 30;
     static constexpr int32_t WRITE_TIMEOUT = 30;
@@ -67,9 +68,9 @@ public:
     ConnectionPtr asConnection() { return static_self_cast<Connection>(); }
 
 protected:
-    void internal_connect(asio::ip::basic_resolver<asio::ip::tcp>::iterator endpointIterator);
+    void internal_connect(const ResolverResults& endpoints);
     void internal_write();
-    void onResolve(const boost::system::error_code& error, asio::ip::tcp::resolver::iterator endpointIterator);
+    void onResolve(const boost::system::error_code& error, ResolverResults endpoints);
     void onConnect(const boost::system::error_code& error);
     void onCanWrite(const boost::system::error_code& error);
     void onWrite(const boost::system::error_code& error, size_t writeSize, std::shared_ptr<asio::streambuf> outputStream);

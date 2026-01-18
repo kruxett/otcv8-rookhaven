@@ -31,6 +31,7 @@
 #include <framework/http/http.h>
 #include <queue>
 #include <regex>
+#include <algorithm>
 
 #if not(defined(ANDROID) || defined(FREE_VERSION))
 #include <boost/process.hpp>
@@ -188,54 +189,116 @@ bool ResourceManager::setup()
     if (baseDir)
         possiblePaths.push_back(baseDir);
 
+    auto addPath = [&possiblePaths](const std::filesystem::path& path) {
+        if (path.empty())
+            return;
+        auto str = path.string();
+        if (str.empty())
+            return;
+        if (std::find(possiblePaths.begin(), possiblePaths.end(), str) == possiblePaths.end())
+            possiblePaths.push_back(str);
+    };
+
+    std::filesystem::path binaryDir = m_binaryPath;
+    if (!binaryDir.empty()) {
+        binaryDir = binaryDir.parent_path();
+        int depth = 0;
+        while (!binaryDir.empty() && depth < 5) {
+            addPath(binaryDir);
+            auto parent = binaryDir.parent_path();
+            if (parent == binaryDir)
+                break;
+            binaryDir = parent;
+            depth++;
+        }
+    }
+
+    auto ensureModulesMounted = [&](const std::vector<std::string>& paths) {
+        if (PHYSFS_isDirectory("modules"))
+            return;
+
+        for (const std::string& dir : paths) {
+            if (dir.empty())
+                continue;
+
+            std::error_code ec;
+            std::filesystem::path modulesPath = std::filesystem::u8path(dir) / "modules";
+            if (!std::filesystem::exists(modulesPath, ec) || !std::filesystem::is_directory(modulesPath, ec))
+                continue;
+
+            if (!PHYSFS_mount(dir.c_str(), NULL, 0))
+                continue;
+
+            if (PHYSFS_isDirectory("modules")) {
+                g_logger.info(stdext::format("Mounted modules dir from '%s'", dir));
+                return;
+            }
+        }
+    };
+
+    bool mounted = false;
+
     for (const std::string& dir : possiblePaths) {
         if (dir == localDir || !PHYSFS_mount(dir.c_str(), NULL, 0))
             continue;
 
         if(PHYSFS_exists(INIT_FILENAME.c_str())) {
             g_logger.info(stdext::format("Found work dir at '%s'", dir));
-            return true;
+            mounted = true;
+            break;
         }
 
         PHYSFS_unmount(dir.c_str());
     }
 
-    for(const std::string& dir : possiblePaths) {
-        if (dir != localDir && !PHYSFS_mount(dir.c_str(), NULL, 0)) {
-            continue;
-        }
+    if (!mounted) {
+        for(const std::string& dir : possiblePaths) {
+            if (dir != localDir && !PHYSFS_mount(dir.c_str(), NULL, 0)) {
+                continue;
+            }
 
-        if (!PHYSFS_exists("data.zip")) {
-            if(dir != localDir)
-                PHYSFS_unmount(dir.c_str());
-            continue;
-        }
+            if (!PHYSFS_exists("data.zip")) {
+                if(dir != localDir)
+                    PHYSFS_unmount(dir.c_str());
+                continue;
+            }
 
-        PHYSFS_File* file = PHYSFS_openRead("data.zip");
-        if (!file) {
+            PHYSFS_File* file = PHYSFS_openRead("data.zip");
+            if (!file) {
+                if (dir != localDir)
+                    PHYSFS_unmount(dir.c_str());
+                continue;
+            }
+
+            auto data = std::make_shared<std::vector<uint8_t>>(PHYSFS_fileLength(file));
+            PHYSFS_readBytes(file, data->data(), data->size());
+            PHYSFS_close(file);
             if (dir != localDir)
                 PHYSFS_unmount(dir.c_str());
-            continue;
+
+            g_logger.info(stdext::format("Found work dir at '%s'", dir));
+            if (mountMemoryData(data)) {
+                mounted = true;
+                break;
+            }
         }
-
-        auto data = std::make_shared<std::vector<uint8_t>>(PHYSFS_fileLength(file));
-        PHYSFS_readBytes(file, data->data(), data->size());
-        PHYSFS_close(file);
-        if (dir != localDir)
-            PHYSFS_unmount(dir.c_str());
-
-        g_logger.info(stdext::format("Found work dir at '%s'", dir));
-        if (mountMemoryData(data))
-            return true;
     }
 #endif
-    if (loadDataFromSelf()) {
+    if (!mounted && loadDataFromSelf()) {
         g_logger.info(stdext::format("Found work dir inside binary"));
-        return true;
+        mounted = true;
     }
 
-    g_logger.fatal("Unable to find working directory (or data.zip)");
-    return false;
+    if (!mounted) {
+        g_logger.fatal("Unable to find working directory (or data.zip)");
+        return false;
+    }
+
+    ensureModulesMounted(possiblePaths);
+    if (!PHYSFS_isDirectory("modules"))
+        g_logger.fatal("Modules dir doesn't exist.");
+
+    return true;
 }
 
 std::string ResourceManager::getCompactName() {

@@ -12,13 +12,31 @@ local versionsFound = false
 local customServerSelectorPanel
 local serverSelectorPanel
 local serverSelector
-local clientVersionSelector
 local serverHostTextEdit
 local rememberPasswordBox
-local protos = {"740", "760", "772", "792", "800", "810", "854", "860", "870", "910", "961", "1000", "1077", "1090", "1096", "1098", "1099", "1100", "1200", "1220"}
+local DEFAULT_CLIENT_VERSION = 860
 
 local checkedByUpdater = {}
 local waitingForHttpResults = 0
+
+local function getSavedClientVersion()
+  local saved = tonumber(g_settings.get('client-version'))
+  if saved and saved > 0 then
+    return saved
+  end
+
+  local current = tonumber(g_game.getClientVersion())
+  if current and current > 0 then
+    return current
+  end
+
+  local supported = g_game.getSupportedClients()
+  if supported and #supported > 0 then
+    return supported[#supported]
+  end
+
+  return DEFAULT_CLIENT_VERSION
+end
 
 -- private functions
 local function onProtocolError(protocol, message, errorCode)
@@ -304,7 +322,6 @@ function EnterGame.init()
   serverSelector = serverSelectorPanel:getChildById('serverSelector')
   rememberPasswordBox = enterGame:getChildById('rememberPasswordBox')
   serverHostTextEdit = customServerSelectorPanel:getChildById('serverHostTextEdit')
-  clientVersionSelector = customServerSelectorPanel:getChildById('clientVersionSelector')
   
   if Servers ~= nil then 
     for name,server in pairs(Servers) do
@@ -314,10 +331,6 @@ function EnterGame.init()
   if serverSelector:getOptionsCount() == 0 or ALLOW_CUSTOM_SERVERS then
     serverSelector:addOption(tr("Another"))    
   end  
-  for i,proto in pairs(protos) do
-    clientVersionSelector:addOption(proto)
-  end
-
   if serverSelector:getOptionsCount() == 1 then
     enterGame:setHeight(enterGame:getHeight() - serverSelectorPanel:getHeight())
     serverSelectorPanel:setOn(false)
@@ -327,14 +340,12 @@ function EnterGame.init()
   local password = g_crypt.decrypt(g_settings.get('password'))
   local server = g_settings.get('server')
   local host = g_settings.get('host')
-  local clientVersion = g_settings.get('client-version')
 
   if serverSelector:isOption(server) then
     serverSelector:setCurrentOption(server, false)
     if Servers == nil or Servers[server] == nil then
-      serverHostTextEdit:setText(host)
+      serverHostTextEdit:setText(host or "")
     end
-    clientVersionSelector:setOption(clientVersion)
   else
     server = ""
     host = ""
@@ -435,7 +446,7 @@ function EnterGame.doLogin(account, password, token, host)
   G.stayLogged = true
   G.server = serverSelector:getText():trim()
   G.host = host or serverHostTextEdit:getText()
-  G.clientVersion = tonumber(clientVersionSelector:getText())  
+  G.clientVersion = getSavedClientVersion()
  
   if not rememberPasswordBox:isChecked() then
     g_settings.set('account', G.account)

@@ -1,4 +1,5 @@
 # framework flags
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 # FRAMEWORK_SOUND
 # FRAMEWORK_GRAPHICS
 # FRAMEWORK_NET
@@ -191,30 +192,36 @@ if(WASM)
     set(framework_SOURCES ${framework_SOURCES} ${LUA_SRC})
     message(STATUS "LUA: " ${LUA_SRC})
 else()
-    set(CMAKE_CXX_FLAGS                   "${CMAKE_CXX_FLAGS} ${WARNS_FLAGS} ${ARCH_FLAGS} -pipe")
-    set(CMAKE_CXX_FLAGS_COMPILESPEED      "-O0")
-    set(CMAKE_CXX_FLAGS_DEBUG             "-O0 -g")
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO    "-O1 -g -fno-omit-frame-pointer")
-    set(CMAKE_CXX_FLAGS_RELEASE           "-O2")
-    set(CMAKE_CXX_FLAGS_PERFORMANCE       "-Ofast -march=native")
-endif()
+    if (MSVC)
+        # MSVC-kompatibla varningar och debug/release-flaggor
+        add_compile_options(
+            /W3        # ungefär motsvarar -Wall
+            /EHsc      # korrekt exception handling
+            /bigobj    # allow large translation units (e.g. luafunctions.cpp)
+        )
 
-if(USE_LTO)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fwhole-program -flto")
-    if(WIN32)
-        set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,-O1,--gc-sections,--sort-common,--relax")
+        set(CMAKE_CXX_FLAGS_DEBUG "/Od /Zi")
+        set(CMAKE_CXX_FLAGS_RELEASE "/O2")
     else()
-        set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,-O1,--gc-sections,--sort-common,--relax,-z,relro")
+        # GCC/Clang
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${WARNS_FLAGS} ${ARCH_FLAGS} -pipe")
+        set(CMAKE_CXX_FLAGS_COMPILESPEED "-O0")
+        set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+        set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O1 -g -fno-omit-frame-pointer")
+        set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+        set(CMAKE_CXX_FLAGS_PERFORMANCE "-Ofast -march=native")
     endif()
 endif()
 
 # process options
 if(USE_STATIC_LIBS)
-        if(NOT APPLE)
-            set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -static-libgcc -static-libstdc++")
-        endif()
-        message(STATUS "Link to static libraries: ON")
-        set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+	if(NOT APPLE AND NOT MSVC)
+	    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -static-libgcc -static-libstdc++")
+	endif()
+	message(STATUS "Link to static libraries: ON")
+	if(NOT MSVC)
+	    set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+	endif()
 else()
         message(STATUS "Link to static libraries: OFF")
 endif()
@@ -272,7 +279,7 @@ if(NOT WASM)
     )
 
     if(WIN32)
-        set(framework_LIBRARIES ${framework_LIBRARIES} -lbcrypt -ldbghelp -lshlwapi -liphlpapi -lpsapi)
+        set(framework_LIBRARIES ${framework_LIBRARIES} bcrypt dbghelp shlwapi iphlpapi psapi winmm)
     endif()
 
     set(framework_INCLUDE_DIRS ${framework_INCLUDE_DIRS}
@@ -294,7 +301,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInf
 else()
     message(STATUS "Debug information: OFF")
     set(framework_DEFINITIONS ${framework_DEFINITIONS} -DNDEBUG) # NDEBUG disable asserts
-    if(NOT APPLE)
+    if(NOT APPLE AND NOT MSVC)
         set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,-s") # strip all debug information
         if(NOT WASM)
             set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,--as-needed") # only link needed libraries
@@ -317,8 +324,7 @@ if(USE_LIBCPP)
 endif()
 
 if(WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mthreads")
-    set(framework_DEFINITIONS ${framework_DEFINITIONS} -D_WIN32_WINNT=0x0501 -DWIN32)
+    set(framework_DEFINITIONS ${framework_DEFINITIONS} -D_WIN32_WINNT=0x0501 -DWIN32 -DNOMINMAX)
     #set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -Wl,--large-address-aware") # strip all debug information
     set(SYSTEM_LIBRARIES "")
 else()
@@ -372,9 +378,19 @@ if(FRAMEWORK_GRAPHICS)
             endif()
         endif()
         set(USE_STATIC_LIBS OFF)
-        find_package(GLEW REQUIRED)
+        find_package(GLEW CONFIG QUIET)
+        if(NOT GLEW_FOUND)
+            find_package(GLEW REQUIRED)
+        endif()
         set(USE_STATIC_LIBS ON)
-        set(framework_LIBRARIES ${framework_LIBRARIES} ${GLEW_LIBRARY} ${OPENGL_LIBRARIES})
+
+        if(TARGET GLEW::GLEW)
+            set(framework_LIBRARIES ${framework_LIBRARIES} GLEW::GLEW ${OPENGL_LIBRARIES})
+        elseif(DEFINED GLEW_LIBRARIES)
+            set(framework_LIBRARIES ${framework_LIBRARIES} ${GLEW_LIBRARIES} ${OPENGL_LIBRARIES})
+        else()
+            set(framework_LIBRARIES ${framework_LIBRARIES} ${GLEW_LIBRARY} ${OPENGL_LIBRARIES})
+        endif()
         MESSAGE(${framework_LIBRARIES})
     endif()
     message(STATUS "OpenGL ES: " ${OPENGLES})
