@@ -52,10 +52,22 @@ local settings = g_configs.getSettings()
 local layout = DEFAULT_LAYOUT
 if g_app.isMobile() then
   layout = "mobile"
-elseif settings:exists('layout') then
-  layout = settings:getValue('layout')
+else
+  if settings:exists('layout') then
+    local saved = settings:getValue('layout')
+    if saved and saved:lower() ~= 'default' then
+      layout = saved
+    end
+  end
 end
 g_resources.setLayout(layout)
+
+-- persist enforced layout so options UI reflects it
+local current = settings:getValue('layout')
+if current ~= layout then
+  settings:setValue('layout', layout)
+  g_configs.saveSettings()
+end
 
 -- load mods
 g_modules.discoverModules()

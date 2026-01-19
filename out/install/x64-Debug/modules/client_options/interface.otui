@@ -66,10 +66,6 @@ OptionPanel
     $mobile:
       visible: false
 
-  OptionCheckBox
-    id: highlightThingsUnderCursor
-    !text: tr('Highlight things under cursor')
-
   Panel
     height: 40
     margin-top: 3
@@ -141,22 +137,6 @@ OptionPanel
         self:addOption("2nd right panel")
         self:addOption("3rd right panel")
         self:addOption("4th right panel")
-
-  Label
-    margin-top: 3
-    id: crosshairLabel
-    !text: tr("Crosshair")
-    
-  ComboBox
-    id: crosshair
-    margin-top: 3
-    margin-right: 2
-    margin-left: 2
-    @onOptionChange: modules.client_options.setOption(self:getId(), self.currentIndex)
-    @onSetup: |
-      self:addOption("None")
-      self:addOption("Default")
-      self:addOption("Full")
 
   Label
     id: floorFadingLabel

@@ -1,6 +1,7 @@
 minimapWidget = nil
 minimapButton = nil
 minimapWindow = nil
+minimapOriginalParent = nil
 fullmapView = false
 loaded = false
 oldZoom = nil
@@ -17,14 +18,15 @@ function init()
   end
 
   minimapWidget = minimapWindow:recursiveGetChildById('minimap')
+  minimapOriginalParent = minimapWidget and minimapWidget:getParent() or nil
 
   local gameRootPanel = modules.game_interface.getRootPanel()
   g_keyboard.bindKeyPress('Alt+Left', function() minimapWidget:move(1,0) end, gameRootPanel)
   g_keyboard.bindKeyPress('Alt+Right', function() minimapWidget:move(-1,0) end, gameRootPanel)
   g_keyboard.bindKeyPress('Alt+Up', function() minimapWidget:move(0,1) end, gameRootPanel)
   g_keyboard.bindKeyPress('Alt+Down', function() minimapWidget:move(0,-1) end, gameRootPanel)
-  g_keyboard.bindKeyDown('Ctrl+M', toggle)
-  g_keyboard.bindKeyDown('Ctrl+Shift+M', toggleFullMap)
+  g_keyboard.bindKeyDown('Ctrl+M', toggle, gameRootPanel)
+  g_keyboard.bindKeyDown('Ctrl+Shift+M', toggleFullMap, gameRootPanel)
 
   minimapWindow:setup()
 
@@ -141,17 +143,27 @@ function updateCameraPosition()
 end
 
 function toggleFullMap()
+  if not minimapWidget then return end
+  local rootPanel = modules.game_interface.getRootPanel()
+  if not rootPanel then return end
+
   if not fullmapView then
     fullmapView = true
     minimapWindow:hide()
-    minimapWidget:setParent(modules.game_interface.getRootPanel())
+    minimapWidget:setParent(rootPanel)
     minimapWidget:fill('parent')
+    minimapWidget:raise()
     minimapWidget:setAlternativeWidgetsVisible(true)
   else
     fullmapView = false
-    minimapWidget:setParent(minimapWindow:getChildById('contentsPanel'))
+    local restoreParent = minimapOriginalParent
+    if not restoreParent or restoreParent:isDestroyed() then
+      restoreParent = minimapWindow:getChildById('contentsPanel') or minimapWindow
+    end
+    minimapWidget:setParent(restoreParent)
     minimapWidget:fill('parent')
     minimapWindow:show()
+    minimapWidget:raise()
     minimapWidget:setAlternativeWidgetsVisible(false)
   end
 

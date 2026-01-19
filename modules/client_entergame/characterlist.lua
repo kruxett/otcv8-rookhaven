@@ -32,8 +32,11 @@ local function tryLogin(charInfo, tries)
   CharacterList.hide()
   g_game.loginWorld(G.account, G.password, charInfo.worldName, charInfo.worldHost, charInfo.worldPort, charInfo.characterName, G.authenticatorToken, G.sessionKey)
   g_logger.info("Login to " .. charInfo.worldHost .. ":" .. charInfo.worldPort)
+  g_logger.info("Creating loadBox for connection")
   loadBox = displayCancelBox(tr('Please wait'), tr('Connecting to game server...'))
+  g_logger.info("loadBox created: " .. tostring(loadBox))
   connect(loadBox, { onCancel = function()
+                                  g_logger.info("loadBox cancel button clicked")
                                   loadBox = nil
                                   g_game.cancelLogin()
                                   CharacterList.show()
@@ -183,6 +186,7 @@ function CharacterList.init()
   connect(g_game, { onUpdateNeeded = onGameUpdateNeeded })
   connect(g_game, { onConnectionError = onGameConnectionError })
   connect(g_game, { onGameStart = CharacterList.destroyLoadBox })
+  connect(g_game, { onEnterGame = CharacterList.destroyLoadBox })
   connect(g_game, { onLoginWait = onLoginWait })
   connect(g_game, { onGameEnd = onGameEnd })
   connect(g_game, { onLogout = onLogout })
@@ -199,6 +203,7 @@ function CharacterList.terminate()
   disconnect(g_game, { onUpdateNeeded = onGameUpdateNeeded })
   disconnect(g_game, { onConnectionError = onGameConnectionError })
   disconnect(g_game, { onGameStart = CharacterList.destroyLoadBox })
+  disconnect(g_game, { onEnterGame = CharacterList.destroyLoadBox })
   disconnect(g_game, { onLoginWait = onLoginWait })
   disconnect(g_game, { onGameEnd = onGameEnd })
   disconnect(g_game, { onLogout = onLogout })
@@ -395,9 +400,28 @@ function CharacterList.doLogin()
 end
 
 function CharacterList.destroyLoadBox()
+  g_logger.info("CharacterList.destroyLoadBox() called")
   if loadBox then
+    g_logger.info("Destroying loadBox")
     loadBox:destroy()
     loadBox = nil
+  else
+    g_logger.info("loadBox is nil, checking for orphaned messageboxes")
+    -- Try to find and destroy any message box with "Connecting to game server" text
+    local rootWidget = g_ui.getRootWidget()
+    if rootWidget then
+      local children = rootWidget:recursiveGetChildrenByPos({x=0, y=0, width=99999, height=99999})
+      for _, child in ipairs(children) do
+        if child:getId() == 'messageBox' then
+          local label = child:recursiveGetChildById('messageBoxLabel')
+          if label and label:getText():find("Connecting to game server") then
+            g_logger.info("Found orphaned connecting dialog, destroying it")
+            child:destroy()
+            return
+          end
+        end
+      end
+    end
   end
 end
 

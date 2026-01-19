@@ -12,13 +12,31 @@ local versionsFound = false
 local customServerSelectorPanel
 local serverSelectorPanel
 local serverSelector
-local clientVersionSelector
 local serverHostTextEdit
 local rememberPasswordBox
-local protos = {"740", "760", "772", "792", "800", "810", "854", "860", "870", "910", "961", "1000", "1077", "1090", "1096", "1098", "1099", "1100", "1200", "1220"}
+local DEFAULT_CLIENT_VERSION = 860
 
 local checkedByUpdater = {}
 local waitingForHttpResults = 0
+
+local function getSavedClientVersion()
+  local saved = tonumber(g_settings.get('client-version'))
+  if saved and saved > 0 then
+    return saved
+  end
+
+  local current = tonumber(g_game.getClientVersion())
+  if current and current > 0 then
+    return current
+  end
+
+  local supported = g_game.getSupportedClients()
+  if supported and #supported > 0 then
+    return supported[#supported]
+  end
+
+  return DEFAULT_CLIENT_VERSION
+end
 
 -- private functions
 local function onProtocolError(protocol, message, errorCode)
@@ -257,7 +275,17 @@ local function onHTTPResult(data, err)
   -- force player settings
   if settings ~= nil then
     for option, value in pairs(settings) do
-      modules.client_options.setOption(option, value, true)
+      if option ~= 'crosshair'
+        and option ~= 'highlightThingsUnderCursor'
+        and option ~= 'displayHealth'
+        and option ~= 'displayMana'
+        and option ~= 'displayHealthOnTop'
+        and option ~= 'hidePlayerBars'
+        and option ~= 'topHealtManaBar'
+        and option ~= 'showHealthManaCircle'
+        and option ~= 'topBar' then
+        modules.client_options.setOption(option, value, true)
+      end
     end
   end
     
@@ -295,51 +323,49 @@ end
 
 -- public functions
 function EnterGame.init()
-  if USE_NEW_ENERGAME then return end
-  enterGame = g_ui.displayUI('entergame')
+if USE_NEW_ENERGAME then return end
+enterGame = g_ui.displayUI('entergame')
   
-  serverSelectorPanel = enterGame:getChildById('serverSelectorPanel')
-  customServerSelectorPanel = enterGame:getChildById('customServerSelectorPanel')
+serverSelectorPanel = enterGame:getChildById('serverSelectorPanel')
+customServerSelectorPanel = enterGame:getChildById('customServerSelectorPanel')
   
-  serverSelector = serverSelectorPanel:getChildById('serverSelector')
-  rememberPasswordBox = enterGame:getChildById('rememberPasswordBox')
-  serverHostTextEdit = customServerSelectorPanel:getChildById('serverHostTextEdit')
-  clientVersionSelector = customServerSelectorPanel:getChildById('clientVersionSelector')
+-- Force hide server selection panels
+serverSelectorPanel:setOn(false)
+serverSelectorPanel:setVisible(false)
+customServerSelectorPanel:setOn(false)
+customServerSelectorPanel:setVisible(false)
   
-  if Servers ~= nil then 
-    for name,server in pairs(Servers) do
-      serverSelector:addOption(name)
-    end
+serverSelector = serverSelectorPanel:getChildById('serverSelector')
+rememberPasswordBox = enterGame:getChildById('rememberPasswordBox')
+serverHostTextEdit = customServerSelectorPanel:getChildById('serverHostTextEdit')
+  
+if Servers ~= nil then 
+  for name,server in pairs(Servers) do
+    serverSelector:addOption(name)
   end
-  if serverSelector:getOptionsCount() == 0 or ALLOW_CUSTOM_SERVERS then
-    serverSelector:addOption(tr("Another"))    
-  end  
-  for i,proto in pairs(protos) do
-    clientVersionSelector:addOption(proto)
-  end
-
-  if serverSelector:getOptionsCount() == 1 then
-    enterGame:setHeight(enterGame:getHeight() - serverSelectorPanel:getHeight())
-    serverSelectorPanel:setOn(false)
-  end
+end
+if serverSelector:getOptionsCount() == 0 or ALLOW_CUSTOM_SERVERS then
+  serverSelector:addOption(tr("Another"))    
+end  
+if serverSelector:getOptionsCount() == 1 then
+  serverSelectorPanel:setOn(false)
+end
   
   local account = g_crypt.decrypt(g_settings.get('account'))
   local password = g_crypt.decrypt(g_settings.get('password'))
   local server = g_settings.get('server')
   local host = g_settings.get('host')
-  local clientVersion = g_settings.get('client-version')
 
   if serverSelector:isOption(server) then
     serverSelector:setCurrentOption(server, false)
     if Servers == nil or Servers[server] == nil then
-      serverHostTextEdit:setText(host)
+      serverHostTextEdit:setText(host or "")
     end
-    clientVersionSelector:setOption(clientVersion)
   else
     server = ""
     host = ""
   end
-  
+
   enterGame:getChildById('accountPasswordTextEdit'):setText(password)
   enterGame:getChildById('accountNameTextEdit'):setText(account)
   rememberPasswordBox:setChecked(#account > 0)
@@ -393,10 +419,9 @@ function EnterGame.openWindow()
 end
 
 function EnterGame.clearAccountFields()
-  enterGame:getChildById('accountNameTextEdit'):clearText()
-  enterGame:getChildById('accountPasswordTextEdit'):clearText()
-  enterGame:getChildById('accountTokenTextEdit'):clearText()
-  enterGame:getChildById('accountNameTextEdit'):focus()
+enterGame:getChildById('accountNameTextEdit'):clearText()
+enterGame:getChildById('accountPasswordTextEdit'):clearText()
+enterGame:getChildById('accountNameTextEdit'):focus()
   g_settings.remove('account')
   g_settings.remove('password')
 end
@@ -431,11 +456,11 @@ function EnterGame.doLogin(account, password, token, host)
   
   G.account = account or enterGame:getChildById('accountNameTextEdit'):getText()
   G.password = password or enterGame:getChildById('accountPasswordTextEdit'):getText()
-  G.authenticatorToken = token or enterGame:getChildById('accountTokenTextEdit'):getText()
+  G.authenticatorToken = token or ''
   G.stayLogged = true
   G.server = serverSelector:getText():trim()
   G.host = host or serverHostTextEdit:getText()
-  G.clientVersion = tonumber(clientVersionSelector:getText())  
+  G.clientVersion = getSavedClientVersion()
  
   if not rememberPasswordBox:isChecked() then
     g_settings.set('account', G.account)

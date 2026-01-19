@@ -44,6 +44,7 @@ function init()
                          onFreeCapacityChange = onFreeCapacityChange })
 
   connect(g_game, { onGameEnd = offline })
+  connect(g_game, { onGameStart = online })
 
   healthInfoWindow = g_ui.loadUI('healthinfo', modules.game_interface.getRightPanel())
   healthInfoWindow:disableResize()
@@ -63,15 +64,14 @@ function init()
   soulLabel = healthInfoWindow:recursiveGetChildById('soulLabel')
   capLabel = healthInfoWindow:recursiveGetChildById('capLabel')
 
-  overlay = g_ui.createWidget('HealthOverlay', modules.game_interface.getMapPanel())  
-  healthCircleFront = overlay:getChildById('healthCircleFront')
-  manaCircleFront = overlay:getChildById('manaCircleFront')
-  healthCircle = overlay:getChildById('healthCircle')
-  manaCircle = overlay:getChildById('manaCircle')
-  topHealthBar = overlay:getChildById('topHealthBar')
-  topManaBar = overlay:getChildById('topManaBar')
-  
-  connect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  -- Disable overlay/top bars/health-mana circles entirely
+  overlay = nil
+  healthCircleFront = nil
+  manaCircleFront = nil
+  healthCircle = nil
+  manaCircle = nil
+  topHealthBar = nil
+  topManaBar = nil
   
   -- load condition icons
   for k,v in pairs(Icons) do
@@ -109,13 +109,18 @@ function terminate()
                             onFreeCapacityChange = onFreeCapacityChange })
 
   disconnect(g_game, { onGameEnd = offline })
-  disconnect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  disconnect(g_game, { onGameStart = online })
+  if overlay then
+    disconnect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  end
   
   healthInfoWindow:destroy()
   if healthInfoButton then
     healthInfoButton:destroy()
   end
-  overlay:destroy()
+  if overlay then
+    overlay:destroy()
+  end
 end
 
 function toggle()
@@ -153,6 +158,9 @@ function offline()
   healthInfoWindow:recursiveGetChildById('conditionPanel'):destroyChildren()
 end
 
+function online()
+end
+
 -- hooked events
 function onMiniWindowClose()
   if healthInfoButton then
@@ -161,6 +169,7 @@ function onMiniWindowClose()
 end
 
 function onHealthChange(localPlayer, health, maxHealth)
+  if not topHealthBar then return end
   if health > maxHealth then
     maxHealth = health
   end
@@ -199,18 +208,24 @@ function onManaChange(localPlayer, mana, maxMana)
     maxMana = mana
   end
   
-  manaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
-  manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
-  manaBar:setValue(mana, 0, maxMana)
+  if manaBar then
+    manaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
+    manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
+    manaBar:setValue(mana, 0, maxMana)
+  end
 
-  topManaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
-  topManaBar:setTooltip(tr(manaTooltip, mana, maxMana))
-  topManaBar:setValue(mana, 0, maxMana)
+  if topManaBar then
+    topManaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
+    topManaBar:setTooltip(tr(manaTooltip, mana, maxMana))
+    topManaBar:setValue(mana, 0, maxMana)
+  end
 
-  local Ymppc = math.floor(208 * (1 - (math.floor((maxMana - (maxMana - mana)) * 100 / maxMana) / 100)))
-  local rect = { x = 0, y = Ymppc, width = 63, height = 208 - Ymppc + 1 }
-  manaCircleFront:setImageClip(rect)
-  manaCircleFront:setImageRect(rect)
+  if manaCircleFront then
+    local Ymppc = math.floor(208 * (1 - (math.floor((maxMana - (maxMana - mana)) * 100 / maxMana) / 100)))
+    local rect = { x = 0, y = Ymppc, width = 63, height = 208 - Ymppc + 1 }
+    manaCircleFront:setImageClip(rect)
+    manaCircleFront:setImageRect(rect)
+  end
 end
 
 function onLevelChange(localPlayer, value, percent)

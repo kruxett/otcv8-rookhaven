@@ -1,4 +1,34 @@
 local gameStart = 0
+local CONTAINER_COLUMNS = 4
+
+local function centerContainerItems(containerPanel, layout)
+  if not containerPanel or not layout then return end
+
+  local function recalc()
+    local cellSize = layout:getCellSize()
+    local spacing = layout:getCellSpacing()
+    local contentWidth = CONTAINER_COLUMNS * cellSize.width + math.max(CONTAINER_COLUMNS - 1, 0) * spacing
+    local availableWidth = containerPanel:getWidth()
+    local slack = math.max(availableWidth - contentWidth, 0)
+    local leftPadding = math.floor(slack / 2)
+    local rightPadding = slack - leftPadding
+    containerPanel:setPaddingLeft(leftPadding)
+    containerPanel:setPaddingRight(rightPadding)
+  end
+
+  if not containerPanel.__centerHandler then
+    local previousHandler = containerPanel.onGeometryChange
+    containerPanel.onGeometryChange = function(widget, oldRect, newRect)
+      if previousHandler then
+        previousHandler(widget, oldRect, newRect)
+      end
+      recalc()
+    end
+    containerPanel.__centerHandler = true
+  end
+
+  addEvent(recalc)
+end
 
 function init()
   connect(Container, { onOpen = onContainerOpen,
@@ -133,6 +163,13 @@ function onContainerOpen(container, previousContainer)
   end
   
   local containerPanel = containerWindow:getChildById('contentsPanel')
+  local layout = containerPanel:getLayout()
+  layout:setFlow(false)
+  layout:setNumColumns(CONTAINER_COLUMNS)
+  layout:setCellSpacing(2)
+  local totalLines = math.max(math.ceil(container:getCapacity() / CONTAINER_COLUMNS), 1)
+  layout:setNumLines(totalLines)
+  centerContainerItems(containerPanel, layout)
   local containerItemWidget = containerWindow:getChildById('containerItemWidget')
   containerWindow.onClose = function()
     g_game.close(container)
@@ -197,7 +234,6 @@ function onContainerOpen(container, previousContainer)
   toggleContainerPages(containerWindow, container:hasPages())
   refreshContainerPages(container)
 
-  local layout = containerPanel:getLayout()
   local cellSize = layout:getCellSize()
   containerWindow:setContentMinimumHeight(cellSize.height)
   containerWindow:setContentMaximumHeight(cellSize.height*layout:getNumLines())

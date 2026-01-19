@@ -27,7 +27,7 @@ local defaultOptions = {
   botSoundVolume = 100,
   enableLights = false,
   floorFading = 500,
-  crosshair = 2,
+  crosshair = 1,
   ambientLight = 100,
   optimizationLevel = 1,
   displayNames = true,
@@ -36,8 +36,7 @@ local defaultOptions = {
   displayHealthOnTop = false,
   showHealthManaCircle = false,
   hidePlayerBars = false,
-  highlightThingsUnderCursor = true,
-  topHealtManaBar = true,
+  highlightThingsUnderCursor = false,
   displayText = true,
   dontStretchShrink = false,
   turnDelay = 30,
@@ -178,6 +177,11 @@ function setup()
   if g_game.isOnline() then
     online()
   end  
+
+  -- force disabled options
+  setOption('highlightThingsUnderCursor', false, true)
+  setOption('crosshair', 1, true)
+  setOption('topHealtManaBar', false, true)
 end
 
 function toggle()
@@ -317,11 +321,6 @@ function setOption(key, value, force)
     gameMapPanel:setDrawHealthBarsOnTop(value)
   elseif key == 'hidePlayerBars' then
     gameMapPanel:setDrawPlayerBars(value)
-  elseif key == 'topHealtManaBar' then
-    modules.game_healthinfo.topHealthBar:setVisible(value)
-    modules.game_healthinfo.topManaBar:setVisible(value)
-  elseif key == 'displayText' then
-    gameMapPanel:setDrawTexts(value)
   elseif key == 'dontStretchShrink' then
     addEvent(function()
       modules.game_interface.updateStretchShrink()

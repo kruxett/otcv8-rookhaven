@@ -53,6 +53,7 @@ HealthOverlay < UIWidget
   
   HealthBar
     id: topHealthBar
+    visible: false
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.horizontalCenter
@@ -60,6 +61,7 @@ HealthOverlay < UIWidget
 
   ManaBar
     id: topManaBar
+    visible: false
     anchors.top: parent.top
     anchors.right: parent.right
     anchors.left: parent.horizontalCenter

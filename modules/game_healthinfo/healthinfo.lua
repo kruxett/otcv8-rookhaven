@@ -44,6 +44,7 @@ function init()
                          onFreeCapacityChange = onFreeCapacityChange })
 
   connect(g_game, { onGameEnd = offline })
+  connect(g_game, { onGameStart = online })
 
   healthInfoWindow = g_ui.loadUI('healthinfo', modules.game_interface.getRightPanel())
   healthInfoWindow:disableResize()
@@ -63,15 +64,14 @@ function init()
   soulLabel = healthInfoWindow:recursiveGetChildById('soulLabel')
   capLabel = healthInfoWindow:recursiveGetChildById('capLabel')
 
-  overlay = g_ui.createWidget('HealthOverlay', modules.game_interface.getMapPanel())  
-  healthCircleFront = overlay:getChildById('healthCircleFront')
-  manaCircleFront = overlay:getChildById('manaCircleFront')
-  healthCircle = overlay:getChildById('healthCircle')
-  manaCircle = overlay:getChildById('manaCircle')
-  topHealthBar = overlay:getChildById('topHealthBar')
-  topManaBar = overlay:getChildById('topManaBar')
-  
-  connect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  -- Disable overlay/top bars/health-mana circles entirely
+  overlay = nil
+  healthCircleFront = nil
+  manaCircleFront = nil
+  healthCircle = nil
+  manaCircle = nil
+  topHealthBar = nil
+  topManaBar = nil
   
   -- load condition icons
   for k,v in pairs(Icons) do
@@ -109,13 +109,18 @@ function terminate()
                             onFreeCapacityChange = onFreeCapacityChange })
 
   disconnect(g_game, { onGameEnd = offline })
-  disconnect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  disconnect(g_game, { onGameStart = online })
+  if overlay then
+    disconnect(overlay, { onGeometryChange = onOverlayGeometryChange })
+  end
   
   healthInfoWindow:destroy()
   if healthInfoButton then
     healthInfoButton:destroy()
   end
-  overlay:destroy()
+  if overlay then
+    overlay:destroy()
+  end
 end
 
 function toggle()
@@ -153,6 +158,9 @@ function offline()
   healthInfoWindow:recursiveGetChildById('conditionPanel'):destroyChildren()
 end
 
+function online()
+end
+
 -- hooked events
 function onMiniWindowClose()
   if healthInfoButton then
@@ -165,32 +173,38 @@ function onHealthChange(localPlayer, health, maxHealth)
     maxHealth = health
   end
 
-  healthBar:setText(comma_value(health) .. ' / ' .. comma_value(maxHealth))
-  healthBar:setTooltip(tr(healthTooltip, health, maxHealth))
-  healthBar:setValue(health, 0, maxHealth)
+  if healthBar then
+    healthBar:setText(comma_value(health) .. ' / ' .. comma_value(maxHealth))
+    healthBar:setTooltip(tr(healthTooltip, health, maxHealth))
+    healthBar:setValue(health, 0, maxHealth)
+  end
 
-  topHealthBar:setText(comma_value(health) .. ' / ' .. comma_value(maxHealth))
-  topHealthBar:setTooltip(tr(healthTooltip, health, maxHealth))
-  topHealthBar:setValue(health, 0, maxHealth)
+  if topHealthBar then
+    topHealthBar:setText(comma_value(health) .. ' / ' .. comma_value(maxHealth))
+    topHealthBar:setTooltip(tr(healthTooltip, health, maxHealth))
+    topHealthBar:setValue(health, 0, maxHealth)
+  end
 
-  local healthPercent = math.floor(g_game.getLocalPlayer():getHealthPercent())
-  local Yhppc = math.floor(208 * (1 - (healthPercent / 100)))
-  local rect = { x = 0, y = Yhppc, width = 63, height = 208 - Yhppc + 1 }
-  healthCircleFront:setImageClip(rect)
-  healthCircleFront:setImageRect(rect)
+  if healthCircleFront then
+    local healthPercent = math.floor(g_game.getLocalPlayer():getHealthPercent())
+    local Yhppc = math.floor(208 * (1 - (healthPercent / 100)))
+    local rect = { x = 0, y = Yhppc, width = 63, height = 208 - Yhppc + 1 }
+    healthCircleFront:setImageClip(rect)
+    healthCircleFront:setImageRect(rect)
 
-  if healthPercent > 92 then
-    healthCircleFront:setImageColor("#00BC00FF")
-  elseif healthPercent > 60 then
-    healthCircleFront:setImageColor("#50A150FF")
-  elseif healthPercent > 30 then
-    healthCircleFront:setImageColor("#A1A100FF")
-  elseif healthPercent > 8 then
-    healthCircleFront:setImageColor("#BF0A0AFF")
-  elseif healthPercent > 3 then
-    healthCircleFront:setImageColor("#910F0FFF")
-  else
-    healthCircleFront:setImageColor("#850C0CFF")
+    if healthPercent > 92 then
+      healthCircleFront:setImageColor("#00BC00FF")
+    elseif healthPercent > 60 then
+      healthCircleFront:setImageColor("#50A150FF")
+    elseif healthPercent > 30 then
+      healthCircleFront:setImageColor("#A1A100FF")
+    elseif healthPercent > 8 then
+      healthCircleFront:setImageColor("#BF0A0AFF")
+    elseif healthPercent > 3 then
+      healthCircleFront:setImageColor("#910F0FFF")
+    else
+      healthCircleFront:setImageColor("#850C0CFF")
+    end
   end
 end
 
@@ -199,18 +213,24 @@ function onManaChange(localPlayer, mana, maxMana)
     maxMana = mana
   end
   
-  manaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
-  manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
-  manaBar:setValue(mana, 0, maxMana)
+  if manaBar then
+    manaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
+    manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
+    manaBar:setValue(mana, 0, maxMana)
+  end
 
-  topManaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
-  topManaBar:setTooltip(tr(manaTooltip, mana, maxMana))
-  topManaBar:setValue(mana, 0, maxMana)
+  if topManaBar then
+    topManaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
+    topManaBar:setTooltip(tr(manaTooltip, mana, maxMana))
+    topManaBar:setValue(mana, 0, maxMana)
+  end
 
-  local Ymppc = math.floor(208 * (1 - (math.floor((maxMana - (maxMana - mana)) * 100 / maxMana) / 100)))
-  local rect = { x = 0, y = Ymppc, width = 63, height = 208 - Ymppc + 1 }
-  manaCircleFront:setImageClip(rect)
-  manaCircleFront:setImageRect(rect)
+  if manaCircleFront then
+    local Ymppc = math.floor(208 * (1 - (math.floor((maxMana - (maxMana - mana)) * 100 / maxMana) / 100)))
+    local rect = { x = 0, y = Ymppc, width = 63, height = 208 - Ymppc + 1 }
+    manaCircleFront:setImageClip(rect)
+    manaCircleFront:setImageRect(rect)
+  end
 end
 
 function onLevelChange(localPlayer, value, percent)

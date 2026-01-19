@@ -1,32 +1,9 @@
 OptionPanel
-  Label
-    width: 130
-    id: layoutLabel
-    !text: tr("Layout (change requries client restart)")
-    $mobile:
-      visible: false
-  
-  ComboBox
-    id: layout
-    margin-top: 3
-    margin-right: 2
-    margin-left: 2
-    $mobile:
-      visible: false
-    @onOptionChange: modules.client_options.setOption(self:getId(), self:getCurrentOption().text)
-    @onSetup: |
-      self:addOption("Default")
-      for _, file in ipairs(g_resources.listDirectoryFiles("/layouts", false, true)) do
-        if g_resources.directoryExists("/layouts/" .. file) then
-          self:addOption(file:gsub("^%l", string.upper))
-        end
-      end
-
   OptionCheckBox
     id: classicView
     !text: tr('Classic view')
     margin-top: 5
-    
+        
     $mobile:
       visible: false
 
@@ -36,7 +13,7 @@ OptionPanel
 
     $mobile:
       visible: false
-    
+      
   OptionCheckBox
     id: showPing
     !text: tr('Show connection ping')
@@ -66,14 +43,10 @@ OptionPanel
     $mobile:
       visible: false
 
-  OptionCheckBox
-    id: highlightThingsUnderCursor
-    !text: tr('Highlight things under cursor')
-
   Panel
     height: 40
     margin-top: 3
-    
+      
     Label
       width: 90
       anchors.left: parent.left
@@ -141,22 +114,6 @@ OptionPanel
         self:addOption("2nd right panel")
         self:addOption("3rd right panel")
         self:addOption("4th right panel")
-
-  Label
-    margin-top: 3
-    id: crosshairLabel
-    !text: tr("Crosshair")
-    
-  ComboBox
-    id: crosshair
-    margin-top: 3
-    margin-right: 2
-    margin-left: 2
-    @onOptionChange: modules.client_options.setOption(self:getId(), self.currentIndex)
-    @onSetup: |
-      self:addOption("None")
-      self:addOption("Default")
-      self:addOption("Full")
 
   Label
     id: floorFadingLabel

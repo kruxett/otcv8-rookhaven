@@ -65,6 +65,13 @@ int main(int argc, const char* argv[]) {
     // initialize application framework and otclient
     g_app.init(args);
     g_client.init(args);
+
+#ifdef DEFAULT_SERVER_ENDPOINT
+    // Expose the baked-in default server endpoint to Lua before init.lua runs
+    g_lua.pushCString(DEFAULT_SERVER_ENDPOINT);
+    g_lua.setGlobal("DEFAULT_SERVER_ENDPOINT");
+#endif
+
     g_http.init();
 
     bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
@@ -76,11 +83,24 @@ int main(int argc, const char* argv[]) {
     g_resources.setupWriteDir(g_app.getName(), g_app.getCompactName());
     g_resources.setup();
 
-    if (!g_lua.safeRunScript("init.lua")) {
+    auto runInit = []() {
+        return g_lua.safeRunScript("init.lua");
+    };
+
+    bool initOk = runInit();
+
+    if (!initOk) {
+        g_logger.warning("Unable to run script init.lua, retrying without user data overrides.");
+        if (g_resources.setup(true)) {
+            initOk = runInit();
+        }
+    }
+
+    if (!initOk) {
         if (g_resources.isLoadedFromArchive() && !g_resources.isLoadedFromMemory() &&
             g_resources.loadDataFromSelf(true)) {
             g_logger.error("Unable to run script init.lua! Trying to run version from memory.");
-            if (!g_lua.safeRunScript("init.lua")) {
+            if (!runInit()) {
                 g_resources.deleteFile("data.zip"); // remove incorrect data.zip
                 g_logger.fatal("Unable to run script init.lua from binary file!\nTry to run client again.");
             }

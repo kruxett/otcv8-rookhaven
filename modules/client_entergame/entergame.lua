@@ -275,7 +275,17 @@ local function onHTTPResult(data, err)
   -- force player settings
   if settings ~= nil then
     for option, value in pairs(settings) do
-      modules.client_options.setOption(option, value, true)
+      if option ~= 'crosshair'
+        and option ~= 'highlightThingsUnderCursor'
+        and option ~= 'displayHealth'
+        and option ~= 'displayMana'
+        and option ~= 'displayHealthOnTop'
+        and option ~= 'hidePlayerBars'
+        and option ~= 'topHealtManaBar'
+        and option ~= 'showHealthManaCircle'
+        and option ~= 'topBar' then
+        modules.client_options.setOption(option, value, true)
+      end
     end
   end
     
@@ -313,28 +323,33 @@ end
 
 -- public functions
 function EnterGame.init()
-  if USE_NEW_ENERGAME then return end
-  enterGame = g_ui.displayUI('entergame')
+if USE_NEW_ENERGAME then return end
+enterGame = g_ui.displayUI('entergame')
   
-  serverSelectorPanel = enterGame:getChildById('serverSelectorPanel')
-  customServerSelectorPanel = enterGame:getChildById('customServerSelectorPanel')
+serverSelectorPanel = enterGame:getChildById('serverSelectorPanel')
+customServerSelectorPanel = enterGame:getChildById('customServerSelectorPanel')
   
-  serverSelector = serverSelectorPanel:getChildById('serverSelector')
-  rememberPasswordBox = enterGame:getChildById('rememberPasswordBox')
-  serverHostTextEdit = customServerSelectorPanel:getChildById('serverHostTextEdit')
+-- Force hide server selection panels
+serverSelectorPanel:setOn(false)
+serverSelectorPanel:setVisible(false)
+customServerSelectorPanel:setOn(false)
+customServerSelectorPanel:setVisible(false)
   
-  if Servers ~= nil then 
-    for name,server in pairs(Servers) do
-      serverSelector:addOption(name)
-    end
+serverSelector = serverSelectorPanel:getChildById('serverSelector')
+rememberPasswordBox = enterGame:getChildById('rememberPasswordBox')
+serverHostTextEdit = customServerSelectorPanel:getChildById('serverHostTextEdit')
+  
+if Servers ~= nil then 
+  for name,server in pairs(Servers) do
+    serverSelector:addOption(name)
   end
-  if serverSelector:getOptionsCount() == 0 or ALLOW_CUSTOM_SERVERS then
-    serverSelector:addOption(tr("Another"))    
-  end  
-  if serverSelector:getOptionsCount() == 1 then
-    enterGame:setHeight(enterGame:getHeight() - serverSelectorPanel:getHeight())
-    serverSelectorPanel:setOn(false)
-  end
+end
+if serverSelector:getOptionsCount() == 0 or ALLOW_CUSTOM_SERVERS then
+  serverSelector:addOption(tr("Another"))    
+end  
+if serverSelector:getOptionsCount() == 1 then
+  serverSelectorPanel:setOn(false)
+end
   
   local account = g_crypt.decrypt(g_settings.get('account'))
   local password = g_crypt.decrypt(g_settings.get('password'))
@@ -350,7 +365,7 @@ function EnterGame.init()
     server = ""
     host = ""
   end
-  
+
   enterGame:getChildById('accountPasswordTextEdit'):setText(password)
   enterGame:getChildById('accountNameTextEdit'):setText(account)
   rememberPasswordBox:setChecked(#account > 0)
@@ -404,10 +419,9 @@ function EnterGame.openWindow()
 end
 
 function EnterGame.clearAccountFields()
-  enterGame:getChildById('accountNameTextEdit'):clearText()
-  enterGame:getChildById('accountPasswordTextEdit'):clearText()
-  enterGame:getChildById('accountTokenTextEdit'):clearText()
-  enterGame:getChildById('accountNameTextEdit'):focus()
+enterGame:getChildById('accountNameTextEdit'):clearText()
+enterGame:getChildById('accountPasswordTextEdit'):clearText()
+enterGame:getChildById('accountNameTextEdit'):focus()
   g_settings.remove('account')
   g_settings.remove('password')
 end
@@ -442,7 +456,7 @@ function EnterGame.doLogin(account, password, token, host)
   
   G.account = account or enterGame:getChildById('accountNameTextEdit'):getText()
   G.password = password or enterGame:getChildById('accountPasswordTextEdit'):getText()
-  G.authenticatorToken = token or enterGame:getChildById('accountTokenTextEdit'):getText()
+  G.authenticatorToken = token or ''
   G.stayLogged = true
   G.server = serverSelector:getText():trim()
   G.host = host or serverHostTextEdit:getText()

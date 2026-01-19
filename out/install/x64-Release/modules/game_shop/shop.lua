@@ -150,6 +150,7 @@ function createShop()
   shop = g_ui.displayUI('shop')
   shop:hide()
   shopButton = modules.client_topmenu.addRightGameToggleButton('shopButton', tr('Shop'), '/images/topbuttons/shop', toggle, false, 8)
+  shopButton:hide() -- Hide shop button
   connect(shop.categories, { onChildFocusChange = changeCategory })
 end
 

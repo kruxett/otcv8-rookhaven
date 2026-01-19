@@ -68,6 +68,7 @@ ContainerWindow < MiniWindow
 
   MiniWindowContents
     padding-right: 0
+    background: #00000044
     layout:
       type: grid
       cell-size: 34 34

@@ -27,6 +27,9 @@ endif()
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Default login endpoint baked into the binary (ip:port:version)
+set(DEFAULT_SERVER_ENDPOINT "testserver.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
+
 # default build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
@@ -69,6 +72,9 @@ endif()
 add_executable(${PROJECT_NAME} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
 target_link_libraries(${PROJECT_NAME} ${framework_LIBRARIES})
 
+# Bake the default server endpoint into the executable so it isn't present in Lua sources
+target_compile_definitions(${PROJECT_NAME} PRIVATE DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}")
+
 if(MSVC)
     target_link_options(${PROJECT_NAME} PRIVATE
         $<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup>)
@@ -85,7 +91,7 @@ install(TARGETS ${PROJECT_NAME}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-set(_CLIENT_RESOURCE_DIRS data modules)
+set(_CLIENT_RESOURCE_DIRS data modules layouts)
 foreach(_resource_dir IN LISTS _CLIENT_RESOURCE_DIRS)
     if(EXISTS "${CMAKE_SOURCE_DIR}/${_resource_dir}")
         install(DIRECTORY "${CMAKE_SOURCE_DIR}/${_resource_dir}"
@@ -116,11 +122,20 @@ set(_otclient_runtime_dlls
     bz2
     zlib1
     zstd
-    cryptopp)
+    cryptopp
+    zip)
 
 foreach(_dll ${_otclient_runtime_dlls})
     otclient_install_runtime(${_dll})
 endforeach()
+
+# Fallback: copy all vcpkg DLLs from the triplet bin to ensure no runtime dependency is missed (e.g., transitive libs).
+if(EXISTS "${_otclient_extra_prefix}/bin")
+    install(DIRECTORY "${_otclient_extra_prefix}/bin/"
+            DESTINATION .
+            CONFIGURATIONS Release RelWithDebInfo MinSizeRel
+            FILES_MATCHING PATTERN "*.dll")
+endif()
 
 # Packaging helper (ninja package_release / Build ? Package Release)
 if(CMAKE_CONFIGURATION_TYPES)

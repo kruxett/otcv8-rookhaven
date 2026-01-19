@@ -170,7 +170,7 @@ bool ResourceManager::setupWriteDir(const std::string& product, const std::strin
     return true;
 }
 
-bool ResourceManager::setup()
+bool ResourceManager::setup(bool ignoreWriteDir)
 {
     std::shared_ptr<std::vector<uint8_t>> data = nullptr;
 #ifdef ANDROID
@@ -184,7 +184,12 @@ bool ResourceManager::setup()
     }
 #else
     std::string localDir(PHYSFS_getWriteDir());
-    std::vector<std::string> possiblePaths = { localDir, g_platform.getCurrentDir() };
+    std::vector<std::string> possiblePaths;
+
+    if (!ignoreWriteDir && !localDir.empty())
+        possiblePaths.push_back(localDir);
+
+    possiblePaths.push_back(g_platform.getCurrentDir());
     const char* baseDir = PHYSFS_getBaseDir();
     if (baseDir)
         possiblePaths.push_back(baseDir);

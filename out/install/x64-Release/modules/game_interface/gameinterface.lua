@@ -113,11 +113,12 @@ function terminate()
 end
 
 function onGameStart()
-  refreshViewMode()
-  show()
+g_logger.info("gameinterface.onGameStart() called")
+refreshViewMode()
+show()
   
-  -- open tibia has delay in auto walking
-  if not g_game.isOfficialTibia() then
+-- open tibia has delay in auto walking
+if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
   else
     g_game.disableFeature(GameForceFirstAutoWalkStep)

@@ -2,7 +2,7 @@ local defaultOptions = {
   layout = DEFAULT_LAYOUT, -- set in init.lua
   vsync = true,
   showFps = true,
-  showPing = true,
+  showPing = false,
   fullscreen = false,
   classicView = not g_app.isMobile(),
   cacheMap = g_app.isMobile(),
@@ -27,17 +27,17 @@ local defaultOptions = {
   botSoundVolume = 100,
   enableLights = false,
   floorFading = 500,
-  crosshair = 2,
+  crosshair = 1,
   ambientLight = 100,
   optimizationLevel = 1,
   displayNames = true,
-  displayHealth = true,
-  displayMana = true,
+  displayHealth = false,
+  displayMana = false,
   displayHealthOnTop = false,
   showHealthManaCircle = false,
   hidePlayerBars = false,
-  highlightThingsUnderCursor = true,
-  topHealtManaBar = true,
+  highlightThingsUnderCursor = false,
+  topHealtManaBar = false,
   displayText = true,
   dontStretchShrink = false,
   turnDelay = 30,
@@ -50,7 +50,7 @@ local defaultOptions = {
   walkTeleportDelay = 200,
   walkCtrlTurnDelay = 150,
 
-  topBar = true,
+  topBar = false,
 
   actionbar1 = true,
   actionbar2 = false,
@@ -219,6 +219,25 @@ function toggleOption(key)
 end
 
 function setOption(key, value, force)
+  -- Hard-disable certain features regardless of saved/server settings
+  local blockedKeys = {
+    crosshair = true,
+    highlightThingsUnderCursor = true,
+    displayHealth = true,
+    displayMana = true,
+    displayHealthOnTop = true,
+    hidePlayerBars = true,
+    topHealtManaBar = true,
+    showHealthManaCircle = true,
+    topBar = true,
+  }
+  if blockedKeys[key] then
+    value = false
+    g_settings.set(key, value)
+    options[key] = value
+    return
+  end
+
   if extraOptions[key] ~= nil then
     g_extras.set(key, value)
     g_settings.set("extras_" .. key, value)
@@ -232,12 +251,13 @@ function setOption(key, value, force)
     return
   end
   
-  if modules.game_interface == nil then
-    return
+  local gameMapPanel = nil
+  if modules.game_interface and modules.game_interface.getMapPanel then
+    gameMapPanel = modules.game_interface.getMapPanel()
   end
-   
+
   if not force and options[key] == value then return end
-  local gameMapPanel = modules.game_interface.getMapPanel()
+  
 
   if key == 'vsync' then
     g_window.setVerticalSync(value)
@@ -277,22 +297,28 @@ function setOption(key, value, force)
     end
     audioPanel:getChildById('botSoundVolumeLabel'):setText(tr('Bot sound volume: %d', value))    
   elseif key == 'showHealthManaCircle' then
-    modules.game_healthinfo.healthCircle:setVisible(value)
-    modules.game_healthinfo.healthCircleFront:setVisible(value)
-    modules.game_healthinfo.manaCircle:setVisible(value)
-    modules.game_healthinfo.manaCircleFront:setVisible(value)
+    if modules.game_healthinfo then
+      if modules.game_healthinfo.healthCircle then modules.game_healthinfo.healthCircle:setVisible(value) end
+      if modules.game_healthinfo.healthCircleFront then modules.game_healthinfo.healthCircleFront:setVisible(value) end
+      if modules.game_healthinfo.manaCircle then modules.game_healthinfo.manaCircle:setVisible(value) end
+      if modules.game_healthinfo.manaCircleFront then modules.game_healthinfo.manaCircleFront:setVisible(value) end
+    end
   elseif key == 'backgroundFrameRate' then
     local text, v = value, value
     if value <= 0 or value >= 201 then text = 'max' v = 0 end
     graphicsPanel:getChildById('backgroundFrameRateLabel'):setText(tr('Game framerate limit: %s', text))
     g_app.setMaxFps(v)
   elseif key == 'enableLights' then
-    gameMapPanel:setDrawLights(value and options['ambientLight'] < 100)
+    if gameMapPanel then
+      gameMapPanel:setDrawLights(value and options['ambientLight'] < 100)
+    end
     graphicsPanel:getChildById('ambientLight'):setEnabled(value)
     graphicsPanel:getChildById('ambientLightLabel'):setEnabled(value)
   elseif key == 'floorFading' then
     gameMapPanel:setFloorFading(value)
-    interfacePanel:getChildById('floorFadingLabel'):setText(tr('Floor fading: %s ms', value))
+    if interfacePanel then
+      interfacePanel:getChildById('floorFadingLabel'):setText(tr('Floor fading: %s ms', value))
+    end
   elseif key == 'crosshair' then
     if value == 1 then
       gameMapPanel:setCrosshair("")    
@@ -318,8 +344,10 @@ function setOption(key, value, force)
   elseif key == 'hidePlayerBars' then
     gameMapPanel:setDrawPlayerBars(value)
   elseif key == 'topHealtManaBar' then
-    modules.game_healthinfo.topHealthBar:setVisible(value)
-    modules.game_healthinfo.topManaBar:setVisible(value)
+    if modules.game_healthinfo then
+      if modules.game_healthinfo.topHealthBar then modules.game_healthinfo.topHealthBar:setVisible(value) end
+      if modules.game_healthinfo.topManaBar then modules.game_healthinfo.topManaBar:setVisible(value) end
+    end
   elseif key == 'displayText' then
     gameMapPanel:setDrawTexts(value)
   elseif key == 'dontStretchShrink' then
@@ -333,7 +361,7 @@ function setOption(key, value, force)
       g_game.setMaxPreWalkingSteps(1)    
     end
   elseif key == 'wsadWalking' then
-    if modules.game_console and modules.game_console.consoleToggleChat:isChecked() ~= value then
+    if modules.game_console and modules.game_console.consoleToggleChat and modules.game_console.consoleToggleChat:isChecked() ~= value then
       modules.game_console.consoleToggleChat:setChecked(value)
     end
   elseif key == 'hotkeyDelay' then
@@ -384,7 +412,9 @@ function setOption(key, value, force)
   end
   
   if key == 'classicView' or key == 'rightPanels' or key == 'leftPanels' or key == 'cacheMap' then
-    modules.game_interface.refreshViewMode()    
+    if modules.game_interface and modules.game_interface.refreshViewMode then
+      modules.game_interface.refreshViewMode()
+    end
   elseif key:find("actionbar") then
     modules.game_actionbar.show()
   end
@@ -411,6 +441,14 @@ end
 function online()
   setLightOptionsVisibility(not g_game.getFeature(GameForceLight))
   g_app.setSmooth(g_settings.getBoolean("antialiasing"))
+
+  -- Re-apply map drawing related options now that the game interface is ready
+  local mapKeys = { 'displayNames', 'displayHealth', 'displayMana', 'displayHealthOnTop', 'hidePlayerBars', 'displayText' }
+  for _, k in ipairs(mapKeys) do
+    if options[k] ~= nil then
+      setOption(k, options[k], true)
+    end
+  end
 end
 
 function offline()
@@ -421,10 +459,14 @@ end
 
 -- graphics
 function setLightOptionsVisibility(value)
-  graphicsPanel:getChildById('enableLights'):setEnabled(value)
-  graphicsPanel:getChildById('ambientLightLabel'):setEnabled(value)
-  graphicsPanel:getChildById('ambientLight'):setEnabled(value)  
-  interfacePanel:getChildById('floorFading'):setEnabled(value)
-  interfacePanel:getChildById('floorFadingLabel'):setEnabled(value)
-  interfacePanel:getChildById('floorFadingLabel2'):setEnabled(value)  
+  if graphicsPanel then
+    graphicsPanel:getChildById('enableLights'):setEnabled(value)
+    graphicsPanel:getChildById('ambientLightLabel'):setEnabled(value)
+    graphicsPanel:getChildById('ambientLight'):setEnabled(value)
+  end
+  if interfacePanel then
+    interfacePanel:getChildById('floorFading'):setEnabled(value)
+    interfacePanel:getChildById('floorFadingLabel'):setEnabled(value)
+    interfacePanel:getChildById('floorFadingLabel2'):setEnabled(value)
+  end
 end
