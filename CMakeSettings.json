@@ -5,9 +5,18 @@
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
+      "toolset": "host=x64",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DFORCE_SERVER_HOST=\"testserver.rookhaven-ot.com\" -DFORCE_SERVER_PORT=7171",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg-client",
+        "VCPKG_FEATURE_FLAGS": "manifests",
+        "VSCMD_ARG_TGT_ARCH": "x64",
+        "VSCMD_ARG_HOST_ARCH": "x64",
+        "CC": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe",
+        "CXX": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe"
+      },
+      "cmakeCommandArgs": "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     },
@@ -16,9 +25,18 @@
       "generator": "Ninja",
       "configurationType": "Release",
       "inheritEnvironments": [ "msvc_x64_x64" ],
+      "toolset": "host=x64",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_BUILD_TYPE=Release -DFORCE_SERVER_HOST=\"testserver.rookhaven-ot.com\" -DFORCE_SERVER_PORT=7171",
+      "environment": {
+        "VCPKG_ROOT": "C:/vcpkg-client",
+        "VCPKG_FEATURE_FLAGS": "manifests",
+        "VSCMD_ARG_TGT_ARCH": "x64",
+        "VSCMD_ARG_HOST_ARCH": "x64",
+        "CC": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe",
+        "CXX": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe"
+      },
+      "cmakeCommandArgs": "-DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     }

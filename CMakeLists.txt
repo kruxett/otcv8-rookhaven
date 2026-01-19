@@ -1,6 +1,23 @@
-set(OPENSSL_ROOT_DIR "C:/vcpkg/installed/x64-windows")
+set(OPENSSL_ROOT_DIR "C:/vcpkg/installed/x64-windows-static")
+set(CMAKE_C_COMPILER   "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
+set(CMAKE_CXX_COMPILER "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
+set(CMAKE_RC_COMPILER  "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe" CACHE FILEPATH "" FORCE)
+set(CMAKE_MT           "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/mt.exe" CACHE FILEPATH "" FORCE)
+
+# Force linker to use x64 libraries
+set(_MSVC_LIB_X64 "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/lib/x64")
+set(_WINSDK_UCRT_X64 "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64")
+set(_WINSDK_UM_X64   "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64")
+set(CMAKE_EXE_LINKER_FLAGS        "/machine:x64 /LIBPATH:\"${_MSVC_LIB_X64}\" /LIBPATH:\"${_WINSDK_UCRT_X64}\" /LIBPATH:\"${_WINSDK_UM_X64}\"" CACHE STRING "" FORCE)
+set(CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "" FORCE)
+set(CMAKE_MODULE_LINKER_FLAGS     "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "" FORCE)
 cmake_minimum_required(VERSION 3.25)
 project(otclient)
+
+# Prefer NEW behavior for _ROOT variables
+if(POLICY CMP0144)
+  cmake_policy(SET CMP0144 NEW)
+endif()
 
 include(GNUInstallDirs)
 
@@ -8,18 +25,56 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path prefix" FORCE)
 endif()
 
-set(OTCLIENT_VCPKG_ROOT "C:/vcpkg" CACHE PATH "Optional extra vcpkg root for client dependencies")
-set(_otclient_triplet_default "x64-windows")
-if(DEFINED VCPKG_TARGET_TRIPLET)
-    set(_otclient_triplet "${VCPKG_TARGET_TRIPLET}")
-else()
-    set(_otclient_triplet "${_otclient_triplet_default}")
-endif()
+# Use static libraries for cleaner deployment
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
+# Force vcpkg to use static triplet for both host/target and point to new vcpkg installation
+set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "" FORCE)
+set(VCPKG_HOST_TRIPLET   "x64-windows-static" CACHE STRING "" FORCE)
+set(VCPKG_ROOT           "C:/vcpkg" CACHE PATH "" FORCE)
+set(VCPKG_INSTALLED_DIR  "C:/vcpkg/installed" CACHE PATH "" FORCE)
+set(VCPKG_BUILD_TYPE     "release" CACHE STRING "" FORCE)
+# Prefer static OpenSSL/Zlib/BZip2 roots explicitly
+set(OPENSSL_ROOT_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
+set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include" CACHE PATH "" FORCE)
+set(OPENSSL_USE_STATIC_LIBS TRUE CACHE BOOL "" FORCE)
+set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.lib" CACHE FILEPATH "" FORCE)
+set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.lib" CACHE FILEPATH "" FORCE)
+set(ZLIB_ROOT        "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
+set(ZLIB_INCLUDE_DIR "${ZLIB_ROOT}/include" CACHE PATH "" FORCE)
+set(ZLIB_USE_STATIC_LIBS ON CACHE BOOL "" FORCE)
+set(ZLIB_LIBRARY     "${ZLIB_ROOT}/lib/zlib.lib" CACHE FILEPATH "" FORCE)
+set(BZIP2_ROOT       "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
+set(BZIP2_INCLUDE_DIR "${BZIP2_ROOT}/include" CACHE PATH "" FORCE)
+set(BZIP2_LIBRARY    "${BZIP2_ROOT}/lib/bz2.lib" CACHE FILEPATH "" FORCE)
+# libzip/luajit/physfs explicit release libs
+set(LIBZIP_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/zip.lib" CACHE FILEPATH "" FORCE)
+set(LIBZIP_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
+set(LUA_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
+set(LUA_LIBRARIES "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/lua51.lib" CACHE FILEPATH "" FORCE)
+set(LUAJIT_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
+set(LUAJIT_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/lua51.lib" CACHE FILEPATH "" FORCE)
+set(LUAJIT_LIBRARIES "${LUAJIT_LIBRARY}" CACHE FILEPATH "" FORCE)
+set(PHYSFS_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/physfs-static.lib" CACHE FILEPATH "" FORCE)
+# Avoid copying random DLLs; we want a static, clean deploy
+set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
 
-set(_otclient_extra_prefix "${OTCLIENT_VCPKG_ROOT}/installed/${_otclient_triplet}")
-if(EXISTS "${_otclient_extra_prefix}")
-    list(APPEND CMAKE_PREFIX_PATH "${_otclient_extra_prefix}")
-endif()
+# Ignore any other vcpkg installations to avoid conflicts
+list(APPEND CMAKE_IGNORE_PATH "C:/vcpkg-server")
+# Explicitly ignore dynamic triplet paths so find_package doesn't grab them
+list(APPEND CMAKE_IGNORE_PATH
+    "C:/vcpkg/installed/x64-windows" "C:/vcpkg/installed/x64-windows/debug"
+    "C:/vcpkg-server/installed/x64-windows" "C:/vcpkg-server/installed/x64-windows/debug")
+
+# Hard-set prefix path to static triplet only (avoid x64-windows picks)
+set(CMAKE_PREFIX_PATH "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE STRING "" FORCE)
+# Force CMake find_package to search only in static root and ignore registry/env
+set(CMAKE_FIND_ROOT_PATH "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE STRING "" FORCE)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+set(CMAKE_FIND_USE_PACKAGE_REGISTRY OFF)
+set(CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY ON)
+set(CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH OFF)
 
 if(CMAKE_BASE_NAME STREQUAL "em++")
     set(WASM ON)
@@ -104,37 +159,18 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/init.lua")
     install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION .)
 endif()
 
-function(otclient_install_runtime dll_name)
-    set(_dll_path "${OTCLIENT_VCPKG_ROOT}/installed/${_otclient_triplet}/bin/${dll_name}.dll")
-    if(EXISTS "${_dll_path}")
-        install(FILES "${_dll_path}"
-                DESTINATION .
-                CONFIGURATIONS Release RelWithDebInfo MinSizeRel)
-    endif()
-endfunction()
-
-set(_otclient_runtime_dlls
-    glew32
-    libssl-3-x64
-    libcrypto-3-x64
-    physfs
-    lua51
-    bz2
-    zlib1
-    zstd
-    cryptopp
-    zip)
-
-foreach(_dll ${_otclient_runtime_dlls})
-    otclient_install_runtime(${_dll})
-endforeach()
-
-# Fallback: copy all vcpkg DLLs from the triplet bin to ensure no runtime dependency is missed (e.g., transitive libs).
-if(EXISTS "${_otclient_extra_prefix}/bin")
-    install(DIRECTORY "${_otclient_extra_prefix}/bin/"
-            DESTINATION .
-            CONFIGURATIONS Release RelWithDebInfo MinSizeRel
-            FILES_MATCHING PATTERN "*.dll")
+# Copy required DLLs from vcpkg to the binary directory and install directory
+set(VCPKG_DLL_PATH "${VCPKG_INSTALLED_DIR}/x64-windows/bin")
+if(EXISTS "${VCPKG_DLL_PATH}")
+    file(GLOB VCPKG_DLLS "${VCPKG_DLL_PATH}/*.dll")
+    foreach(DLL ${VCPKG_DLLS})
+        # Copy to build directory for running locally
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${DLL}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
+            COMMENT "Copying ${DLL} to build directory")
+        # Install the DLLs
+        install(FILES "${DLL}" DESTINATION .)
+    endforeach()
 endif()
 
 # Packaging helper (ninja package_release / Build ? Package Release)

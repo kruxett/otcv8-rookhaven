@@ -48,6 +48,15 @@ tags
 Thumbs.db
 .directory
 src/framework/graphics/dx/
+
+# Build output and artifacts
+out/
+/out/
+CMakePresets.json.user
+
+# VCpkg and dependencies (should be managed separately, not committed)
+/vcpkg/
+vcpkg_installed/
 modules/.project/modules.sublime-workspace
 vc16/.vs/
 vc16/DirectX/

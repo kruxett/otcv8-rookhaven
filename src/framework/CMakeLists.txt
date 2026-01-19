@@ -238,16 +238,20 @@ add_definitions(-D"WITH_ENCRYPTION")
 
 # main libs
 if(NOT WASM)
-    # find boost
-    set(REQUIRED_BOOST_COMPONENTS system filesystem)
-    set(Boost_USE_MULTITHREADED ON)
-    set(Boost_USE_STATIC_LIBS ${USE_STATIC_LIBS})
-    find_package(Boost 1.67.0 COMPONENTS ${REQUIRED_BOOST_COMPONENTS} REQUIRED)
+# find boost
+set(REQUIRED_BOOST_COMPONENTS system filesystem)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_LIBS ${USE_STATIC_LIBS})
+# Prefer CONFIG mode and match installed Boost
+find_package(Boost 1.90.0 CONFIG COMPONENTS ${REQUIRED_BOOST_COMPONENTS})
+if(NOT Boost_FOUND)
+    find_package(Boost 1.90.0 COMPONENTS ${REQUIRED_BOOST_COMPONENTS} REQUIRED)
+endif()
 
-    #find zip
-    find_package(LibZip REQUIRED)
-    find_package(ZLIB REQUIRED)
-    find_package(BZip2 REQUIRED)
+#find zip
+find_package(LibZip REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(BZip2 REQUIRED)
 
     #find lua
     if(LUAJIT)

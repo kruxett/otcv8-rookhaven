@@ -1,0 +1,76 @@
+{
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 24,
+		"patch": 0
+	},
+	"configurePresets": [
+		{
+			"name": "client-x64-debug",
+			"displayName": "Client x64 Debug",
+			"description": "Configure for x64 Debug using vcpkg (static)",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/x64-Debug",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static",
+				"VCPKG_HOST_TRIPLET": "x64-windows-static",
+				"VCPKG_INSTALLED_DIR": "C:/vcpkg/installed",
+				"VCPKG_BUILD_TYPE": "debug",
+				"OPENSSL_ROOT_DIR": "C:/vcpkg/installed/x64-windows-static",
+				"OPENSSL_USE_STATIC_LIBS": "TRUE",
+				"ZLIB_ROOT": "C:/vcpkg/installed/x64-windows-static",
+				"ZLIB_USE_STATIC_LIBS": "ON",
+				"BZIP2_ROOT": "C:/vcpkg/installed/x64-windows-static"
+			},
+			"environment": {
+				"VCPKG_ROOT": "C:/vcpkg",
+				"VCPKG_FEATURE_FLAGS": "manifests",
+				"VSCMD_ARG_TGT_ARCH": "x64",
+				"VSCMD_ARG_HOST_ARCH": "x64"
+			}
+		},
+		{
+			"name": "client-x64-release",
+			"displayName": "Client x64 Release",
+			"description": "Configure for x64 Release using vcpkg (static)",
+			"generator": "Ninja",
+			"binaryDir": "${sourceDir}/out/build/x64-Release",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"VCPKG_TARGET_TRIPLET": "x64-windows-static",
+				"VCPKG_HOST_TRIPLET": "x64-windows-static",
+				"VCPKG_INSTALLED_DIR": "C:/vcpkg/installed",
+				"VCPKG_BUILD_TYPE": "release",
+				"OPENSSL_ROOT_DIR": "C:/vcpkg/installed/x64-windows-static",
+				"OPENSSL_USE_STATIC_LIBS": "TRUE",
+				"ZLIB_ROOT": "C:/vcpkg/installed/x64-windows-static",
+				"ZLIB_USE_STATIC_LIBS": "ON",
+				"BZIP2_ROOT": "C:/vcpkg/installed/x64-windows-static"
+			},
+			"environment": {
+				"VCPKG_ROOT": "C:/vcpkg",
+				"VCPKG_FEATURE_FLAGS": "manifests",
+				"VSCMD_ARG_TGT_ARCH": "x64",
+				"VSCMD_ARG_HOST_ARCH": "x64"
+			}
+		}
+	],
+	"buildPresets": [
+		{
+			"name": "build-client-x64-debug",
+			"configurePreset": "client-x64-debug",
+			"configuration": "Debug",
+			"jobs": 8
+		},
+		{
+			"name": "build-client-x64-release",
+			"configurePreset": "client-x64-release",
+			"configuration": "Release",
+			"jobs": 8
+		}
+	]
+}

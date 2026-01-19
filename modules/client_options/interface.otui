@@ -26,22 +26,22 @@ OptionPanel
   OptionCheckBox
     id: displayHealth
     !text: tr('Display creature health bars')
+    visible: false
 
   OptionCheckBox
     id: displayHealthOnTop
     !text: tr('Display creature health bars above texts')
-    $mobile:
-      visible: false
+    visible: false
 
   OptionCheckBox
     id: hidePlayerBars
     !text: tr('Show player health bar')
+    visible: false
 
   OptionCheckBox
     id: displayMana
     !text: tr('Show player mana bar')
-    $mobile:
-      visible: false
+    visible: false
 
   Panel
     height: 40
