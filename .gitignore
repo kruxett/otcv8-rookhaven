@@ -52,6 +52,7 @@ src/framework/graphics/dx/
 # Build output and artifacts
 out/
 /out/
+dist/
 CMakePresets.json.user
 
 # VCpkg and dependencies (should be managed separately, not committed)

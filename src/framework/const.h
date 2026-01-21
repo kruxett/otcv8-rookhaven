@@ -33,7 +33,7 @@
 #endif
 
 #ifndef BUILD_REVISION
-#define BUILD_REVISION 0
+#define BUILD_REVISION 1
 #endif
 
 #ifndef BUILD_TYPE

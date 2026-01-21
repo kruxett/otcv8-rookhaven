@@ -65,7 +65,7 @@ public:
     std::string getBuildType() { return "FULL"; }
 #endif
     std::string getBuildArch() { return BUILD_ARCH; }
-    std::string getAuthor() { return "otclient.net"; }
+    std::string getAuthor() { return "Kruxet"; }
     std::string getOs();
     std::string getStartupOptions() { return m_startupOptions; }
 

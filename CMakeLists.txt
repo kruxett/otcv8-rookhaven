@@ -321,7 +321,20 @@ if(COMMAND file AND EXISTS "${_target}")
     EXECUTABLES "${_target}"
     RESOLVED_DEPENDENCIES_VAR _deps
     UNRESOLVED_DEPENDENCIES_VAR _unresolved
+    CONFLICTING_DEPENDENCIES_PREFIX _conflicts
     DIRECTORIES ${CRD_HINT_DIRS})
+  # If conflicts found, prefer vcpkg version over build dir copies
+  foreach(_conflict_var IN LISTS _conflicts_FILENAMES)
+    list(GET _conflicts_${_conflict_var} 0 _first_path)
+    foreach(_cpath IN LISTS _conflicts_${_conflict_var})
+      string(FIND "${_cpath}" "vcpkg" _vcpkg_idx)
+      if(NOT _vcpkg_idx EQUAL -1)
+        set(_first_path "${_cpath}")
+        break()
+      endif()
+    endforeach()
+    list(APPEND _deps "${_first_path}")
+  endforeach()
 elseif(WIN32)
   set(_deps ${CRD_RUNTIME_DLLS})
 endif()
@@ -434,7 +447,7 @@ endif()
         COMMAND ${CMAKE_COMMAND}
             -DCRD_TARGET_FILE=$<TARGET_FILE:${TARGET}>
             -DCRD_RUNTIME_DLLS=$<TARGET_RUNTIME_DLLS:${TARGET}>
-            -DCRD_OUT_DIR=${OUT_DIR}
+            "-DCRD_OUT_DIR=${OUT_DIR}"
             -DCRD_KEEP_DATA_DIR=$<IF:$<CONFIG:Debug>,1,0>
             -DCRD_SYSTEM_DLLS=${_system_dlls}
             -DCRD_ALLOWED_PREFIXES=${_allowed_prefixes}
@@ -463,7 +476,7 @@ endif()
 endfunction()
 
 if(CMAKE_CONFIGURATION_TYPES)
-    set(_deploy_root "$<IF:$<BOOL:${CMAKE_CONFIGURATION_TYPES}>,${CMAKE_BINARY_DIR}/$<CONFIG>,${CMAKE_BINARY_DIR}>")
+    set(_deploy_root "${CMAKE_BINARY_DIR}/$<CONFIG>")
 else()
     set(_deploy_root "${CMAKE_BINARY_DIR}")
 endif()
