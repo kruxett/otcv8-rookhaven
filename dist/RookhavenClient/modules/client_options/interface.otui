@@ -1,18 +1,18 @@
 OptionPanel
-  OptionCheckBox
-    id: classicView
-    !text: tr('Classic view')
-    margin-top: 5
-        
-    $mobile:
-      visible: false
+//OptionCheckBox
+//  id: classicView
+//  !text: tr('Classic view')
+//  margin-top: 5
+//      
+//  $mobile:
+//    visible: false
 
-  OptionCheckBox
-    id: cacheMap
-    !text: tr('Cache map (for non-classic view)')
+//OptionCheckBox
+//  id: cacheMap
+//  !text: tr('Cache map (for non-classic view)')
 
-    $mobile:
-      visible: false
+//  $mobile:
+//    visible: false
       
   OptionCheckBox
     id: showPing

@@ -24,11 +24,10 @@ local defaultOptions = {
   enableAudio = true,
   enableMusicSound = false,
   musicSoundVolume = 100,
- // botSoundVolume = 100,
-  enableLights = false,
+  enableLights = true,
   floorFading = 500,
   crosshair = 1,
-  ambientLight = 100,
+  ambientLight = 0,
   optimizationLevel = 1,
   displayNames = true,
   displayHealth = false,
@@ -155,10 +154,19 @@ function terminate()
   audioButton:destroy()
 end
 
+-- Options that should always be forced and never loaded from settings
+local forcedOptions = {
+  enableLights = true,
+  ambientLight = 0,
+}
+
 function setup()
   -- load options
   for k,v in pairs(defaultOptions) do
-    if type(v) == 'boolean' then
+    -- Skip loading forced options from settings - always use forced value
+    if forcedOptions[k] ~= nil then
+      setOption(k, forcedOptions[k], true)
+    elseif type(v) == 'boolean' then
       setOption(k, g_settings.getBoolean(k), true)
     elseif type(v) == 'number' then
       setOption(k, g_settings.getNumber(k), true)
@@ -291,11 +299,6 @@ function setOption(key, value, force)
       g_sounds.getChannel(SoundChannels.Music):setGain(value/100)
     end
     audioPanel:getChildById('musicSoundVolumeLabel'):setText(tr('Music volume: %d', value))
-  elseif key == 'botSoundVolume' then
-    if g_sounds ~= nil then
-      g_sounds.getChannel(SoundChannels.Bot):setGain(value/100)
-    end
-    audioPanel:getChildById('botSoundVolumeLabel'):setText(tr('Bot sound volume: %d', value))    
   elseif key == 'showHealthManaCircle' then
     if modules.game_healthinfo then
       if modules.game_healthinfo.healthCircle then modules.game_healthinfo.healthCircle:setVisible(value) end
@@ -312,8 +315,7 @@ function setOption(key, value, force)
     if gameMapPanel then
       gameMapPanel:setDrawLights(value and options['ambientLight'] < 100)
     end
-    graphicsPanel:getChildById('ambientLight'):setEnabled(value)
-    graphicsPanel:getChildById('ambientLightLabel'):setEnabled(value)
+    -- UI elements removed - lights are now forced on
   elseif key == 'floorFading' then
     gameMapPanel:setFloorFading(value)
     if interfacePanel then
@@ -328,9 +330,11 @@ function setOption(key, value, force)
       gameMapPanel:setCrosshair("/images/crosshair/full.png")    
     end
   elseif key == 'ambientLight' then
-    graphicsPanel:getChildById('ambientLightLabel'):setText(tr('Ambient light: %s%%', value))
-    gameMapPanel:setMinimumAmbientLight(value/100)
-    gameMapPanel:setDrawLights(options['enableLights'] and value < 100)
+    -- UI elements removed - ambient light is now forced to 0
+    if gameMapPanel then
+      gameMapPanel:setMinimumAmbientLight(value/100)
+      gameMapPanel:setDrawLights(options['enableLights'] and value < 100)
+    end
   elseif key == 'optimizationLevel' then
     g_adaptiveRenderer.setLevel(value - 2)
   elseif key == 'displayNames' then
@@ -459,11 +463,7 @@ end
 
 -- graphics
 function setLightOptionsVisibility(value)
-  if graphicsPanel then
-    graphicsPanel:getChildById('enableLights'):setEnabled(value)
-    graphicsPanel:getChildById('ambientLightLabel'):setEnabled(value)
-    graphicsPanel:getChildById('ambientLight'):setEnabled(value)
-  end
+  -- Light options (enableLights, ambientLight) removed from UI - now forced
   if interfacePanel then
     interfacePanel:getChildById('floorFading'):setEnabled(value)
     interfacePanel:getChildById('floorFadingLabel'):setEnabled(value)
