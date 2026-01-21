@@ -291,11 +291,6 @@ function setOption(key, value, force)
       g_sounds.getChannel(SoundChannels.Music):setGain(value/100)
     end
     audioPanel:getChildById('musicSoundVolumeLabel'):setText(tr('Music volume: %d', value))
-  elseif key == 'botSoundVolume' then
-    if g_sounds ~= nil then
-      g_sounds.getChannel(SoundChannels.Bot):setGain(value/100)
-    end
-    audioPanel:getChildById('botSoundVolumeLabel'):setText(tr('Bot sound volume: %d', value))    
   elseif key == 'showHealthManaCircle' then
     if modules.game_healthinfo then
       if modules.game_healthinfo.healthCircle then modules.game_healthinfo.healthCircle:setVisible(value) end

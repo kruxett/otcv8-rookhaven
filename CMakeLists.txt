@@ -284,6 +284,15 @@ file(MAKE_DIRECTORY "${_out_dir}/lib")
 
 # Debug mode: copy a known-good set of DLLs next to the executable.
 if(CRD_KEEP_DATA_DIR)
+  # Hardcoded direct copy for critical debug DLLs
+  set(_vcpkg_debug_bin "C:/vcpkg/installed/x64-windows/debug/bin")
+  foreach(_dll_name IN ITEMS glew32d.dll glew32.dll bz2.dll libcrypto-3-x64.dll libssl-3-x64.dll lua51.dll physfs.dll zip.dll zlib1.dll)
+    if(EXISTS "${_vcpkg_debug_bin}/${_dll_name}")
+      file(COPY "${_vcpkg_debug_bin}/${_dll_name}" DESTINATION "${_out_dir}")
+    endif()
+  endforeach()
+
+  # Also copy from passed list
   foreach(_dll IN LISTS CRD_DEBUG_COPY_DLLS)
     if(EXISTS "${_dll}")
       file(COPY "${_dll}" DESTINATION "${_out_dir}")
@@ -291,18 +300,14 @@ if(CRD_KEEP_DATA_DIR)
   endforeach()
 
   # Fallback: also try to pull common debug DLLs from hint dirs (vcpkg debug/bin)
-  foreach(_name IN ITEMS glew32d.dll glew32.dll libssl-3-x64.dll libcrypto-3-x64.dll bz2.dll zip.dll zlib1.dll lua51.dll physfs.dll)
-    find_file(_dbg "${_name}" PATHS ${CRD_HINT_DIRS} NO_DEFAULT_PATH)
-    if(_dbg)
-      file(COPY "${_dbg}" DESTINATION "${_out_dir}")
-    endif()
+  foreach(_hint_dir IN LISTS CRD_HINT_DIRS)
+    foreach(_name IN ITEMS glew32d.dll glew32.dll libssl-3-x64.dll libcrypto-3-x64.dll bz2.dll zip.dll zlib1.dll lua51.dll physfs.dll)
+      set(_full_path "${_hint_dir}/${_name}")
+      if(EXISTS "${_full_path}")
+        file(COPY "${_full_path}" DESTINATION "${_out_dir}")
+      endif()
+    endforeach()
   endforeach()
-
-  # Ensure glew32d.dll is copied even if not picked up above
-  find_file(_glew32d glew32d.dll PATHS ${CRD_HINT_DIRS} NO_DEFAULT_PATH)
-  if(_glew32d)
-    file(COPY "${_glew32d}" DESTINATION "${_out_dir}")
-  endif()
 endif()
 
 # Copy executable to dist root
