@@ -20,11 +20,11 @@ OptionPanel
 
   Label
 
-  OptionCheckBox
-    id: showHealthManaCircle
-    !text: tr('Show health and mana circle')
-    $mobile:
-      visible: false
+//  OptionCheckBox
+//    id: showHealthManaCircle
+//    !text: tr('Show health and mana circle')
+//   $mobile:
+//      visible: false
 
   Label
     margin-top: 5

@@ -39,12 +39,14 @@ SET(_GLEW_SHARED_LIBS
     glew32.lib)
 IF(USE_STATIC_LIBS)
     FIND_LIBRARY(GLEW_LIBRARY NAMES ${_GLEW_STATIC_LIBS} ${_GLEW_SHARED_LIBS}
-                 HINTS ${_GLEW_HINT_DIRS}
-                 PATH_SUFFIXES lib lib64)
+                 PATHS ${_GLEW_SEARCH_DIRS}
+                 PATH_SUFFIXES lib lib64
+                 NO_DEFAULT_PATH)
 ELSE()
     FIND_LIBRARY(GLEW_LIBRARY NAMES ${_GLEW_SHARED_LIBS} ${_GLEW_STATIC_LIBS}
-                 HINTS ${_GLEW_HINT_DIRS}
-                 PATH_SUFFIXES lib lib64)
+                 PATHS ${_GLEW_SEARCH_DIRS}
+                 PATH_SUFFIXES lib lib64
+                 NO_DEFAULT_PATH)
 ENDIF()
 if(NOT GLEW_INCLUDE_DIR OR NOT GLEW_LIBRARY)
     message(STATUS "GLEW search directories: ${_GLEW_SEARCH_DIRS}")

@@ -1,0 +1,16 @@
+{
+  "name": "otcv8-rookhaven",
+  "version": "1.0.0",
+  "dependencies": [
+    "boost",
+    "glew",
+    "physfs",
+    "openssl",
+    "zlib",
+    "bzip2",
+    "libzip",
+    "luajit"
+  ]
+}
+
+

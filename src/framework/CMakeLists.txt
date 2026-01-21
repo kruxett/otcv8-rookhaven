@@ -154,7 +154,7 @@ set_source_files_properties(${CMAKE_CURRENT_LIST_DIR}/luafunctions.cpp
 option(LUAJIT "Use lua jit" ON)
 if(NOT APPLE)
     option(CRASH_HANDLER "Generate crash reports" ON)
-    option(USE_STATIC_LIBS "Don't use shared libraries (dlls)" ON)
+option(USE_STATIC_LIBS "Don't use shared libraries (dlls)" OFF)
     option(USE_LIBCPP "Use the new libc++ library instead of stdc++" OFF)
     option(USE_LTO "Use link time optimizations" OFF)
 else()

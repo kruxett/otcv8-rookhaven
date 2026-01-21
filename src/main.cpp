@@ -29,8 +29,51 @@
 #include <framework/platform/platformwindow.h>
 #include <client/client.h>
 
+#ifdef WIN32
+#undef _WIN32_WINNT
+#define _WIN32_WINNT 0x0602  // Windows 8 for AddDllDirectory
+#include <windows.h>
+#include <filesystem>
+
+static void setupDllSearchPath() {
+    wchar_t exePath[MAX_PATH] = {0};
+    if(GetModuleFileNameW(nullptr, exePath, MAX_PATH) == 0)
+        return;
+
+    std::filesystem::path exeDir = std::filesystem::path(exePath).parent_path();
+    std::filesystem::path libDir = exeDir / L"lib";
+
+    // Modern Windows 8+ method (preferred and secure)
+    // This tells Windows to look in our lib/ directory for DLLs.
+    // If this fails, fall back to PATH modification below.
+    if(SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_DEFAULT_DIRS | LOAD_LIBRARY_SEARCH_USER_DIRS)) {
+        AddDllDirectory(libDir.c_str());
+    }
+
+    // Fallback: Also add to PATH for older methods or LoadLibrary calls
+    std::wstring lib = libDir.wstring();
+    wchar_t currentPath[32768] = {0};
+    DWORD len = GetEnvironmentVariableW(L"PATH", currentPath, 32768);
+    std::wstring newPath;
+    if(len > 0 && len < 32768)
+        newPath = lib + L";" + std::wstring(currentPath, len);
+    else
+        newPath = lib;
+    SetEnvironmentVariableW(L"PATH", newPath.c_str());
+
+    // Explicitly preload lua51.dll from lib directory
+    std::filesystem::path luaPath = libDir / L"lua51.dll";
+    if(std::filesystem::exists(luaPath))
+        LoadLibraryW(luaPath.c_str());
+}
+#endif
+
 int main(int argc, const char* argv[]) {
     std::vector<std::string> args(argv, argv + argc);
+
+#ifdef WIN32
+    setupDllSearchPath();
+#endif
 
 #ifdef CRASH_HANDLER
     installCrashHandler();

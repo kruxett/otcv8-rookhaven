@@ -1,4 +1,4 @@
-set(OPENSSL_ROOT_DIR "C:/vcpkg/installed/x64-windows-static")
+unset(OPENSSL_ROOT_DIR CACHE)
 set(CMAKE_C_COMPILER   "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
 set(CMAKE_CXX_COMPILER "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
 set(CMAKE_RC_COMPILER  "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe" CACHE FILEPATH "" FORCE)
@@ -21,60 +21,71 @@ endif()
 
 include(GNUInstallDirs)
 
-if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path prefix" FORCE)
-endif()
+# Force dynamic Boost (and other libs) to avoid /MT link mismatches
+set(Boost_USE_STATIC_LIBS OFF CACHE BOOL "" FORCE)
+set(Boost_USE_STATIC_RUNTIME OFF CACHE BOOL "" FORCE)
+set(Boost_USE_MULTITHREADED ON CACHE BOOL "" FORCE)
+set(Boost_NO_BOOST_CMAKE ON CACHE BOOL "" FORCE)
 
-# Use static libraries for cleaner deployment
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build shared libraries" FORCE)
-# Force vcpkg to use static triplet for both host/target and point to new vcpkg installation
-set(VCPKG_TARGET_TRIPLET "x64-windows-static" CACHE STRING "" FORCE)
-set(VCPKG_HOST_TRIPLET   "x64-windows-static" CACHE STRING "" FORCE)
+# Prefer dynamic/runtime deployment
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+set(VCPKG_TARGET_TRIPLET "x64-windows" CACHE STRING "" FORCE)
+set(VCPKG_HOST_TRIPLET   "x64-windows" CACHE STRING "" FORCE)
 set(VCPKG_ROOT           "C:/vcpkg" CACHE PATH "" FORCE)
 set(VCPKG_INSTALLED_DIR  "C:/vcpkg/installed" CACHE PATH "" FORCE)
 set(VCPKG_BUILD_TYPE     "release" CACHE STRING "" FORCE)
-# Prefer static OpenSSL/Zlib/BZip2 roots explicitly
-set(OPENSSL_ROOT_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
-set(OPENSSL_INCLUDE_DIR "${OPENSSL_ROOT_DIR}/include" CACHE PATH "" FORCE)
-set(OPENSSL_USE_STATIC_LIBS TRUE CACHE BOOL "" FORCE)
-set(OPENSSL_SSL_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libssl.lib" CACHE FILEPATH "" FORCE)
-set(OPENSSL_CRYPTO_LIBRARY "${OPENSSL_ROOT_DIR}/lib/libcrypto.lib" CACHE FILEPATH "" FORCE)
-set(ZLIB_ROOT        "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
-set(ZLIB_INCLUDE_DIR "${ZLIB_ROOT}/include" CACHE PATH "" FORCE)
-set(ZLIB_USE_STATIC_LIBS ON CACHE BOOL "" FORCE)
-set(ZLIB_LIBRARY     "${ZLIB_ROOT}/lib/zlib.lib" CACHE FILEPATH "" FORCE)
-set(BZIP2_ROOT       "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE PATH "" FORCE)
-set(BZIP2_INCLUDE_DIR "${BZIP2_ROOT}/include" CACHE PATH "" FORCE)
-set(BZIP2_LIBRARY    "${BZIP2_ROOT}/lib/bz2.lib" CACHE FILEPATH "" FORCE)
-# libzip/luajit/physfs explicit release libs
-set(LIBZIP_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/zip.lib" CACHE FILEPATH "" FORCE)
-set(LIBZIP_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
-set(LUA_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
-set(LUA_LIBRARIES "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/lua51.lib" CACHE FILEPATH "" FORCE)
-set(LUAJIT_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include" CACHE PATH "" FORCE)
-set(LUAJIT_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/lua51.lib" CACHE FILEPATH "" FORCE)
-set(LUAJIT_LIBRARIES "${LUAJIT_LIBRARY}" CACHE FILEPATH "" FORCE)
-set(PHYSFS_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/physfs-static.lib" CACHE FILEPATH "" FORCE)
-# Avoid copying random DLLs; we want a static, clean deploy
-set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
+set(CMAKE_PREFIX_PATH "${VCPKG_INSTALLED_DIR}/x64-windows" CACHE STRING "" FORCE)
+set(CMAKE_FIND_ROOT_PATH "" CACHE STRING "" FORCE)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
+set(CMAKE_FIND_USE_PACKAGE_REGISTRY ON)
+set(CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY OFF)
+set(CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH ON)
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".lib" CACHE STRING "" FORCE)
+unset(Boost_ROOT CACHE)
+unset(BOOST_ROOT CACHE)
+set(BOOST_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows" CACHE PATH "" FORCE)
+unset(Boost_INCLUDE_DIR CACHE)
+set(Boost_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/include" CACHE PATH "" FORCE)
+unset(Boost_LIBRARIES CACHE)
+unset(Boost_LIBRARY_DIR CACHE)
+unset(Boost_LIBRARY_DIR_DEBUG CACHE)
+unset(Boost_LIBRARY_DIR_RELEASE CACHE)
 
-# Ignore any other vcpkg installations to avoid conflicts
-list(APPEND CMAKE_IGNORE_PATH "C:/vcpkg-server")
-# Explicitly ignore dynamic triplet paths so find_package doesn't grab them
+unset(OPENSSL_ROOT_DIR CACHE)
+set(OPENSSL_ROOT_DIR "${VCPKG_INSTALLED_DIR}/x64-windows" CACHE PATH "" FORCE)
+set(OPENSSL_USE_STATIC_LIBS OFF CACHE BOOL "" FORCE)
+
+unset(BZIP2_ROOT CACHE)
+unset(BZIP2_LIBRARY CACHE)
+unset(BZIP2_INCLUDE_DIR CACHE)
+set(BZIP2_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows" CACHE PATH "" FORCE)
+
+unset(GLEW_ROOT CACHE)
+unset(GLEW_LIBRARY CACHE)
+unset(GLEW_LIBRARY_DEBUG CACHE)
+unset(GLEW_LIBRARY_RELEASE CACHE)
+set(GLEW_USE_STATIC_LIBS OFF CACHE BOOL "" FORCE)
+set(GLEW_ROOT "${VCPKG_INSTALLED_DIR}/x64-windows" CACHE PATH "" FORCE)
+# Avoid picking static triplet leftovers
 list(APPEND CMAKE_IGNORE_PATH
-    "C:/vcpkg/installed/x64-windows" "C:/vcpkg/installed/x64-windows/debug"
-    "C:/vcpkg-server/installed/x64-windows" "C:/vcpkg-server/installed/x64-windows/debug")
-
-# Hard-set prefix path to static triplet only (avoid x64-windows picks)
-set(CMAKE_PREFIX_PATH "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE STRING "" FORCE)
-# Force CMake find_package to search only in static root and ignore registry/env
-set(CMAKE_FIND_ROOT_PATH "${VCPKG_INSTALLED_DIR}/x64-windows-static" CACHE STRING "" FORCE)
-set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
-set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
-set(CMAKE_FIND_USE_PACKAGE_REGISTRY OFF)
-set(CMAKE_FIND_PACKAGE_NO_PACKAGE_REGISTRY ON)
-set(CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH OFF)
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/debug"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/debug/lib"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/bin"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/debug/bin"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/include"
+    "${VCPKG_INSTALLED_DIR}/x64-windows-static/debug/include"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/debug"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/lib"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/debug/lib"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/bin"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/debug/bin"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/include"
+    "${VCPKG_INSTALLED_DIR}/installed/x64-windows-static/debug/include")
 
 if(CMAKE_BASE_NAME STREQUAL "em++")
     set(WASM ON)
@@ -90,6 +101,13 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}" CACHE PATH "Install path prefix" FORCE)
+endif()
+
+set(CLIENT_TARGET RookhavenClient)
+set(RUNTIME_DATA_ZIP_PASSWORD "G7r!v9Q#t2ZpL4xM" CACHE STRING "Optional password for data.zip packaging")
+
 option(FRAMEWORK_SOUND "Use SOUND " OFF)
 option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
@@ -100,7 +118,7 @@ include(src/client/CMakeLists.txt)
 
 # functions map for reading backtraces
 if(NOT APPLE AND NOT WASM AND NOT MSVC)
-    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -no-pie -Wl,-Map=${PROJECT_NAME}.map")
+    set(CMAKE_CXX_LINK_FLAGS "${CMAKE_CXX_LINK_FLAGS} -no-pie -Wl,-Map=${CLIENT_TARGET}.map")
 endif()
 
 set(executable_SOURCES
@@ -124,67 +142,370 @@ if(VERSION)
 endif()
 
 # add client executable
-add_executable(${PROJECT_NAME} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${framework_LIBRARIES})
+add_executable(${CLIENT_TARGET} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
+target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 
 # Bake the default server endpoint into the executable so it isn't present in Lua sources
-target_compile_definitions(${PROJECT_NAME} PRIVATE DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}")
+target_compile_definitions(${CLIENT_TARGET} PRIVATE
+    DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
+    RUNTIME_DLL_RELATIVE="lib")
+
+# Disable vcpkg applocal.ps1 completely - we handle DLLs ourselves in lib/
+set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
 
 if(MSVC)
-    target_link_options(${PROJECT_NAME} PRIVATE
+    target_link_options(${CLIENT_TARGET} PRIVATE
         $<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup>)
+
+    if(WIN32)
+        # Release-only delay-load is required for a strict "exe + lib\\*.dll" layout,
+        # because these DLLs would otherwise be implicitly loaded before main() runs.
+        # Note: libcrypto-3-x64.dll is NOT delay-loaded because it's needed before main().
+        target_link_libraries(${CLIENT_TARGET} $<$<CONFIG:Release>:delayimp>)
+        target_link_options(${CLIENT_TARGET} PRIVATE
+            $<$<CONFIG:Release>:/DELAY:UNLOAD>
+            $<$<CONFIG:Release>:/DELAYLOAD:bz2.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:libssl-3-x64.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:lua51.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:physfs.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:zip.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:zlib1.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:boost_filesystem-vc145-mt-x64-1_90.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:boost_system-vc145-mt-x64-1_90.dll>
+            $<$<CONFIG:Release>:/DELAYLOAD:boost_atomic-vc145-mt-x64-1_90.dll>)
+    endif()
 endif()
 
 if(APPLE AND USE_STATIC_LIBS)
-    target_link_libraries(${PROJECT_NAME} "-framework Foundation" "-framework IOKit")
+    target_link_libraries(${CLIENT_TARGET} "-framework Foundation" "-framework IOKit")
 endif()
 
-# Installation rules
-install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION .
-        BUNDLE DESTINATION .
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+function(collect_runtime_deps TARGET OUT_DIR)
+    set(options)
+    set(oneValueArgs ZIP_DATA_PASSWORD)
+    cmake_parse_arguments(CRD "${options}" "${oneValueArgs}" "" ${ARGN})
 
-set(_CLIENT_RESOURCE_DIRS data modules layouts)
-foreach(_resource_dir IN LISTS _CLIENT_RESOURCE_DIRS)
-    if(EXISTS "${CMAKE_SOURCE_DIR}/${_resource_dir}")
-        install(DIRECTORY "${CMAKE_SOURCE_DIR}/${_resource_dir}"
-                DESTINATION .
-                USE_SOURCE_PERMISSIONS)
+    set(_system_dlls
+        advapi32.dll
+        bcrypt.dll
+        comdlg32.dll
+        dbghelp.dll
+        gdi32.dll
+        imm32.dll
+        iphlpapi.dll
+        kernel32.dll
+        ntdll.dll
+        ole32.dll
+        oleaut32.dll
+        psapi.dll
+        shell32.dll
+        shlwapi.dll
+        user32.dll
+        userenv.dll
+        uxtheme.dll
+        version.dll
+        winmm.dll
+        ws2_32.dll)
+
+    set(_allowed_prefixes
+        "${VCPKG_INSTALLED_DIR}"
+        "${VCPKG_INSTALLED_DIR}/x64-windows"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin"
+        "${CMAKE_SOURCE_DIR}")
+    list(REMOVE_ITEM _allowed_prefixes "")
+    list(REMOVE_DUPLICATES _allowed_prefixes)
+
+    set(_resource_dirs)
+    set(_data_dir "")
+    foreach(_res data modules layouts)
+        if(EXISTS "${CMAKE_SOURCE_DIR}/${_res}")
+            if(_res STREQUAL "data")
+                set(_data_dir "${CMAKE_SOURCE_DIR}/${_res}")
+            else()
+                list(APPEND _resource_dirs "${CMAKE_SOURCE_DIR}/${_res}")
+            endif()
+        endif()
+    endforeach()
+
+    set(_extra_files)
+    if(EXISTS "${CMAKE_SOURCE_DIR}/init.lua")
+        list(APPEND _extra_files "${CMAKE_SOURCE_DIR}/init.lua")
     endif()
+    foreach(_root_extra IN ITEMS d3dcompiler_47.dll libGLESv2.dll libEGL.dll LICENSE)
+        if(EXISTS "${CMAKE_SOURCE_DIR}/${_root_extra}")
+            list(APPEND _extra_files "${CMAKE_SOURCE_DIR}/${_root_extra}")
+        endif()
+    endforeach()
+
+    set(_hint_dirs
+        "${VCPKG_INSTALLED_DIR}/x64-windows/bin"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin")
+    list(REMOVE_DUPLICATES _hint_dirs)
+
+    # Debug: copy runtime DLLs next to the exe. Prefer vcpkg debug/bin first.
+    set(_debug_copy_dlls
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/bz2.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/libcrypto-3-x64.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/libssl-3-x64.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/lua51.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/physfs.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zip.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zlib1.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32d.dll")
+    # Some ports ship debug DLLs without the 'd' suffix
+    list(APPEND _debug_copy_dlls "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32.dll")
+
+    # Also copy Boost debug runtime DLLs if present
+    file(GLOB _boost_debug_dlls
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/boost_*.dll")
+    list(APPEND _debug_copy_dlls ${_boost_debug_dlls})
+
+    set(_collect_script "${CMAKE_CURRENT_BINARY_DIR}/collect_runtime_deps.cmake")
+    file(WRITE "${_collect_script}" [=[
+if(NOT DEFINED CRD_TARGET_FILE)
+  message(FATAL_ERROR "CRD_TARGET_FILE is required")
+endif()
+if(NOT DEFINED CRD_OUT_DIR)
+  message(FATAL_ERROR "CRD_OUT_DIR is required")
+endif()
+if(NOT DEFINED CRD_DATA_DIR)
+  set(CRD_DATA_DIR "")
+endif()
+if(NOT DEFINED CRD_KEEP_DATA_DIR)
+  set(CRD_KEEP_DATA_DIR 0)
+endif()
+if(NOT DEFINED CRD_DEBUG_COPY_DLLS)
+  set(CRD_DEBUG_COPY_DLLS "")
+endif()
+
+set(_target "${CRD_TARGET_FILE}")
+set(_out_dir "${CRD_OUT_DIR}")
+file(MAKE_DIRECTORY "${_out_dir}/lib")
+
+# Debug mode: copy a known-good set of DLLs next to the executable.
+if(CRD_KEEP_DATA_DIR)
+  foreach(_dll IN LISTS CRD_DEBUG_COPY_DLLS)
+    if(EXISTS "${_dll}")
+      file(COPY "${_dll}" DESTINATION "${_out_dir}")
+    endif()
+  endforeach()
+
+  # Fallback: also try to pull common debug DLLs from hint dirs (vcpkg debug/bin)
+  foreach(_name IN ITEMS glew32d.dll glew32.dll libssl-3-x64.dll libcrypto-3-x64.dll bz2.dll zip.dll zlib1.dll lua51.dll physfs.dll)
+    find_file(_dbg "${_name}" PATHS ${CRD_HINT_DIRS} NO_DEFAULT_PATH)
+    if(_dbg)
+      file(COPY "${_dbg}" DESTINATION "${_out_dir}")
+    endif()
+  endforeach()
+
+  # Ensure glew32d.dll is copied even if not picked up above
+  find_file(_glew32d glew32d.dll PATHS ${CRD_HINT_DIRS} NO_DEFAULT_PATH)
+  if(_glew32d)
+    file(COPY "${_glew32d}" DESTINATION "${_out_dir}")
+  endif()
+endif()
+
+# Copy executable to dist root
+if(EXISTS "${_target}")
+  file(COPY "${_target}" DESTINATION "${_out_dir}")
+endif()
+
+set(_deps ${CRD_RUNTIME_DLLS})
+if(COMMAND file AND EXISTS "${_target}")
+  file(GET_RUNTIME_DEPENDENCIES
+    EXECUTABLES "${_target}"
+    RESOLVED_DEPENDENCIES_VAR _deps
+    UNRESOLVED_DEPENDENCIES_VAR _unresolved
+    DIRECTORIES ${CRD_HINT_DIRS})
+elseif(WIN32)
+  set(_deps ${CRD_RUNTIME_DLLS})
+endif()
+
+set(_system_lower)
+foreach(_s IN LISTS CRD_SYSTEM_DLLS)
+  string(TOLOWER "${_s}" _s_l)
+  list(APPEND _system_lower "${_s_l}")
 endforeach()
 
-if(EXISTS "${CMAKE_SOURCE_DIR}/init.lua")
-    install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION .)
+set(_filtered)
+foreach(_dep IN LISTS _deps)
+  if(NOT EXISTS "${_dep}")
+    continue()
+  endif()
+  file(TO_CMAKE_PATH "${_dep}" _dep_norm)
+  get_filename_component(_name "${_dep_norm}" NAME)
+  string(TOLOWER "${_name}" _name_l)
+  list(FIND _system_lower "${_name_l}" _sys_idx)
+  if(NOT _sys_idx EQUAL -1)
+    continue()
+  endif()
+  set(_ok FALSE)
+  foreach(_prefix IN LISTS CRD_ALLOWED_PREFIXES)
+    if(_prefix STREQUAL "")
+      continue()
+    endif()
+    file(TO_CMAKE_PATH "${_prefix}" _prefix_norm)
+    string(LENGTH "${_prefix_norm}" _pfx_len)
+    string(SUBSTRING "${_dep_norm}" 0 ${_pfx_len} _front)
+    if(_front STREQUAL "${_prefix_norm}")
+      set(_ok TRUE)
+      break()
+    endif()
+  endforeach()
+  if(_ok)
+    list(APPEND _filtered "${_dep_norm}")
+  endif()
+endforeach()
+
+foreach(_dep IN LISTS _filtered)
+  get_filename_component(_dep_name "${_dep}" NAME)
+  string(TOLOWER "${_dep_name}" _dep_name_l)
+
+  # Debug: keep DLLs next to the exe to avoid PATH picking up vcpkg debug/bin.
+  if(CRD_KEEP_DATA_DIR)
+    file(COPY "${_dep}" DESTINATION "${_out_dir}")
+    continue()
+  endif()
+
+  # Release: keep clean layout under lib/, but glew32.dll and libcrypto must stay next to exe.
+  if(_dep_name_l STREQUAL "glew32.dll" OR _dep_name_l STREQUAL "libcrypto-3-x64.dll")
+    file(COPY "${_dep}" DESTINATION "${_out_dir}")
+  else()
+    file(COPY "${_dep}" DESTINATION "${_out_dir}/lib")
+  endif()
+endforeach()
+
+# Ensure lua51.dll is copied if present in hint dirs (common vcpkg dependency)
+if(NOT _filtered MATCHES "lua51\\.dll")
+  find_file(_lua51 lua51.dll PATHS ${CRD_HINT_DIRS} NO_DEFAULT_PATH)
+  if(_lua51)
+    if(CRD_KEEP_DATA_DIR)
+      file(COPY "${_lua51}" DESTINATION "${_out_dir}")
+    else()
+      file(COPY "${_lua51}" DESTINATION "${_out_dir}/lib")
+    endif()
+  endif()
 endif()
 
-# Copy required DLLs from vcpkg to the binary directory and install directory
-set(VCPKG_DLL_PATH "${VCPKG_INSTALLED_DIR}/x64-windows/bin")
-if(EXISTS "${VCPKG_DLL_PATH}")
-    file(GLOB VCPKG_DLLS "${VCPKG_DLL_PATH}/*.dll")
-    foreach(DLL ${VCPKG_DLLS})
-        # Copy to build directory for running locally
-        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${DLL}" "$<TARGET_FILE_DIR:${PROJECT_NAME}>/"
-            COMMENT "Copying ${DLL} to build directory")
-        # Install the DLLs
-        install(FILES "${DLL}" DESTINATION .)
+# Ensure Boost DLLs are copied (they're delay-loaded in Release)
+if(NOT CRD_KEEP_DATA_DIR)
+  foreach(_boost_pattern IN ITEMS "boost_filesystem-*.dll" "boost_system-*.dll" "boost_atomic-*.dll")
+    file(GLOB _boost_dlls "${CRD_VCPKG_BIN_DIR}/${_boost_pattern}")
+    foreach(_boost_dll IN LISTS _boost_dlls)
+      if(EXISTS "${_boost_dll}")
+        file(COPY "${_boost_dll}" DESTINATION "${_out_dir}/lib")
+      endif()
     endforeach()
+  endforeach()
 endif()
 
-# Packaging helper (ninja package_release / Build ? Package Release)
+foreach(_res IN LISTS CRD_RESOURCE_DIRS)
+  if(EXISTS "${_res}")
+    file(COPY "${_res}" DESTINATION "${_out_dir}")
+  endif()
+endforeach()
+
+# Hardcoded fallback: ensure layouts/ is always copied
+if(NOT EXISTS "${_out_dir}/layouts")
+  if(EXISTS "${CRD_LAYOUTS_DIR}")
+    file(COPY "${CRD_LAYOUTS_DIR}" DESTINATION "${_out_dir}")
+  endif()
+endif()
+
+foreach(_extra IN LISTS CRD_EXTRA_FILES)
+  if(EXISTS "${_extra}")
+    file(COPY "${_extra}" DESTINATION "${_out_dir}")
+  endif()
+endforeach()
+
+if(EXISTS "${CRD_DATA_DIR}")
+  # For testing builds: always ship uncompressed data/, no data.zip
+  file(COPY "${CRD_DATA_DIR}" DESTINATION "${_out_dir}")
+  file(REMOVE "${_out_dir}/data.zip")
+endif()
+]=])
+
+    add_custom_command(TARGET ${TARGET} POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+            -DCRD_TARGET_FILE=$<TARGET_FILE:${TARGET}>
+            -DCRD_RUNTIME_DLLS=$<TARGET_RUNTIME_DLLS:${TARGET}>
+            -DCRD_OUT_DIR=${OUT_DIR}
+            -DCRD_KEEP_DATA_DIR=$<IF:$<CONFIG:Debug>,1,0>
+            -DCRD_SYSTEM_DLLS=${_system_dlls}
+            -DCRD_ALLOWED_PREFIXES=${_allowed_prefixes}
+            -DCRD_RESOURCE_DIRS=${_resource_dirs}
+            -DCRD_EXTRA_FILES=${_extra_files}
+            -DCRD_DEBUG_COPY_DLLS=${_debug_copy_dlls}
+            -DCRD_HINT_DIRS=${_hint_dirs}
+            -DCRD_DATA_DIR=${_data_dir}
+            -DCRD_LAYOUTS_DIR=${CMAKE_SOURCE_DIR}/layouts
+            -DCRD_VCPKG_BIN_DIR=${VCPKG_INSTALLED_DIR}/x64-windows/bin
+            -DCRD_ZIP_PASSWORD=${CRD_ZIP_PASSWORD}
+            -P "${_collect_script}"
+        COMMAND_EXPAND_LISTS
+        COMMENT "Collecting runtime dependencies for ${TARGET}"
+        VERBATIM)
+
+    set(_install_code "set(_cfg \"$ENV{CMAKE_INSTALL_CONFIG_NAME}\")\n")
+    string(APPEND _install_code "if(NOT _cfg AND DEFINED CMAKE_INSTALL_CONFIG_NAME)\n  set(_cfg \"${CMAKE_INSTALL_CONFIG_NAME}\")\nendif()\n")
+    string(APPEND _install_code "if(NOT _cfg AND DEFINED CMAKE_BUILD_TYPE)\n  set(_cfg \"${CMAKE_BUILD_TYPE}\")\nendif()\n")
+    string(APPEND _install_code "if(NOT _cfg)\n  set(_cfg \"Release\")\nendif()\n")
+    string(APPEND _install_code "set(_out_dir \"${CMAKE_INSTALL_PREFIX}/\${_cfg}\")\n")
+    string(APPEND _install_code "set(_target_path \"${CMAKE_INSTALL_PREFIX}/\${_cfg}/${TARGET}${CMAKE_EXECUTABLE_SUFFIX}\")\n")
+    string(APPEND _install_code "file(MAKE_DIRECTORY \"\${_out_dir}\")\n")
+    string(APPEND _install_code "execute_process(COMMAND \"${CMAKE_COMMAND}\"\n  -DCRD_TARGET_FILE=\"\${_target_path}\"\n  -DCRD_RUNTIME_DLLS=\"\"\n  -DCRD_OUT_DIR=\"\${_out_dir}\"\n  -DCRD_SYSTEM_DLLS=${_system_dlls}\n  -DCRD_ALLOWED_PREFIXES=${_allowed_prefixes}\n  -DCRD_RESOURCE_DIRS=${_resource_dirs}\n  -DCRD_EXTRA_FILES=${_extra_files}\n  -DCRD_HINT_DIRS=${_hint_dirs}\n  -DCRD_DATA_DIR=${_data_dir}\n  -DCRD_LAYOUTS_DIR=${CMAKE_SOURCE_DIR}/layouts\n  -DCRD_ZIP_PASSWORD=${CRD_ZIP_PASSWORD}\n  -P \"${_collect_script}\")\n")
+    install(CODE "${_install_code}")
+endfunction()
+
 if(CMAKE_CONFIGURATION_TYPES)
-    set(_package_suffix "$<CONFIG>")
+    set(_deploy_root "$<IF:$<BOOL:${CMAKE_CONFIGURATION_TYPES}>,${CMAKE_BINARY_DIR}/$<CONFIG>,${CMAKE_BINARY_DIR}>")
 else()
-    set(_package_suffix "${CMAKE_BUILD_TYPE}")
+    set(_deploy_root "${CMAKE_BINARY_DIR}")
 endif()
-set(_package_archive "${CMAKE_BINARY_DIR}/${PROJECT_NAME}-${_package_suffix}.zip")
 
-add_custom_target(package_release
-    COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_INSTALL_PREFIX}"
-    COMMAND ${CMAKE_COMMAND} -E rm -f "${_package_archive}"
-    COMMAND ${CMAKE_COMMAND} -E tar "cf" "${_package_archive}" --format=zip -C "${CMAKE_INSTALL_PREFIX}" .
-    USES_TERMINAL
-    COMMENT "Creating redistributable archive at ${_package_archive}")
-add_dependencies(package_release install)
+# Install target: creates a clean distribution folder
+# Usage: cmake --install out/build/x64-Release --prefix dist/RookhavenClient
+install(TARGETS ${CLIENT_TARGET}
+        RUNTIME DESTINATION "."
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib)
+
+# Install runtime DLLs to lib/ (Release) - glew32.dll and libcrypto go to root
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/glew32.dll" DESTINATION "." OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/libcrypto-3-x64.dll" DESTINATION "." OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/bz2.dll" DESTINATION "lib" OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/libssl-3-x64.dll" DESTINATION "lib" OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/lua51.dll" DESTINATION "lib" OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/physfs.dll" DESTINATION "lib" OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/zip.dll" DESTINATION "lib" OPTIONAL)
+install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/zlib1.dll" DESTINATION "lib" OPTIONAL)
+
+# Install Boost DLLs to lib/
+file(GLOB _boost_release_dlls "${VCPKG_INSTALLED_DIR}/x64-windows/bin/boost_filesystem-*.dll"
+                              "${VCPKG_INSTALLED_DIR}/x64-windows/bin/boost_system-*.dll"
+                              "${VCPKG_INSTALLED_DIR}/x64-windows/bin/boost_atomic-*.dll")
+foreach(_boost_dll IN LISTS _boost_release_dlls)
+    install(FILES "${_boost_dll}" DESTINATION "lib" OPTIONAL)
+endforeach()
+
+# Install resource directories
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION ".")
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
+
+# Install extra files
+install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
+if(EXISTS "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll")
+    install(FILES "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll" DESTINATION ".")
+endif()
+if(EXISTS "${CMAKE_SOURCE_DIR}/libEGL.dll")
+    install(FILES "${CMAKE_SOURCE_DIR}/libEGL.dll" DESTINATION ".")
+endif()
+if(EXISTS "${CMAKE_SOURCE_DIR}/libGLESv2.dll")
+    install(FILES "${CMAKE_SOURCE_DIR}/libGLESv2.dll" DESTINATION ".")
+endif()
+if(EXISTS "${CMAKE_SOURCE_DIR}/LICENSE")
+    install(FILES "${CMAKE_SOURCE_DIR}/LICENSE" DESTINATION ".")
+endif()
+
+collect_runtime_deps(${CLIENT_TARGET} "${_deploy_root}" ZIP_DATA_PASSWORD "${RUNTIME_DATA_ZIP_PASSWORD}")
