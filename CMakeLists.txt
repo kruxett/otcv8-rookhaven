@@ -563,13 +563,47 @@ if(NOT USE_STATIC_LIBS)
 endif()
 
 # Install resource directories
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
+# For static (Release) builds: package data/ and init.lua into data.zip
+# For dynamic (Debug) builds: install uncompressed data/ and init.lua
+if(USE_STATIC_LIBS)
+    # Create data.zip during install containing init.lua and data/ folder
+    # This protects Lua sources from end-users
+    install(CODE "
+        message(STATUS \"Creating data.zip for Release distribution...\")
+        set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
+        set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+        
+        # Remove old data.zip if exists
+        if(EXISTS \"\${_data_zip_path}\")
+            file(REMOVE \"\${_data_zip_path}\")
+        endif()
+        
+        # Use CMake's tar command to create a zip archive
+        # We need to change to source dir to get correct relative paths
+        execute_process(
+            COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data
+            WORKING_DIRECTORY \"\${_source_dir}\"
+            RESULT_VARIABLE _zip_result
+        )
+        
+        if(NOT _zip_result EQUAL 0)
+            message(FATAL_ERROR \"Failed to create data.zip\")
+        endif()
+        
+        message(STATUS \"Created data.zip successfully\")
+    ")
+    # Don't install uncompressed data/ or init.lua for Release
+else()
+    # Debug build: install uncompressed
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
+    install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
+endif()
+
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
         PATTERN "game_bot" EXCLUDE)  # Exclude bot module from distribution
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 
-# Install extra files
-install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
+# Install extra files (init.lua is already handled above for Debug, and in data.zip for Release)
 if(EXISTS "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll")
     install(FILES "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll" DESTINATION ".")
 endif()
