@@ -14,6 +14,7 @@ endif()
 foreach(_root IN ITEMS VCPKG_INSTALLATION_ROOT VCPKG_INSTALLED_DIR)
     if(DEFINED ${_root} AND DEFINED VCPKG_TARGET_TRIPLET)
         list(APPEND _GLEW_SEARCH_DIRS "${${_root}}/installed/${VCPKG_TARGET_TRIPLET}")
+        list(APPEND _GLEW_SEARCH_DIRS "${${_root}}/${VCPKG_TARGET_TRIPLET}")
     endif()
 endforeach()
 if(DEFINED ENV{VCPKG_ROOT} AND DEFINED VCPKG_TARGET_TRIPLET)
@@ -25,7 +26,9 @@ list(REMOVE_DUPLICATES _GLEW_SEARCH_DIRS)
 FIND_PATH(GLEW_INCLUDE_DIR NAMES GL/glew.h
           PATHS ${_GLEW_SEARCH_DIRS}
           PATH_SUFFIXES include)
+# vcpkg static GLEW is named libglew32.lib
 SET(_GLEW_STATIC_LIBS
+    libglew32.lib
     libGLEW.a
     libglew32.a
     glew32s

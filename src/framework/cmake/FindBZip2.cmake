@@ -1,7 +1,12 @@
-# FindBZip2.cmake - force manual assignment for Visual Studio + vcpkg
+# FindBZip2.cmake - Windows + vcpkg (supports static and dynamic)
 
-set(BZIP2_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows/lib/bz2.lib")
+if(USE_STATIC_LIBS)
+    set(BZIP2_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
+    set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows-static/lib/bz2.lib")
+else()
+    set(BZIP2_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
+    set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows/lib/bz2.lib")
+endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(BZip2 DEFAULT_MSG

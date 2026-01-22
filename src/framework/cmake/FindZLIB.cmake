@@ -1,7 +1,12 @@
-# FindZLIB.cmake - force manual assignment (works in Visual Studio CMake)
+# FindZLIB.cmake - Windows + vcpkg (supports static and dynamic)
 
-set(ZLIB_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows/lib/zlib.lib")
+if(USE_STATIC_LIBS)
+    set(ZLIB_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
+    set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/zlib.lib")
+else()
+    set(ZLIB_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
+    set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows/lib/zlib.lib")
+endif()
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(ZLIB DEFAULT_MSG

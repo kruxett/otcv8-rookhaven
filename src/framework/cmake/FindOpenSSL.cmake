@@ -1,8 +1,14 @@
-# FindOpenSSL.cmake - override Visual Studio's broken module
+# FindOpenSSL.cmake - Windows + vcpkg (supports static and dynamic)
 
-set(OPENSSL_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-set(OPENSSL_CRYPTO_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libcrypto.lib")
-set(OPENSSL_SSL_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libssl.lib")
+if(USE_STATIC_LIBS)
+    set(OPENSSL_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
+    set(OPENSSL_CRYPTO_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/libcrypto.lib")
+    set(OPENSSL_SSL_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/libssl.lib")
+else()
+    set(OPENSSL_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
+    set(OPENSSL_CRYPTO_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libcrypto.lib")
+    set(OPENSSL_SSL_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libssl.lib")
+endif()
 
 set(OPENSSL_LIBRARIES
     ${OPENSSL_SSL_LIBRARY}
