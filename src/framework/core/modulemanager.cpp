@@ -82,6 +82,12 @@ ModulePtr ModuleManager::discoverModule(const std::string& moduleFile)
 
         std::string name = moduleNode->valueAt("name");
 
+        // Block certain modules from loading
+        if (name == "game_bot") {
+            g_logger.warning(stdext::format("Module '%s' is blocked from loading", name));
+            return nullptr;
+        }
+
         bool push = false;
         module = getModule(name);
         if(!module) {

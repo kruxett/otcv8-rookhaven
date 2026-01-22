@@ -564,7 +564,8 @@ endif()
 
 # Install resource directories
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION ".")
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
+        PATTERN "game_bot" EXCLUDE)  # Exclude bot module from distribution
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 
 # Install extra files
