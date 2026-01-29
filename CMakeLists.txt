@@ -294,16 +294,20 @@ function(collect_runtime_deps TARGET OUT_DIR)
 
     # Debug: copy runtime DLLs next to the exe. Prefer vcpkg debug/bin first.
     set(_debug_copy_dlls
-        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/bz2.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/bz2d.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/libcrypto-3-x64.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/libssl-3-x64.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/lua51.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/physfs.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zipd.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zlibd1.dll"
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32d.dll")
+    # Some ports ship debug DLLs without the 'd' suffix - add fallbacks
+    list(APPEND _debug_copy_dlls 
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/bz2.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zip.dll"
         "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/zlib1.dll"
-        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32d.dll")
-    # Some ports ship debug DLLs without the 'd' suffix
-    list(APPEND _debug_copy_dlls "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32.dll")
+        "${VCPKG_INSTALLED_DIR}/x64-windows/debug/bin/glew32.dll")
 
     # Also copy Boost debug runtime DLLs if present
     file(GLOB _boost_debug_dlls
@@ -336,7 +340,7 @@ file(MAKE_DIRECTORY "${_out_dir}/lib")
 if(CRD_KEEP_DATA_DIR)
   # Hardcoded direct copy for critical debug DLLs
   set(_vcpkg_debug_bin "C:/vcpkg/installed/x64-windows/debug/bin")
-  foreach(_dll_name IN ITEMS glew32d.dll glew32.dll bz2.dll libcrypto-3-x64.dll libssl-3-x64.dll lua51.dll physfs.dll zip.dll zlib1.dll)
+  foreach(_dll_name IN ITEMS glew32d.dll glew32.dll bz2d.dll bz2.dll libcrypto-3-x64.dll libssl-3-x64.dll lua51.dll physfs.dll zip.dll zlibd1.dll zlib1.dll)
     if(EXISTS "${_vcpkg_debug_bin}/${_dll_name}")
       file(COPY "${_vcpkg_debug_bin}/${_dll_name}" DESTINATION "${_out_dir}")
     endif()
@@ -351,7 +355,7 @@ if(CRD_KEEP_DATA_DIR)
 
   # Fallback: also try to pull common debug DLLs from hint dirs (vcpkg debug/bin)
   foreach(_hint_dir IN LISTS CRD_HINT_DIRS)
-    foreach(_name IN ITEMS glew32d.dll glew32.dll libssl-3-x64.dll libcrypto-3-x64.dll bz2.dll zip.dll zlib1.dll lua51.dll physfs.dll)
+    foreach(_name IN ITEMS glew32d.dll glew32.dll libssl-3-x64.dll libcrypto-3-x64.dll bz2d.dll bz2.dll zip.dll zlibd1.dll zlib1.dll lua51.dll physfs.dll)
       set(_full_path "${_hint_dir}/${_name}")
       if(EXISTS "${_full_path}")
         file(COPY "${_full_path}" DESTINATION "${_out_dir}")
@@ -563,26 +567,75 @@ if(NOT USE_STATIC_LIBS)
 endif()
 
 # Install resource directories
-# For static (Release) builds: package data/ and init.lua into data.zip
-# For dynamic (Debug) builds: install uncompressed data/ and init.lua
+# For static (Release) builds: package encrypted data/, modules/, layouts/, and init.lua into data.zip
+# For dynamic (Debug) builds: install uncompressed folders
 if(USE_STATIC_LIBS)
-    # Create data.zip during install containing init.lua and data/ folder
+    # Create encrypted data.zip during install
     # This protects Lua sources from end-users
     install(CODE "
-        message(STATUS \"Creating data.zip for Release distribution...\")
+        message(STATUS \"Creating encrypted data.zip for Release distribution...\")
         set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
         set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+        set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_encrypt\")
+        set(_client_exe \"${CMAKE_BINARY_DIR}/${CLIENT_TARGET}${CMAKE_EXECUTABLE_SUFFIX}\")
+        set(_encrypt_seed \"${RUNTIME_DATA_ZIP_PASSWORD}\")
         
-        # Remove old data.zip if exists
+        # Remove old data.zip and temp dir if exists
         if(EXISTS \"\${_data_zip_path}\")
             file(REMOVE \"\${_data_zip_path}\")
         endif()
+        if(EXISTS \"\${_temp_dir}\")
+            file(REMOVE_RECURSE \"\${_temp_dir}\")
+        endif()
         
-        # Use CMake's tar command to create a zip archive
-        # We need to change to source dir to get correct relative paths
+        # Create temp directory and copy files to encrypt
+        file(MAKE_DIRECTORY \"\${_temp_dir}\")
+        
+        # Copy init.lua
+        file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+        
+        # Copy data folder
+        file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
+        
+        # Copy modules folder (excluding game_bot)
+        file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
+             PATTERN \"game_bot\" EXCLUDE)
+        
+        # Copy layouts folder
+        file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
+        
+        # Run encryption if client exe exists and password is set
+        if(EXISTS \"\${_client_exe}\" AND NOT \"\${_encrypt_seed}\" STREQUAL \"\")
+            message(STATUS \"Encrypting files with seed...\")
+            execute_process(
+                COMMAND \"\${_client_exe}\" --encrypt \"\${_encrypt_seed}\"
+                WORKING_DIRECTORY \"\${_temp_dir}\"
+                RESULT_VARIABLE _encrypt_result
+                OUTPUT_VARIABLE _encrypt_output
+                ERROR_VARIABLE _encrypt_error
+            )
+            if(NOT _encrypt_result EQUAL 0)
+                message(WARNING \"Encryption returned non-zero: \${_encrypt_result}\")
+                message(STATUS \"Output: \${_encrypt_output}\")
+                message(STATUS \"Error: \${_encrypt_error}\")
+            else()
+                message(STATUS \"Encryption completed successfully\")
+            endif()
+        else()
+            if(NOT EXISTS \"\${_client_exe}\")
+                message(WARNING \"Client exe not found at \${_client_exe}, skipping encryption\")
+            endif()
+            if(\"\${_encrypt_seed}\" STREQUAL \"\")
+                message(STATUS \"No encryption seed set, creating unencrypted data.zip\")
+            endif()
+        endif()
+        
+        # Create zip from temp directory
+        # Need to use absolute path for the zip file
+        get_filename_component(_data_zip_path_abs \"\${_data_zip_path}\" ABSOLUTE)
         execute_process(
-            COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data
-            WORKING_DIRECTORY \"\${_source_dir}\"
+            COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path_abs}\" --format=zip -- init.lua data modules layouts
+            WORKING_DIRECTORY \"\${_temp_dir}\"
             RESULT_VARIABLE _zip_result
         )
         
@@ -590,18 +643,25 @@ if(USE_STATIC_LIBS)
             message(FATAL_ERROR \"Failed to create data.zip\")
         endif()
         
+        # Clean up temp directory
+        file(REMOVE_RECURSE \"\${_temp_dir}\")
+        
         message(STATUS \"Created data.zip successfully\")
     ")
-    # Don't install uncompressed data/ or init.lua for Release
+    # Don't install uncompressed folders for Release - they're all in data.zip
 else()
     # Debug build: install uncompressed
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
     install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
+            PATTERN "game_bot" EXCLUDE)
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 endif()
 
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
-        PATTERN "game_bot" EXCLUDE)  # Exclude bot module from distribution
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
+# Only install modules/layouts separately for Debug (Release has them in data.zip)
+if(NOT USE_STATIC_LIBS)
+    # Already handled above
+endif()
 
 # Install extra files (init.lua is already handled above for Debug, and in data.zip for Release)
 if(EXISTS "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll")

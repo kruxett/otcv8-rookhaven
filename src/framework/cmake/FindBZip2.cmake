@@ -5,7 +5,12 @@ if(USE_STATIC_LIBS)
     set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows-static/lib/bz2.lib")
 else()
     set(BZIP2_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-    set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows/lib/bz2.lib")
+    # Use debug library for Debug builds, release library otherwise
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows/debug/lib/bz2d.lib")
+    else()
+        set(BZIP2_LIBRARIES "C:/vcpkg/installed/x64-windows/lib/bz2.lib")
+    endif()
 endif()
 
 include(FindPackageHandleStandardArgs)
