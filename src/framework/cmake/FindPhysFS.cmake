@@ -1,11 +1,19 @@
 # FindPhysFS.cmake - Windows + vcpkg (supports static and dynamic)
 
+if(NOT DEFINED VCPKG_INSTALLED_DIR)
+    set(VCPKG_INSTALLED_DIR "C:/vcpkg/installed")
+endif()
+
 if(USE_STATIC_LIBS)
-    set(PHYSFS_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
-    set(PHYSFS_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/physfs-static.lib")
+    set(PHYSFS_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include")
+    set(PHYSFS_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/physfs-static.lib")
 else()
-    set(PHYSFS_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-    set(PHYSFS_LIBRARY "C:/vcpkg/installed/x64-windows/lib/physfs.lib")
+    set(PHYSFS_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/include")
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/physfs.lib")
+        set(PHYSFS_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/physfs.lib")
+    else()
+        set(PHYSFS_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/lib/physfs.lib")
+    endif()
 endif()
 
 include(FindPackageHandleStandardArgs)

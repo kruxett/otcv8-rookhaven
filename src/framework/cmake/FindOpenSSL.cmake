@@ -1,13 +1,22 @@
 # FindOpenSSL.cmake - Windows + vcpkg (supports static and dynamic)
 
+if(NOT DEFINED VCPKG_INSTALLED_DIR)
+    set(VCPKG_INSTALLED_DIR "C:/vcpkg/installed")
+endif()
+
 if(USE_STATIC_LIBS)
-    set(OPENSSL_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
-    set(OPENSSL_CRYPTO_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/libcrypto.lib")
-    set(OPENSSL_SSL_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/libssl.lib")
+    set(OPENSSL_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include")
+    set(OPENSSL_CRYPTO_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/libcrypto.lib")
+    set(OPENSSL_SSL_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/libssl.lib")
 else()
-    set(OPENSSL_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
-    set(OPENSSL_CRYPTO_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libcrypto.lib")
-    set(OPENSSL_SSL_LIBRARY "C:/vcpkg/installed/x64-windows/lib/libssl.lib")
+    set(OPENSSL_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/include")
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/libcrypto.lib")
+        set(OPENSSL_CRYPTO_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/libcrypto.lib")
+        set(OPENSSL_SSL_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/libssl.lib")
+    else()
+        set(OPENSSL_CRYPTO_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/lib/libcrypto.lib")
+        set(OPENSSL_SSL_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/lib/libssl.lib")
+    endif()
 endif()
 
 set(OPENSSL_LIBRARIES

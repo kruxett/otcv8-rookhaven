@@ -1,15 +1,19 @@
 # FindZLIB.cmake - Windows + vcpkg (supports static and dynamic)
 
+if(NOT DEFINED VCPKG_INSTALLED_DIR)
+    set(VCPKG_INSTALLED_DIR "C:/vcpkg/installed")
+endif()
+
 if(USE_STATIC_LIBS)
-    set(ZLIB_INCLUDE_DIR "C:/vcpkg/installed/x64-windows-static/include")
-    set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows-static/lib/zlib.lib")
+    set(ZLIB_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows-static/include")
+    set(ZLIB_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows-static/lib/zlib.lib")
 else()
-    set(ZLIB_INCLUDE_DIR "C:/vcpkg/installed/x64-windows/include")
+    set(ZLIB_INCLUDE_DIR "${VCPKG_INSTALLED_DIR}/x64-windows/include")
     # Use debug library for Debug builds, release library otherwise
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows/debug/lib/zlibd.lib")
+        set(ZLIB_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/debug/lib/zlibd.lib")
     else()
-        set(ZLIB_LIBRARY "C:/vcpkg/installed/x64-windows/lib/zlib.lib")
+        set(ZLIB_LIBRARY "${VCPKG_INSTALLED_DIR}/x64-windows/lib/zlib.lib")
     endif()
 endif()
 
