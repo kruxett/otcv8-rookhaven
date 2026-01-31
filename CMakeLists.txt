@@ -176,6 +176,7 @@ option(FRAMEWORK_SOUND "Use SOUND " OFF)
 option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
 option(FRAMEWORK_NET "Use NET " ON)
+option(WITH_ENCRYPTION "Enable ENC3 file encryption support" ON)
 
 include(src/framework/CMakeLists.txt)
 include(src/client/CMakeLists.txt)
@@ -213,6 +214,11 @@ target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
     DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
     RUNTIME_DLL_RELATIVE="lib")
+
+# Enable encryption support if option is ON
+if(WITH_ENCRYPTION)
+    target_compile_definitions(${CLIENT_TARGET} PRIVATE WITH_ENCRYPTION)
+endif()
 
 # Disable vcpkg applocal.ps1 completely - we handle DLLs ourselves in lib/
 set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
@@ -583,45 +589,79 @@ if(NOT USE_STATIC_LIBS)
 endif()
 
 # Install resource directories
-# For static (Release) builds: package data/ and init.lua into data.zip
-# For dynamic (Debug) builds: install uncompressed data/ and init.lua
+# For static (Release) builds: package data/, modules/, layouts/ and init.lua into encrypted data.zip
+# For dynamic (Debug) builds: install uncompressed data/, modules/, layouts/ and init.lua
 if(USE_STATIC_LIBS)
-    # Create data.zip during install containing init.lua and data/ folder
-    # This protects Lua sources from end-users
-    install(CODE "
-        message(STATUS \"Creating data.zip for Release distribution...\")
-        set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
-        set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+# Create data.zip with ENC3-encrypted files during install
+# Files are encrypted individually (not ZIP-password protected) for maximum compatibility
+install(CODE "
+    message(STATUS \"Creating data.zip with ENC3-encrypted files for Release distribution...\")
+    set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
+    set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+    set(_exe_path \"\${CMAKE_INSTALL_PREFIX}/${CLIENT_TARGET}.exe\")
         
-        # Remove old data.zip if exists
-        if(EXISTS \"\${_data_zip_path}\")
-            file(REMOVE \"\${_data_zip_path}\")
-        endif()
+    # Remove old data.zip if exists
+    if(EXISTS \"\${_data_zip_path}\")
+        file(REMOVE \"\${_data_zip_path}\")
+    endif()
         
-        # Use CMake's tar command to create a zip archive
-        # We need to change to source dir to get correct relative paths
-        execute_process(
-            COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data
-            WORKING_DIRECTORY \"\${_source_dir}\"
-            RESULT_VARIABLE _zip_result
-        )
+    # Create temp directory for encryption
+    set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_enc\")
+    file(REMOVE_RECURSE \"\${_temp_dir}\")
+    file(MAKE_DIRECTORY \"\${_temp_dir}\")
         
-        if(NOT _zip_result EQUAL 0)
-            message(FATAL_ERROR \"Failed to create data.zip\")
-        endif()
+    # Copy files to temp (exclude game_bot from modules)
+    message(STATUS \"Copying files for encryption...\")
+    file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+    file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
+    file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
+         PATTERN \"game_bot\" EXCLUDE)
+    file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
         
-        message(STATUS \"Created data.zip successfully\")
-    ")
-    # Don't install uncompressed data/ or init.lua for Release
+    # Encrypt files using the built executable with --encrypt flag
+    # IMPORTANT: exe must run from temp dir since it looks for data/modules/layouts in current dir
+    message(STATUS \"Encrypting files with ENC3 format...\")
+    execute_process(
+        COMMAND \"\${_exe_path}\" --encrypt
+        WORKING_DIRECTORY \"\${_temp_dir}\"
+        RESULT_VARIABLE _encrypt_result
+        OUTPUT_VARIABLE _encrypt_output
+        ERROR_VARIABLE _encrypt_error
+    )
+        
+    if(NOT _encrypt_result EQUAL 0)
+        message(WARNING \"File encryption failed or not supported: \${_encrypt_error}\")
+        message(STATUS \"Proceeding with unencrypted files...\")
+    else()
+        message(STATUS \"Files encrypted successfully\")
+    endif()
+        
+    # Now create ZIP from (potentially encrypted) files using CMake tar
+    message(STATUS \"Creating data.zip...\")
+    execute_process(
+        COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
+        WORKING_DIRECTORY \"\${_temp_dir}\"
+        RESULT_VARIABLE _zip_result
+    )
+        
+    if(NOT _zip_result EQUAL 0)
+        message(FATAL_ERROR \"Failed to create data.zip\")
+    endif()
+        
+    message(STATUS \"Created data.zip with ENC3-encrypted files\")
+        
+    # Clean up temp directory
+    file(REMOVE_RECURSE \"\${_temp_dir}\")
+")
+# Don't install uncompressed resources for Release - they're in data.zip
 else()
-    # Debug build: install uncompressed
+    # Debug build: install uncompressed for easier development
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
     install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
+            PATTERN "game_bot" EXCLUDE)
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 endif()
-
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
-        PATTERN "game_bot" EXCLUDE)  # Exclude bot module from distribution
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 
 # Install extra files (init.lua is already handled above for Debug, and in data.zip for Release)
 if(EXISTS "${CMAKE_SOURCE_DIR}/d3dcompiler_47.dll")

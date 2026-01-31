@@ -55,19 +55,21 @@ enum ItemAttr : uint8
     ATTR_SLEEPSTART = 21,
     ATTR_CHARGES = 22,
     ATTR_CONTAINER_ITEMS = 23,
-    ATTR_NAME = 30,
-    ATTR_PLURALNAME = 31,
-    ATTR_ATTACK = 33,
-    ATTR_EXTRAATTACK = 34,
-    ATTR_DEFENSE = 35,
-    ATTR_EXTRADEFENSE = 36,
-    ATTR_ARMOR = 37,
-    ATTR_ATTACKSPEED = 38,
-    ATTR_HITCHANCE = 39,
-    ATTR_SHOOTRANGE = 40,
-    ATTR_ARTICLE = 41,
-    ATTR_SCRIPTPROTECTED = 42,
-    ATTR_DUALWIELD = 43,
+    ATTR_NAME = 24,
+    ATTR_ARTICLE = 25,
+    ATTR_PLURALNAME = 26,
+    ATTR_WEIGHT = 27,
+    ATTR_ATTACK = 28,
+    ATTR_DEFENSE = 29,
+    ATTR_EXTRADEFENSE = 30,
+    ATTR_ARMOR = 31,
+    ATTR_ATTACKSPEED = 32,
+    ATTR_HITCHANCE = 33,
+    ATTR_SHOOTRANGE = 34,
+    ATTR_EXTRAATTACK = 35,  // Keep this for compatibility with existing code
+    ATTR_SCRIPTPROTECTED = 36,
+    ATTR_DUALWIELD = 37,
+    ATTR_CUSTOM_ATTRIBUTES = 254,
     ATTR_ATTRIBUTE_MAP = 128
 };
 
@@ -125,6 +127,8 @@ public:
     std::string getDescription() { return m_attribs.get<std::string>(ATTR_DESC); }
     void setDescription(std::string desc) { m_attribs.set(ATTR_DESC, desc); }
     void setText(std::string txt) { m_attribs.set(ATTR_TEXT, txt); }
+    std::string getArticle() { return m_article.empty() ? m_attribs.get<std::string>(ATTR_ARTICLE) : m_article; }
+    void setArticle(const std::string& article) { m_article = article; }
 
     Position getTeleportDestination() { return m_attribs.get<Position>(ATTR_TELE_DEST); }
     void setTeleportDestination(const Position& pos) { m_attribs.set(ATTR_TELE_DEST, pos); }
@@ -174,6 +178,7 @@ private:
     bool m_async;
     std::string m_tooltip;
     std::string m_shader;
+    std::string m_article;
 
     uint32 m_quickLootFlags;
     uint8 m_phase;

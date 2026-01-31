@@ -3605,6 +3605,13 @@ ItemPtr ProtocolGame::getItem(const InputMessagePtr& msg, int id, bool hasDescri
         }
     }
 
+    // Read article attribute (for item rarity/affixes) - must match server's networkmessage.cpp addItem()
+    uint8_t hasArticle = msg->getU8();
+    if (hasArticle > 0) {
+        std::string article = msg->getString();
+        item->setArticle(article);
+    }
+
     if (g_game.getFeature(Otc::GameItemAnimationPhase)) {
         if (item->getAnimationPhases() > 1) {
             // 0x00 => automatic phase

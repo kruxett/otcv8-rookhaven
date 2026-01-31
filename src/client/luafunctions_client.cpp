@@ -672,6 +672,7 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<Item>("getName", &Item::getName);
     g_lua.bindClassMemberFunction<Item>("getDescription", &Item::getDescription);
     g_lua.bindClassMemberFunction<Item>("getText", &Item::getText);
+    g_lua.bindClassMemberFunction<Item>("getArticle", &Item::getArticle);
     g_lua.bindClassMemberFunction<Item>("setDescription", &Item::setDescription);
     g_lua.bindClassMemberFunction<Item>("setText", &Item::setText);
     g_lua.bindClassMemberFunction<Item>("getUniqueId", &Item::getUniqueId);

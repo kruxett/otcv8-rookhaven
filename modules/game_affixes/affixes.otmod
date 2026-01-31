@@ -1,0 +1,9 @@
+Module
+  name: game_affixes
+  description: Visual indicators for affixed items
+  author: rookhaven
+  website: https://github.com/rookhaven
+  sandboxed: true
+  scripts: [ affixes ]
+  @onLoad: init()
+  @onUnload: terminate()

@@ -1,0 +1,19 @@
+AffixBorder < UIWidget
+  id: affixBorder
+  phantom: true
+  focusable: false
+  image-source: /images/ui/rarity_gold
+  opacity: 0.9
+  visible: true
+
+AffixRarityIndicator < UIWidget
+  phantom: true  
+  focusable: false
+  size: 8 8
+  anchors.top: parent.top
+  anchors.right: parent.right
+  margin-top: 2
+  margin-right: 2
+  image-source: /images/ui/rarity_gold
+  opacity: 0.9
+  visible: true

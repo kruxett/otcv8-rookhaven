@@ -30,7 +30,7 @@ g_app.setName("Rookhaven Client")
 
 -- print first terminal message
 g_logger.info(os.date("== application started at %b %d %Y %X"))
-g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' .. g_app.getBuildCommit() .. ') made by ' .. g_app.getAuthor() .. ' built on ' .. g_app.getBuildDate() .. ' for arch ' .. g_app.getBuildArch())
+g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' .. g_app.getBuildCommit() .. ') made for ' .. g_app.getAuthor() .. ' built on ' .. g_app.getBuildDate() .. ' for arch ' .. g_app.getBuildArch())
 
 if not g_resources.directoryExists("/data") then
   g_logger.fatal("Data dir doesn't exist.")
@@ -72,6 +72,16 @@ local function loadModules()
   -- game modules 500-999
   g_modules.autoLoadModules(999)
   g_modules.ensureModuleLoaded("game_interface")
+  
+  -- Explicitly load game_affixes module
+  g_logger.info("Attempting to load game_affixes module...")
+  local affixModule = g_modules.getModule("game_affixes")
+  if affixModule then
+    g_logger.info("Found game_affixes module, loading...")
+    g_modules.ensureModuleLoaded("game_affixes")
+  else
+    g_logger.warning("game_affixes module not found!")
+  end
 
   -- mods 1000-9999
   g_modules.autoLoadModules(9999)
