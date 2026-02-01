@@ -80,13 +80,48 @@ function destroy(container)
 end
 
 function refreshContainerItems(container)
+  local affixSystem = _G.affixSystem
+  
   for slot=0,container:getCapacity()-1 do
     local itemWidget = container.itemsPanel:getChildById('item' .. slot)
-    itemWidget:setItem(container:getItem(slot))
+    local item = container:getItem(slot)
+    
+    -- Match inventory order: set image-source BEFORE setItem
+    if item and affixSystem then
+      local rarityFrame = affixSystem.getRarityFrame(item)
+      if rarityFrame then
+        itemWidget:setImageSource(rarityFrame)
+      else
+        itemWidget:setImageSource("/images/ui/item")  -- Default
+      end
+    else
+      itemWidget:setImageSource("/images/ui/item")  -- Default for empty slots
+    end
+    
+    -- Set item AFTER image-source (like inventory does)
+    itemWidget:setItem(item)
   end
 
   if container:hasPages() then
     refreshContainerPages(container)
+  end
+end
+
+-- Apply rarity frames to existing items without re-setting them
+local function applyRarityFrames(container)
+  local affixSystem = _G.affixSystem
+  if not affixSystem then return end
+  
+  for slot=0,container:getCapacity()-1 do
+    local itemWidget = container.itemsPanel:getChildById('item' .. slot)
+    local item = container:getItem(slot)
+    
+    if item then
+      local rarityFrame = affixSystem.getRarityFrame(item)
+      if rarityFrame then
+        itemWidget:setImageSource(rarityFrame)
+      end
+    end
   end
 end
 
@@ -231,6 +266,9 @@ function onContainerOpen(container, previousContainer)
   container.window = containerWindow
   container.itemsPanel = containerPanel
 
+  -- Apply rarity frames to items that were just created
+  applyRarityFrames(container)
+
   toggleContainerPages(containerWindow, container:hasPages())
   refreshContainerPages(container)
 
@@ -265,5 +303,21 @@ end
 function onContainerUpdateItem(container, slot, item, oldItem)
   if not container.window then return end
   local itemWidget = container.itemsPanel:getChildById('item' .. slot)
+  
+  local affixSystem = _G.affixSystem
+  
+  -- Set image-source BEFORE setItem (like inventory does)
+  if item and affixSystem then
+    local rarityFrame = affixSystem.getRarityFrame(item)
+    if rarityFrame then
+      itemWidget:setImageSource(rarityFrame)
+    else
+      itemWidget:setImageSource("/images/ui/item")
+    end
+  else
+    itemWidget:setImageSource("/images/ui/item")
+  end
+  
+  -- Set item AFTER image-source
   itemWidget:setItem(item)
 end

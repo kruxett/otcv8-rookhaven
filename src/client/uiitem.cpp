@@ -153,3 +153,6 @@ void UIItem::cacheCountText()
 
     m_countText = stdext::format("%.0fk", count / 1000.0);
 }
+
+
+

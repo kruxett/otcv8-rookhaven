@@ -45,6 +45,9 @@ Item::Item() :
     m_countOrSubType(1),
     m_color(Color::alpha),
     m_async(true),
+    m_tooltip(),
+    m_shader(),
+    m_article(),
     m_quickLootFlags(0),
     m_phase(0),
     m_lastPhase(0)

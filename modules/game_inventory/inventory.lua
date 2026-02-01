@@ -238,8 +238,17 @@ function onInventoryChange(player, slot, item, oldItem)
 
   local itemWidget = inventoryPanel:getChildById('slot' .. slot)
   if item then
-    itemWidget:setStyle('InventoryItem')
-    itemWidget:setItem(item)
+    -- Check for rarity and apply frame (access via _G for cross-sandbox communication)
+    local affixSystem = _G.affixSystem
+    local rarityFrame = affixSystem and affixSystem.getRarityFrame(item)
+    if rarityFrame then
+      itemWidget:setStyle('InventoryItem')
+      itemWidget:setImageSource(rarityFrame)
+      itemWidget:setItem(item)
+    else
+      itemWidget:setStyle('InventoryItem')
+      itemWidget:setItem(item)
+    end
   else
     itemWidget:setStyle(InventorySlotStyles[slot])
     itemWidget:setItem(nil)
