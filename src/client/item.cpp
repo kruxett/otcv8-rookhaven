@@ -98,6 +98,14 @@ void Item::draw(const Point& dest, bool animate, LightView* lightView)
     }
     if (m_marked) {
         g_drawQueue->setMark(drawQueueSize, updatedMarkedColor());
+        
+        // Log once per second for debugging
+        static ticks_t lastMarkLog = 0;
+        if (g_clock.millis() - lastMarkLog > 1000) {
+            g_logger.info(stdext::format("[ITEM DRAW] Drawing marked item ID=%d, color=%s", 
+                getId(), updatedMarkedColor().toHex()));
+            lastMarkLog = g_clock.millis();
+        }
     }
 }
 

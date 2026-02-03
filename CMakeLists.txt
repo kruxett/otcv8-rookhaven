@@ -176,7 +176,7 @@ option(FRAMEWORK_SOUND "Use SOUND " OFF)
 option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
 option(FRAMEWORK_NET "Use NET " ON)
-option(WITH_ENCRYPTION "Enable ENC3 file encryption support" ON)
+option(WITH_ENCRYPTION "Enable ENC3 file encryption support" OFF)
 
 include(src/framework/CMakeLists.txt)
 include(src/client/CMakeLists.txt)
@@ -337,7 +337,7 @@ function(collect_runtime_deps TARGET OUT_DIR)
     list(APPEND _debug_copy_dlls ${_boost_debug_dlls})
 
     set(_collect_script "${CMAKE_CURRENT_BINARY_DIR}/collect_runtime_deps.cmake")
-    file(WRITE "${_collect_script}" [=[
+    file(WRITE "${_collect_script}" [[
 if(NOT DEFINED CRD_TARGET_FILE)
   message(FATAL_ERROR "CRD_TARGET_FILE is required")
 endif()
@@ -517,7 +517,7 @@ if(EXISTS "${CRD_DATA_DIR}")
   file(COPY "${CRD_DATA_DIR}" DESTINATION "${_out_dir}")
   file(REMOVE "${_out_dir}/data.zip")
 endif()
-]=])
+]])
 
     add_custom_command(TARGET ${TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND}
@@ -589,54 +589,33 @@ if(NOT USE_STATIC_LIBS)
 endif()
 
 # Install resource directories
-# For static (Release) builds: package data/, modules/, layouts/ and init.lua into encrypted data.zip
+# For static (Release) builds: package data/, modules/, layouts/ and init.lua into data.zip (no encryption)
 # For dynamic (Debug) builds: install uncompressed data/, modules/, layouts/ and init.lua
 if(USE_STATIC_LIBS)
-# Create data.zip with ENC3-encrypted files during install
-# Files are encrypted individually (not ZIP-password protected) for maximum compatibility
 install(CODE "
-    message(STATUS \"Creating data.zip with ENC3-encrypted files for Release distribution...\")
+    message(STATUS \"Creating data.zip for Release distribution...\")
     set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
     set(_source_dir \"${CMAKE_SOURCE_DIR}\")
-    set(_exe_path \"\${CMAKE_INSTALL_PREFIX}/${CLIENT_TARGET}.exe\")
         
     # Remove old data.zip if exists
     if(EXISTS \"\${_data_zip_path}\")
         file(REMOVE \"\${_data_zip_path}\")
     endif()
         
-    # Create temp directory for encryption
-    set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_enc\")
+    # Create temp directory for packaging
+    set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
     file(REMOVE_RECURSE \"\${_temp_dir}\")
     file(MAKE_DIRECTORY \"\${_temp_dir}\")
         
     # Copy files to temp (exclude game_bot from modules)
-    message(STATUS \"Copying files for encryption...\")
+    message(STATUS \"Copying files for packaging...\")
     file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
     file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
     file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
          PATTERN \"game_bot\" EXCLUDE)
     file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
         
-    # Encrypt files using the built executable with --encrypt flag
-    # IMPORTANT: exe must run from temp dir since it looks for data/modules/layouts in current dir
-    message(STATUS \"Encrypting files with ENC3 format...\")
-    execute_process(
-        COMMAND \"\${_exe_path}\" --encrypt
-        WORKING_DIRECTORY \"\${_temp_dir}\"
-        RESULT_VARIABLE _encrypt_result
-        OUTPUT_VARIABLE _encrypt_output
-        ERROR_VARIABLE _encrypt_error
-    )
-        
-    if(NOT _encrypt_result EQUAL 0)
-        message(WARNING \"File encryption failed or not supported: \${_encrypt_error}\")
-        message(STATUS \"Proceeding with unencrypted files...\")
-    else()
-        message(STATUS \"Files encrypted successfully\")
-    endif()
-        
-    # Now create ZIP from (potentially encrypted) files using CMake tar
+    # Create ZIP from files using CMake tar
     message(STATUS \"Creating data.zip...\")
     execute_process(
         COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
@@ -648,7 +627,7 @@ install(CODE "
         message(FATAL_ERROR \"Failed to create data.zip\")
     endif()
         
-    message(STATUS \"Created data.zip with ENC3-encrypted files\")
+    message(STATUS \"Created data.zip\")
         
     # Clean up temp directory
     file(REMOVE_RECURSE \"\${_temp_dir}\")

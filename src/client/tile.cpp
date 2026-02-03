@@ -92,7 +92,11 @@ void Tile::drawBottom(const Point& dest, LightView* lightView)
             break;
         if (thing->isHidden())
             continue;
-
+        
+        // Skip drawing splash items (blood pools, bloodspots, etc.)
+        if (thing->isSplash())
+            continue;
+        
         thing->draw(dest - m_drawElevation * g_sprites.getOffsetFactor() , true, lightView);
         m_drawElevation = std::min<uint8_t>(m_drawElevation + thing->getElevation(), Otc::MAX_ELEVATION);
 

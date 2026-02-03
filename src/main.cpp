@@ -89,18 +89,6 @@ int main(int argc, const char* argv[]) {
     g_app.setCompactName(compactName);
     g_app.setVersion("0.1");
 
-#ifdef WITH_ENCRYPTION
-    if (std::find(args.begin(), args.end(), "--encrypt") != args.end()) {
-        g_lua.init();
-        g_resources.encrypt(args.size() >= 3 ? args[2] : "");
-        std::cout << "Encryption complete" << std::endl;
-#ifdef WIN32
-        MessageBoxA(NULL, "Encryption complete", "Success", 0);
-#endif
-        return 0;
-    }
-#endif
-
     if (g_resources.launchCorrect(g_app.getName(), g_app.getCompactName())) {
         return 0; // started other executable
     }

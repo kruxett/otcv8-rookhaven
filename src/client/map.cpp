@@ -125,8 +125,9 @@ void Map::addThing(const ThingPtr& thing, const Position& pos, int stackPos)
 
     if(thing->isItem() || thing->isCreature() || thing->isEffect()) {
         const TilePtr& tile = getOrCreateTile(pos);
-        if(tile)
+        if(tile) {
             tile->addThing(thing, stackPos);
+        }
     } else {
         if(thing->isMissile()) {
             m_floorMissiles[pos.z].push_back(thing->static_self_cast<Missile>());

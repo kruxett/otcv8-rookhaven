@@ -35,6 +35,8 @@
 #include <framework/core/eventdispatcher.h>
 #include <framework/util/extras.h>
 #include <framework/stdext/string.h>
+#include <iomanip>
+#include <sstream>
 
 void ProtocolGame::parseMessage(const InputMessagePtr& msg)
 {

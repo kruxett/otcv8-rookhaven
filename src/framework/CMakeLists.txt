@@ -226,6 +226,11 @@ else()
         message(STATUS "Link to static libraries: OFF")
 endif()
 
+# Ensure CMAKE_BUILD_TYPE is set
+if(NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 add_definitions(-D"BUILD_TYPE=\\\"${CMAKE_BUILD_TYPE}\\\"")
 message(STATUS "Build commit: ${BUILD_COMMIT}")

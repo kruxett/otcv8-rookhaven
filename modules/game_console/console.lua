@@ -95,6 +95,29 @@ local communicationSettings = {
   whitelistedPlayers = {}
 }
 
+local function handleLuaCommand(message)
+  local code = message:match("^/lua%s+(.+)")
+  if not code then
+    return false
+  end
+
+  local func, err = loadstring(code, "@(console)")
+  if not func then
+    g_logger.error("Lua error: " .. err)
+    return true
+  end
+
+  setfenv(func, _G)
+  local ok, result = pcall(func)
+  if not ok then
+    g_logger.error("Lua error: " .. result)
+  elseif result ~= nil then
+    g_logger.info(tostring(result))
+  end
+
+  return true
+end
+
 function init()
   connect(g_game, {
     onTalk = onTalk,
@@ -118,6 +141,8 @@ function init()
   consoleTabBar = consolePanel:getChildById('consoleTabBar')
   consoleTabBar:setContentWidget(consoleContentPanel)
   channels = {}
+
+  addFilter(handleLuaCommand)
     
   consolePanel.onDragEnter = onDragEnter
   consolePanel.onDragLeave = onDragLeave
@@ -276,6 +301,8 @@ function terminate()
   })
 
   if g_game.isOnline() then clear() end
+
+  removeFilter(handleLuaCommand)
 
   local gameRootPanel = modules.game_interface.getRootPanel()
   g_keyboard.unbindKeyDown('Ctrl+O', gameRootPanel)

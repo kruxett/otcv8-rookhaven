@@ -16,7 +16,7 @@
         "CC": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe",
         "CXX": "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe"
       },
-      "cmakeCommandArgs": "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
+      "cmakeCommandArgs": "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     },

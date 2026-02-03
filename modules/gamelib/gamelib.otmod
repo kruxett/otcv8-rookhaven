@@ -19,5 +19,6 @@ Module
     dofile 'textmessages'
     dofile 'thing'
     dofile 'spells'
+    dofile 'unlooted_corpses'
 
     dofiles 'ui'
