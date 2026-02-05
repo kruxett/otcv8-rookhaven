@@ -1712,10 +1712,82 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
     int itemId;
     if (g_game.getProtocolVersion() >= 1010) {
         // TODO: processEditText with ItemPtr as parameter
-        ItemPtr item = getItem(msg);
-        itemId = item->getId();
-    } else
+        int readPos = msg->getReadPos();
+        try {
+            ItemPtr item = getItem(msg);
+            itemId = item->getId();
+        } catch (stdext::exception&) {
+            msg->setReadPos(readPos);
+            itemId = msg->getU16();
+        }
+    } else {
+        auto tryParseEditText = [&](bool withArticleFlag) -> int {
+            int readPos = msg->getReadPos();
+            int remaining = -1;
+            try {
+                msg->getU16(); // item id
+                if (withArticleFlag) {
+                    if (msg->getUnreadSize() < 1) {
+                        msg->setReadPos(readPos);
+                        return -1;
+                    }
+                    uint8 flag = msg->getU8();
+                    if (flag > 1) {
+                        msg->setReadPos(readPos);
+                        return -1;
+                    }
+                    if (flag > 0) {
+                        uint16 articleLen = msg->getU16();
+                        if (msg->getUnreadSize() < articleLen) {
+                            msg->setReadPos(readPos);
+                            return -1;
+                        }
+                        msg->skipBytes(articleLen);
+                    }
+                }
+
+                uint16 maxLength = msg->getU16();
+                uint16 textLength = msg->getU16();
+                if (textLength > maxLength || msg->getUnreadSize() < textLength + 2) {
+                    msg->setReadPos(readPos);
+                    return -1;
+                }
+                msg->skipBytes(textLength);
+                uint16 writerLength = msg->getU16();
+                if (msg->getUnreadSize() < writerLength) {
+                    msg->setReadPos(readPos);
+                    return -1;
+                }
+                msg->skipBytes(writerLength);
+                if (g_game.getFeature(Otc::GameWritableDate) && msg->getUnreadSize() >= 2) {
+                    uint16 dateLength = msg->getU16();
+                    if (msg->getUnreadSize() < dateLength) {
+                        msg->setReadPos(readPos);
+                        return -1;
+                    }
+                    msg->skipBytes(dateLength);
+                }
+                remaining = msg->getUnreadSize();
+            } catch (stdext::exception&) {
+                remaining = -1;
+            }
+            msg->setReadPos(readPos);
+            return remaining;
+        };
+
+        int remainingWithArticle = tryParseEditText(true);
+        int remainingWithoutArticle = tryParseEditText(false);
+        bool useArticleFlag = false;
+        if (remainingWithArticle >= 0 && (remainingWithoutArticle < 0 || remainingWithArticle <= remainingWithoutArticle))
+            useArticleFlag = true;
+
         itemId = msg->getU16();
+        if (useArticleFlag) {
+            uint8 flag = msg->getU8();
+            if (flag > 0)
+                msg->getString();
+        }
+    }
 
     int maxLength = msg->getU16();
     std::string text = msg->getString();
@@ -1726,7 +1798,7 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
         msg->getU8();
 
     std::string date = "";
-    if (g_game.getFeature(Otc::GameWritableDate))
+    if (g_game.getFeature(Otc::GameWritableDate) && msg->getUnreadSize() > 0)
         date = msg->getString();
 
     g_game.processEditText(id, itemId, maxLength, text, writer, date);

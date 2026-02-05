@@ -177,6 +177,8 @@ option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
 option(FRAMEWORK_NET "Use NET " ON)
 option(WITH_ENCRYPTION "Enable ENC3 file encryption support" OFF)
+option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
+option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 
 include(src/framework/CMakeLists.txt)
 include(src/client/CMakeLists.txt)
@@ -214,6 +216,14 @@ target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
     DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
     RUNTIME_DLL_RELATIVE="lib")
+
+if(ENABLE_BOT_MODULE)
+    target_compile_definitions(${CLIENT_TARGET} PRIVATE ENABLE_BOT_MODULE)
+endif()
+
+if(ENABLE_BOT_MODULE)
+    target_compile_definitions(${CLIENT_TARGET} PRIVATE ENABLE_BOT_MODULE)
+endif()
 
 # Enable encryption support if option is ON
 if(WITH_ENCRYPTION)
@@ -592,54 +602,114 @@ endif()
 # For static (Release) builds: package data/, modules/, layouts/ and init.lua into data.zip (no encryption)
 # For dynamic (Debug) builds: install uncompressed data/, modules/, layouts/ and init.lua
 if(USE_STATIC_LIBS)
-install(CODE "
-    message(STATUS \"Creating data.zip for Release distribution...\")
-    set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
-    set(_source_dir \"${CMAKE_SOURCE_DIR}\")
-        
-    # Remove old data.zip if exists
-    if(EXISTS \"\${_data_zip_path}\")
-        file(REMOVE \"\${_data_zip_path}\")
+    if(ENABLE_BOT_MODULE)
+        install(CODE "
+            message(STATUS \"Creating data.zip for Release distribution...\")
+            set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
+            set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+                
+            # Remove old data.zip if exists
+            if(EXISTS \"\${_data_zip_path}\")
+                file(REMOVE \"\${_data_zip_path}\")
+            endif()
+                
+            # Create temp directory for packaging
+            set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
+            file(REMOVE_RECURSE \"\${_temp_dir}\")
+            file(MAKE_DIRECTORY \"\${_temp_dir}\")
+                
+            # Copy files to temp
+            message(STATUS \"Copying files for packaging...\")
+            file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
+            file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\")
+            file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
+
+            set(_bot_disabled \"\${_temp_dir}/modules/game_bot/bot.otmod.disabled\")
+            if(EXISTS \"\${_bot_disabled}\")
+                file(RENAME \"\${_bot_disabled}\" \"\${_temp_dir}/modules/game_bot/bot.otmod\")
+            endif()
+                
+            # Create ZIP from files using CMake tar
+            message(STATUS \"Creating data.zip...\")
+            execute_process(
+                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
+                WORKING_DIRECTORY \"\${_temp_dir}\"
+                RESULT_VARIABLE _zip_result
+            )
+                
+            if(NOT _zip_result EQUAL 0)
+                message(FATAL_ERROR \"Failed to create data.zip\")
+            endif()
+                
+            message(STATUS \"Created data.zip\")
+                
+            # Clean up temp directory
+            file(REMOVE_RECURSE \"\${_temp_dir}\")
+        ")
+    else()
+        install(CODE "
+            message(STATUS \"Creating data.zip for Release distribution...\")
+            set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
+            set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+                
+            # Remove old data.zip if exists
+            if(EXISTS \"\${_data_zip_path}\")
+                file(REMOVE \"\${_data_zip_path}\")
+            endif()
+                
+            # Create temp directory for packaging
+            set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
+            file(REMOVE_RECURSE \"\${_temp_dir}\")
+            file(MAKE_DIRECTORY \"\${_temp_dir}\")
+                
+            # Copy files to temp (exclude game_bot from modules)
+            message(STATUS \"Copying files for packaging...\")
+            file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
+            file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
+                 PATTERN \"game_bot\" EXCLUDE)
+            file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
+                
+            # Create ZIP from files using CMake tar
+            message(STATUS \"Creating data.zip...\")
+            execute_process(
+                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
+                WORKING_DIRECTORY \"\${_temp_dir}\"
+                RESULT_VARIABLE _zip_result
+            )
+                
+            if(NOT _zip_result EQUAL 0)
+                message(FATAL_ERROR \"Failed to create data.zip\")
+            endif()
+                
+            message(STATUS \"Created data.zip\")
+                
+            # Clean up temp directory
+            file(REMOVE_RECURSE \"\${_temp_dir}\")
+        ")
     endif()
-        
-    # Create temp directory for packaging
-    set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
-    file(REMOVE_RECURSE \"\${_temp_dir}\")
-    file(MAKE_DIRECTORY \"\${_temp_dir}\")
-        
-    # Copy files to temp (exclude game_bot from modules)
-    message(STATUS \"Copying files for packaging...\")
-    file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
-    file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
-    file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
-         PATTERN \"game_bot\" EXCLUDE)
-    file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
-        
-    # Create ZIP from files using CMake tar
-    message(STATUS \"Creating data.zip...\")
-    execute_process(
-        COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
-        WORKING_DIRECTORY \"\${_temp_dir}\"
-        RESULT_VARIABLE _zip_result
-    )
-        
-    if(NOT _zip_result EQUAL 0)
-        message(FATAL_ERROR \"Failed to create data.zip\")
-    endif()
-        
-    message(STATUS \"Created data.zip\")
-        
-    # Clean up temp directory
-    file(REMOVE_RECURSE \"\${_temp_dir}\")
-")
 # Don't install uncompressed resources for Release - they're in data.zip
 else()
     # Debug build: install uncompressed for easier development
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
     install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
-    install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
-            PATTERN "game_bot" EXCLUDE)
+    if(ENABLE_BOT_MODULE)
+        install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION ".")
+    else()
+        install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
+                PATTERN "game_bot" EXCLUDE)
+    endif()
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
+
+    if(ENABLE_BOT_MODULE)
+        install(CODE "
+            set(_bot_disabled \"\${CMAKE_INSTALL_PREFIX}/modules/game_bot/bot.otmod.disabled\")
+            if(EXISTS \"\${_bot_disabled}\")
+                file(RENAME \"\${_bot_disabled}\" \"\${CMAKE_INSTALL_PREFIX}/modules/game_bot/bot.otmod\")
+            endif()
+        ")
+    endif()
 endif()
 
 # Install extra files (init.lua is already handled above for Debug, and in data.zip for Release)

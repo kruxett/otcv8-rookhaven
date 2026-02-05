@@ -83,6 +83,13 @@ local function loadModules()
     g_logger.warning("game_affixes module not found!")
   end
 
+  -- Explicitly load game_bot module when present
+  local botModule = g_modules.getModule("game_bot")
+  if botModule then
+    g_logger.info("Found game_bot module, loading...")
+    g_modules.ensureModuleLoaded("game_bot")
+  end
+
   -- mods 1000-9999
   g_modules.autoLoadModules(9999)
 end

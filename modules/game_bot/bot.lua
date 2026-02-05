@@ -20,42 +20,48 @@ local statusLabel = nil
 local configManagerUrl = "http://otclient.ovh/configs.php"
 
 function init()
-  dofile("executor")
-  
-  g_ui.importStyle("ui/basic.otui")
-  g_ui.importStyle("ui/panels.otui")
-  g_ui.importStyle("ui/config.otui")
-  g_ui.importStyle("ui/icons.otui")
-  g_ui.importStyle("ui/container.otui")
-  
-  connect(g_game, { 
-    onGameStart = online, 
-    onGameEnd = offline, 
-  })
-  
-  initCallbacks()  
-  
-  botButton = modules.client_topmenu.addRightGameToggleButton('botButton', tr('Bot'), '/images/topbuttons/bot', toggle, false, 99999)
-  botButton:setOn(false)
-  botButton:hide()
-
-  botWindow = g_ui.loadUI('bot', modules.game_interface.getLeftPanel())
-  botWindow:setup()
-
-  contentsPanel = botWindow.contentsPanel
-  configList = contentsPanel.config
-  enableButton = contentsPanel.enableButton
-  statusLabel = contentsPanel.statusLabel
-  botMessages = contentsPanel.messages 
-  botTabs = contentsPanel.botTabs
-  botTabs:setContentWidget(contentsPanel.botPanel)  
-  
-  editWindow = g_ui.displayUI('edit')
-  editWindow:hide()
+  local status, result = pcall(function()
+    dofile("executor")
     
-  if g_game.isOnline() then
-    clear()
-    online()
+    g_ui.importStyle("ui/basic.otui")
+    g_ui.importStyle("ui/panels.otui")
+    g_ui.importStyle("ui/config.otui")
+    g_ui.importStyle("ui/icons.otui")
+    g_ui.importStyle("ui/container.otui")
+    
+    connect(g_game, { 
+      onGameStart = online, 
+      onGameEnd = offline, 
+    })
+    
+    initCallbacks()  
+    
+    botButton = modules.client_topmenu.addRightGameToggleButton('botButton', tr('Bot'), '/images/topbuttons/bot', toggle, false, 99999)
+    botButton:setOn(false)
+    botButton:hide()
+
+    botWindow = g_ui.loadUI('bot', modules.game_interface.getLeftPanel())
+    botWindow:setup()
+
+    contentsPanel = botWindow.contentsPanel
+    configList = contentsPanel.config
+    enableButton = contentsPanel.enableButton
+    statusLabel = contentsPanel.statusLabel
+    botMessages = contentsPanel.messages 
+    botTabs = contentsPanel.botTabs
+    botTabs:setContentWidget(contentsPanel.botPanel)  
+    
+    editWindow = g_ui.displayUI('edit')
+    editWindow:hide()
+      
+    if g_game.isOnline() then
+      clear()
+      online()
+    end
+  end)
+
+  if not status then
+    g_logger.error("[BOT] init failed: " .. tostring(result))
   end
 end
 

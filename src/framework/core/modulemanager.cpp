@@ -84,8 +84,10 @@ ModulePtr ModuleManager::discoverModule(const std::string& moduleFile)
 
         // Block certain modules from loading
         if (name == "game_bot") {
+#ifndef ENABLE_BOT_MODULE
             g_logger.warning(stdext::format("Module '%s' is blocked from loading", name));
             return nullptr;
+#endif
         }
 
         bool push = false;
