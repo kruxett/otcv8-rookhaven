@@ -735,6 +735,112 @@ function moveStackableItem(item, toPos)
   if countWindow then
     return
   end
+  local moveFullStack = modules.client_options.getOption('autoMoveFullStack')
+  if moveFullStack then
+    if g_keyboard.isCtrlPressed() then
+      local count = item:getCount()
+
+      countWindow = g_ui.createWidget('CountWindow', rootWidget)
+      local itembox = countWindow:getChildById('item')
+      local scrollbar = countWindow:getChildById('countScrollBar')
+      itembox:setItemId(item:getId())
+      itembox:setItemCount(count)
+      scrollbar:setMaximum(count)
+      scrollbar:setMinimum(1)
+      scrollbar:setValue(count)
+
+      local spinbox = countWindow:getChildById('spinBox')
+      spinbox:setMaximum(count)
+      spinbox:setMinimum(0)
+      spinbox:setValue(0)
+      spinbox:hideButtons()
+      spinbox:focus()
+      spinbox.firstEdit = true
+
+      local updateCount = function(value)
+        spinbox.firstEdit = false
+        scrollbar:setValue(value)
+        itembox:setItemCount(value)
+      end
+      spinbox.onValueChange = function(self, value)
+        updateCount(value)
+      end
+
+      local check = function()
+        if spinbox.firstEdit then
+          updateCount(spinbox:getMaximum())
+        end
+      end
+      local okButton = countWindow:getChildById('buttonOk')
+      local moveFunc = function()
+        g_game.move(item, toPos, itembox:getItemCount())
+        okButton:getParent():destroy()
+        countWindow = nil
+      end
+
+      okButton.onClick = moveFunc
+      okButton.onKeyPress = function(self, keyCode, keyboardModifiers)
+        if keyCode == KeyEnter or keyCode == KeyReturn then
+          moveFunc()
+          return true
+        end
+      end
+
+      local cancelButton = countWindow:getChildById('buttonCancel')
+      cancelButton.onClick = function()
+        cancelButton:getParent():destroy()
+        countWindow = nil
+      end
+      cancelButton.onKeyPress = okButton.onKeyPress
+
+      countWindow.onKeyPress = function(self, keyCode, keyboardModifiers)
+        if keyCode == KeyEscape then
+          cancelButton.onClick()
+          return true
+        elseif keyCode == KeyEnter or keyCode == KeyReturn then
+          moveFunc()
+          return true
+        end
+      end
+
+      scrollbar.onValueChange = function(self, value)
+        updateCount(value)
+      end
+
+      itembox.onMouseRelease = function(self, mousePosition, mouseButton)
+        if mouseButton == MouseLeftButton or mouseButton == MouseTouch then
+          check()
+          updateCount(itembox:getItemCount())
+          moveFunc()
+          return true
+        elseif mouseButton == MouseRightButton then
+          cancelButton.onClick()
+          return true
+        end
+        return false
+      end
+
+      scrollbar.onClick = check
+
+      countWindow.onGeometryChange = function()
+        itembox:setItemCount(scrollbar:getValue())
+      end
+
+      countWindow.onTextChange = function()
+        itembox:setItemCount(scrollbar:getValue())
+      end
+
+      countWindow:raise()
+      countWindow:focus()
+      return
+    end
+    if g_keyboard.isShiftPressed() then
+      g_game.move(item, toPos, 1)
+    else
+      g_game.move(item, toPos, item:getCount())
+    end
+    return
+  end
   if g_keyboard.isCtrlPressed() then
     g_game.move(item, toPos, item:getCount())
     return

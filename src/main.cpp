@@ -87,7 +87,7 @@ int main(int argc, const char* argv[]) {
     // setup application name and version
     g_app.setName("Rookhaven Client");
     g_app.setCompactName(compactName);
-    g_app.setVersion("0.1");
+    g_app.setVersion(CLIENT_VERSION);
 
     if (g_resources.launchCorrect(g_app.getName(), g_app.getCompactName())) {
         return 0; // started other executable

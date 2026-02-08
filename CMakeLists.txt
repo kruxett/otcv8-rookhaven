@@ -159,6 +159,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "testserver.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
+set(CLIENT_VERSION "0.2" CACHE STRING "Client version string")
+set(BUILD_REVISION 1 CACHE STRING "Build revision number")
 
 # default build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -215,7 +217,9 @@ target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 # Bake the default server endpoint into the executable so it isn't present in Lua sources
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
     DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
-    RUNTIME_DLL_RELATIVE="lib")
+    RUNTIME_DLL_RELATIVE="lib"
+    BUILD_REVISION=${BUILD_REVISION}
+    CLIENT_VERSION="${CLIENT_VERSION}")
 
 if(ENABLE_BOT_MODULE)
     target_compile_definitions(${CLIENT_TARGET} PRIVATE ENABLE_BOT_MODULE)

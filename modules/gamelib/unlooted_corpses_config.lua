@@ -34,7 +34,11 @@ UnlootedCorpseConfig = {
   clearOnLogout = true,
 
   -- Prevent reapply shortly after clearing (milliseconds)
-  clearReapplySuppressMs = 2000
+  clearReapplySuppressMs = 2000,
+
+  -- Server-side item data used for corpse identification
+  corpseItemDataPath = "itemsfromserver/items.txt",
+  corpseItemKeywords = { "corpse", "dead", "slain", "remains", "body", "bones" }
 }
 
 function UnlootedCorpseConfig.isEnabled()

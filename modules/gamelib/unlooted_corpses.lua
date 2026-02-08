@@ -7,7 +7,174 @@ dofile('unlooted_corpses_config')
 -- Track marked tiles
 local markedTiles = {}
 local clearedTiles = {}
+local markedThings = {}
+local missingCorpseTiles = {}
+local movedCorpses = {}
+local movedCorpseSignatures = {}
 local checkEvent = nil
+local tileCallbackState = nil
+local previousTileOnAddThing = nil
+local previousTileOnRemoveThing = nil
+local corpseItemServerIds = {}
+local corpseItemIdsLoaded = false
+
+local function posKey(pos)
+  return pos.x .. "," .. pos.y .. "," .. pos.z
+end
+
+local function isCorpseName(name)
+  if not name or name == '' then
+    return false
+  end
+  name = name:lower()
+  local keywords = UnlootedCorpseConfig.corpseItemKeywords or { "corpse", "dead", "slain", "remains", "body", "bones" }
+  for _, keyword in ipairs(keywords) do
+    if name:find(keyword, 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
+local function loadCorpseItemIds()
+  if corpseItemIdsLoaded then
+    return
+  end
+  corpseItemIdsLoaded = true
+
+  local dataPath = UnlootedCorpseConfig.corpseItemDataPath
+  if not dataPath or dataPath == '' then
+    return
+  end
+  if not g_resources.fileExists(dataPath) then
+    if UnlootedCorpseConfig.debug then
+      print("[UnlootedCorpse] Item data file not found: " .. dataPath)
+    end
+    return
+  end
+
+  local contents = g_resources.readFileContents(dataPath)
+  if not contents or contents == '' then
+    return
+  end
+
+  local added = 0
+  for line in contents:gmatch("[^\r\n]+") do
+    if line:find("<item") then
+      local name = line:match('name="([^"]+)"')
+      if isCorpseName(name) then
+        local id = line:match('id="(%d+)"')
+        if id then
+          local num = tonumber(id)
+          if num and not corpseItemServerIds[num] then
+            corpseItemServerIds[num] = true
+            added = added + 1
+          end
+        end
+
+        local fromId = line:match('fromid="(%d+)"')
+        local toId = line:match('toid="(%d+)"')
+        if fromId and toId then
+          local fromNum = tonumber(fromId)
+          local toNum = tonumber(toId)
+          if fromNum and toNum then
+            for i = fromNum, toNum do
+              if not corpseItemServerIds[i] then
+                corpseItemServerIds[i] = true
+                added = added + 1
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  if UnlootedCorpseConfig.debug then
+    print("[UnlootedCorpse] Loaded " .. tostring(added) .. " corpse item ids from items.txt")
+  end
+end
+
+local function corpseSignature(item)
+  if not item then
+    return ""
+  end
+  local name = item:getName() or ""
+  local description = item:getDescription() or ""
+  return string.format("%d:%s:%s", item:getId(), name, description)
+end
+
+local function markMissingCorpse(key)
+  if not missingCorpseTiles[key] then
+    missingCorpseTiles[key] = g_clock.millis()
+  end
+end
+
+local function isCorpseItem(item)
+  if not item or not item:isItem() then
+    return false
+  end
+  if item:isLyingCorpse() then
+    return true
+  end
+
+  loadCorpseItemIds()
+  local serverId = item:getServerId()
+  if serverId and corpseItemServerIds[serverId] then
+    return true
+  end
+
+  local name = item:getName()
+  if name and name ~= '' then
+    name = name:lower()
+    if name:find('corpse') or name:find('dead') or name:find('slain') or name:find('remains') or name:find('body') or name:find('bones') then
+      return true
+    end
+  end
+
+  local description = item:getDescription()
+  if description and description ~= '' then
+    description = description:lower()
+    if description:find('unlooted') or description:find('corpse') or description:find('dead') or description:find('slain') or description:find('remains') or description:find('body') or description:find('bones') then
+      return true
+    end
+  end
+
+  return false
+end
+
+local function findCorpseOnTile(tile)
+  if not tile then
+    return nil
+  end
+
+  local corpse = tile:getTopUseThing()
+  if corpse and corpse:isItem() then
+    return corpse
+  end
+
+  local items = tile:getItems()
+  if items and #items > 0 then
+    return items[1]
+  end
+
+  if UnlootedCorpseConfig.debug then
+    local names = {}
+    for _, item in ipairs(items) do
+      local name = item:getName() or ""
+      if name ~= "" then
+        table.insert(names, string.format("%s(%d)", name, item:getId()))
+      else
+        table.insert(names, string.format("<no name>(%d)", item:getId()))
+      end
+    end
+    if #names > 0 then
+      print("[UnlootedCorpse] Tile items: " .. table.concat(names, ", "))
+    end
+  end
+
+  return nil
+end
 
 local function clearCorpseContainer(container)
   if UnlootedCorpseConfig.debug then
@@ -41,7 +208,7 @@ local function clearCorpseContainer(container)
   end
 
   local key = pos.x .. "," .. pos.y .. "," .. pos.z
-  if not containerItem:isLyingCorpse() and not markedTiles[key] then
+  if not isCorpseItem(containerItem) and not markedTiles[key] then
     if UnlootedCorpseConfig.debug then
       print("[UnlootedCorpse] Container not tracked or not corpse, skip clear at " .. key)
     end
@@ -67,6 +234,76 @@ end
 
 -- Initialize
 function init()
+  loadCorpseItemIds()
+  tileCallbackState = g_game.isTileThingLuaCallbackEnabled()
+  g_game.enableTileThingLuaCallback(true)
+
+  previousTileOnAddThing = Tile.onAddThing
+  previousTileOnRemoveThing = Tile.onRemoveThing
+
+  function Tile:onAddThing(thing)
+    if previousTileOnAddThing then
+      previousTileOnAddThing(self, thing)
+    end
+    if not UnlootedCorpseConfig.isEnabled() or not thing or not thing:isItem() then
+      return
+    end
+
+    local pos = self:getPosition()
+    local key = posKey(pos)
+
+    if markedTiles[key] and not markedThings[key] then
+      local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
+      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+      thing:setMarked(colorHex)
+      markedThings[key] = thing
+    end
+
+    if movedCorpses[thing] then
+      movedCorpses[thing] = nil
+      local key = posKey(pos)
+      markedTiles[key] = true
+      markedThings[key] = thing
+
+      local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
+      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+      thing:setMarked(colorHex)
+      movedCorpseSignatures[corpseSignature(thing)] = nil
+      return
+    end
+
+    local signature = corpseSignature(thing)
+    if movedCorpseSignatures[signature] then
+      movedCorpseSignatures[signature] = nil
+      local key = posKey(pos)
+      markedTiles[key] = true
+      markedThings[key] = thing
+
+      local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
+      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+      thing:setMarked(colorHex)
+      return
+    end
+  end
+
+  function Tile:onRemoveThing(thing)
+    if previousTileOnRemoveThing then
+      previousTileOnRemoveThing(self, thing)
+    end
+    if not UnlootedCorpseConfig.isEnabled() or not thing or not thing:isItem() then
+      return
+    end
+
+    local pos = self:getPosition()
+    local key = posKey(pos)
+    if markedThings[key] == thing then
+      markedTiles[key] = nil
+      markedThings[key] = nil
+      movedCorpses[thing] = true
+      movedCorpseSignatures[corpseSignature(thing)] = true
+    end
+  end
+
   -- Server now sends unlooted corpse notifications only on extended opcode 1
   -- with a plain UTF-8 payload string "mark:x,y,z" or "clear:x,y,z".
   ProtocolGame.registerExtendedOpcode(1, onExtendedOpcode)
@@ -99,6 +336,16 @@ function terminate()
   ProtocolGame.unregisterExtendedOpcode(1)
   disconnect(g_game, { onGameEnd = onGameEnd })
   disconnect(Container, { onClose = onContainerClose, onRemoveItem = onContainerRemoveItem })
+
+  if tileCallbackState ~= nil then
+    g_game.enableTileThingLuaCallback(tileCallbackState)
+    tileCallbackState = nil
+  end
+
+  Tile.onAddThing = previousTileOnAddThing
+  Tile.onRemoveThing = previousTileOnRemoveThing
+  previousTileOnAddThing = nil
+  previousTileOnRemoveThing = nil
   
   -- Stop the check event
   if checkEvent then
@@ -109,6 +356,8 @@ function terminate()
   -- Clear all markers on module termination
   if UnlootedCorpseConfig.clearOnLogout then
     markedTiles = {}
+    missingCorpseTiles = {}
+    movedCorpses = {}
   end
   
   if UnlootedCorpseConfig.debug then
@@ -121,6 +370,10 @@ function onGameEnd()
   if UnlootedCorpseConfig.clearOnLogout then
     markedTiles = {}
     clearedTiles = {}
+    missingCorpseTiles = {}
+    movedCorpses = {}
+    markedThings = {}
+    movedCorpseSignatures = {}
   end
 end
 
@@ -149,20 +402,23 @@ function remarkTile(pos)
     return 
   end
   
-  local corpse = tile:getTopUseThing()
+  local corpse = findCorpseOnTile(tile)
   
-  if not corpse or not corpse:isItem() then
-    -- No corpse found, clear from tracking
-    markedTiles[key] = nil
-    
-    -- Clear any marks on the tile
-    local items = tile:getItems()
-    for _, item in ipairs(items) do
-      item:setMarked('')
-    end
-    
-    if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] ? Auto-cleared tile " .. pos.x .. "," .. pos.y .. "," .. pos.z .. " (corpse disappeared)")
+  if not corpse then
+    markMissingCorpse(key)
+    local missingSince = missingCorpseTiles[key] or g_clock.millis()
+    if g_clock.millis() - missingSince > 5000 then
+      markedTiles[key] = nil
+      missingCorpseTiles[key] = nil
+
+      local items = tile:getItems()
+      for _, item in ipairs(items) do
+        item:setMarked('')
+      end
+
+      if UnlootedCorpseConfig.debug then
+        print("[UnlootedCorpse] ? Auto-cleared tile " .. pos.x .. "," .. pos.y .. "," .. pos.z .. " (corpse missing)")
+      end
     end
     return
   end
@@ -171,6 +427,7 @@ function remarkTile(pos)
   local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
   local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
   corpse:setMarked(colorHex)
+  missingCorpseTiles[key] = nil
 end
 
 -- Extended opcode handler
@@ -242,16 +499,18 @@ function handleUnlootedCorpseMessage(buffer)
     markedTiles[key] = true
     
     -- Get the top usable item on the tile (like vBot does)
-    local corpse = tile:getTopUseThing()
-    
-    if corpse and corpse:isItem() then
+    local corpse = findCorpseOnTile(tile)
+
+    if corpse then
       -- Mark it with gold glow
       local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
       local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
       corpse:setMarked(colorHex)
+      missingCorpseTiles[key] = nil
       print("[UnlootedCorpse] ? MARKED corpse ID=" .. corpse:getId() .. " at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     else
-      print("[UnlootedCorpse] WARNING: No usable item found on tile " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+      markMissingCorpse(key)
+      print("[UnlootedCorpse] WARNING: No corpse found on tile " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     end
     
   elseif cmd == "clear" then
@@ -262,6 +521,8 @@ function handleUnlootedCorpseMessage(buffer)
     local key = pos.x .. "," .. pos.y .. "," .. pos.z
     markedTiles[key] = nil
     clearedTiles[key] = g_clock.millis()
+    missingCorpseTiles[key] = nil
+    markedThings[key] = nil
     
     -- Get the tile and clear marks on all items
     local tile = g_map.getTile(pos)

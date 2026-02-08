@@ -31,6 +31,10 @@ OptionPanel
     !text: tr('Enable smart walking')
     !tooltip: tr('Will detect when to use diagonal step based on the\nkeys you are pressing')
 
+  OptionCheckBox
+    id: autoMoveFullStack
+    !text: tr('Move full stacks by default')
+
   Label
     id: hotkeyDelayLabel
     margin-top: 10
