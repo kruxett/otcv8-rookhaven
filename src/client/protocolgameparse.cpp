@@ -3686,6 +3686,12 @@ ItemPtr ProtocolGame::getItem(const InputMessagePtr& msg, int id, bool hasDescri
         item->setArticle(article);
     }
 
+    // Read unlooted attribute - must match server's networkmessage.cpp addItem()
+    uint8_t isUnlooted = msg->getU8();
+    if (isUnlooted > 0) {
+        item->setUnlooted(true);
+    }
+
     if (g_game.getFeature(Otc::GameItemAnimationPhase)) {
         if (item->getAnimationPhases() > 1) {
             // 0x00 => automatic phase
