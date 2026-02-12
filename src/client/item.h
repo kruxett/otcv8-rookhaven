@@ -69,6 +69,7 @@ enum ItemAttr : uint8
     ATTR_EXTRAATTACK = 35,  // Keep this for compatibility with existing code
     ATTR_SCRIPTPROTECTED = 36,
     ATTR_DUALWIELD = 37,
+    ATTR_UNLOOTED = 41,
     ATTR_CUSTOM_ATTRIBUTES = 254,
     ATTR_ATTRIBUTE_MAP = 128
 };
@@ -142,6 +143,8 @@ public:
     bool isTeleport() { return m_attribs.has(ATTR_TELE_DEST); }
     bool isMoveable();
     bool isGround();
+    void setUnlooted(bool unlooted) { m_unlooted = unlooted; }
+    bool isUnlooted() { return m_unlooted; }
 
     ItemPtr clone();
     ItemPtr asItem() { return static_self_cast<Item>(); }
@@ -183,6 +186,7 @@ private:
     uint32 m_quickLootFlags;
     uint8 m_phase;
     ticks_t m_lastPhase;
+    bool m_unlooted;
 
     stdext::packed_storage<uint16> m_customAttribs;
 };

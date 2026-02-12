@@ -50,7 +50,8 @@ Item::Item() :
     m_article(),
     m_quickLootFlags(0),
     m_phase(0),
-    m_lastPhase(0)
+    m_lastPhase(0),
+    m_unlooted(false)
 {
 }
 
@@ -179,7 +180,10 @@ void Item::unserializeItem(const BinaryTreePtr &in)
                 case ATTR_SCRIPTPROTECTED:
                 case ATTR_DUALWIELD:
                 case ATTR_DECAYING_STATE:
+                case ATTR_UNLOOTED:
                     m_attribs.set(attrib, in->getU8());
+                    if(attrib == ATTR_UNLOOTED)
+                        setUnlooted(in->getU8() != 0);
                     break;
                 case ATTR_ACTION_ID:
                 case ATTR_UNIQUE_ID:
