@@ -5,16 +5,72 @@
 -- CONFIGURATION
 local ENABLE_LOGGING = false  -- Set to false to disable ALL logging output
 
+-- Glow Color Configuration (RGB: 0-255 for each component)
+local GLOW_COLOR_R = 255      -- Red component (0-255)
+local GLOW_COLOR_G = 215      -- Green component (0-255) [215 = gold/yellow]
+local GLOW_COLOR_B = 0        -- Blue component (0-255)
+
+-- Glow Opacity Configuration (Alpha: 0-255)
+-- 0 = completely invisible, 128 = half transparent, 255 = fully opaque
+local GLOW_OPACITY = 20      -- Opacity/Alpha (0-255)
+
+-- Glow Effect Configuration
+local GLOW_SIZE = 0.8         -- Size of glow effect (0.0-1.0, higher = larger glow area)
+local ENABLE_PULSE = true     -- Enable pulsing animation effect
+
+-- Examples of color presets (uncomment to use):
+-- Gold:    R=255, G=215, B=0    (default)
+-- Red:     R=255, G=0,   B=0
+-- Green:   R=0,   G=255, B=0
+-- Blue:    R=0,   G=100, B=255
+-- Cyan:    R=0,   G=255, B=255
+-- Magenta: R=255, G=0,   B=255
+-- Orange:  R=255, G=165, B=0
+-- White:   R=255, G=255, B=255
+
+-- Shader name constant
+local SHADER_NAME = "unlooted_glow_shader"
+
 -- Global variables to store the events so we can cancel them
 _unlootedCheckerEvent = nil
 _unlootedLoginCheckEvent = nil
 _unlootedDebugMode = false  -- Set to true for verbose output
 _unlootedGlowedItems = {}  -- Track all items we've glowed so we can clear them
+_unlootedShaderInitialized = false
 
--- Glow configuration (stolen from unlooted_corpses.lua)
-local function getUnlootedGlowColor()
-  -- Gold/yellow glow: R, G, B, A
-  return 255, 215, 0, 255
+-- Initialize the shader
+local function initUnlootedShader()
+  if _unlootedShaderInitialized then
+    return true
+  end
+  
+  -- Create the shader
+  local success = g_shaders.createShader(SHADER_NAME, "/shaders/unlooted_glow_vertex", "/shaders/unlooted_glow_fragment")
+  
+  if not success then
+    if ENABLE_LOGGING then
+      print("[UnlootedChecker] ERROR: Failed to create shader!")
+    end
+    return false
+  end
+  
+  _unlootedShaderInitialized = true
+  
+  if ENABLE_LOGGING then
+    print("[UnlootedChecker] Shader initialized successfully")
+  end
+  
+  return true
+end
+
+-- Get normalized color values (0-1 range for shader)
+local function getNormalizedGlowColor()
+  return GLOW_COLOR_R / 255.0, GLOW_COLOR_G / 255.0, GLOW_COLOR_B / 255.0
+end
+
+-- Get normalized opacity (0-1 range for shader)
+local function getNormalizedOpacity()
+  return GLOW_OPACITY / 255.0
 end
 
 -- Clear all previously glowed items
@@ -22,7 +78,7 @@ local function clearAllGlows()
   local clearedCount = 0
   for item, _ in pairs(_unlootedGlowedItems) do
     if item and item:isItem() then
-      item:setMarked('')
+      item:setShader("")  -- Clear shader
       clearedCount = clearedCount + 1
     end
   end
@@ -33,19 +89,35 @@ local function clearAllGlows()
   end
 end
 
--- Apply glow to an item
+-- Apply glow shader to an item
 local function applyGlowToItem(item)
   if not item or not item:isItem() then
     return false
   end
   
-  local r, g, b, a = getUnlootedGlowColor()
-  local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
-  item:setMarked(colorHex)
+  -- Initialize shader if not already done
+  if not initUnlootedShader() then
+    if ENABLE_LOGGING then
+      print("  [Glow] ERROR: Shader not initialized, cannot apply glow")
+    end
+    return false
+  end
+  
+  -- Apply the shader to the item
+  item:setShader(SHADER_NAME)
+  
+  -- Set shader uniforms for color and intensity
+  local r, g, b = getNormalizedGlowColor()
+  local intensity = getNormalizedOpacity()
+  
+  -- Note: Setting uniforms on items might not be directly supported
+  -- The shader will use default/global values set during shader creation
+  -- If per-item uniforms are needed, this would require C++ changes
+  
   _unlootedGlowedItems[item] = true
   
   if ENABLE_LOGGING and _unlootedDebugMode then
-    print("  [Glow] Applied glow to item ID: " .. item:getId())
+    print("  [Glow] Applied shader to item ID: " .. item:getId() .. " (R:" .. (r*255) .. " G:" .. (g*255) .. " B:" .. (b*255) .. " Intensity:" .. intensity .. ")")
   end
   
   return true
@@ -86,7 +158,7 @@ function checkUnlootedItems()
     print("========================================")
     print("Starting unlooted item check...")
     print("Player position: x=" .. playerPos.x .. ", y=" .. playerPos.y .. ", z=" .. playerPos.z)
-    print("Checking range: " .. range .. " tiles (5x5 grid)")
+    print("Checking range: " .. range .. " tiles (" .. (range*2+1) .. "x" .. (range*2+1) .. " grid)")
     print("========================================")
   end
   
@@ -130,7 +202,7 @@ function checkUnlootedItems()
             if isUnlooted then
               unlootedCount = unlootedCount + 1
               
-              -- Apply glow to the unlooted item
+              -- Apply glow shader to the unlooted item
               applyGlowToItem(item)
               
               if ENABLE_LOGGING then
@@ -169,7 +241,7 @@ function checkUnlootedItems()
         print("RESULT: No unlooted items found within " .. range .. " tiles.")
       end
     else
-      print("RESULT: Found " .. unlootedCount .. " UNLOOTED item(s) (glowing gold):")
+      print("RESULT: Found " .. unlootedCount .. " UNLOOTED item(s) with shader glow:")
       for i, itemInfo in ipairs(unlootedItems) do
         print("  [" .. i .. "] Item ID: " .. itemInfo.id .. 
               " | Offset: (" .. itemInfo.offsetX .. ", " .. itemInfo.offsetY .. ")" ..
@@ -190,6 +262,14 @@ function startUnlootedChecker()
   if _unlootedCheckerEvent then
     if ENABLE_LOGGING then
       print("Unlooted checker is already running!")
+    end
+    return
+  end
+  
+  -- Initialize shader before starting
+  if not initUnlootedShader() then
+    if ENABLE_LOGGING then
+      print("[UnlootedChecker] ERROR: Failed to initialize shader, cannot start checker")
     end
     return
   end
