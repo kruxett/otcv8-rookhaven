@@ -2,6 +2,9 @@
 -- Automatically runs every 100ms checking for unlooted items
 -- Use stopUnlootedChecker() to stop it, startUnlootedChecker() to restart
 
+-- CONFIGURATION
+local ENABLE_LOGGING = false  -- Set to false to disable ALL logging output
+
 -- Global variables to store the events so we can cancel them
 _unlootedCheckerEvent = nil
 _unlootedLoginCheckEvent = nil
@@ -25,7 +28,7 @@ local function clearAllGlows()
   end
   _unlootedGlowedItems = {}
   
-  if _unlootedDebugMode and clearedCount > 0 then
+  if ENABLE_LOGGING and _unlootedDebugMode and clearedCount > 0 then
     print("  [Glow] Cleared " .. clearedCount .. " previous glow(s)")
   end
 end
@@ -41,7 +44,7 @@ local function applyGlowToItem(item)
   item:setMarked(colorHex)
   _unlootedGlowedItems[item] = true
   
-  if _unlootedDebugMode then
+  if ENABLE_LOGGING and _unlootedDebugMode then
     print("  [Glow] Applied glow to item ID: " .. item:getId())
   end
   
@@ -53,10 +56,12 @@ function checkUnlootedItems()
   
   -- If player is not available, stop checker and wait for login again
   if not player or not g_game.isOnline() then
-    if _unlootedDebugMode then
+    if ENABLE_LOGGING and _unlootedDebugMode then
       print("Error: Player not found or logged out!")
     end
-    print("[UnlootedChecker] Player logged out, stopping checker and waiting for login...")
+    if ENABLE_LOGGING then
+      print("[UnlootedChecker] Player logged out, stopping checker and waiting for login...")
+    end
     -- Clear all glows before stopping
     clearAllGlows()
     stopUnlootedCheckerInternal()
@@ -71,13 +76,13 @@ function checkUnlootedItems()
   clearAllGlows()
   
   local playerPos = player:getPosition()
-  local range = 2
+  local range = 8
   local unlootedCount = 0
   local unlootedItems = {}
   local tilesChecked = 0
   local itemsChecked = 0
   
-  if _unlootedDebugMode then
+  if ENABLE_LOGGING and _unlootedDebugMode then
     print("========================================")
     print("Starting unlooted item check...")
     print("Player position: x=" .. playerPos.x .. ", y=" .. playerPos.y .. ", z=" .. playerPos.z)
@@ -94,7 +99,7 @@ function checkUnlootedItems()
         z = playerPos.z
       }
       
-      if _unlootedDebugMode then
+      if ENABLE_LOGGING and _unlootedDebugMode then
         print("Checking tile at offset (" .. dx .. ", " .. dy .. ") - position (x=" .. tilePos.x .. ", y=" .. tilePos.y .. ", z=" .. tilePos.z .. ")")
       end
       
@@ -108,7 +113,7 @@ function checkUnlootedItems()
         local items = tile:getItems()
         
         if items and #items > 0 then
-          if _unlootedDebugMode then
+          if ENABLE_LOGGING and _unlootedDebugMode then
             print("  -> Found " .. #items .. " item(s) on this tile")
           end
           
@@ -117,7 +122,7 @@ function checkUnlootedItems()
             local itemId = item:getId()
             local isUnlooted = item:isUnlooted()
             
-            if _unlootedDebugMode then
+            if ENABLE_LOGGING and _unlootedDebugMode then
               print("    Item #" .. i .. ": ID=" .. itemId .. ", isUnlooted=" .. tostring(isUnlooted))
             end
             
@@ -128,7 +133,9 @@ function checkUnlootedItems()
               -- Apply glow to the unlooted item
               applyGlowToItem(item)
               
-              print("*** UNLOOTED ITEM FOUND! Item ID: " .. itemId .. " at (" .. tilePos.x .. ", " .. tilePos.y .. ", " .. tilePos.z .. ") ***")
+              if ENABLE_LOGGING then
+                print("*** UNLOOTED ITEM FOUND! Item ID: " .. itemId .. " at (" .. tilePos.x .. ", " .. tilePos.y .. ", " .. tilePos.z .. ") ***")
+              end
               table.insert(unlootedItems, {
                 id = itemId,
                 pos = tilePos,
@@ -138,17 +145,17 @@ function checkUnlootedItems()
               })
             end
           end
-        elseif _unlootedDebugMode then
+        elseif ENABLE_LOGGING and _unlootedDebugMode then
           print("  -> No items on this tile")
         end
-      elseif _unlootedDebugMode then
+      elseif ENABLE_LOGGING and _unlootedDebugMode then
         print("  -> Tile not found (possibly out of range or invalid)")
       end
     end
   end
   
   -- Print summary only in debug mode or if items found
-  if _unlootedDebugMode or unlootedCount > 0 then
+  if ENABLE_LOGGING and (_unlootedDebugMode or unlootedCount > 0) then
     if _unlootedDebugMode then
       print("========================================")
       print("Check complete!")
@@ -181,16 +188,22 @@ end
 -- Start periodic checking every 100ms
 function startUnlootedChecker()
   if _unlootedCheckerEvent then
-    print("Unlooted checker is already running!")
+    if ENABLE_LOGGING then
+      print("Unlooted checker is already running!")
+    end
     return
   end
   
-  print("Starting periodic unlooted item checker (every 100ms)...")
+  if ENABLE_LOGGING then
+    print("Starting periodic unlooted item checker (every 100ms)...")
+  end
   _unlootedCheckerEvent = cycleEvent(function()
     checkUnlootedItems()
   end, 100)
   
-  print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
+  if ENABLE_LOGGING then
+    print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
+  end
 end
 
 -- Stop the periodic checker (internal version without message)
@@ -204,14 +217,18 @@ end
 -- Stop the periodic checker
 function stopUnlootedChecker()
   if not _unlootedCheckerEvent then
-    print("Unlooted checker is not running.")
+    if ENABLE_LOGGING then
+      print("Unlooted checker is not running.")
+    end
     return
   end
   
   -- Clear all glows when stopping
   clearAllGlows()
   stopUnlootedCheckerInternal()
-  print("Unlooted checker stopped.")
+  if ENABLE_LOGGING then
+    print("Unlooted checker stopped.")
+  end
 end
 
 -- Stop the login check
@@ -230,34 +247,44 @@ end
 -- Enable/disable debug mode
 function setUnlootedDebugMode(enabled)
   _unlootedDebugMode = enabled
-  print("Unlooted debug mode: " .. (enabled and "ENABLED" or "DISABLED"))
+  if ENABLE_LOGGING then
+    print("Unlooted debug mode: " .. (enabled and "ENABLED" or "DISABLED"))
+  end
 end
 
 -- Check for login and start checker when player logs in
 function checkForLoginAndStart()
   if g_game.isOnline() and g_game.getLocalPlayer() then
-    print("[UnlootedChecker] Player logged in, starting checker...")
+    if ENABLE_LOGGING then
+      print("[UnlootedChecker] Player logged in, starting checker...")
+    end
     stopUnlootedLoginCheck()
     startUnlootedChecker()
   end
 end
 
 -- Initialize the script
-print("========================================")
-print("Unlooted items checker loaded!")
-print("Commands:")
-print("  stopUnlootedChecker()           - Stop automatic checking")
-print("  startUnlootedChecker()          - Restart if stopped")
-print("  isUnlootedCheckerRunning()      - Check if automatic checking is active")
-print("  setUnlootedDebugMode(true/false) - Enable/disable verbose output")
-print("========================================")
+if ENABLE_LOGGING then
+  print("========================================")
+  print("Unlooted items checker loaded!")
+  print("Commands:")
+  print("  stopUnlootedChecker()           - Stop automatic checking")
+  print("  startUnlootedChecker()          - Restart if stopped")
+  print("  isUnlootedCheckerRunning()      - Check if automatic checking is active")
+  print("  setUnlootedDebugMode(true/false) - Enable/disable verbose output")
+  print("========================================")
+end
 
 -- Check if player is already logged in
 if g_game.isOnline() and g_game.getLocalPlayer() then
-  print("[UnlootedChecker] Player is already logged in, starting checker...")
+  if ENABLE_LOGGING then
+    print("[UnlootedChecker] Player is already logged in, starting checker...")
+  end
   startUnlootedChecker()
 else
   -- Start checking for login every 1000ms
-  print("[UnlootedChecker] Waiting for player to log in...")
+  if ENABLE_LOGGING then
+    print("[UnlootedChecker] Waiting for player to log in...")
+  end
   _unlootedLoginCheckEvent = cycleEvent(checkForLoginAndStart, 1000)
 end
