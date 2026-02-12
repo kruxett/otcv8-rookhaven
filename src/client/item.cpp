@@ -180,11 +180,14 @@ void Item::unserializeItem(const BinaryTreePtr &in)
                 case ATTR_SCRIPTPROTECTED:
                 case ATTR_DUALWIELD:
                 case ATTR_DECAYING_STATE:
-                case ATTR_UNLOOTED:
                     m_attribs.set(attrib, in->getU8());
-                    if(attrib == ATTR_UNLOOTED)
-                        setUnlooted(in->getU8() != 0);
                     break;
+                case ATTR_UNLOOTED: {
+                    uint8_t value = in->getU8();
+                    m_attribs.set(attrib, value);
+                    setUnlooted(value != 0);
+                    break;
+                }
                 case ATTR_ACTION_ID:
                 case ATTR_UNIQUE_ID:
                 case ATTR_DEPOT_ID:
