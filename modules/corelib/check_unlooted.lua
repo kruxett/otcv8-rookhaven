@@ -1,0 +1,263 @@
+-- Check Unlooted Items Script
+-- Automatically runs every 100ms checking for unlooted items
+-- Use stopUnlootedChecker() to stop it, startUnlootedChecker() to restart
+
+-- Global variables to store the events so we can cancel them
+_unlootedCheckerEvent = nil
+_unlootedLoginCheckEvent = nil
+_unlootedDebugMode = false  -- Set to true for verbose output
+_unlootedGlowedItems = {}  -- Track all items we've glowed so we can clear them
+
+-- Glow configuration (stolen from unlooted_corpses.lua)
+local function getUnlootedGlowColor()
+  -- Gold/yellow glow: R, G, B, A
+  return 255, 215, 0, 255
+end
+
+-- Clear all previously glowed items
+local function clearAllGlows()
+  local clearedCount = 0
+  for item, _ in pairs(_unlootedGlowedItems) do
+    if item and item:isItem() then
+      item:setMarked('')
+      clearedCount = clearedCount + 1
+    end
+  end
+  _unlootedGlowedItems = {}
+  
+  if _unlootedDebugMode and clearedCount > 0 then
+    print("  [Glow] Cleared " .. clearedCount .. " previous glow(s)")
+  end
+end
+
+-- Apply glow to an item
+local function applyGlowToItem(item)
+  if not item or not item:isItem() then
+    return false
+  end
+  
+  local r, g, b, a = getUnlootedGlowColor()
+  local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+  item:setMarked(colorHex)
+  _unlootedGlowedItems[item] = true
+  
+  if _unlootedDebugMode then
+    print("  [Glow] Applied glow to item ID: " .. item:getId())
+  end
+  
+  return true
+end
+
+function checkUnlootedItems()
+  local player = g_game.getLocalPlayer()
+  
+  -- If player is not available, stop checker and wait for login again
+  if not player or not g_game.isOnline() then
+    if _unlootedDebugMode then
+      print("Error: Player not found or logged out!")
+    end
+    print("[UnlootedChecker] Player logged out, stopping checker and waiting for login...")
+    -- Clear all glows before stopping
+    clearAllGlows()
+    stopUnlootedCheckerInternal()
+    -- Start waiting for login again
+    if not _unlootedLoginCheckEvent then
+      _unlootedLoginCheckEvent = cycleEvent(checkForLoginAndStart, 1000)
+    end
+    return
+  end
+  
+  -- Clear all previous glows at the start of each check
+  clearAllGlows()
+  
+  local playerPos = player:getPosition()
+  local range = 2
+  local unlootedCount = 0
+  local unlootedItems = {}
+  local tilesChecked = 0
+  local itemsChecked = 0
+  
+  if _unlootedDebugMode then
+    print("========================================")
+    print("Starting unlooted item check...")
+    print("Player position: x=" .. playerPos.x .. ", y=" .. playerPos.y .. ", z=" .. playerPos.z)
+    print("Checking range: " .. range .. " tiles (5x5 grid)")
+    print("========================================")
+  end
+  
+  -- Iterate through all positions within range
+  for dx = -range, range do
+    for dy = -range, range do
+      local tilePos = {
+        x = playerPos.x + dx,
+        y = playerPos.y + dy,
+        z = playerPos.z
+      }
+      
+      if _unlootedDebugMode then
+        print("Checking tile at offset (" .. dx .. ", " .. dy .. ") - position (x=" .. tilePos.x .. ", y=" .. tilePos.y .. ", z=" .. tilePos.z .. ")")
+      end
+      
+      -- Get the tile at this position
+      local tile = g_map.getTile(tilePos)
+      
+      if tile then
+        tilesChecked = tilesChecked + 1
+        
+        -- Get all items on this tile
+        local items = tile:getItems()
+        
+        if items and #items > 0 then
+          if _unlootedDebugMode then
+            print("  -> Found " .. #items .. " item(s) on this tile")
+          end
+          
+          for i, item in ipairs(items) do
+            itemsChecked = itemsChecked + 1
+            local itemId = item:getId()
+            local isUnlooted = item:isUnlooted()
+            
+            if _unlootedDebugMode then
+              print("    Item #" .. i .. ": ID=" .. itemId .. ", isUnlooted=" .. tostring(isUnlooted))
+            end
+            
+            -- Check if item is unlooted
+            if isUnlooted then
+              unlootedCount = unlootedCount + 1
+              
+              -- Apply glow to the unlooted item
+              applyGlowToItem(item)
+              
+              print("*** UNLOOTED ITEM FOUND! Item ID: " .. itemId .. " at (" .. tilePos.x .. ", " .. tilePos.y .. ", " .. tilePos.z .. ") ***")
+              table.insert(unlootedItems, {
+                id = itemId,
+                pos = tilePos,
+                offsetX = dx,
+                offsetY = dy,
+                item = item
+              })
+            end
+          end
+        elseif _unlootedDebugMode then
+          print("  -> No items on this tile")
+        end
+      elseif _unlootedDebugMode then
+        print("  -> Tile not found (possibly out of range or invalid)")
+      end
+    end
+  end
+  
+  -- Print summary only in debug mode or if items found
+  if _unlootedDebugMode or unlootedCount > 0 then
+    if _unlootedDebugMode then
+      print("========================================")
+      print("Check complete!")
+      print("Tiles checked: " .. tilesChecked)
+      print("Items checked: " .. itemsChecked)
+      print("========================================")
+    end
+    
+    if unlootedCount == 0 then
+      if _unlootedDebugMode then
+        print("RESULT: No unlooted items found within " .. range .. " tiles.")
+      end
+    else
+      print("RESULT: Found " .. unlootedCount .. " UNLOOTED item(s) (glowing gold):")
+      for i, itemInfo in ipairs(unlootedItems) do
+        print("  [" .. i .. "] Item ID: " .. itemInfo.id .. 
+              " | Offset: (" .. itemInfo.offsetX .. ", " .. itemInfo.offsetY .. ")" ..
+              " | Position: (x=" .. itemInfo.pos.x .. ", y=" .. itemInfo.pos.y .. ", z=" .. itemInfo.pos.z .. ")")
+      end
+    end
+    
+    if _unlootedDebugMode then
+      print("========================================")
+    end
+  end
+  
+  return unlootedItems
+end
+
+-- Start periodic checking every 100ms
+function startUnlootedChecker()
+  if _unlootedCheckerEvent then
+    print("Unlooted checker is already running!")
+    return
+  end
+  
+  print("Starting periodic unlooted item checker (every 100ms)...")
+  _unlootedCheckerEvent = cycleEvent(function()
+    checkUnlootedItems()
+  end, 100)
+  
+  print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
+end
+
+-- Stop the periodic checker (internal version without message)
+function stopUnlootedCheckerInternal()
+  if _unlootedCheckerEvent then
+    removeEvent(_unlootedCheckerEvent)
+    _unlootedCheckerEvent = nil
+  end
+end
+
+-- Stop the periodic checker
+function stopUnlootedChecker()
+  if not _unlootedCheckerEvent then
+    print("Unlooted checker is not running.")
+    return
+  end
+  
+  -- Clear all glows when stopping
+  clearAllGlows()
+  stopUnlootedCheckerInternal()
+  print("Unlooted checker stopped.")
+end
+
+-- Stop the login check
+function stopUnlootedLoginCheck()
+  if _unlootedLoginCheckEvent then
+    removeEvent(_unlootedLoginCheckEvent)
+    _unlootedLoginCheckEvent = nil
+  end
+end
+
+-- Check if the checker is running
+function isUnlootedCheckerRunning()
+  return _unlootedCheckerEvent ~= nil
+end
+
+-- Enable/disable debug mode
+function setUnlootedDebugMode(enabled)
+  _unlootedDebugMode = enabled
+  print("Unlooted debug mode: " .. (enabled and "ENABLED" or "DISABLED"))
+end
+
+-- Check for login and start checker when player logs in
+function checkForLoginAndStart()
+  if g_game.isOnline() and g_game.getLocalPlayer() then
+    print("[UnlootedChecker] Player logged in, starting checker...")
+    stopUnlootedLoginCheck()
+    startUnlootedChecker()
+  end
+end
+
+-- Initialize the script
+print("========================================")
+print("Unlooted items checker loaded!")
+print("Commands:")
+print("  stopUnlootedChecker()           - Stop automatic checking")
+print("  startUnlootedChecker()          - Restart if stopped")
+print("  isUnlootedCheckerRunning()      - Check if automatic checking is active")
+print("  setUnlootedDebugMode(true/false) - Enable/disable verbose output")
+print("========================================")
+
+-- Check if player is already logged in
+if g_game.isOnline() and g_game.getLocalPlayer() then
+  print("[UnlootedChecker] Player is already logged in, starting checker...")
+  startUnlootedChecker()
+else
+  -- Start checking for login every 1000ms
+  print("[UnlootedChecker] Waiting for player to log in...")
+  _unlootedLoginCheckEvent = cycleEvent(checkForLoginAndStart, 1000)
+end

@@ -34,6 +34,17 @@
       "ctestCommandArgs": ""
     },
     {
+      "name": "x64-DevDebug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DDEFAULT_SERVER_ENDPOINT=127.0.0.1:7171:860 -DCLIENT_VERSION=0.2 -DBUILD_REVISION=1",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": ""
+    },
+    {
       "name": "x64-DevBotRelease",
       "generator": "Ninja",
       "configurationType": "Release",
@@ -41,6 +52,17 @@
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DENABLE_BOT_MODULE=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DDEFAULT_SERVER_ENDPOINT=127.0.0.1:7171:860 -DCLIENT_VERSION=0.2 -DBUILD_REVISION=1",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "x64-DevBotDebug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${projectDir}\\out\\build\\${name}",
+      "installRoot": "${projectDir}\\out\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DENABLE_BOT_MODULE=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DDEFAULT_SERVER_ENDPOINT=127.0.0.1:7171:860 -DCLIENT_VERSION=0.2 -DBUILD_REVISION=1",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     }

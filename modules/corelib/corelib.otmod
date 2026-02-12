@@ -32,3 +32,4 @@ Module
     dofile 'json'
     dofile 'http'
     dofile 'test'
+    dofile 'check_unlooted'

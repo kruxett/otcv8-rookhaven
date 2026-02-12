@@ -19,6 +19,6 @@ Module
     dofile 'textmessages'
     dofile 'thing'
     dofile 'spells'
-    dofile 'unlooted_corpses'
+    -- dofile 'unlooted_corpses'  -- DISABLED: Using check_unlooted.lua instead
 
     dofiles 'ui'
