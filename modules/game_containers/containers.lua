@@ -274,8 +274,8 @@ function onContainerOpen(container, previousContainer)
 
   local cellSize = layout:getCellSize()
   containerWindow:setContentMinimumHeight(cellSize.height)
-  -- Allow expanding up to 4 extra rows beyond container capacity for better visibility
-  containerWindow:setContentMaximumHeight(cellSize.height*(layout:getNumLines() + 4))
+  -- Allow expanding up to 1 extra row beyond container capacity for better visibility
+  containerWindow:setContentMaximumHeight(cellSize.height*(layout:getNumLines() + 1))
 
   if container:hasPages() then
     local height = containerWindow.miniwindowScrollBar:getMarginTop() + containerWindow.pagePanel:getHeight()+17
