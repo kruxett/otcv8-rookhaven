@@ -214,6 +214,8 @@ function UIMiniWindow:onDragEnter(mousePos)
   if not parent then return false end
 
   if parent:getClassName() == 'UIMiniWindowContainer' then
+    -- Mark that this widget came from a container (for drag restrictions)
+    self.fromContainer = true
     local containerParent = parent:getParent():getParent()
     parent:removeChild(self)
     containerParent:addChild(self)
@@ -234,6 +236,34 @@ function UIMiniWindow:onDragLeave(droppedWidget, mousePos)
     self.setMovedChildMargin = nil
     self.movedOldMargin = nil
     self.movedIndex = nil
+  end
+
+  -- If widget was from a container, ensure it's dropped back into a container
+  if self.fromContainer then
+    local parent = self:getParent()
+    if parent and parent:getClassName() ~= 'UIMiniWindowContainer' then
+      -- Widget must be in a container - find the nearest one or return to original
+      local children = rootWidget:recursiveGetChildrenByMarginPos(mousePos)
+      local targetContainer = nil
+      for i=1,#children do
+        local child = children[i]
+        if child:getClassName() == 'UIMiniWindowContainer' then
+          targetContainer = child
+          break
+        end
+      end
+      
+      -- If no container found, use game interface default container
+      if not targetContainer then
+        targetContainer = modules.game_interface.getContainerPanel()
+      end
+      
+      if targetContainer then
+        parent:removeChild(self)
+        targetContainer:addChild(self)
+      end
+    end
+    self.fromContainer = nil
   end
 
   UIWindow:onDragLeave(self, droppedWidget, mousePos)
