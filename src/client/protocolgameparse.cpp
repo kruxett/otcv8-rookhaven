@@ -1746,6 +1746,9 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
                     }
                 }
 
+                // Read unlooted attribute - must match server's networkmessage.cpp addItem()
+                msg->getU8();
+
                 uint16 maxLength = msg->getU16();
                 uint16 textLength = msg->getU16();
                 if (textLength > maxLength || msg->getUnreadSize() < textLength + 2) {
@@ -1787,6 +1790,9 @@ void ProtocolGame::parseEditText(const InputMessagePtr& msg)
             if (flag > 0)
                 msg->getString();
         }
+
+        // Read unlooted attribute - must match server's networkmessage.cpp addItem()
+        msg->getU8();
     }
 
     int maxLength = msg->getU16();
