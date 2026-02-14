@@ -135,7 +135,24 @@ function getIconImagePath(iconId)
 end
 
 function Creature:onSkullChange(skullId)
-  local imagePath = getSkullImagePath(skullId)
+  local imagePath
+  
+  -- For monsters, map "star skulls" to star images instead
+  if self:isMonster() then
+    if skullId == SkullWhite then      -- 1 star
+      imagePath = '/images/game/stars/1star'
+    elseif skullId == SkullRed then    -- 2 stars
+      imagePath = '/images/game/stars/2star'
+    elseif skullId == SkullBlack then  -- 3 stars
+      imagePath = '/images/game/stars/3star'
+    else
+      imagePath = getSkullImagePath(skullId)
+    end
+  else
+    -- For players, keep using regular skull images
+    imagePath = getSkullImagePath(skullId)
+  end
+  
   if imagePath then
     self:setSkullTexture(imagePath)
   end
