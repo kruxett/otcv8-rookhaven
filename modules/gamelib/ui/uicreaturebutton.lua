@@ -96,7 +96,21 @@ function UICreatureButton:updateSkull()
 
   if skullId ~= SkullNone then
     self.skullWidget:setWidth(self.skullWidget:getHeight())
-    local imagePath = getSkullImagePath(skullId)
+    local imagePath
+
+    if self.creature:isMonster() then
+      if skullId == SkullWhite then
+        imagePath = '/images/game/stars/1star'
+      elseif skullId == SkullRed then
+        imagePath = '/images/game/stars/2star'
+      elseif skullId == SkullBlack then
+        imagePath = '/images/game/stars/3star'
+      else
+        imagePath = getSkullImagePath(skullId)
+      end
+    else
+      imagePath = getSkullImagePath(skullId)
+    end
     self.skullWidget:setImageSource(imagePath)
     self.labelWidget:setMarginLeft(5)
   else
