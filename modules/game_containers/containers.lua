@@ -273,9 +273,9 @@ function onContainerOpen(container, previousContainer)
   refreshContainerPages(container)
 
   local cellSize = layout:getCellSize()
-  containerWindow:setContentMinimumHeight(cellSize.height)
-  -- Allow expanding up to 1 extra row beyond container capacity for better visibility
-  containerWindow:setContentMaximumHeight(cellSize.height*(layout:getNumLines() + 1))
+  local padding = 12  -- 6px top + 6px bottom
+  containerWindow:setContentMinimumHeight(cellSize.height + padding)
+  containerWindow:setContentMaximumHeight(cellSize.height * layout:getNumLines() + padding)
 
   if container:hasPages() then
     local height = containerWindow.miniwindowScrollBar:getMarginTop() + containerWindow.pagePanel:getHeight()+17
@@ -286,7 +286,7 @@ function onContainerOpen(container, previousContainer)
 
   if not previousContainer then
     local filledLines = math.max(math.ceil(container:getItemsCount() / layout:getNumColumns()), 1)
-    containerWindow:setContentHeight(filledLines*cellSize.height)
+    containerWindow:setContentHeight(filledLines*cellSize.height + padding)
   end
 
   containerWindow:setup()
