@@ -210,78 +210,11 @@ void Tile::drawGroundRarityBorders(const Point& dest)
     if (m_fill != Color::alpha)
         return;
 
-    // Iterate through items in reverse order (bottom to top, same as drawing)
-    for (auto it = m_things.rbegin(); it != m_things.rend(); ++it) {
-        const ThingPtr& thing = *it;
-        
-        // Only draw borders for items (not ground, not creatures, not on-top items, not splashes)
-        if (thing->isOnTop() || thing->isOnBottom() || thing->isGroundBorder() || thing->isGround() || thing->isCreature() || thing->isSplash() || thing->isHidden())
-            continue;
-
-        // Get the item and check if it's an item type
-        ItemPtr item = thing->static_self_cast<Item>();
-        if (!item)
-            continue;
-
-        // Detect rarity from item
-        std::string rarity;
-        Color borderColor(Color::white);
-        int borderWidth = 2;
-        
-        // Try to get rarity from affixSystem Lua function
-        try {
-            g_lua.callGlobalField("affixSystem", "detectAffix", item);
-            if (!g_lua.isNil()) {
-                rarity = g_lua.toString();
-            }
-            g_lua.pop();
-        } catch (const std::exception&) {
-            // affixSystem not available, skip
-            continue;
-        }
-        
-        // Map rarity to border color and width
-        if (rarity == "legendary") {
-            borderColor = Color(std::string("#FFAA00"));  // Gold
-            borderWidth = 3;
-        } else if (rarity == "epic") {
-            borderColor = Color(std::string("#9933FF"));  // Purple
-            borderWidth = 2;
-        } else if (rarity == "rare") {
-            borderColor = Color(std::string("#0066FF"));  // Blue
-            borderWidth = 2;
-        } else {
-            continue;  // No rarity, skip border
-        }
-        
-        // Calculate item position with elevation
-        Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
-        
-        // Clamp border width
-        borderWidth = std::max(1, std::min(4, borderWidth));
-        
-        // Get sprite dimensions 
-        int spriteW = 32;  // Standard sprite width
-        int spriteH = 32;  // Standard sprite height
-        
-        int x1 = itemDest.x;
-        int y1 = itemDest.y;
-        int x2 = itemDest.x + spriteW;
-        int y2 = itemDest.y + spriteH;
-        
-        // Draw all four borders
-        // Top border
-        g_drawQueue->addFilledRect(Rect(x1, y1, x2, y1 + borderWidth), borderColor);
-        
-        // Bottom border  
-        g_drawQueue->addFilledRect(Rect(x1, y2 - borderWidth, x2, y2), borderColor);
-        
-        // Left border
-        g_drawQueue->addFilledRect(Rect(x1, y1, x1 + borderWidth, y2), borderColor);
-        
-        // Right border
-        g_drawQueue->addFilledRect(Rect(x2 - borderWidth, y1, x2, y2), borderColor);
-    }
+    // DISABLED: Lua calls during rendering are not thread-safe and cause access violations
+    // This feature will be re-enabled when rarity information can be cached on items themselves
+    // rather than queried from Lua during the render loop.
+    
+    return;
 }
 
 void Tile::calculateCorpseCorrection() {
