@@ -4,6 +4,6 @@ Module
   author: rookhaven
   website: https://github.com/rookhaven
   sandboxed: true
-  scripts: [ affixes ]
+  scripts: [ ground_rarity, affixes ]
   @onLoad: init()
   @onUnload: terminate()

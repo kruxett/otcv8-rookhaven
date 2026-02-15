@@ -69,6 +69,7 @@ public:
     void drawBottom(const Point& dest, LightView* lightView = nullptr);
     void drawCreatures(const Point& dest, LightView* lightView = nullptr);
     void drawTop(const Point& dest, LightView* lightView = nullptr);
+    void drawGroundRarityBorders(const Point& dest);
     void drawTexts(Point dest);
     void drawWidget(Point dest);
 

@@ -17,13 +17,19 @@ local DEBUG = false  -- Set to true for debugging
 -- Rarity frame configuration - using individual images
 local AFFIX_STYLES = {
   rare = {
-    imagePath = "/images/ui/rarity_blue"
+    imagePath = "/images/ui/rarity_blue",
+    borderColor = "#0066FF",  -- Blue for rare
+    borderWidth = 2
   },
   epic = {
-    imagePath = "/images/ui/rarity_purple"
+    imagePath = "/images/ui/rarity_purple",
+    borderColor = "#9933FF",  -- Purple for epic
+    borderWidth = 2
   },
   legendary = {
-    imagePath = "/images/ui/rarity_gold"
+    imagePath = "/images/ui/rarity_gold",
+    borderColor = "#FFAA00",  -- Gold for legendary
+    borderWidth = 3
   }
 }
 
@@ -131,4 +137,21 @@ function affixSystem.getRarityFrame(item)
   end
   
   return style and style.imagePath or nil
+end
+
+-- Get rarity border information for ground items
+function affixSystem.getGroundRarityBorder(item)
+  if not item then return nil end
+  
+  local affixType = affixSystem.detectAffix(item)
+  if not affixType then return nil end
+  
+  local style = AFFIX_STYLES[affixType]
+  if not style then return nil end
+  
+  return {
+    rarity = affixType,
+    color = style.borderColor,
+    width = style.borderWidth
+  }
 end
