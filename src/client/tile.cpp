@@ -223,63 +223,63 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         if (!item)
             continue;
 
-        // Call Lua to get rarity border information
+        // Detect rarity from item
+        std::string rarity;
+        Color borderColor(Color::white);
+        int borderWidth = 2;
+        
+        // Try to get rarity from affixSystem Lua function
         try {
-            // Call affixSystem.getGroundRarityBorder(item)
-            g_lua.callGlobalFunction("affixSystem", "getGroundRarityBorder", item);
-            
-            // Check if we got a result (table with border info)
+            g_lua.callGlobalField("affixSystem", "detectAffix", item);
             if (!g_lua.isNil()) {
-                // Get values from the returned table
-                std::string colorStr;
-                int borderWidth = 2;
-                
-                g_lua.getField("color");
-                if (!g_lua.isNil()) {
-                    colorStr = g_lua.toString();
-                }
-                g_lua.pop();
-                
-                g_lua.getField("width");
-                if (!g_lua.isNil()) {
-                    borderWidth = g_lua.toNumber();
-                }
-                g_lua.pop();
-                
-                g_lua.pop(); // pop the table
-                
-                // Parse the color string and create Color object
-                Color borderColor = Color(colorStr);
-                
-                // Draw the rarity border
-                Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
-                Size spriteSize = g_sprites.spriteSize();
-                
-                // Ensure borderWidth is reasonable
-                borderWidth = std::max(1, std::min(4, borderWidth));
-                
-                // Draw all four borders
-                // Top border
-                g_drawQueue->addFilledRect(Rect(itemDest.x, itemDest.y, itemDest.x + spriteSize, itemDest.y + borderWidth), borderColor);
-                
-                // Bottom border  
-                g_drawQueue->addFilledRect(Rect(itemDest.x, itemDest.y + spriteSize - borderWidth, itemDest.x + spriteSize, itemDest.y + spriteSize), borderColor);
-                
-                // Left border
-                g_drawQueue->addFilledRect(Rect(itemDest.x, itemDest.y, itemDest.x + borderWidth, itemDest.y + spriteSize), borderColor);
-                
-                // Right border
-                g_drawQueue->addFilledRect(Rect(itemDest.x + spriteSize - borderWidth, itemDest.y, itemDest.x + spriteSize, itemDest.y + spriteSize), borderColor);
-            } else {
-                g_lua.pop(); // pop nil
+                rarity = g_lua.toString();
             }
+            g_lua.pop();
         } catch (const std::exception&) {
-            // Silently ignore errors (affixSystem might not be available)
-            // Clear any remaining stack values
-            while (!g_lua.isEmpty()) {
-                g_lua.pop();
-            }
+            // affixSystem not available, skip
+            continue;
         }
+        
+        // Map rarity to border color and width
+        if (rarity == "legendary") {
+            borderColor = Color(std::string("#FFAA00"));  // Gold
+            borderWidth = 3;
+        } else if (rarity == "epic") {
+            borderColor = Color(std::string("#9933FF"));  // Purple
+            borderWidth = 2;
+        } else if (rarity == "rare") {
+            borderColor = Color(std::string("#0066FF"));  // Blue
+            borderWidth = 2;
+        } else {
+            continue;  // No rarity, skip border
+        }
+        
+        // Calculate item position with elevation
+        Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
+        Size spriteSize = g_sprites.spriteSize();
+        int w = spriteSize.width();
+        int h = spriteSize.height();
+        
+        // Clamp border width
+        borderWidth = std::max(1, std::min(4, borderWidth));
+        
+        int x1 = itemDest.x;
+        int y1 = itemDest.y;
+        int x2 = itemDest.x + w;
+        int y2 = itemDest.y + h;
+        
+        // Draw all four borders
+        // Top border
+        g_drawQueue->addFilledRect(Rect(x1, y1, x2, y1 + borderWidth), borderColor);
+        
+        // Bottom border  
+        g_drawQueue->addFilledRect(Rect(x1, y2 - borderWidth, x2, y2), borderColor);
+        
+        // Left border
+        g_drawQueue->addFilledRect(Rect(x1, y1, x1 + borderWidth, y2), borderColor);
+        
+        // Right border
+        g_drawQueue->addFilledRect(Rect(x2 - borderWidth, y1, x2, y2), borderColor);
     }
 }
 
