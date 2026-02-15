@@ -402,30 +402,15 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     if (rarity == Item::RARITY_NONE)
         return;  // No rarity, skip glow
     
-    // Map rarity to color using Lua config
-    Color outlineColor(Color::white);
-    
+    // Set shader based on rarity
+    // Shaders handle the outline rendering automatically
     if (rarity == Item::RARITY_LEGENDARY) {
-        outlineColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 255);
+        item->setShader("item_legendary");
     } else if (rarity == Item::RARITY_EPIC) {
-        outlineColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 255);
+        item->setShader("item_epic");
     } else if (rarity == Item::RARITY_RARE) {
-        outlineColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 255);
+        item->setShader("item_rare");
     }
-    
-    // Calculate item position with elevation
-    Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
-    
-    // Draw a bounding rectangle outline (hollow rectangle, not filled)
-    // This creates an outline effect around the item area
-    int inset = 6; // Distance from tile edges (brings outline closer to item)
-    int lineWidth = 1; // Thickness of outline
-    
-    // Use addBoundingRect which draws just the outline
-    Rect outlineRect(itemDest.x + inset, itemDest.y + inset, 
-                     itemDest.x + 32 - inset, itemDest.y + 32 - inset);
-    
-    g_drawQueue->addBoundingRect(outlineRect, lineWidth, outlineColor);
 }
 
 void Tile::drawGroundRarityBorders(const Point& dest)

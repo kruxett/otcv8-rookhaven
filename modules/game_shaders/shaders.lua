@@ -17,6 +17,11 @@ function init()
 
   -- you can use creature:setOutfitShader("outfit_rainbow") to set shader
 
+  -- item rarity outline shaders
+  g_shaders.createShader("item_rare", "/shaders/item_outline_vertex", "/shaders/item_rare_fragment")
+  g_shaders.createShader("item_epic", "/shaders/item_outline_vertex", "/shaders/item_epic_fragment")
+  g_shaders.createShader("item_legendary", "/shaders/item_outline_vertex", "/shaders/item_legendary_fragment")
+
 end
 
 function terminate()
