@@ -396,31 +396,26 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     if (rarity == Item::RARITY_NONE)
         return;  // No rarity, skip glow
     
-    // Map rarity to color using Lua config (RGB -> AABBGGRR format with transparency)
+    // Map rarity to color using Lua config
+    // Format: 0xAABBGGRR (Alpha, Blue, Green, Red)
     Color glowColor(Color::white);
-    int alpha = 0xC0; // 75% opacity for more visible glow
+    int alpha = 0xC0; // 75% opacity
     
     if (rarity == Item::RARITY_LEGENDARY) {
         glowColor = Color((alpha << 24) | 
                     (g_rarityColorLegendary.b << 16) | 
                     (g_rarityColorLegendary.g << 8) | 
                     g_rarityColorLegendary.r);
-        g_logger.info(stdext::format("[Rarity Glow] LEGENDARY: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, glowColor.rgba()));
     } else if (rarity == Item::RARITY_EPIC) {
         glowColor = Color((alpha << 24) | 
                     (g_rarityColorEpic.b << 16) | 
                     (g_rarityColorEpic.g << 8) | 
                     g_rarityColorEpic.r);
-        g_logger.info(stdext::format("[Rarity Glow] EPIC: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, glowColor.rgba()));
     } else if (rarity == Item::RARITY_RARE) {
         glowColor = Color((alpha << 24) | 
                     (g_rarityColorRare.b << 16) | 
                     (g_rarityColorRare.g << 8) | 
                     g_rarityColorRare.r);
-        g_logger.info(stdext::format("[Rarity Glow] RARE: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, glowColor.rgba()));
     }
     
     // Calculate item position with elevation
