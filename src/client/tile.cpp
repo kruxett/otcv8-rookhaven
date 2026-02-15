@@ -333,6 +333,8 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorRare.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop rare table
+                    g_logger.info(stdext::format("[Ground Rarity] Loaded RARE color: RGB(%d,%d,%d)", 
+                        g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b));
                 } else {
                     g_lua.pop();
                 }
@@ -346,6 +348,8 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorEpic.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop epic table
+                    g_logger.info(stdext::format("[Ground Rarity] Loaded EPIC color: RGB(%d,%d,%d)", 
+                        g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b));
                 } else {
                     g_lua.pop();
                 }
@@ -359,6 +363,8 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorLegendary.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop legendary table
+                    g_logger.info(stdext::format("[Ground Rarity] Loaded LEGENDARY color: RGB(%d,%d,%d)", 
+                        g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b));
                 } else {
                     g_lua.pop();
                 }
@@ -400,22 +406,32 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     // Format: 0xAABBGGRR (Alpha, Blue, Green, Red)
     Color glowColor(Color::white);
     int alpha = 0xC0; // 75% opacity
+    uint32_t colorValue = 0;
     
     if (rarity == Item::RARITY_LEGENDARY) {
-        glowColor = Color((alpha << 24) | 
+        colorValue = (alpha << 24) | 
                     (g_rarityColorLegendary.b << 16) | 
                     (g_rarityColorLegendary.g << 8) | 
-                    g_rarityColorLegendary.r);
+                    g_rarityColorLegendary.r;
+        glowColor = Color(colorValue);
+        g_logger.info(stdext::format("[Rarity Glow] LEGENDARY: RGB(%d,%d,%d) -> 0x%08X", 
+            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, colorValue));
     } else if (rarity == Item::RARITY_EPIC) {
-        glowColor = Color((alpha << 24) | 
+        colorValue = (alpha << 24) | 
                     (g_rarityColorEpic.b << 16) | 
                     (g_rarityColorEpic.g << 8) | 
-                    g_rarityColorEpic.r);
+                    g_rarityColorEpic.r;
+        glowColor = Color(colorValue);
+        g_logger.info(stdext::format("[Rarity Glow] EPIC: RGB(%d,%d,%d) -> 0x%08X", 
+            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, colorValue));
     } else if (rarity == Item::RARITY_RARE) {
-        glowColor = Color((alpha << 24) | 
+        colorValue = (alpha << 24) | 
                     (g_rarityColorRare.b << 16) | 
                     (g_rarityColorRare.g << 8) | 
-                    g_rarityColorRare.r);
+                    g_rarityColorRare.r;
+        glowColor = Color(colorValue);
+        g_logger.info(stdext::format("[Rarity Glow] RARE: RGB(%d,%d,%d) -> 0x%08X", 
+            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, colorValue));
     }
     
     // Calculate item position with elevation
