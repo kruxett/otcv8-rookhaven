@@ -403,35 +403,20 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
         return;  // No rarity, skip glow
     
     // Map rarity to color using Lua config
-    // Format: 0xAABBGGRR (Alpha, Blue, Green, Red)
     Color glowColor(Color::white);
-    int alpha = 0xC0; // 75% opacity
-    uint32_t colorValue = 0;
     
     if (rarity == Item::RARITY_LEGENDARY) {
-        colorValue = (alpha << 24) | 
-                    (g_rarityColorLegendary.b << 16) | 
-                    (g_rarityColorLegendary.g << 8) | 
-                    g_rarityColorLegendary.r;
-        glowColor = Color(colorValue);
-        g_logger.info(stdext::format("[Rarity Glow] LEGENDARY: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, colorValue));
+        glowColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 192); // 192 = 75% opacity
+        g_logger.info(stdext::format("[Rarity Glow] LEGENDARY: Using RGB(%d,%d,%d) with alpha 192", 
+            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b));
     } else if (rarity == Item::RARITY_EPIC) {
-        colorValue = (alpha << 24) | 
-                    (g_rarityColorEpic.b << 16) | 
-                    (g_rarityColorEpic.g << 8) | 
-                    g_rarityColorEpic.r;
-        glowColor = Color(colorValue);
-        g_logger.info(stdext::format("[Rarity Glow] EPIC: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, colorValue));
+        glowColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 192);
+        g_logger.info(stdext::format("[Rarity Glow] EPIC: Using RGB(%d,%d,%d) with alpha 192", 
+            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b));
     } else if (rarity == Item::RARITY_RARE) {
-        colorValue = (alpha << 24) | 
-                    (g_rarityColorRare.b << 16) | 
-                    (g_rarityColorRare.g << 8) | 
-                    g_rarityColorRare.r;
-        glowColor = Color(colorValue);
-        g_logger.info(stdext::format("[Rarity Glow] RARE: RGB(%d,%d,%d) -> 0x%08X", 
-            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, colorValue));
+        glowColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 192);
+        g_logger.info(stdext::format("[Rarity Glow] RARE: Using RGB(%d,%d,%d) with alpha 192", 
+            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b));
     }
     
     // Calculate item position with elevation
