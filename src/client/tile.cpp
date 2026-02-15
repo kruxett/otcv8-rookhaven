@@ -406,41 +406,26 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     Color glowColor(Color::white);
     
     if (rarity == Item::RARITY_LEGENDARY) {
-        glowColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 192); // 192 = 75% opacity
-        g_logger.info(stdext::format("[Rarity Glow] LEGENDARY: Using RGB(%d,%d,%d) with alpha 192", 
-            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b));
+        glowColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 128); // 50% opacity
     } else if (rarity == Item::RARITY_EPIC) {
-        glowColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 192);
-        g_logger.info(stdext::format("[Rarity Glow] EPIC: Using RGB(%d,%d,%d) with alpha 192", 
-            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b));
+        glowColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 128);
     } else if (rarity == Item::RARITY_RARE) {
-        glowColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 192);
-        g_logger.info(stdext::format("[Rarity Glow] RARE: Using RGB(%d,%d,%d) with alpha 192", 
-            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b));
+        glowColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 128);
     }
     
     // Calculate item position with elevation
     Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
     
-    // Draw the item sprite again with the glow color and slightly offset in all directions
-    // This creates a colored "shadow" effect that follows the item's actual shape
-    int xPattern = 0, yPattern = 0, zPattern = 0;
-    item->calculatePatterns(xPattern, yPattern, zPattern);
-    int animationPhase = item->calculateAnimationPhase(true);
+    // Draw a simple colored rectangle as glow (not the item sprite)
+    // This creates a colored backdrop that the item will render on top of
+    int glowSize = 20; // Size of glow area (centered on tile)
+    int centerX = itemDest.x + 16; // Center of 32x32 tile
+    int centerY = itemDest.y + 16;
     
-    ThingType* thingType = item->rawGetThingType();
-    if (thingType) {
-        // Draw glow in 4 directions (creates an outline effect following item shape)
-        for (int offsetX = -1; offsetX <= 1; offsetX++) {
-            for (int offsetY = -1; offsetY <= 1; offsetY++) {
-                if (offsetX == 0 && offsetY == 0)
-                    continue; // Skip center (actual item will be drawn there)
-                    
-                Point glowPos = itemDest + Point(offsetX, offsetY);
-                thingType->draw(glowPos, 0, xPattern, yPattern, zPattern, animationPhase, glowColor, nullptr);
-            }
-        }
-    }
+    Rect glowRect(centerX - glowSize/2, centerY - glowSize/2, 
+                  centerX + glowSize/2, centerY + glowSize/2);
+    
+    g_drawQueue->addFilledRect(glowRect, glowColor);
 }
 
 void Tile::drawGroundRarityBorders(const Point& dest)
