@@ -29,6 +29,7 @@
 #include "effect.h"
 #include "protocolgame.h"
 #include "lightview.h"
+#include <cmath>
 #include "spritemanager.h"
 #include <framework/graphics/fontmanager.h>
 #include <framework/util/extras.h>
@@ -209,7 +210,7 @@ void Tile::drawGroundRarityBorders(const Point& dest)
     if (m_fill != Color::alpha)
         return;
 
-    // Simple approach: draw borders on all items that have rarity
+    // Draw shimmer effects on items that have rarity
     for (const ThingPtr& thing : m_things) {
         // Skip non-items and hidden things
         if (!thing || thing->isHidden())
@@ -223,40 +224,46 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         // Get cached rarity from item
         Item::Rarity rarity = item->getRarity();
         if (rarity == Item::RARITY_NONE)
-            continue;  // No rarity, skip border
+            continue;  // No rarity, skip effect
         
-        // Map rarity to border color and width
-        Color borderColor(Color::white);
-        int borderWidth = 2;
+        // Map rarity to glow color
+        Color glowColor(Color::white);
         
         if (rarity == Item::RARITY_LEGENDARY) {
-            borderColor = Color(0xFF00AAFF);  // Gold: R=FF, G=AA, B=00 (AABBGGRR format)
-            borderWidth = 3;
+            glowColor = Color(0xFFFFAA00);  // Gold/yellow glow
         } else if (rarity == Item::RARITY_EPIC) {
-            borderColor = Color(0xFFFF3399);  // Purple: R=99, G=33, B=FF
-            borderWidth = 2;
+            glowColor = Color(0xFFFF00FF);  // Purple/magenta glow
         } else if (rarity == Item::RARITY_RARE) {
-            borderColor = Color(0xFFFF6600);  // Blue: R=00, G=66, B=FF
-            borderWidth = 2;
+            glowColor = Color(0xFF00AAFF);  // Cyan/blue glow
         }
         
-        // Calculate item position with elevation
-        Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
+        // Calculate item center position
+        Point itemCenter = dest - m_drawElevation * g_sprites.getOffsetFactor();
+        itemCenter.x += 16;  // Center of 32x32 tile
+        itemCenter.y += 16;
         
-        // Clamp border width
-        borderWidth = std::max(1, std::min(4, borderWidth));
+        // Draw shimmer lines radiating from item center (creates a glow effect)
+        int glowRadius = 12;  // Distance from center
+        int numLines = 8;     // Number of shimmer lines
+        const float PI = 3.14159265f;
         
-        // Get sprite dimensions 
-        int spriteW = 32;  // Standard sprite width
-        int spriteH = 32;  // Standard sprite height
-        
-        int x1 = itemDest.x;
-        int y1 = itemDest.y;
-        int x2 = itemDest.x + spriteW;
-        int y2 = itemDest.y + spriteH;
-        
-        // Draw bounding rectangle outline (just the border, not filled)
-        g_drawQueue->addBoundingRect(Rect(x1, y1, x2, y2), borderWidth, borderColor);
+        for (int i = 0; i < numLines; ++i) {
+            float angle = (PI * 2.0f * i) / numLines;
+            
+            // Calculate shimmer line endpoints
+            Point p1(
+                itemCenter.x + (int)(cosf(angle) * glowRadius * 0.5f),
+                itemCenter.y + (int)(sinf(angle) * glowRadius * 0.5f)
+            );
+            Point p2(
+                itemCenter.x + (int)(cosf(angle) * glowRadius),
+                itemCenter.y + (int)(sinf(angle) * glowRadius)
+            );
+            
+            // Draw shimmer line
+            std::vector<Point> points = {p1, p2};
+            g_drawQueue->addLine(points, 2, glowColor);
+        }
     }
 }
 
