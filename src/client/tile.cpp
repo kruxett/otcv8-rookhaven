@@ -125,6 +125,12 @@ void Tile::drawBottom(const Point& dest, LightView* lightView)
         if (thing->isSplash())
             continue;
         
+        // Draw rarity glow BEFORE the item so it appears behind the item sprite
+        ItemPtr item = thing->static_self_cast<Item>();
+        if (item) {
+            drawItemRarityGlow(dest, item);
+        }
+        
         thing->draw(dest - m_drawElevation * g_sprites.getOffsetFactor() , true, lightView);
         m_drawElevation = std::min<uint8_t>(m_drawElevation + thing->getElevation(), Otc::MAX_ELEVATION);
 
@@ -134,8 +140,7 @@ void Tile::drawBottom(const Point& dest, LightView* lightView)
         }
     }
 
-    // Draw rarity borders on ground items
-    drawGroundRarityBorders(dest);
+    // Note: drawGroundRarityBorders removed - now using drawItemRarityGlow per-item
 
     if (!g_game.getFeature(Otc::GameMapIgnoreCorpseCorrection)) {
         for (int x = -redrawPreviousTopW; x <= 0; ++x) {
@@ -373,6 +378,66 @@ void Tile::loadGroundRarityConfig()
             g_rarityEnabled ? "true" : "false", g_rarityStyle));
     } catch (const std::exception& e) {
         g_logger.error(stdext::format("[Ground Rarity] Failed to load config: %s", e.what()));
+    }
+}
+
+void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
+{
+    // Load config from Lua on first call
+    if (!g_rarityConfigLoaded)
+        loadGroundRarityConfig();
+    
+    // Check if rarity indicators are enabled
+    if (!g_rarityEnabled || !item)
+        return;
+
+    // Get cached rarity from item
+    Item::Rarity rarity = item->getRarity();
+    if (rarity == Item::RARITY_NONE)
+        return;  // No rarity, skip glow
+    
+    // Map rarity to color using Lua config (RGB -> AABBGGRR format with transparency)
+    Color glowColor(Color::white);
+    int alpha = 0x80; // 50% transparency for glow effect
+    
+    if (rarity == Item::RARITY_LEGENDARY) {
+        glowColor = Color((alpha << 24) | 
+                    (g_rarityColorLegendary.b << 16) | 
+                    (g_rarityColorLegendary.g << 8) | 
+                    g_rarityColorLegendary.r);
+    } else if (rarity == Item::RARITY_EPIC) {
+        glowColor = Color((alpha << 24) | 
+                    (g_rarityColorEpic.b << 16) | 
+                    (g_rarityColorEpic.g << 8) | 
+                    g_rarityColorEpic.r);
+    } else if (rarity == Item::RARITY_RARE) {
+        glowColor = Color((alpha << 24) | 
+                    (g_rarityColorRare.b << 16) | 
+                    (g_rarityColorRare.g << 8) | 
+                    g_rarityColorRare.r);
+    }
+    
+    // Calculate item position with elevation
+    Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
+    
+    // Draw the item sprite again with the glow color and slightly offset in all directions
+    // This creates a colored "shadow" effect that follows the item's actual shape
+    int xPattern = 0, yPattern = 0, zPattern = 0;
+    item->calculatePatterns(xPattern, yPattern, zPattern);
+    int animationPhase = item->calculateAnimationPhase(true);
+    
+    ThingType* thingType = item->rawGetThingType();
+    if (thingType) {
+        // Draw glow in 4 directions (creates an outline effect following item shape)
+        for (int offsetX = -1; offsetX <= 1; offsetX++) {
+            for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                if (offsetX == 0 && offsetY == 0)
+                    continue; // Skip center (actual item will be drawn there)
+                    
+                Point glowPos = itemDest + Point(offsetX, offsetY);
+                thingType->draw(glowPos, 0, xPattern, yPattern, zPattern, animationPhase, glowColor, nullptr);
+            }
+        }
     }
 }
 

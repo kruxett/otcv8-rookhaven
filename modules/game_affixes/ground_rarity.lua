@@ -2,11 +2,7 @@
   Ground Rarity Indicator Configuration
   
   This module provides configurable settings for rarity indicators on ground items.
-  All settings can be easily adjusted here to tweak the visual appearance.
-  
-  Style recommendations:
-  - "corner" - Best for showing off items in houses (clean, professional look)
-  - "dot" - Minimal, subtle indicator (good for gameplay)
+  The indicator uses a colored glow effect that follows the actual item sprite shape.
 ]]
 
 -- Make groundRarityConfig available globally
@@ -16,31 +12,14 @@ local groundRarityConfig = _G.groundRarityConfig
 -- Enable/disable ground rarity indicators
 groundRarityConfig.enabled = true
 
--- Indicator style: "dot" or "corner"
--- "corner" = L-shaped brackets in opposite corners (recommended for houses)
--- "dot" = Small colored square indicator
-groundRarityConfig.style = "corner"
-
--- Dot indicator configuration (when style = "dot")
-groundRarityConfig.dot = {
-  size = 4,              -- Size in pixels (3-7 recommended)
-  position = "bottom-right",  -- "top-left", "top-right", "bottom-left", "bottom-right"
-  offsetX = 2,           -- Padding from edge (pixels)
-  offsetY = 2            -- Padding from edge (pixels)
-}
-
--- Corner indicator configuration (when style = "corner")
-groundRarityConfig.corner = {
-  length = 6,            -- Length of corner brackets (pixels) - adjust to frame items nicely
-  thickness = 2,         -- Thickness of corner lines (pixels) - 1-2 recommended
-  inset = 4              -- Distance from tile edge (pixels) - smaller = closer to item
-}
+-- Style is now always "glow" (colored outline following the item sprite)
+groundRarityConfig.style = "glow"
 
 -- Rarity colors (RGB format - customize to your preference)
 groundRarityConfig.colors = {
-  rare = {r = 0, g = 102, b = 255},        -- Blue
-  epic = {r = 153, g = 51, b = 255},       -- Purple
-  legendary = {r = 255, g = 170, b = 0}    -- Gold
+  rare = {r = 0, g = 150, b = 255},        -- Bright Blue
+  epic = {r = 200, g = 0, b = 255},        -- Bright Purple
+  legendary = {r = 255, g = 200, b = 0}    -- Bright Gold
 }
 
 -- Rarity filter - set to nil to show all rarities, or filter specific ones
