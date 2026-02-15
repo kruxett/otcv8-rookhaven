@@ -171,6 +171,17 @@ public:
         return m_customAttribs.get<uint64>(key);
     }
 
+    // Rarity detection for ground item glow feature
+    enum Rarity : uint8 {
+        RARITY_NONE = 0,
+        RARITY_RARE = 1,
+        RARITY_EPIC = 2,
+        RARITY_LEGENDARY = 3
+    };
+    
+    Rarity getRarity() { return m_rarity; }
+    void detectAndCacheRarity();
+
 private:
     uint16 m_clientId;
     uint16 m_serverId;
@@ -182,6 +193,7 @@ private:
     std::string m_tooltip;
     std::string m_shader;
     std::string m_article;
+    Rarity m_rarity;
 
     uint32 m_quickLootFlags;
     uint8 m_phase;

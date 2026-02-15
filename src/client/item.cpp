@@ -38,6 +38,8 @@
 #include <framework/graphics/shadermanager.h>
 
 #include <framework/util/stats.h>
+#include <algorithm>
+#include <cctype>
 
 Item::Item() :
     m_clientId(0),
@@ -48,6 +50,7 @@ Item::Item() :
     m_tooltip(),
     m_shader(),
     m_article(),
+    m_rarity(RARITY_NONE),
     m_quickLootFlags(0),
     m_phase(0),
     m_lastPhase(0),
@@ -227,6 +230,8 @@ void Item::unserializeItem(const BinaryTreePtr &in)
                     stdext::throw_exception(stdext::format("invalid item attribute %d", attrib));
             }
         }
+        // Cache rarity after all attributes are loaded
+        detectAndCacheRarity();
     } catch(stdext::exception& e) {
         g_logger.error(stdext::format("Failed to unserialize OTBM item: %s", e.what()));
     }
@@ -465,4 +470,48 @@ const ThingTypePtr& Item::getThingType()
 ThingType* Item::rawGetThingType()
 {
     return g_things.rawGetThingType(m_clientId, ThingCategoryItem);
+}
+
+void Item::detectAndCacheRarity()
+{
+    m_rarity = RARITY_NONE;
+    
+    // Check article for rarity keywords
+    std::string article = getArticle();
+    if (!article.empty()) {
+        // Convert to lowercase for comparison
+        std::string articleLower;
+        articleLower.resize(article.size());
+        std::transform(article.begin(), article.end(), articleLower.begin(), ::tolower);
+        
+        if (articleLower.find("legendary") != std::string::npos) {
+            m_rarity = RARITY_LEGENDARY;
+            return;
+        } else if (articleLower.find("epic") != std::string::npos) {
+            m_rarity = RARITY_EPIC;
+            return;
+        } else if (articleLower.find("rare") != std::string::npos) {
+            m_rarity = RARITY_RARE;
+            return;
+        }
+    }
+    
+    // Fallback: check description
+    std::string description = getDescription();
+    if (!description.empty()) {
+        std::string descLower;
+        descLower.resize(description.size());
+        std::transform(description.begin(), description.end(), descLower.begin(), ::tolower);
+        
+        if (descLower.find("legendary") != std::string::npos) {
+            m_rarity = RARITY_LEGENDARY;
+            return;
+        } else if (descLower.find("epic") != std::string::npos) {
+            m_rarity = RARITY_EPIC;
+            return;
+        } else if (descLower.find("rare") != std::string::npos) {
+            m_rarity = RARITY_RARE;
+            return;
+        }
+    }
 }
