@@ -96,7 +96,7 @@ CombatBox < UICheckBox
 
 InventoryButton < Button
   height: 18
-  margin-top: 2
+  margin-top: 0
   text-align: center
   font: cipsoftFont
   color: white
@@ -302,7 +302,7 @@ InventoryWindow < HeadlessMiniWindow
         
       Panel
         id: buttonsPanel
-        margin-top: 1
+        margin-top: 0
         margin-right: 5
         anchors.fill: parent
         anchors.top: prev.bottom
