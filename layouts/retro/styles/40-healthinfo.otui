@@ -111,13 +111,16 @@ HealthOverlay < UIWidget
 HealthInfoWindow < HeadlessMiniWindow
   icon: 
   text:
-  height: 120
+  height: 112
   &forceOpen: true
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')  
 
   MiniWindowContents
     margin-top: 2
+    margin-bottom: 0
+    padding-top: 0
+    padding-bottom: 0
     
     HealthBar
       id: healthBar
