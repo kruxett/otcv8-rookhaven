@@ -255,18 +255,18 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         int x2 = itemDest.x + spriteW;
         int y2 = itemDest.y + spriteH;
         
-        // Draw all four borders
+        // Draw border outline only (thin lines, not filled rectangles covering the item)
         // Top border
         g_drawQueue->addFilledRect(Rect(x1, y1, x2, y1 + borderWidth), borderColor);
         
         // Bottom border  
         g_drawQueue->addFilledRect(Rect(x1, y2 - borderWidth, x2, y2), borderColor);
         
-        // Left border
-        g_drawQueue->addFilledRect(Rect(x1, y1, x1 + borderWidth, y2), borderColor);
+        // Left border (excluding corners)
+        g_drawQueue->addFilledRect(Rect(x1, y1 + borderWidth, x1 + borderWidth, y2 - borderWidth), borderColor);
         
-        // Right border
-        g_drawQueue->addFilledRect(Rect(x2 - borderWidth, y1, x2, y2), borderColor);
+        // Right border (excluding corners)
+        g_drawQueue->addFilledRect(Rect(x2 - borderWidth, y1 + borderWidth, x2, y2 - borderWidth), borderColor);
     }
 }
 
