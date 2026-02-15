@@ -40,10 +40,18 @@
 namespace {
     bool g_rarityConfigLoaded = false;
     bool g_rarityEnabled = true;
+    std::string g_rarityStyle = "corner";
+    
+    // Dot config
     int g_rarityDotSize = 5;
     int g_rarityDotOffsetX = 2;
     int g_rarityDotOffsetY = 2;
     std::string g_rarityDotPosition = "bottom-right";
+    
+    // Corner config
+    int g_rarityCornerLength = 6;
+    int g_rarityCornerThickness = 2;
+    int g_rarityCornerInset = 4;
     
     // Colors in RGB format (will be converted to AABBGGRR when needed)
     struct RarityColorRGB {
@@ -243,6 +251,13 @@ void Tile::loadGroundRarityConfig()
             else
                 g_lua.pop();
             
+            // Load style
+            g_lua.getField("style");
+            if (g_lua.isString())
+                g_rarityStyle = g_lua.popString();
+            else
+                g_lua.pop();
+            
             // Load dot configuration
             g_lua.getField("dot");
             if (g_lua.isTable()) {
@@ -271,6 +286,32 @@ void Tile::loadGroundRarityConfig()
                     g_lua.pop();
                 
                 g_lua.pop(); // pop dot table
+            } else {
+                g_lua.pop();
+            }
+            
+            // Load corner configuration
+            g_lua.getField("corner");
+            if (g_lua.isTable()) {
+                g_lua.getField("length");
+                if (g_lua.isNumber())
+                    g_rarityCornerLength = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.getField("thickness");
+                if (g_lua.isNumber())
+                    g_rarityCornerThickness = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.getField("inset");
+                if (g_lua.isNumber())
+                    g_rarityCornerInset = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.pop(); // pop corner table
             } else {
                 g_lua.pop();
             }
@@ -328,8 +369,8 @@ void Tile::loadGroundRarityConfig()
         }
         
         g_rarityConfigLoaded = true;
-        g_logger.info(stdext::format("[Ground Rarity] Config loaded: enabled=%s, dotSize=%d, position=%s",
-            g_rarityEnabled ? "true" : "false", g_rarityDotSize, g_rarityDotPosition));
+        g_logger.info(stdext::format("[Ground Rarity] Config loaded: enabled=%s, style=%s",
+            g_rarityEnabled ? "true" : "false", g_rarityStyle));
     } catch (const std::exception& e) {
         g_logger.error(stdext::format("[Ground Rarity] Failed to load config: %s", e.what()));
     }
@@ -348,7 +389,7 @@ void Tile::drawGroundRarityBorders(const Point& dest)
     if (m_fill != Color::alpha)
         return;
 
-    // Draw colored dot indicator on items that have rarity
+    // Draw rarity indicator on items that have rarity
     for (const ThingPtr& thing : m_things) {
         // Skip non-items and hidden things
         if (!thing || thing->isHidden())
@@ -364,49 +405,72 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         if (rarity == Item::RARITY_NONE)
             continue;  // No rarity, skip indicator
         
-        // Map rarity to dot color using Lua config (RGB -> AABBGGRR format)
-        Color dotColor(Color::white);
+        // Map rarity to color using Lua config (RGB -> AABBGGRR format)
+        Color color(Color::white);
         
         if (rarity == Item::RARITY_LEGENDARY) {
-            // Convert RGB to AABBGGRR: 0xAABBGGRR
-            dotColor = Color(0xFF000000 | 
-                           (g_rarityColorLegendary.b << 16) | 
-                           (g_rarityColorLegendary.g << 8) | 
-                           g_rarityColorLegendary.r);
+            color = Color(0xFF000000 | 
+                        (g_rarityColorLegendary.b << 16) | 
+                        (g_rarityColorLegendary.g << 8) | 
+                        g_rarityColorLegendary.r);
         } else if (rarity == Item::RARITY_EPIC) {
-            dotColor = Color(0xFF000000 | 
-                           (g_rarityColorEpic.b << 16) | 
-                           (g_rarityColorEpic.g << 8) | 
-                           g_rarityColorEpic.r);
+            color = Color(0xFF000000 | 
+                        (g_rarityColorEpic.b << 16) | 
+                        (g_rarityColorEpic.g << 8) | 
+                        g_rarityColorEpic.r);
         } else if (rarity == Item::RARITY_RARE) {
-            dotColor = Color(0xFF000000 | 
-                           (g_rarityColorRare.b << 16) | 
-                           (g_rarityColorRare.g << 8) | 
-                           g_rarityColorRare.r);
+            color = Color(0xFF000000 | 
+                        (g_rarityColorRare.b << 16) | 
+                        (g_rarityColorRare.g << 8) | 
+                        g_rarityColorRare.r);
         }
         
         // Calculate item position
         Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
         
-        // Calculate dot position based on configured position
-        int dotX, dotY;
-        
-        if (g_rarityDotPosition == "top-left") {
-            dotX = itemDest.x + g_rarityDotOffsetX;
-            dotY = itemDest.y + g_rarityDotOffsetY;
-        } else if (g_rarityDotPosition == "top-right") {
-            dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
-            dotY = itemDest.y + g_rarityDotOffsetY;
-        } else if (g_rarityDotPosition == "bottom-left") {
-            dotX = itemDest.x + g_rarityDotOffsetX;
-            dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
-        } else { // bottom-right (default)
-            dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
-            dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
+        // Draw indicator based on configured style
+        if (g_rarityStyle == "corner") {
+            // Draw corner brackets (L-shapes) in top-left and bottom-right corners
+            int inset = g_rarityCornerInset;
+            int length = g_rarityCornerLength;
+            int thick = g_rarityCornerThickness;
+            
+            // Top-left corner
+            int tlX = itemDest.x + inset;
+            int tlY = itemDest.y + inset;
+            // Horizontal line (left part of L)
+            g_drawQueue->addFilledRect(Rect(tlX, tlY, tlX + length, tlY + thick), color);
+            // Vertical line (top part of L)
+            g_drawQueue->addFilledRect(Rect(tlX, tlY, tlX + thick, tlY + length), color);
+            
+            // Bottom-right corner
+            int brX = itemDest.x + 32 - inset;
+            int brY = itemDest.y + 32 - inset;
+            // Horizontal line (right part of L)
+            g_drawQueue->addFilledRect(Rect(brX - length, brY - thick, brX, brY), color);
+            // Vertical line (bottom part of L)
+            g_drawQueue->addFilledRect(Rect(brX - thick, brY - length, brX, brY), color);
+            
+        } else if (g_rarityStyle == "dot") {
+            // Draw small dot indicator
+            int dotX, dotY;
+            
+            if (g_rarityDotPosition == "top-left") {
+                dotX = itemDest.x + g_rarityDotOffsetX;
+                dotY = itemDest.y + g_rarityDotOffsetY;
+            } else if (g_rarityDotPosition == "top-right") {
+                dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
+                dotY = itemDest.y + g_rarityDotOffsetY;
+            } else if (g_rarityDotPosition == "bottom-left") {
+                dotX = itemDest.x + g_rarityDotOffsetX;
+                dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
+            } else { // bottom-right (default)
+                dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
+                dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
+            }
+            
+            g_drawQueue->addFilledRect(Rect(dotX, dotY, dotX + g_rarityDotSize, dotY + g_rarityDotSize), color);
         }
-        
-        // Draw the dot as a small filled rectangle
-        g_drawQueue->addFilledRect(Rect(dotX, dotY, dotX + g_rarityDotSize, dotY + g_rarityDotSize), dotColor);
     }
 }
 
