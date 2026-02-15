@@ -73,6 +73,9 @@ public:
     void drawTexts(Point dest);
     void drawWidget(Point dest);
 
+    // Ground rarity configuration
+    static void loadGroundRarityConfig();
+
 public:
     void clean();
 

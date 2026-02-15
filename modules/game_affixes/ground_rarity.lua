@@ -1,7 +1,7 @@
 --[[
-  Ground Rarity Border Configuration
+  Ground Rarity Indicator Configuration
   
-  This module provides configurable settings for rarity borders on ground items.
+  This module provides configurable settings for rarity indicators on ground items.
   All settings can be easily adjusted here to tweak the visual appearance.
 ]]
 
@@ -9,36 +9,58 @@
 _G.groundRarityConfig = _G.groundRarityConfig or {}
 local groundRarityConfig = _G.groundRarityConfig
 
--- Enable/disable ground rarity borders
+-- Enable/disable ground rarity indicators
 groundRarityConfig.enabled = true
 
--- Border rendering configuration
-groundRarityConfig.borderWidth = 2        -- Pixel width of the border (1-4 recommended)
-groundRarityConfig.borderOpacity = 0.8    -- Opacity of the border (0.0-1.0)
-groundRarityConfig.borderInset = 1        -- Inset from item edge in pixels (0-2 recommended)
+-- Indicator style: "dot", "corner", "outline", "glow"
+groundRarityConfig.style = "dot"
 
--- Glow/shimmer effect configuration  
-groundRarityConfig.enableGlow = true      -- Enable outer glow effect
-groundRarityConfig.glowWidth = 3          -- Width of glow blur (2-5 recommended)
-groundRarityConfig.glowOpacity = 0.4      -- Opacity of glow (0.0-0.5 recommended)
-groundRarityConfig.glowIntensity = 1.0    -- Intensity multiplier (0.5-2.0)
+-- Dot indicator configuration (when style = "dot")
+groundRarityConfig.dot = {
+  size = 5,              -- Size in pixels (3-7 recommended)
+  position = "bottom-right",  -- "top-left", "top-right", "bottom-left", "bottom-right"
+  offsetX = 2,           -- Padding from edge (pixels)
+  offsetY = 2            -- Padding from edge (pixels)
+}
 
--- Pulsing animation configuration
-groundRarityConfig.enablePulse = true     -- Enable pulsing/shimmer animation
-groundRarityConfig.pulseClub = 1        -- Pulse color intensity variant (subtle intensity variation)
-groundRarityConfig.pulseDuration = 2000   -- Duration of pulse cycle in milliseconds (1000-4000)
+-- Corner indicator configuration (when style = "corner")
+groundRarityConfig.corner = {
+  length = 4,            -- Length of corner brackets (pixels)
+  width = 2,             -- Thickness of corner lines (pixels)
+  inset = 2              -- Distance from tile edge (pixels)
+}
 
--- Rarity filter - set to nil to show all rarities, or specify array of rarities to show
-groundRarityConfig.rarityFilter = nil     -- Options: nil (show all), {"rare"}, {"epic"}, {"legendary"}, {"rare", "epic"}, etc.
+-- Outline configuration (when style = "outline")
+groundRarityConfig.outline = {
+  width = 1,             -- Line width (pixels)
+  inset = 8,             -- Inset from tile edges (pixels, 0 = full tile)
+  opacity = 60           -- Opacity 0-255
+}
 
--- Distance-based fade (optional) - reduce border visibility at far distances
-groundRarityConfig.enableDistanceFade = false
-groundRarityConfig.maxFadeDistance = 10   -- Tiles at this distance will start fading
+-- Glow configuration (when style = "glow")
+groundRarityConfig.glow = {
+  radius = 12,           -- Glow radius (pixels)
+  opacity = 80           -- Opacity 0-255
+}
+
+-- Rarity colors (RGB format)
+groundRarityConfig.colors = {
+  rare = {r = 0, g = 102, b = 255},        -- Blue
+  epic = {r = 153, g = 51, b = 255},       -- Purple
+  legendary = {r = 255, g = 170, b = 0}    -- Gold
+}
+
+-- Rarity filter - set to nil to show all rarities
+groundRarityConfig.rarityFilter = nil     -- Options: nil, {"rare"}, {"epic"}, {"legendary"}, etc.
 
 function init()
-  g_logger.info("[Ground Rarity] Configuration loaded")
+  g_logger.info("[Ground Rarity] Configuration loaded with style: " .. groundRarityConfig.style)
 end
 
-function getConfig()
+function terminate()
+end
+
+-- Get configuration for C++ (converts to format C++ can use)
+function getGroundRarityConfig()
   return groundRarityConfig
 end

@@ -34,6 +34,25 @@
 #include <framework/graphics/fontmanager.h>
 #include <framework/util/extras.h>
 #include <framework/core/adaptiverenderer.h>
+#include <framework/luaengine/luainterface.h>
+
+// Static variables for ground rarity configuration (loaded from Lua)
+namespace {
+    bool g_rarityConfigLoaded = false;
+    bool g_rarityEnabled = true;
+    int g_rarityDotSize = 5;
+    int g_rarityDotOffsetX = 2;
+    int g_rarityDotOffsetY = 2;
+    std::string g_rarityDotPosition = "bottom-right";
+    
+    // Colors in RGB format (will be converted to AABBGGRR when needed)
+    struct RarityColorRGB {
+        int r, g, b;
+    };
+    RarityColorRGB g_rarityColorRare = {0, 102, 255};
+    RarityColorRGB g_rarityColorEpic = {153, 51, 255};
+    RarityColorRGB g_rarityColorLegendary = {255, 170, 0};
+}
 
 Tile::Tile(const Position& position) :
     m_position(position),
@@ -205,12 +224,131 @@ void Tile::drawTop(const Point& dest, LightView* lightView)
     }
 }
 
+void Tile::loadGroundRarityConfig()
+{
+    if (g_rarityConfigLoaded)
+        return;
+    
+    // Load configuration from Lua ground_rarity module
+    try {
+        g_lua.loadScript("modules/game_affixes/ground_rarity");
+        
+        // Get the global config table
+        g_lua.getGlobal("groundRarityConfig");
+        if (g_lua.isTable()) {
+            // Load enabled flag
+            g_lua.getField("enabled");
+            if (g_lua.isBoolean())
+                g_rarityEnabled = g_lua.popBoolean();
+            else
+                g_lua.pop();
+            
+            // Load dot configuration
+            g_lua.getField("dot");
+            if (g_lua.isTable()) {
+                g_lua.getField("size");
+                if (g_lua.isNumber())
+                    g_rarityDotSize = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.getField("offsetX");
+                if (g_lua.isNumber())
+                    g_rarityDotOffsetX = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.getField("offsetY");
+                if (g_lua.isNumber())
+                    g_rarityDotOffsetY = g_lua.popInteger();
+                else
+                    g_lua.pop();
+                
+                g_lua.getField("position");
+                if (g_lua.isString())
+                    g_rarityDotPosition = g_lua.popString();
+                else
+                    g_lua.pop();
+                
+                g_lua.pop(); // pop dot table
+            } else {
+                g_lua.pop();
+            }
+            
+            // Load colors
+            g_lua.getField("colors");
+            if (g_lua.isTable()) {
+                g_lua.getField("rare");
+                if (g_lua.isTable()) {
+                    g_lua.getField("r");
+                    if (g_lua.isNumber()) g_rarityColorRare.r = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("g");
+                    if (g_lua.isNumber()) g_rarityColorRare.g = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("b");
+                    if (g_lua.isNumber()) g_rarityColorRare.b = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.pop(); // pop rare table
+                } else {
+                    g_lua.pop();
+                }
+                
+                g_lua.getField("epic");
+                if (g_lua.isTable()) {
+                    g_lua.getField("r");
+                    if (g_lua.isNumber()) g_rarityColorEpic.r = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("g");
+                    if (g_lua.isNumber()) g_rarityColorEpic.g = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("b");
+                    if (g_lua.isNumber()) g_rarityColorEpic.b = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.pop(); // pop epic table
+                } else {
+                    g_lua.pop();
+                }
+                
+                g_lua.getField("legendary");
+                if (g_lua.isTable()) {
+                    g_lua.getField("r");
+                    if (g_lua.isNumber()) g_rarityColorLegendary.r = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("g");
+                    if (g_lua.isNumber()) g_rarityColorLegendary.g = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.getField("b");
+                    if (g_lua.isNumber()) g_rarityColorLegendary.b = g_lua.popInteger(); else g_lua.pop();
+                    g_lua.pop(); // pop legendary table
+                } else {
+                    g_lua.pop();
+                }
+                
+                g_lua.pop(); // pop colors table
+            } else {
+                g_lua.pop();
+            }
+            
+            g_lua.pop(); // pop groundRarityConfig table
+        } else {
+            g_lua.pop();
+        }
+        
+        g_rarityConfigLoaded = true;
+        g_logger.info(stdext::format("[Ground Rarity] Config loaded: enabled=%s, dotSize=%d, position=%s",
+            g_rarityEnabled ? "true" : "false", g_rarityDotSize, g_rarityDotPosition));
+    } catch (const std::exception& e) {
+        g_logger.error(stdext::format("[Ground Rarity] Failed to load config: %s", e.what()));
+    }
+}
+
 void Tile::drawGroundRarityBorders(const Point& dest)
 {
+    // Load config from Lua on first call
+    if (!g_rarityConfigLoaded)
+        loadGroundRarityConfig();
+    
+    // Check if rarity indicators are enabled
+    if (!g_rarityEnabled)
+        return;
+    
     if (m_fill != Color::alpha)
         return;
 
-    // Draw small colored dot indicator on items that have rarity
+    // Draw colored dot indicator on items that have rarity
     for (const ThingPtr& thing : m_things) {
         // Skip non-items and hidden things
         if (!thing || thing->isHidden())
@@ -226,30 +364,49 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         if (rarity == Item::RARITY_NONE)
             continue;  // No rarity, skip indicator
         
-        // Map rarity to dot color with proper AABBGGRR format
+        // Map rarity to dot color using Lua config (RGB -> AABBGGRR format)
         Color dotColor(Color::white);
         
         if (rarity == Item::RARITY_LEGENDARY) {
-            // Gold: RGB(255,170,0) -> AABBGGRR: 0xFF00AAFF
-            dotColor = Color(0xFF00AAFF);
+            // Convert RGB to AABBGGRR: 0xAABBGGRR
+            dotColor = Color(0xFF000000 | 
+                           (g_rarityColorLegendary.b << 16) | 
+                           (g_rarityColorLegendary.g << 8) | 
+                           g_rarityColorLegendary.r);
         } else if (rarity == Item::RARITY_EPIC) {
-            // Purple: RGB(153,51,255) -> AABBGGRR: 0xFFFF3399
-            dotColor = Color(0xFFFF3399);
+            dotColor = Color(0xFF000000 | 
+                           (g_rarityColorEpic.b << 16) | 
+                           (g_rarityColorEpic.g << 8) | 
+                           g_rarityColorEpic.r);
         } else if (rarity == Item::RARITY_RARE) {
-            // Blue: RGB(0,102,255) -> AABBGGRR: 0xFFFF6600
-            dotColor = Color(0xFFFF6600);
+            dotColor = Color(0xFF000000 | 
+                           (g_rarityColorRare.b << 16) | 
+                           (g_rarityColorRare.g << 8) | 
+                           g_rarityColorRare.r);
         }
         
         // Calculate item position
         Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
         
-        // Draw small dot in bottom-right corner of tile
-        int dotSize = 5;  // 5x5 pixel dot
-        int dotX = itemDest.x + 32 - dotSize - 2;  // 2px padding from edge
-        int dotY = itemDest.y + 32 - dotSize - 2;
+        // Calculate dot position based on configured position
+        int dotX, dotY;
+        
+        if (g_rarityDotPosition == "top-left") {
+            dotX = itemDest.x + g_rarityDotOffsetX;
+            dotY = itemDest.y + g_rarityDotOffsetY;
+        } else if (g_rarityDotPosition == "top-right") {
+            dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
+            dotY = itemDest.y + g_rarityDotOffsetY;
+        } else if (g_rarityDotPosition == "bottom-left") {
+            dotX = itemDest.x + g_rarityDotOffsetX;
+            dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
+        } else { // bottom-right (default)
+            dotX = itemDest.x + 32 - g_rarityDotSize - g_rarityDotOffsetX;
+            dotY = itemDest.y + 32 - g_rarityDotSize - g_rarityDotOffsetY;
+        }
         
         // Draw the dot as a small filled rectangle
-        g_drawQueue->addFilledRect(Rect(dotX, dotY, dotX + dotSize, dotY + dotSize), dotColor);
+        g_drawQueue->addFilledRect(Rect(dotX, dotY, dotX + g_rarityDotSize, dotY + g_rarityDotSize), dotColor);
     }
 }
 
