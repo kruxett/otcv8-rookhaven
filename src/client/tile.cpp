@@ -256,17 +256,18 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         
         // Calculate item position with elevation
         Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
-        Size spriteSize = g_sprites.spriteSize();
-        int w = spriteSize.width();
-        int h = spriteSize.height();
         
         // Clamp border width
         borderWidth = std::max(1, std::min(4, borderWidth));
         
+        // Get sprite dimensions 
+        int spriteW = 32;  // Standard sprite width
+        int spriteH = 32;  // Standard sprite height
+        
         int x1 = itemDest.x;
         int y1 = itemDest.y;
-        int x2 = itemDest.x + w;
-        int y2 = itemDest.y + h;
+        int x2 = itemDest.x + spriteW;
+        int y2 = itemDest.y + spriteH;
         
         // Draw all four borders
         // Top border
