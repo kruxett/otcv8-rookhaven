@@ -406,26 +406,34 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     Color glowColor(Color::white);
     
     if (rarity == Item::RARITY_LEGENDARY) {
-        glowColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 128); // 50% opacity
+        glowColor = Color(g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b, 255); // Full opacity for outline
     } else if (rarity == Item::RARITY_EPIC) {
-        glowColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 128);
+        glowColor = Color(g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b, 255);
     } else if (rarity == Item::RARITY_RARE) {
-        glowColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 128);
+        glowColor = Color(g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b, 255);
     }
     
     // Calculate item position with elevation
     Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
     
-    // Draw a simple colored rectangle as glow (not the item sprite)
-    // This creates a colored backdrop that the item will render on top of
-    int glowSize = 20; // Size of glow area (centered on tile)
-    int centerX = itemDest.x + 16; // Center of 32x32 tile
-    int centerY = itemDest.y + 16;
+    // Draw the item sprite multiple times with color to create an outline effect
+    int xPattern = 0, yPattern = 0, zPattern = 0;
+    item->calculatePatterns(xPattern, yPattern, zPattern);
+    int animationPhase = item->calculateAnimationPhase(true);
     
-    Rect glowRect(centerX - glowSize/2, centerY - glowSize/2, 
-                  centerX + glowSize/2, centerY + glowSize/2);
-    
-    g_drawQueue->addFilledRect(glowRect, glowColor);
+    ThingType* thingType = item->rawGetThingType();
+    if (thingType) {
+        // Draw colored sprite in 8 directions to create outline
+        for (int offsetX = -1; offsetX <= 1; offsetX++) {
+            for (int offsetY = -1; offsetY <= 1; offsetY++) {
+                if (offsetX == 0 && offsetY == 0)
+                    continue; // Skip center (actual item will be drawn there)
+                    
+                Point glowPos = itemDest + Point(offsetX, offsetY);
+                thingType->draw(glowPos, 0, xPattern, yPattern, zPattern, animationPhase, glowColor, nullptr);
+            }
+        }
+    }
 }
 
 void Tile::drawGroundRarityBorders(const Point& dest)
