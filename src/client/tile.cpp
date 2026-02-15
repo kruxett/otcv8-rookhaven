@@ -209,15 +209,13 @@ void Tile::drawGroundRarityBorders(const Point& dest)
     if (m_fill != Color::alpha)
         return;
 
-    // Iterate through items in reverse order (bottom to top, same as drawing)
-    for (auto it = m_things.rbegin(); it != m_things.rend(); ++it) {
-        const ThingPtr& thing = *it;
-        
-        // Only draw borders for items (not ground, not creatures, not on-top items, not splashes)
-        if (thing->isOnTop() || thing->isOnBottom() || thing->isGroundBorder() || thing->isGround() || thing->isCreature() || thing->isSplash() || thing->isHidden())
+    // Simple approach: draw borders on all items that have rarity
+    for (const ThingPtr& thing : m_things) {
+        // Skip non-items and hidden things
+        if (!thing || thing->isHidden())
             continue;
-
-        // Get the item and check if it's an item type
+        
+        // Get the item
         ItemPtr item = thing->static_self_cast<Item>();
         if (!item)
             continue;
@@ -232,13 +230,13 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         int borderWidth = 2;
         
         if (rarity == Item::RARITY_LEGENDARY) {
-            borderColor = Color(0xFFFFAA00);  // Gold (ARGB format)
+            borderColor = Color(0xFF00AAFF);  // Gold: R=FF, G=AA, B=00 (AABBGGRR format)
             borderWidth = 3;
         } else if (rarity == Item::RARITY_EPIC) {
-            borderColor = Color(0xFF9933FF);  // Purple
+            borderColor = Color(0xFFFF3399);  // Purple: R=99, G=33, B=FF
             borderWidth = 2;
         } else if (rarity == Item::RARITY_RARE) {
-            borderColor = Color(0xFF0066FF);  // Blue
+            borderColor = Color(0xFFFF6600);  // Blue: R=00, G=66, B=FF
             borderWidth = 2;
         }
         

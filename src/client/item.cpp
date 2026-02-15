@@ -50,7 +50,7 @@ Item::Item() :
     m_tooltip(),
     m_shader(),
     m_article(),
-    m_rarity(RARITY_NONE),
+    m_rarity(Item::RARITY_NONE),
     m_quickLootFlags(0),
     m_phase(0),
     m_lastPhase(0),
@@ -474,7 +474,7 @@ ThingType* Item::rawGetThingType()
 
 void Item::detectAndCacheRarity()
 {
-    m_rarity = RARITY_NONE;
+    m_rarity = Item::RARITY_NONE;
     
     // Check article for rarity keywords
     std::string article = getArticle();
@@ -484,14 +484,19 @@ void Item::detectAndCacheRarity()
         articleLower.resize(article.size());
         std::transform(article.begin(), article.end(), articleLower.begin(), ::tolower);
         
+        g_logger.debug(stdext::format("[Rarity] Checking article: '%s' (lowercased: '%s')", article, articleLower));
+        
         if (articleLower.find("legendary") != std::string::npos) {
-            m_rarity = RARITY_LEGENDARY;
+            m_rarity = Item::RARITY_LEGENDARY;
+            g_logger.info(stdext::format("[Rarity] LEGENDARY detected in article: '%s'", article));
             return;
         } else if (articleLower.find("epic") != std::string::npos) {
-            m_rarity = RARITY_EPIC;
+            m_rarity = Item::RARITY_EPIC;
+            g_logger.info(stdext::format("[Rarity] EPIC detected in article: '%s'", article));
             return;
         } else if (articleLower.find("rare") != std::string::npos) {
-            m_rarity = RARITY_RARE;
+            m_rarity = Item::RARITY_RARE;
+            g_logger.info(stdext::format("[Rarity] RARE detected in article: '%s'", article));
             return;
         }
     }
@@ -503,14 +508,19 @@ void Item::detectAndCacheRarity()
         descLower.resize(description.size());
         std::transform(description.begin(), description.end(), descLower.begin(), ::tolower);
         
+        g_logger.debug(stdext::format("[Rarity] Checking description: '%s'", description));
+        
         if (descLower.find("legendary") != std::string::npos) {
-            m_rarity = RARITY_LEGENDARY;
+            m_rarity = Item::RARITY_LEGENDARY;
+            g_logger.info(stdext::format("[Rarity] LEGENDARY detected in description: '%s'", description));
             return;
         } else if (descLower.find("epic") != std::string::npos) {
-            m_rarity = RARITY_EPIC;
+            m_rarity = Item::RARITY_EPIC;
+            g_logger.info(stdext::format("[Rarity] EPIC detected in description: '%s'", description));
             return;
         } else if (descLower.find("rare") != std::string::npos) {
-            m_rarity = RARITY_RARE;
+            m_rarity = Item::RARITY_RARE;
+            g_logger.info(stdext::format("[Rarity] RARE detected in description: '%s'", description));
             return;
         }
     }

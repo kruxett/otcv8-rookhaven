@@ -126,10 +126,10 @@ public:
 
     std::string getText() { return m_attribs.get<std::string>(ATTR_TEXT); }
     std::string getDescription() { return m_attribs.get<std::string>(ATTR_DESC); }
-    void setDescription(std::string desc) { m_attribs.set(ATTR_DESC, desc); }
+    void setDescription(std::string desc) { m_attribs.set(ATTR_DESC, desc); detectAndCacheRarity(); }
     void setText(std::string txt) { m_attribs.set(ATTR_TEXT, txt); }
     std::string getArticle() { return m_article.empty() ? m_attribs.get<std::string>(ATTR_ARTICLE) : m_article; }
-    void setArticle(const std::string& article) { m_article = article; }
+    void setArticle(const std::string& article) { m_article = article; detectAndCacheRarity(); }
 
     Position getTeleportDestination() { return m_attribs.get<Position>(ATTR_TELE_DEST); }
     void setTeleportDestination(const Position& pos) { m_attribs.set(ATTR_TELE_DEST, pos); }
