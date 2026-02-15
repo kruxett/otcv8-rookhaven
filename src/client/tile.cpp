@@ -401,16 +401,37 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
     Item::Rarity rarity = item->getRarity();
     if (rarity == Item::RARITY_NONE)
         return;  // No rarity, skip glow
-    
-    // Set shader based on rarity
-    // Shaders handle the outline rendering automatically
+
+    const char* shaderName = nullptr;
     if (rarity == Item::RARITY_LEGENDARY) {
-        item->setShader("item_legendary");
+        shaderName = "item_legendary";
     } else if (rarity == Item::RARITY_EPIC) {
-        item->setShader("item_epic");
+        shaderName = "item_epic";
     } else if (rarity == Item::RARITY_RARE) {
-        item->setShader("item_rare");
+        shaderName = "item_rare";
     }
+
+    if (!shaderName)
+        return;
+
+    ThingType* thingType = item->rawGetThingType();
+    if (!thingType)
+        return;
+
+    int xPattern = 0, yPattern = 0, zPattern = 0;
+    item->calculatePatterns(xPattern, yPattern, zPattern);
+    int animationPhase = item->calculateAnimationPhase(true);
+
+    // Draw a thin outline by rendering a colored silhouette slightly offset
+    Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
+    int outlineOffset = g_sprites.getOffsetFactor();
+    if (outlineOffset < 1)
+        outlineOffset = 1;
+
+    thingType->drawWithShader(itemDest + Point(-outlineOffset, 0), 0, xPattern, yPattern, zPattern, animationPhase, shaderName, Color::white);
+    thingType->drawWithShader(itemDest + Point(outlineOffset, 0), 0, xPattern, yPattern, zPattern, animationPhase, shaderName, Color::white);
+    thingType->drawWithShader(itemDest + Point(0, -outlineOffset), 0, xPattern, yPattern, zPattern, animationPhase, shaderName, Color::white);
+    thingType->drawWithShader(itemDest + Point(0, outlineOffset), 0, xPattern, yPattern, zPattern, animationPhase, shaderName, Color::white);
 }
 
 void Tile::drawGroundRarityBorders(const Point& dest)
