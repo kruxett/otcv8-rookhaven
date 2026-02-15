@@ -210,7 +210,7 @@ void Tile::drawGroundRarityBorders(const Point& dest)
     if (m_fill != Color::alpha)
         return;
 
-    // Draw subtle glow on items that have rarity
+    // Draw small colored dot indicator on items that have rarity
     for (const ThingPtr& thing : m_things) {
         // Skip non-items and hidden things
         if (!thing || thing->isHidden())
@@ -224,34 +224,32 @@ void Tile::drawGroundRarityBorders(const Point& dest)
         // Get cached rarity from item
         Item::Rarity rarity = item->getRarity();
         if (rarity == Item::RARITY_NONE)
-            continue;  // No rarity, skip effect
+            continue;  // No rarity, skip indicator
         
-        // Map rarity to glow color with proper AABBGGRR format
-        Color glowColor(Color::white);
+        // Map rarity to dot color with proper AABBGGRR format
+        Color dotColor(Color::white);
         
         if (rarity == Item::RARITY_LEGENDARY) {
-            // Gold: RGB(255,170,0) -> AABBGGRR: 0x6000AAFF (semi-transparent)
-            glowColor = Color(0x6000AAFF);
+            // Gold: RGB(255,170,0) -> AABBGGRR: 0xFF00AAFF
+            dotColor = Color(0xFF00AAFF);
         } else if (rarity == Item::RARITY_EPIC) {
-            // Purple: RGB(153,51,255) -> AABBGGRR: 0x60FF33AA (semi-transparent)
-            glowColor = Color(0x60FF33AA);
+            // Purple: RGB(153,51,255) -> AABBGGRR: 0xFFFF3399
+            dotColor = Color(0xFFFF3399);
         } else if (rarity == Item::RARITY_RARE) {
-            // Blue: RGB(0,102,255) -> AABBGGRR: 0x60FF6600 (semi-transparent)
-            glowColor = Color(0x60FF6600);
+            // Blue: RGB(0,102,255) -> AABBGGRR: 0xFFFF6600
+            dotColor = Color(0xFFFF6600);
         }
         
         // Calculate item position
         Point itemDest = dest - m_drawElevation * g_sprites.getOffsetFactor();
         
-        // Draw a subtle rectangular glow around item (smaller inset to fit actual item sprite)
-        int inset = 8;  // Inset from tile edges (closer to actual item size)
-        int x1 = itemDest.x + inset;
-        int y1 = itemDest.y + inset;
-        int x2 = itemDest.x + 32 - inset;
-        int y2 = itemDest.y + 32 - inset;
+        // Draw small dot in bottom-right corner of tile
+        int dotSize = 5;  // 5x5 pixel dot
+        int dotX = itemDest.x + 32 - dotSize - 2;  // 2px padding from edge
+        int dotY = itemDest.y + 32 - dotSize - 2;
         
-        // Draw subtle outline (1px wide, semi-transparent)
-        g_drawQueue->addBoundingRect(Rect(x1, y1, x2, y2), 1, glowColor);
+        // Draw the dot as a small filled rectangle
+        g_drawQueue->addFilledRect(Rect(dotX, dotY, dotX + dotSize, dotY + dotSize), dotColor);
     }
 }
 
