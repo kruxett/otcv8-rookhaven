@@ -125,7 +125,7 @@ MiniWindowContents < ScrollablePanel
   margin-bottom: 3
   margin-top: 18
   margin-right: 1
-  padding-top: 6
+  padding-top: 3
   padding-bottom: 3
   vertical-scrollbar: miniwindowScrollBar
 

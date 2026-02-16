@@ -2,12 +2,13 @@ GameSidePanel < UIMiniWindowContainer
   image-source: /images/ui/panel_side
   image-border: 4
   padding: 3
-  padding-top: 0
+  padding-top: 3
   width: 198
   focusable: false
   on: true
   layout:
     type: verticalBox
+    spacing: 2
   $mobile:
     padding: 0
     width: 200
