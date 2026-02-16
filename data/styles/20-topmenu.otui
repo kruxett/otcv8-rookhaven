@@ -42,12 +42,12 @@ TopToggleButton < UIButton
 TopMenuButtonsPanel < Panel
   layout:
     type: horizontalBox
-    spacing: 4
+    spacing: 2
     fit-children: true
-  padding: 6 4
+  padding: 2 3
 
 TopMenuPanel < Panel
-  height: 36
+  height: 32
   image-source: /images/ui/panel_top
   image-repeated: true
   focusable: false
