@@ -108,11 +108,25 @@ HealthOverlay < UIWidget
     opacity: 0.4
     image-color: #0000FFFF
     phantom: true
+
+HealthInfoContents < Panel
+  id: contentsPanel
+  anchors.fill: parent
+  margin-left: 2
+  margin-right: 2
+  margin-top: 2
+  margin-bottom: 2
+  padding: 0
   
 HealthInfoWindow < MiniWindow
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')
   height: 123
+
+  VerticalScrollBar
+    id: miniwindowScrollBar
+    visible: false
+    width: 0
 
   MiniWindowContents
     HealthBar

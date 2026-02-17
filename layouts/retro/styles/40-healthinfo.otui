@@ -107,29 +107,39 @@ HealthOverlay < UIWidget
     opacity: 0.4
     image-color: #0000FFFF
     phantom: true
+
+HealthInfoContents < Panel
+  id: contentsPanel
+  anchors.fill: parent
+  margin-left: 2
+  margin-right: 2
+  margin-top: 0
+  margin-bottom: 15
+  padding: 0
   
 HealthInfoWindow < HeadlessMiniWindow
   icon: 
   text:
-  height: 145
+  height: 56
   &forceOpen: true
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')  
 
-  MiniWindowContents
-    margin-top: 1
-    margin-bottom: 1
-    padding-top: 2
-    padding-bottom: 2
-    
+  VerticalScrollBar
+    id: miniwindowScrollBar
+    visible: false
+    width: 0
+
+  HealthInfoContents
     HealthBar
       id: healthBar
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
       margin: 2
-      margin-top: 0
+      margin-top: 1
       phantom: true
+      
       
     ManaBar
       id: manaBar
@@ -137,15 +147,16 @@ HealthInfoWindow < HeadlessMiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
       margin: 2
-      margin-bottom: 0
+      margin-bottom: 1
       phantom: true
+      
       
     ExperienceBar
     Panel
       id: conditionPanel
       layout:
         type: horizontalBox
-      height: 22
+      height: 20
       margin-top: 4
       padding: 2
       anchors.top: prev.bottom

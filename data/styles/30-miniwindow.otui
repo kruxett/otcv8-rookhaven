@@ -101,6 +101,10 @@ MiniWindow < UIMiniWindow
     margin-bottom: 3
     pixels-scroll: true
 
+    $on:
+      visible: false
+      width: 0
+
     $!on:
       width: 0
 
@@ -127,4 +131,93 @@ MiniWindowContents < ScrollablePanel
   padding-bottom: 3
   vertical-scrollbar: miniwindowScrollBar
 
-HeadlessMiniWindow < MiniWindow
+HeadlessMiniWindow < UIMiniWindow
+  font: verdana-11px-antialised
+  icon-rect: 4 4 16 16
+  width: 192
+  height: 200
+  text-offset: 24 5
+  text-align: topLeft
+  image-source: /images/ui/miniwindow
+  image-border: 4
+  image-border-top: 23
+  image-border-bottom: 4
+  focusable: false
+  &minimizedHeight: 24
+
+  $on:
+    image-border-bottom: 2
+
+  $!on:
+    text:
+    icon:
+
+  UIWidget
+    id: miniwindowTopBar
+    anchors.top: parent.top
+    anchors.right: parent.right
+    anchors.left: parent.left
+    margin-right: 3
+    margin-left: 3
+    margin-top: 3
+    size: 258 18
+    phantom: true
+
+  UIButton
+    id: minimizeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 5
+    size: 14 14
+    image-source: /images/ui/miniwindow_buttons
+    image-clip: 0 0 14 14
+
+    $hover:
+      image-clip: 0 14 14 14
+
+    $pressed:
+      image-clip: 0 28 14 14
+
+    $on:
+      image-clip: 14 0 14 14
+
+    $on hover:
+      image-clip: 14 14 14 14
+
+    $on pressed:
+      image-clip: 14 28 14 14
+
+    $!on:
+      size: 0 0
+
+  UIButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    hidden: true
+
+  VerticalScrollBar
+    id: miniwindowScrollBar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 14
+    margin-top: 22
+    margin-right: 3
+    margin-bottom: 3
+    pixels-scroll: true
+
+    $!on:
+      width: 0
+
+  ResizeBorder
+    id: bottomResizeBorder
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 3
+    minimum: 48
+    margin-left: 3
+    margin-right: 3
+    background: #ffffff88

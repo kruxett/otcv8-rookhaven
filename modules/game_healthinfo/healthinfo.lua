@@ -262,19 +262,48 @@ function onStatesChange(localPlayer, now, old)
 end
 
 -- personalization functions
+updateCompactHeight = function()
+  if not healthInfoWindow then
+    return
+  end
+
+  local content = healthInfoWindow:recursiveGetChildById('contentsPanel')
+  local contentHeight = 0
+
+  local function addWidgetHeight(widget)
+    if widget and widget:isVisible() then
+      contentHeight = contentHeight + widget:getHeight() + widget:getMarginTop() + widget:getMarginBottom()
+    end
+  end
+
+  addWidgetHeight(healthBar)
+  addWidgetHeight(manaBar)
+  addWidgetHeight(experienceBar)
+  addWidgetHeight(healthInfoWindow:recursiveGetChildById('conditionPanel'))
+  addWidgetHeight(capLabel)
+  addWidgetHeight(soulLabel)
+
+  local marginTop = content and content:getMarginTop() or 0
+  local marginBottom = content and content:getMarginBottom() or 0
+  local paddingTop = content and content:getPaddingTop() or 0
+  local paddingBottom = content and content:getPaddingBottom() or 0
+  local chromeHeight = 24
+  local targetHeight = contentHeight + marginTop + marginBottom + paddingTop + paddingBottom + chromeHeight
+
+  healthInfoWindow:setHeight(math.max(targetHeight, healthInfoWindow.minimizedHeight or targetHeight))
+end
+
 function hideLabels()
-  local content = healthInfoWindow:recursiveGetChildById('conditionPanel')
-  local removeHeight = math.max(capLabel:getMarginRect().height, soulLabel:getMarginRect().height) + content:getMarginRect().height - 3
   capLabel:setOn(false)
   soulLabel:setOn(false)
+  local content = healthInfoWindow:recursiveGetChildById('conditionPanel')
   content:setVisible(false)
-  healthInfoWindow:setHeight(math.max(healthInfoWindow.minimizedHeight, healthInfoWindow:getHeight() - removeHeight))
+  updateCompactHeight()
 end
 
 function hideExperience()
-  local removeHeight = experienceBar:getMarginRect().height
   experienceBar:setOn(false)
-  healthInfoWindow:setHeight(math.max(healthInfoWindow.minimizedHeight, healthInfoWindow:getHeight() - removeHeight))
+  updateCompactHeight()
 end
 
 function setHealthTooltip(tooltip)
