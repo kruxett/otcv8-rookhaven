@@ -114,7 +114,7 @@ HealthInfoContents < Panel
   margin-left: 2
   margin-right: 2
   margin-top: 0
-  margin-bottom: 15
+  margin-bottom: 10
   padding: 0
   
 HealthInfoWindow < HeadlessMiniWindow
@@ -125,26 +125,12 @@ HealthInfoWindow < HeadlessMiniWindow
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')  
 
-<<<<<<< HEAD
   VerticalScrollBar
     id: miniwindowScrollBar
     visible: false
     width: 0
 
   HealthInfoContents
-=======
-  Panel
-    id: contentsPanel
-    anchors.fill: parent
-    anchors.right: parent.right
-    margin-left: 3
-    margin-bottom: 3
-    margin-top: 18
-    margin-right: 5
-    padding-top: 2
-    padding-bottom: 4
-    
->>>>>>> 92ae9ba889b5e9969a042aae937bcc3a936a2d3c
     HealthBar
       id: healthBar
       anchors.top: parent.top
