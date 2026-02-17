@@ -133,7 +133,7 @@ HealthInfoWindow < HeadlessMiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
       margin: 2
-      margin-top: 0
+      margin-top: 1
       phantom: true
       
     ManaBar
@@ -142,7 +142,7 @@ HealthInfoWindow < HeadlessMiniWindow
       anchors.left: parent.left
       anchors.right: parent.right
       margin: 2
-      margin-bottom: 0
+      margin-bottom: 1
       phantom: true
       
     ExperienceBar
