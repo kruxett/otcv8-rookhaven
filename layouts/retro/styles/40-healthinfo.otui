@@ -120,7 +120,7 @@ HealthInfoWindow < HeadlessMiniWindow
     margin-top: 1
     margin-bottom: 1
     padding-top: 2
-    padding-bottom: 2
+    padding-bottom: 4
     
     HealthBar
       id: healthBar
