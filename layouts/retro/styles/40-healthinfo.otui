@@ -116,9 +116,21 @@ HealthInfoWindow < HeadlessMiniWindow
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')  
 
-  MiniWindowContents
-    margin-top: 1
-    margin-bottom: 1
+  VerticalScrollBar
+    id: miniwindowScrollBar
+    $on:
+      width: 0
+    $!on:
+      width: 0
+
+  Panel
+    id: contentsPanel
+    anchors.fill: parent
+    anchors.right: parent.right
+    margin-left: 3
+    margin-bottom: 3
+    margin-top: 18
+    margin-right: 5
     padding-top: 2
     padding-bottom: 4
     
