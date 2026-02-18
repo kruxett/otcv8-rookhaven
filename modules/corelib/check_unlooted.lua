@@ -5,14 +5,19 @@
 -- CONFIGURATION
 local ENABLE_LOGGING = false  -- Set to false to disable ALL logging output
 
+-- Note: CorpseGlowConfig is loaded from corpse_glow_config.lua in corelib.otmod
+-- If available, it will be used for color configuration
+local USE_GLOW_CONFIG = (CorpseGlowConfig ~= nil)
+
 -- Glow Color Configuration (RGB: 0-255 for each component)
+-- These values are only used if CorpseGlowConfig is not available
 local GLOW_COLOR_R = 255      -- Red component (0-255)
 local GLOW_COLOR_G = 215      -- Green component (0-255) [215 = gold/yellow]
 local GLOW_COLOR_B = 0        -- Blue component (0-255)
 
 -- Glow Opacity Configuration (Alpha: 0-255)
 -- 0 = completely invisible, 128 = half transparent, 255 = fully opaque
-local GLOW_OPACITY = 20      -- Opacity/Alpha (0-255)
+local GLOW_OPACITY = 240      -- Opacity/Alpha (0-255) - increased for better visibility
 
 -- Examples of color presets (uncomment to use):
 -- Gold:    R=255, G=215, B=0    (default)
@@ -27,12 +32,19 @@ local GLOW_OPACITY = 20      -- Opacity/Alpha (0-255)
 -- Global variables to store the events so we can cancel them
 _unlootedCheckerEvent = nil
 _unlootedLoginCheckEvent = nil
+_unlootedAnimationEvent = nil
 _unlootedDebugMode = false  -- Set to true for verbose output
 _unlootedGlowedItems = {}  -- Track all items we've glowed so we can clear them
+_unlootedAnimationTime = 0  -- Track animation time for pulsing effect
 
 -- Glow configuration (stolen from unlooted_corpses.lua)
 local function getUnlootedGlowColor()
-  -- Return configured color: R, G, B, A (Alpha/Opacity)
+  -- If new config is available, use it
+  if USE_GLOW_CONFIG and CorpseGlowConfig then
+    local c = CorpseGlowConfig.glowColor
+    return c.r or 255, c.g or 215, c.b or 0, c.a or 200
+  end
+  -- Otherwise fall back to hardcoded values
   return GLOW_COLOR_R, GLOW_COLOR_G, GLOW_COLOR_B, GLOW_OPACITY
 end
 
@@ -60,6 +72,14 @@ local function applyGlowToItem(item)
   
   local r, g, b, a = getUnlootedGlowColor()
   local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+  
+  -- Try to apply shader if config is loaded
+  if USE_GLOW_CONFIG then
+    pcall(function()
+      item:setShader("corpse_glow")
+    end)
+  end
+  
   item:setMarked(colorHex)
   _unlootedGlowedItems[item] = true
   
