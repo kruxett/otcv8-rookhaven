@@ -481,11 +481,6 @@ void Tile::drawGroundRarityBorders(const Point& dest)
                         (g_rarityColorRare.b << 16) | 
                         (g_rarityColorRare.g << 8) | 
                         g_rarityColorRare.r);
-        } else if (rarity == Item::RARITY_MAGICAL) {
-            color = Color(0xFF000000 | 
-                        (g_rarityColorMagical.b << 16) | 
-                        (g_rarityColorMagical.g << 8) | 
-                        g_rarityColorMagical.r);
         }
         
         // Calculate item position
