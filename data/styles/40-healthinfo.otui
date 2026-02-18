@@ -121,7 +121,7 @@ HealthInfoContents < Panel
 HealthInfoWindow < MiniWindow
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')
-  height: 123
+  height: 56
 
   VerticalScrollBar
     id: miniwindowScrollBar
