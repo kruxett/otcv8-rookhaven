@@ -59,6 +59,7 @@ local function clearAllGlows()
     end
   end
   _unlootedGlowedItems = {}
+  _unlootedPulseAlphas = {}  -- Also clear animation tracking
   
   if ENABLE_LOGGING and _unlootedDebugMode and clearedCount > 0 then
     print("  [Glow] Cleared " .. clearedCount .. " previous glow(s)")
@@ -105,10 +106,12 @@ local function animateGlowPulse()
     animIntensity = CorpseGlowConfig.animation.intensity or 1.0
   end
   
-  -- Calculate pulse: sin wave from 0.3 to 1.0
-  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.002) * math.pi * 2) * 0.35 + 0.65
+  -- Calculate pulse: sin wave from 0.1 to 1.0 (very dramatic - more visible)
+  -- This creates a strong fade in/out effect
+  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.002) * math.pi * 2) * 0.45 + 0.55
   
   -- Update all glowed items with pulsing alpha
+  local updatedCount = 0
   for item, _ in pairs(_unlootedGlowedItems) do
     if item and item:isItem() then
       local baseAlpha = _unlootedPulseAlphas[item] or 80
@@ -121,6 +124,7 @@ local function animateGlowPulse()
       pcall(function()
         item:setMarked(colorHex)
       end)
+      updatedCount = updatedCount + 1
     end
   end
 end
@@ -204,8 +208,11 @@ function checkUnlootedItems()
             if isUnlooted then
               unlootedCount = unlootedCount + 1
               
-              -- Apply glow to the unlooted item
-              applyGlowToItem(item)
+              -- Only apply glow if we haven't already glowed this item
+              -- (prevents interrupting the animation every 100ms)
+              if not _unlootedGlowedItems[item] then
+                applyGlowToItem(item)
+              end
               
               if ENABLE_LOGGING then
                 print("*** UNLOOTED ITEM FOUND! Item ID: " .. itemId .. " at (" .. tilePos.x .. ", " .. tilePos.y .. ", " .. tilePos.z .. ") ***")
