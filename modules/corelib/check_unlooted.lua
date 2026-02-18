@@ -277,17 +277,19 @@ function startUnlootedChecker()
   
   if ENABLE_LOGGING then
     print("Starting periodic unlooted item checker (every 100ms)...")
+    print("NOTE: Animation loop DISABLED temporarily to test shader visibility")
   end
   _unlootedCheckerEvent = cycleEvent(function()
     checkUnlootedItems()
   end, 100)
   
-  -- Start animation loop every 30ms for smooth pulsing
-  if not _unlootedAnimationEvent then
-    _unlootedAnimationEvent = cycleEvent(function()
-      animateGlowPulse()
-    end, 30)
-  end
+  -- Animation loop temporarily DISABLED to verify shader is working
+  -- If you see a bright cyan-green edge glow, the shader is running!
+  -- if not _unlootedAnimationEvent then
+  --   _unlootedAnimationEvent = cycleEvent(function()
+  --     animateGlowPulse()
+  --   end, 30)
+  -- end
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
