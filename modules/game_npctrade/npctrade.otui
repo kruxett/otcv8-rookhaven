@@ -122,9 +122,11 @@ MainWindow
       margin-left: 5
       margin-left: 195
       width: 15
+      visible: false
 
     NPCOfferLabel
       id: id
+      visible: false
 
     Label
       !text: tr('Price') .. ':'

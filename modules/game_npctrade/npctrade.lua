@@ -315,7 +315,7 @@ function canTradeItem(item)
 end
 
 function refreshItem(item)
-  idLabel:setText(item.ptr:getId())
+  -- idLabel:setText(item.ptr:getId())  -- Disabled: don't show item ID
   nameLabel:setText(item.name)
   weightLabel:setText(string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT)
   priceLabel:setText(formatCurrency(getItemPrice(item)))
