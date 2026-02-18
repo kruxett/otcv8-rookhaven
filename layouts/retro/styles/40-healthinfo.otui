@@ -131,6 +131,10 @@ HealthInfoWindow < HeadlessMiniWindow
     width: 0
 
   HealthInfoContents
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
     padding: 0
     margin: 0
     HealthBar

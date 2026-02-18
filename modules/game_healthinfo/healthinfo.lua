@@ -69,6 +69,9 @@ function init()
   if scrollBar then
     scrollBar:setVisible(false)
     scrollBar:setWidth(0)
+    scrollBar:setMarginTop(0)
+    scrollBar:setMarginRight(0)
+    scrollBar:setMarginBottom(0)
   end
 
   -- Disable overlay/top bars/health-mana circles entirely
