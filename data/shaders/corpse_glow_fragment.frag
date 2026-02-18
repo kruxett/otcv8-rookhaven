@@ -14,11 +14,13 @@ void main()
         discard;
     }
     
-    // Create smooth pulsation using sine wave
-    // u_Time increases continuously, creating smooth animation
-    // Pulse between 0.15 and 0.60 (15%-60% glow intensity) - much more visible
-    // Speed of 1.0 rad/sec = ~6.28 second cycle
-    float pulseFactor = sin(u_Time * 1.0) * 0.225 + 0.375;  // Range: 0.15 to 0.60
+    // Create a traveling wave that moves left to right across the corpse
+    // u_Time makes it travel, v_TexCoord.x adds spatial variation
+    float wavePosition = u_Time * 2.0 - v_TexCoord.x * 6.28;
+    float wave = sin(wavePosition) * 0.5 + 0.5;  // Normalize to 0-1 range
+    
+    // Apply wave to glow intensity (15% to 60% range)
+    float pulseFactor = wave * 0.45 + 0.15;
     
     // Subtle green-cyan glow color (same as before)
     vec3 glowColor = vec3(0.2, 0.6, 0.5);  // Teal-green
