@@ -25,10 +25,10 @@ void main()
     float edgeFactor = texColor.a;  // Use texture alpha to modulate
     
     // Very subtle glow intensity - only 0.1 to 0.2 range
-    float glowAmount = glowPulse * 0.15 * edgeFactor;  // Max 15% brightness increase
+    float glowAmount = glowPulse * 0.35 * edgeFactor;  // Max 35% brightness increase
     
-    // Subtle green-cyan glow color
-    vec3 glowColor = vec3(0.1, 0.4, 0.3);  // Very subtle teal-green
+    // Subtle green-cyan glow color (increased brightness for visibility)
+    vec3 glowColor = vec3(0.2, 0.6, 0.5);  // Teal-green glow
     
     // Additive blend: add glow on top of original
     vec3 finalColor = texColor.rgb + (glowColor * glowAmount);
