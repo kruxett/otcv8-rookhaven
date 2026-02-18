@@ -1,5 +1,5 @@
-// Corpse Glow Shader - Pulsating Glow Effect
-// Creates a pulsating glow using mathematical wave patterns (no time dependency)
+// Corpse Glow Shader - Left to Right Pulsating Glow Effect
+// Creates a pulsating wave that travels across the corpse from left to right
 
 uniform sampler2D u_Tex0;              // Item texture
 varying vec2 v_TexCoord;
@@ -13,21 +13,20 @@ void main()
         discard;
     }
     
-    // Create pulsating effect using distance from center
-    // This creates concentric rings that naturally appear to pulse
-    float dx = v_TexCoord.x - 0.5;
-    float dy = v_TexCoord.y - 0.5;
-    float distFromCenter = sqrt(dx * dx + dy * dy) * 2.0;  // 0 to ~1.4
+    // Create pulsating wave across X axis (left to right)
+    // v_TexCoord.x goes from 0 (left) to 1 (right)
     
-    // Create pulsating waves using sin of distance
-    // Multiple frequencies create complexity
-    float pulse1 = sin(distFromCenter * 8.0) * 0.5 + 0.5;           // Fast waves
-    float pulse2 = sin(distFromCenter * 3.0 + 1.5) * 0.5 + 0.5;     // Slow waves
+    // Create multiple wave frequencies for a complex pulsating effect
+    float wave1 = sin(v_TexCoord.x * 6.28) * 0.5 + 0.5;           // One full wave across width
+    float wave2 = sin(v_TexCoord.x * 3.14 + 1.57) * 0.5 + 0.5;    // Half wave, offset
     
-    // Combine for natural pulsating effect
-    float glowPulse = (pulse1 * 0.6 + pulse2 * 0.4);
+    // Also add a subtle vertical component to affect whole corpse
+    float verticalInfluence = sin(v_TexCoord.y * 3.14) * 0.2 + 0.8;  // Reduces at top/bottom
     
-    // Apply stronger glow where pulsing is intense
+    // Combine waves for natural pulsating look
+    float glowPulse = (wave1 * 0.6 + wave2 * 0.4) * verticalInfluence;
+    
+    // Apply glow intensity
     float glowAmount = glowPulse * 0.35;  // Keep the 35% we liked
     
     // Subtle green-cyan glow color
