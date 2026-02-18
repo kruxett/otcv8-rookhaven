@@ -129,6 +129,8 @@ HealthInfoWindow < MiniWindow
     width: 0
 
   MiniWindowContents
+    padding-top: 0
+    margin-top: 0
     HealthBar
       id: healthBar
       anchors.top: parent.top

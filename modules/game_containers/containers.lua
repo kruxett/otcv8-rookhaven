@@ -310,7 +310,7 @@ function onContainerUpdateItem(container, slot, item, oldItem)
     local article = item:getArticle()
     if article and article:lower():find("magical", 1, true) then
       -- Apply subtle purple color tint (glimmer effect)
-      itemWidget:setColor("#7D93BAFF")  -- Purple glow
+      itemWidget:setColor("#D0A8FF")  -- Bright purple glow
       itemWidget:setImageSource("/images/ui/item")  -- Default background
     else
       -- Reset to normal color for non-magical items
