@@ -306,11 +306,11 @@ function onContainerUpdateItem(container, slot, item, oldItem)
   local itemWidget = container.itemsPanel:getChildById('item' .. slot)
   
   if item then
-    -- Check if item is magical and apply cyan tint
+    -- Check if item is magical and apply purple tint
     local article = item:getArticle()
     if article and article:lower():find("magical", 1, true) then
-      -- Apply subtle cyan color tint (glimmer effect)
-      itemWidget:setColor("#00FFFF")  -- Cyan glow
+      -- Apply subtle purple color tint (glimmer effect)
+      itemWidget:setColor("#9932CC")  -- Purple glow
       itemWidget:setImageSource("/images/ui/item")  -- Default background
     else
       -- Reset to normal color for non-magical items

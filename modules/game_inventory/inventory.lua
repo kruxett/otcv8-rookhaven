@@ -240,11 +240,11 @@ function onInventoryChange(player, slot, item, oldItem)
   if item then
     itemWidget:setStyle('InventoryItem')
     
-    -- Check if item is magical and apply cyan tint
+    -- Check if item is magical and apply purple tint
     local article = item:getArticle()
     if article and article:lower():find("magical", 1, true) then
-      -- Apply subtle cyan color tint (glimmer effect)
-      itemWidget:setColor("#00FFFF")  -- Cyan glow
+      -- Apply subtle purple color tint (glimmer effect)
+      itemWidget:setColor("#9932CC")  -- Purple glow
     else
       -- Reset to normal color for non-magical items
       itemWidget:setColor("#FFFFFF")  -- White (normal)

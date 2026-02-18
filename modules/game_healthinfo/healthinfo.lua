@@ -64,6 +64,13 @@ function init()
   soulLabel = healthInfoWindow:recursiveGetChildById('soulLabel')
   capLabel = healthInfoWindow:recursiveGetChildById('capLabel')
 
+  -- Disable scrollbar on health window
+  local scrollBar = healthInfoWindow:recursiveGetChildById('miniwindowScrollBar')
+  if scrollBar then
+    scrollBar:setVisible(false)
+    scrollBar:setWidth(0)
+  end
+
   -- Disable overlay/top bars/health-mana circles entirely
   overlay = nil
   healthCircleFront = nil
