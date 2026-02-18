@@ -30,6 +30,11 @@ local AFFIX_STYLES = {
     imagePath = "/images/ui/rarity_gold",
     borderColor = "#FFAA00",  -- Gold for legendary
     borderWidth = 3
+  },
+  magical = {
+    imagePath = "/images/ui/rarity_cyan",
+    borderColor = "#00FFFF",  -- Cyan for magical
+    borderWidth = 2
   }
 }
 
@@ -56,7 +61,7 @@ function affixSystem.detectAffix(item)
     g_logger.info(string.format("[Affixes] detectAffix called - article='%s'", article or "nil"))
   end
   
-  -- Check article attribute (server sets this to "a rare", "an epic", "a legendary")
+  -- Check article attribute (server sets this to "a rare", "an epic", "a legendary", "a magical")
   if article and article ~= "" then
     local articleLower = article:lower()
     
@@ -79,6 +84,11 @@ function affixSystem.detectAffix(item)
         g_logger.info("[Affixes] *** DETECTED RARE ***")
       end
       return "rare"
+    elseif articleLower:find("magical", 1, true) then
+      if DEBUG then
+        g_logger.info("[Affixes] *** DETECTED MAGICAL ***")
+      end
+      return "magical"
     end
   end
   
@@ -93,6 +103,8 @@ function affixSystem.detectAffix(item)
       return "epic"
     elseif descLower:find("rare", 1, true) then
       return "rare"
+    elseif descLower:find("magical", 1, true) then
+      return "magical"
     end
   end
   

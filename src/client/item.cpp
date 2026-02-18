@@ -498,6 +498,10 @@ void Item::detectAndCacheRarity()
             m_rarity = Item::RARITY_RARE;
             g_logger.info(stdext::format("[Rarity] RARE detected in article: '%s'", article));
             return;
+        } else if (articleLower.find("magical") != std::string::npos) {
+            m_rarity = Item::RARITY_MAGICAL;
+            g_logger.info(stdext::format("[Rarity] MAGICAL detected in article: '%s'", article));
+            return;
         }
     }
     
@@ -521,6 +525,10 @@ void Item::detectAndCacheRarity()
         } else if (descLower.find("rare") != std::string::npos) {
             m_rarity = Item::RARITY_RARE;
             g_logger.info(stdext::format("[Rarity] RARE detected in description: '%s'", description));
+            return;
+        } else if (descLower.find("magical") != std::string::npos) {
+            m_rarity = Item::RARITY_MAGICAL;
+            g_logger.info(stdext::format("[Rarity] MAGICAL detected in description: '%s'", description));
             return;
         }
     }

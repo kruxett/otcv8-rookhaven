@@ -25,6 +25,9 @@ function init()
   -- corpse glow shader (subtle pulsing glow for unlooted corpses)
   g_shaders.createShader("corpse_glow", "/shaders/corpse_glow_vertex", "/shaders/corpse_glow_fragment")
 
+  -- magical item shader (bright cyan aura for enchanted items)
+  g_shaders.createShader("item_magical", "/shaders/item_magical_vertex", "/shaders/item_magical_fragment")
+
 end
 
 function terminate()

@@ -60,6 +60,7 @@ namespace {
     RarityColorRGB g_rarityColorRare = {0, 102, 255};
     RarityColorRGB g_rarityColorEpic = {153, 51, 255};
     RarityColorRGB g_rarityColorLegendary = {255, 170, 0};
+    RarityColorRGB g_rarityColorMagical = {0, 255, 255};
 }
 
 Tile::Tile(const Position& position) :
@@ -409,6 +410,8 @@ void Tile::drawItemRarityGlow(const Point& dest, const ItemPtr& item)
         shaderName = "item_epic";
     } else if (rarity == Item::RARITY_RARE) {
         shaderName = "item_rare";
+    } else if (rarity == Item::RARITY_MAGICAL) {
+        shaderName = "item_magical";
     }
 
     if (!shaderName)
@@ -481,6 +484,11 @@ void Tile::drawGroundRarityBorders(const Point& dest)
                         (g_rarityColorRare.b << 16) | 
                         (g_rarityColorRare.g << 8) | 
                         g_rarityColorRare.r);
+        } else if (rarity == Item::RARITY_MAGICAL) {
+            color = Color(0xFF000000 | 
+                        (g_rarityColorMagical.b << 16) | 
+                        (g_rarityColorMagical.g << 8) | 
+                        g_rarityColorMagical.r);
         }
         
         // Calculate item position

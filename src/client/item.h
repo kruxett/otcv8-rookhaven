@@ -176,7 +176,8 @@ public:
         RARITY_NONE = 0,
         RARITY_RARE = 1,
         RARITY_EPIC = 2,
-        RARITY_LEGENDARY = 3
+        RARITY_LEGENDARY = 3,
+        RARITY_MAGICAL = 4
     };
     
     Rarity getRarity() { return m_rarity; }
