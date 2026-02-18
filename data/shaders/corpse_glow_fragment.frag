@@ -16,9 +16,9 @@ void main()
     
     // Create smooth pulsation using sine wave
     // u_Time increases continuously, creating smooth animation
-    // Pulse between 0.25 and 0.45 (25%-45% glow intensity)
-    // Speed of 0.5 rad/sec = ~1.26 second cycle
-    float pulseFactor = sin(u_Time * 0.5) * 0.1 + 0.35;  // Range: 0.25 to 0.45
+    // Pulse between 0.15 and 0.60 (15%-60% glow intensity) - much more visible
+    // Speed of 1.0 rad/sec = ~6.28 second cycle
+    float pulseFactor = sin(u_Time * 1.0) * 0.225 + 0.375;  // Range: 0.15 to 0.60
     
     // Subtle green-cyan glow color (same as before)
     vec3 glowColor = vec3(0.2, 0.6, 0.5);  // Teal-green
