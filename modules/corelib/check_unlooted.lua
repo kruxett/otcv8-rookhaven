@@ -104,15 +104,17 @@ local function animateGlowPulse()
     animIntensity = CorpseGlowConfig.animation.intensity or 1.0
   end
   
-  -- Very subtle pulse: sin wave from 0.7 to 1.0 (barely noticeable)
-  -- Slower animation speed for subtle effect
-  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0008) * math.pi * 2) * 0.15 + 0.85
+  -- Very subtle pulse: pulsate opacity from 0.5 to 1.0 (barely noticeable)
+  -- This creates a pulsing effect on top of the shader glow without covering it
+  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0008) * math.pi * 2) * 0.25 + 0.75
   
   -- Update all glowed items with VERY subtle pulsing via marked color
+  -- Base alpha is 20-30 so even at max (100%) it's only 30 opacity = 12% visible
+  -- This creates animation without covering the shader effect
   local updatedCount = 0
   for item, _ in pairs(_unlootedGlowedItems) do
     if item and item:isItem() then
-      local baseAlpha = _unlootedPulseAlphas[item] or 80
+      local baseAlpha = 25  -- Very low base opacity (10% at 1.0 pulse)
       local animatedAlpha = math.floor(baseAlpha * pulse * animIntensity)
       
       -- Get current color and update with new alpha
@@ -286,7 +288,14 @@ function startUnlootedChecker()
     checkUnlootedItems()
   end, 100)
   
-  -- Animation handled purely by shader - no Lua animation needed
+  -- Start animation loop: pulsing the glow on glowed items
+  -- Animation runs every 30ms for smooth pulsing effect
+  if _unlootedAnimationEvent then
+    removeEvent(_unlootedAnimationEvent)
+  end
+  _unlootedAnimationEvent = cycleEvent(function()
+    animateGlowPulse()
+  end, 30)
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
