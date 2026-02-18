@@ -80,7 +80,7 @@ local function applyGlowToItem(item)
     end)
   end
   
-  -- No color marking - let shader do all the work
+  -- No color marking - shader only
   item:setMarked('')
   
   _unlootedGlowedItems[item] = true
@@ -287,15 +287,6 @@ function startUnlootedChecker()
   _unlootedCheckerEvent = cycleEvent(function()
     checkUnlootedItems()
   end, 100)
-  
-  -- Start animation loop: pulsing the glow on glowed items
-  -- Animation runs every 30ms for smooth pulsing effect
-  if _unlootedAnimationEvent then
-    removeEvent(_unlootedAnimationEvent)
-  end
-  _unlootedAnimationEvent = cycleEvent(function()
-    animateGlowPulse()
-  end, 30)
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
