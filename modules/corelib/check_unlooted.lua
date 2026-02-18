@@ -104,17 +104,17 @@ local function animateGlowPulse()
     animIntensity = CorpseGlowConfig.animation.intensity or 1.0
   end
   
-  -- Very subtle pulse: pulsate opacity from 0.5 to 1.0 (barely noticeable)
-  -- This creates a pulsing effect on top of the shader glow without covering it
-  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0008) * math.pi * 2) * 0.25 + 0.75
+  -- VERY subtle, slow pulse: 2-3 second cycle, amplitude only 0.05 (5%)
+  -- Pulsates from 0.95 to 1.0 - barely noticeable breathing effect
+  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0002) * math.pi * 2) * 0.05 + 0.95
   
-  -- Update all glowed items with VERY subtle pulsing via marked color
-  -- Base alpha is 20-30 so even at max (100%) it's only 30 opacity = 12% visible
-  -- This creates animation without covering the shader effect
+  -- Update all glowed items with EXTREMELY subtle pulsing via marked color
+  -- Base alpha is 10 so even at max (100%) it's only 10 opacity = 4% visible
+  -- Combined with very subtle pulse (0.95-1.0), creates gentle breathing
   local updatedCount = 0
   for item, _ in pairs(_unlootedGlowedItems) do
     if item and item:isItem() then
-      local baseAlpha = 25  -- Very low base opacity (10% at 1.0 pulse)
+      local baseAlpha = 10  -- Very low base opacity (4% at 1.0 pulse)
       local animatedAlpha = math.floor(baseAlpha * pulse * animIntensity)
       
       -- Get current color and update with new alpha
