@@ -83,12 +83,16 @@ local function applyGlowToItem(item)
     end)
   end
   
-  item:setMarked(colorHex)
+  -- IMPORTANT: Don't use setMarked() when shader is active!
+  -- The color overlay covers up the shader effect
+  -- Instead, just mark with empty string to flag it, let shader do the visual
+  item:setMarked('')  -- Clear any color, let shader do the work
+  
   _unlootedGlowedItems[item] = true
   _unlootedPulseAlphas[item] = a  -- Store base alpha for pulsing
   
   if ENABLE_LOGGING then
-    print("[Glow] Applied glow to item ID: " .. item:getId() .. " | Color: #" .. string.format("%02x%02x%02x%02x", r, g, b, a) .. " | Shader: " .. (shaderApplied and "YES" or "NO"))
+    print("[Glow] Applied glow to item ID: " .. item:getId() .. " | Shader: " .. (shaderApplied and "YES" or "NO"))
   end
   
   return true
@@ -208,8 +212,14 @@ function checkUnlootedItems()
             if isUnlooted then
               unlootedCount = unlootedCount + 1
               
-              -- Only apply glow if we haven't already glowed this item
-              -- (prevents interrupting the animation every 100ms)
+              -- Always reapply shader to keep it active (silent, no logging)
+              -- Even if already glowed, the shader might have been lost
+              pcall(function()
+                item:setShader("corpse_glow")
+              end)
+              
+              -- Only apply initial glow if we haven't already glowed this item
+              -- (prevents spam logging)
               if not _unlootedGlowedItems[item] then
                 applyGlowToItem(item)
               end
