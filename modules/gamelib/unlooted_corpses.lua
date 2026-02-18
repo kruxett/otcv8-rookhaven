@@ -1,8 +1,9 @@
 -- Unlooted Corpse System
 -- Handles server notifications for unlooted corpses via extended opcode
 
--- Load configuration
+-- Load configurations
 dofile('unlooted_corpses_config')
+dofile('corpse_glow_config')
 
 -- Track marked tiles
 local markedTiles = {}
@@ -424,9 +425,10 @@ function remarkTile(pos)
   end
   
   -- Re-mark the corpse (handles decay when item ID changes)
-  local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
-  local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
-  corpse:setMarked(colorHex)
+  local corpse = findCorpseOnTile(tile)
+  if corpse and corpse:isValid() then
+    applyCorpseGlowShader(corpse)
+  end
   missingCorpseTiles[key] = nil
 end
 
@@ -447,6 +449,38 @@ function onExtendedOpcode(protocol, opcode, buffer)
       end
     end
   end
+end
+
+-- Apply corpse glow shader with configuration
+-- Pass the item (corpse) to be marked
+function applyCorpseGlowShader(corpse)
+  if not corpse or not corpse:isValid() then
+    return false
+  end
+  
+  -- Apply the shader first
+  corpse:setShader("corpse_glow")
+  
+  -- Get glow configuration
+  local glowColor = CorpseGlowConfig.glowColor
+  local animation = CorpseGlowConfig.animation
+  
+  -- Convert color to hex string
+  local r = glowColor.r or 255
+  local g = glowColor.g or 215
+  local b = glowColor.b or 0
+  local a = glowColor.a or 200
+  local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
+  
+  -- Apply the color (this also activates the shader effect)
+  corpse:setMarked(colorHex)
+  
+  if CorpseGlowConfig.debug then
+    print(string.format("[CorpseGlow] Applied shader to corpse ID=%d with color #%02x%02x%02x%02x, speed=%.2f, direction=%d",
+      corpse:getId(), r, g, b, a, animation.speed or 1.5, animation.direction or 0))
+  end
+  
+  return true
 end
 
 -- Parse and handle unlooted corpse messages
@@ -502,10 +536,8 @@ function handleUnlootedCorpseMessage(buffer)
     local corpse = findCorpseOnTile(tile)
 
     if corpse then
-      -- Mark it with gold glow
-      local r, g, b, a = UnlootedCorpseConfig.getGlowColor()
-      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
-      corpse:setMarked(colorHex)
+      -- Mark it with configured pulsing glow shader
+      applyCorpseGlowShader(corpse)
       missingCorpseTiles[key] = nil
       print("[UnlootedCorpse] ? MARKED corpse ID=" .. corpse:getId() .. " at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     else
