@@ -32,11 +32,8 @@ local GLOW_OPACITY = 80      -- Opacity/Alpha (0-255) - subtle visibility
 -- Global variables to store the events so we can cancel them
 _unlootedCheckerEvent = nil
 _unlootedLoginCheckEvent = nil
-_unlootedAnimationEvent = nil
 _unlootedDebugMode = false  -- Set to true for verbose output
 _unlootedGlowedItems = {}  -- Track all items we've glowed so we can clear them
-_unlootedAnimationTime = 0  -- Track animation time for pulsing effect
-_unlootedPulseAlphas = {}  -- Track alpha values for pulsing animation
 
 -- Glow configuration (stolen from unlooted_corpses.lua)
 local function getUnlootedGlowColor()
@@ -59,7 +56,6 @@ local function clearAllGlows()
     end
   end
   _unlootedGlowedItems = {}
-  _unlootedPulseAlphas = {}  -- Also clear animation tracking
   
   if ENABLE_LOGGING and _unlootedDebugMode and clearedCount > 0 then
     print("  [Glow] Cleared " .. clearedCount .. " previous glow(s)")
@@ -92,42 +88,6 @@ local function applyGlowToItem(item)
   return true
 end
 
--- Animate the glow by pulsing the alpha channel
-local function animateGlowPulse()
-  _unlootedAnimationTime = (_unlootedAnimationTime or 0) + 30  -- Increment by 30ms (roughly 33 FPS)
-  
-  local animSpeed = 1.0
-  local animIntensity = 1.0
-  
-  if USE_GLOW_CONFIG and CorpseGlowConfig and CorpseGlowConfig.animation then
-    animSpeed = CorpseGlowConfig.animation.speed or 1.0
-    animIntensity = CorpseGlowConfig.animation.intensity or 1.0
-  end
-  
-  -- VERY subtle, slow pulse: 2-3 second cycle, amplitude only 0.05 (5%)
-  -- Pulsates from 0.95 to 1.0 - barely noticeable breathing effect
-  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0002) * math.pi * 2) * 0.05 + 0.95
-  
-  -- Update all glowed items with EXTREMELY subtle pulsing via marked color
-  -- Base alpha is 10 so even at max (100%) it's only 10 opacity = 4% visible
-  -- Combined with very subtle pulse (0.95-1.0), creates gentle breathing
-  local updatedCount = 0
-  for item, _ in pairs(_unlootedGlowedItems) do
-    if item and item:isItem() then
-      local baseAlpha = 10  -- Very low base opacity (4% at 1.0 pulse)
-      local animatedAlpha = math.floor(baseAlpha * pulse * animIntensity)
-      
-      -- Get current color and update with new alpha
-      local r, g, b = getUnlootedGlowColor()
-      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, animatedAlpha)
-      
-      pcall(function()
-        item:setMarked(colorHex)
-      end)
-      updatedCount = updatedCount + 1
-    end
-  end
-end
 
 function checkUnlootedItems()
   local player = g_game.getLocalPlayer()
