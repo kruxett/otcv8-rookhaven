@@ -31,7 +31,7 @@ local AFFIX_STYLES = {
     borderColor = "#FFAA00",  -- Gold for legendary
     borderWidth = 3
   }
-  -- Note: magical items use shader glow effect on ground instead of inventory frame
+  -- Note: magical items use cyan color tint/glimmer effect in inventory
 }
 
 function init()

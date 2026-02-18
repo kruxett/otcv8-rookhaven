@@ -306,11 +306,16 @@ function onContainerUpdateItem(container, slot, item, oldItem)
   local itemWidget = container.itemsPanel:getChildById('item' .. slot)
   
   if item then
-    -- Check for magical items and apply shader
+    -- Check if item is magical and apply cyan tint
     local article = item:getArticle()
     if article and article:lower():find("magical", 1, true) then
-      itemWidget:setShader("item_magical")
+      -- Apply subtle cyan color tint (glimmer effect)
+      itemWidget:setColor("#00FFFF")  -- Cyan glow
+      itemWidget:setImageSource("/images/ui/item")  -- Default background
     else
+      -- Reset to normal color for non-magical items
+      itemWidget:setColor("#FFFFFF")  -- White (normal)
+      
       -- Check for rarity and apply frame (access via _G for cross-sandbox communication)
       local affixSystem = _G.affixSystem
       if affixSystem then
@@ -325,6 +330,7 @@ function onContainerUpdateItem(container, slot, item, oldItem)
       end
     end
   else
+    itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setImageSource("/images/ui/item")
   end
   

@@ -240,11 +240,15 @@ function onInventoryChange(player, slot, item, oldItem)
   if item then
     itemWidget:setStyle('InventoryItem')
     
-    -- Check for magical items and apply shader
+    -- Check if item is magical and apply cyan tint
     local article = item:getArticle()
     if article and article:lower():find("magical", 1, true) then
-      itemWidget:setShader("item_magical")
+      -- Apply subtle cyan color tint (glimmer effect)
+      itemWidget:setColor("#00FFFF")  -- Cyan glow
     else
+      -- Reset to normal color for non-magical items
+      itemWidget:setColor("#FFFFFF")  -- White (normal)
+      
       -- Check for rarity and apply frame (access via _G for cross-sandbox communication)
       local affixSystem = _G.affixSystem
       local rarityFrame = affixSystem and affixSystem.getRarityFrame(item)
@@ -256,6 +260,7 @@ function onInventoryChange(player, slot, item, oldItem)
     itemWidget:setItem(item)
   else
     itemWidget:setStyle(InventorySlotStyles[slot])
+    itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setItem(nil)
   end
 end
