@@ -3,7 +3,7 @@
 -- Use stopUnlootedChecker() to stop it, startUnlootedChecker() to restart
 
 -- CONFIGURATION
-local ENABLE_LOGGING = true  -- Set to false to disable ALL logging output
+local ENABLE_LOGGING = false  -- Set to false to disable ALL logging output
 
 -- Note: CorpseGlowConfig is loaded from corpse_glow_config.lua in corelib.otmod
 -- If available, it will be used for color configuration
@@ -73,6 +73,8 @@ local function applyGlowToItem(item)
   end
   
   local r, g, b, a = getUnlootedGlowColor()
+  -- Override to very subtle: 30 alpha (barely visible, just for animation)
+  a = 30
   local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
   
   -- Try to apply shader if config is loaded
@@ -83,10 +85,8 @@ local function applyGlowToItem(item)
     end)
   end
   
-  -- IMPORTANT: Don't use setMarked() when shader is active!
-  -- The color overlay covers up the shader effect
-  -- Instead, just mark with empty string to flag it, let shader do the visual
-  item:setMarked('')  -- Clear any color, let shader do the work
+  -- Apply minimal color for animation pulse (shader does the main visual work)
+  item:setMarked(colorHex)
   
   _unlootedGlowedItems[item] = true
   _unlootedPulseAlphas[item] = a  -- Store base alpha for pulsing
@@ -110,11 +110,11 @@ local function animateGlowPulse()
     animIntensity = CorpseGlowConfig.animation.intensity or 1.0
   end
   
-  -- Calculate pulse: sin wave from 0.1 to 1.0 (very dramatic - more visible)
-  -- This creates a strong fade in/out effect
-  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.002) * math.pi * 2) * 0.45 + 0.55
+  -- Very subtle pulse: sin wave from 0.7 to 1.0 (barely noticeable)
+  -- Slower animation speed for subtle effect
+  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.0008) * math.pi * 2) * 0.15 + 0.85
   
-  -- Update all glowed items with pulsing alpha
+  -- Update all glowed items with VERY subtle pulsing via marked color
   local updatedCount = 0
   for item, _ in pairs(_unlootedGlowedItems) do
     if item and item:isItem() then
@@ -287,19 +287,17 @@ function startUnlootedChecker()
   
   if ENABLE_LOGGING then
     print("Starting periodic unlooted item checker (every 100ms)...")
-    print("NOTE: Animation loop DISABLED temporarily to test shader visibility")
   end
   _unlootedCheckerEvent = cycleEvent(function()
     checkUnlootedItems()
   end, 100)
   
-  -- Animation loop temporarily DISABLED to verify shader is working
-  -- If you see a bright cyan-green edge glow, the shader is running!
-  -- if not _unlootedAnimationEvent then
-  --   _unlootedAnimationEvent = cycleEvent(function()
-  --     animateGlowPulse()
-  --   end, 30)
-  -- end
+  -- Start animation loop every 30ms for subtle pulsing
+  if not _unlootedAnimationEvent then
+    _unlootedAnimationEvent = cycleEvent(function()
+      animateGlowPulse()
+    end, 30)
+  end
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")

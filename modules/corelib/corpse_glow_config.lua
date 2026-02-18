@@ -10,23 +10,23 @@ CorpseGlowConfig = {
   
   -- GLOW COLOR (RGB values 0-255)
   glowColor = {
-    r = 0,        -- Red (0-255)
-    g = 150,      -- Green (0-255) - subtle green
-    b = 100,      -- Blue (0-255) - slight teal undertone
-    a = 80,       -- Alpha/Opacity (0-255) - subtle visibility (80 = very subtle)
+    r = 50,       -- Red (0-255) - very subtle
+    g = 120,      -- Green (0-255) - subtle green
+    b = 90,       -- Blue (0-255) - subtle teal undertone
+    a = 200,      -- Alpha/Opacity (0-255) - (will be overridden to 30 in code for subtlety)
   },
   
   -- PULSE ANIMATION SETTINGS
   animation = {
-    speed = 0.8,        -- Speed modifier (1.0 = normal, 2.0 = 2x faster, 0.5 = half speed)
-    intensity = 0.4,    -- Brightness of glow (0.0 = invisible, 1.0 = bright, recommended 0.4-0.8)
+    speed = 0.6,        -- Speed modifier (1.0 = normal, slower for subtler effect)
+    intensity = 0.5,    -- Brightness of glow (0.0 = invisible, 1.0 = bright, 0.5 = subtle)
     
     -- Direction of pulse wave
     -- 0 = left to right
     -- 1 = right to left
     -- 2 = top to bottom
     -- 3 = bottom to top
-    direction = 3,      -- Bottom to top pulse (subtle)
+    direction = 3,      -- Bottom to top (for visual reference, animation uses Lua timing)
   },
   
   -- DEBUG

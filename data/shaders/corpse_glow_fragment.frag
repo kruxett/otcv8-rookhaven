@@ -1,6 +1,6 @@
-// Corpse Glow Shader - Pulsing Glow Effect
-// Creates a bottom-to-top wave pulse on unlooted corpses
-// TEST VERSION: Added bright edge glow to verify shader is actually running
+// Corpse Glow Shader - Subtle Glow Effect
+// Provides a base subtle green glow effect on unlooted corpses
+// Animation is handled by Lua pulsing the marked color
 
 uniform sampler2D u_Tex0;              // Item texture
 varying vec2 v_TexCoord;
@@ -14,25 +14,24 @@ void main()
         discard;
     }
     
-    // TEST: Create a bright green edge glow to verify shader is running
-    // This creates a visible edge effect that ONLY a shader can produce
+    // Create a subtle glow effect based on distance from center
+    // This gives unlooted corpses a gentle aura
     
-    // Distance from edges (0 at edge, 1 in center)
-    float edgeDistX = min(v_TexCoord.x, 1.0 - v_TexCoord.x);
-    float edgeDistY = min(v_TexCoord.y, 1.0 - v_TexCoord.y);
-    float edgeDist = min(edgeDistX, edgeDistY);
+    // Distance from center (0 at center, sqrt(2) at corners)
+    float dx = v_TexCoord.x - 0.5;
+    float dy = v_TexCoord.y - 0.5;
+    float distFromCenter = sqrt(dx * dx + dy * dy);
     
-    // Create edge glow: bright at edges (low edgeDist), dark in center
-    float edgeGlow = smoothstep(0.0, 0.3, edgeDist);
+    // Subtle glow: brightest at edges
+    float glowAmount = 1.0 - distFromCenter;  // 1.0 in center, 0 at edges
+    glowAmount = 1.0 - glowAmount;  // Invert: 0 in center, 1 at edges
+    glowAmount = smoothstep(0.0, 1.0, glowAmount) * 0.15;  // Keep very subtle (0.15 max)
     
-    // Inverse to make edges bright
-    edgeGlow = 1.0 - (edgeGlow * 0.7);  // 1.0 at edge, 0.3 in center
+    // Subtle green glow color
+    vec3 glowColor = vec3(0.2, 0.5, 0.35);  // Subtle teal-green
     
-    // Add green glow at edges
-    vec3 glowColor = vec3(0.0, 0.8, 0.5);  // Bright cyan-green
-    
-    // Composite: original texture with shader glow at edges
-    vec3 finalColor = mix(texColor.rgb, glowColor, (1.0 - edgeGlow) * 0.8);
+    // Blend: add subtle glow
+    vec3 finalColor = texColor.rgb + (glowColor * glowAmount);
     
     gl_FragColor = vec4(finalColor, texColor.a);
 }
