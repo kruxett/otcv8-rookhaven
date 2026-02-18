@@ -17,7 +17,7 @@ local GLOW_COLOR_B = 0        -- Blue component (0-255)
 
 -- Glow Opacity Configuration (Alpha: 0-255)
 -- 0 = completely invisible, 128 = half transparent, 255 = fully opaque
-local GLOW_OPACITY = 240      -- Opacity/Alpha (0-255) - increased for better visibility
+local GLOW_OPACITY = 80      -- Opacity/Alpha (0-255) - subtle visibility
 
 -- Examples of color presets (uncomment to use):
 -- Gold:    R=255, G=215, B=0    (default)

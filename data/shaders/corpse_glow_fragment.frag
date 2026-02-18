@@ -37,11 +37,11 @@ void main()
     }
     
     // Create a smooth gradient wave that fades in and out
-    float gradientWidth = 0.3; // Width of the pulse gradient
+    float gradientWidth = 0.15; // Width of the pulse gradient (smaller = more subtle)
     float gradientFalloff = smoothstep(0.0, gradientWidth, pulse) - smoothstep(gradientWidth, gradientWidth * 2.0, pulse);
     
     // Apply glow intensity and modulate by texture alpha
-    float glowIntensity = u_PulseIntensity * gradientFalloff * 0.7; // 0.7 = base brightness
+    float glowIntensity = u_PulseIntensity * gradientFalloff * 0.4; // 0.4 = subtle brightness
     
     // Combine original texture with glow
     vec4 glowColor = u_GlowColor;

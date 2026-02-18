@@ -10,23 +10,23 @@ CorpseGlowConfig = {
   
   -- GLOW COLOR (RGB values 0-255)
   glowColor = {
-    r = 255,      -- Red (0-255)
-    g = 215,      -- Green (0-255) - 215 gives gold/yellow tone
-    b = 0,        -- Blue (0-255)
-    a = 200,      -- Alpha/Opacity (0-255) - higher = more opaque
+    r = 0,        -- Red (0-255)
+    g = 150,      -- Green (0-255) - subtle green
+    b = 100,      -- Blue (0-255) - slight teal undertone
+    a = 80,       -- Alpha/Opacity (0-255) - subtle visibility (80 = very subtle)
   },
   
   -- PULSE ANIMATION SETTINGS
   animation = {
-    speed = 1.5,        -- Speed modifier (1.0 = normal, 2.0 = 2x faster, 0.5 = half speed)
-    intensity = 0.6,    -- Brightness of glow (0.0 = invisible, 1.0 = bright, recommended 0.4-0.8)
+    speed = 0.8,        -- Speed modifier (1.0 = normal, 2.0 = 2x faster, 0.5 = half speed)
+    intensity = 0.4,    -- Brightness of glow (0.0 = invisible, 1.0 = bright, recommended 0.4-0.8)
     
     -- Direction of pulse wave
     -- 0 = left to right
     -- 1 = right to left
     -- 2 = top to bottom
     -- 3 = bottom to top
-    direction = 0,      -- Default: left to right
+    direction = 3,      -- Bottom to top pulse (subtle)
   },
   
   -- DEBUG
@@ -37,35 +37,26 @@ CorpseGlowConfig = {
 -- COLOR PRESETS - Uncomment a preset to use it
 -- =================================================================================
 
--- Golden Yellow (default unlooted look)
--- CorpseGlowConfig.glowColor = {r = 255, g = 215, b = 0, a = 200}
+-- Subtle Green (current default - bottom to top pulse)
+-- CorpseGlowConfig.glowColor = {r = 0, g = 150, b = 100, a = 80}  -- Very subtle teal-green
 
--- Bright Gold
--- CorpseGlowConfig.glowColor = {r = 255, g = 255, b = 0, a = 220}
+-- Light Green (more visible)
+-- CorpseGlowConfig.glowColor = {r = 50, g = 180, b = 80, a = 100}
 
--- Red (danger/warning)
--- CorpseGlowConfig.glowColor = {r = 255, g = 0, b = 0, a = 200}
+-- Bright Green (very visible)
+-- CorpseGlowConfig.glowColor = {r = 0, g = 255, b = 0, a = 150}
 
--- Cyan (cool/tech)
--- CorpseGlowConfig.glowColor = {r = 0, g = 255, b = 255, a = 180}
-
--- Purple (mystical)
--- CorpseGlowConfig.glowColor = {r = 200, g = 0, b = 255, a = 190}
-
--- Green (nature/heal)
--- CorpseGlowConfig.glowColor = {r = 0, g = 200, b = 100, a = 180}
-
--- Orange (fire/energy)
--- CorpseGlowConfig.glowColor = {r = 255, g = 165, b = 0, a = 200}
-
--- White (holy/pure)
--- CorpseGlowConfig.glowColor = {r = 255, g = 255, b = 255, a = 180}
+-- Golden Yellow (original)
+-- CorpseGlowConfig.glowColor = {r = 255, g = 215, b = 0, a = 150}
 
 -- =================================================================================
 -- ANIMATION PRESETS - Uncomment a preset to use it
 -- =================================================================================
 
--- Slow, gentle pulse
+-- Subtle bottom-up pulse (current default)
+-- CorpseGlowConfig.animation = {speed = 0.8, intensity = 0.4, direction = 3}
+
+-- Slow gentle pulse (left to right)
 -- CorpseGlowConfig.animation = {speed = 0.8, intensity = 0.4, direction = 0}
 
 -- Fast, strong pulse

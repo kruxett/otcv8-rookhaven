@@ -22,6 +22,9 @@ function init()
   g_shaders.createShader("item_epic", "/shaders/item_outline_vertex", "/shaders/item_epic_fragment")
   g_shaders.createShader("item_legendary", "/shaders/item_outline_vertex", "/shaders/item_legendary_fragment")
 
+  -- corpse glow shader (subtle pulsing glow for unlooted corpses)
+  g_shaders.createShader("corpse_glow", "/shaders/corpse_glow_vertex", "/shaders/corpse_glow_fragment")
+
 end
 
 function terminate()
