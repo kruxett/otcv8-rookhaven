@@ -305,20 +305,28 @@ function onContainerUpdateItem(container, slot, item, oldItem)
   if not container.window then return end
   local itemWidget = container.itemsPanel:getChildById('item' .. slot)
   
-  local affixSystem = _G.affixSystem
-  
-  -- Set image-source BEFORE setItem (like inventory does)
-  if item and affixSystem then
-    local rarityFrame = affixSystem.getRarityFrame(item)
-    if rarityFrame then
-      itemWidget:setImageSource(rarityFrame)
+  if item then
+    -- Check for magical items and apply shader
+    local article = item:getArticle()
+    if article and article:lower():find("magical", 1, true) then
+      itemWidget:setShader("item_magical")
     else
-      itemWidget:setImageSource("/images/ui/item")
+      -- Check for rarity and apply frame (access via _G for cross-sandbox communication)
+      local affixSystem = _G.affixSystem
+      if affixSystem then
+        local rarityFrame = affixSystem.getRarityFrame(item)
+        if rarityFrame then
+          itemWidget:setImageSource(rarityFrame)
+        else
+          itemWidget:setImageSource("/images/ui/item")
+        end
+      else
+        itemWidget:setImageSource("/images/ui/item")
+      end
     end
   else
     itemWidget:setImageSource("/images/ui/item")
   end
   
-  -- Set item AFTER image-source
   itemWidget:setItem(item)
 end
