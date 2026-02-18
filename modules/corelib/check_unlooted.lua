@@ -80,8 +80,7 @@ local function applyGlowToItem(item)
     end)
   end
   
-  -- Don't use setMarked for now - let shader do all the work
-  -- This removes any color interference
+  -- No color marking - let shader do all the work
   item:setMarked('')
   
   _unlootedGlowedItems[item] = true
@@ -287,13 +286,7 @@ function startUnlootedChecker()
     checkUnlootedItems()
   end, 100)
   
-  -- Animation temporarily DISABLED to see shader effect clearly
-  -- Once shader is confirmed working, we can re-enable with subtle pulsing
-  -- if not _unlootedAnimationEvent then
-  --   _unlootedAnimationEvent = cycleEvent(function()
-  --     animateGlowPulse()
-  --   end, 30)
-  -- end
+  -- Animation handled purely by shader - no Lua animation needed
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")

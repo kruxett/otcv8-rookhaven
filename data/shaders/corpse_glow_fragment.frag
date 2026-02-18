@@ -1,5 +1,5 @@
-// Corpse Glow Shader - Subtle Left to Right Pulsating Glow
-// Creates a subtle pulsating effect that moves left to right across corpses
+// Corpse Glow Shader - Pulsating Glow Effect
+// Creates a pulsating glow using mathematical wave patterns (no time dependency)
 
 uniform sampler2D u_Tex0;              // Item texture
 varying vec2 v_TexCoord;
@@ -13,24 +13,27 @@ void main()
         discard;
     }
     
-    // Create a subtle pulsating glow based on X coordinate
-    // X: 0 = left edge, 1 = right edge
+    // Create pulsating effect using distance from center
+    // This creates concentric rings that naturally appear to pulse
+    float dx = v_TexCoord.x - 0.5;
+    float dy = v_TexCoord.y - 0.5;
+    float distFromCenter = sqrt(dx * dx + dy * dy) * 2.0;  // 0 to ~1.4
     
-    // Create a sine wave that makes the glow pulse as it goes left to right
-    // This creates the illusion of a moving wave
-    float glowPulse = sin(v_TexCoord.x * 6.28 + 0.0) * 0.5 + 0.5;  // 0 to 1
+    // Create pulsating waves using sin of distance
+    // Multiple frequencies create complexity
+    float pulse1 = sin(distFromCenter * 8.0) * 0.5 + 0.5;           // Fast waves
+    float pulse2 = sin(distFromCenter * 3.0 + 1.5) * 0.5 + 0.5;     // Slow waves
     
-    // Make it subtle by only using the edges of the material
-    // Edges (low alpha in original) will glow more obviously
-    float edgeFactor = texColor.a;  // Use texture alpha to modulate
+    // Combine for natural pulsating effect
+    float glowPulse = (pulse1 * 0.6 + pulse2 * 0.4);
     
-    // Very subtle glow intensity - only 0.1 to 0.2 range
-    float glowAmount = glowPulse * 0.35 * edgeFactor;  // Max 35% brightness increase
+    // Apply stronger glow where pulsing is intense
+    float glowAmount = glowPulse * 0.35;  // Keep the 35% we liked
     
-    // Subtle green-cyan glow color (increased brightness for visibility)
+    // Subtle green-cyan glow color
     vec3 glowColor = vec3(0.2, 0.6, 0.5);  // Teal-green glow
     
-    // Additive blend: add glow on top of original
+    // Blend: add pulsating glow
     vec3 finalColor = texColor.rgb + (glowColor * glowAmount);
     
     gl_FragColor = vec4(finalColor, texColor.a);
