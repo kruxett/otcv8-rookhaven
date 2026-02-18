@@ -3,7 +3,7 @@
 -- Use stopUnlootedChecker() to stop it, startUnlootedChecker() to restart
 
 -- CONFIGURATION
-local ENABLE_LOGGING = false  -- Set to false to disable ALL logging output
+local ENABLE_LOGGING = true  -- Set to false to disable ALL logging output
 
 -- Note: CorpseGlowConfig is loaded from corpse_glow_config.lua in corelib.otmod
 -- If available, it will be used for color configuration
@@ -36,6 +36,7 @@ _unlootedAnimationEvent = nil
 _unlootedDebugMode = false  -- Set to true for verbose output
 _unlootedGlowedItems = {}  -- Track all items we've glowed so we can clear them
 _unlootedAnimationTime = 0  -- Track animation time for pulsing effect
+_unlootedPulseAlphas = {}  -- Track alpha values for pulsing animation
 
 -- Glow configuration (stolen from unlooted_corpses.lua)
 local function getUnlootedGlowColor()
@@ -74,20 +75,54 @@ local function applyGlowToItem(item)
   local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
   
   -- Try to apply shader if config is loaded
+  local shaderApplied = false
   if USE_GLOW_CONFIG then
-    pcall(function()
+    shaderApplied = pcall(function()
       item:setShader("corpse_glow")
     end)
   end
   
   item:setMarked(colorHex)
   _unlootedGlowedItems[item] = true
+  _unlootedPulseAlphas[item] = a  -- Store base alpha for pulsing
   
-  if ENABLE_LOGGING and _unlootedDebugMode then
-    print("  [Glow] Applied glow to item ID: " .. item:getId())
+  if ENABLE_LOGGING then
+    print("[Glow] Applied glow to item ID: " .. item:getId() .. " | Color: #" .. string.format("%02x%02x%02x%02x", r, g, b, a) .. " | Shader: " .. (shaderApplied and "YES" or "NO"))
   end
   
   return true
+end
+
+-- Animate the glow by pulsing the alpha channel
+local function animateGlowPulse()
+  _unlootedAnimationTime = (_unlootedAnimationTime or 0) + 30  -- Increment by 30ms (roughly 33 FPS)
+  
+  local animSpeed = 1.0
+  local animIntensity = 1.0
+  
+  if USE_GLOW_CONFIG and CorpseGlowConfig and CorpseGlowConfig.animation then
+    animSpeed = CorpseGlowConfig.animation.speed or 1.0
+    animIntensity = CorpseGlowConfig.animation.intensity or 1.0
+  end
+  
+  -- Calculate pulse: sin wave from 0.3 to 1.0
+  local pulse = math.sin((_unlootedAnimationTime * animSpeed * 0.002) * math.pi * 2) * 0.35 + 0.65
+  
+  -- Update all glowed items with pulsing alpha
+  for item, _ in pairs(_unlootedGlowedItems) do
+    if item and item:isItem() then
+      local baseAlpha = _unlootedPulseAlphas[item] or 80
+      local animatedAlpha = math.floor(baseAlpha * pulse * animIntensity)
+      
+      -- Get current color and update with new alpha
+      local r, g, b = getUnlootedGlowColor()
+      local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, animatedAlpha)
+      
+      pcall(function()
+        item:setMarked(colorHex)
+      end)
+    end
+  end
 end
 
 function checkUnlootedItems()
@@ -240,6 +275,13 @@ function startUnlootedChecker()
     checkUnlootedItems()
   end, 100)
   
+  -- Start animation loop every 30ms for smooth pulsing
+  if not _unlootedAnimationEvent then
+    _unlootedAnimationEvent = cycleEvent(function()
+      animateGlowPulse()
+    end, 30)
+  end
+  
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
   end
@@ -250,6 +292,10 @@ function stopUnlootedCheckerInternal()
   if _unlootedCheckerEvent then
     removeEvent(_unlootedCheckerEvent)
     _unlootedCheckerEvent = nil
+  end
+  if _unlootedAnimationEvent then
+    removeEvent(_unlootedAnimationEvent)
+    _unlootedAnimationEvent = nil
   end
 end
 
