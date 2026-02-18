@@ -1,6 +1,6 @@
-// Corpse Glow Shader - Subtle Glow Effect
-// Provides a base subtle green glow effect on unlooted corpses
-// Animation is handled by Lua pulsing the marked color
+// Corpse Glow Shader - Upward Wave Effect
+// Creates a visible wave that travels from bottom to top
+// This effect is ONLY possible with a shader, not with color marking
 
 uniform sampler2D u_Tex0;              // Item texture
 varying vec2 v_TexCoord;
@@ -14,24 +14,30 @@ void main()
         discard;
     }
     
-    // Create a subtle glow effect based on distance from center
-    // This gives unlooted corpses a gentle aura
+    // Create visible wave bands that travel upward
+    // Y coordinate: 0 = top, 1 = bottom
+    // We invert Y (1 - v_TexCoord.y) so wave travels from bottom to top
     
-    // Distance from center (0 at center, sqrt(2) at corners)
-    float dx = v_TexCoord.x - 0.5;
-    float dy = v_TexCoord.y - 0.5;
-    float distFromCenter = sqrt(dx * dx + dy * dy);
+    float waveY = 1.0 - v_TexCoord.y;  // Flip Y so bottom = 1, top = 0
     
-    // Subtle glow: brightest at edges
-    float glowAmount = 1.0 - distFromCenter;  // 1.0 in center, 0 at edges
-    glowAmount = 1.0 - glowAmount;  // Invert: 0 in center, 1 at edges
-    glowAmount = smoothstep(0.0, 1.0, glowAmount) * 0.15;  // Keep very subtle (0.15 max)
+    // Create repeating wave pattern (3 full cycles across texture)
+    float wavePattern = sin(waveY * 6.28 * 3.0) * 0.5 + 0.5;  // 0 to 1
     
-    // Subtle green glow color
-    vec3 glowColor = vec3(0.2, 0.5, 0.35);  // Subtle teal-green
+    // Add a static underlying glow
+    float baseGlow = 1.0 - waveY;  // Brightest at top (where wave starts)
     
-    // Blend: add subtle glow
-    vec3 finalColor = texColor.rgb + (glowColor * glowAmount);
+    // Combine wave + base glow
+    float totalGlow = (wavePattern * 0.4) + (baseGlow * 0.3);
+    
+    // Only glow where texture is opaque enough
+    totalGlow *= texColor.a;
+    totalGlow = clamp(totalGlow, 0.0, 0.6);  // Cap at 0.6 (not too bright)
+    
+    // Green-cyan glow color
+    vec3 glowColor = vec3(0.0, 0.8, 0.6);  // Bright cyan-green
+    
+    // Blend with original texture
+    vec3 finalColor = texColor.rgb + (glowColor * totalGlow);
     
     gl_FragColor = vec4(finalColor, texColor.a);
 }

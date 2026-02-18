@@ -72,11 +72,6 @@ local function applyGlowToItem(item)
     return false
   end
   
-  local r, g, b, a = getUnlootedGlowColor()
-  -- Override to very subtle: 30 alpha (barely visible, just for animation)
-  a = 30
-  local colorHex = string.format("#%02x%02x%02x%02x", r, g, b, a)
-  
   -- Try to apply shader if config is loaded
   local shaderApplied = false
   if USE_GLOW_CONFIG then
@@ -85,11 +80,11 @@ local function applyGlowToItem(item)
     end)
   end
   
-  -- Apply minimal color for animation pulse (shader does the main visual work)
-  item:setMarked(colorHex)
+  -- Don't use setMarked for now - let shader do all the work
+  -- This removes any color interference
+  item:setMarked('')
   
   _unlootedGlowedItems[item] = true
-  _unlootedPulseAlphas[item] = a  -- Store base alpha for pulsing
   
   if ENABLE_LOGGING then
     print("[Glow] Applied glow to item ID: " .. item:getId() .. " | Shader: " .. (shaderApplied and "YES" or "NO"))
@@ -292,12 +287,13 @@ function startUnlootedChecker()
     checkUnlootedItems()
   end, 100)
   
-  -- Start animation loop every 30ms for subtle pulsing
-  if not _unlootedAnimationEvent then
-    _unlootedAnimationEvent = cycleEvent(function()
-      animateGlowPulse()
-    end, 30)
-  end
+  -- Animation temporarily DISABLED to see shader effect clearly
+  -- Once shader is confirmed working, we can re-enable with subtle pulsing
+  -- if not _unlootedAnimationEvent then
+  --   _unlootedAnimationEvent = cycleEvent(function()
+  --     animateGlowPulse()
+  --   end, 30)
+  -- end
   
   if ENABLE_LOGGING then
     print("Unlooted checker started! Use stopUnlootedChecker() to stop.")
