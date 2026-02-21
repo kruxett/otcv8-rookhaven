@@ -69,10 +69,16 @@ local function generateChecksums()
   
   -- Write to file
   if g_resources.writeFileContents then
+    local writeDir = g_resources.getWriteDir()
+    print("[Info] Write directory: " .. writeDir)
+    
     g_resources.writeFileContents("/checksums_output.txt", outputText)
     g_resources.writeFileContents("/checksums_expected.txt", simpleText)
-    print("[Success] Checksums written to checksums_output.txt")
-    print("[Success] Checksums written to checksums_expected.txt")
+    
+    print("[Success] Checksums written to:")
+    print("  " .. writeDir .. "checksums_output.txt")
+    print("[Success] Copy this file to your server:")
+    print("  " .. writeDir .. "checksums_expected.txt")
   end
   
   return outputText
@@ -81,4 +87,4 @@ end
 print("=== Client Checksum Generator ===")
 print("Generating checksums for verification system...")
 local result = generateChecksums()
-print("Done! Check checksums_output.txt in your client directory.")
+print("Done!")
