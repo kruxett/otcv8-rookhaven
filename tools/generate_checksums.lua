@@ -37,17 +37,21 @@ local files_to_check = {
 
 local function generateChecksums()
   local output = {}
+  local simple = {}
   table.insert(output, "// Generated checksums - " .. os.date())
   table.insert(output, "// Copy these into server's data/checksum_config.json under 'expected_checksums'")
   table.insert(output, "")
+  table.insert(simple, "# Generated checksums - " .. os.date())
   
   for _, filepath in ipairs(files_to_check) do
     if g_resources.fileExists(filepath) then
       local checksum = g_resources.fileChecksum(filepath)
       table.insert(output, string.format('  "%s": "%s",', filepath, checksum))
+      table.insert(simple, string.format('%s=%s', filepath, checksum))
       print(string.format("[Checksum] %s: %s", filepath, checksum))
     else
       table.insert(output, string.format('  // "%s": "FILE_NOT_FOUND",', filepath))
+      table.insert(simple, string.format('# %s=FILE_NOT_FOUND', filepath))
       print(string.format("[Warning] File not found: %s", filepath))
     end
   end
@@ -56,15 +60,19 @@ local function generateChecksums()
   local binaryChecksum = g_resources.selfChecksum()
   if binaryChecksum and #binaryChecksum > 0 then
     table.insert(output, string.format('  "_binary": "%s"', binaryChecksum))
+    table.insert(simple, string.format('_binary=%s', binaryChecksum))
     print(string.format("[Checksum] Binary: %s", binaryChecksum))
   end
   
   local outputText = table.concat(output, "\n")
+  local simpleText = table.concat(simple, "\n")
   
   -- Write to file
   if g_resources.writeFileContents then
     g_resources.writeFileContents("/checksums_output.txt", outputText)
+    g_resources.writeFileContents("/checksums_expected.txt", simpleText)
     print("[Success] Checksums written to checksums_output.txt")
+    print("[Success] Checksums written to checksums_expected.txt")
   end
   
   return outputText
