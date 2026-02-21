@@ -116,12 +116,11 @@ HealthInfoContents < Panel
   margin-top: 0
   margin-bottom: 10
   padding: 0
-  
+
 HealthInfoWindow < HeadlessMiniWindow
-  icon: 
-  text:
   height: 56
   &forceOpen: true
+  margin-top: 2
   icon: /images/topbuttons/healthinfo
   !text: tr('Health Info')  
 
@@ -135,29 +134,34 @@ HealthInfoWindow < HeadlessMiniWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    padding: 0
+    padding-top: 2
+    padding-left: 0
+    padding-right: 0
+    padding-bottom: 0
     margin: 0
+
     HealthBar
       id: healthBar
+      on: true
+      margin: 0
+      margin-top: 0
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
-      margin: 2
-      margin-top: 0
       phantom: true
-      
-      
+
     ManaBar
       id: manaBar
+      on: true
+      margin: 0
+      margin-bottom: 2
       anchors.top: prev.bottom
       anchors.left: parent.left
       anchors.right: parent.right
-      margin: 2
-      margin-bottom: 1
       phantom: true
-      
-      
+
     ExperienceBar
+
     Panel
       id: conditionPanel
       layout:
@@ -171,6 +175,7 @@ HealthInfoWindow < HeadlessMiniWindow
       border-width: 1
       border-color: #00000077
       background-color: #ffffff11
-    SoulLabel
-    CapLabel
 
+    SoulLabel
+
+    CapLabel
