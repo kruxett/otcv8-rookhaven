@@ -53,26 +53,24 @@ end
 
 -- Generate login extended data with checksums
 function ClientChecksums.getLoginExtendedData()
-  -- Get checksums for critical files
-  local checksums = generateChecksums(CRITICAL_FILES)
-  
-  -- Add binary checksum if available
+  -- RSA login packet is size-limited. Send a compact payload:
+  -- Format: CS1:<chk1>,<chk2>,...,<binary>
+  local parts = {}
+  for _, filepath in ipairs(CRITICAL_FILES) do
+    table.insert(parts, getFileChecksum(filepath))
+  end
+	
   local binaryChecksum = g_resources.selfChecksum()
   if binaryChecksum and #binaryChecksum > 0 then
-    checksums["_binary"] = binaryChecksum
+    table.insert(parts, binaryChecksum)
   end
-  
-  -- Add client version
-  checksums["_client"] = g_app.getVersion()
-  
-  -- Encode as JSON
-  local data = encodeChecksums(checksums)
-  
-  -- Debug log
+	
+  local data = "CS1:" .. table.concat(parts, ",")
+	
   if g_settings.getBoolean("enableChecksumDebug", false) then
-    print("[ClientChecksums] Login data: " .. data:sub(1, 200) .. "...")
+    print("[ClientChecksums] Login data: " .. data)
   end
-  
+	
   return data
 end
 
