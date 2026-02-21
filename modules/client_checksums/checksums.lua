@@ -53,24 +53,32 @@ end
 
 -- Generate login extended data with checksums
 function ClientChecksums.getLoginExtendedData()
-  -- RSA login packet is size-limited. Send a compact payload:
-  -- Format: CS1:<chk1>,<chk2>,...,<binary>
-  local parts = {}
-  for _, filepath in ipairs(CRITICAL_FILES) do
-    table.insert(parts, getFileChecksum(filepath))
+  -- RSA login packet is size-limited. Send a compact fixed-size hash:
+  -- Format: CS1:<hash>
+  local function hashString(s)
+    local h = 0
+    for i = 1, #s do
+      h = (h * 33 + s:byte(i)) % 4294967296
+    end
+    return string.format("%08x", h)
   end
-	
+
+  local combined = ""
+  for _, filepath in ipairs(CRITICAL_FILES) do
+    combined = combined .. getFileChecksum(filepath) .. "|"
+  end
+
   local binaryChecksum = g_resources.selfChecksum()
   if binaryChecksum and #binaryChecksum > 0 then
-    table.insert(parts, binaryChecksum)
+    combined = combined .. binaryChecksum
   end
-	
-  local data = "CS1:" .. table.concat(parts, ",")
-	
+
+  local data = "CS1:" .. hashString(combined)
+
   if g_settings.getBoolean("enableChecksumDebug", false) then
     print("[ClientChecksums] Login data: " .. data)
   end
-	
+
   return data
 end
 
