@@ -234,6 +234,13 @@ if(WITH_ENCRYPTION)
     target_compile_definitions(${CLIENT_TARGET} PRIVATE WITH_ENCRYPTION)
 endif()
 
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
+        COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+endif()
+
 # Disable vcpkg applocal.ps1 completely - we handle DLLs ourselves in lib/
 set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
 

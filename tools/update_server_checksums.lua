@@ -54,9 +54,9 @@ print("=== End ===")
 -- Try to write to file if write directory is accessible
 local writeDir = g_resources.getWriteDir()
 if writeDir and writeDir ~= "" then
-    local outputFile = writeDir .. "/checksum_expected.txt"
+    local outputFile = "/checksum_expected.txt"
     g_resources.writeFileContents(outputFile, fullOutput)
     print("")
-    print("Also saved to: " .. outputFile)
+    print("Also saved to: " .. (writeDir .. outputFile))
     print("Copy this file to your server's data/ folder")
 end
