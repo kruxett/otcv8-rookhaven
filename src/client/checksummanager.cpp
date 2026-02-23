@@ -90,24 +90,3 @@ std::string ChecksumManager::generateChecksumResponse(const std::string& challen
     oss << "}";
     return oss.str();
 }
-
-std::string ChecksumManager::getDataZipChecksum()
-{
-    // Check if data.zip exists and compute its checksum
-    // This prevents cache bypass - file must exist on disk
-    std::ifstream file("data.zip", std::ios::binary | std::ios::ate);
-    if (!file.is_open()) {
-        return ""; // data.zip not found
-    }
-    
-    std::streamsize size = file.tellg();
-    file.seekg(0, std::ios::beg);
-    
-    std::string buffer(size, 0);
-    if (!file.read(&buffer[0], size)) {
-        return "";
-    }
-    
-    // Compute CRC32 of data.zip file
-    return g_crypt.crc32(buffer, false);
-}

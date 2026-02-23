@@ -40,9 +40,6 @@ private:
     
     // Compute simple hash from string
     static uint32_t hashString(const std::string& input);
-    
-    // Verify data.zip exists and get its checksum (bypass cache)
-    static std::string getDataZipChecksum();
 };
 
 #endif
