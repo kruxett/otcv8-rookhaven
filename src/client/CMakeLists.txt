@@ -75,6 +75,8 @@ set(client_SOURCES ${client_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/protocolgame.h
     ${CMAKE_CURRENT_LIST_DIR}/protocolgameparse.cpp
     ${CMAKE_CURRENT_LIST_DIR}/protocolgamesend.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/checksummanager.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/checksummanager.h
 
     # ui
     ${CMAKE_CURRENT_LIST_DIR}/uicreature.cpp

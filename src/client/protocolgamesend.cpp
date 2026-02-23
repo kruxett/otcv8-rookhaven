@@ -23,6 +23,7 @@
 #include "protocolgame.h"
 #include "game.h"
 #include "client.h"
+#include "checksummanager.h"
 #include <framework/core/application.h>
 #include <framework/platform/platform.h>
 #include <framework/util/crypt.h>
@@ -113,7 +114,8 @@ void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRando
         msg->addU8(challengeRandom);
     }
 
-    std::string extended = callLuaField<std::string>("getLoginExtendedData");
+    // Use C++ checksum generation instead of Lua
+    std::string extended = ChecksumManager::generateLoginChecksum();
     if (!extended.empty()) {
         msg->addString(extended);
     } else {
