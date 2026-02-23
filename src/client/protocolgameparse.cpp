@@ -3174,15 +3174,22 @@ void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
     int opcode = msg->getU8();
     std::string buffer = msg->getString();
 
+    std::cout << "[CLIENT] parseExtendedOpcode: opcode=" << opcode << ", buffer=" << buffer << std::endl;
+
     if (opcode == 0) {
+        std::cout << "[CLIENT] Extended opcodes ENABLED" << std::endl;
         m_enableSendExtendedOpcode = true;
     } else if (opcode == 2) {
+        std::cout << "[CLIENT] Received checksum challenge" << std::endl;
         // Handle checksum challenge in C++ (opcode 2)
         // Format: "challengeId:file1,file2,file3"
         size_t separator = buffer.find(':');
         if (separator != std::string::npos) {
             std::string challengeId = buffer.substr(0, separator);
             std::string filesString = buffer.substr(separator + 1);
+            
+            std::cout << "[CLIENT] Challenge ID: " << challengeId << std::endl;
+            std::cout << "[CLIENT] Files string: " << filesString << std::endl;
             
             // Parse file list
             std::vector<std::string> files;
@@ -3195,11 +3202,19 @@ void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
             }
             files.push_back(filesString.substr(start));
             
+            std::cout << "[CLIENT] Parsed " << files.size() << " files" << std::endl;
+            
             // Generate response
             std::string response = ChecksumManager::generateChecksumResponse(challengeId, files);
             
+            std::cout << "[CLIENT] Generated response: " << response << std::endl;
+            
             // Send response back to server
+            std::cout << "[CLIENT] Sending checksum response back to server..." << std::endl;
             sendExtendedOpcode(2, response);
+            std::cout << "[CLIENT] Response sent" << std::endl;
+        } else {
+            std::cout << "[CLIENT] ERROR: No separator ':' found in challenge buffer" << std::endl;
         }
     } else {
         callLuaField("onExtendedOpcode", opcode, buffer);

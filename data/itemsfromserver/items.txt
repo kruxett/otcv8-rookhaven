@@ -15282,7 +15282,7 @@
 	<item fromid="8366" toid="8367" name="earth" />
 	<item id="8368" name="cheese">
 		<attribute key="weight" value="400" />
-		<attribute key="showcount" value="0" />
+		<attribute key="showcount" value="1" />
 	</item>
 	<item id="8369" name="earth" />
 	<item id="8370" article="a" name="letter to Eremo">
