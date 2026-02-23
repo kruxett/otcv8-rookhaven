@@ -24,29 +24,6 @@
 #include <framework/core/resourcemanager.h>
 #include <sstream>
 #include <iomanip>
-#include <map>
-
-// Expected checksums - hardcoded for security (hidden from users)
-static const std::map<std::string, std::string> EXPECTED_CHECKSUMS = {
-    {"/modules/corelib/corelib.otmod", "124a7bde"},
-    {"/modules/corelib/util.lua", "b10fe2dd"},
-    {"/modules/corelib/globals.lua", "df3868e6"},
-    {"/modules/corelib/string.lua", "6cdc20f5"},
-    {"/modules/corelib/table.lua", "89a2aa9a"},
-    {"/modules/corelib/math.lua", "90794bc0"},
-    {"/modules/corelib/const.lua", "940327c2"},
-    {"/modules/gamelib/gamelib.otmod", "856d656f"},
-    {"/modules/gamelib/game.lua", "a8cdddcb"},
-    {"/modules/gamelib/protocolgame.lua", "866ad7dc"},
-    {"/modules/gamelib/protocollogin.lua", "cbdeb34c"},
-    {"/modules/game_protocol/protocol.lua", "43e9520f"},
-    {"/modules/game_features/features.lua", "d6430887"},
-    {"/modules/game_bot/bot.lua", "a01c9c83"},
-    {"/modules/game_walking/walking.lua", "f4bd8955"},
-    {"/modules/game_hotkeys/hotkeys_manager.lua", "3ab3ae3f"},
-    {"/modules/game_things/things.lua", "4bfedbba"},
-    {"_binary", "bcdcaa2a"}
-};
 
 std::vector<std::string> ChecksumManager::getCriticalFiles()
 {
@@ -75,20 +52,18 @@ std::string ChecksumManager::generateLoginChecksum()
 {
     std::string combined;
     
-    // Use hardcoded expected checksums (not actual file checksums)
+    // Get checksums for all critical files from actual client files
     auto criticalFiles = getCriticalFiles();
     for (const auto& filepath : criticalFiles) {
-        auto it = EXPECTED_CHECKSUMS.find(filepath);
-        if (it != EXPECTED_CHECKSUMS.end()) {
-            combined += it->second + "|";
-        }
+        std::string checksum = g_resources.fileChecksum(filepath);
+        combined += checksum + "|";
     }
     
-    // Add binary checksum from hardcoded values
-    auto binIt = EXPECTED_CHECKSUMS.find("_binary");
-    if (binIt != EXPECTED_CHECKSUMS.end()) {
-        combined += binIt->second;
-    }
+    // Skip binary checksum - it changes every build
+    // std::string binaryChecksum = g_resources.selfChecksum();
+    // if (!binaryChecksum.empty()) {
+    //     combined += binaryChecksum;
+    // }
     
     // Hash the combined string
     uint32_t hash = hashString(combined);
