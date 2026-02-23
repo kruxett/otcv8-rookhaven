@@ -22,8 +22,10 @@
 
 #include "checksummanager.h"
 #include <framework/core/resourcemanager.h>
+#include <framework/core/crypt.h>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 
 std::vector<std::string> ChecksumManager::getCriticalFiles()
 {
@@ -52,18 +54,17 @@ std::string ChecksumManager::generateLoginChecksum()
 {
     std::string combined;
     
-    // Get checksums for all critical files from actual client files
+    // Get ALL file checksums from data.zip directly (bypass cache)
+    auto allChecksums = g_resources.filesChecksums();
+    
+    // Get checksums for critical files from the uncached map
     auto criticalFiles = getCriticalFiles();
     for (const auto& filepath : criticalFiles) {
-        std::string checksum = g_resources.fileChecksum(filepath);
-        combined += checksum + "|";
+        auto it = allChecksums.find(filepath);
+        if (it != allChecksums.end()) {
+            combined += it->second + "|";
+        }
     }
-    
-    // Skip binary checksum - it changes every build
-    // std::string binaryChecksum = g_resources.selfChecksum();
-    // if (!binaryChecksum.empty()) {
-    //     combined += binaryChecksum;
-    // }
     
     // Hash the combined string
     uint32_t hash = hashString(combined);
@@ -90,4 +91,25 @@ std::string ChecksumManager::generateChecksumResponse(const std::string& challen
     
     oss << "}";
     return oss.str();
+}
+
+std::string ChecksumManager::getDataZipChecksum()
+{
+    // Check if data.zip exists and compute its checksum
+    // This prevents cache bypass - file must exist on disk
+    std::ifstream file("data.zip", std::ios::binary | std::ios::ate);
+    if (!file.is_open()) {
+        return ""; // data.zip not found
+    }
+    
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+    
+    std::string buffer(size, 0);
+    if (!file.read(&buffer[0], size)) {
+        return "";
+    }
+    
+    // Compute CRC32 of data.zip file
+    return g_crypt.crc32(buffer, false);
 }
