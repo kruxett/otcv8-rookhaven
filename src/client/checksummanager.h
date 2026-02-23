@@ -33,6 +33,9 @@ public:
     
     // Generate checksums for specific files (for periodic challenges)
     static std::string generateChecksumResponse(const std::string& challengeId, const std::vector<std::string>& files);
+    
+    // Verify data.zip exists (required for security)
+    static bool verifyDataZipExists();
 
 private:
     // Critical files to check at login

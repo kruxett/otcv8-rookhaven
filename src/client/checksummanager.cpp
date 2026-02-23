@@ -24,6 +24,8 @@
 #include <framework/core/resourcemanager.h>
 #include <sstream>
 #include <iomanip>
+#include <filesystem>
+#include <iostream>
 
 std::vector<std::string> ChecksumManager::getCriticalFiles()
 {
@@ -50,6 +52,12 @@ uint32_t ChecksumManager::hashString(const std::string& input)
 
 std::string ChecksumManager::generateLoginChecksum()
 {
+    // First verify data.zip exists - critical security check
+    if (!verifyDataZipExists()) {
+        std::cout << "[Checksum] CRITICAL: data.zip not found - cannot generate checksum" << std::endl;
+        return "CS1:00000000";
+    }
+    
     std::string combined;
     
     // Use UNCACHED checksums for security validation (prevents cache bypass)
@@ -84,4 +92,11 @@ std::string ChecksumManager::generateChecksumResponse(const std::string& challen
     
     oss << "}";
     return oss.str();
+}
+
+bool ChecksumManager::verifyDataZipExists()
+{
+    // Check if data.zip exists in current directory
+    // This prevents cache bypass - must have actual file on disk
+    return std::filesystem::exists("data.zip");
 }
