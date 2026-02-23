@@ -678,6 +678,20 @@ std::string ResourceManager::fileChecksum(const std::string& path) {
     return checksum;
 }
 
+std::string ResourceManager::fileChecksumUncached(const std::string& path) {
+    // Same as fileChecksum but bypasses cache - for security validation
+    PHYSFS_File* file = PHYSFS_openRead(path.c_str());
+    if(!file)
+        return "";
+
+    int fileSize = PHYSFS_fileLength(file);
+    std::string buffer(fileSize, 0);
+    PHYSFS_readBytes(file, (void*)&buffer[0], fileSize);
+    PHYSFS_close(file);
+
+    return g_crypt.crc32(buffer, false);
+}
+
 std::map<std::string, std::string> ResourceManager::filesChecksums()
 {
     std::map<std::string, std::string> ret;

@@ -52,16 +52,11 @@ std::string ChecksumManager::generateLoginChecksum()
 {
     std::string combined;
     
-    // Get ALL file checksums from data.zip directly (bypass cache)
-    auto allChecksums = g_resources.filesChecksums();
-    
-    // Get checksums for critical files from the uncached map
+    // Use UNCACHED checksums for security validation (prevents cache bypass)
     auto criticalFiles = getCriticalFiles();
     for (const auto& filepath : criticalFiles) {
-        auto it = allChecksums.find(filepath);
-        if (it != allChecksums.end()) {
-            combined += it->second + "|";
-        }
+        std::string checksum = g_resources.fileChecksumUncached(filepath);
+        combined += checksum + "|";
     }
     
     // Hash the combined string
@@ -83,7 +78,7 @@ std::string ChecksumManager::generateChecksumResponse(const std::string& challen
     oss << "\"_timestamp\":\"" << time(nullptr) << "\"";
     
     for (const auto& filepath : files) {
-        std::string checksum = g_resources.fileChecksum(filepath);
+        std::string checksum = g_resources.fileChecksumUncached(filepath);
         oss << ",\"" << filepath << "\":\"" << checksum << "\"";
     }
     
