@@ -22,10 +22,8 @@
 
 #include "checksummanager.h"
 #include <framework/core/resourcemanager.h>
-#include <framework/core/crypt.h>
 #include <sstream>
 #include <iomanip>
-#include <fstream>
 
 std::vector<std::string> ChecksumManager::getCriticalFiles()
 {
