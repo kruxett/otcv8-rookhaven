@@ -1399,7 +1399,7 @@ void LuaInterface::loadFiles(std::string directory, bool recursive, std::string 
             continue;
         }
 
-        if(!g_resources.isFileType(fileName, "lua"))
+        if(!g_resources.isFileType(fileName, "lua") && !g_resources.isFileType(fileName, "luac"))
             continue;
 
         if(!contains.empty() && fileName.find(contains) == std::string::npos)

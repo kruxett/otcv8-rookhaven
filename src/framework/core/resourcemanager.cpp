@@ -644,9 +644,26 @@ std::string ResourceManager::resolvePath(std::string path)
 
 std::string ResourceManager::guessFilePath(const std::string& filename, const std::string& type)
 {
-    if(isFileType(filename, type))
+    if(stdext::ends_with(filename, ".luac"))
         return filename;
-    return filename + "." + type;
+
+    if(isFileType(filename, type)) {
+        if(type == "lua" && !PHYSFS_exists(resolvePath(filename).c_str())) {
+            std::string luacPath = filename;
+            stdext::replace_all(luacPath, ".lua", ".luac");
+            if(PHYSFS_exists(resolvePath(luacPath).c_str()))
+                return luacPath;
+        }
+        return filename;
+    }
+
+    std::string candidate = filename + "." + type;
+    if(type == "lua" && !PHYSFS_exists(resolvePath(candidate).c_str())) {
+        std::string luacPath = filename + ".luac";
+        if(PHYSFS_exists(resolvePath(luacPath).c_str()))
+            return luacPath;
+    }
+    return candidate;
 }
 
 bool ResourceManager::isFileType(const std::string& filename, const std::string& type)

@@ -33,12 +33,20 @@ table.insert(output, "# Auto-generated: " .. os.date("%Y-%m-%d %H:%M:%S"))
 table.insert(output, "")
 
 for _, filepath in ipairs(criticalFiles) do
-    local checksum = g_resources.fileChecksum(filepath)
+    local checksumPath = filepath
+    if filepath:sub(-4) == ".lua" then
+        local bytecodePath = filepath:gsub("%.lua$", ".luac")
+        if g_resources.fileExists(bytecodePath) then
+            checksumPath = bytecodePath
+        end
+    end
+
+    local checksum = g_resources.fileChecksum(checksumPath)
     if checksum and checksum ~= "" then
-        table.insert(output, filepath .. "=" .. checksum)
-        print(filepath .. " = " .. checksum)
+        table.insert(output, checksumPath .. "=" .. checksum)
+        print(checksumPath .. " = " .. checksum)
     else
-        print("WARNING: Could not get checksum for " .. filepath)
+        print("WARNING: Could not get checksum for " .. checksumPath)
     end
 end
 

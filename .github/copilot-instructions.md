@@ -14,6 +14,7 @@
 - For this repo, choose approach (2) for data handling: keep uncompressed `data/` in Debug builds, but package only `data.zip` for Release builds.
 - For Release builds, the DLLs are baked into the .exe (static DLLs).
 - Debug builds use dynamic DLLs placed next to the .exe.
+- For Release and DevRelease builds, compile Lua scripts to `.luac`, delete `.lua` files in `modules/` and `data/`, and rebuild `data.zip` with bytecode only while keeping sources in the repo for development.
 
 ## Game Mechanics
 - Corpse glow is handled via OTClient extended opcodes:
@@ -22,4 +23,4 @@
   - Payload format:
     - Mark: `"mark:x,y,z"` (add glow and track by position).
     - Clear: `"clear:x,y,z"` (remove glow and clear tracking by position).
-  - The client listens to extended opcode id `1` and must never treat `0x01` as a normal game opcode`.
+  - The client listens to extended opcode id `1` and must never treat `0x01` as a normal game opcode.

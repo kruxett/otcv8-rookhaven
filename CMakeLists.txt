@@ -159,7 +159,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "testserver.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
-set(CLIENT_VERSION "0.5" CACHE STRING "Client version string" FORCE)
+set(CLIENT_VERSION "0.7" CACHE STRING "Client version string" FORCE)
 set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
 
 # default build type
@@ -181,6 +181,18 @@ option(FRAMEWORK_NET "Use NET " ON)
 option(WITH_ENCRYPTION "Enable ENC3 file encryption support" OFF)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
+option(ENABLE_LUAC_RELEASE "Compile Lua scripts to bytecode in Release builds" ON)
+
+set(LUAC_EXECUTABLE "C:/Luac51/luac51.exe" CACHE FILEPATH "Path to the luac executable" FORCE)
+if(LUAC_EXECUTABLE AND IS_DIRECTORY "${LUAC_EXECUTABLE}")
+    find_program(LUAC_EXECUTABLE NAMES luac51.exe luac.exe luac PATHS "${LUAC_EXECUTABLE}" NO_DEFAULT_PATH)
+endif()
+if(LUAC_EXECUTABLE AND NOT EXISTS "${LUAC_EXECUTABLE}")
+    set(LUAC_EXECUTABLE "C:/Luac51" CACHE FILEPATH "Path to the luac executable" FORCE)
+endif()
+if(NOT LUAC_EXECUTABLE)
+    find_program(LUAC_EXECUTABLE NAMES luac51.exe luac.exe luac)
+endif()
 
 include(src/framework/CMakeLists.txt)
 include(src/client/CMakeLists.txt)
@@ -234,12 +246,6 @@ if(WITH_ENCRYPTION)
     target_compile_definitions(${CLIENT_TARGET} PRIVATE WITH_ENCRYPTION)
 endif()
 
-if(CMAKE_BUILD_TYPE STREQUAL "Release")
-    add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
-        COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-endif()
 
 # Disable vcpkg applocal.ps1 completely - we handle DLLs ourselves in lib/
 set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
@@ -616,8 +622,33 @@ if(USE_STATIC_LIBS)
     if(ENABLE_BOT_MODULE)
         install(CODE "
             message(STATUS \"Creating data.zip for Release distribution...\")
-            set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
-            set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+            
+            # Ensure CMAKE_INSTALL_PREFIX is absolute
+            if(NOT IS_ABSOLUTE \"\${CMAKE_INSTALL_PREFIX}\")
+                get_filename_component(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\" ABSOLUTE BASE_DIR \"${CMAKE_BINARY_DIR}\")
+            else()
+                set(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\")
+            endif()
+            set(_data_zip_path \"\${_install_prefix}/data.zip\")
+            
+            # Determine source directory - handle both multi-config and single-config generators
+            set(_source_dir \"${CMAKE_BINARY_DIR}\")
+            if(\"${CMAKE_CONFIGURATION_TYPES}\" STREQUAL \"\")
+                # Single-config generator (Ninja) - files are in CMAKE_BINARY_DIR directly
+                # Already set correctly
+            else()
+                # Multi-config generator (Visual Studio) - files are in subdirectory
+                set(_cfg \"\$ENV{CMAKE_INSTALL_CONFIG_NAME}\")
+                if(NOT _cfg AND DEFINED CMAKE_INSTALL_CONFIG_NAME)
+                    set(_cfg \"\${CMAKE_INSTALL_CONFIG_NAME}\")
+                endif()
+                if(NOT _cfg AND DEFINED CMAKE_BUILD_TYPE)
+                    set(_cfg \"\${CMAKE_BUILD_TYPE}\")
+                endif()
+                if(_cfg)
+                    set(_source_dir \"\${_source_dir}/\${_cfg}\")
+                endif()
+            endif()
                 
             # Remove old data.zip if exists
             if(EXISTS \"\${_data_zip_path}\")
@@ -625,13 +656,17 @@ if(USE_STATIC_LIBS)
             endif()
                 
             # Create temp directory for packaging
-            set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
+            set(_temp_dir \"\${_install_prefix}/_temp_pack\")
             file(REMOVE_RECURSE \"\${_temp_dir}\")
             file(MAKE_DIRECTORY \"\${_temp_dir}\")
                 
             # Copy files to temp
-            message(STATUS \"Copying files for packaging...\")
-            file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            message(STATUS \"Copying files for packaging from: \${_source_dir}\")
+            if(EXISTS \"\${_source_dir}/init.luac\")
+                file(COPY \"\${_source_dir}/init.luac\" DESTINATION \"\${_temp_dir}\")
+            elseif(EXISTS \"\${_source_dir}/init.lua\")
+                file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            endif()
             file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
             file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\")
             file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
@@ -642,18 +677,24 @@ if(USE_STATIC_LIBS)
             endif()
                 
             # Create ZIP from files using CMake tar
-            message(STATUS \"Creating data.zip...\")
+            message(STATUS \"Creating data.zip at: \${_data_zip_path}\")
+            set(_init_entry \"init.lua\")
+            if(EXISTS \"\${_temp_dir}/init.luac\")
+                set(_init_entry \"init.luac\")
+            endif()
             execute_process(
-                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
+                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- \${_init_entry} data modules layouts
                 WORKING_DIRECTORY \"\${_temp_dir}\"
                 RESULT_VARIABLE _zip_result
+                OUTPUT_VARIABLE _zip_output
+                ERROR_VARIABLE _zip_error
             )
                 
             if(NOT _zip_result EQUAL 0)
-                message(FATAL_ERROR \"Failed to create data.zip\")
+                message(FATAL_ERROR \"Failed to create data.zip: \${_zip_error}\")
             endif()
                 
-            message(STATUS \"Created data.zip\")
+            message(STATUS \"Successfully created data.zip\")
                 
             # Clean up temp directory
             file(REMOVE_RECURSE \"\${_temp_dir}\")
@@ -661,8 +702,33 @@ if(USE_STATIC_LIBS)
     else()
         install(CODE "
             message(STATUS \"Creating data.zip for Release distribution...\")
-            set(_data_zip_path \"\${CMAKE_INSTALL_PREFIX}/data.zip\")
-            set(_source_dir \"${CMAKE_SOURCE_DIR}\")
+            
+            # Ensure CMAKE_INSTALL_PREFIX is absolute
+            if(NOT IS_ABSOLUTE \"\${CMAKE_INSTALL_PREFIX}\")
+                get_filename_component(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\" ABSOLUTE BASE_DIR \"${CMAKE_BINARY_DIR}\")
+            else()
+                set(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\")
+            endif()
+            set(_data_zip_path \"\${_install_prefix}/data.zip\")
+            
+            # Determine source directory - handle both multi-config and single-config generators
+            set(_source_dir \"${CMAKE_BINARY_DIR}\")
+            if(\"${CMAKE_CONFIGURATION_TYPES}\" STREQUAL \"\")
+                # Single-config generator (Ninja) - files are in CMAKE_BINARY_DIR directly
+                # Already set correctly
+            else()
+                # Multi-config generator (Visual Studio) - files are in subdirectory
+                set(_cfg \"\$ENV{CMAKE_INSTALL_CONFIG_NAME}\")
+                if(NOT _cfg AND DEFINED CMAKE_INSTALL_CONFIG_NAME)
+                    set(_cfg \"\${CMAKE_INSTALL_CONFIG_NAME}\")
+                endif()
+                if(NOT _cfg AND DEFINED CMAKE_BUILD_TYPE)
+                    set(_cfg \"\${CMAKE_BUILD_TYPE}\")
+                endif()
+                if(_cfg)
+                    set(_source_dir \"\${_source_dir}/\${_cfg}\")
+                endif()
+            endif()
                 
             # Remove old data.zip if exists
             if(EXISTS \"\${_data_zip_path}\")
@@ -670,37 +736,46 @@ if(USE_STATIC_LIBS)
             endif()
                 
             # Create temp directory for packaging
-            set(_temp_dir \"\${CMAKE_INSTALL_PREFIX}/_temp_pack\")
+            set(_temp_dir \"\${_install_prefix}/_temp_pack\")
             file(REMOVE_RECURSE \"\${_temp_dir}\")
             file(MAKE_DIRECTORY \"\${_temp_dir}\")
                 
             # Copy files to temp (exclude game_bot from modules)
-            message(STATUS \"Copying files for packaging...\")
-            file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            message(STATUS \"Copying files for packaging from: \${_source_dir}\")
+            if(EXISTS \"\${_source_dir}/init.luac\")
+                file(COPY \"\${_source_dir}/init.luac\" DESTINATION \"\${_temp_dir}\")
+            elseif(EXISTS \"\${_source_dir}/init.lua\")
+                file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
+            endif()
             file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
             file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
                  PATTERN \"game_bot\" EXCLUDE)
             file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
                 
             # Create ZIP from files using CMake tar
-            message(STATUS \"Creating data.zip...\")
+            message(STATUS \"Creating data.zip at: \${_data_zip_path}\")
+            set(_init_entry \"init.lua\")
+            if(EXISTS \"\${_temp_dir}/init.luac\")
+                set(_init_entry \"init.luac\")
+            endif()
             execute_process(
-                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- init.lua data modules layouts
+                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- \${_init_entry} data modules layouts
                 WORKING_DIRECTORY \"\${_temp_dir}\"
                 RESULT_VARIABLE _zip_result
+                OUTPUT_VARIABLE _zip_output
+                ERROR_VARIABLE _zip_error
             )
                 
             if(NOT _zip_result EQUAL 0)
-                message(FATAL_ERROR \"Failed to create data.zip\")
+                message(FATAL_ERROR \"Failed to create data.zip: \${_zip_error}\")
             endif()
                 
-            message(STATUS \"Created data.zip\")
+            message(STATUS \"Successfully created data.zip\")
                 
             # Clean up temp directory
             file(REMOVE_RECURSE \"\${_temp_dir}\")
         ")
     endif()
-# Don't install uncompressed resources for Release - they're in data.zip
 else()
     # Debug build: install uncompressed for easier development
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
@@ -738,3 +813,40 @@ if(EXISTS "${CMAKE_SOURCE_DIR}/LICENSE")
 endif()
 
 collect_runtime_deps(${CLIENT_TARGET} "${_deploy_root}" ZIP_DATA_PASSWORD "${RUNTIME_DATA_ZIP_PASSWORD}")
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    if(ENABLE_LUAC_RELEASE AND LUAC_EXECUTABLE)
+        add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Compiling Lua bytecode for Release build"
+            COMMAND ${CMAKE_COMMAND}
+                -DROOT_DIR=$<TARGET_FILE_DIR:${CLIENT_TARGET}>
+                -DLUAC_EXECUTABLE=${LUAC_EXECUTABLE}
+                -P "${CMAKE_SOURCE_DIR}/tools/luac_compile.cmake"
+            COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
+            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${CLIENT_TARGET}>/tools
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_SOURCE_DIR}/tools/update_server_checksums.lua
+                $<TARGET_FILE_DIR:${CLIENT_TARGET}>/tools/update_server_checksums.lua
+            COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
+            WORKING_DIRECTORY $<TARGET_FILE_DIR:${CLIENT_TARGET}>)
+    elseif(ENABLE_LUAC_RELEASE)
+        message(WARNING "ENABLE_LUAC_RELEASE is ON but LUAC_EXECUTABLE was not found; skipping bytecode compilation.")
+        add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${_deploy_root}/tools
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_SOURCE_DIR}/tools/update_server_checksums.lua
+                ${_deploy_root}/tools/update_server_checksums.lua
+            COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
+            WORKING_DIRECTORY ${_deploy_root})
+    else()
+        add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
+            COMMAND ${CMAKE_COMMAND} -E make_directory ${_deploy_root}/tools
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                ${CMAKE_SOURCE_DIR}/tools/update_server_checksums.lua
+                ${_deploy_root}/tools/update_server_checksums.lua
+            COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
+            WORKING_DIRECTORY ${_deploy_root})
+    endif()
+endif()
