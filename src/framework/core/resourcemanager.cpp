@@ -48,6 +48,7 @@
 
 ResourceManager g_resources;
 static const std::string INIT_FILENAME = "init.lua";
+static const std::string INIT_FILENAME_COMPILED = "init.luac";
 
 void ResourceManager::init(const char *argv0)
 {
@@ -73,7 +74,10 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
 #if not(defined(ANDROID) || defined(FREE_VERSION))
     auto init_path = m_binaryPath.parent_path();
     init_path /= INIT_FILENAME;
-    if (std::filesystem::exists(init_path)) // debug version
+    auto init_path_compiled = m_binaryPath.parent_path();
+    init_path_compiled /= INIT_FILENAME_COMPILED;
+    // Check for either init.lua or init.luac (debug version)
+    if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled))
         return false;
 
     const char* localDir = PHYSFS_getPrefDir(product.c_str(), app.c_str());
@@ -247,7 +251,8 @@ bool ResourceManager::setup(bool ignoreWriteDir)
         if (dir == localDir || !PHYSFS_mount(dir.c_str(), NULL, 0))
             continue;
 
-        if(PHYSFS_exists(INIT_FILENAME.c_str())) {
+        // Check for init.luac (bytecode) first, then init.lua
+        if(PHYSFS_exists(INIT_FILENAME_COMPILED.c_str()) || PHYSFS_exists(INIT_FILENAME.c_str())) {
             g_logger.info(stdext::format("Found work dir at '%s'", dir));
             mounted = true;
             break;
@@ -281,8 +286,8 @@ bool ResourceManager::setup(bool ignoreWriteDir)
             if (dir != localDir)
                 PHYSFS_unmount(dir.c_str());
 
-            g_logger.info(stdext::format("Found work dir at '%s'", dir));
             if (mountMemoryData(data)) {
+                g_logger.info(stdext::format("Found work dir at '%s'", dir));
                 mounted = true;
                 break;
             }
@@ -310,7 +315,12 @@ std::string ResourceManager::getCompactName() {
     std::string fileData;
     if (loadDataFromSelf()) {
         try {
-            fileData = readFileContents(INIT_FILENAME);
+            // Try compiled init first, then fallback to init.lua
+            if (fileExists(INIT_FILENAME_COMPILED)) {
+                fileData = readFileContents(INIT_FILENAME_COMPILED);
+            } else {
+                fileData = readFileContents(INIT_FILENAME);
+            }
         } catch (...) {
             fileData = "";
         }
@@ -329,7 +339,12 @@ std::string ResourceManager::getCompactName() {
                 if (!PHYSFS_mount(dir.c_str(), NULL, 0))
                     continue;
 
-                if (PHYSFS_exists(INIT_FILENAME.c_str())) {
+                // Check for compiled init first, then fallback to init.lua
+                if (PHYSFS_exists(INIT_FILENAME_COMPILED.c_str())) {
+                    fileData = readFileContents(INIT_FILENAME_COMPILED);
+                    PHYSFS_unmount(dir.c_str());
+                    break;
+                } else if (PHYSFS_exists(INIT_FILENAME.c_str())) {
                     fileData = readFileContents(INIT_FILENAME);
                     PHYSFS_unmount(dir.c_str());
                     break;
@@ -1223,7 +1238,8 @@ bool ResourceManager::mountMemoryData(const std::shared_ptr<std::vector<uint8_t>
 
     if (PHYSFS_mountMemory(data->data(), data->size(), nullptr,
                            "memory_data.zip", "/", 0)) {
-        if (PHYSFS_exists(INIT_FILENAME.c_str())) {
+        // Check for init.luac (bytecode) first, then init.lua
+        if (PHYSFS_exists(INIT_FILENAME_COMPILED.c_str()) || PHYSFS_exists(INIT_FILENAME.c_str())) {
             m_loadedFromArchive = true;
             m_memoryData = data;
             return true;

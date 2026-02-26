@@ -183,15 +183,31 @@ option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_LUAC_RELEASE "Compile Lua scripts to bytecode in Release builds" ON)
 
-set(LUAC_EXECUTABLE "C:/Luac51/luac51.exe" CACHE FILEPATH "Path to the luac executable" FORCE)
-if(LUAC_EXECUTABLE AND IS_DIRECTORY "${LUAC_EXECUTABLE}")
-    find_program(LUAC_EXECUTABLE NAMES luac51.exe luac.exe luac PATHS "${LUAC_EXECUTABLE}" NO_DEFAULT_PATH)
-endif()
-if(LUAC_EXECUTABLE AND NOT EXISTS "${LUAC_EXECUTABLE}")
-    set(LUAC_EXECUTABLE "C:/Luac51" CACHE FILEPATH "Path to the luac executable" FORCE)
-endif()
+set(LUAC_EXECUTABLE "" CACHE FILEPATH "Path to the luac or luajit executable" FORCE)
+
+# Clear cached value to force fresh search
+unset(LUAC_EXECUTABLE CACHE)
+
+# Search for LuaJIT first in common installation directories
+find_program(LUAC_EXECUTABLE 
+    NAMES luajit.exe luajit luac51.exe luac.exe luac 
+    PATHS 
+        "C:/Luac51/bin"
+        "C:/Luac51"
+        "C:/LuaJIT/bin"
+        "C:/LuaJIT"
+    NO_DEFAULT_PATH)
+
+# If not found in explicit paths, search system PATH
 if(NOT LUAC_EXECUTABLE)
-    find_program(LUAC_EXECUTABLE NAMES luac51.exe luac.exe luac)
+    find_program(LUAC_EXECUTABLE NAMES luajit.exe luajit luac51.exe luac.exe luac)
+endif()
+
+# Report what was found
+if(LUAC_EXECUTABLE)
+    message(STATUS "Found Lua compiler: ${LUAC_EXECUTABLE}")
+else()
+    message(STATUS "Lua compiler not found - bytecode compilation will be skipped")
 endif()
 
 include(src/framework/CMakeLists.txt)
