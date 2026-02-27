@@ -47,6 +47,9 @@ function init()
   connect(g_game, { onGameStart = online })
 
   healthInfoWindow = g_ui.loadUI('healthinfo', modules.game_interface.getRightPanel())
+  if not healthInfoWindow then
+    return
+  end
   healthInfoWindow:disableResize()
   
   if not healthInfoWindow.forceOpen then
@@ -64,14 +67,36 @@ function init()
   soulLabel = healthInfoWindow:recursiveGetChildById('soulLabel')
   capLabel = healthInfoWindow:recursiveGetChildById('capLabel')
 
-  -- Disable scrollbar on health window
-  local scrollBar = healthInfoWindow:recursiveGetChildById('miniwindowScrollBar')
+  if healthBar then
+    healthBar:setOn(true)
+  end
+
+  if manaBar then
+    manaBar:setOn(true)
+  end
+
+  -- Hide all HeadlessMiniWindow chrome widgets
+  local topBar = healthInfoWindow:getChildById('miniwindowTopBar')
+  if topBar then
+    topBar:setVisible(false)
+    topBar:setHeight(0)
+    topBar:setMargin(0)
+  end
+
+  local scrollBar = healthInfoWindow:getChildById('miniwindowScrollBar')
   if scrollBar then
     scrollBar:setVisible(false)
     scrollBar:setWidth(0)
     scrollBar:setMarginTop(0)
     scrollBar:setMarginRight(0)
     scrollBar:setMarginBottom(0)
+  end
+
+  local resizeBorder = healthInfoWindow:getChildById('bottomResizeBorder')
+  if resizeBorder then
+    resizeBorder:setVisible(false)
+    resizeBorder:setHeight(0)
+    resizeBorder:setMargin(0)
   end
 
   -- Disable overlay/top bars/health-mana circles entirely
@@ -103,7 +128,10 @@ function init()
   hideExperience()
 
   healthInfoWindow:setup()
-  
+  addEvent(function()
+    updateCompactHeight()
+  end)
+
   if g_app.isMobile() then
     healthInfoWindow:close()
     healthInfoButton:setOn(false)  
@@ -224,6 +252,7 @@ function onManaChange(localPlayer, mana, maxMana)
   end
   
   if manaBar then
+    manaBar:setOn(true)
     manaBar:setText(comma_value(mana) .. ' / ' .. comma_value(maxMana))
     manaBar:setTooltip(tr(manaTooltip, mana, maxMana))
     manaBar:setValue(mana, 0, maxMana)
@@ -244,17 +273,23 @@ function onManaChange(localPlayer, mana, maxMana)
 end
 
 function onLevelChange(localPlayer, value, percent)
-  experienceBar:setText(percent .. '%')
-  experienceBar:setTooltip(tr(experienceTooltip, percent, value+1))
-  experienceBar:setPercent(percent)
+  if experienceBar then
+    experienceBar:setText(percent .. '%')
+    experienceBar:setTooltip(tr(experienceTooltip, percent, value+1))
+    experienceBar:setPercent(percent)
+  end
 end
 
 function onSoulChange(localPlayer, soul)
-  soulLabel:setText(tr('Soul') .. ': ' .. soul)
+  if soulLabel then
+    soulLabel:setText(tr('Soul') .. ': ' .. soul)
+  end
 end
 
 function onFreeCapacityChange(player, freeCapacity)
-  capLabel:setText(tr('Cap') .. ': ' .. freeCapacity)
+  if capLabel then
+    capLabel:setText(tr('Cap') .. ': ' .. freeCapacity)
+  end
 end
 
 function onStatesChange(localPlayer, now, old)
@@ -280,14 +315,14 @@ updateCompactHeight = function()
   local content = healthInfoWindow:recursiveGetChildById('contentsPanel')
   local contentHeight = 0
 
-  local function addWidgetHeight(widget)
-    if widget and widget:isVisible() then
+  local function addWidgetHeight(widget, includeHidden)
+    if widget and (includeHidden or widget:isVisible()) then
       contentHeight = contentHeight + widget:getHeight() + widget:getMarginTop() + widget:getMarginBottom()
     end
   end
 
-  addWidgetHeight(healthBar)
-  addWidgetHeight(manaBar)
+  addWidgetHeight(healthBar, true)
+  addWidgetHeight(manaBar, true)
   addWidgetHeight(experienceBar)
   addWidgetHeight(healthInfoWindow:recursiveGetChildById('conditionPanel'))
   addWidgetHeight(capLabel)
@@ -297,22 +332,30 @@ updateCompactHeight = function()
   local marginBottom = content and content:getMarginBottom() or 0
   local paddingTop = content and content:getPaddingTop() or 0
   local paddingBottom = content and content:getPaddingBottom() or 0
-  local chromeHeight = 24
+  local chromeHeight = 0
   local targetHeight = contentHeight + marginTop + marginBottom + paddingTop + paddingBottom + chromeHeight
 
   healthInfoWindow:setHeight(math.max(targetHeight, healthInfoWindow.minimizedHeight or targetHeight))
 end
 
 function hideLabels()
-  capLabel:setOn(false)
-  soulLabel:setOn(false)
-  local content = healthInfoWindow:recursiveGetChildById('conditionPanel')
-  content:setVisible(false)
+  if capLabel then
+    capLabel:setOn(false)
+  end
+  if soulLabel then
+    soulLabel:setOn(false)
+  end
+  local content = healthInfoWindow and healthInfoWindow:recursiveGetChildById('conditionPanel') or nil
+  if content then
+    content:setVisible(false)
+  end
   updateCompactHeight()
 end
 
 function hideExperience()
-  experienceBar:setOn(false)
+  if experienceBar then
+    experienceBar:setOn(false)
+  end
   updateCompactHeight()
 end
 

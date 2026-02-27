@@ -32,6 +32,7 @@
 #include "missile.h"
 #include "tile.h"
 #include "luavaluecasts_client.h"
+#include "checksummanager.h"
 #include <framework/core/eventdispatcher.h>
 #include <framework/util/extras.h>
 #include <framework/stdext/string.h>
@@ -3173,10 +3174,36 @@ void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
     int opcode = msg->getU8();
     std::string buffer = msg->getString();
 
-    if (opcode == 0)
+    if (opcode == 0) {
         m_enableSendExtendedOpcode = true;
-    else
+    } else if (opcode == 2) {
+        // Handle checksum challenge in C++ (opcode 2)
+        // Format: "challengeId:file1,file2,file3"
+        size_t separator = buffer.find(':');
+        if (separator != std::string::npos) {
+            std::string challengeId = buffer.substr(0, separator);
+            std::string filesString = buffer.substr(separator + 1);
+            
+            // Parse file list
+            std::vector<std::string> files;
+            size_t start = 0;
+            size_t end = filesString.find(',');
+            while (end != std::string::npos) {
+                files.push_back(filesString.substr(start, end - start));
+                start = end + 1;
+                end = filesString.find(',', start);
+            }
+            files.push_back(filesString.substr(start));
+            
+            // Generate response
+            std::string response = ChecksumManager::generateChecksumResponse(challengeId, files);
+            
+            // Send response back to server
+            sendExtendedOpcode(2, response);
+        }
+    } else {
         callLuaField("onExtendedOpcode", opcode, buffer);
+    }
 }
 
 void ProtocolGame::parseChangeMapAwareRange(const InputMessagePtr& msg)

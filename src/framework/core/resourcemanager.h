@@ -80,6 +80,7 @@ public:
     bool isLoadedFromMemory() { return m_loadedFromMemory; }
 
     std::string fileChecksum(const std::string& path);
+    std::string fileChecksumUncached(const std::string& path); // Bypass cache
     
     std::map<std::string, std::string> filesChecksums();
     std::string selfChecksum();

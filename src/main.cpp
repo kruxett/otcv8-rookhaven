@@ -70,6 +70,13 @@ static void setupDllSearchPath() {
 
 int main(int argc, const char* argv[]) {
     std::vector<std::string> args(argv, argv + argc);
+    std::string runScriptPath;
+    for(size_t i = 1; i < args.size(); ++i) {
+        if(args[i] == "--run-script" && i + 1 < args.size()) {
+            runScriptPath = args[i + 1];
+            break;
+        }
+    }
 
 #ifdef WIN32
     setupDllSearchPath();
@@ -114,6 +121,18 @@ int main(int argc, const char* argv[]) {
     g_resources.setupWriteDir(g_app.getName(), g_app.getCompactName());
     g_resources.setup();
 
+    if(!runScriptPath.empty()) {
+        if(!g_lua.safeRunScript(runScriptPath)) {
+            g_logger.fatal(stdext::format("Can't run script '%s'", runScriptPath));
+        }
+
+        g_app.deinit();
+        g_http.terminate();
+        g_client.terminate();
+        g_app.terminate();
+        return 0;
+    }
+
     auto runInit = []() {
         return g_lua.safeRunScript("init.lua");
     };
@@ -145,6 +164,8 @@ int main(int argc, const char* argv[]) {
             g_logger.fatal("Can't run test.lua");
         }
     }
+
+ 
 
 #ifdef WIN32
     // support for progdn proxy system, if you don't have this dll nothing will happen

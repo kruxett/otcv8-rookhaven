@@ -1,0 +1,15 @@
+Module
+  name: client_checksums
+  description: Client file checksum verification system
+  author: RookhavenDev
+  website: https://rookhaven.com
+  version: 1.0
+  autoload: true
+  autoload-priority: 1000
+  
+  dependencies:
+    - corelib
+    - gamelib
+
+  @onLoad: |
+    dofile('checksums')
