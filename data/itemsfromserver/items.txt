@@ -15608,7 +15608,7 @@
 		<attribute key="weight" value="520" />
 	</item>
 	<item id="8714" name="wooden floor">
-		<attribute key="description" value="This is the border to the village of Rookgaard." />
+		<attribute key="description" value="This is the border to the village of Rookhaven." />
 	</item>
 	<item id="8715" article="a" name="ramp">
 		<attribute key="floorchange" value="west" />
