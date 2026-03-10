@@ -1,5 +1,7 @@
 TopButton < UIButton
   size: 26 26
+  change-cursor-image: true
+  cursor: pointer
   image-source: /images/ui/button_top
   image-clip: 0 0 26 26
   image-border: 3
@@ -25,6 +27,8 @@ TopButton < UIButton
 
 TopToggleButton < UIButton
   size: 20 20
+  change-cursor-image: true
+  cursor: pointer
   image-source: /images/ui/button_top
   image-clip: 0 0 26 26
   image-color: #ffffffff

@@ -437,6 +437,7 @@ private:
 
     std::string m_cursor;
     stdext::boolean<false> m_changeCursorImage;
+    stdext::boolean<false> m_cursorPushed;
 
 protected:
     void drawImage(const Rect& screenCoords);

@@ -815,6 +815,11 @@ void UIWidget::bindRectToParent()
 
 void UIWidget::internalDestroy()
 {
+    if (m_cursorPushed) {
+        g_mouse.popCursor(m_cursor);
+        m_cursorPushed = false;
+    }
+
     if (!getText().empty()) {
         setText("", true);
     }
@@ -1593,10 +1598,13 @@ void UIWidget::onChildFocusChange(const UIWidgetPtr& focusedChild, const UIWidge
 void UIWidget::onHoverChange(bool hovered)
 {
     if (m_changeCursorImage) {
-        if (hovered && !g_mouse.isCursorChanged())
+        if (hovered && !g_mouse.isCursorChanged()) {
             g_mouse.pushCursor(m_cursor);
-        else
+            m_cursorPushed = true;
+        } else if (!hovered && m_cursorPushed) {
             g_mouse.popCursor(m_cursor);
+            m_cursorPushed = false;
+        }
     }
     callLuaField("onHoverChange", hovered);
 }
@@ -1825,6 +1833,10 @@ void UIWidget::setCursor(const std::string& cursor)
     if (m_cursor == cursor) return;
 
     if (cursor.empty()) {
+        if (m_cursorPushed) {
+            g_mouse.popCursor(m_cursor);
+            m_cursorPushed = false;
+        }
         m_cursor = "";
         m_changeCursorImage = false;
         return;
