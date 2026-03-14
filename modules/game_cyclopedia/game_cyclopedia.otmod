@@ -1,19 +1,18 @@
 Module
   name: game_cyclopedia
   description: Cyclopedia - Bestiary, Bosstiary, Character info and more
-  scripts: [
-    game_cyclopedia,
-    tab/bestiary/bestiary,
-    tab/bosstiary/bosstiary,
-    tab/boss_slots/boss_slots,
-    tab/character/character,
-    tab/charms/charms,
-    tab/house/house,
-    tab/items/items,
-    tab/magicalArchives/magicalArchives,
-    tab/map/map,
-    utils
-  ]
+  scripts:
+    - game_cyclopedia
+    - tab/bestiary/bestiary
+    - tab/bosstiary/bosstiary
+    - tab/boss_slots/boss_slots
+    - tab/character/character
+    - tab/charms/charms
+    - tab/house/house
+    - tab/items/items
+    - tab/magicalArchives/magicalArchives
+    - tab/map/map
+    - utils
   sandboxed: true
   @onLoad: controllerCyclopedia:init()
   @onUnload: controllerCyclopedia:terminate()
