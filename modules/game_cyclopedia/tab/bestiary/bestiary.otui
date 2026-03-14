@@ -1,4 +1,4 @@
-UIWidget
+﻿UIWidget
   id: Cat2
   anchors.fill: parent
   visible: false
@@ -166,7 +166,7 @@ UIWidget
         anchors.left: ProgressBorder1.left
         anchors.bottom: ProgressBorder2.bottom
         height: 12
- 
+
         phantom: true
 
         image-source: /game_cyclopedia/images/bestiary/fill
@@ -251,7 +251,7 @@ UIWidget
         anchors.left: DiamondBase.left
         margin-top: 5
         text-auto-resize: true
- 
+
       UIWidget
         id: BonusIcon
         anchors.top: SubTextLabel.bottom
@@ -514,8 +514,8 @@ UIWidget
         anchors.left: EnergyResist.right
         anchors.bottom: EnergyResist.bottom
         margin-left: 5
-        
-        
+
+
       UIWidget
         id: HolyResist
         image-source: /game_cyclopedia/images/bestiary/icons/monster-icon-holy-resist

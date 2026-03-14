@@ -1,4 +1,4 @@
-HouseIcon < UIWidget
+﻿HouseIcon < UIWidget
   //image-source: /game_cyclopedia/images/house-owner-icon
   margin-left: 1
 HouseBidArea < UIWidget
@@ -1102,7 +1102,7 @@ CharmCreatureName < UICheckBox
   @onClick: modules.game_cyclopedia.Cyclopedia.selectCreatureCharm(self, self:isChecked())
   $checked:
     background-color: #585858
-	
+  
 InventoryItemCyclopedia < Item
 HeadSlot < InventoryItemCyclopedia
   id: slot1

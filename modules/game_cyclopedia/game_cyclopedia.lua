@@ -130,11 +130,7 @@ function controllerCyclopedia:onGameStart()
     do
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
             '/images/topbuttons/cyclopedia', function() toggle("items") end, false, 7)
-        ButtonBossSlot = modules.client_topmenu.addRightGameToggleButton("bossSlot", tr("Open Boss Slots dialog"),
-            "/images/topbuttons/bossSlot", function() toggle("bossSlot") end, false, 20)
         CyclopediaButton:setOn(false)
-        ButtonBestiary = modules.client_topmenu.addRightGameToggleButton("bosstiary", tr("Open Bosstiary dialog"),
-            "/images/topbuttons/bosstiary_tab", function() toggle("bosstiary") end, false, 17)
 
         contentContainer = controllerCyclopedia.ui:recursiveGetChildById('contentContainer')
         buttonSelection = controllerCyclopedia.ui:recursiveGetChildById('buttonSelection')
@@ -200,13 +196,7 @@ function controllerCyclopedia:onGameStart()
     =               Tracker Bestiary                      =
     =================================================== ]] --
 
-        -- Only create if it doesn't exist
-        if not trackerButton then
-            trackerButton = modules.client_topmenu.addRightGameToggleButton("trackerButton", tr("Bestiary Tracker"),
-                "/images/topbuttons/bestiaryTracker", Cyclopedia.toggleBestiaryTracker, false, 17)
-        end
-        
-        trackerButton:setOn(false)
+        if trackerButton then trackerButton:setOn(false) end
         
         -- Only create if it doesn't exist
         if not trackerMiniWindow then
@@ -254,7 +244,7 @@ function controllerCyclopedia:onGameStart()
 
             -- Hook into the onOpen event to ensure data is loaded when window is shown
             trackerMiniWindow.onOpen = function()
-                trackerButton:setOn(true)
+                if trackerButton then trackerButton:setOn(true) end
                 -- Aggressive data loading when window becomes visible
                 scheduleEvent(function()
                     local char = g_game.getCharacterName()
@@ -290,7 +280,7 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindow.onClose = function()
-                trackerButton:setOn(false)
+                if trackerButton then trackerButton:setOn(false) end
             end
 
             trackerMiniWindow:setup()
@@ -301,13 +291,7 @@ function controllerCyclopedia:onGameStart()
     =               Tracker Bosstiary                     =
     =================================================== ]] --
 
-        -- Only create if it doesn't exist
-        if not trackerButtonBosstiary then
-            trackerButtonBosstiary = modules.client_topmenu.addRightGameToggleButton("bosstiarytrackerButton",
-                tr("Bosstiary Tracker"), "/images/topbuttons/bosstiaryTracker", Cyclopedia.toggleBosstiaryTracker, false, 17)
-        end
-        
-        trackerButtonBosstiary:setOn(false)
+        if trackerButtonBosstiary then trackerButtonBosstiary:setOn(false) end
         
         -- Only create if it doesn't exist
         if not trackerMiniWindowBosstiary then
@@ -361,7 +345,7 @@ function controllerCyclopedia:onGameStart()
 
             -- Hook into the onOpen event to ensure data is loaded when window is shown
             trackerMiniWindowBosstiary.onOpen = function()
-                trackerButtonBosstiary:setOn(true)
+                if trackerButtonBosstiary then trackerButtonBosstiary:setOn(true) end
                 -- Aggressive data loading when window becomes visible
                 scheduleEvent(function()
                     local char = g_game.getCharacterName()
@@ -397,7 +381,7 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindowBosstiary.onClose = function()
-                trackerButtonBosstiary:setOn(false)
+                if trackerButtonBosstiary then trackerButtonBosstiary:setOn(false) end
             end
 
             trackerMiniWindowBosstiary:setup()
@@ -412,10 +396,10 @@ function controllerCyclopedia:onGameStart()
         Cyclopedia.populateVisibleTrackersWithCachedData()
         
         -- Also set up proper tracker button states based on window visibility
-        if trackerMiniWindow:isVisible() then
+        if trackerMiniWindow:isVisible() and trackerButton then
             trackerButton:setOn(true)
         end
-        if trackerMiniWindowBosstiary:isVisible() then
+        if trackerMiniWindowBosstiary:isVisible() and trackerButtonBosstiary then
             trackerButtonBosstiary:setOn(true)
         end
         
