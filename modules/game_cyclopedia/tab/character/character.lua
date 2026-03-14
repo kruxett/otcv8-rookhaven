@@ -104,8 +104,14 @@ function showCharacter()
                 if item then
                     itemWidget:setStyle("InventoryItemCyclopedia")
                     itemWidget:setItem(item)
-                    ItemsDatabase.setRarityItem(itemWidget, itemWidget:getItem())
-                    ItemsDatabase.setTier(itemWidget, itemWidget:getItem())
+                    if ItemsDatabase then
+                        if ItemsDatabase.setRarityItem then
+                            ItemsDatabase.setRarityItem(itemWidget, itemWidget:getItem())
+                        end
+                        if ItemsDatabase.setTier then
+                            ItemsDatabase.setTier(itemWidget, itemWidget:getItem())
+                        end
+                    end
                     itemWidget:setIcon("")
                 else
                     itemWidget:setStyle(Cyclopedia.InventorySlotStyles[i].name)

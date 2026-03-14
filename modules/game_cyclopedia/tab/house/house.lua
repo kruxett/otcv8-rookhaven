@@ -5,6 +5,12 @@ local function setHouseLabelText(widget, text)
         return
     end
 
+    if text == nil then
+        text = ""
+    else
+        text = tostring(text)
+    end
+
     if widget.setColoredText then
         local ok = pcall(function()
             widget:setColoredText(text)

@@ -39,6 +39,7 @@ function showBestiary()
     UI.ListBase.CreatureInfo:setVisible(false)
 
     Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
+    Cyclopedia.Bestiary.Page = 1
     controllerCyclopedia.ui.CharmsBase:setVisible(true)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(true)
@@ -609,6 +610,9 @@ function Cyclopedia.onStageChange()
 end
 
 function Cyclopedia.changeBestiaryPage(prev, next)
+    Cyclopedia.Bestiary.Page = tonumber(Cyclopedia.Bestiary.Page) or 1
+    Cyclopedia.Bestiary.Stage = Cyclopedia.Bestiary.Stage or STAGES.CATEGORY
+
     if next then
         Cyclopedia.Bestiary.Page = Cyclopedia.Bestiary.Page + 1
     end
