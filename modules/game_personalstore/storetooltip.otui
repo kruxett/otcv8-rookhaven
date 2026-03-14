@@ -1,0 +1,48 @@
+UIWindow
+  id: itemStoreTooltip
+  size: 150 82
+  visible: false
+  border-width: 2
+  background-color: blue
+
+  UIWidget
+    id: image
+    size: 34 34
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+    Item
+      id: item
+      anchors.top: parent.top
+      anchors.left: parent.left
+      UIWidget
+        id: rarityId
+        anchors.fill: parent
+        image-source: /images/ui/rarity_frames
+        phantom: true
+        visible: false
+
+  UIWidget
+    id: name
+    height: 15
+    anchors.top: image.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    font: verdana-11px-rounded
+    margin-top: 2
+
+  MoneyPanel
+    id: price
+    height: 17
+    anchors.top: name.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 2
+
+  UIWidget
+    id: description
+    height: 60
+    anchors.top: price.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    font: verdana-11px-rounded
+    margin-top: 2

@@ -369,7 +369,7 @@ end
   enterGame:getChildById('accountPasswordTextEdit'):setText(password)
   enterGame:getChildById('accountNameTextEdit'):setText(account)
   rememberPasswordBox:setChecked(#account > 0)
-    
+
   g_keyboard.bindKeyDown('Ctrl+G', EnterGame.openWindow)
 
   if g_game.isOnline() then
@@ -453,7 +453,7 @@ function EnterGame.doLogin(account, password, token, host)
     connect(errorBox, { onOk = EnterGame.show })
     return
   end
-  
+
   G.account = account or enterGame:getChildById('accountNameTextEdit'):getText()
   G.password = password or enterGame:getChildById('accountPasswordTextEdit'):getText()
   G.authenticatorToken = token or ''
@@ -461,10 +461,10 @@ function EnterGame.doLogin(account, password, token, host)
   G.server = serverSelector:getText():trim()
   G.host = host or serverHostTextEdit:getText()
   G.clientVersion = getSavedClientVersion()
- 
+
   if not rememberPasswordBox:isChecked() then
     g_settings.set('account', G.account)
-    g_settings.set('password', G.password)  
+    g_settings.set('password', G.password)
   end
   g_settings.set('host', G.host)
   g_settings.set('server', G.server)

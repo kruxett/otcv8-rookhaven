@@ -1,0 +1,9 @@
+Module
+  name: game_personalstore
+  description: Nothing
+  author: RKTeam
+  website: https://google.com
+  sandboxed: true
+  scripts: [ personalstore ]
+  @onLoad: init()
+  @onUnload: terminate()

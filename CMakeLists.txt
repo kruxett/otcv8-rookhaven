@@ -160,7 +160,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "testserver.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
 set(CLIENT_VERSION "0.7" CACHE STRING "Client version string" FORCE)
-set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
+set(BUILD_REVISION 2 CACHE STRING "Build revision number" FORCE)
 
 # default build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -354,7 +354,7 @@ function(collect_runtime_deps TARGET OUT_DIR)
         if(EXISTS "${CMAKE_SOURCE_DIR}/${_root_extra}")
             list(APPEND _extra_files "${CMAKE_SOURCE_DIR}/${_root_extra}")
         endif()
-    endforeach()
+   endforeach()
 
     set(_hint_dirs
         "${VCPKG_INSTALLED_DIR}/x64-windows/bin"
@@ -409,7 +409,7 @@ if(CRD_KEEP_DATA_DIR)
     if(EXISTS "${_vcpkg_debug_bin}/${_dll_name}")
       file(COPY "${_vcpkg_debug_bin}/${_dll_name}" DESTINATION "${_out_dir}")
     endif()
-  endforeach()
+ endforeach()
 
   # Also copy from passed list
   foreach(_dll IN LISTS CRD_DEBUG_COPY_DLLS)

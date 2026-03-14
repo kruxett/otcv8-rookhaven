@@ -1,0 +1,486 @@
+MoneyWidget < UIWidget
+  size: 24 17
+  anchors.top: parent.top
+  anchors.left: parent.left
+  text: 0
+  font: verdana-11px-rounded
+
+  $!first:
+    anchors.left: prev.right
+    margin-left: 26
+
+MoneyPanel < UIWidget
+  id: moneyPanel
+  size: 144 17
+  image-source: images/money
+
+  MoneyWidget
+    id: 3
+  MoneyWidget
+    id: 2
+  MoneyWidget
+    id: 1
+
+PSItem < UIWidget
+  size: 80 54
+
+  Item
+    id: item
+    size: 34 34
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    virtual: true
+
+    UIWidget
+      id: rarityId
+      anchors.fill: parent
+      image-source: /images/ui/rarity_frames
+      phantom: true
+      visible: false
+
+  UIWidget
+    id: border
+    anchors.fill: parent
+    border-color: white
+    border-width: 2
+    phantom: true
+    opacity: 0
+
+  Button
+    id: remove
+    size: 15 15
+    anchors.top: parent.top
+    anchors.right: parent.right
+    tooltip: Remover
+    text: x
+    visible: false
+
+  Button
+    id: buyOrEdit
+    height: 18
+    anchors.top: item.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin: 2
+    enabled: false
+
+PSPanel < UIWidget
+  anchors.fill: parent
+  visible: false
+  phantom: true
+
+StartStorePanel < PSPanel
+  id: startStorePanel
+  TextEdit
+    id: description
+    size: 250 90
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 30
+
+  Button
+    id: confirm
+    size: 80 22
+    anchors.top: description.bottom
+    anchors.left: description.left
+    margin-top: 5
+    text: Confirm
+
+  Button
+    id: cancel
+    size: 80 22
+    anchors.top: description.bottom
+    anchors.right: description.right
+    margin-top: 5
+    text: Cancel
+    @onClick: modules.game_personalstore.showMainPanel()
+
+BuyItemPanel < PSPanel
+  id: buyItemPanel
+
+  Item
+    id: item
+    size: 34 34
+    virtual: true
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 50
+
+    UIWidget
+      id: rarityId
+      anchors.fill: parent
+      image-source: /images/ui/rarity_frames
+      phantom: true
+      visible: false
+
+  HorizontalScrollBar
+    id: count
+    size: 220 13
+    anchors.top: item.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 4
+
+  MoneyPanel
+    id: price
+    anchors.top: count.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+
+  Button
+    id: confirm
+    size: 80 22
+    anchors.top: price.bottom
+    anchors.left: count.left
+    margin-top: 5
+    text: Confirm
+
+  Button
+    id: cancel
+    size: 80 22
+    anchors.top: price.bottom
+    anchors.right: count.right
+    margin-top: 5
+    text: Cancel
+    @onClick: modules.game_personalstore.showMainPanel()
+
+ItemEditPanel < PSPanel
+  id: itemEditPanel
+
+  UIItem
+    id: item
+    size: 34 34
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 50
+    UIWidget
+      id: rarityId
+      anchors.fill: parent
+      image-source: /images/ui/rarity_frames
+      phantom: true
+      visible: false
+
+  HorizontalScrollBar
+    id: count
+    size: 220 13
+    anchors.top: item.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+
+  UIWidget
+    id: price
+    size: 220 20
+    anchors.top: count.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+    tooltip: tr("Preço unitário")
+
+    TextEdit
+      id: value
+      size: 80 20
+      anchors.top: parent.top
+      anchors.left: parent.left
+
+    MoneyPanel
+      anchors.left: value.right
+      anchors.top: value.top
+
+  Button
+    id: confirm
+    size: 80 22
+    anchors.top: price.bottom
+    anchors.left: count.left
+    margin-top: 5
+    text: Confirm
+
+  Button
+    id: cancel
+    size: 80 22
+    anchors.top: price.bottom
+    anchors.right: count.right
+    margin-top: 5
+    text: Cancel
+    @onClick: modules.game_personalstore.showMainPanel()
+
+MainPanel < PSPanel
+  id: mainPanel
+  visible: true
+  margin-left: -15
+  margin-top: -20
+
+  ScrollablePanel
+    id: itemsFlatPanel
+    layout:
+      type: grid
+      cell-size: 34 34
+      cell-spacing: 5
+      flow: true
+    vertical-scrollbar: itemsScrollBar
+    size: 356 162
+    image-border: 1
+    padding: 5
+    image-source: /images/ui/panel_flat2
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 30
+
+    PSItem
+      id: item1
+    PSItem
+      id: item2
+    PSItem
+      id: item3
+    PSItem
+      id: item4
+    PSItem
+      id: item5
+    PSItem
+      id: item6
+    PSItem
+      id: item7
+    PSItem
+      id: item8
+    PSItem
+      id: item9
+    PSItem
+      id: item10
+    PSItem
+      id: item11
+    PSItem
+      id: item12
+    PSItem
+      id: item13
+    PSItem
+      id: item14
+    PSItem
+      id: item15
+    PSItem
+      id: item16
+    PSItem
+      id: item17
+    PSItem
+      id: item18
+    PSItem
+      id: item19
+    PSItem
+      id: item20
+    PSItem
+      id: item21
+    PSItem
+      id: item22
+    PSItem
+      id: item23
+    PSItem
+      id: item24
+    PSItem
+      id: item25
+    PSItem
+      id: item26
+    PSItem
+      id: item27
+    PSItem
+      id: item28
+    PSItem
+      id: item29
+    PSItem
+      id: item30
+    PSItem
+      id: item31
+    PSItem
+      id: item32
+    PSItem
+      id: item33
+    PSItem
+      id: item34
+    PSItem
+      id: item35
+    PSItem
+      id: item36
+
+  VerticalScrollBar
+    id: itemsScrollBar
+    layout:
+      type: anchor
+    anchors.top: itemsFlatPanel.top
+    anchors.bottom: itemsFlatPanel.bottom
+    anchors.right: itemsFlatPanel.right
+    margin-right: -15
+    step: 50
+    pixels-scroll: true
+    visible: false
+
+  HorizontalSeparator
+    id: separatorAboveItems
+    anchors.top: itemsFlatPanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 10
+    margin-left: 15
+
+  Panel
+    id: purchasePanel
+    anchors.top: separatorAboveItems.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 10
+    margin-left: 30
+    height: 90
+    width: 50
+    padding: 5
+
+    Item
+      id: selectedItem
+      size: 48 48
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-top: 5
+      UIWidget
+        id: rarityId
+        anchors.fill: parent
+        image-source: /images/ui/rarity_frames
+        phantom: true
+        visible: false
+
+    Label
+      id: itemName
+      anchors.left: selectedItem.right
+      anchors.top: parent.top
+      margin-left: 10
+      margin-top: 5
+      width: 120
+      text: "No Item Selected"
+
+    HorizontalScrollBar
+      id: itemCountScroll
+      anchors.left: selectedItem.right
+      anchors.top: itemWeight.bottom
+      margin-left: 5
+      margin-top: 5
+      minimum: 1
+      maximum: 100
+      step: 1
+      value: 1
+      width: 100
+
+    Label
+      id: itemPrice
+      anchors.left: selectedItem.right
+      anchors.top: itemName.bottom
+      margin-left: 10
+      width: 120
+      text: "Price: 0"
+
+    Label
+      id: itemAmount
+      anchors.left: selectedItem.right
+      anchors.top: itemPrice.bottom
+      margin-left: 10
+      width: 120
+      text: "Amount: 0x"
+
+    Label
+      id: itemWeight
+      anchors.left: selectedItem.right
+      anchors.top: itemAmount.bottom
+      margin-left: 10
+      width: 120
+      text: "Weight: 0 oz"
+
+    Button
+      id: buyButton
+      anchors.top: selectedItem.bottom
+      anchors.horizontalCenter: selectedItem.horizontalCenter
+      margin-top: 10
+      text: "Buy"
+      visible: false
+      width: 50
+      height: 25
+      @onClick: modules.game_personalstore.buySelectedItem()
+
+    Button
+      id: editStoreButton
+      size: 80 25
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-right: 10
+      visible: false
+      text: Edit Store
+      @onClick: modules.game_personalstore.enableEditionModeOrOfflineMode()
+
+    Button
+      id: startStoreButton
+      size: 80 25
+      anchors.right: parent.right
+      anchors.top: editStoreButton.bottom
+      margin-right: 10
+      margin-top: 5
+      visible: false
+      text: Start Sales
+      @onClick: modules.game_personalstore.selectOrStartStore()
+
+    Button
+      id: editPriceButton
+      size: 80 25
+      anchors.right: parent.right
+      anchors.top: startStoreButton.bottom
+      margin-right: 10
+      margin-top: 5
+      visible: false
+      text: Edit Price
+
+    ScrollablePanel
+      id: containerItemsPanel
+      layout:
+        type: grid
+        cell-size: 34 34
+        cell-spacing: 5
+        flow: true
+      vertical-scrollbar: containerItemsScrollBar
+      size: 163 80
+      image-border: 1
+      padding: 5
+      visible: false
+      image-source: /images/ui/panel_flat2
+      anchors.top: purchasePanel.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-left: 25
+
+    VerticalScrollBar
+      id: containerItemsScrollBar
+      layout:
+        type: anchor
+      anchors.top: containerItemsPanel.top
+      anchors.bottom: containerItemsPanel.bottom
+      anchors.right: containerItemsPanel.right
+      margin-right: -15
+      step: 10
+      pixels-scroll: true
+      visible: false
+
+  HorizontalSeparator
+    id: separatorBelowPurchase
+    anchors.top: purchasePanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 10
+    margin-left: 15
+    visible: false
+
+MainWindow
+  size: 500 340
+  anchors.centerIn: parent
+  text: Personal Store
+  @onEscape: modules.game_personalstore.hide()
+
+  Button
+    id: close
+    size: 20 20
+    anchors.top: parent.top
+    anchors.left: parent.right
+    margin-left: -15
+    text: x
+    @onClick: modules.game_personalstore.hide()
+
+  BuyItemPanel
+  ItemEditPanel
+  StartStorePanel
+  MainPanel
