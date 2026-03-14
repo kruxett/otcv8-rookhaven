@@ -113,7 +113,7 @@ VerticalQtScrollBar < UIScrollBar
 
   VerticalScrollBarQtSlider
 
-TextListQuestLog < Panel
+TextListQuestLog < UIWidget
   font: verdana-11px-antialised
   width: 192
   text-offset: 24 5
@@ -143,3 +143,10 @@ TextListQuestLog < Panel
     anchors.right: questList.right
     step: 50
     pixels-scroll: true
+
+TextEditQuestLog < MultilineTextEdit
+  width: 192
+  height: 330
+  anchors.left: parent.left
+  anchors.right: parent.right
+  margin-top: 8

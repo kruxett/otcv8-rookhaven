@@ -307,9 +307,9 @@ function controllerCyclopedia:onGameStart()
                 titleWidgetBosstiary:setText(title)
             end
 
-            -- Set the icon for Bosstiary Tracker
+            -- Set the icon for Bosstiary Tracker when asset is available.
             local iconWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowIcon')
-            if iconWidgetBosstiary then
+            if iconWidgetBosstiary and g_resources.fileExists('/images/icons/icon-bosstracker-widget.png') then
                 iconWidgetBosstiary:setImageSource('/images/icons/icon-bosstracker-widget')
             end
 
@@ -387,8 +387,12 @@ function controllerCyclopedia:onGameStart()
             trackerMiniWindowBosstiary:setup()
             trackerMiniWindowBosstiary:hide()
         end
-        trackerMiniWindow:setupOnStart()
-        trackerMiniWindowBosstiary:setupOnStart()
+        if trackerMiniWindow and trackerMiniWindow.setupOnStart then
+            trackerMiniWindow:setupOnStart()
+        end
+        if trackerMiniWindowBosstiary and trackerMiniWindowBosstiary.setupOnStart then
+            trackerMiniWindowBosstiary:setupOnStart()
+        end
         Cyclopedia.loadTrackerFilters("bestiary")
         Cyclopedia.loadTrackerFilters("bosstiary")
         

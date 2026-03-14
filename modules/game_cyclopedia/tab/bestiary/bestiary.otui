@@ -1,4 +1,4 @@
-﻿UIWidget
+UIWidget
   id: Cat2
   anchors.fill: parent
   visible: false

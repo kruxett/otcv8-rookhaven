@@ -4,7 +4,9 @@ function showBossSlot()
     UI = g_ui.loadUI("boss_slots", contentContainer)
     UI:show()
     UI.RightBase.LockLabel:setText("Unlocks at 1500 Boss Points")
-    g_game.requestBossSlootInfo()
+    if g_game.requestBossSlootInfo then
+        g_game.requestBossSlootInfo()
+    end
     controllerCyclopedia.ui.CharmsBase:setVisible(false)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
