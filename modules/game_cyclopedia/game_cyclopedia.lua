@@ -147,13 +147,9 @@ function controllerCyclopedia:onGameStart()
         windowTypes = {
             items = { obj = items, func = showItems },
             bestiary = { obj = bestiary, func = showBestiary },
-            charms = { obj = charms, func = showCharms },
             map = { obj = map, func = showMap },
             houses = { obj = houses, func = showHouse },
             character = { obj = character, func = showCharacter },
-            bosstiary = { obj = bosstiary, func = showBosstiary },
-            bossSlot = { obj = bossSlot, func = showBossSlot },
-            magicalArchives = { obj = magicalArchives, func = showMagicalArchives },
         }
 
         g_ui.importStyle("cyclopedia_widgets")
@@ -581,8 +577,10 @@ end
 function SelectWindow(type, isBackButtonPress)
     if previousType then
         local previousWindow = windowTypes[previousType]
-        previousWindow.obj:enable()
-        previousWindow.obj:setOn(false)
+        if previousWindow and previousWindow.obj then
+            previousWindow.obj:enable()
+            previousWindow.obj:setOn(false)
+        end
         if not isBackButtonPress then
             table.insert(tabStack, previousType)
             controllerCyclopedia.ui.BackButton:setEnabled(true)
@@ -591,7 +589,7 @@ function SelectWindow(type, isBackButtonPress)
     contentContainer:destroyChildren()
 
     local window = windowTypes[type]
-    if window then
+    if window and window.obj and window.obj:isVisible() then
         window.obj:setOn(true)
         window.obj:disable()
         previousType = type

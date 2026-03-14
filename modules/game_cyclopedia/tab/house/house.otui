@@ -45,7 +45,7 @@ UIWidget
       text-offset: 15 0
       !text: tr('Guildhalls')
       size: 12 12
-      font: Verdana Bold-11px
+      font: verdana-11px-antialised
       color: #C0C0C0
       text-auto-resize: true
       @onClick: modules.game_cyclopedia.Cyclopedia.houseFilter(self)
@@ -58,7 +58,7 @@ UIWidget
       text-offset: 15 0
       !text: tr('Houses and Flats')
       size: 12 12
-      font: Verdana Bold-11px
+      font: verdana-11px-antialised
       color: #C0C0C0
       text-auto-resize: true
       @onClick: modules.game_cyclopedia.Cyclopedia.houseFilter(self)
@@ -109,7 +109,7 @@ UIWidget
       step: 1
       minimum: 1
       maximum: 300
-      image-source: none
+      image-source: ""
       visible: false
     UIWidget
       id: MapViewbase

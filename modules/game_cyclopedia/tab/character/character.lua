@@ -1,6 +1,31 @@
 local characterPanel = nil
 local UI = nil
 
+local function getPlayerVocationName(player)
+    if not player then
+        return "Unknown"
+    end
+
+    if player.getVocationNameByClientId then
+        return player:getVocationNameByClientId()
+    end
+
+    local vocationId = player.getVocation and player:getVocation() or 0
+    local vocationNames = {
+        [0] = "None",
+        [1] = "Sorcerer",
+        [2] = "Druid",
+        [3] = "Paladin",
+        [4] = "Knight",
+        [5] = "Master Sorcerer",
+        [6] = "Elder Druid",
+        [7] = "Royal Paladin",
+        [8] = "Elite Knight"
+    }
+
+    return vocationNames[vocationId] or tostring(vocationId)
+end
+
 local function close(parent)
     if table.empty(parent.subCategories) then
         return
@@ -66,7 +91,7 @@ function showCharacter()
     if g_game.isOnline() then
         local player = g_game.getLocalPlayer()
         UI.CharacterBase:setText(player:getName())
-        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), player:getVocationNameByClientId()))
+        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), getPlayerVocationName(player)))
         UI.CharacterBase.Outfit:setOutfit(player:getOutfit())
 
         UI.InfoBase.outfitPanel.Sprite:setOutfit(player:getOutfit())
@@ -1179,7 +1204,7 @@ function Cyclopedia.createCharacterDescription()
     local player = g_game.getLocalPlayer()
     local descriptions = {
         { Level = player:getLevel() },
-        { Vocation = player:getVocationNameByClientId() },
+        { Vocation = getPlayerVocationName(player) },
         { loyaltyTitle = "?" },
         { Prey = "?" },
         { Outfit = "?" },

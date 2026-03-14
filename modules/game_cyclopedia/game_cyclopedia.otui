@@ -67,6 +67,7 @@ MainWindow
 
     UIButton
       id: charms
+      visible: false
       anchors.top: prev.top
       anchors.left: prev.right
       margin-left: 1
@@ -155,6 +156,7 @@ MainWindow
 
     UIButton
       id: bosstiary
+      visible: false
       anchors.top: prev.top
       anchors.left: prev.right
       margin-left: 1
@@ -177,6 +179,7 @@ MainWindow
 
     UIButton
       id: bossSlot
+      visible: false
       anchors.top: prev.top
       anchors.left: prev.right
       margin-left: 1
@@ -199,6 +202,7 @@ MainWindow
 
     UIButton
       id: magicalArchives
+      visible: false
       anchors.top: prev.top
       anchors.left: prev.right
       margin-left: 1

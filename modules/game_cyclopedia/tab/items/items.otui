@@ -132,7 +132,7 @@ UIWidget
     anchors.left: parent.left
     anchors.top: LevelButton.bottom
     margin-top: 4
-    font: Verdana Bold-11px
+    font: verdana-11px-antialised
     text-align: center
     color: #c0c0c0
     padding-left: 15
@@ -484,7 +484,7 @@ UIWidget
       anchors.right: parent.right
       anchors.left: MarketGoldPriceBase.left
       margin-top: 2
-      font: Verdana Bold-11px
+      font: verdana-11px-antialised
       max-length: 9
       text-align: right
       padding-left: 5
@@ -524,7 +524,7 @@ UIWidget
       size: 12 12
       text-align: left
       text-offset: 18 -2
-      font: pVerdana Bold-11px
+      font: verdana-11px-antialised
       color: #c0c0c0
       image-color: #dfdfdfff
       image-rect: 0 0 12 12
@@ -569,7 +569,7 @@ UIWidget
       text-align: left
       text-offset: 18 -2
       image-color: #dfdfdfff
-      font: pVerdana Bold-11px
+      font: verdana-11px-antialised
       color: #c0c0c0
       image-rect: 0 0 12 12
       image-source: /modules/game_cyclopedia/images/checkbox
@@ -612,14 +612,14 @@ UIWidget
       size: 12 12
       text-align: left
       text-offset: 18 -2
-      font: pVerdana Bold-11px
+      font: verdana-11px-antialised
       color: #c0c0c0
       image-color: #dfdfdfff
       image-rect: 0 0 12 12
       image-source: /modules/game_cyclopedia/images/checkbox
       text-auto-resize: true
       @onSetup: |
-        if modules.game_quickloot.QuickLoot.data.filter == 2 then
+        if modules.game_quickloot and modules.game_quickloot.QuickLoot and modules.game_quickloot.QuickLoot.data and modules.game_quickloot.QuickLoot.data.filter == 2 then
           self:setText("Loot when Quick Looting")
         else
           self:setText('Skip when Quick Looting')
