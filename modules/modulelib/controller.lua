@@ -75,10 +75,38 @@ if not G_CONTROLLER_CALLED then
     G_CONTROLLER_CALLED = {}
 end
 
+local function resolveModuleNameFromSource(depth)
+    local info = debug.getinfo(depth or 3, "S")
+    local source = info and info.source or ""
+    if source:sub(1, 1) == "@" then
+        source = source:sub(2)
+    end
+
+    source = source:gsub("\\", "/")
+    local mod = source:match("/modules/([^/]+)/") or source:match("^modules/([^/]+)/")
+    return mod
+end
+
+local function resolveCurrentModule()
+    if g_modules and g_modules.getCurrentModule then
+        local module = g_modules.getCurrentModule()
+        if module then
+            return module
+        end
+    end
+
+    local modName = resolveModuleNameFromSource(4) or resolveModuleNameFromSource(3)
+    if modName and g_modules and g_modules.getModule then
+        return g_modules.getModule(modName)
+    end
+
+    return nil
+end
+
 function Controller:new()
-    local module = g_modules.getCurrentModule()
+    local module = resolveCurrentModule()
     local obj = {
-        name = module and module:getName() or nil,
+        name = module and module:getName() or resolveModuleNameFromSource(4) or resolveModuleNameFromSource(3),
         currentTypeEvent = TypeEvent.MODULE_INIT,
         events = {},
         uiEvents = {},
