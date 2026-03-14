@@ -59,6 +59,7 @@ g_resources.setLayout(layout)
 -- load mods
 g_modules.discoverModules()
 g_modules.ensureModuleLoaded("corelib")
+g_modules.ensureModuleLoaded("modulelib")
   
 local function loadModules()
   -- libraries modules 0-99

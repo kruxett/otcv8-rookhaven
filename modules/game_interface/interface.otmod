@@ -40,5 +40,6 @@ Module
     - game_imbuing
     - game_stats
     - game_shaders
+    - game_cyclopedia
   @onLoad: init()
   @onUnload: terminate()

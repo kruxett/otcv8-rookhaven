@@ -245,7 +245,8 @@ function table.encodeStringPairList(t)
       ret = ret .. v[1] .. ":" .. v[2] .. "\n"
     end
   end
-  return retend
+  return ret
+end
 
 function table.decodeStringPairList(l)
   local ret = {}
@@ -284,4 +285,21 @@ function table.decodeStringPairList(l)
     end    
   end
   return ret
+end
+
+-- Compat shim required by modulelib/controller
+function table.remove_if(t, fnc)
+    local j, n = 1, #t
+    for i = 1, n do
+        if not fnc(i, t[i]) then
+            if i ~= j then
+                t[j] = t[i]
+                t[i] = nil
+            end
+            j = j + 1
+        else
+            t[i] = nil
+        end
+    end
+    return t
 end
