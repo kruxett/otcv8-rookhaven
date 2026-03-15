@@ -87,6 +87,31 @@ function showHouse()
         Cyclopedia.requestHouseTowns()
     end
     g_game.requestShowHouses("")
+
+    -- Retry requests while opening, to handle delayed transport readiness.
+    local retries = 0
+    local function ensureHouseDataLoaded()
+        if not UI or not UI:isVisible() then
+            return
+        end
+
+        local hasTowns = UI.TopBase.CityOption:getOptionsCount() > 1
+        local hasHouses = Cyclopedia.House and Cyclopedia.House.CachedData and #Cyclopedia.House.CachedData > 0
+        if hasTowns and hasHouses then
+            return
+        end
+
+        retries = retries + 1
+        if retries <= 5 then
+            if Cyclopedia.requestHouseTowns then
+                Cyclopedia.requestHouseTowns()
+            end
+            g_game.requestShowHouses("")
+            scheduleEvent(ensureHouseDataLoaded, 450)
+        end
+    end
+
+    scheduleEvent(ensureHouseDataLoaded, 450)
 end
 
 Cyclopedia.House = {}

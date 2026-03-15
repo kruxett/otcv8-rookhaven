@@ -67,6 +67,28 @@ function showBestiary()
 
     
     g_game.requestBestiary()
+
+    -- Retry a few times in case first request happened before transport was ready.
+    local retries = 0
+    local function ensureBestiaryCategoriesLoaded()
+        if not UI or not UI:isVisible() then
+            return
+        end
+
+        local hasCategories = Cyclopedia.Bestiary and Cyclopedia.Bestiary.Categories and
+            Cyclopedia.Bestiary.Categories[1] and #Cyclopedia.Bestiary.Categories[1] > 0
+        if hasCategories then
+            return
+        end
+
+        retries = retries + 1
+        if retries <= 5 then
+            g_game.requestBestiary()
+            scheduleEvent(ensureBestiaryCategoriesLoaded, 400)
+        end
+    end
+
+    scheduleEvent(ensureBestiaryCategoriesLoaded, 400)
 end
 
 Cyclopedia.Bestiary = {}

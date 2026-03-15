@@ -130,6 +130,27 @@ Cyclopedia.Capabilities = {
     magicalArchives = false
 }
 
+Cyclopedia.TransportReady = false
+Cyclopedia.PendingRequests = {}
+
+local function flushCyclopediaPendingRequests()
+    if not Cyclopedia.TransportReady then
+        return
+    end
+
+    local protocol = g_game.getProtocolGame()
+    if not protocol or not protocol.sendExtendedOpcode then
+        return
+    end
+
+    for _, req in ipairs(Cyclopedia.PendingRequests) do
+        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+            encodeCyclopediaPayload("req", req.action, req.payload))
+    end
+
+    Cyclopedia.PendingRequests = {}
+end
+
 local function encodeCyclopediaPayload(kind, action, extra)
     local payload = table.concat({
         CYCLOPEDIA_PROTOCOL_PREFIX,
@@ -228,7 +249,13 @@ function Cyclopedia.applyCapabilities(capabilities)
 end
 
 function Cyclopedia.requestCapabilities()
-    Cyclopedia.sendCyclopediaRequest("capabilities", "")
+    local protocol = g_game.getProtocolGame()
+    if not protocol or not protocol.sendExtendedOpcode then
+        return
+    end
+
+    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+        encodeCyclopediaPayload("req", "capabilities", ""))
 end
 
 function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
@@ -240,6 +267,9 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
     if not payload or payload.kind ~= "res" then
         return
     end
+
+    Cyclopedia.TransportReady = true
+    flushCyclopediaPendingRequests()
 
     if payload.action == "capabilities" then
         if payload.status == "ok" then
@@ -284,6 +314,16 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
     local protocol = g_game.getProtocolGame()
     if not protocol or not protocol.sendExtendedOpcode then
         return false
+    end
+
+    payload = payload or ""
+
+    if action ~= "capabilities" and not Cyclopedia.TransportReady then
+        if #Cyclopedia.PendingRequests < 100 then
+            table.insert(Cyclopedia.PendingRequests, { action = action, payload = payload })
+        end
+        Cyclopedia.requestCapabilities()
+        return true
     end
 
     protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
@@ -764,6 +804,9 @@ end
 
 function controllerCyclopedia:onGameStart()
     do
+        Cyclopedia.TransportReady = false
+        Cyclopedia.PendingRequests = {}
+
         safeRegisterCyclopediaOpcode()
 
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
@@ -1105,6 +1148,8 @@ end
 
 function controllerCyclopedia:onGameEnd()
     safeUnregisterCyclopediaOpcode()
+    Cyclopedia.TransportReady = false
+    Cyclopedia.PendingRequests = {}
 
     if trackerMiniWindow then
         trackerMiniWindow.contentsPanel:destroyChildren()
@@ -1138,6 +1183,8 @@ end
 
 function controllerCyclopedia:onTerminate()
     safeUnregisterCyclopediaOpcode()
+    Cyclopedia.TransportReady = false
+    Cyclopedia.PendingRequests = {}
 
     if trackerButton then
         trackerButton:destroy()
