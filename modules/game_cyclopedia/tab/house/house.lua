@@ -78,9 +78,17 @@ function showHouse()
     Cyclopedia.selectTown({
         data = 0
     })
-    UI.TopBase.StatesOption:setOption("All States", true)
-    UI.TopBase.CityOption:setOption("Own Houses", true)
-    UI.TopBase.SortOption:setOption("Sort by name", true)
+    if UI.TopBase then
+        if UI.TopBase.StatesOption then
+            UI.TopBase.StatesOption:setOption("All States", true)
+        end
+        if UI.TopBase.CityOption then
+            UI.TopBase.CityOption:setOption("Own Houses", true)
+        end
+        if UI.TopBase.SortOption then
+            UI.TopBase.SortOption:setOption("Sort by name", true)
+        end
+    end
 
     Cyclopedia.House.lastTown = nil
     if Cyclopedia.requestHouseTowns then
@@ -92,6 +100,10 @@ function showHouse()
     local retries = 0
     local function ensureHouseDataLoaded()
         if not UI or not UI:isVisible() then
+            return
+        end
+
+        if not UI.TopBase or not UI.TopBase.CityOption then
             return
         end
 

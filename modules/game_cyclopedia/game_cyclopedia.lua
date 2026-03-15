@@ -134,6 +134,27 @@ Cyclopedia.Capabilities = {
 
 Cyclopedia.TransportReady = false
 Cyclopedia.PendingRequests = {}
+Cyclopedia.PendingRequestSet = {}
+Cyclopedia.CapabilitiesRequested = false
+
+local function getPendingRequestKey(action, payload)
+    return string.format("%s\31%s", tostring(action or ""), tostring(payload or ""))
+end
+
+local function queueCyclopediaPendingRequest(action, payload)
+    local key = getPendingRequestKey(action, payload)
+    if Cyclopedia.PendingRequestSet[key] then
+        return false
+    end
+
+    if #Cyclopedia.PendingRequests >= 100 then
+        return false
+    end
+
+    Cyclopedia.PendingRequestSet[key] = true
+    table.insert(Cyclopedia.PendingRequests, { action = action, payload = payload })
+    return true
+end
 
 local function flushCyclopediaPendingRequests()
     if not Cyclopedia.TransportReady then
@@ -154,6 +175,7 @@ local function flushCyclopediaPendingRequests()
     end
 
     Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
 end
 
 local function encodeCyclopediaPayload(kind, action, extra)
@@ -297,6 +319,12 @@ function Cyclopedia.requestCapabilities()
         return
     end
 
+    if Cyclopedia.CapabilitiesRequested then
+        return
+    end
+
+    Cyclopedia.CapabilitiesRequested = true
+
     protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
         encodeCyclopediaPayload("req", "capabilities", ""))
 end
@@ -319,6 +347,7 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
     flushCyclopediaPendingRequests()
 
     if payload.action == "capabilities" then
+        Cyclopedia.CapabilitiesRequested = false
         if payload.status == "ok" then
             Cyclopedia.applyCapabilities(parseCapabilities(payload.data))
         end
@@ -365,20 +394,25 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
 
     payload = payload or ""
 
+    local shouldSendNow = true
+    if action ~= "capabilities" and not Cyclopedia.TransportReady then
+        local queued = queueCyclopediaPendingRequest(action, payload)
+        if not queued then
+            Cyclopedia.requestCapabilities()
+            return true
+        end
+
+        shouldSendNow = true -- send first request optimistically; duplicates stay queued only.
+        Cyclopedia.requestCapabilities()
+    end
+
     if CYCLOPEDIA_DEBUG then
         print(string.format("[Cyclopedia] send request action=%s payloadLen=%d ready=%s", action, #payload, tostring(Cyclopedia.TransportReady)))
     end
 
-    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
-        encodeCyclopediaPayload("req", action, payload))
-
-    -- If transport isn't confirmed yet, keep a retry copy to be flushed once
-    -- first Cyclopedia response arrives.
-    if action ~= "capabilities" and not Cyclopedia.TransportReady then
-        if #Cyclopedia.PendingRequests < 100 then
-            table.insert(Cyclopedia.PendingRequests, { action = action, payload = payload })
-        end
-        Cyclopedia.requestCapabilities()
+    if shouldSendNow then
+        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+            encodeCyclopediaPayload("req", action, payload))
     end
 
     return true
@@ -868,6 +902,8 @@ function controllerCyclopedia:onGameStart()
     do
         Cyclopedia.TransportReady = false
         Cyclopedia.PendingRequests = {}
+        Cyclopedia.PendingRequestSet = {}
+        Cyclopedia.CapabilitiesRequested = false
 
         safeRegisterCyclopediaOpcode()
 
@@ -1212,6 +1248,8 @@ function controllerCyclopedia:onGameEnd()
     safeUnregisterCyclopediaOpcode()
     Cyclopedia.TransportReady = false
     Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+    Cyclopedia.CapabilitiesRequested = false
 
     if trackerMiniWindow then
         trackerMiniWindow.contentsPanel:destroyChildren()
@@ -1247,6 +1285,8 @@ function controllerCyclopedia:onTerminate()
     safeUnregisterCyclopediaOpcode()
     Cyclopedia.TransportReady = false
     Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+    Cyclopedia.CapabilitiesRequested = false
 
     if trackerButton then
         trackerButton:destroy()
