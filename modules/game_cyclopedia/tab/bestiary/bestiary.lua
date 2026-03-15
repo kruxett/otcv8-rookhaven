@@ -813,9 +813,12 @@ function Cyclopedia.toggleBestiaryTracker()
         return
     end
 
-    if trackerButton:isOn() then
+    local buttonOn = trackerButton and trackerButton.isOn and trackerButton:isOn() or trackerMiniWindow:isVisible()
+    if buttonOn then
         trackerMiniWindow:close()
-        trackerButton:setOn(false)
+        if trackerButton and trackerButton.setOn then
+            trackerButton:setOn(false)
+        end
     else
         if not trackerMiniWindow:getParent() then
             local panel = modules.game_interface.findContentPanelAvailable(trackerMiniWindow,
@@ -865,9 +868,12 @@ function Cyclopedia.toggleBosstiaryTracker()
         return
     end
 
-    if trackerButtonBosstiary:isOn() then
+    local buttonOn = trackerButtonBosstiary and trackerButtonBosstiary.isOn and trackerButtonBosstiary:isOn() or trackerMiniWindowBosstiary:isVisible()
+    if buttonOn then
         trackerMiniWindowBosstiary:close()
-        trackerButtonBosstiary:setOn(false)
+        if trackerButtonBosstiary and trackerButtonBosstiary.setOn then
+            trackerButtonBosstiary:setOn(false)
+        end
     else
         if not trackerMiniWindowBosstiary:getParent() then
             local panel = modules.game_interface.findContentPanelAvailable(trackerMiniWindowBosstiary,
