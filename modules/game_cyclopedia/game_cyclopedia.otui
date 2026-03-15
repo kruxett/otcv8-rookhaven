@@ -22,6 +22,7 @@ MainWindow
 
     UIButton
       id: items
+      visible: false
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 1
@@ -46,7 +47,7 @@ MainWindow
     UIButton
       id: bestiary
       anchors.top: prev.top
-      anchors.left: prev.right
+      anchors.left: parent.left
       margin-left: 1
       @onClick: SelectWindow("bestiary")
 
@@ -56,14 +57,14 @@ MainWindow
         image-source: /images/game/cyclopedia/bestiary_on
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/bestiary_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/bestiary_on
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/bestiary_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/bestiary_on
 
     UIButton
       id: charms
@@ -101,14 +102,14 @@ MainWindow
         image-source: /images/game/cyclopedia/map_on
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/map_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/map_on
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/map_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/map_on
 
     UIButton
       id: houses
@@ -123,14 +124,14 @@ MainWindow
         image-source: /images/game/cyclopedia/houses_on
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/houses_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/houses_on
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/houses_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/houses_on
 
     UIButton
       id: character
@@ -145,14 +146,14 @@ MainWindow
         image-source: /images/game/cyclopedia/character_on
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/character_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/character_on
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/character_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/character_on
 
     UIButton
       id: bosstiary

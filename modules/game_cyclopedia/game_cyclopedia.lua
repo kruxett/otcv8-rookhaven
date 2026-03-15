@@ -353,8 +353,15 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         return
     end
 
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] raw response opcode=%d len=%d buffer=%s", opcode, #(buffer or ""), tostring(buffer or "")))
+    end
+
     local payload = decodeCyclopediaPayload(buffer)
     if not payload or payload.kind ~= "res" then
+        if CYCLOPEDIA_DEBUG then
+            print("[Cyclopedia] ignored malformed response")
+        end
         return
     end
 
