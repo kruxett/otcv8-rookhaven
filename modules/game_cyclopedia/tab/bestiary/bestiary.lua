@@ -13,7 +13,7 @@ Cyclopedia.storedTrackerData = Cyclopedia.storedTrackerData or nil
 Cyclopedia.storedBosstiaryTrackerData = Cyclopedia.storedBosstiaryTrackerData or nil
 local animusMasteryPoints = 0
 
-function Cyclopedia.loadBestiaryOverview(name, creatures, animusMasteryPoints)
+function Cyclopedia.loadBestiaryOverview(name, creatures, animusPoints)
     if (name == "Result" or name == "") and #creatures > 0 then
         if #creatures == 1 then
             g_game.requestBestiarySearch(creatures[1].id)
@@ -25,8 +25,8 @@ function Cyclopedia.loadBestiaryOverview(name, creatures, animusMasteryPoints)
         Cyclopedia.loadBestiaryCreatures(creatures)
     end
 
-    if animusMasteryPoints and animusMasteryPoints > 0 then
-        animusMasteryPoints = animusMasteryPoints
+    if animusPoints and animusPoints > 0 then
+        animusMasteryPoints = animusPoints
     end
 end
 
@@ -150,7 +150,7 @@ function Cyclopedia.CreateCreatureItems(data)
             local itemWidget = UI.ListBase.CreatureInfo.ItemsBase.Itemlist[index].Items[itemIndex]
             itemWidget:setItemId(itemData.id)
             itemWidget.id = itemData.id
-            itemWidget.classification = thing:getClassification()
+            itemWidget.classification = thing and thing.getClassification and thing:getClassification() or 0
 
             if itemData.id == 0 then
                 itemWidget.undefinedItem:setVisible(true)
@@ -164,7 +164,9 @@ function Cyclopedia.CreateCreatureItems(data)
                 end
             end
 
-            ItemsDatabase.setRarityItem(itemWidget, itemWidget:getItem())
+            if ItemsDatabase and ItemsDatabase.setRarityItem then
+                ItemsDatabase.setRarityItem(itemWidget, itemWidget:getItem())
+            end
 
             itemWidget.onMouseRelease = onAddLootClick
         end
@@ -180,14 +182,15 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     }
 
     local raceData = g_things.getRaceData(data.id)
-    local formattedName = raceData.name:gsub("(%l)(%w*)", function(first, rest)
+    local raceName = raceData and raceData.name or "Unknown"
+    local formattedName = raceName:gsub("(%l)(%w*)", function(first, rest)
         return first:upper() .. rest
     end)
 
     UI.ListBase.CreatureInfo:setText(formattedName)
     Cyclopedia.SetBestiaryDiamonds(occurence[data.ocorrence])
     Cyclopedia.SetBestiaryStars(data.difficulty)
-    UI.ListBase.CreatureInfo.LeftBase.Sprite:setOutfit(raceData.outfit)
+    UI.ListBase.CreatureInfo.LeftBase.Sprite:setOutfit(raceData.outfit or { type = 0 })
     UI.ListBase.CreatureInfo.LeftBase.Sprite:getCreature():setStaticWalking(1000)
 
     Cyclopedia.SetBestiaryProgress(60, UI.ListBase.CreatureInfo.ProgressBack, UI.ListBase.CreatureInfo.ProgressBack33,
@@ -452,12 +455,13 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
     local widget = g_ui.createWidget("BestiaryCreature", UI.ListBase.CreatureList)
     widget:setId(data.id)
 
-    local formattedName = raceData.name:gsub("(%l)(%w*)", function(first, rest)
+    local raceName = raceData and raceData.name or "Unknown"
+    local formattedName = raceName:gsub("(%l)(%w*)", function(first, rest)
         return first:upper() .. rest
     end)
 
     widget.Name:setText(verify(formattedName))
-    widget.Sprite:setOutfit(raceData.outfit)
+    widget.Sprite:setOutfit(raceData.outfit or { type = 0 })
     widget.Sprite:getCreature():setStaticWalking(1000)
 
     if data.AnimusMasteryBonus > 0 then
@@ -929,6 +933,9 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
 
     local isBoss = trackerType == 1
     local window = isBoss and trackerMiniWindowBosstiary or trackerMiniWindow
+    if not window or not window.contentsPanel then
+        return
+    end
 
     -- Store the original data for re-sorting
     if isBoss then
@@ -959,11 +966,11 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
         end
         
         local raceData = g_things.getRaceData(raceId)
-        local name = raceData.name
+        local name = (raceData and raceData.name) or "Unknown"
 
         local widget = g_ui.createWidget("TrackerButton", window.contentsPanel)
         widget:setId(raceId)
-        widget.creature:setOutfit(raceData.outfit)
+        widget.creature:setOutfit((raceData and raceData.outfit) or { type = 0 })
         widget.label:setText(name:len() > 12 and name:sub(1, 9) .. "..." or name)
         widget.kills:setText(kills .. "/" .. maxKills)
         widget.onMouseRelease = onTrackerClick
@@ -1135,24 +1142,6 @@ function Cyclopedia.clearTrackerDataForCharacterChange()
 end
 
 -- Function to clean up old character data (optional maintenance function)
-function Cyclopedia.clearTrackerDataForCharacterChange()
-    -- Clear in-memory data
-    Cyclopedia.storedTrackerData = {}
-    Cyclopedia.storedBosstiaryTrackerData = {}
-    
-    -- Clear visual tracker displays
-    if trackerMiniWindow and trackerMiniWindow.contentsPanel then
-        trackerMiniWindow.contentsPanel:destroyChildren()
-    end
-    if trackerMiniWindowBosstiary and trackerMiniWindowBosstiary.contentsPanel then
-        trackerMiniWindowBosstiary.contentsPanel:destroyChildren()
-    end
-    
-    -- Clear stored race IDs
-    storedRaceIDs = {}
-end
-
--- Function to clean up old character data (optional maintenance function)
 function Cyclopedia.cleanupOldTrackerData(daysOld)
     daysOld = daysOld or 30 -- Default: clean data older than 30 days
     local cutoffTime = os.time() - (daysOld * 24 * 60 * 60)
@@ -1266,8 +1255,10 @@ function Cyclopedia.sortTrackerData(data, trackerType)
     
     if filters.sortByName then
         table.sort(sortedData, function(a, b)
-            local nameA = g_things.getRaceData(a[1]).name:lower()
-            local nameB = g_things.getRaceData(b[1]).name:lower()
+            local raceA = g_things.getRaceData(a[1])
+            local raceB = g_things.getRaceData(b[1])
+            local nameA = ((raceA and raceA.name) or "unknown"):lower()
+            local nameB = ((raceB and raceB.name) or "unknown"):lower()
             if isDescending then
                 return nameA > nameB
             else

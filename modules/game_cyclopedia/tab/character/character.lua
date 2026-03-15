@@ -11,10 +11,10 @@ local function getPlayerVocationName(player)
     end
 
     local vocationId = player.getVocation and player:getVocation() or 0
-    local vocationNames = {
-        [0] = "None",
-        [1] = "Sorcerer",
-        [2] = "Druid",
+    local vocationNames = _G.CyclopediaVocationFallbackNames or {
+        [0] = "Unawakened",
+        [1] = "Awakened",
+        [2] = "Ascended",
         [3] = "Paladin",
         [4] = "Knight",
         [5] = "Master Sorcerer",
@@ -313,15 +313,27 @@ function Cyclopedia.reloadCharacterItems()
             local listItem = g_ui.createWidget("CharacterListItem", UI.CharacterItems.ListBase.list)
             listItem.item:setItemId(itemId)
             listItem.name:setText(data.name)
-            ItemsDatabase.setRarityItem(listItem.item, listItem.item:getItem())
-            ItemsDatabase.setTier(listItem.item, item.tier)
+            if ItemsDatabase then
+                if ItemsDatabase.setRarityItem then
+                    ItemsDatabase.setRarityItem(listItem.item, listItem.item:getItem())
+                end
+                if ItemsDatabase.setTier then
+                    ItemsDatabase.setTier(listItem.item, item.tier)
+                end
+            end
             listItem.amount:setText(data.amount)
             listItem:setBackgroundColor(colors[colorIndex])
             local gridItem = g_ui.createWidget("CharacterGridItem", UI.CharacterItems.gridBase.grid)
             gridItem.item:setItemId(itemId)
             gridItem.amount:setText(data.amount)
-            ItemsDatabase.setRarityItem(gridItem.item, gridItem.item:getItem())
-            ItemsDatabase.setTier(gridItem.item, item.tier)
+            if ItemsDatabase then
+                if ItemsDatabase.setRarityItem then
+                    ItemsDatabase.setRarityItem(gridItem.item, gridItem.item:getItem())
+                end
+                if ItemsDatabase.setTier then
+                    ItemsDatabase.setTier(gridItem.item, item.tier)
+                end
+            end
             colorIndex = 3 - colorIndex
         end
     end
@@ -341,7 +353,9 @@ function Cyclopedia.loadCharacterItems(data)
         end
 
         local thing = g_things.getThingType(data.itemId, ThingCategoryItem)
-        local name = thing:getMarketData().name:lower()
+        local marketData = thing and thing.getMarketData and thing:getMarketData() or nil
+        local marketName = marketData and marketData.name or ""
+        local name = marketName:lower()
         name = name ~= "" and name or "?"
 
         local data_t = {
@@ -667,7 +681,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
     -- concoctions
     UI.CombatStats.concoctionPanel:destroyChildren()
-    if concoctionsArray or next(concoctionsArray) ~= nil then
+    if concoctionsArray and next(concoctionsArray) ~= nil then
         for i = 1, #concoctionsArray do
             local widget = g_ui.createWidget("CharacterGridItem", UI.CombatStats.concoctionPanel)
             local itemId = concoctionsArray[i][1]
@@ -675,7 +689,14 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             widget.item:setItemId(itemId)
             widget.item:setVirtual(true)
             local minutes = concoctionsArray[i][2] / 60
-            local itemName = widget.item:getItem():getMarketData().name
+            local itemObj = widget.item:getItem()
+            local itemName = "Unknown"
+            if itemObj and itemObj.getMarketData then
+                local marketData = itemObj:getMarketData()
+                if marketData and marketData.name and marketData.name ~= "" then
+                    itemName = marketData.name
+                end
+            end
             widget.item:setTooltip(string.format("%s: %.0f minutes", itemName, minutes))
             widget.amount:setVisible(false)
         end
@@ -689,8 +710,15 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     }
 
     -- Critical Chance
-    local skillIndex = skillsIndexes[Skill.CriticalChance]
-    local skill = additionalSkillsArray[skillIndex][2]
+    local function getAdditionalSkillValue(skillId)
+        local skillIndex = skillsIndexes[skillId]
+        if not skillIndex or not additionalSkillsArray or not additionalSkillsArray[skillIndex] then
+            return 0
+        end
+        return additionalSkillsArray[skillIndex][2] or 0
+    end
+
+    local skill = getAdditionalSkillValue(Skill.CriticalChance)
     UI.CombatStats.criticalChance.value:setText(string.format("%.2f%%", skill / 100))
     if skill > 0 then
         UI.CombatStats.criticalChance.value:setColor("#44AD25")
@@ -699,8 +727,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     end
 
     -- Critical Damage
-    skillIndex = skillsIndexes[Skill.CriticalDamage]
-    skill = additionalSkillsArray[skillIndex][2]
+    skill = getAdditionalSkillValue(Skill.CriticalDamage)
     UI.CombatStats.criticalDamage.value:setText(string.format("%.2f%%", skill / 100))
     if skill > 0 then
         UI.CombatStats.criticalDamage.value:setColor("#44AD25")
@@ -709,8 +736,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     end
 
     -- Life Leech Amount
-    skillIndex = skillsIndexes[Skill.LifeLeechAmount]
-    skill = additionalSkillsArray[skillIndex][2]
+    skill = getAdditionalSkillValue(Skill.LifeLeechAmount)
     if skill > 0 then
         UI.CombatStats.lifeLeech.value:setColor("#44AD25")
         UI.CombatStats.lifeLeech.value:setText(string.format("%.2f%%", skill / 100))
@@ -720,8 +746,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     end
 
     -- Mana Leech Amount
-    skillIndex = skillsIndexes[Skill.ManaLeechAmount]
-    skill = additionalSkillsArray[skillIndex][2]
+    skill = getAdditionalSkillValue(Skill.ManaLeechAmount)
     if skill > 0 then
         UI.CombatStats.manaLeech.value:setColor("#44AD25")
         UI.CombatStats.manaLeech.value:setText(string.format("%.2f%%", skill / 100))
@@ -896,7 +921,10 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     Cyclopedia.setCharacterSkillBase("magiclevel", data.magicLevel, data.baseMagicLevel)
 
     for i = Skill.Fist + 1, Skill.Fishing + 1 do
-        local skillLevel, baseSkill, skillPercent = unpack(skills[i])
+        local values = skills and skills[i] or nil
+        local skillLevel = values and values[1] or 0
+        local baseSkill = values and values[2] or 0
+        local skillPercent = values and values[3] or 0
         Cyclopedia.onSkillChange(player, i - 1, skillLevel, skillPercent)
         Cyclopedia.onBaseCharacterSkillChange(player, i - 1, baseSkill)
     end
