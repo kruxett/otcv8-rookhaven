@@ -83,6 +83,9 @@ function showHouse()
     UI.TopBase.SortOption:setOption("Sort by name", true)
 
     Cyclopedia.House.lastTown = nil
+    if Cyclopedia.requestHouseTowns then
+        Cyclopedia.requestHouseTowns()
+    end
     g_game.requestShowHouses("")
 end
 

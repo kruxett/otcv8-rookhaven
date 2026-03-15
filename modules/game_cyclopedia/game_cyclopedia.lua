@@ -269,6 +269,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadBestiaryOverview(data)
     elseif action == "houses.list" then
         Cyclopedia.parseAndLoadHousesList(data)
+    elseif action == "houses.towns" then
+        Cyclopedia.parseAndLoadHouseTowns(data)
     end
 end
 
@@ -285,6 +287,10 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
     protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
         encodeCyclopediaPayload("req", action, payload))
     return true
+end
+
+function Cyclopedia.requestHouseTowns()
+    Cyclopedia.sendCyclopediaRequest("houses.towns", "")
 end
 
 -- =========================================================
@@ -557,7 +563,7 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
 end
 
 -- houses.list response
--- Format: id,name,townName,rent,beds,sqm,ownerGuid,ownerName,state,paidUntil~...
+-- Format: id,name,townName,rent,beds,sqm,ownerName,state,paidUntil~...
 function Cyclopedia.parseAndLoadHousesList(data)
     local houses = {}
     local townsSet = {}
@@ -567,7 +573,7 @@ function Cyclopedia.parseAndLoadHousesList(data)
         local lowerPlayerName = playerName:lower()
         for _, record in ipairs(string.split(data, "~")) do
             local f = string.split(record, ",")
-            if f and #f >= 10 then
+            if f and #f >= 9 then
                 local id         = tonumber(f[1]) or 0
                 local name       = f[2] or "Unknown"
                 local townName   = f[3] or ""
@@ -624,6 +630,25 @@ function Cyclopedia.parseAndLoadHousesList(data)
     end
     Cyclopedia.House.CachedData = houses
     Cyclopedia.applyHousesTownFilter()
+end
+
+-- Format: townName~townName~...
+function Cyclopedia.parseAndLoadHouseTowns(data)
+    local towns = {}
+    local seen = {}
+    if data and data ~= "" then
+        for _, townName in ipairs(string.split(data, "~")) do
+            local clean = tostring(townName or "")
+            if clean ~= "" and not seen[clean:lower()] then
+                seen[clean:lower()] = true
+                table.insert(towns, clean)
+            end
+        end
+    end
+    Cyclopedia.House.DynamicCities = towns
+    if Cyclopedia.updateHouseCityOptions then
+        Cyclopedia.updateHouseCityOptions(towns)
+    end
 end
 
 -- Applies the current town filter from the house tab and reloads the list.
