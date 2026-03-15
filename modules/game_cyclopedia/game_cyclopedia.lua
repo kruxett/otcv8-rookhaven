@@ -268,11 +268,18 @@ local function applyTabVisibilityFromCapabilities()
         local btn = buttonSelection:recursiveGetChildById(id)
         if btn then
             btn:setVisible(Cyclopedia.Capabilities[id] == true)
+            if btn:isVisible() then
+                btn:setOn(true)
+            end
         end
     end
 
     -- Never allow rollout-disabled tabs to become visible.
     enforceHardDisabledTabs()
+
+    if items then
+        items:setVisible(false)
+    end
 end
 
 local function rebalanceTopTabs()
@@ -949,6 +956,10 @@ function controllerCyclopedia:onGameStart()
         bosstiary = buttonSelection:recursiveGetChildById('bosstiary')
         bossSlot = buttonSelection:recursiveGetChildById('bossSlot')
         magicalArchives = buttonSelection:recursiveGetChildById('magicalArchives')
+
+        if items then
+            items:setVisible(false)
+        end
 
         windowTypes = {
             bestiary = { obj = bestiary, func = showBestiary },

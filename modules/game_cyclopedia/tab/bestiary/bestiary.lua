@@ -13,6 +13,52 @@ Cyclopedia.storedTrackerData = Cyclopedia.storedTrackerData or nil
 Cyclopedia.storedBosstiaryTrackerData = Cyclopedia.storedBosstiaryTrackerData or nil
 local animusMasteryPoints = 0
 
+local function getCreatureWidgetCreature(widget)
+    if not widget or not widget.getCreature then
+        return nil
+    end
+
+    local ok, creature = pcall(function()
+        return widget:getCreature()
+    end)
+
+    if ok then
+        return creature
+    end
+
+    return nil
+end
+
+local function safeSetCreatureStaticWalking(widget, interval)
+    local creature = getCreatureWidgetCreature(widget)
+    if creature and creature.setStaticWalking then
+        creature:setStaticWalking(interval)
+    end
+end
+
+local function safeSetCreatureShader(widget, shader)
+    local creature = getCreatureWidgetCreature(widget)
+    if creature and creature.setShader then
+        creature:setShader(shader)
+    end
+end
+
+local function setBestiaryCategoryIcon(iconWidget, categoryName)
+    if not iconWidget then
+        return
+    end
+
+    local iconPath = "/game_cyclopedia/images/bestiary/creatures/" .. tostring(categoryName or ""):lower():gsub(" ", "_")
+    local filePath = "/images/game_cyclopedia/bestiary/creatures/" .. tostring(categoryName or ""):lower():gsub(" ", "_") .. ".png"
+
+    if g_resources.fileExists(filePath) then
+        iconWidget:setImageSource(iconPath)
+        return
+    end
+
+    iconWidget:setImageSource("/game_cyclopedia/images/book")
+end
+
 function Cyclopedia.loadBestiaryOverview(name, creatures, animusPoints)
     if (name == "Result" or name == "") and #creatures > 0 then
         if #creatures == 1 then
@@ -219,7 +265,7 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     Cyclopedia.SetBestiaryDiamonds(occurence[data.ocorrence])
     Cyclopedia.SetBestiaryStars(data.difficulty)
     UI.ListBase.CreatureInfo.LeftBase.Sprite:setOutfit(raceData.outfit or { type = 0 })
-    UI.ListBase.CreatureInfo.LeftBase.Sprite:getCreature():setStaticWalking(1000)
+    safeSetCreatureStaticWalking(UI.ListBase.CreatureInfo.LeftBase.Sprite, 1000)
 
     Cyclopedia.SetBestiaryProgress(60, UI.ListBase.CreatureInfo.ProgressBack, UI.ListBase.CreatureInfo.ProgressBack33,
         UI.ListBase.CreatureInfo.ProgressBack55, data.killCounter, data.thirdDifficulty, data.secondUnlock,
@@ -359,7 +405,7 @@ function Cyclopedia.CreateBestiaryCategoryItem(Data)
 
     local widget = g_ui.createWidget("BestiaryCategory", UI.ListBase.CategoryList)
     widget:setText(Data.name)
-    widget.ClassIcon:setImageSource("/game_cyclopedia/images/bestiary/creatures/" .. Data.name:lower():gsub(" ", "_"))
+    setBestiaryCategoryIcon(widget.ClassIcon, Data.name)
     widget.Category = Data.name
     widget:setColor("#C0C0C0")
     widget.TotalValue:setText(string.format("Total: %d", Data.amount))
@@ -490,7 +536,7 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
 
     widget.Name:setText(verify(formattedName))
     widget.Sprite:setOutfit(raceData.outfit or { type = 0 })
-    widget.Sprite:getCreature():setStaticWalking(1000)
+    safeSetCreatureStaticWalking(widget.Sprite, 1000)
 
     if data.AnimusMasteryBonus > 0 then
         widget.AnimusMastery:setTooltip("The Animus Mastery for this creature is unlocked.\nIt yields ".. data.AnimusMasteryBonus.. "% bonus experience points, plus an additional 0.1% for every 10 Animus Masteries unlocked, up to a maximum of 4%.\nYou currently benefit from ".. data.AnimusMasteryBonus.. "% bonus experience points due to having unlocked ".. animusMasteryPoints.." Animus Masteries.")
@@ -503,11 +549,11 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
     if data.currentLevel >= 3 then
         widget.Finalized:setVisible(true)
         widget.KillsLabel:setVisible(false)
-        widget.Sprite:getCreature():setShader("")
+        safeSetCreatureShader(widget.Sprite, "")
     else
         if data.currentLevel < 1 then
             widget.KillsLabel:setText("?")
-            widget.Sprite:getCreature():setShader("Outfit - cyclopedia-black")
+            safeSetCreatureShader(widget.Sprite, "Outfit - cyclopedia-black")
             widget.Name:setText("Unknown")
             widget.AnimusMastery:setVisible(false)
         else
