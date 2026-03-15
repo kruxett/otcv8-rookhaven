@@ -174,6 +174,29 @@ local function parseCapabilities(data)
     return capabilities
 end
 
+local function safeUnregisterCyclopediaOpcode()
+    pcall(function()
+        ProtocolGame.unregisterExtendedOpcode(CYCLOPEDIA_EXT_OPCODE)
+    end)
+end
+
+local function safeRegisterCyclopediaOpcode()
+    safeUnregisterCyclopediaOpcode()
+    local ok = pcall(function()
+        ProtocolGame.registerExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, Cyclopedia.onExtendedOpcode)
+    end)
+
+    if not ok then
+        -- Retry once in case another module phase temporarily held the opcode.
+        scheduleEvent(function()
+            safeUnregisterCyclopediaOpcode()
+            pcall(function()
+                ProtocolGame.registerExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, Cyclopedia.onExtendedOpcode)
+            end)
+        end, 50)
+    end
+end
+
 local function enforceHardDisabledTabs()
     if not buttonSelection then
         return
@@ -651,8 +674,7 @@ end
 
 function controllerCyclopedia:onGameStart()
     do
-        ProtocolGame.unregisterExtendedOpcode(CYCLOPEDIA_EXT_OPCODE)
-        ProtocolGame.registerExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, Cyclopedia.onExtendedOpcode)
+        safeRegisterCyclopediaOpcode()
 
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
             '/images/topbuttons/cyclopedia', function() toggle("items") end, false, 7)
@@ -992,7 +1014,7 @@ end
 
 
 function controllerCyclopedia:onGameEnd()
-    ProtocolGame.unregisterExtendedOpcode(CYCLOPEDIA_EXT_OPCODE)
+    safeUnregisterCyclopediaOpcode()
 
     if trackerMiniWindow then
         trackerMiniWindow.contentsPanel:destroyChildren()
@@ -1025,7 +1047,7 @@ function controllerCyclopedia:onGameEnd()
 end
 
 function controllerCyclopedia:onTerminate()
-    ProtocolGame.unregisterExtendedOpcode(CYCLOPEDIA_EXT_OPCODE)
+    safeUnregisterCyclopediaOpcode()
 
     if trackerButton then
         trackerButton:destroy()
