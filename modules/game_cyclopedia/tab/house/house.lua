@@ -96,26 +96,11 @@ Cyclopedia.StateList = {
     { Title = "Rented" }
 }
 
+-- Optional explicit fallback list when dynamic town data is unavailable.
+-- Example:
+-- _G.CyclopediaHouseTownFallback = { "Rookhaven", "Asterfield", "..." }
 Cyclopedia.CityList = {
-    [0] = { Title = "Own Houses" },
-    { Title = "Ab'Dendriel" },
-    { Title = "Ankrahmun" },
-    { Title = "Carlin" },
-    { Title = "Darashia" },
-    { Title = "Edron" },
-    { Title = "Farmine" },
-    { Title = "Gray Beach" },
-    { Title = "Issavi" },
-    { Title = "Kazordoon" },
-    { Title = "Liberty Bay" },
-    { Title = "Moonfall" },
-    { Title = "Port Hope" },
-    { Title = "Rathleton" },
-    { Title = "Silvertides" },
-    { Title = "Svargrond" },
-    { Title = "Thais" },
-    { Title = "Venore" },
-    { Title = "Yalahar" }
+    [0] = { Title = "Own Houses" }
 }
 
 function Cyclopedia.updateHouseCityOptions(townNames)
@@ -135,8 +120,11 @@ function Cyclopedia.updateHouseCityOptions(townNames)
             end
         end
     else
-        for i = 1, #Cyclopedia.CityList do
-            table.insert(towns, Cyclopedia.CityList[i].Title)
+        local fallbackTowns = _G.CyclopediaHouseTownFallback or {}
+        for _, townName in ipairs(fallbackTowns) do
+            if townName and townName ~= "" then
+                table.insert(towns, tostring(townName))
+            end
         end
     end
 

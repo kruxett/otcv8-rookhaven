@@ -267,6 +267,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadBestiaryCategories(data)
     elseif action == "bestiary.overview" then
         Cyclopedia.parseAndLoadBestiaryOverview(data)
+    elseif action == "bestiary.creature" then
+        Cyclopedia.parseAndLoadBestiaryCreature(data)
     elseif action == "houses.list" then
         Cyclopedia.parseAndLoadHousesList(data)
     elseif action == "houses.towns" then
@@ -413,14 +415,8 @@ g_game.requestBestiaryOverview = function(name, ...)
     Cyclopedia.sendCyclopediaRequest("bestiary.overview", tostring(name or ""))
 end
 
-local _origRequestBestiarySearch = g_game.requestBestiarySearch
 g_game.requestBestiarySearch = function(raceId, ...)
-    local selected = Cyclopedia.BestiaryCreatureCache and Cyclopedia.BestiaryCreatureCache[raceId] or nil
-    if selected and Cyclopedia.loadBestiarySelectedCreature then
-        Cyclopedia.loadBestiarySelectedCreature(selected)
-        return
-    end
-    _origRequestBestiarySearch(raceId, ...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.creature", tostring(raceId or 0))
 end
 
 local _origRequestShowHouses = g_game.requestShowHouses
@@ -560,6 +556,61 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
         end
     end
     Cyclopedia.loadBestiaryOverview(categoryName, creatures, 0)
+end
+
+-- Format:
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location
+function Cyclopedia.parseAndLoadBestiaryCreature(data)
+    if not Cyclopedia.loadBestiarySelectedCreature then
+        return
+    end
+
+    if not data or data == "" then
+        return
+    end
+
+    local f = string.split(data, ",")
+    if not f or #f < 12 then
+        return
+    end
+
+    local raceId     = tonumber(f[1]) or 0
+    local name       = f[2] or "Unknown"
+    local outfitType = tonumber(f[3]) or 0
+
+    _CyclopediaCreatureDataCache[raceId] = {
+        name   = name,
+        outfit = { type = outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 },
+        level = 0, experience = 0, speed = 0, points = tonumber(f[5]) or 0, charm = 0,
+        difficulty = 1, occurrence = 0, id = raceId
+    }
+
+    local payload = {
+        id = raceId,
+        ocorrence = 1,
+        difficulty = 1,
+        killCounter = tonumber(f[5]) or 0,
+        thirdDifficulty = 25,
+        secondUnlock = 100,
+        lastProgressKillCount = 250,
+        currentLevel = tonumber(f[4]) or 1,
+        maxHealth = tonumber(f[6]) or 100,
+        experience = tonumber(f[7]) or 50,
+        speed = tonumber(f[8]) or 180,
+        armor = tonumber(f[9]) or 5,
+        mitigation = tonumber(f[10]) or 0,
+        charmValue = tonumber(f[11]) or 5,
+        attackMode = 1,
+        combat = {0, 0, 0, 0, 0, 0, 0, 0},
+        loot = {},
+        location = f[12] or "Unknown",
+        AnimusMasteryPoints = 0,
+        AnimusMasteryBonus = 0,
+    }
+
+    Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
+    Cyclopedia.BestiaryCreatureCache[raceId] = payload
+    Cyclopedia.loadBestiarySelectedCreature(payload)
 end
 
 -- houses.list response
