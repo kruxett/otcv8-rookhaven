@@ -512,6 +512,11 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
             local kills      = tonumber(f[4]) or 0
             local level      = tonumber(f[5]) or 0
             local animus     = tonumber(f[6]) or 0
+            local maxHealth  = tonumber(f[7]) or 100
+            local experience = tonumber(f[8]) or 50
+            local speed      = tonumber(f[9]) or 180
+            local armor      = tonumber(f[10]) or 5
+            local defense    = tonumber(f[11]) or 0
             -- Populate creature data cache so getRaceData works
             _CyclopediaCreatureDataCache[raceId] = {
                 name   = name,
@@ -533,11 +538,11 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
                 secondUnlock = 100,
                 lastProgressKillCount = 250,
                 currentLevel = level,
-                maxHealth = 100,
-                experience = 50,
-                speed = 180,
-                armor = 5,
-                mitigation = 0,
+                maxHealth = maxHealth,
+                experience = experience,
+                speed = speed,
+                armor = armor,
+                mitigation = defense,
                 charmValue = 5,
                 attackMode = 1,
                 combat = {0, 0, 0, 0, 0, 0, 0, 0},
@@ -555,6 +560,8 @@ end
 -- Format: id,name,townName,rent,beds,sqm,ownerGuid,ownerName,state,paidUntil~...
 function Cyclopedia.parseAndLoadHousesList(data)
     local houses = {}
+    local townsSet = {}
+    local townsList = {}
     if data and data ~= "" then
         local playerName = (g_game.getLocalPlayer() and g_game.getLocalPlayer():getName()) or ""
         local lowerPlayerName = playerName:lower()
@@ -571,6 +578,12 @@ function Cyclopedia.parseAndLoadHousesList(data)
                 local state      = tonumber(f[8]) or 1
                 local paidUntil  = tonumber(f[9]) or 0
                 local isYours    = ownerName ~= "" and ownerName:lower() == lowerPlayerName
+
+                if townName ~= "" and not townsSet[townName:lower()] then
+                    townsSet[townName:lower()] = true
+                    table.insert(townsList, townName)
+                end
+
                 table.insert(houses, {
                     id             = id,
                     name           = name,
@@ -605,6 +618,10 @@ function Cyclopedia.parseAndLoadHousesList(data)
         end
     end
     -- Apply town filter from currently selected option (if house tab is open)
+    Cyclopedia.House.DynamicCities = townsList
+    if Cyclopedia.updateHouseCityOptions then
+        Cyclopedia.updateHouseCityOptions(townsList)
+    end
     Cyclopedia.House.CachedData = houses
     Cyclopedia.applyHousesTownFilter()
 end

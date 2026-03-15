@@ -61,10 +61,8 @@ function showHouse()
             UI.TopBase.StatesOption.onOptionChange = Cyclopedia.houseChangeState
         end
 
-        for i = 0, #Cyclopedia.CityList do
-            UI.TopBase.CityOption:addOption(Cyclopedia.CityList[i].Title, i)
-            UI.TopBase.CityOption.onOptionChange = Cyclopedia.selectTown
-        end
+        Cyclopedia.updateHouseCityOptions(Cyclopedia.House.DynamicCities)
+        UI.TopBase.CityOption.onOptionChange = Cyclopedia.selectTown
 
         for i = 1, #Cyclopedia.SortList do
             UI.TopBase.SortOption:addOption(Cyclopedia.SortList[i].Title, i)
@@ -116,6 +114,37 @@ Cyclopedia.CityList = {
     { Title = "Venore" },
     { Title = "Yalahar" }
 }
+
+function Cyclopedia.updateHouseCityOptions(townNames)
+    if not UI or not UI.TopBase or not UI.TopBase.CityOption then
+        return
+    end
+
+    local cityOption = UI.TopBase.CityOption
+    cityOption:clearOptions()
+    cityOption:addOption("Own Houses", 0)
+
+    local towns = {}
+    if type(townNames) == "table" and #townNames > 0 then
+        for _, townName in ipairs(townNames) do
+            if townName and townName ~= "" then
+                table.insert(towns, townName)
+            end
+        end
+    else
+        for i = 1, #Cyclopedia.CityList do
+            table.insert(towns, Cyclopedia.CityList[i].Title)
+        end
+    end
+
+    table.sort(towns, function(a, b)
+        return a:lower() < b:lower()
+    end)
+
+    for _, townName in ipairs(towns) do
+        cityOption:addOption(townName, townName)
+    end
+end
 
 Cyclopedia.SortList = {
     { Title = "Sort by name" },
