@@ -109,9 +109,11 @@ Cyclopedia = {}
 local CYCLOPEDIA_EXT_OPCODE = 3
 local CYCLOPEDIA_PROTOCOL_PREFIX = "cp"
 local CYCLOPEDIA_PROTOCOL_VERSION = "1"
+local CYCLOPEDIA_DEBUG = true
 
 -- These remain intentionally disabled until the dedicated rollout phase.
 local HARD_DISABLED_TABS = {
+    items = true,
     charms = true,
     bosstiary = true,
     bossSlot = true,
@@ -119,7 +121,7 @@ local HARD_DISABLED_TABS = {
 }
 
 Cyclopedia.Capabilities = {
-    items = true,
+    items = false,
     bestiary = true,
     map = true,
     houses = true,
@@ -144,6 +146,9 @@ local function flushCyclopediaPendingRequests()
     end
 
     for _, req in ipairs(Cyclopedia.PendingRequests) do
+        if CYCLOPEDIA_DEBUG then
+            print(string.format("[Cyclopedia] flush request action=%s payloadLen=%d", req.action, #(req.payload or "")))
+        end
         protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
             encodeCyclopediaPayload("req", req.action, req.payload))
     end
@@ -231,6 +236,43 @@ local function enforceHardDisabledTabs()
     end
 end
 
+local function rebalanceTopTabs()
+    if not buttonSelection then
+        return
+    end
+
+    local orderedIds = { "items", "bestiary", "map", "houses", "character", "charms", "bosstiary", "bossSlot", "magicalArchives" }
+    local visibleButtons = {}
+
+    for _, id in ipairs(orderedIds) do
+        local btn = buttonSelection:recursiveGetChildById(id)
+        if btn and btn:isVisible() then
+            table.insert(visibleButtons, btn)
+        end
+    end
+
+    if #visibleButtons == 0 then
+        return
+    end
+
+    local totalWidth = buttonSelection:getWidth()
+    if totalWidth <= 0 then
+        return
+    end
+
+    local buttonWidth = math.floor(totalWidth / #visibleButtons)
+    for i, btn in ipairs(visibleButtons) do
+        btn:breakAnchors()
+        btn:addAnchor(AnchorTop, "parent", AnchorTop)
+        if i == 1 then
+            btn:addAnchor(AnchorLeft, "parent", AnchorLeft)
+        else
+            btn:addAnchor(AnchorLeft, "prev", AnchorRight)
+        end
+        btn:setWidth(buttonWidth)
+    end
+end
+
 function Cyclopedia.applyCapabilities(capabilities)
     if type(capabilities) ~= "table" then
         return
@@ -246,6 +288,7 @@ function Cyclopedia.applyCapabilities(capabilities)
     end
 
     enforceHardDisabledTabs()
+    rebalanceTopTabs()
 end
 
 function Cyclopedia.requestCapabilities()
@@ -266,6 +309,10 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
     local payload = decodeCyclopediaPayload(buffer)
     if not payload or payload.kind ~= "res" then
         return
+    end
+
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] response action=%s status=%s dataLen=%d", payload.action or "?", payload.status or "?", #(payload.data or "")))
     end
 
     Cyclopedia.TransportReady = true
@@ -318,6 +365,10 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
 
     payload = payload or ""
 
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] send request action=%s payloadLen=%d ready=%s", action, #payload, tostring(Cyclopedia.TransportReady)))
+    end
+
     protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
         encodeCyclopediaPayload("req", action, payload))
 
@@ -334,6 +385,9 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
 end
 
 function Cyclopedia.requestHouseTowns()
+    if CYCLOPEDIA_DEBUG then
+        print("[Cyclopedia] request houses.towns")
+    end
     Cyclopedia.sendCyclopediaRequest("houses.towns", "")
 end
 
@@ -718,6 +772,9 @@ function Cyclopedia.parseAndLoadHousesList(data)
     end
     -- Apply town filter from currently selected option (if house tab is open)
     Cyclopedia.House.DynamicCities = townsList
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] parsed houses.list houses=%d towns=%d", #houses, #townsList))
+    end
     if Cyclopedia.updateHouseCityOptions then
         Cyclopedia.updateHouseCityOptions(townsList)
     end
@@ -739,6 +796,9 @@ function Cyclopedia.parseAndLoadHouseTowns(data)
         end
     end
     Cyclopedia.House.DynamicCities = towns
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] parsed houses.towns count=%d", #towns))
+    end
     if Cyclopedia.updateHouseCityOptions then
         Cyclopedia.updateHouseCityOptions(towns)
     end
@@ -812,7 +872,7 @@ function controllerCyclopedia:onGameStart()
         safeRegisterCyclopediaOpcode()
 
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
-            '/images/topbuttons/cyclopedia', function() toggle("items") end, false, 7)
+            '/images/topbuttons/cyclopedia', function() toggle("bestiary") end, false, 7)
         CyclopediaButton:setOn(false)
 
         contentContainer = controllerCyclopedia.ui:recursiveGetChildById('contentContainer')
@@ -828,7 +888,6 @@ function controllerCyclopedia:onGameStart()
         magicalArchives = buttonSelection:recursiveGetChildById('magicalArchives')
 
         windowTypes = {
-            items = { obj = items, func = showItems },
             bestiary = { obj = bestiary, func = showBestiary },
             map = { obj = map, func = showMap },
             houses = { obj = houses, func = showHouse },
@@ -836,6 +895,7 @@ function controllerCyclopedia:onGameStart()
         }
 
         enforceHardDisabledTabs()
+        rebalanceTopTabs()
 
         g_ui.importStyle("cyclopedia_widgets")
         g_ui.importStyle("cyclopedia_pages")
@@ -1275,7 +1335,7 @@ end
 
 function SelectWindow(type, isBackButtonPress)
     if not windowTypes[type] then
-        type = "items"
+        type = "bestiary"
     end
 
     if previousType then
