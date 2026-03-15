@@ -228,12 +228,7 @@ function Cyclopedia.applyCapabilities(capabilities)
 end
 
 function Cyclopedia.requestCapabilities()
-    local protocol = g_game.getProtocolGame()
-    if not protocol or not protocol.sendExtendedOpcode then
-        return
-    end
-
-    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, encodeCyclopediaPayload("req", "capabilities"))
+    Cyclopedia.sendCyclopediaRequest("capabilities", "")
 end
 
 function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
@@ -284,10 +279,12 @@ end
 function Cyclopedia.sendCyclopediaRequest(action, payload)
     local protocol = g_game.getProtocolGame()
     if not protocol or not protocol.sendExtendedOpcode then
-        return
+        return false
     end
+
     protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
         encodeCyclopediaPayload("req", action, payload))
+    return true
 end
 
 -- =========================================================

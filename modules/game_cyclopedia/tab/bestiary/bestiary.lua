@@ -40,6 +40,12 @@ function showBestiary()
 
     Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
     Cyclopedia.Bestiary.Page = 1
+    Cyclopedia.Bestiary.Categories = Cyclopedia.Bestiary.Categories or {}
+    Cyclopedia.Bestiary.Creatures = Cyclopedia.Bestiary.Creatures or {}
+    Cyclopedia.Bestiary.Search = Cyclopedia.Bestiary.Search or {}
+    Cyclopedia.Bestiary.TotalCategoriesPages = Cyclopedia.Bestiary.TotalCategoriesPages or 1
+    Cyclopedia.Bestiary.TotalCreaturesPages = Cyclopedia.Bestiary.TotalCreaturesPages or 1
+    Cyclopedia.Bestiary.TotalSearchPages = Cyclopedia.Bestiary.TotalSearchPages or 1
     controllerCyclopedia.ui.CharmsBase:setVisible(true)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(true)
@@ -553,6 +559,10 @@ function Cyclopedia.loadBestiaryCategories(data)
 end
 
 function Cyclopedia.loadBestiaryCategory(page)
+    if not Cyclopedia.Bestiary or not Cyclopedia.Bestiary.Categories then
+        return
+    end
+
     if not Cyclopedia.Bestiary.Categories[page] then
         return
     end
@@ -625,6 +635,10 @@ function Cyclopedia.changeBestiaryPage(prev, next)
         Cyclopedia.Bestiary.Page = Cyclopedia.Bestiary.Page - 1
     end
 
+    if Cyclopedia.Bestiary.Page < 1 then
+        Cyclopedia.Bestiary.Page = 1
+    end
+
     local stage = Cyclopedia.Bestiary.Stage
     if stage == STAGES.CATEGORY then
         Cyclopedia.loadBestiaryCategory(Cyclopedia.Bestiary.Page)
@@ -653,8 +667,8 @@ function Cyclopedia.verifyBestiaryButtons()
     updateButtonState(UI.SearchButton, UI.SearchEdit:getText() ~= "")
 
     local stage = Cyclopedia.Bestiary.Stage
-    local totalSearchPages = Cyclopedia.Bestiary.TotalSearchPages
-    local page = Cyclopedia.Bestiary.Page
+    local totalSearchPages = Cyclopedia.Bestiary.TotalSearchPages or 1
+    local page = Cyclopedia.Bestiary.Page or 1
     if stage == STAGES.SEARCH and totalSearchPages then
         local totalPages = totalSearchPages
         updateButtonState(UI.PrevPageButton, page > 1)
@@ -670,8 +684,8 @@ function Cyclopedia.verifyBestiaryButtons()
         return
     end
 
-    local totalCategoriesPages = Cyclopedia.Bestiary.TotalCategoriesPages
-    local totalCreaturesPages = Cyclopedia.Bestiary.TotalCreaturesPages
+    local totalCategoriesPages = Cyclopedia.Bestiary.TotalCategoriesPages or 1
+    local totalCreaturesPages = Cyclopedia.Bestiary.TotalCreaturesPages or 1
     if stage == STAGES.CATEGORY and totalCategoriesPages or stage == STAGES.CREATURES and totalCreaturesPages then
         local totalPages = stage == STAGES.CATEGORY and totalCategoriesPages or totalCreaturesPages
         updateButtonState(UI.PrevPageButton, page > 1)

@@ -138,6 +138,7 @@ end
 
 Cyclopedia.Character = {}
 Cyclopedia.Character.Achievements = {}
+Cyclopedia.Character.Items = Cyclopedia.Character.Items or {}
 Cyclopedia.InventorySlotStyles = {
     [InventorySlotHead] = {
         icon = "/images/game/slots/inventory-head",
@@ -271,7 +272,8 @@ function Cyclopedia.characterItemsSearch(text)
         end
     end
 
-    for _, item in ipairs(Cyclopedia.Character.Items) do
+    local characterItems = Cyclopedia.Character.Items or {}
+    for _, item in ipairs(characterItems) do
         local data = item.data
         local name = data.name:lower()
         local meetsSearchCriteria = text == "" or string.find(name, text:lower()) ~= nil
@@ -289,7 +291,8 @@ function Cyclopedia.characterItemsFilter(widget, force)
 
     local id = widget:getId()
 
-    for _, item in ipairs(Cyclopedia.Character.Items) do
+    local characterItems = Cyclopedia.Character.Items or {}
+    for _, item in ipairs(characterItems) do
         local data = item.data
         if data.type == id then
             data.visible = widget:isChecked()
@@ -306,7 +309,8 @@ function Cyclopedia.reloadCharacterItems()
     local colors = {"#484848", "#414141"}
     local colorIndex = 1
 
-    for _, item in ipairs(Cyclopedia.Character.Items) do
+    local characterItems = Cyclopedia.Character.Items or {}
+    for _, item in ipairs(characterItems) do
         local itemId, data = item.itemId, item.data
 
         if data.visible then
