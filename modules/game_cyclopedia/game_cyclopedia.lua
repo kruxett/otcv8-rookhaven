@@ -258,6 +258,23 @@ local function enforceHardDisabledTabs()
     end
 end
 
+local function applyTabVisibilityFromCapabilities()
+    if not buttonSelection then
+        return
+    end
+
+    local orderedIds = { "items", "bestiary", "map", "houses", "character", "charms", "bosstiary", "bossSlot", "magicalArchives" }
+    for _, id in ipairs(orderedIds) do
+        local btn = buttonSelection:recursiveGetChildById(id)
+        if btn then
+            btn:setVisible(Cyclopedia.Capabilities[id] == true)
+        end
+    end
+
+    -- Never allow rollout-disabled tabs to become visible.
+    enforceHardDisabledTabs()
+end
+
 local function rebalanceTopTabs()
     if not buttonSelection then
         return
@@ -292,6 +309,8 @@ local function rebalanceTopTabs()
             btn:addAnchor(AnchorLeft, "prev", AnchorRight)
         end
         btn:setWidth(buttonWidth)
+        -- Keep current reduced-tab layout expanded instead of icon-only off state.
+        btn:setOn(true)
     end
 end
 
@@ -309,7 +328,7 @@ function Cyclopedia.applyCapabilities(capabilities)
         Cyclopedia.Capabilities[tabId] = false
     end
 
-    enforceHardDisabledTabs()
+    applyTabVisibilityFromCapabilities()
     rebalanceTopTabs()
 end
 
@@ -389,7 +408,7 @@ end
 function Cyclopedia.sendCyclopediaRequest(action, payload)
     local protocol = g_game.getProtocolGame()
     if not protocol or not protocol.sendExtendedOpcode then
-        return false
+        return false, false
     end
 
     payload = payload or ""
@@ -399,7 +418,7 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
         local queued = queueCyclopediaPendingRequest(action, payload)
         if not queued then
             Cyclopedia.requestCapabilities()
-            return true
+            return true, false
         end
 
         shouldSendNow = true -- send first request optimistically; duplicates stay queued only.
@@ -413,16 +432,17 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
     if shouldSendNow then
         protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
             encodeCyclopediaPayload("req", action, payload))
+        return true, true
     end
 
-    return true
+    return true, false
 end
 
 function Cyclopedia.requestHouseTowns()
-    if CYCLOPEDIA_DEBUG then
+    local ok, sent = Cyclopedia.sendCyclopediaRequest("houses.towns", "")
+    if ok and sent and CYCLOPEDIA_DEBUG then
         print("[Cyclopedia] request houses.towns")
     end
-    Cyclopedia.sendCyclopediaRequest("houses.towns", "")
 end
 
 -- =========================================================
@@ -930,7 +950,7 @@ function controllerCyclopedia:onGameStart()
             character = { obj = character, func = showCharacter },
         }
 
-        enforceHardDisabledTabs()
+        applyTabVisibilityFromCapabilities()
         rebalanceTopTabs()
 
         g_ui.importStyle("cyclopedia_widgets")
@@ -1356,6 +1376,9 @@ function show(defaultWindow)
         return
     end
 
+    applyTabVisibilityFromCapabilities()
+    rebalanceTopTabs()
+
     controllerCyclopedia.ui:show()
     controllerCyclopedia.ui:raise()
     controllerCyclopedia.ui:focus()
@@ -1382,7 +1405,7 @@ function SelectWindow(type, isBackButtonPress)
         local previousWindow = windowTypes[previousType]
         if previousWindow and previousWindow.obj then
             previousWindow.obj:enable()
-            previousWindow.obj:setOn(false)
+            previousWindow.obj:setOn(true)
         end
         if not isBackButtonPress then
             table.insert(tabStack, previousType)
