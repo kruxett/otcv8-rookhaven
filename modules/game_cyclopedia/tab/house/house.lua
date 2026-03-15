@@ -160,6 +160,10 @@ function Cyclopedia.updateHouseCityOptions(townNames)
     for _, townName in ipairs(towns) do
         cityOption:addOption(townName, townName)
     end
+
+    if cityOption:getOptionsCount() == 1 then
+        cityOption:addOption("No Town Data", "")
+    end
 end
 
 Cyclopedia.SortList = {

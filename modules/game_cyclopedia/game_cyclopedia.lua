@@ -318,16 +318,18 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
 
     payload = payload or ""
 
+    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+        encodeCyclopediaPayload("req", action, payload))
+
+    -- If transport isn't confirmed yet, keep a retry copy to be flushed once
+    -- first Cyclopedia response arrives.
     if action ~= "capabilities" and not Cyclopedia.TransportReady then
         if #Cyclopedia.PendingRequests < 100 then
             table.insert(Cyclopedia.PendingRequests, { action = action, payload = payload })
         end
         Cyclopedia.requestCapabilities()
-        return true
     end
 
-    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
-        encodeCyclopediaPayload("req", action, payload))
     return true
 end
 
