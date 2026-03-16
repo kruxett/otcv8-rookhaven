@@ -461,7 +461,7 @@ UIWidget
           image-source: /images/automap/automap_indicator_slider_left
           margin-top: 28
 
-        Button
+        UIWidget
           size: 20 20
           anchors.left: automapLayers.right
           anchors.top: automapLayers.top
@@ -472,7 +472,7 @@ UIWidget
           $pressed !disabled:
             image-source: /images/ui/buttons/automap-button-moveup-down
 
-        Button
+        UIWidget
           size: 20 20
           anchors.left: automapLayers.right
           anchors.bottom: automapLayers.bottom
@@ -544,7 +544,7 @@ MapLayerSelector < UIWidget
       image-source: /images/automap/automap_indicator_slider_left
       margin-top: 28
 
-    Button
+    UIWidget
       size: 20 20
       anchors.left: automapLayers.right
       anchors.top: automapLayers.top
@@ -555,7 +555,7 @@ MapLayerSelector < UIWidget
       $pressed !disabled:
         image-source: /images/ui/buttons/automap-button-moveup-down
 
-    Button
+    UIWidget
       size: 20 20
       anchors.left: automapLayers.right
       anchors.bottom: automapLayers.bottom
