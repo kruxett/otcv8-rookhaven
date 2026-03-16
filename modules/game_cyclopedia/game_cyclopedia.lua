@@ -413,6 +413,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadBestiaryOverview(data)
     elseif action == "bestiary.creature" then
         Cyclopedia.parseAndLoadBestiaryCreature(data)
+    elseif action == "bestiary.tracker" then
+        Cyclopedia.parseAndLoadBestiaryTracker(data)
     elseif action == "houses.list" then
         Cyclopedia.parseAndLoadHousesList(data)
     elseif action == "houses.towns" then
@@ -586,6 +588,15 @@ end
 
 g_game.requestBestiarySearch = function(raceId, ...)
     Cyclopedia.sendCyclopediaRequest("bestiary.creature", tostring(raceId or 0))
+end
+
+g_game.sendStatusTrackerBestiary = function(raceId, enabled, ...)
+    local tracked = enabled and 1 or 0
+    Cyclopedia.sendCyclopediaRequest("bestiary.tracker", string.format("set,%d,%d", tonumber(raceId) or 0, tracked))
+end
+
+g_game.requestBestiaryTracker = function(...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.tracker", "list")
 end
 
 local _origRequestShowHouses = g_game.requestShowHouses
@@ -825,6 +836,32 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
     Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
     Cyclopedia.BestiaryCreatureCache[raceId] = payload
     Cyclopedia.loadBestiarySelectedCreature(payload)
+end
+
+-- bestiary.tracker response
+-- Format: raceId,kills,firstUnlock,secondUnlock,thirdUnlock~...
+function Cyclopedia.parseAndLoadBestiaryTracker(data)
+    if not Cyclopedia.onParseCyclopediaTracker then
+        return
+    end
+
+    local trackerEntries = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 5 then
+                table.insert(trackerEntries, {
+                    tonumber(f[1]) or 0,
+                    tonumber(f[2]) or 0,
+                    tonumber(f[3]) or 25,
+                    tonumber(f[4]) or 100,
+                    tonumber(f[5]) or 250,
+                })
+            end
+        end
+    end
+
+    Cyclopedia.onParseCyclopediaTracker(0, trackerEntries)
 end
 
 -- houses.list response

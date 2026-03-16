@@ -962,7 +962,11 @@ function Cyclopedia.refreshBestiaryTracker()
     end
     
     -- Always request fresh data from server
-    g_game.requestBestiary()
+    if g_game.requestBestiaryTracker then
+        g_game.requestBestiaryTracker()
+    else
+        g_game.requestBestiary()
+    end
 end
 
 function Cyclopedia.refreshBosstiaryTracker()
@@ -1182,11 +1186,6 @@ end
 
 function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
     if not data then
-        return
-    end
-
-    -- If server returns empty data, don't clear existing cached data
-    if #data == 0 then
         return
     end
 
