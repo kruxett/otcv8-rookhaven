@@ -443,6 +443,7 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
         UI.ListBase.CreatureInfo.SubTextLabel:setImageSource("/images/icons/icons-skills")
         UI.ListBase.CreatureInfo.SubTextLabel:setImageClip(rect)
         UI.ListBase.CreatureInfo.SubTextLabel:setSize("18 9")
+        UI.ListBase.CreatureInfo.SubTextLabel:setTooltip("Attack style: Ranged / Spellcaster\nThis creature can damage targets from distance.")
     else
         local rect = {
             height = 9,
@@ -453,6 +454,7 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
         UI.ListBase.CreatureInfo.SubTextLabel:setImageSource("/images/icons/icons-skills")
         UI.ListBase.CreatureInfo.SubTextLabel:setImageClip(rect)
         UI.ListBase.CreatureInfo.SubTextLabel:setSize("18 9")
+        UI.ListBase.CreatureInfo.SubTextLabel:setTooltip("Attack style: Melee\nThis creature primarily fights in close combat.")
     end
 
     local resists = {"PhysicalProgress", "FireProgress", "EarthProgress", "EnergyProgress", "IceProgress",
