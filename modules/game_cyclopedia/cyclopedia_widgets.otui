@@ -847,10 +847,13 @@ BestiaryCategory < UIWidget
     image-source: /images/ui/2pixel_up_frame_borderimage
     image-border: 10
     $pressed:
+      margin-top: 23
       image-source: /images/ui/2pixel_up_frame_borderimage_dark_reversed
   UIWidget
     id: ClassIcon
+    size: 48 48
     anchors.centerIn: ClassBase
+    image-auto-resize: true
     phantom: true
   Label
     id: KnownValue

@@ -50,16 +50,16 @@ local function setBestiaryCategoryIcon(iconWidget, categoryName)
 
     local normalizedCategory = tostring(categoryName or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
     local iconNameByCategory = {
-        ["all"] = "human",
+        ["all"] = "all",
         ["humanoid"] = "humanoid",
         ["humanoids"] = "humanoid",
-        ["beast"] = "mammal",
+        ["beast"] = "beast",
         ["mammals"] = "mammal",
         ["beasts"] = "mammal",
         ["undead"] = "undead",
         ["reptile"] = "reptile",
         ["reptiles"] = "reptile",
-        ["insectoid"] = "vermin",
+        ["insectoid"] = "insectoid",
         ["insects"] = "vermin",
         ["demon"] = "demon",
         ["magical"] = "magical",
