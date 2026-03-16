@@ -59,6 +59,13 @@ local function setBestiaryCategoryIcon(iconWidget, categoryName)
     iconWidget:setImageSource("/game_cyclopedia/images/book")
 end
 
+local function formatBestiaryCreatureName(name)
+    local text = tostring(name or "Unknown")
+    return text:gsub("(%a)([%w']*)", function(first, rest)
+        return first:upper() .. rest:lower()
+    end)
+end
+
 function Cyclopedia.loadBestiaryOverview(name, creatures, animusPoints)
     if (name == "Result" or name == "") and #creatures > 0 then
         if #creatures == 1 then
@@ -257,9 +264,7 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
 
     local raceData = g_things.getRaceData(data.id)
     local raceName = raceData and raceData.name or "Unknown"
-    local formattedName = raceName:gsub("(%l)(%w*)", function(first, rest)
-        return first:upper() .. rest
-    end)
+    local formattedName = formatBestiaryCreatureName(raceName)
 
     UI.ListBase.CreatureInfo:setText(formattedName)
     Cyclopedia.SetBestiaryDiamonds(occurence[data.ocorrence])
@@ -530,9 +535,7 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
     widget:setId(data.id)
 
     local raceName = raceData and raceData.name or "Unknown"
-    local formattedName = raceName:gsub("(%l)(%w*)", function(first, rest)
-        return first:upper() .. rest
-    end)
+    local formattedName = formatBestiaryCreatureName(raceName)
 
     widget.Name:setText(verify(formattedName))
     widget.Sprite:setOutfit(raceData.outfit or { type = 0 })
