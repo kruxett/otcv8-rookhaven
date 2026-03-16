@@ -521,7 +521,10 @@ function Cyclopedia.ShowBestiaryCreatures(Category)
 end
 
 function Cyclopedia.CreateBestiaryCategoryItem(Data)
-    UI.BackPageButton:setEnabled(false)
+    -- Keep back-button state controlled by stage transitions to avoid async desync.
+    if Cyclopedia.Bestiary.Stage == STAGES.CATEGORY then
+        UI.BackPageButton:setEnabled(false)
+    end
 
     local widget = g_ui.createWidget("BestiaryCategory", UI.ListBase.CategoryList)
     widget:setText(Data.name)
