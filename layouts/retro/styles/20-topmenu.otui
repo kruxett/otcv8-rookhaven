@@ -11,6 +11,7 @@ TopButton < UIButton
   
   $on:
     image-source: /images/ui/button_top_blink
+    icon-clip: 0 20 20 20
 
   $hover !disabled:
     image-color: #ffffff99
@@ -18,6 +19,7 @@ TopButton < UIButton
 
   $pressed:
     image-clip: 52 0 26 26
+    icon-clip: 0 20 20 20
 
   $disabled:
     image-color: #ffffff44
@@ -35,7 +37,7 @@ TopToggleButton < UIButton
   icon-color: #ffffffff
   
   $on:
-    image-color: #ffffffff
+    icon-clip: 0 20 20 20
 
   $hover !disabled:
     image-color: #ffffff99
@@ -43,6 +45,7 @@ TopToggleButton < UIButton
 
   $pressed:
     image-clip: 52 0 26 26
+    icon-clip: 0 20 20 20
 
   $disabled:
     image-color: #ffffff44
