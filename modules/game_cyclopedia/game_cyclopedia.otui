@@ -62,7 +62,9 @@ MainWindow
 
       $pressed:
         size: 222 34
-        image-source: /images/game/cyclopedia/bestiary_off
+        background-color: #323232
+        border-width: 1
+        border-color: #222222
 
     UIButton
       id: charms
@@ -105,7 +107,9 @@ MainWindow
 
       $pressed:
         size: 222 34
-        image-source: /images/game/cyclopedia/map_off
+        background-color: #323232
+        border-width: 1
+        border-color: #222222
 
     UIButton
       id: houses
@@ -148,7 +152,9 @@ MainWindow
 
       $pressed:
         size: 222 34
-        image-source: /images/game/cyclopedia/character_off
+        background-color: #323232
+        border-width: 1
+        border-color: #222222
 
     UIButton
       id: bosstiary
