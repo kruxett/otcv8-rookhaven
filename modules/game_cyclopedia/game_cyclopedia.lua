@@ -984,6 +984,10 @@ end
 
 function controllerCyclopedia:onGameStart()
     do
+        if not controllerCyclopedia.ui then
+            return
+        end
+
         Cyclopedia.TransportReady = false
         Cyclopedia.PendingRequests = {}
         Cyclopedia.PendingRequestSet = {}
