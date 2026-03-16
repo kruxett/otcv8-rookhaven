@@ -281,6 +281,10 @@ local function applyTabVisibilityFromCapabilities()
     if items then
         items:setVisible(false)
     end
+
+    if houses then
+        houses:setVisible(false)
+    end
 end
 
 local function rebalanceTopTabs()
@@ -1007,10 +1011,14 @@ function controllerCyclopedia:onGameStart()
             items:setVisible(false)
         end
 
+        if houses then
+            houses:setVisible(false)
+            houses:disable()
+        end
+
         windowTypes = {
             bestiary = { obj = bestiary, func = showBestiary },
             map = { obj = map, func = showMap },
-            houses = { obj = houses, func = showHouse },
             character = { obj = character, func = showCharacter },
         }
 
