@@ -114,6 +114,7 @@ local CYCLOPEDIA_DEBUG = true
 -- These remain intentionally disabled until the dedicated rollout phase.
 local HARD_DISABLED_TABS = {
     items = true,
+    houses = true,
     charms = true,
     bosstiary = true,
     bossSlot = true,
@@ -124,7 +125,7 @@ Cyclopedia.Capabilities = {
     items = false,
     bestiary = true,
     map = true,
-    houses = true,
+    houses = false,
     character = true,
     charms = false,
     bosstiary = false,
@@ -731,8 +732,9 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
 end
 
 -- Format:
--- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot,combat,difficulty,occurrence
 -- loot format: itemId:rarityTier:stackable;itemId:rarityTier:stackable;...
+-- combat format: physical:fire:earth:energy:ice:holy:death:healing
 function Cyclopedia.parseAndLoadBestiaryCreature(data)
     if not Cyclopedia.loadBestiarySelectedCreature then
         return
@@ -758,10 +760,22 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         difficulty = 1, occurrence = 0, id = raceId
     }
 
+    local combatValues = {100, 100, 100, 100, 100, 100, 100, 100}
+    local combatData = f[17] or ""
+    if combatData ~= "" then
+        local parts = string.split(combatData, ":")
+        for i = 1, 8 do
+            local value = tonumber(parts[i])
+            if value then
+                combatValues[i] = value
+            end
+        end
+    end
+
     local payload = {
         id = raceId,
-        ocorrence = 1,
-        difficulty = 1,
+        ocorrence = tonumber(f[19]) or 1,
+        difficulty = tonumber(f[18]) or 1,
         killCounter = tonumber(f[5]) or 0,
         thirdDifficulty = tonumber(f[13]) or 25,
         secondUnlock = tonumber(f[14]) or 100,
@@ -774,7 +788,7 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         mitigation = tonumber(f[10]) or 0,
         charmValue = tonumber(f[11]) or 5,
         attackMode = 1,
-        combat = {0, 0, 0, 0, 0, 0, 0, 0},
+        combat = combatValues,
         loot = {},
         location = f[12] or "Unknown",
         AnimusMasteryPoints = 0,

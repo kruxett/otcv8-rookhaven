@@ -103,11 +103,29 @@ function showBestiary()
     Cyclopedia.Bestiary.TotalCategoriesPages = Cyclopedia.Bestiary.TotalCategoriesPages or 1
     Cyclopedia.Bestiary.TotalCreaturesPages = Cyclopedia.Bestiary.TotalCreaturesPages or 1
     Cyclopedia.Bestiary.TotalSearchPages = Cyclopedia.Bestiary.TotalSearchPages or 1
-    controllerCyclopedia.ui.CharmsBase:setVisible(true)
+    controllerCyclopedia.ui.CharmsBase:setVisible(false)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(true)
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase1410:hide()
+    end
+
+    local charmWidgetsToHide = {
+        "CharmBase",
+        "SelectButton",
+        "CharmSelector",
+        "BalanceBase",
+        "CharmLabel",
+        "BonusIcon",
+        "BonusValue",
+        "IconsSep",
+    }
+
+    for _, widgetId in ipairs(charmWidgetsToHide) do
+        local widget = UI.ListBase and UI.ListBase.CreatureInfo and UI.ListBase.CreatureInfo[widgetId]
+        if widget then
+            widget:setVisible(false)
+        end
     end
     
     -- Initialize tracker data and storedRaceIDs when bestiary is opened
