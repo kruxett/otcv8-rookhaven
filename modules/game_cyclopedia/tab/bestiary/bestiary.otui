@@ -29,12 +29,20 @@ UIWidget
     @onTextChange: modules.game_cyclopedia.Cyclopedia.BestiarySearchText(self:getText())
   CheckBox
     id: ShowUnknownCheck
+    size: 14 14
     anchors.right: SearchEdit.left
     anchors.verticalCenter: SearchEdit.verticalCenter
     margin-right: 8
+    color: #C0C0C0
+    tooltip: Show unknown creatures in the list and search results
+    @onCheckChange: modules.game_cyclopedia.Cyclopedia.ToggleBestiaryShowUnknown(self:isChecked())
+  Label
+    id: ShowUnknownLabel
+    anchors.right: ShowUnknownCheck.left
+    anchors.verticalCenter: ShowUnknownCheck.verticalCenter
+    margin-right: 4
     !text: tr('Show Unknown')
     color: #C0C0C0
-    @onCheckChange: modules.game_cyclopedia.Cyclopedia.ToggleBestiaryShowUnknown(self:isChecked())
   UIWidget
     id: PageValue
     anchors.horizontalCenter: parent.horizontalCenter
