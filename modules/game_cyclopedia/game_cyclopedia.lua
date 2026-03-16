@@ -1040,6 +1040,11 @@ function controllerCyclopedia:onGameStart()
 
         safeRegisterCyclopediaOpcode()
 
+        local existingCyclopediaButton = modules.client_topmenu.getButton('CyclopediaButton')
+        if existingCyclopediaButton then
+            existingCyclopediaButton:destroy()
+        end
+
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
             '/images/topbuttons/cyclopedia', function() toggle("bestiary") end, false, 7)
         CyclopediaButton:setOn(false)
@@ -1119,15 +1124,12 @@ function controllerCyclopedia:onGameStart()
         -- Only create if it doesn't exist
         if not trackerMiniWindow then
             trackerMiniWindow = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
+            trackerMiniWindow:setId('BestiaryTrackerWindow')
 
-            -- Set the title with length limit like in containers
+            -- Keep a stable title text; truncation is handled by widget width.
             local titleWidget = trackerMiniWindow:getChildById('miniwindowTitle')
             if titleWidget then
-                local title = tr('Bestiary Tracker')
-                if title:len() > 12 then
-                    title = title:sub(1, 12) .. "..."
-                end
-                titleWidget:setText(title)
+                titleWidget:setText(tr('Bestiary Tracker'))
             end
 
             -- Set up contextMenuButton positioning and click handler
@@ -1214,15 +1216,12 @@ function controllerCyclopedia:onGameStart()
         -- Only create if it doesn't exist
         if not trackerMiniWindowBosstiary then
             trackerMiniWindowBosstiary = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
+            trackerMiniWindowBosstiary:setId('BosstiaryTrackerWindow')
             
-            -- Set the title with length limit like in containers
+            -- Keep a stable title text; truncation is handled by widget width.
             local titleWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowTitle')
             if titleWidgetBosstiary then
-                local title = tr('Bosstiary Tracker')
-                if title:len() > 12 then
-                    title = title:sub(1, 12) .. "..."
-                end
-                titleWidgetBosstiary:setText(title)
+                titleWidgetBosstiary:setText(tr('Bosstiary Tracker'))
             end
 
             -- Set the icon for Bosstiary Tracker when asset is available.
@@ -1398,6 +1397,12 @@ function controllerCyclopedia:onGameEnd()
     if trackerMiniWindowBosstiary then
         trackerMiniWindowBosstiary.contentsPanel:destroyChildren()
     end
+
+    if CyclopediaButton then
+        CyclopediaButton:destroy()
+        CyclopediaButton = nil
+    end
+
     hide()
     
     -- Save tracker filters and data for current character
