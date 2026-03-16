@@ -91,11 +91,11 @@ function showBestiary()
         UI.ShowUnknownCheck:setChecked(Cyclopedia.Bestiary.ShowUnknown == true)
     end
 
-    UI.ListBase.CategoryList:setVisible(false)
-    UI.ListBase.CreatureList:setVisible(true)
+    UI.ListBase.CategoryList:setVisible(true)
+    UI.ListBase.CreatureList:setVisible(false)
     UI.ListBase.CreatureInfo:setVisible(false)
 
-    Cyclopedia.Bestiary.Stage = STAGES.CREATURES
+    Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
     Cyclopedia.Bestiary.Page = 1
     Cyclopedia.Bestiary.Categories = Cyclopedia.Bestiary.Categories or {}
     Cyclopedia.Bestiary.Creatures = Cyclopedia.Bestiary.Creatures or {}
@@ -141,31 +141,30 @@ function showBestiary()
     end, UI.SearchEdit)
 
     
-    g_game.requestBestiaryOverview("All", false, {})
     g_game.requestBestiary()
 
     -- Retry a few times in case first request happened before transport was ready.
     local retries = 0
-    local function ensureBestiaryCreaturesLoaded()
+    local function ensureBestiaryCategoriesLoaded()
         if not UI or not UI:isVisible() then
             return
         end
 
-        local hasCreatures = Cyclopedia.Bestiary and Cyclopedia.Bestiary.Creatures and
-            Cyclopedia.Bestiary.Creatures[1] and #Cyclopedia.Bestiary.Creatures[1] > 0
-        if hasCreatures then
+        local hasCategories = Cyclopedia.Bestiary and Cyclopedia.Bestiary.Categories and
+            Cyclopedia.Bestiary.Categories[1] and #Cyclopedia.Bestiary.Categories[1] > 0
+        if hasCategories then
             return
         end
 
         retries = retries + 1
         if retries <= 5 then
-            g_game.requestBestiaryOverview("All", false, {})
-            scheduleEvent(ensureBestiaryCreaturesLoaded, 400)
+            g_game.requestBestiary()
+            scheduleEvent(ensureBestiaryCategoriesLoaded, 400)
         end
     end
 
     Cyclopedia.onStageChange()
-    scheduleEvent(ensureBestiaryCreaturesLoaded, 400)
+    scheduleEvent(ensureBestiaryCategoriesLoaded, 400)
 end
 
 Cyclopedia.Bestiary = {}
