@@ -277,11 +277,13 @@ function Cyclopedia.SetBestiaryProgress(fit, firstBar, secondBar, thirdBar, kill
 end
 
 function Cyclopedia.SetBestiaryStars(value)
-    UI.ListBase.CreatureInfo.StarFill:setWidth(value * 9)
+    local safeValue = math.max(0, tonumber(value) or 0)
+    UI.ListBase.CreatureInfo.StarFill:setWidth(safeValue * 9)
 end
 
 function Cyclopedia.SetBestiaryDiamonds(value)
-    UI.ListBase.CreatureInfo.DiamondFill:setWidth(value * 9)
+    local safeValue = math.max(0, tonumber(value) or 0)
+    UI.ListBase.CreatureInfo.DiamondFill:setWidth(safeValue * 9)
 end
 
 function Cyclopedia.CreateCreatureItems(data)
@@ -337,23 +339,17 @@ function Cyclopedia.CreateCreatureItems(data)
 end
 
 function Cyclopedia.loadBestiarySelectedCreature(data)
-    local occurence = {
-        [0] = 1,
-        2,
-        3,
-        4
-    }
-
     local raceData = g_things.getRaceData(data.id)
     local raceName = raceData and raceData.name or "Unknown"
     local formattedName = formatBestiaryCreatureName(raceName)
 
     UI.ListBase.CreatureInfo:setText(formattedName)
-    Cyclopedia.SetBestiaryDiamonds(occurence[data.ocorrence])
+    local occurrenceValue = math.max(1, math.min(4, tonumber(data.ocorrence) or 1))
+    Cyclopedia.SetBestiaryDiamonds(occurrenceValue)
     Cyclopedia.SetBestiaryStars(data.difficulty)
 
     local difficultyValue = math.max(1, math.min(5, tonumber(data.difficulty) or 1))
-    local occurrenceValue = math.max(1, math.min(4, tonumber(data.ocorrence) or 1))
+    occurrenceValue = math.max(1, math.min(4, tonumber(data.ocorrence) or 1))
     local difficultyLevels = {
         [1] = "Very Easy",
         [2] = "Easy",
