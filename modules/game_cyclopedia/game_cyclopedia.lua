@@ -683,6 +683,13 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
             local speed      = tonumber(f[9]) or 180
             local armor      = tonumber(f[10]) or 5
             local defense    = tonumber(f[11]) or 0
+            local firstUnlock = tonumber(f[12]) or 25
+            local secondUnlock = tonumber(f[13]) or 100
+            local thirdUnlock = tonumber(f[14]) or 250
+
+            if firstUnlock < 1 then firstUnlock = 1 end
+            if secondUnlock <= firstUnlock then secondUnlock = firstUnlock + 1 end
+            if thirdUnlock <= secondUnlock then thirdUnlock = secondUnlock + 1 end
             -- Populate creature data cache so getRaceData works
             _CyclopediaCreatureDataCache[raceId] = {
                 name   = name,
@@ -700,9 +707,9 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
                 ocorrence = 1,
                 difficulty = 1,
                 killCounter = kills,
-                thirdDifficulty = 25,
-                secondUnlock = 100,
-                lastProgressKillCount = 250,
+                thirdDifficulty = firstUnlock,
+                secondUnlock = secondUnlock,
+                lastProgressKillCount = thirdUnlock,
                 currentLevel = level,
                 maxHealth = maxHealth,
                 experience = experience,
@@ -723,7 +730,7 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
 end
 
 -- Format:
--- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock
 function Cyclopedia.parseAndLoadBestiaryCreature(data)
     if not Cyclopedia.loadBestiarySelectedCreature then
         return
@@ -754,9 +761,9 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         ocorrence = 1,
         difficulty = 1,
         killCounter = tonumber(f[5]) or 0,
-        thirdDifficulty = 25,
-        secondUnlock = 100,
-        lastProgressKillCount = 250,
+        thirdDifficulty = tonumber(f[13]) or 25,
+        secondUnlock = tonumber(f[14]) or 100,
+        lastProgressKillCount = tonumber(f[15]) or 250,
         currentLevel = tonumber(f[4]) or 1,
         maxHealth = tonumber(f[6]) or 100,
         experience = tonumber(f[7]) or 50,
@@ -771,6 +778,10 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         AnimusMasteryPoints = 0,
         AnimusMasteryBonus = 0,
     }
+
+    if payload.thirdDifficulty < 1 then payload.thirdDifficulty = 1 end
+    if payload.secondUnlock <= payload.thirdDifficulty then payload.secondUnlock = payload.thirdDifficulty + 1 end
+    if payload.lastProgressKillCount <= payload.secondUnlock then payload.lastProgressKillCount = payload.secondUnlock + 1 end
 
     Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
     Cyclopedia.BestiaryCreatureCache[raceId] = payload
