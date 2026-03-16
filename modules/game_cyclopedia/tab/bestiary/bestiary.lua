@@ -452,6 +452,7 @@ function Cyclopedia.loadBestiarySearchCreatures(data)
             id = data[i].id,
             currentLevel = data[i].currentLevel,
             AnimusMasteryBonus = data[i].creatureAnimusMasteryBonus or 0,
+            killCounter = data[i].killCounter or 0,
         }
 
         table.insert(Cyclopedia.Bestiary.Search[page], creature)
@@ -484,6 +485,7 @@ function Cyclopedia.loadBestiaryCreatures(data)
             id = data[i].id,
             currentLevel = data[i].currentLevel,
             AnimusMasteryBonus = data[i].creatureAnimusMasteryBonus,
+            killCounter = data[i].killCounter or 0,
 
         }
 
@@ -541,6 +543,8 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
     widget.Sprite:setOutfit(raceData.outfit or { type = 0 })
     safeSetCreatureStaticWalking(widget.Sprite, 1000)
 
+    local discovered = (tonumber(data.killCounter) or 0) > 0
+
     if data.AnimusMasteryBonus > 0 then
         widget.AnimusMastery:setTooltip("The Animus Mastery for this creature is unlocked.\nIt yields ".. data.AnimusMasteryBonus.. "% bonus experience points, plus an additional 0.1% for every 10 Animus Masteries unlocked, up to a maximum of 4%.\nYou currently benefit from ".. data.AnimusMasteryBonus.. "% bonus experience points due to having unlocked ".. animusMasteryPoints.." Animus Masteries.")
         widget.AnimusMastery:setVisible(true)
@@ -549,27 +553,21 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
         widget.AnimusMastery:setVisible(false)
     end
 
-    if data.currentLevel >= 3 then
+    if not discovered then
+        widget.KillsLabel:setText("?")
+        safeSetCreatureShader(widget.Sprite, "Outfit - cyclopedia-black")
+        widget.Name:setText("Unknown")
+        widget.AnimusMastery:setVisible(false)
+    elseif data.currentLevel >= 3 then
         widget.Finalized:setVisible(true)
         widget.KillsLabel:setVisible(false)
         safeSetCreatureShader(widget.Sprite, "")
     else
-        if data.currentLevel < 1 then
-            widget.KillsLabel:setText("?")
-            safeSetCreatureShader(widget.Sprite, "Outfit - cyclopedia-black")
-            widget.Name:setText("Unknown")
-            widget.AnimusMastery:setVisible(false)
-        else
-            widget.KillsLabel:setText(string.format("%d / 3", data.currentLevel - 1))
-        end
+        widget.KillsLabel:setText(string.format("%d / 3", math.max((tonumber(data.currentLevel) or 0) - 1, 0)))
 
     end
 
     function widget.ClassBase:onClick()
-        if data.currentLevel < 1 then
-            return
-        end
-
         UI.BackPageButton:setEnabled(true)
         g_game.requestBestiarySearch(widget:getId())
         Cyclopedia.ShowBestiaryCreature()

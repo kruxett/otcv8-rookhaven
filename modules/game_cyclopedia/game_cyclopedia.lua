@@ -701,6 +701,7 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
                 id                        = raceId,
                 currentLevel              = level,
                 creatureAnimusMasteryBonus = animus,
+                killCounter               = kills,
             })
             Cyclopedia.BestiaryCreatureCache[raceId] = {
                 id = raceId,
