@@ -731,7 +731,8 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
 end
 
 -- Format:
--- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot
+-- loot format: itemId:rarityTier:stackable;itemId:rarityTier:stackable;...
 function Cyclopedia.parseAndLoadBestiaryCreature(data)
     if not Cyclopedia.loadBestiarySelectedCreature then
         return
@@ -779,6 +780,25 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         AnimusMasteryPoints = 0,
         AnimusMasteryBonus = 0,
     }
+
+    local lootData = f[16] or ""
+    if lootData ~= "" then
+        for _, entry in ipairs(string.split(lootData, ";")) do
+            local parts = string.split(entry, ":")
+            if parts and #parts >= 3 then
+                local itemId = tonumber(parts[1]) or 0
+                if itemId > 0 then
+                    table.insert(payload.loot, {
+                        name = "",
+                        itemId = itemId,
+                        type = 0,
+                        diffculty = tonumber(parts[2]) or 0,
+                        stackable = tonumber(parts[3]) or 0,
+                    })
+                end
+            end
+        end
+    end
 
     if payload.thirdDifficulty < 1 then payload.thirdDifficulty = 1 end
     if payload.secondUnlock <= payload.thirdDifficulty then payload.secondUnlock = payload.thirdDifficulty + 1 end

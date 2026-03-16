@@ -27,6 +27,14 @@ UIWidget
     padding-top: 1
     shader: Map - Party
     @onTextChange: modules.game_cyclopedia.Cyclopedia.BestiarySearchText(self:getText())
+  CheckBox
+    id: ShowUnknownCheck
+    anchors.right: SearchEdit.left
+    anchors.verticalCenter: SearchEdit.verticalCenter
+    margin-right: 8
+    !text: tr('Show Unknown')
+    color: #C0C0C0
+    @onCheckChange: modules.game_cyclopedia.Cyclopedia.ToggleBestiaryShowUnknown(self:isChecked())
   UIWidget
     id: PageValue
     anchors.horizontalCenter: parent.horizontalCenter

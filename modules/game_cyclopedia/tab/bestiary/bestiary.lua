@@ -87,6 +87,10 @@ function showBestiary()
     UI = g_ui.loadUI("bestiary", contentContainer)
     UI:show()
 
+    if UI.ShowUnknownCheck then
+        UI.ShowUnknownCheck:setChecked(Cyclopedia.Bestiary.ShowUnknown == true)
+    end
+
     UI.ListBase.CategoryList:setVisible(true)
     UI.ListBase.CreatureList:setVisible(false)
     UI.ListBase.CreatureInfo:setVisible(false)
@@ -146,6 +150,47 @@ end
 
 Cyclopedia.Bestiary = {}
 Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
+Cyclopedia.Bestiary.ShowUnknown = false
+Cyclopedia.Bestiary.LastSearchText = ""
+Cyclopedia.Bestiary.AllCreatures = Cyclopedia.Bestiary.AllCreatures or {}
+
+local function normalizeBestiarySearchText(text)
+    local searchText = tostring(text or ""):lower()
+    searchText = searchText:gsub("^%s+", "")
+    searchText = searchText:gsub("%s+$", "")
+    return searchText
+end
+
+local function getBestiaryCreatureDisplayNameById(raceId)
+    local raceData = g_things.getRaceData(raceId)
+    return tostring((raceData and raceData.name) or "Unknown")
+end
+
+local function bestiaryCreatureIsKnown(creature)
+    return (tonumber(creature and creature.killCounter) or 0) > 0
+end
+
+local function filterBestiaryCreatures(creatures, searchText)
+    local filtered = {}
+    local showUnknown = Cyclopedia.Bestiary.ShowUnknown == true
+    local normalizedSearch = normalizeBestiarySearchText(searchText)
+
+    for _, creature in ipairs(creatures or {}) do
+        local known = bestiaryCreatureIsKnown(creature)
+        if showUnknown or known then
+            if normalizedSearch == "" then
+                table.insert(filtered, creature)
+            else
+                local raceName = getBestiaryCreatureDisplayNameById(creature.id):lower()
+                if raceName:find(normalizedSearch, 1, true) then
+                    table.insert(filtered, creature)
+                end
+            end
+        end
+    end
+
+    return filtered
+end
 
 function Cyclopedia.SetBestiaryProgress(fit, firstBar, secondBar, thirdBar, killCount, firstGoal, secondGoal, thirdGoal)
     local function calculateWidth(value, max)
@@ -435,27 +480,36 @@ function Cyclopedia.loadBestiarySearchCreatures(data)
     Cyclopedia.Bestiary.Search = {}
     Cyclopedia.Bestiary.Page = 1
 
+    local sourceData = filterBestiaryCreatures(data, Cyclopedia.Bestiary.LastSearchText)
+
     local maxCategoriesPerPage = 15
-    Cyclopedia.Bestiary.TotalSearchPages = math.ceil(#data / maxCategoriesPerPage)
+    Cyclopedia.Bestiary.TotalSearchPages = math.ceil(#sourceData / maxCategoriesPerPage)
+    if Cyclopedia.Bestiary.TotalSearchPages < 1 then
+        Cyclopedia.Bestiary.TotalSearchPages = 1
+    end
 
     UI.PageValue:setText(string.format("%d / %d", Cyclopedia.Bestiary.Page, Cyclopedia.Bestiary.TotalSearchPages))
 
     local page = 1
     Cyclopedia.Bestiary.Search[page] = {}
 
-    for i = 1, #data do
+    for i = 1, #sourceData do
         if (i - 1) % maxCategoriesPerPage == 0 and i > 1 then
             page = page + 1
             Cyclopedia.Bestiary.Search[page] = {}
         end
         local creature = {
-            id = data[i].id,
-            currentLevel = data[i].currentLevel,
-            AnimusMasteryBonus = data[i].creatureAnimusMasteryBonus or 0,
-            killCounter = data[i].killCounter or 0,
+            id = sourceData[i].id,
+            currentLevel = sourceData[i].currentLevel,
+            AnimusMasteryBonus = sourceData[i].creatureAnimusMasteryBonus or 0,
+            killCounter = sourceData[i].killCounter or 0,
         }
 
         table.insert(Cyclopedia.Bestiary.Search[page], creature)
+    end
+
+    if #sourceData == 0 then
+        Cyclopedia.Bestiary.Search[1] = {}
     end
 
     Cyclopedia.Bestiary.Stage = STAGES.SEARCH
@@ -464,32 +518,51 @@ function Cyclopedia.loadBestiarySearchCreatures(data)
 end
 
 function Cyclopedia.loadBestiaryCreatures(data)
+    Cyclopedia.Bestiary.AllCreatures = {}
     Cyclopedia.Bestiary.Creatures = {}
     Cyclopedia.Bestiary.Page = 1
 
+    for i = 1, #data do
+        table.insert(Cyclopedia.Bestiary.AllCreatures, {
+            id = data[i].id,
+            currentLevel = data[i].currentLevel,
+            creatureAnimusMasteryBonus = data[i].creatureAnimusMasteryBonus,
+            killCounter = data[i].killCounter or 0,
+        })
+    end
+
+    local sourceData = filterBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures, "")
+
     local maxCategoriesPerPage = 15
-    Cyclopedia.Bestiary.TotalCreaturesPages = math.ceil(#data / maxCategoriesPerPage)
+    Cyclopedia.Bestiary.TotalCreaturesPages = math.ceil(#sourceData / maxCategoriesPerPage)
+    if Cyclopedia.Bestiary.TotalCreaturesPages < 1 then
+        Cyclopedia.Bestiary.TotalCreaturesPages = 1
+    end
 
     UI.PageValue:setText(string.format("%d / %d", Cyclopedia.Bestiary.Page, Cyclopedia.Bestiary.TotalCreaturesPages))
 
     local page = 1
     Cyclopedia.Bestiary.Creatures[page] = {}
 
-    for i = 1, #data do
+    for i = 1, #sourceData do
         if (i - 1) % maxCategoriesPerPage == 0 and i > 1 then
             page = page + 1
             Cyclopedia.Bestiary.Creatures[page] = {}
         end
 
         local creature = {
-            id = data[i].id,
-            currentLevel = data[i].currentLevel,
-            AnimusMasteryBonus = data[i].creatureAnimusMasteryBonus,
-            killCounter = data[i].killCounter or 0,
+            id = sourceData[i].id,
+            currentLevel = sourceData[i].currentLevel,
+            AnimusMasteryBonus = sourceData[i].creatureAnimusMasteryBonus,
+            killCounter = sourceData[i].killCounter or 0,
 
         }
 
         table.insert(Cyclopedia.Bestiary.Creatures[page], creature)
+    end
+
+    if #sourceData == 0 then
+        Cyclopedia.Bestiary.Creatures[1] = {}
     end
 
     Cyclopedia.loadBestiaryCreature(Cyclopedia.Bestiary.Page, false)
@@ -503,15 +576,23 @@ end
 -- the list of search results that match the search string
 -- looks identical to category view
 function Cyclopedia.BestiarySearch()
-    local text = UI.SearchEdit:getText()
-    local raceList = g_things.getRacesByName(text)
-    local list = {}
-    for _, race in pairs(raceList) do
-        list[#list + 1] = race.raceId
+    local text = normalizeBestiarySearchText(UI.SearchEdit:getText())
+    Cyclopedia.Bestiary.LastSearchText = text
+
+    if not Cyclopedia.Bestiary.AllCreatures or #Cyclopedia.Bestiary.AllCreatures == 0 then
+        g_game.requestBestiaryOverview("Creatures", false, {})
+        return
     end
 
-    g_game.requestBestiaryOverview("Result", true, list)
-    UI.SearchEdit:setText("")
+    if text == "" then
+        Cyclopedia.Bestiary.Stage = STAGES.CREATURES
+        Cyclopedia.onStageChange()
+        Cyclopedia.loadBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {})
+        return
+    end
+
+    local results = filterBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {}, text)
+    Cyclopedia.loadBestiarySearchCreatures(results)
 end
 
 function Cyclopedia.BestiarySearchText(text)
@@ -519,6 +600,25 @@ function Cyclopedia.BestiarySearchText(text)
         UI.SearchButton:enable(true)
     else
         UI.SearchButton:disable(false)
+        Cyclopedia.Bestiary.LastSearchText = ""
+        if Cyclopedia.Bestiary.Stage == STAGES.SEARCH then
+            Cyclopedia.Bestiary.Stage = STAGES.CREATURES
+            Cyclopedia.onStageChange()
+            Cyclopedia.loadBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {})
+        end
+    end
+end
+
+function Cyclopedia.ToggleBestiaryShowUnknown(checked)
+    Cyclopedia.Bestiary.ShowUnknown = checked and true or false
+
+    if Cyclopedia.Bestiary.Stage == STAGES.SEARCH then
+        Cyclopedia.BestiarySearch()
+        return
+    end
+
+    if Cyclopedia.Bestiary.Stage == STAGES.CREATURES then
+        Cyclopedia.loadBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {})
     end
 end
 
@@ -563,7 +663,7 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
         widget.KillsLabel:setVisible(false)
         safeSetCreatureShader(widget.Sprite, "")
     else
-        widget.KillsLabel:setText(string.format("%d / 3", math.max((tonumber(data.currentLevel) or 0) - 1, 0)))
+        widget.KillsLabel:setText(string.format("%d / 3", math.max(tonumber(data.currentLevel) or 0, 0)))
 
     end
 
