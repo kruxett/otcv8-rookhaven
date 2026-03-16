@@ -1125,12 +1125,8 @@ function controllerCyclopedia:onGameStart()
         if not trackerMiniWindow then
             trackerMiniWindow = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
             trackerMiniWindow:setId('BestiaryTrackerWindow')
-
-            -- Keep a stable title text; truncation is handled by widget width.
-            local titleWidget = trackerMiniWindow:getChildById('miniwindowTitle')
-            if titleWidget then
-                titleWidget:setText(tr('Bestiary Tracker'))
-            end
+            trackerMiniWindow:setText(tr('Bestiary Tracker'))
+            trackerMiniWindow:setIcon('/images/icons/icon-bestiarytracker-widget')
 
             -- Set up contextMenuButton positioning and click handler
             local contextMenuButton = trackerMiniWindow:recursiveGetChildById('contextMenuButton')
@@ -1217,17 +1213,10 @@ function controllerCyclopedia:onGameStart()
         if not trackerMiniWindowBosstiary then
             trackerMiniWindowBosstiary = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
             trackerMiniWindowBosstiary:setId('BosstiaryTrackerWindow')
-            
-            -- Keep a stable title text; truncation is handled by widget width.
-            local titleWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowTitle')
-            if titleWidgetBosstiary then
-                titleWidgetBosstiary:setText(tr('Bosstiary Tracker'))
-            end
+            trackerMiniWindowBosstiary:setText(tr('Bosstiary Tracker'))
 
-            -- Set the icon for Bosstiary Tracker when asset is available.
-            local iconWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowIcon')
-            if iconWidgetBosstiary and g_resources.fileExists('/images/icons/icon-bosstracker-widget.png') then
-                iconWidgetBosstiary:setImageSource('/images/icons/icon-bosstracker-widget')
+            if g_resources.fileExists('/images/icons/icon-bosstracker-widget.png') then
+                trackerMiniWindowBosstiary:setIcon('/images/icons/icon-bosstracker-widget')
             end
 
             -- Set up contextMenuButton positioning and click handler for Bosstiary
