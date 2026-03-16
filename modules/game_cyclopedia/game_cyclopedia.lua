@@ -800,7 +800,7 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
     }
 
     local lootData = f[16] or ""
-    if lootData ~= "" then
+    if lootData ~= "" and lootData ~= "-" then
         for _, entry in ipairs(string.split(lootData, ";")) do
             local parts = string.split(entry, ":")
             if parts and #parts >= 3 then
