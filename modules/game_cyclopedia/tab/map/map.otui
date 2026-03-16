@@ -462,20 +462,26 @@ UIWidget
           margin-top: 28
 
         Button
-          image-source: /images/automap/automap_phantom
-          anchors.left: automapLayers.left
-          anchors.right: automapLayers.right
+          size: 20 20
+          anchors.left: automapLayers.right
           anchors.top: automapLayers.top
-          anchors.bottom: automapLayers.verticalCenter
+          margin-left: 8
+          image-source: /images/ui/buttons/automap-button-moveup-up
           @onClick: modules.game_cyclopedia.Cyclopedia.upLayer()
 
+          $pressed !disabled:
+            image-source: /images/ui/buttons/automap-button-moveup-down
+
         Button
-          image-source: /images/automap/automap_phantom
-          anchors.left: automapLayers.left
-          anchors.right: automapLayers.right
-          anchors.top: automapLayers.verticalCenter
+          size: 20 20
+          anchors.left: automapLayers.right
           anchors.bottom: automapLayers.bottom
+          margin-left: 8
+          image-source: /images/ui/buttons/automap-button-movedown-up
           @onClick: modules.game_cyclopedia.Cyclopedia.downLayer()
+
+          $pressed !disabled:
+            image-source: /images/ui/buttons/automap-button-movedown-down
     VerticalScrollBar
       id: FilterListScrollBar
       anchors.top: InternalBase.top
@@ -539,17 +545,23 @@ MapLayerSelector < UIWidget
       margin-top: 28
 
     Button
-      image-source: /images/automap/automap_phantom
-      anchors.left: automapLayers.left
-      anchors.right: automapLayers.right
+      size: 20 20
+      anchors.left: automapLayers.right
       anchors.top: automapLayers.top
-      anchors.bottom: automapLayers.verticalCenter
+      margin-left: 8
+      image-source: /images/ui/buttons/automap-button-moveup-up
       @onClick: modules.game_cyclopedia.Cyclopedia.upLayer()
 
+      $pressed !disabled:
+        image-source: /images/ui/buttons/automap-button-moveup-down
+
     Button
-      image-source: /images/automap/automap_phantom
-      anchors.left: automapLayers.left
-      anchors.right: automapLayers.right
-      anchors.top: automapLayers.verticalCenter
+      size: 20 20
+      anchors.left: automapLayers.right
       anchors.bottom: automapLayers.bottom
+      margin-left: 8
+      image-source: /images/ui/buttons/automap-button-movedown-up
       @onClick: modules.game_cyclopedia.Cyclopedia.downLayer()
+
+      $pressed !disabled:
+        image-source: /images/ui/buttons/automap-button-movedown-down
