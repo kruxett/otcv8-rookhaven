@@ -159,8 +159,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "testserver.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
-set(CLIENT_VERSION "0.7" CACHE STRING "Client version string" FORCE)
-set(BUILD_REVISION 2 CACHE STRING "Build revision number" FORCE)
+set(CLIENT_VERSION "0.8" CACHE STRING "Client version string" FORCE)
+set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
 
 # default build type
 if(NOT CMAKE_BUILD_TYPE)
