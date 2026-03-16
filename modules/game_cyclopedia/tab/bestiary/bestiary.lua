@@ -828,11 +828,6 @@ function Cyclopedia.onStageChange()
         UI.ListBase.CategoryList:setVisible(false)
         UI.ListBase.CreatureList:setVisible(true)
         UI.ListBase.CreatureInfo:setVisible(false)
-
-        function UI.BackPageButton.onClick()
-            Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
-            Cyclopedia.onStageChange()
-        end
     end
 
     if Cyclopedia.Bestiary.Stage == STAGES.SEARCH then
@@ -840,11 +835,6 @@ function Cyclopedia.onStageChange()
         UI.ListBase.CategoryList:setVisible(false)
         UI.ListBase.CreatureList:setVisible(true)
         UI.ListBase.CreatureInfo:setVisible(false)
-
-        function UI.BackPageButton.onClick()
-            Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
-            Cyclopedia.onStageChange()
-        end
     end
 
     if Cyclopedia.Bestiary.Stage == STAGES.CREATURE then
@@ -852,11 +842,18 @@ function Cyclopedia.onStageChange()
         UI.ListBase.CategoryList:setVisible(false)
         UI.ListBase.CreatureList:setVisible(false)
         UI.ListBase.CreatureInfo:setVisible(false)
+    end
 
-        function UI.BackPageButton.onClick()
+    function UI.BackPageButton.onClick()
+        local stage = Cyclopedia.Bestiary.Stage
+        if stage == STAGES.CREATURE then
             Cyclopedia.Bestiary.Stage = STAGES.CREATURES
-            Cyclopedia.onStageChange()
+        elseif stage == STAGES.CREATURES or stage == STAGES.SEARCH then
+            Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
+        else
+            return
         end
+        Cyclopedia.onStageChange()
     end
 
     Cyclopedia.verifyBestiaryButtons()
@@ -966,6 +963,54 @@ function Cyclopedia.refreshBestiaryTracker()
         g_game.requestBestiaryTracker()
     else
         g_game.requestBestiary()
+    end
+end
+
+function Cyclopedia.updateBestiaryTrackerLocal(raceId, enabled)
+    local id = tonumber(raceId) or 0
+    if id <= 0 then
+        return
+    end
+
+    Cyclopedia.initializeTrackerData()
+    Cyclopedia.storedTrackerData = Cyclopedia.storedTrackerData or {}
+
+    local currentData = Cyclopedia.BestiaryCreatureCache and Cyclopedia.BestiaryCreatureCache[id] or {}
+    local entryIndex = nil
+    for i, entry in ipairs(Cyclopedia.storedTrackerData) do
+        if tonumber(entry[1]) == id then
+            entryIndex = i
+            break
+        end
+    end
+
+    if enabled then
+        local trackerEntry = {
+            id,
+            tonumber(currentData.killCounter) or 0,
+            tonumber(currentData.thirdDifficulty) or 25,
+            tonumber(currentData.secondUnlock) or 100,
+            tonumber(currentData.lastProgressKillCount) or 250,
+        }
+
+        if entryIndex then
+            Cyclopedia.storedTrackerData[entryIndex] = trackerEntry
+        else
+            table.insert(Cyclopedia.storedTrackerData, trackerEntry)
+        end
+    elseif entryIndex then
+        table.remove(Cyclopedia.storedTrackerData, entryIndex)
+    end
+
+    storedRaceIDs = {}
+    for _, entry in ipairs(Cyclopedia.storedTrackerData) do
+        table.insert(storedRaceIDs, tonumber(entry[1]) or 0)
+    end
+
+    Cyclopedia.saveTrackerData("bestiary", Cyclopedia.storedTrackerData)
+
+    if trackerMiniWindow and trackerMiniWindow.contentsPanel then
+        Cyclopedia.onParseCyclopediaTracker(0, Cyclopedia.storedTrackerData)
     end
 end
 
@@ -1190,11 +1235,6 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
     end
 
     local isBoss = trackerType == 1
-    local window = isBoss and trackerMiniWindowBosstiary or trackerMiniWindow
-    if not window or not window.contentsPanel then
-        return
-    end
-
     -- Store the original data for re-sorting
     if isBoss then
         Cyclopedia.storedBosstiaryTrackerData = data
@@ -1207,6 +1247,11 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
         
         -- Clear and repopulate storedRaceIDs only for bestiary tracker
         storedRaceIDs = {}
+    end
+
+    local window = isBoss and trackerMiniWindowBosstiary or trackerMiniWindow
+    if not window or not window.contentsPanel then
+        return
     end
 
     window.contentsPanel:destroyChildren()

@@ -592,7 +592,15 @@ end
 
 g_game.sendStatusTrackerBestiary = function(raceId, enabled, ...)
     local tracked = enabled and 1 or 0
+    if Cyclopedia.updateBestiaryTrackerLocal then
+        Cyclopedia.updateBestiaryTrackerLocal(raceId, enabled)
+    end
     Cyclopedia.sendCyclopediaRequest("bestiary.tracker", string.format("set,%d,%d", tonumber(raceId) or 0, tracked))
+    scheduleEvent(function()
+        if g_game.requestBestiaryTracker then
+            g_game.requestBestiaryTracker()
+        end
+    end, 150)
 end
 
 g_game.requestBestiaryTracker = function(...)
