@@ -272,9 +272,6 @@ local function applyTabVisibilityFromCapabilities()
         local btn = buttonSelection:recursiveGetChildById(id)
         if btn then
             btn:setVisible(Cyclopedia.Capabilities[id] == true)
-            if btn:isVisible() then
-                btn:setOn(true)
-            end
         end
     end
 
@@ -324,8 +321,6 @@ local function rebalanceTopTabs()
             btn:addAnchor(AnchorLeft, "prev", AnchorRight)
         end
         btn:setWidth(buttonWidth)
-        -- Keep current reduced-tab layout expanded instead of icon-only off state.
-        btn:setOn(true)
     end
 end
 
@@ -1503,12 +1498,15 @@ end
 function resetCyclopediaTabs()
     tabStack = {}
     controllerCyclopedia.ui.BackButton:setEnabled(false)
-    if previousType then
-        local previousWindow = windowTypes[previousType]
-        previousWindow.obj:enable()
-        previousWindow.obj:setOn(false)
-        previousType = nil;
+
+    for _, window in pairs(windowTypes) do
+        if window and window.obj then
+            window.obj:enable()
+            window.obj:setOn(false)
+        end
     end
+
+    previousType = nil
 end
 
 function show(defaultWindow)
@@ -1542,18 +1540,23 @@ function SelectWindow(type, isBackButtonPress)
         type = "bestiary"
     end
 
+    local currentType = previousType
+
     if previousType then
-        local previousWindow = windowTypes[previousType]
-        if previousWindow and previousWindow.obj then
-            previousWindow.obj:enable()
-            previousWindow.obj:setOn(true)
-        end
-        if not isBackButtonPress then
+        if not isBackButtonPress and previousType ~= type then
             table.insert(tabStack, previousType)
             controllerCyclopedia.ui.BackButton:setEnabled(true)
         end
     end
+
     contentContainer:destroyChildren()
+
+    for _, tabWindow in pairs(windowTypes) do
+        if tabWindow and tabWindow.obj then
+            tabWindow.obj:enable()
+            tabWindow.obj:setOn(false)
+        end
+    end
 
     local window = windowTypes[type]
     if window and window.obj and window.obj:isVisible() then
@@ -1563,6 +1566,8 @@ function SelectWindow(type, isBackButtonPress)
         if window.func then
             window.func(contentContainer)
         end
+    else
+        previousType = currentType
     end
 end
 
