@@ -1052,6 +1052,15 @@ function controllerCyclopedia:onGameStart()
             '/images/topbuttons/cyclopedia', function() toggle("bestiary") end, false, 7)
         CyclopediaButton:setOn(false)
 
+        local existingBestiaryTrackerButton = modules.client_topmenu.getButton('BestiaryTrackerTopButton')
+        if existingBestiaryTrackerButton then
+            existingBestiaryTrackerButton:destroy()
+        end
+
+        ButtonBestiary = modules.client_topmenu.addRightGameToggleButton('BestiaryTrackerTopButton', tr('Bestiary Tracker'),
+            '/images/topbuttons/bestiaryTracker', function() Cyclopedia.toggleBestiaryTracker() end, false, 8)
+        ButtonBestiary:setOn(false)
+
         contentContainer = controllerCyclopedia.ui:recursiveGetChildById('contentContainer')
         buttonSelection = controllerCyclopedia.ui:recursiveGetChildById('buttonSelection')
         items = buttonSelection:recursiveGetChildById('items')
@@ -1164,6 +1173,7 @@ function controllerCyclopedia:onGameStart()
             -- Hook into the onOpen event to ensure data is loaded when window is shown
             trackerMiniWindow.onOpen = function()
                 if trackerButton then trackerButton:setOn(true) end
+                if ButtonBestiary then ButtonBestiary:setOn(true) end
                 -- Aggressive data loading when window becomes visible
                 scheduleEvent(function()
                     local char = g_game.getCharacterName()
@@ -1200,6 +1210,7 @@ function controllerCyclopedia:onGameStart()
 
             trackerMiniWindow.onClose = function()
                 if trackerButton then trackerButton:setOn(false) end
+                if ButtonBestiary then ButtonBestiary:setOn(false) end
             end
 
             trackerMiniWindow:setup()
@@ -1312,6 +1323,9 @@ function controllerCyclopedia:onGameStart()
         if trackerMiniWindow:isVisible() and trackerButton then
             trackerButton:setOn(true)
         end
+        if trackerMiniWindow:isVisible() and ButtonBestiary then
+            ButtonBestiary:setOn(true)
+        end
         if trackerMiniWindowBosstiary:isVisible() and trackerButtonBosstiary then
             trackerButtonBosstiary:setOn(true)
         end
@@ -1393,6 +1407,11 @@ function controllerCyclopedia:onGameEnd()
     if CyclopediaButton then
         CyclopediaButton:destroy()
         CyclopediaButton = nil
+    end
+
+    if ButtonBestiary then
+        ButtonBestiary:destroy()
+        ButtonBestiary = nil
     end
 
     hide()
