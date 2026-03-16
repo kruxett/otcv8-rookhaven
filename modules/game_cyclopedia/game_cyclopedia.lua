@@ -138,6 +138,9 @@ Cyclopedia.PendingRequests = {}
 Cyclopedia.PendingRequestSet = {}
 Cyclopedia.CapabilitiesRequested = false
 
+local encodeCyclopediaPayload
+local decodeCyclopediaPayload
+
 local function getPendingRequestKey(action, payload)
     return string.format("%s\31%s", tostring(action or ""), tostring(payload or ""))
 end
@@ -179,7 +182,7 @@ local function flushCyclopediaPendingRequests()
     Cyclopedia.PendingRequestSet = {}
 end
 
-local function encodeCyclopediaPayload(kind, action, extra)
+encodeCyclopediaPayload = function(kind, action, extra)
     local payload = table.concat({
         CYCLOPEDIA_PROTOCOL_PREFIX,
         CYCLOPEDIA_PROTOCOL_VERSION,
@@ -192,7 +195,7 @@ local function encodeCyclopediaPayload(kind, action, extra)
     return payload
 end
 
-local function decodeCyclopediaPayload(buffer)
+decodeCyclopediaPayload = function(buffer)
     local parts = string.split(buffer or "", "|")
     if not parts or #parts < 4 then
         return nil
