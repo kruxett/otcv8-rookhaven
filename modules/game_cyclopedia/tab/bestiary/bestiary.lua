@@ -48,8 +48,24 @@ local function setBestiaryCategoryIcon(iconWidget, categoryName)
         return
     end
 
-    local iconPath = "/game_cyclopedia/images/bestiary/creatures/" .. tostring(categoryName or ""):lower():gsub(" ", "_")
-    local filePath = "/images/game_cyclopedia/bestiary/creatures/" .. tostring(categoryName or ""):lower():gsub(" ", "_") .. ".png"
+    local normalizedCategory = tostring(categoryName or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
+    local iconNameByCategory = {
+        ["all"] = "human",
+        ["humanoids"] = "humanoid",
+        ["mammals"] = "mammal",
+        ["beasts"] = "mammal",
+        ["undead"] = "undead",
+        ["reptiles"] = "reptile",
+        ["insects"] = "vermin",
+        ["magical"] = "magical",
+        ["elementals"] = "elemental",
+        ["bosses"] = "demon",
+        ["other"] = "-.---",
+    }
+
+    local iconName = iconNameByCategory[normalizedCategory] or normalizedCategory:gsub(" ", "_")
+    local iconPath = "/game_cyclopedia/images/bestiary/creatures/" .. iconName
+    local filePath = "/modules/game_cyclopedia/images/bestiary/creatures/" .. iconName .. ".png"
 
     if g_resources.fileExists(filePath) then
         iconWidget:setImageSource(iconPath)
@@ -119,6 +135,8 @@ function showBestiary()
         "BonusIcon",
         "BonusValue",
         "IconsSep",
+        "LocationField",
+        "LocationLabel",
     }
 
     for _, widgetId in ipairs(charmWidgetsToHide) do
@@ -333,6 +351,33 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     UI.ListBase.CreatureInfo:setText(formattedName)
     Cyclopedia.SetBestiaryDiamonds(occurence[data.ocorrence])
     Cyclopedia.SetBestiaryStars(data.difficulty)
+
+    local difficultyValue = math.max(1, math.min(5, tonumber(data.difficulty) or 1))
+    local occurrenceValue = math.max(1, math.min(4, tonumber(data.ocorrence) or 1))
+    local difficultyLevels = {
+        [1] = "Very Easy",
+        [2] = "Easy",
+        [3] = "Medium",
+        [4] = "Hard",
+        [5] = "Very Hard",
+    }
+    local occurrenceLevels = {
+        [1] = "Very Rare",
+        [2] = "Rare",
+        [3] = "Common",
+        [4] = "Very Common",
+    }
+
+    local difficultyTooltip = string.format("Difficulty: %s (%d/5 stars).\nHigher stars indicate a more dangerous creature.",
+        difficultyLevels[difficultyValue] or "Unknown", difficultyValue)
+    local occurrenceTooltip = string.format("Occurrence: %s (%d/4 diamonds).\nHigher diamonds indicate the creature is encountered more often.",
+        occurrenceLevels[occurrenceValue] or "Unknown", occurrenceValue)
+
+    if UI.ListBase.CreatureInfo.StarBase then UI.ListBase.CreatureInfo.StarBase:setTooltip(difficultyTooltip) end
+    if UI.ListBase.CreatureInfo.StarFill then UI.ListBase.CreatureInfo.StarFill:setTooltip(difficultyTooltip) end
+    if UI.ListBase.CreatureInfo.DiamondBase then UI.ListBase.CreatureInfo.DiamondBase:setTooltip(occurrenceTooltip) end
+    if UI.ListBase.CreatureInfo.DiamondFill then UI.ListBase.CreatureInfo.DiamondFill:setTooltip(occurrenceTooltip) end
+
     UI.ListBase.CreatureInfo.LeftBase.Sprite:setOutfit(raceData.outfit or { type = 0 })
     safeSetCreatureStaticWalking(UI.ListBase.CreatureInfo.LeftBase.Sprite, 1000)
 
@@ -445,7 +490,9 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     end
 
     Cyclopedia.CreateCreatureItems(lootData)
-    UI.ListBase.CreatureInfo.LocationField.Textlist.Text:setText(data.location)
+    if UI.ListBase.CreatureInfo.LocationField and UI.ListBase.CreatureInfo.LocationField.Textlist and UI.ListBase.CreatureInfo.LocationField.Textlist.Text then
+        UI.ListBase.CreatureInfo.LocationField.Textlist.Text:setText("")
+    end
 
     if data.AnimusMasteryPoints and data.AnimusMasteryPoints > 1 then
         UI.ListBase.CreatureInfo.AnimusMastery:setTooltip("The Animus Mastery for this creature is unlocked.\nIt yields "..(data.AnimusMasteryBonus / 10).."% bonus experience points, plus an additional 0.1% for every 10 Animus Masteries unlocked, up to a maximum of 4%.\nYou currently benefit from "..(data.AnimusMasteryBonus / 10).."% bonus experience points due to having unlocked ".. data.AnimusMasteryPoints .." Animus Masteries.")
