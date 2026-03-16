@@ -10,7 +10,6 @@ TopButton < UIButton
   icon-clip: 0 0 20 20
   
   $on:
-    image-source: /images/ui/button_top_blink
     icon-clip: 0 20 20 20
 
   $hover !disabled:
