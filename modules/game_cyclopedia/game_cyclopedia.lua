@@ -1495,6 +1495,9 @@ function hide()
     end
     resetCyclopediaTabs()
     controllerCyclopedia.ui:hide()
+    if CyclopediaButton then
+        CyclopediaButton:setOn(false)
+    end
 end
 
 function resetCyclopediaTabs()
@@ -1519,6 +1522,7 @@ function show(defaultWindow)
     controllerCyclopedia.ui:show()
     controllerCyclopedia.ui:raise()
     controllerCyclopedia.ui:focus()
+    CyclopediaButton:setOn(true)
     SelectWindow(defaultWindow, false)
     local player = g_game.getLocalPlayer()
     local totalMoney = player and player:getTotalMoney() or 0

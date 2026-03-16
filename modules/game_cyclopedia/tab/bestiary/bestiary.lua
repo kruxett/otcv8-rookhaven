@@ -1107,6 +1107,9 @@ function Cyclopedia.toggleBestiaryTracker()
         if trackerButton and trackerButton.setOn then
             trackerButton:setOn(false)
         end
+        if ButtonBestiary and ButtonBestiary.setOn then
+            ButtonBestiary:setOn(false)
+        end
     else
         if not trackerMiniWindow:getParent() then
             local panel = modules.game_interface.findContentPanelAvailable(trackerMiniWindow,
@@ -1128,6 +1131,9 @@ function Cyclopedia.toggleBestiaryTracker()
         end
         
         trackerMiniWindow:open()
+        if ButtonBestiary and ButtonBestiary.setOn then
+            ButtonBestiary:setOn(true)
+        end
         
         -- Multiple fallback attempts
         scheduleEvent(function()
