@@ -736,7 +736,7 @@ function Cyclopedia.parseAndLoadBestiaryOverview(data)
 end
 
 -- Format:
--- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot,combat,difficulty,occurrence
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot,combat,difficulty,occurrence,attackMode
 -- loot format: itemId:rarityTier:stackable;itemId:rarityTier:stackable;...
 -- combat format: physical:fire:earth:energy:ice:holy:death:healing
 function Cyclopedia.parseAndLoadBestiaryCreature(data)
@@ -791,7 +791,7 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
         armor = tonumber(f[9]) or 5,
         mitigation = tonumber(f[10]) or 0,
         charmValue = tonumber(f[11]) or 5,
-        attackMode = 1,
+        attackMode = tonumber(f[20]) or 0,
         combat = combatValues,
         loot = {},
         location = f[12] or "Unknown",
