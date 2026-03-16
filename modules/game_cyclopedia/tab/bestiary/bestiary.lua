@@ -343,6 +343,7 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
     local raceName = raceData and raceData.name or "Unknown"
     local formattedName = formatBestiaryCreatureName(raceName)
 
+    UI.ListBase.CreatureInfo:setVisible(true)
     UI.ListBase.CreatureInfo:setText(formattedName)
     local occurrenceValue = math.max(1, math.min(4, tonumber(data.ocorrence) or 1))
     Cyclopedia.SetBestiaryDiamonds(occurrenceValue)
@@ -845,7 +846,7 @@ function Cyclopedia.onStageChange()
         UI.BackPageButton:setEnabled(true)
         UI.ListBase.CategoryList:setVisible(false)
         UI.ListBase.CreatureList:setVisible(false)
-        UI.ListBase.CreatureInfo:setVisible(true)
+        UI.ListBase.CreatureInfo:setVisible(false)
 
         function UI.BackPageButton.onClick()
             Cyclopedia.Bestiary.Stage = STAGES.CREATURES
