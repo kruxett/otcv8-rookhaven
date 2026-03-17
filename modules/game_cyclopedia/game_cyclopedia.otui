@@ -55,18 +55,27 @@ MainWindow
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
+        image-color: #ffffff
 
       $!on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
-        image-color: #9a9a9a
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
-        image-color: #7f7f7f
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: charms
@@ -102,18 +111,27 @@ MainWindow
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
+        image-color: #ffffff
 
       $!on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
-        image-color: #9a9a9a
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
-        image-color: #7f7f7f
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: houses
@@ -149,18 +167,27 @@ MainWindow
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
+        image-color: #ffffff
 
       $!on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
-        image-color: #9a9a9a
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
-        image-color: #7f7f7f
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: bosstiary
