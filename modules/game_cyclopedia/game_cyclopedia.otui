@@ -48,23 +48,23 @@ MainWindow
       id: bestiary
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 1
+      margin-left: 100
       @onClick: SelectWindow("bestiary")
 
       $on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
         image-color: #ffffff
 
       $!on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
         image-color: #b3b3b3
 
       $pressed:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
         image-color: #8f8f8f
@@ -96,23 +96,23 @@ MainWindow
       id: map
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 223
+      margin-left: 259
       @onClick: SelectWindow("map")
 
       $on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
         image-color: #ffffff
 
       $!on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
         image-color: #b3b3b3
 
       $pressed:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
         image-color: #8f8f8f
@@ -144,23 +144,23 @@ MainWindow
       id: character
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 445
+      margin-left: 418
       @onClick: SelectWindow("character")
 
       $on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
         image-color: #ffffff
 
       $!on:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
         image-color: #b3b3b3
 
       $pressed:
-        size: 222 34
+        size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
         image-color: #8f8f8f
