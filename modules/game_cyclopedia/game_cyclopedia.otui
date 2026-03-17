@@ -48,21 +48,21 @@ MainWindow
       id: bestiary
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 6
+      margin-left: 12
       @onClick: SelectWindow("bestiary")
 
       $on:
-        size: 214 36
+        size: 206 34
         image-clip: 0 0 558 116
         image-source: /images/game/cyclopedia/bestiary
 
       $!on:
-        size: 214 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/bestiary
 
       $pressed:
-        size: 214 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/bestiary
 
@@ -93,21 +93,21 @@ MainWindow
       id: map
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 226
+      margin-left: 231
       @onClick: SelectWindow("map")
 
       $on:
-        size: 215 36
+        size: 206 34
         image-clip: 0 0 558 116
         image-source: /images/game/cyclopedia/mapbutton
 
       $!on:
-        size: 215 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/mapbutton
 
       $pressed:
-        size: 215 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/mapbutton
 
@@ -138,21 +138,21 @@ MainWindow
       id: character
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 447
+      margin-left: 450
       @onClick: SelectWindow("character")
 
       $on:
-        size: 215 36
+        size: 206 34
         image-clip: 0 0 558 116
         image-source: /images/game/cyclopedia/characterbutton
 
       $!on:
-        size: 215 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/characterbutton
 
       $pressed:
-        size: 215 36
+        size: 206 34
         image-clip: 0 117 558 116
         image-source: /images/game/cyclopedia/characterbutton
 
