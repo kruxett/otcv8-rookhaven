@@ -48,26 +48,23 @@ MainWindow
       id: bestiary
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 54
+      margin-left: 6
       @onClick: SelectWindow("bestiary")
 
       $on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/bestiary_on
-        image-color: #ffffff
+        size: 214 36
+        image-clip: 0 0 558 116
+        image-source: /images/game/cyclopedia/bestiary
 
       $!on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/bestiary_on
-        image-color: #b3b3b3
+        size: 214 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/bestiary
 
       $pressed:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/bestiary_on
-        image-color: #8f8f8f
+        size: 214 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/bestiary
 
     UIButton
       id: charms
@@ -96,26 +93,23 @@ MainWindow
       id: map
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 259
+      margin-left: 226
       @onClick: SelectWindow("map")
 
       $on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/map_on
-        image-color: #ffffff
+        size: 215 36
+        image-clip: 0 0 558 116
+        image-source: /images/game/cyclopedia/mapbutton
 
       $!on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/map_on
-        image-color: #b3b3b3
+        size: 215 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/mapbutton
 
       $pressed:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/map_on
-        image-color: #8f8f8f
+        size: 215 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/mapbutton
 
     UIButton
       id: houses
@@ -144,26 +138,23 @@ MainWindow
       id: character
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 464
+      margin-left: 447
       @onClick: SelectWindow("character")
 
       $on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/character_on
-        image-color: #ffffff
+        size: 215 36
+        image-clip: 0 0 558 116
+        image-source: /images/game/cyclopedia/characterbutton
 
       $!on:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/character_on
-        image-color: #b3b3b3
+        size: 215 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/characterbutton
 
       $pressed:
-        size: 150 34
-        image-clip: 0 0 150 34
-        image-source: /images/game/cyclopedia/character_on
-        image-color: #8f8f8f
+        size: 215 36
+        image-clip: 0 117 558 116
+        image-source: /images/game/cyclopedia/characterbutton
 
     UIButton
       id: bosstiary
