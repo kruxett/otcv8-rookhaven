@@ -326,6 +326,7 @@ UIWidget
         background-color: green
     CharacterSkillBase
       id: trainer
+      visible: false
       anchors.top: stamina.bottom
       anchors.left: parent.left
       anchors.right: separator.right
@@ -340,7 +341,7 @@ UIWidget
 
     HorizontalSeparator
       id: leftSeparator2
-      anchors.top: trainer.bottom
+      anchors.top: stamina.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 5

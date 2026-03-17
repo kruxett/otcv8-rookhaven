@@ -614,6 +614,13 @@ end
 
 function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsArray, forgeSkillsArray,
     perfectShotDamageRanges, combatsArray, concoctionsArray)
+    if UI.CombatStats.lifeLeech then
+        UI.CombatStats.lifeLeech:setVisible(false)
+    end
+    if UI.CombatStats.manaLeech then
+        UI.CombatStats.manaLeech:setVisible(false)
+    end
+
     UI.CombatStats.attack.icon:setImageSource("/images/game/states/player-state-flags")
     UI.CombatStats.attack.icon:setImageClip((data.weaponElement * 9) .. ' 0 9 9')
     UI.CombatStats.attack.value:setText(data.weaponMaxHitChance)
@@ -936,13 +943,25 @@ end
 
 function Cyclopedia.setCharacterSkillValue(id, value, color)
     local skill = UI.CharacterStats:recursiveGetChildById(id)
+    if not skill then
+        return
+    end
+
     local widget = skill:getChildById("value")
+    if not widget then
+        return
+    end
+
     widget:setText(value)
     widget:setColor(color)
 end
 
 function Cyclopedia.setCharacterSkillPercent(id, percent, tooltip, color)
     local skill = UI.CharacterStats:recursiveGetChildById(id)
+    if not skill then
+        return
+    end
+
     local widget = skill:getChildById("percent")
     if widget then
         widget:setPercent(math.floor(percent))
@@ -963,7 +982,14 @@ function Cyclopedia.setCharacterSkillBase(id, value, baseValue)
     end
 
     local skill = UI.CharacterStats:recursiveGetChildById(id)
+    if not skill then
+        return
+    end
+
     local widget = skill:getChildById("value")
+    if not widget then
+        return
+    end
 
     if baseValue < value then
         widget:setColor("#44AD25")

@@ -473,31 +473,45 @@ function Cyclopedia.buildAndLoadGeneralStats()
     local player = g_game.getLocalPlayer()
     if not player then return end
 
+    local function safePlayerCall(methodName, default, ...)
+        local method = player[methodName]
+        if type(method) ~= 'function' then
+            return default
+        end
+
+        local ok, value = pcall(method, player, ...)
+        if not ok or value == nil then
+            return default
+        end
+
+        return value
+    end
+
     local data = {
-        level                  = player:getLevel(),
-        levelPercent           = player:getLevelPercent(),
+        level                  = safePlayerCall('getLevel', 0),
+        levelPercent           = safePlayerCall('getLevelPercent', 0),
         baseExpGain            = 100,
         XpBoostPercent         = 0,
         XpBoostBonusRemainingTime = 0,
-        staminaMinutes         = player:getStamina(),
-        maxHealth              = player:getMaxHealth(),
-        mana                   = player:getMaxMana(),
-        soul                   = player:getSoul(),
-        speed                  = player:getSpeed(),
-        regenerationCondition  = player:getRegenerationTime(),
-        offlineTrainingTime    = player:getOfflineTrainingTime(),
-        magicLevel             = player:getMagicLevel(),
-        magicLevelPercent      = player:getMagicLevelPercent() * 100,
-        baseMagicLevel         = player:getBaseMagicLevel(),
+        staminaMinutes         = safePlayerCall('getStamina', 0),
+        maxHealth              = safePlayerCall('getMaxHealth', 0),
+        mana                   = safePlayerCall('getMaxMana', 0),
+        soul                   = safePlayerCall('getSoul', 0),
+        speed                  = safePlayerCall('getSpeed', 0),
+        regenerationCondition  = safePlayerCall('getRegenerationTime', 0),
+        offlineTrainingTime    = safePlayerCall('getOfflineTrainingTime', 0),
+        magicLevel             = safePlayerCall('getMagicLevel', 0),
+        magicLevelPercent      = safePlayerCall('getMagicLevelPercent', 0),
+        baseMagicLevel         = safePlayerCall('getBaseMagicLevel', 0),
     }
 
     -- skills[i+1] = {level, baseLevel, percent} for skill id i (Fist=0 ... Fishing=6)
     local skills = {}
     for i = 0, 6 do
         skills[i + 1] = {
-            player:getSkillLevel(i),
-            player:getSkillBaseLevel(i),
-            player:getSkillLevelPercent(i),
+            safePlayerCall('getSkillLevel', 0, i),
+            safePlayerCall('getSkillBaseLevel', 0, i),
+            safePlayerCall('getSkillLevelPercent', 0, i),
         }
     end
 
@@ -509,9 +523,23 @@ function Cyclopedia.buildAndLoadCombatStats()
     local player = g_game.getLocalPlayer()
     if not player then return end
 
+    local function safePlayerCall(methodName, default, ...)
+        local method = player[methodName]
+        if type(method) ~= 'function' then
+            return default
+        end
+
+        local ok, value = pcall(method, player, ...)
+        if not ok or value == nil then
+            return default
+        end
+
+        return value
+    end
+
     -- Count active blessings from bitmask
     local blessingCount = 0
-    local bitmask = player:getBlessings() or 0
+    local bitmask = safePlayerCall('getBlessings', 0) or 0
     for i = 0, 7 do
         if bit.band(bitmask, bit.lshift(1, i)) ~= 0 then
             blessingCount = blessingCount + 1
@@ -530,10 +558,10 @@ function Cyclopedia.buildAndLoadCombatStats()
 
     -- CriticalChance=7, CriticalDamage=8, LifeLeechAmount=10, ManaLeechAmount=12
     local additionalSkillsArray = {
-        { 7,  player:getSkillLevel(7)  },
-        { 8,  player:getSkillLevel(8)  },
-        { 10, player:getSkillLevel(10) },
-        { 12, player:getSkillLevel(12) },
+        { 7,  safePlayerCall('getSkillLevel', 0, 7)  },
+        { 8,  safePlayerCall('getSkillLevel', 0, 8)  },
+        { 10, safePlayerCall('getSkillLevel', 0, 10) },
+        { 12, safePlayerCall('getSkillLevel', 0, 12) },
     }
 
     Cyclopedia.loadCharacterCombatStats(data, 0.0, additionalSkillsArray, {}, {}, {}, {})
