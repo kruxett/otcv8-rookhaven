@@ -48,7 +48,7 @@ MainWindow
       id: bestiary
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 100
+      margin-left: 54
       @onClick: SelectWindow("bestiary")
 
       $on:
@@ -144,7 +144,7 @@ MainWindow
       id: character
       anchors.top: prev.top
       anchors.left: parent.left
-      margin-left: 418
+      margin-left: 464
       @onClick: SelectWindow("character")
 
       $on:
