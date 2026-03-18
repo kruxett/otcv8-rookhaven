@@ -242,6 +242,11 @@ function selectItemToSell()
 	if itemsFull() then
 		return
 	end
+
+	if not isInProtectionZone() then
+		displayErrorBox('Personal Store', 'You can only add items to the store while in a protection zone (PZ).')
+		return
+	end
 	
 	local gameInterface = modules.game_interface
 	local mouseGrabberWidget = gameInterface.getMouseGrabberWidget()
