@@ -172,7 +172,7 @@ ItemEditPanel < PSPanel
     anchors.top: count.bottom
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 5
-    tooltip: tr("Preço unitário")
+    tooltip: tr("Preï¿½o unitï¿½rio")
 
     TextEdit
       id: value
@@ -218,7 +218,7 @@ MainPanel < PSPanel
     size: 356 162
     image-border: 1
     padding: 5
-    image-source: /images/ui/panel_flat2
+    image-source: /images/ui/panel_flat
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 30
@@ -439,7 +439,7 @@ MainPanel < PSPanel
       image-border: 1
       padding: 5
       visible: false
-      image-source: /images/ui/panel_flat2
+      image-source: /images/ui/panel_flat
       anchors.top: purchasePanel.bottom
       anchors.horizontalCenter: parent.horizontalCenter
       margin-left: 25
