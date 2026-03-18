@@ -237,8 +237,9 @@ function onInventoryChange(player, slot, item, oldItem)
   end
 
   local itemWidget = inventoryPanel:getChildById('slot' .. slot)
+  local slotStyle = InventorySlotStyles[slot] or 'InventoryItem'
   if item then
-    itemWidget:setStyle('InventoryItem')
+    itemWidget:setStyle(slotStyle)
     
     -- Check if item is magical and apply purple tint
     local article = item:getArticle()
@@ -248,18 +249,11 @@ function onInventoryChange(player, slot, item, oldItem)
     else
       -- Reset to normal color for non-magical items
       itemWidget:setColor("#FFFFFF")  -- White (normal)
-      
-      -- Check for rarity and apply frame (access via _G for cross-sandbox communication)
-      local affixSystem = _G.affixSystem
-      local rarityFrame = affixSystem and affixSystem.getRarityFrame(item)
-      if rarityFrame then
-        itemWidget:setImageSource(rarityFrame)
-      end
     end
     
     itemWidget:setItem(item)
   else
-    itemWidget:setStyle(InventorySlotStyles[slot])
+    itemWidget:setStyle(slotStyle)
     itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setItem(nil)
   end
