@@ -1,5 +1,3 @@
--- Compatibility styles for game_cyclopedia port (opentibiabr -> rookhaven)
-
 CheckBoxCircle < UICheckBox
   size: 12 12
   text-align: left

@@ -22,6 +22,7 @@ MainWindow
 
     UIButton
       id: items
+      visible: false
       anchors.top: parent.top
       anchors.left: parent.left
       margin-left: 1
@@ -46,24 +47,35 @@ MainWindow
     UIButton
       id: bestiary
       anchors.top: prev.top
-      anchors.left: prev.right
-      margin-left: 1
+      anchors.left: parent.left
+      margin-left: 54
       @onClick: SelectWindow("bestiary")
 
       $on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/bestiary_on
+        image-color: #ffffff
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/bestiary_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/bestiary_on
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/bestiary_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/bestiary_on
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: charms
@@ -91,30 +103,42 @@ MainWindow
     UIButton
       id: map
       anchors.top: prev.top
-      anchors.left: prev.right
-      margin-left: 1
+      anchors.left: parent.left
+      margin-left: 259
       @onClick: SelectWindow("map")
 
       $on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/map_on
+        image-color: #ffffff
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/map_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/map_on
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/map_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/map_on
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: houses
       anchors.top: prev.top
       anchors.left: prev.right
       margin-left: 1
+      visible: false
       @onClick: SelectWindow("houses")
 
       $on:
@@ -123,36 +147,47 @@ MainWindow
         image-source: /images/game/cyclopedia/houses_on
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/houses_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/houses_on
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/houses_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/houses_on
 
     UIButton
       id: character
       anchors.top: prev.top
-      anchors.left: prev.right
-      margin-left: 1
+      anchors.left: parent.left
+      margin-left: 464
       @onClick: SelectWindow("character")
 
       $on:
         size: 150 34
         image-clip: 0 0 150 34
         image-source: /images/game/cyclopedia/character_on
+        image-color: #ffffff
 
       $!on:
-        size: 34 34
-        image-clip: 0 0 34 34
-        image-source: /images/game/cyclopedia/character_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/character_on
+        image-color: #bebebe
+
+      $hover !disabled !on:
+        image-color: #d6d6d6
 
       $pressed:
-        size: 34 34
-        image-clip: 0 34 34 34
-        image-source: /images/game/cyclopedia/character_off
+        size: 150 34
+        image-clip: 0 0 150 34
+        image-source: /images/game/cyclopedia/character_on
+        image-color: #9f9f9f
+
+      $disabled:
+        image-color: #ffffff
+        opacity: 1.0
+        change-cursor-image: false
 
     UIButton
       id: bosstiary

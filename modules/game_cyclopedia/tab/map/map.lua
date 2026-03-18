@@ -1,6 +1,90 @@
 local UI = nil
 local virtualFloor = 7
 
+local mapFlagFilters = {}
+
+local function getMapWidget()
+    if not UI or not UI.MapBase then
+        return nil
+    end
+    return UI.MapBase.minimap
+end
+
+local function getMarkList()
+    if not UI or not UI.InformationBase or not UI.InformationBase.InternalBase or
+        not UI.InformationBase.InternalBase.DisplayBase then
+        return nil
+    end
+    return UI.InformationBase.InternalBase.DisplayBase.MarkList
+end
+
+local function getShowAllBox()
+    if not UI or not UI.InformationBase or not UI.InformationBase.InternalBase or
+        not UI.InformationBase.InternalBase.DisplayBase then
+        return nil
+    end
+    return UI.InformationBase.InternalBase.DisplayBase.ShowAllBox
+end
+
+local function getFilterState(iconId)
+    local list = getMarkList()
+    if not list then
+        return true
+    end
+
+    local key = tostring(iconId)
+    local widget = list:recursiveGetChildById(key)
+    if not widget then
+        return true
+    end
+
+    return widget:isChecked()
+end
+
+local function applyMapFlagFilters()
+    local minimapWidget = getMapWidget()
+    if not minimapWidget or not minimapWidget.flags then
+        return
+    end
+
+    local showAllBox = getShowAllBox()
+    local showAll = not showAllBox or showAllBox:isChecked()
+
+    for _, flag in pairs(minimapWidget.flags) do
+        local visible = true
+
+        if not showAll then
+            local iconId = tonumber(flag.icon)
+            if iconId ~= nil then
+                visible = getFilterState(iconId)
+            end
+        end
+
+        flag:setVisible(visible)
+    end
+end
+
+local function resetAndEnableMapFlagFilters()
+    local list = getMarkList()
+    if not list then
+        return
+    end
+
+    mapFlagFilters = {}
+    for _, child in ipairs(list:getChildren()) do
+        local id = tonumber(child:getId())
+        if id ~= nil and child.setChecked then
+            child:setChecked(true)
+            mapFlagFilters[id] = true
+        end
+    end
+
+    local showAllBox = getShowAllBox()
+    if showAllBox then
+        showAllBox:setChecked(true)
+    end
+end
+
 function showMap()
     g_minimap.saveOtmm('/minimap.otmm')
     UI = g_ui.loadUI("map", contentContainer)
@@ -11,6 +95,8 @@ function showMap()
 
     Cyclopedia.prevFloor = 7
     Cyclopedia.loadMap()
+    resetAndEnableMapFlagFilters()
+    applyMapFlagFilters()
 
     controllerCyclopedia.ui.CharmsBase:setVisible(false)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
@@ -18,6 +104,11 @@ function showMap()
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase1410:setVisible(false)
     end
+
+    controllerCyclopedia:registerEvents(g_game, {
+        onAddAutomapFlag = Cyclopedia.onAutomapFlagChanged,
+        onRemoveAutomapFlag = Cyclopedia.onAutomapFlagChanged
+    }):execute()
 end
 
 function Cyclopedia.loadMap()
@@ -57,26 +148,46 @@ function Cyclopedia.CreateMarkItem(Data)
 end
 
 function Cyclopedia.toggleMapFlag(widget, checked)
-    -- UI.MapBase.minimap:filterFlag(widget:getId(), checked)
+    local iconId = tonumber(widget:getId())
+    if iconId ~= nil then
+        mapFlagFilters[iconId] = checked
+    end
+
+    local showAllBox = getShowAllBox()
+    if showAllBox and showAllBox:isChecked() then
+        return
+    end
+
+    applyMapFlagFilters()
 end
 
 function Cyclopedia.showAllFlags(checked)
-    local size = UI.InformationBase.InternalBase.DisplayBase.MarkList:getChildCount()
-    if checked then
-        for i = 0, size do
-            local flag = UI.InformationBase.InternalBase.DisplayBase.MarkList[i]
-            if flag then
-                flag:setChecked(true)
-            end
-        end
-    else
-        for i = 0, size do
-            local flag = UI.InformationBase.InternalBase.DisplayBase.MarkList[i]
-            if flag then
-                flag:setChecked(false)
+    local list = getMarkList()
+    if not list then
+        return
+    end
+
+    for _, flag in ipairs(list:getChildren()) do
+        if flag and flag.setChecked then
+            flag:setChecked(checked)
+            local iconId = tonumber(flag:getId())
+            if iconId ~= nil then
+                mapFlagFilters[iconId] = checked
             end
         end
     end
+
+    applyMapFlagFilters()
+end
+
+function Cyclopedia.onAutomapFlagChanged()
+    if not UI then
+        return
+    end
+
+    scheduleEvent(function()
+        applyMapFlagFilters()
+    end, 0)
 end
 
 function Cyclopedia.moveMap(widget)

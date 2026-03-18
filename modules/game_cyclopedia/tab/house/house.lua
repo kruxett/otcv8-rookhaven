@@ -61,10 +61,8 @@ function showHouse()
             UI.TopBase.StatesOption.onOptionChange = Cyclopedia.houseChangeState
         end
 
-        for i = 0, #Cyclopedia.CityList do
-            UI.TopBase.CityOption:addOption(Cyclopedia.CityList[i].Title, i)
-            UI.TopBase.CityOption.onOptionChange = Cyclopedia.selectTown
-        end
+        Cyclopedia.updateHouseCityOptions(Cyclopedia.House.DynamicCities)
+        UI.TopBase.CityOption.onOptionChange = Cyclopedia.selectTown
 
         for i = 1, #Cyclopedia.SortList do
             UI.TopBase.SortOption:addOption(Cyclopedia.SortList[i].Title, i)
@@ -80,11 +78,52 @@ function showHouse()
     Cyclopedia.selectTown({
         data = 0
     })
-    UI.TopBase.StatesOption:setOption("All States", true)
-    UI.TopBase.CityOption:setOption("Own Houses", true)
-    UI.TopBase.SortOption:setOption("Sort by name", true)
+    if UI.TopBase then
+        if UI.TopBase.StatesOption then
+            UI.TopBase.StatesOption:setOption("All States", true)
+        end
+        if UI.TopBase.CityOption then
+            UI.TopBase.CityOption:setOption("Own Houses", true)
+        end
+        if UI.TopBase.SortOption then
+            UI.TopBase.SortOption:setOption("Sort by name", true)
+        end
+    end
 
     Cyclopedia.House.lastTown = nil
+    if Cyclopedia.requestHouseTowns then
+        Cyclopedia.requestHouseTowns()
+    end
+    g_game.requestShowHouses("")
+
+    -- Retry requests while opening, to handle delayed transport readiness.
+    local retries = 0
+    local function ensureHouseDataLoaded()
+        if not UI or not UI:isVisible() then
+            return
+        end
+
+        if not UI.TopBase or not UI.TopBase.CityOption then
+            return
+        end
+
+        local hasTowns = UI.TopBase.CityOption:getOptionsCount() > 1
+        local hasHouses = Cyclopedia.House and Cyclopedia.House.CachedData and #Cyclopedia.House.CachedData > 0
+        if hasTowns and hasHouses then
+            return
+        end
+
+        retries = retries + 1
+        if retries <= 5 then
+            if Cyclopedia.requestHouseTowns then
+                Cyclopedia.requestHouseTowns()
+            end
+            g_game.requestShowHouses("")
+            scheduleEvent(ensureHouseDataLoaded, 450)
+        end
+    end
+
+    scheduleEvent(ensureHouseDataLoaded, 450)
 end
 
 Cyclopedia.House = {}
@@ -94,27 +133,50 @@ Cyclopedia.StateList = {
     { Title = "Rented" }
 }
 
+-- Optional explicit fallback list when dynamic town data is unavailable.
+-- Example:
+-- _G.CyclopediaHouseTownFallback = { "Rookhaven", "Asterfield", "..." }
 Cyclopedia.CityList = {
-    [0] = { Title = "Own Houses" },
-    { Title = "Ab'Dendriel" },
-    { Title = "Ankrahmun" },
-    { Title = "Carlin" },
-    { Title = "Darashia" },
-    { Title = "Edron" },
-    { Title = "Farmine" },
-    { Title = "Gray Beach" },
-    { Title = "Issavi" },
-    { Title = "Kazordoon" },
-    { Title = "Liberty Bay" },
-    { Title = "Moonfall" },
-    { Title = "Port Hope" },
-    { Title = "Rathleton" },
-    { Title = "Silvertides" },
-    { Title = "Svargrond" },
-    { Title = "Thais" },
-    { Title = "Venore" },
-    { Title = "Yalahar" }
+    [0] = { Title = "Own Houses" }
 }
+
+function Cyclopedia.updateHouseCityOptions(townNames)
+    if not UI or not UI.TopBase or not UI.TopBase.CityOption then
+        return
+    end
+
+    local cityOption = UI.TopBase.CityOption
+    cityOption:clearOptions()
+    cityOption:addOption("Own Houses", 0)
+
+    local towns = {}
+    if type(townNames) == "table" and #townNames > 0 then
+        for _, townName in ipairs(townNames) do
+            if townName and townName ~= "" then
+                table.insert(towns, townName)
+            end
+        end
+    else
+        local fallbackTowns = _G.CyclopediaHouseTownFallback or {}
+        for _, townName in ipairs(fallbackTowns) do
+            if townName and townName ~= "" then
+                table.insert(towns, tostring(townName))
+            end
+        end
+    end
+
+    table.sort(towns, function(a, b)
+        return a:lower() < b:lower()
+    end)
+
+    for _, townName in ipairs(towns) do
+        cityOption:addOption(townName, townName)
+    end
+
+    if cityOption:getOptionsCount() == 1 then
+        cityOption:addOption("No Town Data", "")
+    end
+end
 
 Cyclopedia.SortList = {
     { Title = "Sort by name" },
@@ -376,7 +438,7 @@ function Cyclopedia.rejectTransfer()
         end
     end
 
-    UI.rejectTransferHouse.name:setText(house.name .. "asdasd")
+    UI.rejectTransferHouse.name:setText(house.name)
     UI.rejectTransferHouse.size:setText(house.sqm .. " sqm")
     UI.rejectTransferHouse.beds:setText(house.beds)
     UI.rejectTransferHouse.rent:setText((house.rent))
@@ -444,7 +506,7 @@ function Cyclopedia.acceptTransfer()
         end
     end
 
-    UI.acceptTransferHouse.name:setText(house.name .. "22222")
+    UI.acceptTransferHouse.name:setText(house.name)
     UI.acceptTransferHouse.size:setText(house.sqm .. " sqm")
     UI.acceptTransferHouse.beds:setText(house.beds)
     UI.acceptTransferHouse.rent:setText((house.rent))
@@ -519,7 +581,7 @@ function Cyclopedia.cancelTransfer()
         end
     end
 
-    UI.cancelHouseTransferArea.name:setText(house.name .. "888")
+    UI.cancelHouseTransferArea.name:setText(house.name)
     UI.cancelHouseTransferArea.size:setText(house.sqm .. " sqm")
     UI.cancelHouseTransferArea.beds:setText(house.beds)
     UI.cancelHouseTransferArea.rent:setText((house.rent))
@@ -630,7 +692,7 @@ function Cyclopedia.transferHouse()
         end
     end
 
-    UI.transferArea.name:setText(house.name .. "44444")
+    UI.transferArea.name:setText(house.name)
     UI.transferArea.size:setText(house.sqm .. " sqm")
     UI.transferArea.beds:setText(house.beds)
     UI.transferArea.rent:setText((house.rent))
@@ -760,7 +822,7 @@ function Cyclopedia.moveOutHouse()
         end
     end
 
-    UI.moveOutArea.name:setText(house.name .. "9999")
+    UI.moveOutArea.name:setText(house.name)
     UI.moveOutArea.size:setText(house.sqm .. " sqm")
     UI.moveOutArea.beds:setText(house.beds)
     UI.moveOutArea.rent:setText((house.rent))
@@ -809,7 +871,7 @@ function Cyclopedia.bidHouse(widget)
 
     UI.ListBase:setVisible(false)
     UI.bidArea:setVisible(true)
-    UI.bidArea.name:setText(house.name .. "99889")
+    UI.bidArea.name:setText(house.name)
     UI.bidArea.size:setText(house.sqm .. " sqm")
     UI.bidArea.beds:setText(house.beds)
     UI.bidArea.rent:setText((house.rent))
@@ -850,7 +912,7 @@ function Cyclopedia.bidHouse(widget)
         for index, data in ipairs(labels) do
             local label = g_ui.createWidget("Label", UI.bidArea)
             label:setId(data.id)
-            label:setText(data.name .. "44242")
+            label:setText(data.name)
             label:setColor("#909090")
             label:setWidth(90)
             label:setHeight(15)
@@ -1266,11 +1328,11 @@ end
 function Cyclopedia.selectTown(widget, text, type)
     local name = text
     if type ~= 0 then
-        -- g_game.requestShowHouses(name)
         Cyclopedia.House.lastTown = name
+        g_game.requestShowHouses(name)
     else
-        -- g_game.requestShowHouses("")
         Cyclopedia.House.lastTown = ""
+        g_game.requestShowHouses("")
     end
 end
 

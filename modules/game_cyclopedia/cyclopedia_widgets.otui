@@ -847,10 +847,13 @@ BestiaryCategory < UIWidget
     image-source: /images/ui/2pixel_up_frame_borderimage
     image-border: 10
     $pressed:
+      margin-top: 23
       image-source: /images/ui/2pixel_up_frame_borderimage_dark_reversed
   UIWidget
     id: ClassIcon
+    size: 48 48
     anchors.centerIn: ClassBase
+    image-auto-resize: true
     phantom: true
   Label
     id: KnownValue
@@ -1283,29 +1286,8 @@ TrackerButton < Panel
 
 BestiaryTracker < MiniWindow
   id: BestiaryTracker
+  icon: /images/icons/icon-bestiarytracker-widget
   @onClose: modules.game_cyclopedia.Cyclopedia.onTrackerClose(self:getText())
-
-  UIWidget
-    id: miniwindowIcon
-    anchors.top: miniwindowHeader.top
-    anchors.left: miniwindowHeader.left
-    margin-top: 2
-    margin-left: 4
-    size: 12 12
-    image-source: /images/icons/icon-bestiarytracker-widget
-    image-smooth: false
-
-  Label
-    id: miniwindowTitle
-    anchors.top: miniwindowHeader.top
-    anchors.left: miniwindowHeader.left
-    anchors.right: miniwindowHeader.right
-    margin-top: 2
-    margin-left: 20
-    margin-right: 50
-    font: verdana-11px-monochrome
-    height: 13
-    color: #9d9d9dff
 
   MiniWindowContents
     id: contentsPanel

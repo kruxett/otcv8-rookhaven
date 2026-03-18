@@ -40,6 +40,13 @@ makeSafeStub("sendBosstiarySlotAction")
 makeSafeStub("sendUnlockBoss")
 makeSafeStub("openCyclopediaMapHouse")
 makeSafeStub("openCyclopediaItemDetail")
+makeSafeStub("requestShowHouses")
+makeSafeStub("requestBidHouse")
+makeSafeStub("requestMoveOutHouse")
+makeSafeStub("requestTransferHouse")
+makeSafeStub("requestAcceptHouseTransfer")
+makeSafeStub("requestRejectHouseTransfer")
+makeSafeStub("requestCancelHouseTransfer")
 
 -- Safe stub for Keybind (rookhaven uses a different keybind system)
 if not Keybind then
@@ -50,9 +57,15 @@ if not Keybind then
     }
 end
 
+-- Global creature data cache populated from server bestiary responses
+_CyclopediaCreatureDataCache = _CyclopediaCreatureDataCache or {}
+
 -- Safe stubs for g_things functions not in rookhaven
 if not g_things.getRaceData then
     g_things.getRaceData = function(raceId)
+        if _CyclopediaCreatureDataCache[raceId] then
+            return _CyclopediaCreatureDataCache[raceId]
+        end
         return {
             name = "Unknown",
             outfit = { type = 0, head = 0, body = 0, legs = 0, feet = 0, addons = 0 },
@@ -64,7 +77,15 @@ end
 
 if not g_things.getRacesByName then
     g_things.getRacesByName = function(text)
-        return {}
+        local results = {}
+        if not text or text == "" then return results end
+        local lowerText = text:lower()
+        for id, data in pairs(_CyclopediaCreatureDataCache) do
+            if data.name and data.name:lower():find(lowerText, 1, true) then
+                table.insert(results, { raceId = id, name = data.name })
+            end
+        end
+        return results
     end
 end
 
@@ -84,6 +105,912 @@ g_game.getLocalPlayer = function()
 end
 
 Cyclopedia = {}
+
+local CYCLOPEDIA_EXT_OPCODE = 31
+local CYCLOPEDIA_PROTOCOL_PREFIX = "cp"
+local CYCLOPEDIA_PROTOCOL_VERSION = "1"
+local CYCLOPEDIA_DEBUG = true
+
+-- These remain intentionally disabled until the dedicated rollout phase.
+local HARD_DISABLED_TABS = {
+    items = true,
+    houses = true,
+    charms = true,
+    bosstiary = true,
+    bossSlot = true,
+    magicalArchives = true
+}
+
+Cyclopedia.Capabilities = {
+    items = false,
+    bestiary = true,
+    map = true,
+    houses = false,
+    character = true,
+    charms = false,
+    bosstiary = false,
+    bossSlot = false,
+    magicalArchives = false
+}
+
+Cyclopedia.TransportReady = false
+Cyclopedia.PendingRequests = {}
+Cyclopedia.PendingRequestSet = {}
+Cyclopedia.CapabilitiesRequested = false
+
+local encodeCyclopediaPayload
+local decodeCyclopediaPayload
+
+local function getPendingRequestKey(action, payload)
+    return string.format("%s\31%s", tostring(action or ""), tostring(payload or ""))
+end
+
+local function queueCyclopediaPendingRequest(action, payload)
+    local key = getPendingRequestKey(action, payload)
+    if Cyclopedia.PendingRequestSet[key] then
+        return false
+    end
+
+    if #Cyclopedia.PendingRequests >= 100 then
+        return false
+    end
+
+    Cyclopedia.PendingRequestSet[key] = true
+    table.insert(Cyclopedia.PendingRequests, { action = action, payload = payload })
+    return true
+end
+
+local function flushCyclopediaPendingRequests()
+    if not Cyclopedia.TransportReady then
+        return
+    end
+
+    local protocol = g_game.getProtocolGame()
+    if not protocol or not protocol.sendExtendedOpcode then
+        return
+    end
+
+    for _, req in ipairs(Cyclopedia.PendingRequests) do
+        if CYCLOPEDIA_DEBUG then
+            print(string.format("[Cyclopedia] flush request action=%s payloadLen=%d", req.action, #(req.payload or "")))
+        end
+        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+            encodeCyclopediaPayload("req", req.action, req.payload))
+    end
+
+    Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+end
+
+encodeCyclopediaPayload = function(kind, action, extra)
+    local payload = table.concat({
+        CYCLOPEDIA_PROTOCOL_PREFIX,
+        CYCLOPEDIA_PROTOCOL_VERSION,
+        kind,
+        action
+    }, "|")
+    if extra and extra ~= "" then
+        payload = payload .. "|" .. extra
+    end
+    return payload
+end
+
+decodeCyclopediaPayload = function(buffer)
+    local parts = string.split(buffer or "", "|")
+    if not parts or #parts < 4 then
+        return nil
+    end
+
+    if parts[1] ~= CYCLOPEDIA_PROTOCOL_PREFIX or parts[2] ~= CYCLOPEDIA_PROTOCOL_VERSION then
+        return nil
+    end
+
+    return {
+        kind = parts[3],
+        action = parts[4],
+        status = parts[5],
+        data = parts[6] or ""
+    }
+end
+
+local function parseCapabilities(data)
+    local capabilities = {}
+    for _, pair in ipairs(string.split(data or "", ";")) do
+        local kv = string.split(pair, "=")
+        if kv and #kv == 2 then
+            local key = kv[1]
+            local value = kv[2]
+            capabilities[key] = value == "1"
+        end
+    end
+    return capabilities
+end
+
+local function safeUnregisterCyclopediaOpcode()
+    pcall(function()
+        ProtocolGame.unregisterExtendedOpcode(CYCLOPEDIA_EXT_OPCODE)
+    end)
+end
+
+local function safeRegisterCyclopediaOpcode()
+    safeUnregisterCyclopediaOpcode()
+    local ok = pcall(function()
+        ProtocolGame.registerExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, Cyclopedia.onExtendedOpcode)
+    end)
+
+    if not ok then
+        -- Retry once in case another module phase temporarily held the opcode.
+        scheduleEvent(function()
+            safeUnregisterCyclopediaOpcode()
+            pcall(function()
+                ProtocolGame.registerExtendedOpcode(CYCLOPEDIA_EXT_OPCODE, Cyclopedia.onExtendedOpcode)
+            end)
+        end, 50)
+    end
+end
+
+local function enforceHardDisabledTabs()
+    if not buttonSelection then
+        return
+    end
+
+    for tabId, _ in pairs(HARD_DISABLED_TABS) do
+        local button = buttonSelection:recursiveGetChildById(tabId)
+        if button then
+            button:setVisible(false)
+        end
+    end
+end
+
+local function applyTabVisibilityFromCapabilities()
+    if not buttonSelection then
+        return
+    end
+
+    local orderedIds = { "items", "bestiary", "map", "houses", "character", "charms", "bosstiary", "bossSlot", "magicalArchives" }
+    for _, id in ipairs(orderedIds) do
+        local btn = buttonSelection:recursiveGetChildById(id)
+        if btn then
+            btn:setVisible(Cyclopedia.Capabilities[id] == true)
+        end
+    end
+
+    -- Never allow rollout-disabled tabs to become visible.
+    enforceHardDisabledTabs()
+
+    if items then
+        items:setVisible(false)
+    end
+
+    if houses then
+        houses:setVisible(false)
+    end
+end
+
+local function rebalanceTopTabs()
+    if not buttonSelection then
+        return
+    end
+
+    local orderedIds = { "items", "bestiary", "map", "houses", "character", "charms", "bosstiary", "bossSlot", "magicalArchives" }
+    local visibleButtons = {}
+
+    for _, id in ipairs(orderedIds) do
+        local btn = buttonSelection:recursiveGetChildById(id)
+        if btn and btn:isVisible() then
+            table.insert(visibleButtons, btn)
+        end
+    end
+
+    if #visibleButtons == 0 then
+        return
+    end
+
+    local totalWidth = buttonSelection:getWidth()
+    if totalWidth <= 0 then
+        return
+    end
+
+    local buttonWidth = math.floor(totalWidth / #visibleButtons)
+    for i, btn in ipairs(visibleButtons) do
+        btn:breakAnchors()
+        btn:addAnchor(AnchorTop, "parent", AnchorTop)
+        if i == 1 then
+            btn:addAnchor(AnchorLeft, "parent", AnchorLeft)
+        else
+            btn:addAnchor(AnchorLeft, "prev", AnchorRight)
+        end
+        btn:setWidth(buttonWidth)
+    end
+end
+
+function Cyclopedia.applyCapabilities(capabilities)
+    if type(capabilities) ~= "table" then
+        return
+    end
+
+    for key, value in pairs(capabilities) do
+        Cyclopedia.Capabilities[key] = value and true or false
+    end
+
+    -- Keep rollout safety constraints in force regardless of server capability state.
+    for tabId, _ in pairs(HARD_DISABLED_TABS) do
+        Cyclopedia.Capabilities[tabId] = false
+    end
+
+    applyTabVisibilityFromCapabilities()
+    rebalanceTopTabs()
+end
+
+function Cyclopedia.requestCapabilities()
+    local protocol = g_game.getProtocolGame()
+    if not protocol or not protocol.sendExtendedOpcode then
+        return
+    end
+
+    if Cyclopedia.CapabilitiesRequested then
+        return
+    end
+
+    Cyclopedia.CapabilitiesRequested = true
+
+    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+        encodeCyclopediaPayload("req", "capabilities", ""))
+end
+
+function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
+    if opcode ~= CYCLOPEDIA_EXT_OPCODE then
+        return
+    end
+
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] raw response opcode=%d len=%d buffer=%s", opcode, #(buffer or ""), tostring(buffer or "")))
+    end
+
+    local payload = decodeCyclopediaPayload(buffer)
+    if not payload or payload.kind ~= "res" then
+        if CYCLOPEDIA_DEBUG then
+            print("[Cyclopedia] ignored malformed response")
+        end
+        return
+    end
+
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] response action=%s status=%s dataLen=%d", payload.action or "?", payload.status or "?", #(payload.data or "")))
+    end
+
+    Cyclopedia.TransportReady = true
+    flushCyclopediaPendingRequests()
+
+    if payload.action == "capabilities" then
+        Cyclopedia.CapabilitiesRequested = false
+        if payload.status == "ok" then
+            Cyclopedia.applyCapabilities(parseCapabilities(payload.data))
+        end
+        return
+    end
+
+    if payload.status ~= "ok" then
+        return
+    end
+
+    local action = payload.action
+    local data   = payload.data or ""
+
+    if action == "character.recentDeaths" then
+        Cyclopedia.parseAndLoadRecentDeaths(data)
+    elseif action == "character.recentKills" then
+        Cyclopedia.parseAndLoadRecentKills(data)
+    elseif action == "character.itemSummary" then
+        Cyclopedia.parseAndLoadItemSummary(data)
+    elseif action == "character.appearances" then
+        Cyclopedia.parseAndLoadAppearances(data)
+    elseif action == "bestiary.categories" then
+        Cyclopedia.parseAndLoadBestiaryCategories(data)
+    elseif action == "bestiary.overview" then
+        Cyclopedia.parseAndLoadBestiaryOverview(data)
+    elseif action == "bestiary.creature" then
+        Cyclopedia.parseAndLoadBestiaryCreature(data)
+    elseif action == "bestiary.tracker" then
+        Cyclopedia.parseAndLoadBestiaryTracker(data)
+    elseif action == "houses.list" then
+        Cyclopedia.parseAndLoadHousesList(data)
+    elseif action == "houses.towns" then
+        Cyclopedia.parseAndLoadHouseTowns(data)
+    end
+end
+
+-- =========================================================
+--  Cyclopedia ext-opcode request helper
+-- =========================================================
+
+function Cyclopedia.sendCyclopediaRequest(action, payload)
+    local protocol = g_game.getProtocolGame()
+    if not protocol or not protocol.sendExtendedOpcode then
+        return false, false
+    end
+
+    payload = payload or ""
+
+    local shouldSendNow = true
+    if action ~= "capabilities" and not Cyclopedia.TransportReady then
+        local queued = queueCyclopediaPendingRequest(action, payload)
+        if not queued then
+            Cyclopedia.requestCapabilities()
+            return true, false
+        end
+
+        shouldSendNow = true -- send first request optimistically; duplicates stay queued only.
+        Cyclopedia.requestCapabilities()
+    end
+
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] send request action=%s payloadLen=%d ready=%s", action, #payload, tostring(Cyclopedia.TransportReady)))
+    end
+
+    if shouldSendNow then
+        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+            encodeCyclopediaPayload("req", action, payload))
+        return true, true
+    end
+
+    return true, false
+end
+
+function Cyclopedia.requestHouseTowns()
+    local ok, sent = Cyclopedia.sendCyclopediaRequest("houses.towns", "")
+    if ok and sent and CYCLOPEDIA_DEBUG then
+        print("[Cyclopedia] request houses.towns")
+    end
+end
+
+-- =========================================================
+--  Local-player stat builders (no server round-trip needed)
+-- =========================================================
+
+function Cyclopedia.buildAndLoadGeneralStats()
+    if not Cyclopedia.loadCharacterGeneralStats then return end
+    local player = g_game.getLocalPlayer()
+    if not player then return end
+
+    local function safePlayerCall(methodName, default, ...)
+        local method = player[methodName]
+        if type(method) ~= 'function' then
+            return default
+        end
+
+        local ok, value = pcall(method, player, ...)
+        if not ok or value == nil then
+            return default
+        end
+
+        return value
+    end
+
+    local data = {
+        level                  = safePlayerCall('getLevel', 0),
+        levelPercent           = safePlayerCall('getLevelPercent', 0),
+        baseExpGain            = 100,
+        XpBoostPercent         = 0,
+        XpBoostBonusRemainingTime = 0,
+        staminaMinutes         = safePlayerCall('getStamina', 0),
+        maxHealth              = safePlayerCall('getMaxHealth', 0),
+        mana                   = safePlayerCall('getMaxMana', 0),
+        soul                   = safePlayerCall('getSoul', 0),
+        speed                  = safePlayerCall('getSpeed', 0),
+        regenerationCondition  = safePlayerCall('getRegenerationTime', 0),
+        offlineTrainingTime    = safePlayerCall('getOfflineTrainingTime', 0),
+        magicLevel             = safePlayerCall('getMagicLevel', 0),
+        magicLevelPercent      = safePlayerCall('getMagicLevelPercent', 0),
+        baseMagicLevel         = safePlayerCall('getBaseMagicLevel', 0),
+    }
+
+    -- skills[i+1] = {level, baseLevel, percent} for skill id i (Fist=0 ... Fishing=6)
+    local skills = {}
+    for i = 0, 6 do
+        skills[i + 1] = {
+            safePlayerCall('getSkillLevel', 0, i),
+            safePlayerCall('getSkillBaseLevel', 0, i),
+            safePlayerCall('getSkillLevelPercent', 0, i),
+        }
+    end
+
+    Cyclopedia.loadCharacterGeneralStats(data, skills)
+end
+
+function Cyclopedia.buildAndLoadCombatStats()
+    if not Cyclopedia.loadCharacterCombatStats then return end
+    local player = g_game.getLocalPlayer()
+    if not player then return end
+
+    local function safePlayerCall(methodName, default, ...)
+        local method = player[methodName]
+        if type(method) ~= 'function' then
+            return default
+        end
+
+        local ok, value = pcall(method, player, ...)
+        if not ok or value == nil then
+            return default
+        end
+
+        return value
+    end
+
+    -- Count active blessings from bitmask
+    local blessingCount = 0
+    local bitmask = safePlayerCall('getBlessings', 0) or 0
+    for i = 0, 7 do
+        if bit.band(bitmask, bit.lshift(1, i)) ~= 0 then
+            blessingCount = blessingCount + 1
+        end
+    end
+
+    local data = {
+        weaponElement      = 0,
+        weaponMaxHitChance = 100,
+        weaponElementDamage = 0,
+        weaponElementType  = 0,
+        defense            = 0,
+        armor              = 0,
+        haveBlessings      = blessingCount,
+    }
+
+    -- CriticalChance=7, CriticalDamage=8, LifeLeechAmount=10, ManaLeechAmount=12
+    local additionalSkillsArray = {
+        { 7,  safePlayerCall('getSkillLevel', 0, 7)  },
+        { 8,  safePlayerCall('getSkillLevel', 0, 8)  },
+        { 10, safePlayerCall('getSkillLevel', 0, 10) },
+        { 12, safePlayerCall('getSkillLevel', 0, 12) },
+    }
+
+    Cyclopedia.loadCharacterCombatStats(data, 0.0, additionalSkillsArray, {}, {}, {}, {})
+end
+
+-- =========================================================
+--  Override g_game stubs with ext-opcode backed versions
+-- =========================================================
+
+local _origRequestCharacterInfo = g_game.requestCharacterInfo
+g_game.requestCharacterInfo = function(characterId, infoType, ...)
+    local T = CyclopediaCharacterInfoTypes
+    if infoType == T.GeneralStats then
+        Cyclopedia.buildAndLoadGeneralStats()
+    elseif infoType == T.Badges then
+        if Cyclopedia.loadCharacterBadges then
+            Cyclopedia.loadCharacterBadges(true, true, true, "", {})
+        end
+    elseif infoType == T.CombatStats
+        or infoType == T.Offencestats
+        or infoType == T.Defencestats
+        or infoType == T.Miscstats then
+        Cyclopedia.buildAndLoadCombatStats()
+    elseif infoType == T.RecentDeaths then
+        Cyclopedia.sendCyclopediaRequest("character.recentDeaths", "")
+    elseif infoType == T.RecentPVPKills then
+        Cyclopedia.sendCyclopediaRequest("character.recentKills", "")
+    elseif infoType == T.ItemSummary then
+        Cyclopedia.sendCyclopediaRequest("character.itemSummary", "")
+    elseif infoType == T.OutfitsAndMounts then
+        Cyclopedia.sendCyclopediaRequest("character.appearances", "")
+    elseif infoType == T.StoreSummary then
+        if Cyclopedia.onParseCyclopediaStoreSummary then
+            Cyclopedia.onParseCyclopediaStoreSummary(0, 0, 0, 0, 0, {}, 0, {})
+        end
+    else
+        _origRequestCharacterInfo(characterId, infoType, ...)
+    end
+end
+
+local _origRequestBestiary = g_game.requestBestiary
+g_game.requestBestiary = function(...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.categories", "")
+end
+
+local _origRequestBestiaryOverview = g_game.requestBestiaryOverview
+g_game.requestBestiaryOverview = function(name, ...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.overview", tostring(name or ""))
+end
+
+g_game.requestBestiarySearch = function(raceId, ...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.creature", tostring(raceId or 0))
+end
+
+g_game.sendStatusTrackerBestiary = function(raceId, enabled, ...)
+    local tracked = enabled and 1 or 0
+    if Cyclopedia.updateBestiaryTrackerLocal then
+        Cyclopedia.updateBestiaryTrackerLocal(raceId, enabled)
+    end
+    Cyclopedia.sendCyclopediaRequest("bestiary.tracker", string.format("set,%d,%d", tonumber(raceId) or 0, tracked))
+    scheduleEvent(function()
+        if g_game.requestBestiaryTracker then
+            g_game.requestBestiaryTracker()
+        end
+    end, 150)
+end
+
+g_game.requestBestiaryTracker = function(...)
+    Cyclopedia.sendCyclopediaRequest("bestiary.tracker", "list")
+end
+
+local _origRequestShowHouses = g_game.requestShowHouses
+g_game.requestShowHouses = function(townName, ...)
+    Cyclopedia.sendCyclopediaRequest("houses.list", tostring(townName or ""))
+end
+
+-- =========================================================
+--  Response parsers (called from onExtendedOpcode)
+-- =========================================================
+
+-- Format: timestamp,cause~timestamp,cause~...
+function Cyclopedia.parseAndLoadRecentDeaths(data)
+    if not Cyclopedia.loadCharacterRecentDeaths then return end
+    local deaths = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 2 then
+                table.insert(deaths, {
+                    timestamp = tonumber(f[1]) or 0,
+                    cause     = f[2] or ""
+                })
+            end
+        end
+    end
+    Cyclopedia.loadCharacterRecentDeaths(deaths)
+end
+
+-- Currently returns empty (no PvP kill tracking)
+function Cyclopedia.parseAndLoadRecentKills(data)
+    if not Cyclopedia.loadCharacterRecentKills then return end
+    Cyclopedia.loadCharacterRecentKills({})
+end
+
+-- itemSummary is expensive server-side; return empty for now
+function Cyclopedia.parseAndLoadItemSummary(data)
+    if not Cyclopedia.loadCharacterItems then return end
+    Cyclopedia.loadCharacterItems({
+        inventory = {}, store = {}, stash = {}, depot = {}, inbox = {}
+    })
+end
+
+-- appearances deferred; return empty
+function Cyclopedia.parseAndLoadAppearances(data)
+    if not Cyclopedia.loadCharacterAppearances then return end
+    Cyclopedia.loadCharacterAppearances(
+        { lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0 },
+        {}, {}, {})
+end
+
+-- bestiary.categories response
+-- Format: name,count,unlocked,animusBonus~...
+function Cyclopedia.parseAndLoadBestiaryCategories(data)
+    if not Cyclopedia.loadBestiaryCategories then return end
+    local categories = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 4 then
+                table.insert(categories, {
+                    bestClass         = f[1] or "Unknown",
+                    count             = tonumber(f[2]) or 0,
+                    unlockedCount     = tonumber(f[3]) or 0,
+                    AnimusMasteryBonus = tonumber(f[4]) or 0,
+                })
+            end
+        end
+    end
+    Cyclopedia.loadBestiaryCategories(categories)
+end
+
+-- bestiary.overview response
+-- Format: categoryName~raceId,name,outfitType,kills,level,animusBonus~...
+function Cyclopedia.parseAndLoadBestiaryOverview(data)
+    if not Cyclopedia.loadBestiaryOverview then return end
+    if not data or data == "" then
+        Cyclopedia.loadBestiaryOverview("", {}, 0)
+        return
+    end
+    local parts = string.split(data, "~")
+    if not parts or #parts < 1 then
+        Cyclopedia.loadBestiaryOverview("", {}, 0)
+        return
+    end
+    local categoryName = parts[1]
+    local creatures = {}
+    Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
+    for i = 2, #parts do
+        local f = string.split(parts[i], ",")
+        if f and #f >= 6 then
+            local raceId     = tonumber(f[1]) or 0
+            local name       = f[2] or "Unknown"
+            local outfitType = tonumber(f[3]) or 0
+            local kills      = tonumber(f[4]) or 0
+            local level      = tonumber(f[5]) or 0
+            local animus     = tonumber(f[6]) or 0
+            local maxHealth  = tonumber(f[7]) or 100
+            local experience = tonumber(f[8]) or 50
+            local speed      = tonumber(f[9]) or 180
+            local armor      = tonumber(f[10]) or 5
+            local defense    = tonumber(f[11]) or 0
+            local firstUnlock = tonumber(f[12]) or 25
+            local secondUnlock = tonumber(f[13]) or 100
+            local thirdUnlock = tonumber(f[14]) or 250
+
+            if firstUnlock < 1 then firstUnlock = 1 end
+            if secondUnlock <= firstUnlock then secondUnlock = firstUnlock + 1 end
+            if thirdUnlock <= secondUnlock then thirdUnlock = secondUnlock + 1 end
+            -- Populate creature data cache so getRaceData works
+            _CyclopediaCreatureDataCache[raceId] = {
+                name   = name,
+                outfit = { type = outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 },
+                level = 0, experience = 0, speed = 0, points = kills, charm = 0,
+                difficulty = 1, occurrence = 0, id = raceId
+            }
+            table.insert(creatures, {
+                id                        = raceId,
+                currentLevel              = level,
+                creatureAnimusMasteryBonus = animus,
+                killCounter               = kills,
+            })
+            Cyclopedia.BestiaryCreatureCache[raceId] = {
+                id = raceId,
+                ocorrence = 1,
+                difficulty = 1,
+                killCounter = kills,
+                thirdDifficulty = firstUnlock,
+                secondUnlock = secondUnlock,
+                lastProgressKillCount = thirdUnlock,
+                currentLevel = level,
+                maxHealth = maxHealth,
+                experience = experience,
+                speed = speed,
+                armor = armor,
+                mitigation = defense,
+                charmValue = 5,
+                attackMode = 1,
+                combat = {0, 0, 0, 0, 0, 0, 0, 0},
+                loot = {},
+                location = "Unknown",
+                AnimusMasteryPoints = 0,
+                AnimusMasteryBonus = 0,
+            }
+        end
+    end
+    Cyclopedia.loadBestiaryOverview(categoryName, creatures, 0)
+end
+
+-- Format:
+-- id,name,outfitType,currentLevel,killCounter,maxHealth,experience,speed,armor,mitigation,charmValue,location,firstUnlock,secondUnlock,thirdUnlock,loot,combat,difficulty,occurrence,attackMode
+-- loot format: itemId:rarityTier:stackable;itemId:rarityTier:stackable;...
+-- combat format: physical:fire:earth:energy:ice:holy:death:healing
+function Cyclopedia.parseAndLoadBestiaryCreature(data)
+    if not Cyclopedia.loadBestiarySelectedCreature then
+        return
+    end
+
+    if not data or data == "" then
+        return
+    end
+
+    local f = string.split(data, ",")
+    if not f or #f < 12 then
+        return
+    end
+
+    local raceId     = tonumber(f[1]) or 0
+    local name       = f[2] or "Unknown"
+    local outfitType = tonumber(f[3]) or 0
+
+    _CyclopediaCreatureDataCache[raceId] = {
+        name   = name,
+        outfit = { type = outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 },
+        level = 0, experience = 0, speed = 0, points = tonumber(f[5]) or 0, charm = 0,
+        difficulty = 1, occurrence = 0, id = raceId
+    }
+
+    local combatValues = {100, 100, 100, 100, 100, 100, 100, 100}
+    local combatData = f[17] or ""
+    if combatData ~= "" then
+        local parts = string.split(combatData, ":")
+        for i = 1, 8 do
+            local value = tonumber(parts[i])
+            if value then
+                combatValues[i] = value
+            end
+        end
+    end
+
+    local payload = {
+        id = raceId,
+        ocorrence = tonumber(f[19]) or 1,
+        difficulty = tonumber(f[18]) or 1,
+        killCounter = tonumber(f[5]) or 0,
+        thirdDifficulty = tonumber(f[13]) or 25,
+        secondUnlock = tonumber(f[14]) or 100,
+        lastProgressKillCount = tonumber(f[15]) or 250,
+        currentLevel = tonumber(f[4]) or 1,
+        maxHealth = tonumber(f[6]) or 100,
+        experience = tonumber(f[7]) or 50,
+        speed = tonumber(f[8]) or 180,
+        armor = tonumber(f[9]) or 5,
+        mitigation = tonumber(f[10]) or 0,
+        charmValue = tonumber(f[11]) or 5,
+        attackMode = tonumber(f[20]) or 0,
+        combat = combatValues,
+        loot = {},
+        location = f[12] or "Unknown",
+        AnimusMasteryPoints = 0,
+        AnimusMasteryBonus = 0,
+    }
+
+    local lootData = f[16] or ""
+    if lootData ~= "" and lootData ~= "-" then
+        for _, entry in ipairs(string.split(lootData, ";")) do
+            local parts = string.split(entry, ":")
+            if parts and #parts >= 3 then
+                local itemId = tonumber(parts[1]) or 0
+                if itemId > 0 then
+                    table.insert(payload.loot, {
+                        name = "",
+                        itemId = itemId,
+                        type = 0,
+                        diffculty = tonumber(parts[2]) or 0,
+                        stackable = tonumber(parts[3]) or 0,
+                    })
+                end
+            end
+        end
+    end
+
+    if payload.thirdDifficulty < 1 then payload.thirdDifficulty = 1 end
+    if payload.secondUnlock <= payload.thirdDifficulty then payload.secondUnlock = payload.thirdDifficulty + 1 end
+    if payload.lastProgressKillCount <= payload.secondUnlock then payload.lastProgressKillCount = payload.secondUnlock + 1 end
+
+    Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
+    Cyclopedia.BestiaryCreatureCache[raceId] = payload
+    Cyclopedia.loadBestiarySelectedCreature(payload)
+end
+
+-- bestiary.tracker response
+-- Format: raceId,kills,firstUnlock,secondUnlock,thirdUnlock~...
+function Cyclopedia.parseAndLoadBestiaryTracker(data)
+    if not Cyclopedia.onParseCyclopediaTracker then
+        return
+    end
+
+    local trackerEntries = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 5 then
+                table.insert(trackerEntries, {
+                    tonumber(f[1]) or 0,
+                    tonumber(f[2]) or 0,
+                    tonumber(f[3]) or 25,
+                    tonumber(f[4]) or 100,
+                    tonumber(f[5]) or 250,
+                })
+            end
+        end
+    end
+
+    Cyclopedia.onParseCyclopediaTracker(0, trackerEntries)
+end
+
+-- houses.list response
+-- Format: id,name,townName,rent,beds,sqm,ownerName,state,paidUntil~...
+function Cyclopedia.parseAndLoadHousesList(data)
+    local houses = {}
+    local townsSet = {}
+    local townsList = {}
+    if data and data ~= "" then
+        local playerName = (g_game.getLocalPlayer() and g_game.getLocalPlayer():getName()) or ""
+        local lowerPlayerName = playerName:lower()
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 9 then
+                local id         = tonumber(f[1]) or 0
+                local name       = f[2] or "Unknown"
+                local townName   = f[3] or ""
+                local rent       = tonumber(f[4]) or 0
+                local beds       = tonumber(f[5]) or 0
+                local sqm        = tonumber(f[6]) or 0
+                local ownerName  = f[7] or ""
+                local state      = tonumber(f[8]) or 1
+                local paidUntil  = tonumber(f[9]) or 0
+                local isYours    = ownerName ~= "" and ownerName:lower() == lowerPlayerName
+
+                if townName ~= "" and not townsSet[townName:lower()] then
+                    townsSet[townName:lower()] = true
+                    table.insert(townsList, townName)
+                end
+
+                table.insert(houses, {
+                    id             = id,
+                    name           = name,
+                    description    = "",
+                    rent           = rent,
+                    beds           = beds,
+                    sqm            = sqm,
+                    gh             = false,
+                    shop           = false,
+                    visible        = true,
+                    townName       = townName,
+                    state          = state,
+                    owner          = ownerName ~= "" and ownerName or "?",
+                    rented         = state == 2 or state == 3,
+                    paidUntil      = paidUntil > 0 and paidUntil or nil,
+                    isYourOwner    = isYours,
+                    inTransfer     = state == 3,
+                    hasBid         = false,
+                    isYourBid      = false,
+                    bidEnd         = nil,
+                    hightestBid    = nil,
+                    bidName        = nil,
+                    bidHolderLimit = nil,
+                    canBid         = not (state == 2 or state == 3),
+                    transferName   = nil,
+                    transferTime   = 0,
+                    transferValue  = 0,
+                    isTransferOwner = false,
+                    canAcceptTransfer = 0,
+                })
+            end
+        end
+    end
+    -- Apply town filter from currently selected option (if house tab is open)
+    Cyclopedia.House.DynamicCities = townsList
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] parsed houses.list houses=%d towns=%d", #houses, #townsList))
+    end
+    if Cyclopedia.updateHouseCityOptions then
+        Cyclopedia.updateHouseCityOptions(townsList)
+    end
+    Cyclopedia.House.CachedData = houses
+    Cyclopedia.applyHousesTownFilter()
+end
+
+-- Format: townName~townName~...
+function Cyclopedia.parseAndLoadHouseTowns(data)
+    local towns = {}
+    local seen = {}
+    if data and data ~= "" then
+        for _, townName in ipairs(string.split(data, "~")) do
+            local clean = tostring(townName or "")
+            if clean ~= "" and not seen[clean:lower()] then
+                seen[clean:lower()] = true
+                table.insert(towns, clean)
+            end
+        end
+    end
+    Cyclopedia.House.DynamicCities = towns
+    if CYCLOPEDIA_DEBUG then
+        print(string.format("[Cyclopedia] parsed houses.towns count=%d", #towns))
+    end
+    if Cyclopedia.updateHouseCityOptions then
+        Cyclopedia.updateHouseCityOptions(towns)
+    end
+end
+
+-- Applies the current town filter from the house tab and reloads the list.
+-- Safe to call even when the house tab is not open (Cyclopedia.reloadHouseList
+-- guards against nil UI references inside house.lua).
+function Cyclopedia.applyHousesTownFilter()
+    if not Cyclopedia.House.CachedData then return end
+    local townFilter = Cyclopedia.House.lastTown or nil
+    local lowerFilter = townFilter and townFilter:lower() or nil
+    local filtered = {}
+    for _, h in ipairs(Cyclopedia.House.CachedData) do
+        if not lowerFilter or lowerFilter == "" or (h.townName and h.townName:lower() == lowerFilter) then
+            table.insert(filtered, h)
+        end
+    end
+    Cyclopedia.House.Data = filtered
+    if Cyclopedia.reloadHouseList then
+        Cyclopedia.reloadHouseList()
+    end
+end
 
 trackerButton = nil
 trackerMiniWindow = nil
@@ -128,9 +1055,34 @@ end
 
 function controllerCyclopedia:onGameStart()
     do
+        if not controllerCyclopedia.ui then
+            return
+        end
+
+        Cyclopedia.TransportReady = false
+        Cyclopedia.PendingRequests = {}
+        Cyclopedia.PendingRequestSet = {}
+        Cyclopedia.CapabilitiesRequested = false
+
+        safeRegisterCyclopediaOpcode()
+
+        local existingCyclopediaButton = modules.client_topmenu.getButton('CyclopediaButton')
+        if existingCyclopediaButton then
+            existingCyclopediaButton:destroy()
+        end
+
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
-            '/images/topbuttons/cyclopedia', function() toggle("items") end, false, 7)
+            '/images/topbuttons/cyclopedia', function() toggle("bestiary") end, false, 7)
         CyclopediaButton:setOn(false)
+
+        local existingBestiaryTrackerButton = modules.client_topmenu.getButton('BestiaryTrackerTopButton')
+        if existingBestiaryTrackerButton then
+            existingBestiaryTrackerButton:destroy()
+        end
+
+        ButtonBestiary = modules.client_topmenu.addRightGameToggleButton('BestiaryTrackerTopButton', tr('Bestiary Tracker'),
+            '/images/topbuttons/bestiaryTracker', function() Cyclopedia.toggleBestiaryTracker() end, false, 8)
+        ButtonBestiary:setOn(false)
 
         contentContainer = controllerCyclopedia.ui:recursiveGetChildById('contentContainer')
         buttonSelection = controllerCyclopedia.ui:recursiveGetChildById('buttonSelection')
@@ -144,13 +1096,23 @@ function controllerCyclopedia:onGameStart()
         bossSlot = buttonSelection:recursiveGetChildById('bossSlot')
         magicalArchives = buttonSelection:recursiveGetChildById('magicalArchives')
 
+        if items then
+            items:setVisible(false)
+        end
+
+        if houses then
+            houses:setVisible(false)
+            houses:disable()
+        end
+
         windowTypes = {
-            items = { obj = items, func = showItems },
             bestiary = { obj = bestiary, func = showBestiary },
             map = { obj = map, func = showMap },
-            houses = { obj = houses, func = showHouse },
             character = { obj = character, func = showCharacter },
         }
+
+        applyTabVisibilityFromCapabilities()
+        rebalanceTopTabs()
 
         g_ui.importStyle("cyclopedia_widgets")
         g_ui.importStyle("cyclopedia_pages")
@@ -197,16 +1159,9 @@ function controllerCyclopedia:onGameStart()
         -- Only create if it doesn't exist
         if not trackerMiniWindow then
             trackerMiniWindow = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
-
-            -- Set the title with length limit like in containers
-            local titleWidget = trackerMiniWindow:getChildById('miniwindowTitle')
-            if titleWidget then
-                local title = tr('Bestiary Tracker')
-                if title:len() > 12 then
-                    title = title:sub(1, 12) .. "..."
-                end
-                titleWidget:setText(title)
-            end
+            trackerMiniWindow:setId('BestiaryTrackerWindow')
+            trackerMiniWindow:setText(tr('Bestiary Tracker'))
+            trackerMiniWindow:setIcon('/images/icons/icon-bestiarytracker-widget')
 
             -- Set up contextMenuButton positioning and click handler
             local contextMenuButton = trackerMiniWindow:recursiveGetChildById('contextMenuButton')
@@ -241,6 +1196,7 @@ function controllerCyclopedia:onGameStart()
             -- Hook into the onOpen event to ensure data is loaded when window is shown
             trackerMiniWindow.onOpen = function()
                 if trackerButton then trackerButton:setOn(true) end
+                if ButtonBestiary then ButtonBestiary:setOn(true) end
                 -- Aggressive data loading when window becomes visible
                 scheduleEvent(function()
                     local char = g_game.getCharacterName()
@@ -277,6 +1233,7 @@ function controllerCyclopedia:onGameStart()
 
             trackerMiniWindow.onClose = function()
                 if trackerButton then trackerButton:setOn(false) end
+                if ButtonBestiary then ButtonBestiary:setOn(false) end
             end
 
             trackerMiniWindow:setup()
@@ -292,21 +1249,11 @@ function controllerCyclopedia:onGameStart()
         -- Only create if it doesn't exist
         if not trackerMiniWindowBosstiary then
             trackerMiniWindowBosstiary = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
-            
-            -- Set the title with length limit like in containers
-            local titleWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowTitle')
-            if titleWidgetBosstiary then
-                local title = tr('Bosstiary Tracker')
-                if title:len() > 12 then
-                    title = title:sub(1, 12) .. "..."
-                end
-                titleWidgetBosstiary:setText(title)
-            end
+            trackerMiniWindowBosstiary:setId('BosstiaryTrackerWindow')
+            trackerMiniWindowBosstiary:setText(tr('Bosstiary Tracker'))
 
-            -- Set the icon for Bosstiary Tracker when asset is available.
-            local iconWidgetBosstiary = trackerMiniWindowBosstiary:getChildById('miniwindowIcon')
-            if iconWidgetBosstiary and g_resources.fileExists('/images/icons/icon-bosstracker-widget.png') then
-                iconWidgetBosstiary:setImageSource('/images/icons/icon-bosstracker-widget')
+            if g_resources.fileExists('/images/icons/icon-bosstracker-widget.png') then
+                trackerMiniWindowBosstiary:setIcon('/images/icons/icon-bosstracker-widget')
             end
 
             -- Set up contextMenuButton positioning and click handler for Bosstiary
@@ -399,6 +1346,9 @@ function controllerCyclopedia:onGameStart()
         if trackerMiniWindow:isVisible() and trackerButton then
             trackerButton:setOn(true)
         end
+        if trackerMiniWindow:isVisible() and ButtonBestiary then
+            ButtonBestiary:setOn(true)
+        end
         if trackerMiniWindowBosstiary:isVisible() and trackerButtonBosstiary then
             trackerButtonBosstiary:setOn(true)
         end
@@ -452,6 +1402,10 @@ function controllerCyclopedia:onGameStart()
                 end, 2000)
             end
         end, 500)
+
+        scheduleEvent(function()
+            Cyclopedia.requestCapabilities()
+        end, 250)
     end
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase.Icon:setImageSource("/game_cyclopedia/images/monster-icon-bonuspoints")
@@ -460,12 +1414,29 @@ end
 
 
 function controllerCyclopedia:onGameEnd()
+    safeUnregisterCyclopediaOpcode()
+    Cyclopedia.TransportReady = false
+    Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+    Cyclopedia.CapabilitiesRequested = false
+
     if trackerMiniWindow then
         trackerMiniWindow.contentsPanel:destroyChildren()
     end
     if trackerMiniWindowBosstiary then
         trackerMiniWindowBosstiary.contentsPanel:destroyChildren()
     end
+
+    if CyclopediaButton then
+        CyclopediaButton:destroy()
+        CyclopediaButton = nil
+    end
+
+    if ButtonBestiary then
+        ButtonBestiary:destroy()
+        ButtonBestiary = nil
+    end
+
     hide()
     
     -- Save tracker filters and data for current character
@@ -491,6 +1462,12 @@ function controllerCyclopedia:onGameEnd()
 end
 
 function controllerCyclopedia:onTerminate()
+    safeUnregisterCyclopediaOpcode()
+    Cyclopedia.TransportReady = false
+    Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+    Cyclopedia.CapabilitiesRequested = false
+
     if trackerButton then
         trackerButton:destroy()
         trackerButton = nil
@@ -541,17 +1518,23 @@ function hide()
     end
     resetCyclopediaTabs()
     controllerCyclopedia.ui:hide()
+    if CyclopediaButton then
+        CyclopediaButton:setOn(false)
+    end
 end
 
 function resetCyclopediaTabs()
     tabStack = {}
     controllerCyclopedia.ui.BackButton:setEnabled(false)
-    if previousType then
-        local previousWindow = windowTypes[previousType]
-        previousWindow.obj:enable()
-        previousWindow.obj:setOn(false)
-        previousType = nil;
+
+    for _, window in pairs(windowTypes) do
+        if window and window.obj then
+            window.obj:enable()
+            window.obj:setOn(false)
+        end
     end
+
+    previousType = nil
 end
 
 function show(defaultWindow)
@@ -559,11 +1542,17 @@ function show(defaultWindow)
         return
     end
 
+    applyTabVisibilityFromCapabilities()
+    rebalanceTopTabs()
+
     controllerCyclopedia.ui:show()
     controllerCyclopedia.ui:raise()
     controllerCyclopedia.ui:focus()
+    CyclopediaButton:setOn(true)
     SelectWindow(defaultWindow, false)
-    controllerCyclopedia.ui.GoldBase.Value:setText(Cyclopedia.formatGold(g_game.getLocalPlayer():getTotalMoney()))
+    local player = g_game.getLocalPlayer()
+    local totalMoney = player and player:getTotalMoney() or 0
+    controllerCyclopedia.ui.GoldBase.Value:setText(Cyclopedia.formatGold(totalMoney))
 end
 
 function toggleBack()
@@ -575,18 +1564,27 @@ function toggleBack()
 end
 
 function SelectWindow(type, isBackButtonPress)
+    if not windowTypes[type] then
+        type = "bestiary"
+    end
+
+    local currentType = previousType
+
     if previousType then
-        local previousWindow = windowTypes[previousType]
-        if previousWindow and previousWindow.obj then
-            previousWindow.obj:enable()
-            previousWindow.obj:setOn(false)
-        end
-        if not isBackButtonPress then
+        if not isBackButtonPress and previousType ~= type then
             table.insert(tabStack, previousType)
             controllerCyclopedia.ui.BackButton:setEnabled(true)
         end
     end
+
     contentContainer:destroyChildren()
+
+    for _, tabWindow in pairs(windowTypes) do
+        if tabWindow and tabWindow.obj then
+            tabWindow.obj:enable()
+            tabWindow.obj:setOn(false)
+        end
+    end
 
     local window = windowTypes[type]
     if window and window.obj and window.obj:isVisible() then
@@ -596,6 +1594,8 @@ function SelectWindow(type, isBackButtonPress)
         if window.func then
             window.func(contentContainer)
         end
+    else
+        previousType = currentType
     end
 end
 
