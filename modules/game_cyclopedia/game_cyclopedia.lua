@@ -399,6 +399,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
 
     if action == "character.recentDeaths" then
         Cyclopedia.parseAndLoadRecentDeaths(data)
+    elseif action == "character.combatStats" then
+        Cyclopedia.parseAndLoadCombatStats(data)
     elseif action == "character.recentKills" then
         Cyclopedia.parseAndLoadRecentKills(data)
     elseif action == "character.itemSummary" then
@@ -546,13 +548,172 @@ function Cyclopedia.buildAndLoadCombatStats()
         end
     end
 
+    local function getItemText(item)
+        if not item then
+            return ""
+        end
+
+        local parts = {}
+        if item.getTooltip then
+            local okTooltip, tooltip = pcall(item.getTooltip, item)
+            if okTooltip and type(tooltip) == 'string' and tooltip ~= "" then
+                table.insert(parts, tooltip)
+            end
+        end
+
+        if item.getDescription then
+            local okDescription, description = pcall(item.getDescription, item)
+            if okDescription and type(description) == 'string' and description ~= "" then
+                table.insert(parts, description)
+            end
+        end
+
+        return table.concat(parts, "\n"):lower()
+    end
+
+    local function parseFirstNumberByAliases(text, aliases)
+        for _, alias in ipairs(aliases) do
+            local value = text:match(alias .. "%s*[:=]?%s*([%+%-]?%d+)")
+            if value then
+                return tonumber(value) or 0
+            end
+        end
+        return 0
+    end
+
+    local function parseElementPercent(text, elementKey)
+        local value = text:match(elementKey .. "[^%d%+%-]*([%+%-]?%d+)%%")
+        if value then
+            return tonumber(value) or 0
+        end
+
+        value = text:match(elementKey .. "[^%d%+%-]*([%+%-]?%d+)")
+        if value then
+            return tonumber(value) or 0
+        end
+
+        return 0
+    end
+
+    local elementByName = {
+        fire = 1,
+        earth = 2,
+        energy = 3,
+        ice = 4,
+        holy = 5,
+        death = 6,
+        physical = 0
+    }
+
+    local function parseConvertedDamage(text)
+        local amount, element = text:match("([%+%-]?%d+)%%?%s*(fire|earth|energy|ice|holy|death)%s*[dD]amage")
+        if not amount or not element then
+            amount, element = text:match("convert[^%d]*([%+%-]?%d+)%%?[^%a]*(fire|earth|energy|ice|holy|death)")
+        end
+        if not amount or not element then
+            return 0, 0
+        end
+        return math.max(0, tonumber(amount) or 0), elementByName[element] or 0
+    end
+
+    local function encodeReductionPercent(percent)
+        local p = tonumber(percent) or 0
+        if p >= 0 then
+            local encoded = math.floor(p * 100 + 0.5)
+            return math.max(0, math.min(65535, encoded))
+        end
+
+        local encoded = 65535 - math.floor(math.abs(p) * 100 + 0.5)
+        return math.max(0, math.min(65535, encoded))
+    end
+
+    local equipped = {}
+    for slot = InventorySlotHead, InventorySlotAmmo do
+        local item = player:getInventoryItem(slot)
+        if item then
+            table.insert(equipped, { slot = slot, item = item, text = getItemText(item) })
+        end
+    end
+
+    local leftItem = player:getInventoryItem(InventorySlotLeft)
+    local rightItem = player:getInventoryItem(InventorySlotRight)
+    local leftText = getItemText(leftItem)
+    local rightText = getItemText(rightItem)
+
+    local attackLeft = parseFirstNumberByAliases(leftText, { "atk", "attack" })
+    local attackRight = parseFirstNumberByAliases(rightText, { "atk", "attack" })
+    local attackValue = math.max(attackLeft, attackRight)
+
+    local defenseLeft = parseFirstNumberByAliases(leftText, { "def", "defense", "defence" })
+    local defenseRight = parseFirstNumberByAliases(rightText, { "def", "defense", "defence" })
+    local defenseItemValue = math.max(defenseLeft, defenseRight)
+    local shieldingLevel = safePlayerCall('getSkillLevel', 0, Skill.Shielding)
+    local defenseValue = defenseItemValue + math.floor(shieldingLevel / 5)
+
+    local armorValue = 0
+    for _, info in ipairs(equipped) do
+        armorValue = armorValue + math.max(0, parseFirstNumberByAliases(info.text, { "arm", "armor" }))
+    end
+
+    local mitigationPercent = math.min(60, math.max(0, armorValue * 0.15 + shieldingLevel * 0.03))
+
+    local convertedDamage, convertedElement = 0, 0
+    do
+        local c1, e1 = parseConvertedDamage(leftText)
+        local c2, e2 = parseConvertedDamage(rightText)
+        if c1 >= c2 then
+            convertedDamage, convertedElement = c1, e1
+        else
+            convertedDamage, convertedElement = c2, e2
+        end
+    end
+
+    local resistByElement = {
+        [0] = 0,
+        [1] = 0,
+        [2] = 0,
+        [3] = 0,
+        [4] = 0,
+        [5] = 0,
+        [6] = 0
+    }
+
+    for _, info in ipairs(equipped) do
+        local text = info.text
+        resistByElement[1] = resistByElement[1] + parseElementPercent(text, "fire")
+        resistByElement[2] = resistByElement[2] + parseElementPercent(text, "earth")
+        resistByElement[3] = resistByElement[3] + parseElementPercent(text, "energy")
+        resistByElement[4] = resistByElement[4] + parseElementPercent(text, "ice")
+        resistByElement[5] = resistByElement[5] + parseElementPercent(text, "holy")
+        resistByElement[6] = resistByElement[6] + parseElementPercent(text, "death")
+
+        local allRes = parseElementPercent(text, "all")
+        if allRes ~= 0 then
+            for elementId = 1, 6 do
+                resistByElement[elementId] = resistByElement[elementId] + allRes
+            end
+        end
+    end
+
+    local reductions = {}
+    if mitigationPercent > 0 then
+        table.insert(reductions, { 0, encodeReductionPercent(mitigationPercent) })
+    end
+
+    for elementId = 1, 6 do
+        local value = resistByElement[elementId] or 0
+        if value ~= 0 then
+            table.insert(reductions, { elementId, encodeReductionPercent(value) })
+        end
+    end
+
     local data = {
         weaponElement      = 0,
-        weaponMaxHitChance = 100,
-        weaponElementDamage = 0,
-        weaponElementType  = 0,
-        defense            = 0,
-        armor              = 0,
+        weaponMaxHitChance = attackValue,
+        weaponElementDamage = convertedDamage,
+        weaponElementType  = convertedElement,
+        defense            = defenseValue,
+        armor              = armorValue,
         haveBlessings      = blessingCount,
     }
 
@@ -564,7 +725,81 @@ function Cyclopedia.buildAndLoadCombatStats()
         { 12, safePlayerCall('getSkillLevel', 0, 12) },
     }
 
-    Cyclopedia.loadCharacterCombatStats(data, 0.0, additionalSkillsArray, {}, {}, {}, {})
+    Cyclopedia.loadCharacterCombatStats(data, mitigationPercent, additionalSkillsArray, {}, {}, reductions, {})
+end
+
+-- Format:
+-- attack,weaponElement,convertedDamage,convertedType,armor,defense,blessings,mitigation,critChance,critDamage,lifeLeech,manaLeech,reductions
+-- reductions format: elementId:percent;elementId:percent;...
+function Cyclopedia.parseAndLoadCombatStats(data)
+    if not Cyclopedia.loadCharacterCombatStats then
+        return
+    end
+
+    if not data or data == "" then
+        Cyclopedia.buildAndLoadCombatStats()
+        return
+    end
+
+    local fields = string.split(data, ",")
+    if not fields or #fields < 12 then
+        Cyclopedia.buildAndLoadCombatStats()
+        return
+    end
+
+    local function toNumber(value, default)
+        local n = tonumber(value)
+        if n == nil then
+            return default
+        end
+        return n
+    end
+
+    local function encodeReductionPercent(percent)
+        local p = toNumber(percent, 0)
+        if p >= 0 then
+            local encoded = math.floor(p * 100 + 0.5)
+            return math.max(0, math.min(65535, encoded))
+        end
+
+        local encoded = 65535 - math.floor(math.abs(p) * 100 + 0.5)
+        return math.max(0, math.min(65535, encoded))
+    end
+
+    local parsedData = {
+        weaponMaxHitChance = toNumber(fields[1], 0),
+        weaponElement = toNumber(fields[2], 0),
+        weaponElementDamage = toNumber(fields[3], 0),
+        weaponElementType = toNumber(fields[4], 0),
+        armor = toNumber(fields[5], 0),
+        defense = toNumber(fields[6], 0),
+        haveBlessings = toNumber(fields[7], 0),
+    }
+
+    local mitigation = toNumber(fields[8], 0)
+    local additionalSkillsArray = {
+        { Skill.CriticalChance, toNumber(fields[9], 0) },
+        { Skill.CriticalDamage, toNumber(fields[10], 0) },
+        { Skill.LifeLeechAmount, toNumber(fields[11], 0) },
+        { Skill.ManaLeechAmount, toNumber(fields[12], 0) },
+    }
+
+    local reductions = {}
+    local reductionRaw = fields[13] or ""
+    if reductionRaw ~= "" then
+        for _, entry in ipairs(string.split(reductionRaw, ";")) do
+            local parts = string.split(entry, ":")
+            if parts and #parts >= 2 then
+                local elementId = toNumber(parts[1], nil)
+                local percent = toNumber(parts[2], 0)
+                if elementId ~= nil then
+                    table.insert(reductions, { elementId, encodeReductionPercent(percent) })
+                end
+            end
+        end
+    end
+
+    Cyclopedia.loadCharacterCombatStats(parsedData, mitigation, additionalSkillsArray, {}, {}, reductions, {})
 end
 
 -- =========================================================
@@ -578,13 +813,37 @@ g_game.requestCharacterInfo = function(characterId, infoType, ...)
         Cyclopedia.buildAndLoadGeneralStats()
     elseif infoType == T.Badges then
         if Cyclopedia.loadCharacterBadges then
-            Cyclopedia.loadCharacterBadges(true, true, true, "", {})
+            local player = g_game.getLocalPlayer()
+            local online = g_game.isOnline() and 1 or 0
+            local premium = 0
+            local loyaltyTitle = ""
+
+            if player then
+                if player.isPremium then
+                    local okPremium, isPremium = pcall(player.isPremium, player)
+                    if okPremium and isPremium then
+                        premium = 1
+                    end
+                end
+
+                if player.getLoyaltyTitle then
+                    local okTitle, title = pcall(player.getLoyaltyTitle, player)
+                    if okTitle and title and title ~= "" then
+                        loyaltyTitle = title
+                    end
+                end
+            end
+
+            Cyclopedia.loadCharacterBadges(true, online, premium, loyaltyTitle, {})
         end
     elseif infoType == T.CombatStats
         or infoType == T.Offencestats
         or infoType == T.Defencestats
         or infoType == T.Miscstats then
-        Cyclopedia.buildAndLoadCombatStats()
+        local ok, sent = Cyclopedia.sendCyclopediaRequest("character.combatStats", "")
+        if not ok or not sent then
+            Cyclopedia.buildAndLoadCombatStats()
+        end
     elseif infoType == T.RecentDeaths then
         Cyclopedia.sendCyclopediaRequest("character.recentDeaths", "")
     elseif infoType == T.RecentPVPKills then
@@ -663,23 +922,76 @@ end
 -- Currently returns empty (no PvP kill tracking)
 function Cyclopedia.parseAndLoadRecentKills(data)
     if not Cyclopedia.loadCharacterRecentKills then return end
-    Cyclopedia.loadCharacterRecentKills({})
+    local kills = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 3 then
+                table.insert(kills, {
+                    timestamp = tonumber(f[1]) or 0,
+                    description = f[2] or "",
+                    status = f[3] or ""
+                })
+            end
+        end
+    end
+    Cyclopedia.loadCharacterRecentKills(kills)
 end
 
 -- itemSummary is expensive server-side; return empty for now
 function Cyclopedia.parseAndLoadItemSummary(data)
     if not Cyclopedia.loadCharacterItems then return end
-    Cyclopedia.loadCharacterItems({
+    local fallback = {
         inventory = {}, store = {}, stash = {}, depot = {}, inbox = {}
-    })
+    }
+
+    -- 8.60 fallback: at least expose currently equipped items.
+    local player = g_game.getLocalPlayer()
+    if player and player.getInventoryItem then
+        local idx = 1
+        for slot = InventorySlotFirst, InventorySlotPurse do
+            local item = player:getInventoryItem(slot)
+            if item then
+                local itemId = item.getId and item:getId() or 0
+                local amount = item.getCount and item:getCount() or 1
+                if itemId and itemId > 0 then
+                    fallback.inventory[idx] = {
+                        itemId = itemId,
+                        amount = amount and amount > 0 and amount or 1
+                    }
+                    idx = idx + 1
+                end
+            end
+        end
+    end
+
+    Cyclopedia.loadCharacterItems(fallback)
 end
 
 -- appearances deferred; return empty
 function Cyclopedia.parseAndLoadAppearances(data)
     if not Cyclopedia.loadCharacterAppearances then return end
-    Cyclopedia.loadCharacterAppearances(
-        { lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0 },
-        {}, {}, {})
+    local color = { lookHead = 0, lookBody = 0, lookLegs = 0, lookFeet = 0 }
+    local outfits = {}
+
+    -- 8.60 fallback: expose current outfit as an appearance entry.
+    local player = g_game.getLocalPlayer()
+    if player and player.getOutfit then
+        local outfit = player:getOutfit()
+        if outfit then
+            color.lookHead = outfit.head or 0
+            color.lookBody = outfit.body or 0
+            color.lookLegs = outfit.legs or 0
+            color.lookFeet = outfit.feet or 0
+            outfits[1] = {
+                name = "Current Outfit",
+                lookType = outfit.type or 0,
+                addons = outfit.addon or 0
+            }
+        end
+    end
+
+    Cyclopedia.loadCharacterAppearances(color, outfits, {}, {})
 end
 
 -- bestiary.categories response

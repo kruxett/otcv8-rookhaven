@@ -366,7 +366,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 5
       SkillNameLabel
-        !text: tr('Account Premium')
+        !text: tr('Account Online')
         color: #C0C0C0
       SkillValueLabel
         !text: tr('33')

@@ -841,11 +841,39 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         return hours .. ":" .. minutes
     end
 
+    local function formatSecondsClock(seconds)
+        local safeSeconds = math.max(0, math.floor(tonumber(seconds) or 0))
+        local minutes = math.floor(safeSeconds / 60)
+        local remSeconds = safeSeconds % 60
+        return string.format("%02d:%02d", minutes, remSeconds)
+    end
+
+    local function setSkillTooltip(id, tooltip)
+        local skill = UI.CharacterStats:recursiveGetChildById(id)
+        if not skill then
+            return
+        end
+
+        if tooltip and tooltip ~= "" then
+            skill:setTooltip(tooltip)
+        else
+            skill:removeTooltip()
+        end
+    end
+
     Cyclopedia.setCharacterSkillValue("level", comma_value(data.level))
 
-    local text = tr("You have %s percent to go ", 100 - data.levelPercent)
+    local text = tr("You have %s percent to go", 100 - data.levelPercent)
     Cyclopedia.setCharacterSkillPercent("level", data.levelPercent, text)
-    Cyclopedia.setCharacterSkillValue("experience", comma_value(player:getExperience()))
+
+    local experience = player:getExperience()
+    local nextLevelExperience = type(expForLevel) == "function" and expForLevel(data.level + 1) or nil
+    local remainingExperience = nextLevelExperience and math.max(0, nextLevelExperience - experience) or nil
+    Cyclopedia.setCharacterSkillValue("experience", comma_value(experience))
+    if nextLevelExperience and remainingExperience then
+        setSkillTooltip("experience", string.format("To next level: %s\nNext level at: %s total XP",
+            comma_value(remainingExperience), comma_value(nextLevelExperience)))
+    end
 
     local expGainRate = data.baseExpGain + data.XpBoostPercent
     local hasStoreExpBonus = data.XpBoostPercent > 0
@@ -870,10 +898,30 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     UI.CharacterStats.expGainRate:setTooltip(expGainRateTooltip)
     -- UI.CharacterStats.expGainRate:setTooltipAlign(AlignTopLeft)
     Cyclopedia.setCharacterSkillValue("expGainRate", comma_value(expGainRate) .. "%")
-    Cyclopedia.setCharacterSkillValue("health", comma_value(data.maxHealth))
-    Cyclopedia.setCharacterSkillValue("mana", comma_value(data.mana))
+
+    local currentHealth = player.getHealth and player:getHealth() or data.maxHealth
+    local maxHealth = data.maxHealth
+    local healthPercent = maxHealth > 0 and math.floor((currentHealth * 100) / maxHealth) or 0
+    Cyclopedia.setCharacterSkillValue("health", string.format("%s / %s", comma_value(currentHealth), comma_value(maxHealth)))
+    setSkillTooltip("health", string.format("Current health: %s%%", healthPercent))
+
+    local currentMana = player.getMana and player:getMana() or data.mana
+    local maxMana = data.mana
+    local manaPercent = maxMana > 0 and math.floor((currentMana * 100) / maxMana) or 0
+    Cyclopedia.setCharacterSkillValue("mana", string.format("%s / %s", comma_value(currentMana), comma_value(maxMana)))
+    setSkillTooltip("mana", string.format("Current mana: %s%%", manaPercent))
+
     Cyclopedia.setCharacterSkillValue("soul", data.soul)
-    Cyclopedia.setCharacterSkillValue("capacity", comma_value(math.floor(player:getFreeCapacity())))
+
+    local freeCapacity = math.floor(player:getFreeCapacity())
+    if player.getTotalCapacity then
+        local totalCapacity = math.floor(player:getTotalCapacity())
+        local usedCapacity = math.max(0, totalCapacity - freeCapacity)
+        Cyclopedia.setCharacterSkillValue("capacity", string.format("%s / %s", comma_value(freeCapacity), comma_value(totalCapacity)))
+        setSkillTooltip("capacity", string.format("Free: %s\nUsed: %s", comma_value(freeCapacity), comma_value(usedCapacity)))
+    else
+        Cyclopedia.setCharacterSkillValue("capacity", comma_value(freeCapacity))
+    end
 
     if data.speed > 0 then
         UI.CharacterStats.speed.value:setColor("#44AD25")
@@ -881,8 +929,17 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         UI.CharacterStats.speed.value:setColor("#C0C0C0")
     end
 
-    Cyclopedia.setCharacterSkillValue("speed", comma_value(math.floor(data.speed)))
-    Cyclopedia.setCharacterSkillValue("food", format(data.regenerationCondition))
+    local speedValue = math.floor(data.speed)
+    Cyclopedia.setCharacterSkillValue("speed", comma_value(speedValue))
+    if player.getBaseSpeed then
+        local baseSpeed = math.floor(player:getBaseSpeed())
+        local bonusSpeed = speedValue - baseSpeed
+        local speedSign = bonusSpeed >= 0 and "+" or ""
+        setSkillTooltip("speed", string.format("Base speed: %d\nBonus: %s%d", baseSpeed, speedSign, bonusSpeed))
+    end
+
+    Cyclopedia.setCharacterSkillValue("food", formatSecondsClock(data.regenerationCondition))
+    setSkillTooltip("food", "Time left until your food regeneration ends")
 
     local function formatTime(time)
         local hours = math.floor(time / 60)
@@ -897,6 +954,7 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     local staminaHours, staminaMinutes = formatTime(data.staminaMinutes)
 
     Cyclopedia.setCharacterSkillValue("stamina", staminaHours .. ":" .. staminaMinutes)
+    local staminaTooltip = tr("You have %s hours and %s minutes left", staminaHours, staminaMinutes)
 
     if data.staminaMinutes > 2400 and g_game.getClientVersion() >= 1038 and player:isPremium() then
         local text = tr("You have %s hours and %s minutes left", staminaHours, staminaMinutes) .. "\n" ..
@@ -919,6 +977,8 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
                          tr("You don't may receive experience and loot from monsters")
 
         Cyclopedia.setCharacterSkillPercent("stamina", staminaPercent, text, "black")
+    else
+        Cyclopedia.setCharacterSkillPercent("stamina", staminaPercent, staminaTooltip, "#C0C0C0")
     end
 
     local trainerHours, trainerMinutes = formatTime(data.offlineTrainingTime)
@@ -927,8 +987,8 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     Cyclopedia.setCharacterSkillValue("trainer", trainerHours .. ":" .. trainerMinutes)
     Cyclopedia.setCharacterSkillPercent("trainer", trainerPercent, tr("You have %s percent", trainerPercent))
     Cyclopedia.setCharacterSkillValue("magiclevel", data.magicLevel)
-    Cyclopedia.setCharacterSkillPercent("magiclevel", data.magicLevelPercent / 100,
-        tr("You have %s percent to go", 100 - data.magicLevelPercent / 100))
+    Cyclopedia.setCharacterSkillPercent("magiclevel", data.magicLevelPercent,
+        tr("You have %s percent to go", 100 - data.magicLevelPercent))
     Cyclopedia.setCharacterSkillBase("magiclevel", data.magicLevel, data.baseMagicLevel)
 
     for i = Skill.Fist + 1, Skill.Fishing + 1 do
