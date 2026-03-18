@@ -71,14 +71,10 @@ function terminate()
 end
 
 function toggle()
-    if not isInProtectionZone() then
-        displayErrorBox("Acesso negado", "Voc� s� pode abrir a loja em uma zona protegida!")
-        return
-    end
     if MainWindow:isVisible() then
         hide()
     else
-        show()
+		requestPersonalStore(g_game.getCharacterName())
     end
 end
 
@@ -421,11 +417,6 @@ end
 
 
 function requestPersonalStore(name)
-	if not isInProtectionZone() then
-		displayErrorBox("Acesso negado", "Voc� s� pode abrir a loja em uma zona protegida!")
-		return
-	end
-	
 	g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'RequestPersonalStore', name = name }))
 end
 

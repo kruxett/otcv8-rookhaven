@@ -483,6 +483,8 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
         menu:addOption(tr('Leave Party'), function() g_game.partyLeave() end)
       end
 
+      menu:addOption(tr('Personal Store'), function() modules.game_personalstore.requestPersonalStore(creatureThing:getName()) end)
+
     else
       local localPosition = localPlayer:getPosition()
       if not classic and not g_app.isMobile() then shortcut = '(Alt)' else shortcut = nil end
@@ -497,6 +499,10 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
           menu:addOption(tr('Follow'), function() g_game.follow(creatureThing) end)
         else
           menu:addOption(tr('Stop Follow'), function() g_game.cancelFollow() end)
+        end
+
+        if creatureThing:getPersonalStoreMode() >= 1 then
+          menu:addOption(tr('Open Store'), function() modules.game_personalstore.requestPersonalStore(creatureThing:getName()) end)
         end
       end
 
@@ -580,6 +586,22 @@ end
 
 function processMouseAction(menuPosition, mouseButton, autoWalkPos, lookThing, useThing, creatureThing, attackCreature, marking)
   local keyboardModifiers = g_keyboard.getModifiers()
+  local player = g_game.getLocalPlayer()
+
+  if mouseButton == MouseLeftButton and creatureThing then
+    local playerPos = player:getPosition()
+    local creaturePos = creatureThing:getPosition()
+    local dx = math.abs(playerPos.x - creaturePos.x)
+    local dy = math.abs(playerPos.y - creaturePos.y)
+    local dz = math.abs(playerPos.z - creaturePos.z)
+
+    if dx <= 1 and dy <= 1 and dz == 0 then
+      if creatureThing:getPersonalStoreMode() >= 1 then
+        modules.game_personalstore.requestPersonalStore(creatureThing:getName())
+        return true
+      end
+    end
+  end
 
   if g_app.isMobile() then
     if mouseButton == MouseRightButton then
@@ -715,7 +737,6 @@ function processMouseAction(menuPosition, mouseButton, autoWalkPos, lookThing, u
     end
   end
 
-  local player = g_game.getLocalPlayer()
   player:stopAutoWalk()  
 
   if autoWalkPos and keyboardModifiers == KeyboardNoModifier and (mouseButton == MouseLeftButton or mouseButton == MouseTouch2 or mouseButton == MouseTouch3) then
@@ -724,6 +745,20 @@ function processMouseAction(menuPosition, mouseButton, autoWalkPos, lookThing, u
       modules.game_textmessage.displayFailureMessage(tr('Sorry, not possible.'))
       return false
     end
+    if creatureThing and creatureThing:isPlayer() and not creatureThing:isLocalPlayer() then
+      local playerPos = player:getPosition()
+      local creaturePos = creatureThing:getPosition()
+      local dx = math.abs(playerPos.x - creaturePos.x)
+      local dy = math.abs(playerPos.y - creaturePos.y)
+      local dz = math.abs(playerPos.z - creaturePos.z)
+      if dx <= 1 and dy <= 1 and dz == 0 then
+        if creatureThing:getPersonalStoreMode() >= 1 then
+          modules.game_personalstore.requestPersonalStore(creatureThing:getName())
+          return true
+        end
+      end
+    end
+
     player:autoWalk(autoWalkPos)
     return true
   end

@@ -66,6 +66,8 @@ Creature::Creature() : Thing()
     m_footLastStep = 0;
     m_nameCache.setFont(g_fonts.getFont("verdana-11px-rounded"));
     m_nameCache.setAlign(Fw::AlignTopCenter);
+    m_psNameCache.setFont(g_fonts.getFont("verdana-11px-rounded"));
+    m_psIconTexture = g_textures.getTexture("/images/game/ps_icon");
     m_footStep = 0;
     //m_speedFormula.fill(-1);
     m_outfitColor = Color::white;
@@ -144,6 +146,11 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
 
     if (!useGray)
         fillColor = m_informationColor;
+
+    // Override to orange if the personal store is active
+    if (m_psMode == 1) {
+        fillColor = Color(255, 165, 0); // Orange for health bar
+    }
 
     // calculate main rects - hp/mana
     Rect backgroundRect = Rect(point.x + m_informationOffset.x - (13.5), point.y + m_informationOffset.y, 27, 4);
@@ -262,6 +269,12 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
 
     if (drawFlags & Otc::DrawNames) {
         m_nameCache.draw(textRect, fillColor);
+
+        // Show store icon if personal store is active
+        if (m_psMode == 1 && m_psIconTexture) {
+            Rect psIconRect = Rect(textRect.center().x - m_psIconTexture->getWidth() / 2, textRect.top() - m_psIconTexture->getHeight() - 4, m_psIconTexture->getSize());
+            g_drawQueue->addTexturedRect(psIconRect, m_psIconTexture, Rect(0, 0, m_psIconTexture->getSize()));
+        }
 
         if (m_titleCache.hasText()) {
             Size titleSize = m_titleCache.getTextSize();
@@ -646,6 +659,12 @@ void Creature::setName(const std::string& name)
 {
     m_nameCache.setText(name);
     m_name = name;
+}
+
+void Creature::setPersonalStore(uint8_t psMode, const std::string psName) {
+    m_psMode = psMode;
+    m_psNameCache.setText(psName);
+    callLuaField("onPersonalStoreChange", psMode, psName);
 }
 
 void Creature::setHealthPercent(uint8 healthPercent)

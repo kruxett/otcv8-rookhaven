@@ -1,8 +1,9 @@
 Module
   name: game_personalstore
-  description: Nothing
-  author: RKTeam
+  description: Personal store
+  author: RKSoftware
   website: https://google.com
+  autoload: true
   sandboxed: true
   scripts: [ personalstore ]
   @onLoad: init()

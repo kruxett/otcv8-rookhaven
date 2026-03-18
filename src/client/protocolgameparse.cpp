@@ -210,6 +210,9 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
             case Proto::GameServerTrappers:
                 parseTrappers(msg);
                 break;
+            case Proto::GameServerCreaturePersonalStore:
+                parseCreaturePersonalStore(msg);
+                break;
             case Proto::GameServerCreatureHealth:
                 parseCreatureHealth(msg);
                 break;
@@ -1588,6 +1591,18 @@ void ProtocolGame::parseTrappers(const InputMessagePtr& msg)
             //TODO: set creature as trapper
         } else
             g_logger.traceError("could not get creature");
+    }
+}
+
+void ProtocolGame::parseCreaturePersonalStore(const InputMessagePtr& msg)
+{
+    uint id = msg->getU32();
+    int psMode = msg->getU8();
+    std::string psName = msg->getString();
+
+    CreaturePtr creature = g_map.getCreatureById(id);
+    if (creature) {
+        creature->setPersonalStore(psMode, psName);
     }
 }
 
@@ -3578,6 +3593,10 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
             }
         }
         Otc::Direction direction = (Otc::Direction)msg->getU8();
+
+        uint8_t psMode = msg->getU8();
+        std::string psName = msg->getString();
+
         Outfit outfit = getOutfit(msg);
 
         Light light;
@@ -3633,6 +3652,8 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
             unpass = msg->getU8();
 
         if (creature) {
+            creature->setPersonalStore(psMode, psName);
+
             creature->setHealthPercent(healthPercent);
             if (g_game.getFeature(Otc::GameCreaturesMana)) {
                 creature->setManaPercent(manaPercent);

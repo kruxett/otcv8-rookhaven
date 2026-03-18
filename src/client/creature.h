@@ -56,6 +56,7 @@ public:
     void setId(uint32 id) { m_id = id; }
     void setName(const std::string& name);
     void setManaPercent(int8 value) { m_manaPercent = value; }
+    void setPersonalStore(uint8_t psMode, const std::string psName);
     void setHealthPercent(uint8 healthPercent);
     void setDirection(Otc::Direction direction);
     void setOutfit(const Outfit& outfit);
@@ -98,6 +99,8 @@ public:
 
     uint32 getId() { return m_id; }
     std::string getName() { return m_name; }
+    uint8 getPersonalStoreMode() { return m_psMode; }
+    std::string getPersonalStoreName() { return m_psNameCache.getText(); }
     uint8 getHealthPercent() { return m_healthPercent; }
     int8 getManaPercent() { return m_manaPercent; }
     Otc::Direction getDirection() { return m_direction; }
@@ -224,11 +227,13 @@ protected:
     uint8 m_emblem;
     uint8 m_type;
     uint8 m_icon;
+    uint8_t m_psMode{ 0 };
     TexturePtr m_skullTexture;
     TexturePtr m_shieldTexture;
     TexturePtr m_emblemTexture;
     TexturePtr m_typeTexture;
     TexturePtr m_iconTexture;
+    TexturePtr m_psIconTexture;
     stdext::boolean<true> m_showShieldTexture;
     stdext::boolean<false> m_shieldBlink;
     stdext::boolean<false> m_passable;
@@ -239,6 +244,7 @@ protected:
     stdext::boolean<false> m_showStaticSquare;
     stdext::boolean<true> m_removed;
     CachedText m_nameCache;
+    CachedText m_psNameCache;
     Color m_informationColor;
     bool m_useCustomInformationColor = false;
     Point m_informationOffset;

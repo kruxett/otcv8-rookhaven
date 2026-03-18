@@ -503,6 +503,9 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<Creature>("setName", &Creature::setName);
     g_lua.bindClassMemberFunction<Creature>("setManaPercent", &LocalPlayer::setManaPercent);
     g_lua.bindClassMemberFunction<Creature>("getManaPercent", &LocalPlayer::getManaPercent);
+    g_lua.bindClassMemberFunction<Creature>("setPersonalStore", &Creature::setPersonalStore);
+    g_lua.bindClassMemberFunction<Creature>("getPersonalStoreMode", &Creature::getPersonalStoreMode);
+    g_lua.bindClassMemberFunction<Creature>("getPersonalStoreName", &Creature::getPersonalStoreName);
     g_lua.bindClassMemberFunction<Creature>("setHealthPercent", &Creature::setHealthPercent);
     g_lua.bindClassMemberFunction<Creature>("getHealthPercent", &Creature::getHealthPercent);
     g_lua.bindClassMemberFunction<Creature>("getSpeed", &Creature::getSpeed);
