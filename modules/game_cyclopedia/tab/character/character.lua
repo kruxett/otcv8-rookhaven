@@ -1176,19 +1176,9 @@ function Cyclopedia.configureCharacterCategories()
             open = "CharacterAchievements"
         },
         {
-            text = "Item Summary",
-            icon = "/game_cyclopedia/images/character_icons/icon_items",
-            open = "CharacterItems"
-        },
-        {
             text = "Appearances",
             icon = "/game_cyclopedia/images/character_icons/icon_outfitsmounts",
             open = "CharacterAppearances"
-        },
-        {
-            text = "Store Summary",
-            icon = "/game_cyclopedia/images/character_icons/icon-character-store",
-            open = "StoreSummary"
         },
         {
             text = "Character Titles",
