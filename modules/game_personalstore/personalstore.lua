@@ -19,6 +19,12 @@ local function isInProtectionZone()
     return modules.game_inventory and modules.game_inventory.checkPz and modules.game_inventory.checkPz() or false
 end
 
+local function updateRarityFrame(itemWidget, rarity)
+	if g_game and g_game.updateRarityFrames then
+		g_game.updateRarityFrames(itemWidget, rarity or 0)
+	end
+end
+
 function init()
 	MainWindow = g_ui.displayUI('personalstore')
 	MainPanel = MainWindow:getChildById('mainPanel')
@@ -131,7 +137,7 @@ function removeItemFromPanel(slot)
 	slot.itemInfo = nil
 	slot:getChildById('item'):setItemId(0)
 	slot:getChildById('item'):setItemCount(0)
-	g_game.updateRarityFrames(slot:getChildById('item'), 0)
+	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("")
 	slot:getChildById('buyOrEdit'):disable()
 	slot:getChildById('remove'):setVisible(false)
@@ -160,7 +166,7 @@ function removeItemFromPanel(slot)
 		if selectedItem and selectedItem:getItemId() ~= 0 and selectedItem:getItemId() == slotItemId then
 			selectedItem:setItemId(0)
 			selectedItem:setItemCount(0)
-			g_game.updateRarityFrames(selectedItem, 0)
+			updateRarityFrame(selectedItem, 0)
 			
 			if itemName then itemName:setText("No Item Selected") end
 			if itemPrice then itemPrice:setText("Price: 0") end
@@ -330,7 +336,7 @@ function showEditItemPanel(itemInfo)
 	MainPanel:hide()
 	ItemEditPanel:getChildById('item'):setItemId(itemInfo.clientId)
 	ItemEditPanel:getChildById('item').item_code = itemInfo.item_code
-	g_game.updateRarityFrames(ItemEditPanel:getChildById('item'), itemInfo.rarity)
+	updateRarityFrame(ItemEditPanel:getChildById('item'), itemInfo.rarity)
 	ItemEditPanel:getChildById('item'):setItemCount(itemInfo.count)
 	ItemEditPanel:getChildById('count'):setMaximum(itemInfo.count)
 	ItemEditPanel:getChildById('count'):setMinimum(1)
@@ -359,7 +365,7 @@ function showBuyItemPanel(itemInfo)
 	MainPanel:hide()
 	BuyItemPanel:getChildById('item'):setItemId(itemInfo.clientId)
 	BuyItemPanel:getChildById('item').item_code = itemInfo.item_code
-	g_game.updateRarityFrames(BuyItemPanel:getChildById('item'), itemInfo.rarity)
+	updateRarityFrame(BuyItemPanel:getChildById('item'), itemInfo.rarity)
 	BuyItemPanel:getChildById('item'):setItemCount(itemInfo.count)
 	BuyItemPanel:getChildById('count'):setMaximum(itemInfo.count)
 	BuyItemPanel:getChildById('count'):setMinimum(1)
@@ -486,7 +492,7 @@ function parsePersonalStore(protocol, opcode, buffer)
 				slot.itemInfo = itemInfo
 				slot:getChildById('item'):setItemId(itemInfo.clientId)
 				slot:getChildById('item').item_code = itemInfo.item_code
-				g_game.updateRarityFrames(slot:getChildById('item'), itemInfo.rarity)
+				updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
 				slot:getChildById('item'):setItemCount(itemInfo.count)
 				slot:getChildById('buyOrEdit'):setText(personal_store.owner and itemInfo.price or "Buy")
 				slot:getChildById('buyOrEdit'):enable()
@@ -571,7 +577,7 @@ function showContainerItems(containerInfo)
 		local slot = g_ui.createWidget('PSItem', containerPanel)
 		slot:getChildById('item'):setItemId(itemInfo.clientId)
 		slot:getChildById('item'):setItemCount(itemInfo.count or 1)
-		g_game.updateRarityFrames(slot:getChildById('item'), itemInfo.rarity or 0)
+		updateRarityFrame(slot:getChildById('item'), itemInfo.rarity or 0)
 	end
 	
 	containerPanel:setVisible(true)
@@ -620,7 +626,7 @@ function setupItemPanel(panel, itemInfo, mode)
 	
 	panel:getChildById('item'):setItemId(itemInfo.clientId)
 	panel:getChildById('item').item_code = itemInfo.item_code
-	g_game.updateRarityFrames(panel:getChildById('item'), itemInfo.rarity)
+	updateRarityFrame(panel:getChildById('item'), itemInfo.rarity)
 	panel:getChildById('item'):setItemCount(itemInfo.count)
 	
 	if mode == "edit" then
@@ -662,7 +668,7 @@ function addItemToPanel(slot, item)
 	}
 	slot:getChildById('item'):setItemId(item:getId())
 	slot:getChildById('item'):setItemCount(item:getCount())
-	g_game.updateRarityFrames(slot:getChildById('item'), 0)
+	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("Edit")
 	slot:getChildById('buyOrEdit'):enable()
 	slot:getChildById('remove'):setVisible(true)
@@ -711,7 +717,7 @@ function resetItemSlot(slot)
 	slot:setBorderColor("alpha")
 	slot:getChildById('item'):setItemId(0)
 	slot:getChildById('item'):setItemCount(0)
-	g_game.updateRarityFrames(slot:getChildById('item'), 0)
+	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("")
 	slot:getChildById('buyOrEdit'):disable()
 	slot:getChildById('remove'):setVisible(false)
@@ -735,7 +741,7 @@ function updatePurchasePanel(itemInfo)
 	
 	if not itemInfo then
 		selectedItem:setItemId(0)
-		g_game.updateRarityFrames(selectedItem, 0)
+		updateRarityFrame(selectedItem, 0)
 		purchasePanel:getChildById('itemName'):setText("No Item Selected")
 		purchasePanel:getChildById('itemPrice'):setText("Price: 0")
 		purchasePanel:getChildById('itemAmount'):setText("Amount: 0x")
@@ -761,7 +767,7 @@ function updatePurchasePanel(itemInfo)
 	local maxCount = itemInfo.count or 1
 	
 	selectedItem:setItemId(itemInfo.clientId)
-	g_game.updateRarityFrames(selectedItem, rarity)
+	updateRarityFrame(selectedItem, rarity)
 	
 	purchasePanel:getChildById('itemName'):setText(name)
 	purchasePanel:getChildById('itemPrice'):setText("Price: " .. unitPrice)
