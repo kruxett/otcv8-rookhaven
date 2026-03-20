@@ -1,5 +1,12 @@
 local characterPanel = nil
 local UI = nil
+local _sessionStartXp = nil
+local _sessionStartTime = nil
+
+function Cyclopedia.resetSessionXp()
+    _sessionStartXp = nil
+    _sessionStartTime = nil
+end
 
 local function getPlayerVocationName(player)
     if not player then
@@ -183,82 +190,63 @@ Cyclopedia.InventorySlotStyles = {
 }
 
 function Cyclopedia.characterAppearancesFilter(widget)
-    local parent = widget:getParent()
-    for i = 1, parent:getChildCount() do
-        local child = parent:getChildByIndex(i)
-        if child:getId() ~= "show" then
-            child:setChecked(false)
-        end
-    end
-
-    widget:setChecked(true)
-
-    for _, data in ipairs(Cyclopedia.Character.Appearances) do
-        if data.type == widget:getId() then
-            data.visible = true
-        else
-            data.visible = false
-        end
-    end
-
-    Cyclopedia.reloadCharacterAppearances()
+    -- no-op: filter UI removed; equipment preview has no filter
 end
 
 function Cyclopedia.reloadCharacterAppearances()
-    UI.CharacterAppearances.ListBase.list:destroyChildren()
+    Cyclopedia.loadEquipmentPreview()
+end
 
-    for _, data in ipairs(Cyclopedia.Character.Appearances) do
-        if data.visible then
-            local widget = g_ui.createWidget("CharacterAppearance", UI.CharacterAppearances.ListBase.list)
-            widget.name:setText(data.name)
-            widget.creature:setOutfit(data.outfit)
-            widget.creature:getCreature():setStaticWalking(1000)
+function Cyclopedia.loadEquipmentPreview()
+    local player = g_game.getLocalPlayer()
+    if not player or not UI or not UI.CharacterAppearances then return end
+
+    local list = UI.CharacterAppearances.ListBase.list
+    list:destroyChildren()
+
+    local SLOT_NAMES = {
+        [InventorySlotHead]   = "Head",
+        [InventorySlotNeck]   = "Neck",
+        [InventorySlotBody]   = "Armor",
+        [InventorySlotRight]  = "Right Hand",
+        [InventorySlotLeft]   = "Left Hand",
+        [InventorySlotLeg]    = "Legs",
+        [InventorySlotFeet]   = "Feet",
+        [InventorySlotFinger] = "Ring",
+        [InventorySlotAmmo]   = "Ammo",
+        [InventorySlotBack]   = "Backpack",
+    }
+    local SLOT_ORDER = {
+        InventorySlotHead, InventorySlotNeck, InventorySlotBody,
+        InventorySlotRight, InventorySlotLeft, InventorySlotLeg,
+        InventorySlotFeet, InventorySlotFinger, InventorySlotAmmo,
+        InventorySlotBack,
+    }
+
+    for _, slot in ipairs(SLOT_ORDER) do
+        local widget = g_ui.createWidget("CyclopediaEquipSlot", list)
+        if not widget then break end
+        widget.slotLabel:setText(SLOT_NAMES[slot] or "")
+
+        local item = player:getInventoryItem(slot)
+        if item then
+            widget.itemWidget:setItem(item)
+            local thing = g_things.getThingType(item:getId(), ThingCategoryItem)
+            local marketData = thing and thing.getMarketData and thing:getMarketData() or nil
+            local name = (marketData and marketData.name ~= "" and marketData.name) or ("Item #" .. item:getId())
+            widget.itemLabel:setText(name)
+            widget.itemLabel:setColor("#C0C0C0")
+        else
+            widget.itemWidget:setItem(nil)
+            widget.itemLabel:setText("—")
+            widget.itemLabel:setColor("#404040")
         end
     end
 end
 
 function Cyclopedia.loadCharacterAppearances(color, outfits, mounts, familiars)
-    local data = {}
-
-    local function insert(value, type)
-        local lookData = value.lookType
-        if type == "mounts" then
-            lookData = value.mountId
-        end
-
-        local data_t = {
-            visible = false,
-            name = value.name,
-            type = type,
-            outfit = {
-                auxType = 0,
-                type = lookData,
-                head = color.lookHead,
-                body = color.lookBody,
-                legs = color.lookLegs,
-                feet = color.lookFeet,
-                addon = outfits.addons and outfits.addons or 0
-            }
-        }
-
-        table.insert(data, data_t)
-    end
-
-    local function process(container, containerType)
-        for i = 0, #container do
-            local value = container[i]
-            if value then
-                insert(value, containerType)
-            end
-        end
-    end
-
-    process(outfits, "outfits")
-    process(mounts, "mounts")
-    process(familiars, "familiars")
-
-    Cyclopedia.Character.Appearances = data
-    Cyclopedia.characterAppearancesFilter(UI.CharacterAppearances.listFilter.outfits)
+    -- Repurposed: show equipment preview instead of outfit gallery
+    Cyclopedia.loadEquipmentPreview()
 end
 
 function Cyclopedia.characterItemsSearch(text)
@@ -635,6 +623,38 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     setElementIcon(UI.CombatStats.attack.icon, data.weaponElement)
     UI.CombatStats.attack.value:setText(data.weaponMaxHitChance)
 
+    -- Weapon name tooltip on Attack Value
+    do
+        local player = g_game.getLocalPlayer()
+        if player then
+            local function getWeaponName(slot)
+                local item = player:getInventoryItem(slot)
+                if not item then return nil end
+                local thing = g_things.getThingType(item:getId(), ThingCategoryItem)
+                local md = thing and thing.getMarketData and thing:getMarketData() or nil
+                return (md and md.name ~= "" and md.name) or nil
+            end
+            local weaponName = getWeaponName(InventorySlotRight) or getWeaponName(InventorySlotLeft)
+            if weaponName then
+                UI.CombatStats.attack:setTooltip("Equipped: " .. weaponName)
+            else
+                UI.CombatStats.attack:removeTooltip()
+            end
+        end
+    end
+
+    -- Estimated max hit (base attack + converted portion)
+    if UI.CombatStats.estDps then
+        local estMaxHit = data.weaponMaxHitChance
+        if data.weaponElementDamage > 0 then
+            estMaxHit = data.weaponMaxHitChance + math.floor(data.weaponMaxHitChance * data.weaponElementDamage / 100)
+        end
+        UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
+        UI.CombatStats.estDps:setTooltip(string.format(
+            "Estimated maximum hit.\nBase attack: %d + converted %d%% = %d total",
+            data.weaponMaxHitChance, data.weaponElementDamage, estMaxHit))
+    end
+
     if data.weaponElementDamage > 0 then
         UI.CombatStats.converted.none:setVisible(false)
         UI.CombatStats.converted.value:setVisible(true)
@@ -684,16 +704,26 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             local diferencia = 65535 - valor
             local porcentaje_negativo = diferencia / 100
             local resultado
+            local isResistance
             if porcentaje <= porcentaje_negativo then
                 resultado = string.format("+%.2f%%", porcentaje)
                 widget.value:setColor("green")
+                isResistance = true
             else
                 resultado = string.format("-%.2f%%", porcentaje_negativo)
                 widget.value:setColor("red")
+                isResistance = false
             end
             widget.value:setText(resultado)
-            if element  then
+            if element then
                 widget.name:setText(element.id)
+            end
+            -- Resistance bar
+            if widget.bar then
+                local magnitude = isResistance and porcentaje or porcentaje_negativo
+                local barPct = math.min(100, math.floor(magnitude))
+                widget.bar:setPercent(barPct)
+                widget.bar:setBackgroundColor(isResistance and "#44AD25" or "#b22222")
             end
             widget:setMarginLeft(13)
         end
@@ -1007,6 +1037,78 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         local skillPercent = values and values[3] or 0
         Cyclopedia.onSkillChange(player, i - 1, skillLevel, skillPercent)
         Cyclopedia.onBaseCharacterSkillChange(player, i - 1, baseSkill)
+    end
+
+    -- Skill ETA tooltips (set after base changes so we can override)
+    local skillNames = { "Fist", "Club", "Sword", "Axe", "Distance", "Shielding", "Fishing" }
+    for i = 0, 6 do
+        local values = skills and skills[i + 1] or nil
+        if values then
+            local skillLevel = values[1] or 0
+            local baseSkill  = values[2] or 0
+            local skillPct   = values[3] or 0
+            local skillWidget = UI.CharacterStats:recursiveGetChildById("skillId" .. i)
+            if skillWidget then
+                local tip = string.format("%s: Level %d → %d  (%d%% complete)",
+                    skillNames[i + 1] or "Skill", skillLevel, skillLevel + 1, skillPct)
+                if baseSkill > 0 and baseSkill ~= skillLevel then
+                    tip = tip .. string.format("\nBase: %d (bonus: %+d)", baseSkill, skillLevel - baseSkill)
+                end
+                skillWidget:setTooltip(tip)
+            end
+        end
+    end
+    do
+        local mlWidget = UI.CharacterStats:recursiveGetChildById("magiclevel")
+        if mlWidget then
+            local tip = string.format("Magic Level: %d → %d  (%d%% complete)",
+                data.magicLevel, data.magicLevel + 1, data.magicLevelPercent)
+            if data.baseMagicLevel ~= data.magicLevel then
+                tip = tip .. string.format("\nBase: %d (bonus: %+d)", data.baseMagicLevel, data.magicLevel - data.baseMagicLevel)
+            end
+            mlWidget:setTooltip(tip)
+        end
+    end
+
+    -- Session XP/hour tracker
+    local currentXp = player:getExperience()
+    if not _sessionStartXp then
+        _sessionStartXp = currentXp
+        _sessionStartTime = os.time()
+    end
+    local sessionXp = math.max(0, currentXp - _sessionStartXp)
+    local sessionSecs = math.max(1, os.time() - _sessionStartTime)
+    local xpPerHourText
+    if sessionSecs < 60 then
+        xpPerHourText = "Calculating..."
+    else
+        xpPerHourText = comma_value(math.floor(sessionXp * 3600 / sessionSecs)) .. "/h"
+    end
+    Cyclopedia.setCharacterSkillValue("xpPerHour", xpPerHourText)
+    local xpHrWidget = UI.CharacterStats:recursiveGetChildById("xpPerHour")
+    if xpHrWidget then
+        xpHrWidget:setTooltip(string.format(
+            "Session XP gained: %s\nSession duration: %d min",
+            comma_value(sessionXp), math.floor(sessionSecs / 60)))
+    end
+end
+
+function Cyclopedia.loadCharacterPlaytime(seconds)
+    if not UI or not UI.CharacterStats then return end
+    local hours = math.floor(seconds / 3600)
+    local minutes = math.floor((seconds % 3600) / 60)
+    local text
+    if hours >= 24 then
+        local days = math.floor(hours / 24)
+        local remHours = hours % 24
+        text = string.format("%dd %dh %02dm", days, remHours, minutes)
+    else
+        text = string.format("%dh %02dm", hours, minutes)
+    end
+    Cyclopedia.setCharacterSkillValue("playtime", text)
+    local widget = UI.CharacterStats:recursiveGetChildById("playtime")
+    if widget then
+        widget:setTooltip("Total time spent in Rookhaven")
     end
 end
 

@@ -223,17 +223,28 @@ UIWidget
         color: #C0C0C0
       SkillValueLabel
         color: #44AD25
+    CharacterSkillBase
+      id: xpPerHour
+      anchors.top: expGainRate.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 1
+      SkillNameLabel
+        !text: tr('Session XP/h')
+        color: #C0C0C0
+      SkillValueLabel
+        color: #44AD25
     UIWidget
       id: xpBoostButton
       image-source: /images/ui/button-storexp
       anchors.horizontalCenter: level.horizontalCenter
-      anchors.top: expGainRate.bottom
+      anchors.top: xpPerHour.bottom
       @onClick: modules.game_shop.toggle()
       $pressed:
         image-source: /images/ui/button-storexp-pressed
     HorizontalSeparator
       id: leftSeparator
-      anchors.top: expGainRate.bottom
+      anchors.top: xpPerHour.bottom
       anchors.left: parent.left
       anchors.right: xpBoostButton.left
       margin-top: 5
@@ -382,6 +393,17 @@ UIWidget
         color: #C0C0C0
       SkillValueLabel
         !text: tr('33')
+        color: #C0C0C0
+    CharacterSkillBase
+      id: playtime
+      anchors.top: loyaltyTitle.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 5
+      SkillNameLabel
+        !text: tr('Time Played')
+        color: #C0C0C0
+      SkillValueLabel
         color: #C0C0C0
 
     Label
@@ -608,8 +630,20 @@ UIWidget
         margin-top: 2
         anchors.right: parent.right
     CharacterSkillBase
-      id: converted
+      id: estDps
       anchors.top: attack.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 0
+      SkillNameLabel
+        !text: tr('Est. Max Hit:')
+        color: #C0C0C0
+      SkillValueLabel
+        color: #E8A040
+        margin-right: 2
+    CharacterSkillBase
+      id: converted
+      anchors.top: estDps.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 0
@@ -1424,69 +1458,26 @@ UIWidget
     visible: false
     UIWidget
       id: listFilter
-      height: 34
+      height: 30
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
       image-source: /images/ui/2pixel_up_frame_borderimage
       image-border: 5
-      CheckBoxCircle
-        id: outfits
-        width: 85
-        text: Outfits
-        color: #C0C0C0
-        text-offset: 15 0
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        margin-left: 10
-        @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
-      // Mounts and Familiars hidden - not available in 8.60
-      CheckBoxCircle
-        id: mounts
-        visible: false
-        width: 85
-        text: Mounts
-        color: #C0C0C0
-        text-offset: 15 0
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: outfits.right
-        @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
-      CheckBoxCircle
-        id: familiars
-        visible: false
-        width: 85
-        text: Familiars
-        color: #C0C0C0
-        text-offset: 15 0
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: mounts.right
-        @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
-      // Store outfit filter not applicable in 8.60
-      ComboBox
-        id: show
-        visible: false
-        size: 222 20
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: familiars.right
-        
-        @onSetup: |
-          self:addOption("Show All")
-          self:addOption("Show Standard Outfits")
-          self:addOption("Show Quest Outfits")
-          self:addOption("Show Store Outfits")
       Label
-        id: appearancesNote
-        !text: tr('Showing current equipped outfit')
-        color: #909090
+        !text: tr('Equipped Items')
+        color: #E8A040
         text-auto-resize: true
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: outfits.right
-        margin-left: 8
+        anchors.left: parent.left
+        margin-left: 12
     BorderBox
       id: ListBase
-      size: 489 376
+      anchors.top: listFilter.bottom
       anchors.bottom: parent.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
       UIScrollArea
         id: list
         vertical-scrollbar: listScrollbar
@@ -1494,10 +1485,8 @@ UIWidget
         margin: 5
         margin-right: 10
         layout:
-          type: grid
-          cell-size: 152 110
-          cell-spacing: 5
-          flow: true
+          type: verticalBox
+          spacing: 2
       VerticalScrollBar
         id: listScrollbar
         anchors.top: list.top
@@ -1505,7 +1494,6 @@ UIWidget
         anchors.bottom: list.bottom
         margin: 1
         margin-right: -13
-        margin-top: 0
         step: 80
         pixel-scroll: true
   UIWidget

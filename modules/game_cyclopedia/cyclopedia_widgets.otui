@@ -293,7 +293,7 @@ CharacterKill < UICheckBox
     $!on:
       color: #C0C0C0
 CharacterElementReduction < UIWidget
-  height: 20
+  height: 26
   Label
     id: name
     !text: tr('Physical')
@@ -313,11 +313,48 @@ CharacterElementReduction < UIWidget
     id: icon
     size: 9 9
     image-source: /images/icons/icons-skills
-
     anchors.top: parent.top
     anchors.left: value.right
     margin-left: 5
     margin-top: 2
+  ProgressBar
+    id: bar
+    height: 4
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: value.left
+    margin-bottom: 3
+    margin-left: 2
+    margin-right: 4
+    background-color: #44AD25
+    phantom: true
+CyclopediaEquipSlot < UIWidget
+  height: 36
+  UIWidget
+    id: slotBg
+    size: 30 30
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    image-source: /images/ui/item
+  Item
+    id: itemWidget
+    anchors.fill: slotBg
+  Label
+    id: slotLabel
+    width: 80
+    color: #808080
+    font: verdana-11px-rounded
+    text-auto-resize: false
+    anchors.left: slotBg.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+  Label
+    id: itemLabel
+    color: #C0C0C0
+    text-auto-resize: true
+    anchors.left: slotLabel.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
 SkillCharacterIcon < UIWidget
   id: icon
   size: 9 9

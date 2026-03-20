@@ -407,6 +407,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadItemSummary(data)
     elseif action == "character.appearances" then
         Cyclopedia.parseAndLoadAppearances(data)
+    elseif action == "character.playtime" then
+        Cyclopedia.parseAndLoadPlaytime(data)
     elseif action == "bestiary.categories" then
         Cyclopedia.parseAndLoadBestiaryCategories(data)
     elseif action == "bestiary.overview" then
@@ -518,6 +520,7 @@ function Cyclopedia.buildAndLoadGeneralStats()
     end
 
     Cyclopedia.loadCharacterGeneralStats(data, skills)
+    Cyclopedia.sendCyclopediaRequest("character.playtime", "")
 end
 
 function Cyclopedia.buildAndLoadCombatStats()
@@ -811,6 +814,7 @@ g_game.requestCharacterInfo = function(characterId, infoType, ...)
     local T = CyclopediaCharacterInfoTypes
     if infoType == T.GeneralStats then
         Cyclopedia.buildAndLoadGeneralStats()
+        Cyclopedia.sendCyclopediaRequest("character.playtime", "")
     elseif infoType == T.Badges then
         if Cyclopedia.loadCharacterBadges then
             local player = g_game.getLocalPlayer()
@@ -852,6 +856,10 @@ g_game.requestCharacterInfo = function(characterId, infoType, ...)
         Cyclopedia.sendCyclopediaRequest("character.itemSummary", "")
     elseif infoType == T.OutfitsAndMounts then
         Cyclopedia.sendCyclopediaRequest("character.appearances", "")
+        -- Equipment preview is built locally, no server round-trip needed
+        if Cyclopedia.loadEquipmentPreview then
+            Cyclopedia.loadEquipmentPreview()
+        end
     elseif infoType == T.StoreSummary then
         if Cyclopedia.onParseCyclopediaStoreSummary then
             Cyclopedia.onParseCyclopediaStoreSummary(0, 0, 0, 0, 0, {}, 0, {})
@@ -992,6 +1000,12 @@ function Cyclopedia.parseAndLoadAppearances(data)
     end
 
     Cyclopedia.loadCharacterAppearances(color, outfits, {}, {})
+end
+
+function Cyclopedia.parseAndLoadPlaytime(data)
+    if not Cyclopedia.loadCharacterPlaytime then return end
+    local seconds = tonumber(data) or 0
+    Cyclopedia.loadCharacterPlaytime(seconds)
 end
 
 -- bestiary.categories response
@@ -1375,6 +1389,11 @@ function controllerCyclopedia:onGameStart()
         Cyclopedia.PendingRequests = {}
         Cyclopedia.PendingRequestSet = {}
         Cyclopedia.CapabilitiesRequested = false
+
+        -- Reset session XP tracker on each login
+        if Cyclopedia.resetSessionXp then
+            Cyclopedia.resetSessionXp()
+        end
 
         safeRegisterCyclopediaOpcode()
 
