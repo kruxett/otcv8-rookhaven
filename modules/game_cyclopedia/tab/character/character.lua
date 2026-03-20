@@ -628,7 +628,6 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         local elementInfo = Cyclopedia.clientCombat[elementId]
         if elementInfo then
             iconWidget:setImageSource(elementInfo.path)
-            iconWidget:setImageClip("")
             iconWidget:setImageSize({width = 9, height = 9})
         end
     end
