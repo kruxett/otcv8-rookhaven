@@ -710,6 +710,17 @@ function Cyclopedia.buildAndLoadCombatStats()
         end
     end
 
+    -- Infer weapon skill from highest melee skill as fallback heuristic
+    local weaponSkillIdFallback = 0
+    local bestMeleeLevel = safePlayerCall('getSkillLevel', 0, 0) or 0
+    for _, sid in ipairs({1, 2, 3, 4}) do
+        local lvl = safePlayerCall('getSkillLevel', 0, sid) or 0
+        if lvl > bestMeleeLevel then
+            bestMeleeLevel = lvl
+            weaponSkillIdFallback = sid
+        end
+    end
+
     local data = {
         weaponElement      = 0,
         weaponMaxHitChance = attackValue,
@@ -718,6 +729,7 @@ function Cyclopedia.buildAndLoadCombatStats()
         defense            = defenseValue,
         armor              = armorValue,
         haveBlessings      = blessingCount,
+        weaponSkillId      = weaponSkillIdFallback,
     }
 
     -- CriticalChance=7, CriticalDamage=8, LifeLeechAmount=10, ManaLeechAmount=12
@@ -777,6 +789,7 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         armor = toNumber(fields[5], 0),
         defense = toNumber(fields[6], 0),
         haveBlessings = toNumber(fields[7], 0),
+        weaponSkillId = toNumber(fields[14], 0),
     }
 
     local mitigation = toNumber(fields[8], 0)
@@ -1004,8 +1017,14 @@ end
 
 function Cyclopedia.parseAndLoadPlaytime(data)
     if not Cyclopedia.loadCharacterPlaytime then return end
-    local seconds = tonumber(data) or 0
+    local parts = string.split(data, ",")
+    local seconds = tonumber(parts[1]) or 0
+    local regenSecs = tonumber(parts[2]) or 0
     Cyclopedia.loadCharacterPlaytime(seconds)
+    -- Feed server-provided food regen into the general stats display
+    if Cyclopedia.updateFoodRegen then
+        Cyclopedia.updateFoodRegen(regenSecs)
+    end
 end
 
 -- bestiary.categories response

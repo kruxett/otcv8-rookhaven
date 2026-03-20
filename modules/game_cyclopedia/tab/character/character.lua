@@ -643,16 +643,47 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         end
     end
 
-    -- Estimated max hit (base attack + converted portion)
+    -- Estimated max hit using real TFS formula:
+    -- MaxDamage = round((level/5) + (((skill/4+1) * (attack/3)) * 1.03) / attackFactor)
+    -- attackFactor: Full=1.0, Balanced=1.2, Defensive=2.0
     if UI.CombatStats.estDps then
-        local estMaxHit = data.weaponMaxHitChance
-        if data.weaponElementDamage > 0 then
-            estMaxHit = data.weaponMaxHitChance + math.floor(data.weaponMaxHitChance * data.weaponElementDamage / 100)
+        local player = g_game.getLocalPlayer()
+        local skillLevel = player and player:getSkillLevel(data.weaponSkillId or 0) or 0
+        local level = player and player:getLevel() or 0
+        local attack = data.weaponMaxHitChance or 0
+        local elemAttack = data.weaponElementDamage or 0
+
+        local fightMode = g_game.getFightMode()
+        local attackFactor = 1.0
+        if fightMode == FightBalanced then
+            attackFactor = 1.2
+        elseif fightMode == FightDefensive then
+            attackFactor = 2.0
         end
+
+        local function calcMax(atk)
+            if atk <= 0 then return 0 end
+            return math.floor((level / 5) + (((skillLevel / 4 + 1) * (atk / 3)) * 1.03) / attackFactor + 0.5)
+        end
+
+        local maxPhy = calcMax(attack)
+        local maxElem = calcMax(elemAttack)
+        local estMaxHit = maxPhy + maxElem
+
         UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
-        UI.CombatStats.estDps:setTooltip(string.format(
-            "Estimated maximum hit.\nBase attack: %d + converted %d%% = %d total",
-            data.weaponMaxHitChance, data.weaponElementDamage, estMaxHit))
+
+        local modeNames = { [FightOffensive] = "Full Attack", [FightBalanced] = "Balanced", [FightDefensive] = "Defensive" }
+        local modeName = modeNames[fightMode] or "Full Attack"
+        local skillNames = { [0]="Fist", [1]="Club", [2]="Sword", [3]="Axe", [4]="Distance" }
+        local skillName = skillNames[data.weaponSkillId or 0] or "Fist"
+        local tip = string.format(
+            "Est. max hit  (%s mode)\n%s skill %d  x  Attack %d  -> Phys: %d",
+            modeName, skillName, skillLevel, attack, maxPhy)
+        if maxElem > 0 then
+            tip = tip .. string.format("\nElement attack %d  -> Elem: %d", elemAttack, maxElem)
+            tip = tip .. string.format("\nTotal: %d + %d = %d", maxPhy, maxElem, estMaxHit)
+        end
+        UI.CombatStats.estDps:setTooltip(tip)
     end
 
     if data.weaponElementDamage > 0 then
@@ -1049,7 +1080,7 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
             local skillPct   = values[3] or 0
             local skillWidget = UI.CharacterStats:recursiveGetChildById("skillId" .. i)
             if skillWidget then
-                local tip = string.format("%s: Level %d → %d  (%d%% complete)",
+                local tip = string.format("%s: Level %d -> %d  (%d%% complete)",
                     skillNames[i + 1] or "Skill", skillLevel, skillLevel + 1, skillPct)
                 if baseSkill > 0 and baseSkill ~= skillLevel then
                     tip = tip .. string.format("\nBase: %d (bonus: %+d)", baseSkill, skillLevel - baseSkill)
@@ -1061,7 +1092,7 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     do
         local mlWidget = UI.CharacterStats:recursiveGetChildById("magiclevel")
         if mlWidget then
-            local tip = string.format("Magic Level: %d → %d  (%d%% complete)",
+            local tip = string.format("Magic Level: %d -> %d  (%d%% complete)",
                 data.magicLevel, data.magicLevel + 1, data.magicLevelPercent)
             if data.baseMagicLevel ~= data.magicLevel then
                 tip = tip .. string.format("\nBase: %d (bonus: %+d)", data.baseMagicLevel, data.magicLevel - data.baseMagicLevel)
@@ -1110,6 +1141,19 @@ function Cyclopedia.loadCharacterPlaytime(seconds)
     if widget then
         widget:setTooltip("Total time spent in Rookhaven")
     end
+end
+
+function Cyclopedia.updateFoodRegen(regenSecs)
+    if not UI or not UI.CharacterStats then return end
+    local text
+    if regenSecs < 0 then
+        text = "Equipment"  -- infinite from worn item
+    else
+        local minutes = math.floor(regenSecs / 60)
+        local secs = regenSecs % 60
+        text = string.format("%02d:%02d", minutes, secs)
+    end
+    Cyclopedia.setCharacterSkillValue("food", text)
 end
 
 function Cyclopedia.setCharacterSkillValue(id, value, color)
@@ -1291,7 +1335,9 @@ function Cyclopedia.configureCharacterCategories()
         {
             text = "Appearances",
             icon = "/game_cyclopedia/images/character_icons/icon_outfitsmounts",
-            open = "CharacterAppearances"
+            open = "CharacterAppearances",
+            disabled = true,
+            tooltip = "Use the Set Outfit button to change your appearance."
         },
         {
             text = "Character Titles",
