@@ -128,7 +128,7 @@ function showCharacter()
     end
 
     reset()
-    controllerCyclopedia.ui.CharmsBase:setVisible(true)
+    controllerCyclopedia.ui.CharmsBase:setVisible(false)  -- charms not used in 8.60
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
     if g_game.getClientVersion() >= 1410 then
@@ -614,23 +614,33 @@ end
 
 function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsArray, forgeSkillsArray,
     perfectShotDamageRanges, combatsArray, concoctionsArray)
-    if UI.CombatStats.lifeLeech then
-        UI.CombatStats.lifeLeech:setVisible(false)
-    end
-    if UI.CombatStats.manaLeech then
-        UI.CombatStats.manaLeech:setVisible(false)
+
+    -- Hide stats not applicable to Tibia 8.60
+    local sectionsToHide = {"criticalHit", "criticalChance", "criticalDamage", "lifeLeech", "manaLeech", "concoction", "concoctionPanel"}
+    for _, id in ipairs(sectionsToHide) do
+        if UI.CombatStats[id] then
+            UI.CombatStats[id]:setVisible(false)
+        end
     end
 
-    UI.CombatStats.attack.icon:setImageSource("/images/game/states/player-state-flags")
-    UI.CombatStats.attack.icon:setImageClip((data.weaponElement * 9) .. ' 0 9 9')
+    -- Use dedicated element icons (clientCombat paths) instead of player-state-flags sprite sheet
+    local function setElementIcon(iconWidget, elementId)
+        local elementInfo = Cyclopedia.clientCombat[elementId]
+        if elementInfo then
+            iconWidget:setImageSource(elementInfo.path)
+            iconWidget:setImageClip("")
+            iconWidget:setImageSize({width = 9, height = 9})
+        end
+    end
+
+    setElementIcon(UI.CombatStats.attack.icon, data.weaponElement)
     UI.CombatStats.attack.value:setText(data.weaponMaxHitChance)
 
     if data.weaponElementDamage > 0 then
         UI.CombatStats.converted.none:setVisible(false)
         UI.CombatStats.converted.value:setVisible(true)
         UI.CombatStats.converted.icon:setVisible(true)
-        UI.CombatStats.converted.icon:setImageSource("/images/game/states/player-state-flags")
-        UI.CombatStats.converted.icon:setImageClip((data.weaponElementType * 9) .. ' 0 9 9')
+        setElementIcon(UI.CombatStats.converted.icon, data.weaponElementType)
         UI.CombatStats.converted.value:setText(data.weaponElementDamage .. "%")
     else
         UI.CombatStats.converted.none:setVisible(true)
@@ -1173,7 +1183,9 @@ function Cyclopedia.configureCharacterCategories()
         {
             text = "Achievements",
             icon = "/game_cyclopedia/images/character_icons/icon_achievement",
-            open = "CharacterAchievements"
+            open = "CharacterAchievements",
+            disabled = true,
+            tooltip = "Achievements are not available in this version."
         },
         {
             text = "Appearances",
@@ -1192,6 +1204,14 @@ function Cyclopedia.configureCharacterCategories()
         widget:setId(id)
         widget.Button.Icon:setIcon(button.icon)
         widget.Button.Title:setText(button.text)
+
+        if button.disabled then
+            widget.Button.Title:setColor("#666666")
+            widget.Button.Icon:setOpacity(0.4)
+            if button.tooltip then
+                widget.Button:setTooltip(button.tooltip)
+            end
+        end
 
         if button.open ~= nil then
             widget.open = button.open
@@ -1268,6 +1288,9 @@ function Cyclopedia.configureCharacterCategories()
         end
 
         function widget.Button.onClick(this)
+            if button.disabled then
+                return
+            end
             if widget.open == "CharacterAchievements" then
                 Cyclopedia.loadCharacterAchievements()
             elseif widget.open == "CharacterItems" then

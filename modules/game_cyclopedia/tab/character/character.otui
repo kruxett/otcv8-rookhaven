@@ -1440,8 +1440,10 @@ UIWidget
         anchors.left: parent.left
         margin-left: 10
         @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
+      // Mounts and Familiars hidden - not available in 8.60
       CheckBoxCircle
         id: mounts
+        visible: false
         width: 85
         text: Mounts
         color: #C0C0C0
@@ -1451,6 +1453,7 @@ UIWidget
         @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
       CheckBoxCircle
         id: familiars
+        visible: false
         width: 85
         text: Familiars
         color: #C0C0C0
@@ -1458,8 +1461,10 @@ UIWidget
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: mounts.right
         @onClick: modules.game_cyclopedia.Cyclopedia.characterAppearancesFilter(self)
+      // Store outfit filter not applicable in 8.60
       ComboBox
         id: show
+        visible: false
         size: 222 20
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: familiars.right
@@ -1469,6 +1474,14 @@ UIWidget
           self:addOption("Show Standard Outfits")
           self:addOption("Show Quest Outfits")
           self:addOption("Show Store Outfits")
+      Label
+        id: appearancesNote
+        !text: tr('Showing current equipped outfit')
+        color: #909090
+        text-auto-resize: true
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: outfits.right
+        margin-left: 8
     BorderBox
       id: ListBase
       size: 489 376
