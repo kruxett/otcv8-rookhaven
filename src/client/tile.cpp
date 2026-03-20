@@ -60,6 +60,32 @@ namespace {
     RarityColorRGB g_rarityColorRare = {0, 102, 255};
     RarityColorRGB g_rarityColorEpic = {153, 51, 255};
     RarityColorRGB g_rarityColorLegendary = {255, 170, 0};
+
+    bool isRarityLoggingEnabled()
+    {
+        g_lua.getGlobal("ClientLog");
+        if (!g_lua.isTable()) {
+            g_lua.pop();
+            return false;
+        }
+
+        g_lua.getField("enabled");
+        bool enabled = false;
+        if (g_lua.isBoolean())
+            enabled = g_lua.popBoolean();
+        else
+            g_lua.pop();
+
+        g_lua.getField("rarity");
+        bool rarity = false;
+        if (g_lua.isBoolean())
+            rarity = g_lua.popBoolean();
+        else
+            g_lua.pop();
+
+        g_lua.pop(); // ClientLog table
+        return enabled && rarity;
+    }
 }
 
 Tile::Tile(const Position& position) :
@@ -241,6 +267,8 @@ void Tile::loadGroundRarityConfig()
 {
     if (g_rarityConfigLoaded)
         return;
+
+    const bool rarityLoggingEnabled = isRarityLoggingEnabled();
     
     // Load configuration from Lua ground_rarity module
     try {
@@ -333,8 +361,10 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorRare.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop rare table
-                    g_logger.info(stdext::format("[Ground Rarity] Loaded RARE color: RGB(%d,%d,%d)", 
-                        g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b));
+                    if (rarityLoggingEnabled) {
+                        g_logger.info(stdext::format("[Ground Rarity] Loaded RARE color: RGB(%d,%d,%d)", 
+                            g_rarityColorRare.r, g_rarityColorRare.g, g_rarityColorRare.b));
+                    }
                 } else {
                     g_lua.pop();
                 }
@@ -348,8 +378,10 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorEpic.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop epic table
-                    g_logger.info(stdext::format("[Ground Rarity] Loaded EPIC color: RGB(%d,%d,%d)", 
-                        g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b));
+                    if (rarityLoggingEnabled) {
+                        g_logger.info(stdext::format("[Ground Rarity] Loaded EPIC color: RGB(%d,%d,%d)", 
+                            g_rarityColorEpic.r, g_rarityColorEpic.g, g_rarityColorEpic.b));
+                    }
                 } else {
                     g_lua.pop();
                 }
@@ -363,8 +395,10 @@ void Tile::loadGroundRarityConfig()
                     g_lua.getField("b");
                     if (g_lua.isNumber()) g_rarityColorLegendary.b = g_lua.popInteger(); else g_lua.pop();
                     g_lua.pop(); // pop legendary table
-                    g_logger.info(stdext::format("[Ground Rarity] Loaded LEGENDARY color: RGB(%d,%d,%d)", 
-                        g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b));
+                    if (rarityLoggingEnabled) {
+                        g_logger.info(stdext::format("[Ground Rarity] Loaded LEGENDARY color: RGB(%d,%d,%d)", 
+                            g_rarityColorLegendary.r, g_rarityColorLegendary.g, g_rarityColorLegendary.b));
+                    }
                 } else {
                     g_lua.pop();
                 }
@@ -380,8 +414,10 @@ void Tile::loadGroundRarityConfig()
         }
         
         g_rarityConfigLoaded = true;
-        g_logger.info(stdext::format("[Ground Rarity] Config loaded: enabled=%s, style=%s",
-            g_rarityEnabled ? "true" : "false", g_rarityStyle));
+        if (rarityLoggingEnabled) {
+            g_logger.info(stdext::format("[Ground Rarity] Config loaded: enabled=%s, style=%s",
+                g_rarityEnabled ? "true" : "false", g_rarityStyle));
+        }
     } catch (const std::exception& e) {
         g_logger.error(stdext::format("[Ground Rarity] Failed to load config: %s", e.what()));
     }

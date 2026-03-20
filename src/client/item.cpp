@@ -36,10 +36,39 @@
 #include <framework/core/filestream.h>
 #include <framework/core/binarytree.h>
 #include <framework/graphics/shadermanager.h>
+#include <framework/luaengine/luainterface.h>
 
 #include <framework/util/stats.h>
 #include <algorithm>
 #include <cctype>
+
+namespace {
+bool isRarityLoggingEnabled()
+{
+    g_lua.getGlobal("ClientLog");
+    if (!g_lua.isTable()) {
+        g_lua.pop();
+        return false;
+    }
+
+    g_lua.getField("enabled");
+    bool enabled = false;
+    if (g_lua.isBoolean())
+        enabled = g_lua.popBoolean();
+    else
+        g_lua.pop();
+
+    g_lua.getField("rarity");
+    bool rarity = false;
+    if (g_lua.isBoolean())
+        rarity = g_lua.popBoolean();
+    else
+        g_lua.pop();
+
+    g_lua.pop(); // ClientLog table
+    return enabled && rarity;
+}
+}
 
 Item::Item() :
     m_clientId(0),
@@ -475,6 +504,7 @@ ThingType* Item::rawGetThingType()
 void Item::detectAndCacheRarity()
 {
     m_rarity = Item::RARITY_NONE;
+    const bool rarityLoggingEnabled = isRarityLoggingEnabled();
     
     // Check article for rarity keywords
     std::string article = getArticle();
@@ -484,23 +514,28 @@ void Item::detectAndCacheRarity()
         articleLower.resize(article.size());
         std::transform(article.begin(), article.end(), articleLower.begin(), ::tolower);
         
-        g_logger.debug(stdext::format("[Rarity] Checking article: '%s' (lowercased: '%s')", article, articleLower));
+        if (rarityLoggingEnabled)
+            g_logger.debug(stdext::format("[Rarity] Checking article: '%s' (lowercased: '%s')", article, articleLower));
         
         if (articleLower.find("legendary") != std::string::npos) {
             m_rarity = Item::RARITY_LEGENDARY;
-            g_logger.info(stdext::format("[Rarity] LEGENDARY detected in article: '%s'", article));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] LEGENDARY detected in article: '%s'", article));
             return;
         } else if (articleLower.find("epic") != std::string::npos) {
             m_rarity = Item::RARITY_EPIC;
-            g_logger.info(stdext::format("[Rarity] EPIC detected in article: '%s'", article));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] EPIC detected in article: '%s'", article));
             return;
         } else if (articleLower.find("rare") != std::string::npos) {
             m_rarity = Item::RARITY_RARE;
-            g_logger.info(stdext::format("[Rarity] RARE detected in article: '%s'", article));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] RARE detected in article: '%s'", article));
             return;
         } else if (articleLower.find("magical") != std::string::npos) {
             m_rarity = Item::RARITY_MAGICAL;
-            g_logger.info(stdext::format("[Rarity] MAGICAL detected in article: '%s'", article));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] MAGICAL detected in article: '%s'", article));
             return;
         }
     }
@@ -512,23 +547,28 @@ void Item::detectAndCacheRarity()
         descLower.resize(description.size());
         std::transform(description.begin(), description.end(), descLower.begin(), ::tolower);
         
-        g_logger.debug(stdext::format("[Rarity] Checking description: '%s'", description));
+        if (rarityLoggingEnabled)
+            g_logger.debug(stdext::format("[Rarity] Checking description: '%s'", description));
         
         if (descLower.find("legendary") != std::string::npos) {
             m_rarity = Item::RARITY_LEGENDARY;
-            g_logger.info(stdext::format("[Rarity] LEGENDARY detected in description: '%s'", description));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] LEGENDARY detected in description: '%s'", description));
             return;
         } else if (descLower.find("epic") != std::string::npos) {
             m_rarity = Item::RARITY_EPIC;
-            g_logger.info(stdext::format("[Rarity] EPIC detected in description: '%s'", description));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] EPIC detected in description: '%s'", description));
             return;
         } else if (descLower.find("rare") != std::string::npos) {
             m_rarity = Item::RARITY_RARE;
-            g_logger.info(stdext::format("[Rarity] RARE detected in description: '%s'", description));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] RARE detected in description: '%s'", description));
             return;
         } else if (descLower.find("magical") != std::string::npos) {
             m_rarity = Item::RARITY_MAGICAL;
-            g_logger.info(stdext::format("[Rarity] MAGICAL detected in description: '%s'", description));
+            if (rarityLoggingEnabled)
+                g_logger.info(stdext::format("[Rarity] MAGICAL detected in description: '%s'", description));
             return;
         }
     }

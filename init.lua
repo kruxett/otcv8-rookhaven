@@ -86,7 +86,17 @@ local LOG_CONFIG = {
 }
 -- LOGGING CONFIGURATION END
 
-_G.ClientLog = _G.ClientLog or LOG_CONFIG[BUILD_TYPE] or LOG_CONFIG.INSTALL
+local selectedLogConfig = LOG_CONFIG[BUILD_TYPE] or LOG_CONFIG.INSTALL
+_G.ClientLog = {
+  enabled = selectedLogConfig.enabled == true,
+  startup = selectedLogConfig.startup == true,
+  moduleLoad = selectedLogConfig.moduleLoad == true,
+  rarity = selectedLogConfig.rarity == true,
+  checksums = selectedLogConfig.checksums == true,
+  cyclopedia = selectedLogConfig.cyclopedia == true,
+  unlooted = selectedLogConfig.unlooted == true,
+  interface = selectedLogConfig.interface == true
+}
 
 function ClientLog.isEnabled(channel)
   return ClientLog.enabled and ClientLog[channel] == true
