@@ -9,6 +9,7 @@ local Opcode = 3
 
 local editMode = true
 local storeOpen = false
+local pendingVisualSync = false
 
 local CurrentStore = {}
 
@@ -49,6 +50,11 @@ function init()
 	end
 	
 	ItemStoreTooltip = g_ui.displayUI('storetooltip')
+
+	connect(g_game, {
+		onGameStart = refresh,
+		onGameEnd = refresh,
+	})
 	
 	ProtocolGame.registerExtendedOpcode(Opcode, parsePersonalStore)
 	MainWindow:hide()
@@ -86,7 +92,16 @@ end
 
 
 function refresh()
+	pendingVisualSync = false
 	MainWindow:hide()
+
+	if g_game.isOnline() then
+		scheduleEvent(function()
+			if g_game.isOnline() and g_game.getProtocolGame() then
+				requestPersonalStore(g_game.getCharacterName(), true)
+			end
+		end, 250)
+	end
 end
 
 function show()
@@ -427,7 +442,8 @@ function selectOrStartStore()
 end
 
 
-function requestPersonalStore(name)
+function requestPersonalStore(name, silent)
+	pendingVisualSync = silent == true
 	g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'RequestPersonalStore', name = name }))
 end
 
@@ -475,6 +491,18 @@ function parsePersonalStore(protocol, opcode, buffer)
 	end
 	
 	if personal_store.protocol == "ps" then
+		if personal_store.owner then
+			local localPlayer = g_game.getLocalPlayer()
+			if localPlayer then
+				localPlayer:setPersonalStore(personal_store.mode or PersonalStoreModeOff, personal_store.name or personal_store.ownername or "")
+			end
+		end
+
+		if pendingVisualSync then
+			pendingVisualSync = false
+			return
+		end
+
 		editMode = false
 		
 		for _, child in ipairs(ItemsPanel:getChildren()) do
