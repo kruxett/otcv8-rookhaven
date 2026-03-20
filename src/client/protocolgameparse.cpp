@@ -594,6 +594,8 @@ void ProtocolGame::parseLogin(const InputMessagePtr& msg)
 {
     uint playerId = msg->getU32();
     int serverBeat = msg->getU16();
+    uint8 psMode = 0;
+    std::string psName;
 
     if (g_game.getFeature(Otc::GameNewSpeedLaw)) {
         double speedA = msg->getDouble();
@@ -628,7 +630,13 @@ void ProtocolGame::parseLogin(const InputMessagePtr& msg)
         }
     }
 
+    if (msg->getUnreadSize() > 0) {
+        psMode = msg->getU8();
+        psName = msg->getString();
+    }
+
     m_localPlayer->setId(playerId);
+    m_localPlayer->setPersonalStore(psMode, psName);
     g_game.setServerBeat(serverBeat);
     g_game.setCanReportBugs(canReportBugs);
 
