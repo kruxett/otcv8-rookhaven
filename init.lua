@@ -28,9 +28,36 @@ ALLOW_CUSTOM_SERVERS = false -- if true it shows option ANOTHER on server list
 g_app.setName("Rookhaven Client")
 -- CONFIG END
 
+_G.ClientLog = _G.ClientLog or {
+  enabled = false,
+  startup = false,
+  moduleLoad = false,
+  rarity = false,
+  checksums = false,
+  cyclopedia = false,
+  unlooted = false,
+  interface = false
+}
+
+function ClientLog.isEnabled(channel)
+  return ClientLog.enabled and ClientLog[channel] == true
+end
+
+function ClientLog.info(channel, msg)
+  if ClientLog.isEnabled(channel) then
+    g_logger.info(msg)
+  end
+end
+
+function ClientLog.warning(channel, msg)
+  if ClientLog.isEnabled(channel) then
+    g_logger.warning(msg)
+  end
+end
+
 -- print first terminal message
-g_logger.info(os.date("== application started at %b %d %Y %X"))
-g_logger.info(g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' .. g_app.getBuildCommit() .. ') made for ' .. g_app.getAuthor() .. ' built on ' .. g_app.getBuildDate() .. ' for arch ' .. g_app.getBuildArch())
+ClientLog.info("startup", os.date("== application started at %b %d %Y %X"))
+ClientLog.info("startup", g_app.getName() .. ' ' .. g_app.getVersion() .. ' rev ' .. g_app.getBuildRevision() .. ' (' .. g_app.getBuildCommit() .. ') made for ' .. g_app.getAuthor() .. ' built on ' .. g_app.getBuildDate() .. ' for arch ' .. g_app.getBuildArch())
 
 if not g_resources.directoryExists("/data") then
   g_logger.fatal("Data dir doesn't exist.")
@@ -75,19 +102,19 @@ local function loadModules()
   g_modules.ensureModuleLoaded("game_interface")
   
   -- Explicitly load game_affixes module
-  g_logger.info("Attempting to load game_affixes module...")
+  ClientLog.info("moduleLoad", "Attempting to load game_affixes module...")
   local affixModule = g_modules.getModule("game_affixes")
   if affixModule then
-    g_logger.info("Found game_affixes module, loading...")
+    ClientLog.info("moduleLoad", "Found game_affixes module, loading...")
     g_modules.ensureModuleLoaded("game_affixes")
   else
-    g_logger.warning("game_affixes module not found!")
+    ClientLog.warning("moduleLoad", "game_affixes module not found!")
   end
 
   -- Explicitly load game_bot module when present
   local botModule = g_modules.getModule("game_bot")
   if botModule then
-    g_logger.info("Found game_bot module, loading...")
+    ClientLog.info("moduleLoad", "Found game_bot module, loading...")
     g_modules.ensureModuleLoaded("game_bot")
   end
 

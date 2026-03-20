@@ -27,7 +27,9 @@ groundRarityConfig.colors = {
 groundRarityConfig.rarityFilter = nil
 
 function init()
-  g_logger.info("[Ground Rarity] Configuration loaded with style: " .. groundRarityConfig.style)
+  if ClientLog and ClientLog.info then
+    ClientLog.info("rarity", "[Ground Rarity] Configuration loaded with style: " .. groundRarityConfig.style)
+  end
 end
 
 function terminate()

@@ -19,6 +19,12 @@ local previousTileOnRemoveThing = nil
 local corpseItemServerIds = {}
 local corpseItemIdsLoaded = false
 
+local function log(msg)
+  if ClientLog and ClientLog.isEnabled and ClientLog.isEnabled("unlooted") then
+    log(msg)
+  end
+end
+
 local function posKey(pos)
   return pos.x .. "," .. pos.y .. "," .. pos.z
 end
@@ -49,7 +55,7 @@ local function loadCorpseItemIds()
   end
   if not g_resources.fileExists(dataPath) then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Item data file not found: " .. dataPath)
+      log("[UnlootedCorpse] Item data file not found: " .. dataPath)
     end
     return
   end
@@ -92,7 +98,7 @@ local function loadCorpseItemIds()
   end
 
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] Loaded " .. tostring(added) .. " corpse item ids from items.txt")
+    log("[UnlootedCorpse] Loaded " .. tostring(added) .. " corpse item ids from items.txt")
   end
 end
 
@@ -170,7 +176,7 @@ local function findCorpseOnTile(tile)
       end
     end
     if #names > 0 then
-      print("[UnlootedCorpse] Tile items: " .. table.concat(names, ", "))
+      log("[UnlootedCorpse] Tile items: " .. table.concat(names, ", "))
     end
   end
 
@@ -179,7 +185,7 @@ end
 
 local function clearCorpseContainer(container)
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] Checking container for clear, size=" .. tostring(container:getItemsCount()))
+    log("[UnlootedCorpse] Checking container for clear, size=" .. tostring(container:getItemsCount()))
   end
   if not UnlootedCorpseConfig.isEnabled() then
     return
@@ -187,7 +193,7 @@ local function clearCorpseContainer(container)
 
   if container:getItemsCount() > 0 then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Container not empty, skip clear")
+      log("[UnlootedCorpse] Container not empty, skip clear")
     end
     return
   end
@@ -195,7 +201,7 @@ local function clearCorpseContainer(container)
   local containerItem = container:getContainerItem()
   if not containerItem or not containerItem:isItem() or not containerItem:isContainer() then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Container item invalid for clear")
+      log("[UnlootedCorpse] Container item invalid for clear")
     end
     return
   end
@@ -203,7 +209,7 @@ local function clearCorpseContainer(container)
   local pos = containerItem:getPosition()
   if not pos or pos.x == 0xffff then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Container has no valid position for clear")
+      log("[UnlootedCorpse] Container has no valid position for clear")
     end
     return
   end
@@ -211,7 +217,7 @@ local function clearCorpseContainer(container)
   local key = pos.x .. "," .. pos.y .. "," .. pos.z
   if not isCorpseItem(containerItem) and not markedTiles[key] then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Container not tracked or not corpse, skip clear at " .. key)
+      log("[UnlootedCorpse] Container not tracked or not corpse, skip clear at " .. key)
     end
     return
   end
@@ -229,7 +235,7 @@ local function clearCorpseContainer(container)
   end
 
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] Cleared empty corpse at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+    log("[UnlootedCorpse] Cleared empty corpse at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
   end
 end
 
@@ -329,7 +335,7 @@ function init()
   checkEvent = scheduleEvent(checkMarkedTiles, 500)
   
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] Module initialized")
+    log("[UnlootedCorpse] Module initialized")
   end
 end
 
@@ -362,7 +368,7 @@ function terminate()
   end
   
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] Module terminated")
+    log("[UnlootedCorpse] Module terminated")
   end
 end
 
@@ -384,7 +390,7 @@ end
 
 function onContainerRemoveItem(container, slot, item)
   if UnlootedCorpseConfig.debug then
-    print("[UnlootedCorpse] onContainerRemoveItem fired, slot=" .. tostring(slot))
+    log("[UnlootedCorpse] onContainerRemoveItem fired, slot=" .. tostring(slot))
   end
   clearCorpseContainer(container)
 end
@@ -418,7 +424,7 @@ function remarkTile(pos)
       end
 
       if UnlootedCorpseConfig.debug then
-        print("[UnlootedCorpse] ? Auto-cleared tile " .. pos.x .. "," .. pos.y .. "," .. pos.z .. " (corpse missing)")
+        log("[UnlootedCorpse] ? Auto-cleared tile " .. pos.x .. "," .. pos.y .. "," .. pos.z .. " (corpse missing)")
       end
     end
     return
@@ -445,7 +451,7 @@ function onExtendedOpcode(protocol, opcode, buffer)
       handleUnlootedCorpseMessage(buffer)
     else
       if UnlootedCorpseConfig.debug then
-        print("[UnlootedCorpse] WARNING: System is DISABLED!")
+        log("[UnlootedCorpse] WARNING: System is DISABLED!")
       end
     end
   end
@@ -476,7 +482,7 @@ function applyCorpseGlowShader(corpse)
   corpse:setMarked(colorHex)
   
   if CorpseGlowConfig.debug then
-    print(string.format("[CorpseGlow] Applied shader to corpse ID=%d with color #%02x%02x%02x%02x, speed=%.2f, direction=%d",
+    log(string.format("[CorpseGlow] Applied shader to corpse ID=%d with color #%02x%02x%02x%02x, speed=%.2f, direction=%d",
       corpse:getId(), r, g, b, a, animation.speed or 1.5, animation.direction or 0))
   end
   
@@ -489,7 +495,7 @@ function handleUnlootedCorpseMessage(buffer)
   local cmd, coords = buffer:match("(%w+):(.+)")
   
   if not cmd or not coords then
-    print("[UnlootedCorpse] ERROR: Failed to parse message! cmd=" .. tostring(cmd) .. " coords=" .. tostring(coords))
+    log("[UnlootedCorpse] ERROR: Failed to parse message! cmd=" .. tostring(cmd) .. " coords=" .. tostring(coords))
     return
   end
   
@@ -497,7 +503,7 @@ function handleUnlootedCorpseMessage(buffer)
   local x, y, z = coords:match("(%d+),(%d+),(%d+)")
   
   if not x or not y or not z then
-    print("[UnlootedCorpse] ERROR: Failed to parse coordinates! x=" .. tostring(x) .. " y=" .. tostring(y) .. " z=" .. tostring(z))
+    log("[UnlootedCorpse] ERROR: Failed to parse coordinates! x=" .. tostring(x) .. " y=" .. tostring(y) .. " z=" .. tostring(z))
     return
   end
 
@@ -511,12 +517,12 @@ function handleUnlootedCorpseMessage(buffer)
   -- Execute command
   if cmd == "mark" then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Received mark for " .. coords)
+      log("[UnlootedCorpse] Received mark for " .. coords)
     end
     -- Get the tile at this position
     local tile = g_map.getTile(pos)
     if not tile then
-      print("[UnlootedCorpse] ERROR: Tile not found at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+      log("[UnlootedCorpse] ERROR: Tile not found at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
       return
     end
 
@@ -524,7 +530,7 @@ function handleUnlootedCorpseMessage(buffer)
     local lastClear = clearedTiles[key]
     if lastClear and (g_clock.millis() - lastClear) < UnlootedCorpseConfig.clearReapplySuppressMs then
       if UnlootedCorpseConfig.debug then
-        print("[UnlootedCorpse] Ignoring re-mark shortly after clear at " .. key)
+        log("[UnlootedCorpse] Ignoring re-mark shortly after clear at " .. key)
       end
       return
     end
@@ -539,15 +545,15 @@ function handleUnlootedCorpseMessage(buffer)
       -- Mark it with configured pulsing glow shader
       applyCorpseGlowShader(corpse)
       missingCorpseTiles[key] = nil
-      print("[UnlootedCorpse] ? MARKED corpse ID=" .. corpse:getId() .. " at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+      log("[UnlootedCorpse] ? MARKED corpse ID=" .. corpse:getId() .. " at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     else
       markMissingCorpse(key)
-      print("[UnlootedCorpse] WARNING: No corpse found on tile " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+      log("[UnlootedCorpse] WARNING: No corpse found on tile " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     end
     
   elseif cmd == "clear" then
     if UnlootedCorpseConfig.debug then
-      print("[UnlootedCorpse] Received clear for " .. coords)
+      log("[UnlootedCorpse] Received clear for " .. coords)
     end
     -- Untrack this tile
     local key = pos.x .. "," .. pos.y .. "," .. pos.z
@@ -563,10 +569,10 @@ function handleUnlootedCorpseMessage(buffer)
       for _, item in ipairs(items) do
         item:setMarked('')
       end
-      print("[UnlootedCorpse] ? CLEARED marks at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
+      log("[UnlootedCorpse] ? CLEARED marks at " .. pos.x .. "," .. pos.y .. "," .. pos.z)
     end
   else
-    print("[UnlootedCorpse] ERROR: Unknown command '" .. tostring(cmd) .. "'")
+    log("[UnlootedCorpse] ERROR: Unknown command '" .. tostring(cmd) .. "'")
   end
 end
 

@@ -109,7 +109,7 @@ Cyclopedia = {}
 local CYCLOPEDIA_EXT_OPCODE = 31
 local CYCLOPEDIA_PROTOCOL_PREFIX = "cp"
 local CYCLOPEDIA_PROTOCOL_VERSION = "1"
-local CYCLOPEDIA_DEBUG = true
+local CYCLOPEDIA_DEBUG = ClientLog and ClientLog.isEnabled and ClientLog.isEnabled("cyclopedia") or false
 
 -- These remain intentionally disabled until the dedicated rollout phase.
 local HARD_DISABLED_TABS = {

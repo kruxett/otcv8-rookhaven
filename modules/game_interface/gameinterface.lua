@@ -113,7 +113,9 @@ function terminate()
 end
 
 function onGameStart()
-g_logger.info("gameinterface.onGameStart() called")
+if ClientLog and ClientLog.info then
+  ClientLog.info("interface", "gameinterface.onGameStart() called")
+end
 refreshViewMode()
 show()
   

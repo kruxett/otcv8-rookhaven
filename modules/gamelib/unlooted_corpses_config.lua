@@ -41,13 +41,19 @@ UnlootedCorpseConfig = {
   corpseItemKeywords = { "corpse", "dead", "slain", "remains", "body", "bones" }
 }
 
+local function logUnlooted(msg)
+  if ClientLog and ClientLog.isEnabled and ClientLog.isEnabled("unlooted") then
+    print(msg)
+  end
+end
+
 function UnlootedCorpseConfig.isEnabled()
   return UnlootedCorpseConfig.enabled
 end
 
 function UnlootedCorpseConfig.setEnabled(enabled)
   UnlootedCorpseConfig.enabled = enabled
-  print("[UnlootedCorpse] System " .. (enabled and "enabled" or "disabled"))
+  logUnlooted("[UnlootedCorpse] System " .. (enabled and "enabled" or "disabled"))
 end
 
 function UnlootedCorpseConfig.getGlowColor()
@@ -57,7 +63,7 @@ end
 
 function UnlootedCorpseConfig.setGlowColor(r, g, b, a)
   UnlootedCorpseConfig.marker.glowColor = { r = r, g = g, b = b, a = a or 200 }
-  print(string.format("[UnlootedCorpse] Glow color set to RGB(%d,%d,%d,%d)", r, g, b, a or 200))
+  logUnlooted(string.format("[UnlootedCorpse] Glow color set to RGB(%d,%d,%d,%d)", r, g, b, a or 200))
 end
 
 -- Console commands for easy configuration
@@ -67,7 +73,7 @@ end
 
 function unlootedCorpseDebug()
   UnlootedCorpseConfig.debug = not UnlootedCorpseConfig.debug
-  print("[UnlootedCorpse] Debug mode: " .. tostring(UnlootedCorpseConfig.debug))
+  logUnlooted("[UnlootedCorpse] Debug mode: " .. tostring(UnlootedCorpseConfig.debug))
 end
 
 function unlootedCorpseColor(r, g, b, a)

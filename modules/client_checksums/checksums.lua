@@ -3,6 +3,12 @@
 
 ClientChecksums = {}
 
+local function logChecksum(msg)
+  if ClientLog and ClientLog.isEnabled and ClientLog.isEnabled("checksums") then
+    print(msg)
+  end
+end
+
 -- Files to check on login
 local CRITICAL_FILES = {
   "/modules/corelib/corelib.otmod",
@@ -76,7 +82,7 @@ function ClientChecksums.getLoginExtendedData()
   local data = "CS1:" .. hashString(combined)
 
   if g_settings.getBoolean("enableChecksumDebug", false) then
-    print("[ClientChecksums] Login data: " .. data)
+    logChecksum("[ClientChecksums] Login data: " .. data)
   end
 
   return data
@@ -87,7 +93,7 @@ function ClientChecksums.onChecksumChallenge(protocol, opcode, buffer)
   -- Parse challenge: format is "challengeId:file1,file2,file3"
   local separator = buffer:find(":")
   if not separator then
-    print("[ClientChecksums] Invalid challenge format")
+    logChecksum("[ClientChecksums] Invalid challenge format")
     return
   end
   
@@ -113,7 +119,7 @@ function ClientChecksums.onChecksumChallenge(protocol, opcode, buffer)
   
   -- Debug log
   if g_settings.getBoolean("enableChecksumDebug", false) then
-    print("[ClientChecksums] Challenge " .. challengeId .. " response sent for " .. #files .. " files")
+    logChecksum("[ClientChecksums] Challenge " .. challengeId .. " response sent for " .. #files .. " files")
   end
 end
 
@@ -125,7 +131,7 @@ function ClientChecksums.init()
   -- Register handler for periodic challenges (opcode 2)
   ProtocolGame.registerExtendedOpcode(2, ClientChecksums.onChecksumChallenge)
   
-  print("[ClientChecksums] Integrity verification system initialized")
+  logChecksum("[ClientChecksums] Integrity verification system initialized")
 end
 
 function ClientChecksums.terminate()

@@ -35,11 +35,15 @@ local AFFIX_STYLES = {
 }
 
 function init()
-  g_logger.info("[Affixes] Module loaded - providing rarity frame detection")
+  if ClientLog and ClientLog.info then
+    ClientLog.info("rarity", "[Affixes] Module loaded - providing rarity frame detection")
+  end
 end
 
 function terminate()
-  g_logger.info("[Affixes] Module terminated")
+  if ClientLog and ClientLog.info then
+    ClientLog.info("rarity", "[Affixes] Module terminated")
+  end
 end
 
 -- Detect if item has rarity by checking article attribute
