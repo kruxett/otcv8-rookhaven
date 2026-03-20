@@ -1,4 +1,6 @@
--- CONFIG
+-- ============================================================================
+-- APP CONFIGURATION
+-- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
 APP_VERSION = 1341       -- client version for updater and login to identify outdated client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
@@ -26,18 +28,65 @@ end
 ALLOW_CUSTOM_SERVERS = false -- if true it shows option ANOTHER on server list
 
 g_app.setName("Rookhaven Client")
--- CONFIG END
+-- APP CONFIGURATION END
 
-_G.ClientLog = _G.ClientLog or {
-  enabled = false,
-  startup = false,
-  moduleLoad = false,
-  rarity = false,
-  checksums = false,
-  cyclopedia = false,
-  unlooted = false,
-  interface = false
+-- ============================================================================
+-- LOGGING CONFIGURATION
+-- ============================================================================
+-- Choose build type for automatic logging configuration:
+-- "INSTALL"        - All logging OFF (clean console, production mode)
+-- "DEV_SELECTIVE"  - Only unlooted + interface logging (recommended for development)
+-- "DEV_FULL"       - All logging ON (verbose, debug heavy)
+-- "CUSTOM"         - Set channels manually below
+-- ============================================================================
+local BUILD_TYPE = "INSTALL"  -- CHANGE THIS TO SWITCH MODES
+
+local LOG_CONFIG = {
+  INSTALL = {
+    enabled = false,
+    startup = false,
+    moduleLoad = false,
+    rarity = false,
+    checksums = false,
+    cyclopedia = false,
+    unlooted = false,
+    interface = false
+  },
+  DEV_SELECTIVE = {
+    enabled = true,
+    startup = false,
+    moduleLoad = false,
+    rarity = false,
+    checksums = false,
+    cyclopedia = false,
+    unlooted = true,   -- Shows corpse tracking
+    interface = false
+  },
+  DEV_FULL = {
+    enabled = true,
+    startup = true,
+    moduleLoad = true,
+    rarity = true,
+    checksums = false,  -- Too spammy, disable if not needed
+    cyclopedia = false, -- Too spammy, disable if not needed
+    unlooted = true,
+    interface = true
+  },
+  CUSTOM = {
+    -- EDIT THESE MANUALLY if BUILD_TYPE = "CUSTOM"
+    enabled = false,
+    startup = false,
+    moduleLoad = false,
+    rarity = false,
+    checksums = false,
+    cyclopedia = false,
+    unlooted = false,
+    interface = false
+  }
 }
+-- LOGGING CONFIGURATION END
+
+_G.ClientLog = _G.ClientLog or LOG_CONFIG[BUILD_TYPE] or LOG_CONFIG.INSTALL
 
 function ClientLog.isEnabled(channel)
   return ClientLog.enabled and ClientLog[channel] == true
@@ -53,6 +102,21 @@ function ClientLog.warning(channel, msg)
   if ClientLog.isEnabled(channel) then
     g_logger.warning(msg)
   end
+end
+
+-- Debug: print configuration at startup (only if startup logging is enabled)
+if ClientLog.enabled and ClientLog.startup then
+  g_logger.info("=== CLIENT LOGGING CONFIG ===")
+  g_logger.info("BUILD_TYPE: " .. BUILD_TYPE)
+  g_logger.info("enabled=" .. tostring(ClientLog.enabled) .. 
+                " startup=" .. tostring(ClientLog.startup) .. 
+                " moduleLoad=" .. tostring(ClientLog.moduleLoad) .. 
+                " rarity=" .. tostring(ClientLog.rarity) .. 
+                " checksums=" .. tostring(ClientLog.checksums) .. 
+                " cyclopedia=" .. tostring(ClientLog.cyclopedia) .. 
+                " unlooted=" .. tostring(ClientLog.unlooted) .. 
+                " interface=" .. tostring(ClientLog.interface))
+  g_logger.info("=============================")
 end
 
 -- print first terminal message
