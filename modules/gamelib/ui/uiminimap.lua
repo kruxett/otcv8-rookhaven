@@ -337,12 +337,15 @@ end
 function UIMinimap:onDragEnter(pos)
   self.dragReference = pos
   self.dragCameraReference = self:getCameraPosition()
-  return true
-end
-
-function UIMinimap:onDragMove(pos, moved)
-  local scale = self:getScale()
   local dx = (self.dragReference.x - pos.x)/scale
+    local successFunc = function()
+      -- Capture values before destroying window
+      local selectedIcon = flagRadioGroup:getSelectedWidget().icon
+      local descriptionText = description:getText()
+      -- Destroy window
+      self:destroyFlagWindow()
+      -- Add flag with captured values
+      self:addFlag(pos, selectedIcon, descriptionText)
   local dy = (self.dragReference.y - pos.y)/scale
   local pos = {x = self.dragCameraReference.x + dx, y = self.dragCameraReference.y + dy, z = self.dragCameraReference.z}
   self:setCameraPosition(pos)
