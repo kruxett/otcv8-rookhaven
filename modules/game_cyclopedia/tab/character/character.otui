@@ -642,8 +642,44 @@ UIWidget
         color: #E8A040
         margin-right: 2
     CharacterSkillBase
+      id: avgHit
+      anchors.top: estDps.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 0
+      SkillNameLabel
+        !text: tr('Avg Hit:')
+        color: #C0C0C0
+      SkillValueLabel
+        color: #D0A050
+        margin-right: 2
+    CharacterSkillBase
+      id: atkSpeed
+      anchors.top: avgHit.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 0
+      SkillNameLabel
+        !text: tr('Atk Speed:')
+        color: #C0C0C0
+      SkillValueLabel
+        color: #C0C0C0
+        margin-right: 2
+    CharacterSkillBase
+      id: dps
+      anchors.top: atkSpeed.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 0
+      SkillNameLabel
+        !text: tr('Est. DPS:')
+        color: #C0C0C0
+      SkillValueLabel
+        color: #E06020
+        margin-right: 2
+    CharacterSkillBase
       id: converted
-        anchors.top: dps.bottom
+      anchors.top: dps.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 0
