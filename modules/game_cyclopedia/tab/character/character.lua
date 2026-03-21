@@ -35,12 +35,20 @@ local function refreshSelectedCharacterStatsNow()
         if Cyclopedia.buildAndLoadGeneralStats then
             Cyclopedia.buildAndLoadGeneralStats()
         end
-        if Cyclopedia.sendCyclopediaRequest then
-            Cyclopedia.sendCyclopediaRequest("character.playtime", "")
-        end
     else
-        if Cyclopedia.buildAndLoadCombatStats then
-            Cyclopedia.buildAndLoadCombatStats()
+        local infoType = nil
+        if selected == "CombatStats" then
+            infoType = CyclopediaCharacterInfoTypes and CyclopediaCharacterInfoTypes.CombatStats
+        elseif selected == "OffenceStats" then
+            infoType = CyclopediaCharacterInfoTypes and CyclopediaCharacterInfoTypes.Offencestats
+        elseif selected == "DeffenceStats" then
+            infoType = CyclopediaCharacterInfoTypes and CyclopediaCharacterInfoTypes.Defencestats
+        elseif selected == "MiscStats" then
+            infoType = CyclopediaCharacterInfoTypes and CyclopediaCharacterInfoTypes.Miscstats
+        end
+
+        if infoType and g_game.requestCharacterInfo then
+            g_game.requestCharacterInfo(0, infoType)
         end
     end
 end
@@ -54,7 +62,7 @@ local function queueCharacterLiveRefresh()
     characterLiveRefreshEvent = scheduleEvent(function()
         characterLiveRefreshEvent = nil
         refreshSelectedCharacterStatsNow()
-    end, 120)
+    end, 220)
 end
 
 local function onCharacterLiveStatsChanged(...)
@@ -79,9 +87,6 @@ local function disconnectCharacterLiveSignals()
         onBaseSkillChange = onCharacterLiveStatsChanged,
         onMagicLevelChange = onCharacterLiveStatsChanged,
         onBaseMagicLevelChange = onCharacterLiveStatsChanged,
-        onHealthChange = onCharacterLiveStatsChanged,
-        onManaChange = onCharacterLiveStatsChanged,
-        onSoulChange = onCharacterLiveStatsChanged,
     })
 
     characterLiveSignalsConnected = false
@@ -103,9 +108,6 @@ local function connectCharacterLiveSignals()
         onBaseSkillChange = onCharacterLiveStatsChanged,
         onMagicLevelChange = onCharacterLiveStatsChanged,
         onBaseMagicLevelChange = onCharacterLiveStatsChanged,
-        onHealthChange = onCharacterLiveStatsChanged,
-        onManaChange = onCharacterLiveStatsChanged,
-        onSoulChange = onCharacterLiveStatsChanged,
     })
 
     characterLiveSignalsConnected = true
@@ -258,43 +260,43 @@ Cyclopedia.Character.Items = Cyclopedia.Character.Items or {}
 Cyclopedia.InventorySlotStyles = {
     [InventorySlotHead] = {
         icon = "/images/game/slots/inventory-head",
-        name = "HeadSlot"
+        name = "CyclopediaHeadSlot"
     },
     [InventorySlotNeck] = {
         icon = "/images/game/slots/inventory-neck",
-        name = "NeckSlot"
+        name = "CyclopediaNeckSlot"
     },
     [InventorySlotBack] = {
         icon = "/images/game/slots/inventory-back",
-        name = "BackSlot"
+        name = "CyclopediaBackSlot"
     },
     [InventorySlotBody] = {
         icon = "/images/game/slots/inventory-torso",
-        name = "BodySlot"
+        name = "CyclopediaBodySlot"
     },
     [InventorySlotRight] = {
         icon = "/images/game/slots/inventory-right-hand",
-        name = "RightSlot"
+        name = "CyclopediaRightSlot"
     },
     [InventorySlotLeft] = {
         icon = "/images/game/slots/inventory-left-hand",
-        name = "LeftSlot"
+        name = "CyclopediaLeftSlot"
     },
     [InventorySlotLeg] = {
         icon = "/images/game/slots/inventory-legs",
-        name = "LegSlot"
+        name = "CyclopediaLegSlot"
     },
     [InventorySlotFeet] = {
         icon = "/images/game/slots/inventory-feet",
-        name = "FeetSlot"
+        name = "CyclopediaFeetSlot"
     },
     [InventorySlotFinger] = {
         icon = "/images/game/slots/inventory-finger",
-        name = "FingerSlot"
+        name = "CyclopediaFingerSlot"
     },
     [InventorySlotAmmo] = {
         icon = "/images/game/slots/inventory-hip",
-        name = "AmmoSlot"
+        name = "CyclopediaAmmoSlot"
     }
 }
 

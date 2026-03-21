@@ -1145,52 +1145,52 @@ CharmCreatureName < UICheckBox
   
 InventoryItemCyclopedia < Item
   phantom: true
-HeadSlot < InventoryItemCyclopedia
+CyclopediaHeadSlot < InventoryItemCyclopedia
   id: slot1
 
   &position: {x=65535, y=1, z=0}
 
-BodySlot < InventoryItemCyclopedia
+CyclopediaBodySlot < InventoryItemCyclopedia
   id: slot4
 
   &position: {x=65535, y=4, z=0}
 
-LegSlot < InventoryItemCyclopedia
+CyclopediaLegSlot < InventoryItemCyclopedia
   id: slot7
 
   &position: {x=65535, y=7, z=0}
 
-FeetSlot < InventoryItemCyclopedia
+CyclopediaFeetSlot < InventoryItemCyclopedia
   id: slot8
 
   &position: {x=65535, y=8, z=0}
 
-NeckSlot < InventoryItemCyclopedia
+CyclopediaNeckSlot < InventoryItemCyclopedia
   id: slot2
 
   &position: {x=65535, y=2, z=0}
 
-LeftSlot < InventoryItemCyclopedia
+CyclopediaLeftSlot < InventoryItemCyclopedia
   id: slot6
 
   &position: {x=65535, y=6, z=0}
 
-FingerSlot < InventoryItemCyclopedia
+CyclopediaFingerSlot < InventoryItemCyclopedia
   id: slot9
 
   &position: {x=65535, y=9, z=0}
 
-BackSlot < InventoryItemCyclopedia
+CyclopediaBackSlot < InventoryItemCyclopedia
   id: slot3
 
   &position: {x=65535, y=3, z=0}
 
-RightSlot < InventoryItemCyclopedia
+CyclopediaRightSlot < InventoryItemCyclopedia
   id: slot5
 
   &position: {x=65535, y=5, z=0}
 
-AmmoSlot < InventoryItemCyclopedia
+CyclopediaAmmoSlot < InventoryItemCyclopedia
   id: slot10
 
   &position: {x=65535, y=10, z=0}

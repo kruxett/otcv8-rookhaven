@@ -382,6 +382,14 @@ function onInventoryChange(player, slot, item, oldItem)
   end
 
   local itemWidget = inventoryPanel:getChildById('slot' .. slot)
+  if not itemWidget then
+    return
+  end
+
+  -- Safety: prevent stale non-interactive state on slot widgets after style swaps.
+  itemWidget:setPhantom(false)
+  itemWidget:enable()
+
   local slotStyle = InventorySlotStyles[slot] or 'InventoryItem'
   local hasAdventurerBlessing = player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false
   if item then
