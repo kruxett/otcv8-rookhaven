@@ -282,6 +282,19 @@ function onInventoryChange(player, slot, item, oldItem)
   local hasAdventurerBlessing = player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false
   if item then
     itemWidget:setStyle(slotStyle)
+
+    -- Restore rarity frame on equipped items (same source used by containers)
+    local affixSystem = _G.affixSystem
+    if affixSystem then
+      local rarityFrame = affixSystem.getRarityFrame(item)
+      if rarityFrame then
+        itemWidget:setImageSource(rarityFrame)
+      else
+        applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
+      end
+    else
+      applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
+    end
     
     -- Check if item is magical and apply purple tint
     local article = item:getArticle()
