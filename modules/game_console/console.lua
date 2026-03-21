@@ -1522,7 +1522,21 @@ function online()
       end
     end
   end
-  scheduleEvent(function() consoleTabBar:selectTab(defaultTab) end, 500)
+  scheduleEvent(function()
+    if not consoleTabBar then
+      return
+    end
+
+    if not defaultTab then
+      return
+    end
+
+    if defaultTab.isDestroyed and defaultTab:isDestroyed() then
+      return
+    end
+
+    consoleTabBar:selectTab(defaultTab)
+  end, 500)
   scheduleEvent(function() ignoredChannels = {} end, 3000)
 end
 

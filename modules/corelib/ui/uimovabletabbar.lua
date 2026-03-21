@@ -370,6 +370,18 @@ function UIMoveableTabBar:getTab(text)
 end
 
 function UIMoveableTabBar:selectTab(tab)
+  if not tab then
+    return
+  end
+
+  if tab.isDestroyed and tab:isDestroyed() then
+    return
+  end
+
+  if not tab.tabPanel then
+    return
+  end
+
   if self.currentTab == tab then return end
   if self.contentWidget then
     local selectedWidget = self.contentWidget:getLastChild()
