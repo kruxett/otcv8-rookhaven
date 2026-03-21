@@ -7,11 +7,46 @@ local STAGES = {
     CREATURE = 3
 }
 
+local BESTIARY_UNLOCK_HINT = "Bestiary entries are unlocked by killing creatures. Only discovered creatures are shown."
+
 local storedRaceIDs = {}
 -- Move tracker data to global Cyclopedia namespace to persist across module reloads
 Cyclopedia.storedTrackerData = Cyclopedia.storedTrackerData or nil
 Cyclopedia.storedBosstiaryTrackerData = Cyclopedia.storedBosstiaryTrackerData or nil
 local animusMasteryPoints = 0
+local bestiaryTrackerLiveRefreshEvent = nil
+local BESTIARY_TRACKER_LIVE_REFRESH_MS = 1500
+
+local function cancelBestiaryTrackerLiveRefresh()
+    if bestiaryTrackerLiveRefreshEvent then
+        removeEvent(bestiaryTrackerLiveRefreshEvent)
+        bestiaryTrackerLiveRefreshEvent = nil
+    end
+end
+
+local function scheduleBestiaryTrackerLiveRefresh()
+    cancelBestiaryTrackerLiveRefresh()
+
+    bestiaryTrackerLiveRefreshEvent = scheduleEvent(function()
+        bestiaryTrackerLiveRefreshEvent = nil
+
+        if not g_game.isOnline() then
+            return
+        end
+
+        if not trackerMiniWindow or not trackerMiniWindow:isVisible() then
+            return
+        end
+
+        if g_game.requestBestiaryTracker then
+            g_game.requestBestiaryTracker()
+        else
+            g_game.requestBestiary()
+        end
+
+        scheduleBestiaryTrackerLiveRefresh()
+    end, BESTIARY_TRACKER_LIVE_REFRESH_MS)
+end
 
 local function getCreatureWidgetCreature(widget)
     if not widget or not widget.getCreature then
@@ -107,6 +142,14 @@ end
 function showBestiary()
     UI = g_ui.loadUI("bestiary", contentContainer)
     UI:show()
+
+    if UI.SearchEdit then
+        UI.SearchEdit:setTooltip(BESTIARY_UNLOCK_HINT)
+    end
+
+    if UI.SearchButton then
+        UI.SearchButton:setTooltip("Search discovered creatures")
+    end
 
     UI.ListBase.CategoryList:setVisible(true)
     UI.ListBase.CreatureList:setVisible(false)
@@ -527,6 +570,9 @@ function Cyclopedia.CreateBestiaryCategoryItem(Data)
     widget:setColor("#C0C0C0")
     widget.TotalValue:setText(string.format("Total: %d", Data.amount))
     widget.KnownValue:setText(string.format("Known: %d", Data.know))
+    widget.KnownValue:setTooltip("Known = creatures with at least 1 kill.")
+    widget.TotalValue:setTooltip("Total creatures in this category.")
+    widget:setTooltip(BESTIARY_UNLOCK_HINT)
 
     function widget.ClassBase:onClick()
         UI.BackPageButton:setEnabled(true)
@@ -716,8 +762,10 @@ function Cyclopedia.CreateBestiaryCreaturesItem(data)
         widget.Finalized:setVisible(true)
         widget.KillsLabel:setVisible(false)
         safeSetCreatureShader(widget.Sprite, "")
+        widget:setTooltip("Fully unlocked by kills.")
     else
         widget.KillsLabel:setText(string.format("%d / 3", math.max(tonumber(data.currentLevel) or 0, 0)))
+        widget:setTooltip("Progress unlocks by kill thresholds.")
 
     end
 
@@ -1087,6 +1135,7 @@ function Cyclopedia.toggleBestiaryTracker()
 
     local buttonOn = trackerButton and trackerButton.isOn and trackerButton:isOn() or trackerMiniWindow:isVisible()
     if buttonOn then
+        cancelBestiaryTrackerLiveRefresh()
         trackerMiniWindow:close()
         if trackerButton and trackerButton.setOn then
             trackerButton:setOn(false)
@@ -1115,6 +1164,7 @@ function Cyclopedia.toggleBestiaryTracker()
         end
         
         trackerMiniWindow:open()
+        scheduleBestiaryTrackerLiveRefresh()
         if ButtonBestiary and ButtonBestiary.setOn then
             ButtonBestiary:setOn(true)
         end
@@ -1197,8 +1247,17 @@ function Cyclopedia.toggleBosstiaryTracker()
 end
 
 function Cyclopedia.onTrackerClose(temp)
+    cancelBestiaryTrackerLiveRefresh()
     -- Button states are now handled by onClose callbacks
     -- This function can be removed or kept for backwards compatibility
+end
+
+function Cyclopedia.onBestiaryTrackerWindowOpened()
+    scheduleBestiaryTrackerLiveRefresh()
+end
+
+function Cyclopedia.onBestiaryTrackerWindowClosed()
+    cancelBestiaryTrackerLiveRefresh()
 end
 
 function Cyclopedia.setBarPercent(widget, percent)

@@ -1549,6 +1549,9 @@ function controllerCyclopedia:onGameStart()
             trackerMiniWindow.onOpen = function()
                 if trackerButton then trackerButton:setOn(true) end
                 if ButtonBestiary then ButtonBestiary:setOn(true) end
+                if Cyclopedia.onBestiaryTrackerWindowOpened then
+                    Cyclopedia.onBestiaryTrackerWindowOpened()
+                end
                 -- Aggressive data loading when window becomes visible
                 scheduleEvent(function()
                     local char = g_game.getCharacterName()
@@ -1586,6 +1589,9 @@ function controllerCyclopedia:onGameStart()
             trackerMiniWindow.onClose = function()
                 if trackerButton then trackerButton:setOn(false) end
                 if ButtonBestiary then ButtonBestiary:setOn(false) end
+                if Cyclopedia.onBestiaryTrackerWindowClosed then
+                    Cyclopedia.onBestiaryTrackerWindowClosed()
+                end
             end
 
             trackerMiniWindow:setup()
