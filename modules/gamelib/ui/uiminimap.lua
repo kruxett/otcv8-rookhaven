@@ -53,10 +53,6 @@ local function broadcastFlagAdd(sourceWidget, pos, icon, description, temporary)
       minimap:addFlag(pos, icon, description, temporary, true)
     end
   end
-  -- Notify any listeners (e.g., Cyclopedia map tab) that a flag was added
-  if g_game and g_game.onAddAutomapFlag then
-    g_game:onAddAutomapFlag(pos, icon, description)
-  end
 end
 
 local function broadcastFlagRemove(sourceWidget, pos, icon, description)
@@ -64,10 +60,6 @@ local function broadcastFlagRemove(sourceWidget, pos, icon, description)
     if minimap ~= sourceWidget and not minimap:isDestroyed() then
       minimap:removeFlag(pos, icon, description, true)
     end
-  end
-  -- Notify any listeners (e.g., Cyclopedia map tab) that a flag was removed
-  if g_game and g_game.onRemoveAutomapFlag then
-    g_game:onRemoveAutomapFlag(pos, icon, description)
   end
 end
 
