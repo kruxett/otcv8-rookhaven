@@ -2,6 +2,114 @@ local characterPanel = nil
 local UI = nil
 local _sessionStartXp = nil
 local _sessionStartTime = nil
+local characterLiveRefreshEvent = nil
+local characterLiveSignalsConnected = false
+
+local function cancelCharacterLiveRefresh()
+    if characterLiveRefreshEvent then
+        removeEvent(characterLiveRefreshEvent)
+        characterLiveRefreshEvent = nil
+    end
+end
+
+local function shouldRefreshCharacterStatsLive()
+    if not UI or not g_game.isOnline() then
+        return false
+    end
+
+    local selected = UI.selectedOption
+    return selected == "CharacterStats"
+        or selected == "CombatStats"
+        or selected == "OffenceStats"
+        or selected == "DeffenceStats"
+        or selected == "MiscStats"
+end
+
+local function refreshSelectedCharacterStatsNow()
+    if not shouldRefreshCharacterStatsLive() then
+        return
+    end
+
+    local selected = UI.selectedOption
+    if selected == "CharacterStats" then
+        if Cyclopedia.buildAndLoadGeneralStats then
+            Cyclopedia.buildAndLoadGeneralStats()
+        end
+        if Cyclopedia.sendCyclopediaRequest then
+            Cyclopedia.sendCyclopediaRequest("character.playtime", "")
+        end
+    else
+        if Cyclopedia.buildAndLoadCombatStats then
+            Cyclopedia.buildAndLoadCombatStats()
+        end
+    end
+end
+
+local function queueCharacterLiveRefresh()
+    if not shouldRefreshCharacterStatsLive() then
+        return
+    end
+
+    cancelCharacterLiveRefresh()
+    characterLiveRefreshEvent = scheduleEvent(function()
+        characterLiveRefreshEvent = nil
+        refreshSelectedCharacterStatsNow()
+    end, 120)
+end
+
+local function onCharacterLiveStatsChanged(...)
+    queueCharacterLiveRefresh()
+end
+
+local function disconnectCharacterLiveSignals()
+    if not characterLiveSignalsConnected then
+        return
+    end
+
+    disconnect(LocalPlayer, {
+        onInventoryChange = onCharacterLiveStatsChanged,
+        onSpeedChange = onCharacterLiveStatsChanged,
+        onBaseSpeedChange = onCharacterLiveStatsChanged,
+        onFreeCapacityChange = onCharacterLiveStatsChanged,
+        onTotalCapacityChange = onCharacterLiveStatsChanged,
+        onRegenerationChange = onCharacterLiveStatsChanged,
+        onStatesChange = onCharacterLiveStatsChanged,
+        onStaminaChange = onCharacterLiveStatsChanged,
+        onSkillChange = onCharacterLiveStatsChanged,
+        onBaseSkillChange = onCharacterLiveStatsChanged,
+        onMagicLevelChange = onCharacterLiveStatsChanged,
+        onBaseMagicLevelChange = onCharacterLiveStatsChanged,
+        onHealthChange = onCharacterLiveStatsChanged,
+        onManaChange = onCharacterLiveStatsChanged,
+        onSoulChange = onCharacterLiveStatsChanged,
+    })
+
+    characterLiveSignalsConnected = false
+end
+
+local function connectCharacterLiveSignals()
+    disconnectCharacterLiveSignals()
+
+    connect(LocalPlayer, {
+        onInventoryChange = onCharacterLiveStatsChanged,
+        onSpeedChange = onCharacterLiveStatsChanged,
+        onBaseSpeedChange = onCharacterLiveStatsChanged,
+        onFreeCapacityChange = onCharacterLiveStatsChanged,
+        onTotalCapacityChange = onCharacterLiveStatsChanged,
+        onRegenerationChange = onCharacterLiveStatsChanged,
+        onStatesChange = onCharacterLiveStatsChanged,
+        onStaminaChange = onCharacterLiveStatsChanged,
+        onSkillChange = onCharacterLiveStatsChanged,
+        onBaseSkillChange = onCharacterLiveStatsChanged,
+        onMagicLevelChange = onCharacterLiveStatsChanged,
+        onBaseMagicLevelChange = onCharacterLiveStatsChanged,
+        onHealthChange = onCharacterLiveStatsChanged,
+        onManaChange = onCharacterLiveStatsChanged,
+        onSoulChange = onCharacterLiveStatsChanged,
+    })
+
+    characterLiveSignalsConnected = true
+end
 
 function Cyclopedia.resetSessionXp()
     _sessionStartXp = nil
@@ -93,6 +201,7 @@ function showCharacter()
     characterPanel = g_ui.loadUI("character", contentContainer)
     UI = characterPanel
     characterPanel:show()
+    connectCharacterLiveSignals()
     UI.selectedOption = "InfoBase"
 
     if g_game.isOnline() then
