@@ -385,8 +385,15 @@ function UIMinimap:createFlagWindow(pos)
     local selectedIcon = selected.icon
     local descriptionText = description:getText()
 
+    local ok, err = pcall(function()
+      self:addFlag(pos, selectedIcon, descriptionText)
+    end)
+
     self:destroyFlagWindow()
-    self:addFlag(pos, selectedIcon, descriptionText)
+
+    if not ok and g_logger then
+      g_logger.error(string.format("Failed to add minimap marker: %s", tostring(err)))
+    end
   end
 
   local cancelFunc = function()
