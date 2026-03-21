@@ -1144,6 +1144,7 @@ CharmCreatureName < UICheckBox
     background-color: #585858
   
 InventoryItemCyclopedia < Item
+  phantom: true
 HeadSlot < InventoryItemCyclopedia
   id: slot1
 
