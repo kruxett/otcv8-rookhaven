@@ -17,6 +17,11 @@ Icons[PlayerStates.Pz] = { tooltip = tr('You are within a protection zone'), pat
 Icons[PlayerStates.Bleeding] = { tooltip = tr('You are bleeding'), path = '/images/game/states/bleeding', id = 'condition_bleeding' }
 Icons[PlayerStates.Hungry] = { tooltip = tr('You are hungry'), path = '/images/game/states/hungry', id = 'condition_hungry' }
 
+local WATER_OFFERINGS_EXP_BUFF_OPCODE = 32
+local WATER_OFFERINGS_EXP_BUFF_ICON_ID = 'condition_water_offerings_expbuff'
+local WATER_OFFERINGS_EXP_BUFF_ICON_PATH = '/images/game/states/expbuff'
+local waterOfferingsExpBuffState = { active = false, percent = 0, expiresAt = 0 }
+
 healthInfoWindow = nil
 healthBar = nil
 manaBar = nil
@@ -35,7 +40,61 @@ manaCircle = nil
 topHealthBar = nil
 topManaBar = nil
 
+local function requestWaterOfferingsExpBuffStatus()
+  local protocol = g_game.getProtocolGame()
+  if protocol and protocol.sendExtendedOpcode then
+    protocol:sendExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, 'status')
+  end
+end
+
+local function updateWaterOfferingsExpBuffIcon()
+  if not healthInfoWindow then
+    return
+  end
+
+  local content = healthInfoWindow:recursiveGetChildById('conditionPanel')
+  if not content then
+    return
+  end
+
+  local icon = content:getChildById(WATER_OFFERINGS_EXP_BUFF_ICON_ID)
+  local remaining = (waterOfferingsExpBuffState.expiresAt or 0) - os.time()
+  if not waterOfferingsExpBuffState.active or remaining <= 0 then
+    if icon then
+      icon:destroy()
+    end
+    return
+  end
+
+  if not icon then
+    icon = g_ui.createWidget('ConditionWidget', content)
+    icon:setId(WATER_OFFERINGS_EXP_BUFF_ICON_ID)
+    icon:setImageSource(WATER_OFFERINGS_EXP_BUFF_ICON_PATH)
+  end
+
+  local hours = math.floor(remaining / 3600)
+  local minutes = math.floor((remaining % 3600) / 60)
+  local remainText = (hours > 0) and string.format('%dh %02dm', hours, minutes) or string.format('%dm', math.max(1, minutes))
+  icon:setTooltip(string.format('Sacred Water Offering: +%d%% experience and skill gain.\nTime remaining: %s.',
+    waterOfferingsExpBuffState.percent or 0,
+    remainText))
+end
+
+local function onWaterOfferingsExpBuffOpcode(protocol, opcode, buffer)
+  local parts = string.split(buffer or '', '|')
+  local active = tonumber(parts[1] or '0') == 1
+  local percent = tonumber(parts[2] or '0') or 0
+  local expiresAt = tonumber(parts[3] or '0') or 0
+
+  waterOfferingsExpBuffState.active = active and percent > 0 and expiresAt > os.time()
+  waterOfferingsExpBuffState.percent = percent
+  waterOfferingsExpBuffState.expiresAt = expiresAt
+  updateWaterOfferingsExpBuffIcon()
+end
+
 function init()
+  ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
+
   connect(LocalPlayer, { onHealthChange = onHealthChange,
                          onManaChange = onManaChange,
                          onLevelChange = onLevelChange,
@@ -121,6 +180,7 @@ function init()
     onStatesChange(localPlayer, localPlayer:getStates(), 0)
     onSoulChange(localPlayer, localPlayer:getSoul())
     onFreeCapacityChange(localPlayer, localPlayer:getFreeCapacity())
+    requestWaterOfferingsExpBuffStatus()
   end
 
 
@@ -139,6 +199,8 @@ function init()
 end
 
 function terminate()
+  ProtocolGame.unregisterExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE)
+
   disconnect(LocalPlayer, { onHealthChange = onHealthChange,
                             onManaChange = onManaChange,
                             onLevelChange = onLevelChange,
@@ -194,9 +256,11 @@ end
 
 function offline()
   healthInfoWindow:recursiveGetChildById('conditionPanel'):destroyChildren()
+  waterOfferingsExpBuffState.active = false
 end
 
 function online()
+  requestWaterOfferingsExpBuffStatus()
 end
 
 -- hooked events
@@ -304,6 +368,7 @@ function onStatesChange(localPlayer, now, old)
       toggleIcon(bitChanged)
     end
   end
+  updateWaterOfferingsExpBuffIcon()
 end
 
 -- personalization functions

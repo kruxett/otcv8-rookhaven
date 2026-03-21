@@ -176,6 +176,18 @@ local function onWaterOfferingsExpBuffOpcode(protocol, opcode, buffer)
   scheduleWaterOfferingsExpBuffIconUpdate()
 end
 
+local function requestWaterOfferingsExpBuffStatus()
+  local protocol = g_game.getProtocolGame()
+  if protocol and protocol.sendExtendedOpcode then
+    protocol:sendExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, 'status')
+  end
+end
+
+local function onInventoryGameStart()
+  refresh()
+  requestWaterOfferingsExpBuffStatus()
+end
+
 function init()
   ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
 
@@ -183,7 +195,7 @@ function init()
     onInventoryChange = onInventoryChange,
     onBlessingsChange = onBlessingsChange
   })
-  connect(g_game, { onGameStart = refresh })
+  connect(g_game, { onGameStart = onInventoryGameStart })
 
   g_keyboard.bindKeyDown('Ctrl+I', toggle)
 
@@ -247,6 +259,7 @@ function init()
 
   if g_game.isOnline() then
     online()
+    requestWaterOfferingsExpBuffStatus()
   end
 -- controls end
 
@@ -273,7 +286,7 @@ function terminate()
     onInventoryChange = onInventoryChange,
     onBlessingsChange = onBlessingsChange
   })
-  disconnect(g_game, { onGameStart = refresh })
+  disconnect(g_game, { onGameStart = onInventoryGameStart })
 
   g_keyboard.unbindKeyDown('Ctrl+I')
 
