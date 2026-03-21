@@ -195,7 +195,7 @@ else()
     if (MSVC)
         # MSVC-kompatibla varningar och debug/release-flaggor
         add_compile_options(
-            /W3        # ungefär motsvarar -Wall
+            /W3        # ungefï¿½r motsvarar -Wall
             /EHsc      # korrekt exception handling
             /bigobj    # allow large translation units (e.g. luafunctions.cpp)
         )
