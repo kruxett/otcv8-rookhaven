@@ -1394,20 +1394,6 @@ function Cyclopedia.configureCharacterCategories()
             }
         },
         {
-            text = "Achievements",
-            icon = "/game_cyclopedia/images/character_icons/icon_achievement",
-            open = "CharacterAchievements",
-            disabled = true,
-            tooltip = "Achievements are not available in this version."
-        },
-        {
-            text = "Appearances",
-            icon = "/game_cyclopedia/images/character_icons/icon_outfitsmounts",
-            open = "CharacterAppearances",
-            disabled = true,
-            tooltip = "Use the Set Outfit button to change your appearance."
-        },
-        {
             text = "Character Titles",
             icon = "/game_cyclopedia/images/character_icons/icon-character-titles",
             open = "CharacterTitles"
