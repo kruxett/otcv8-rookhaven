@@ -363,20 +363,8 @@ UIWidget
         !text: tr('33')
         color: #C0C0C0
     CharacterSkillBase
-      id: accountOnline
-      anchors.top: accountStatus.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 5
-      SkillNameLabel
-        !text: tr('Account Online')
-        color: #C0C0C0
-      SkillValueLabel
-        !text: tr('33')
-        color: #C0C0C0
-    CharacterSkillBase
       id: loyaltyTitle
-      anchors.top: accountOnline.bottom
+      anchors.top: accountStatus.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 5

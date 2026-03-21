@@ -1576,13 +1576,6 @@ end
 function Cyclopedia.loadCharacterBadges(showAccountInformation, playerOnline, playerPremium, loyaltyTitle, badgesVector)
     UI.CharacterStats.ListBadge:destroyChildren()
 
-    local playerOnlineStatus = "Offline"
-    local playerOnlineStatusColor = "#ff0000"
-    if playerOnline == 1 then
-        playerOnlineStatus = "Online"
-        playerOnlineStatusColor = "#00ff00"
-    end
-
     local accountStatus = "Free"
     local accountStatusColor = "#ff0000"
     if playerPremium == 1 then
@@ -1595,7 +1588,6 @@ function Cyclopedia.loadCharacterBadges(showAccountInformation, playerOnline, pl
     end
 
     Cyclopedia.setCharacterSkillValue("accountStatus", accountStatus, accountStatusColor)
-    Cyclopedia.setCharacterSkillValue("accountOnline", playerOnlineStatus, playerOnlineStatusColor)
     Cyclopedia.setCharacterSkillValue("loyaltyTitle", loyaltyTitle)
 
     for _, badge in ipairs(badgesVector) do
