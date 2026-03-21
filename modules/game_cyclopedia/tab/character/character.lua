@@ -604,7 +604,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     perfectShotDamageRanges, combatsArray, concoctionsArray)
 
     -- Hide stats not applicable to Tibia 8.60
-    local sectionsToHide = {"criticalHit", "criticalChance", "criticalDamage", "lifeLeech", "manaLeech", "concoction", "concoctionPanel"}
+    local sectionsToHide = {"manaLeech", "concoction", "concoctionPanel"}
     for _, id in ipairs(sectionsToHide) do
         if UI.CombatStats[id] then
             UI.CombatStats[id]:setVisible(false)
@@ -685,6 +685,100 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         end
         UI.CombatStats.estDps:setTooltip(tip)
     end
+        -- All combat calculations in one scoped block so locals are shared between rows:
+        -- MaxDamage = round((level/5) + (((skill/4+1) * (attack/3)) * 1.03) / attackFactor)
+        -- attackFactor: Full Attack=1.0, Balanced=1.2, Defensive=2.0
+        do
+            local combatPlayer = g_game.getLocalPlayer()
+            local skillLevel = combatPlayer and combatPlayer:getSkillLevel(data.weaponSkillId or 0) or 0
+            local level = combatPlayer and combatPlayer:getLevel() or 0
+            local attack = data.weaponMaxHitChance or 0
+            local elemAttack = data.weaponElementDamage or 0
+            local fightMode = g_game.getFightMode()
+            local attackFactor = (fightMode == FightBalanced) and 1.2 or (fightMode == FightDefensive) and 2.0 or 1.0
+
+            local function calcMax(atk)
+                if atk <= 0 then return 0 end
+                return math.floor((level / 5) + (((skillLevel / 4 + 1) * (atk / 3)) * 1.03) / attackFactor + 0.5)
+            end
+
+            local maxPhy  = calcMax(attack)
+            local maxElem = calcMax(elemAttack)
+            local estMaxHit  = maxPhy + maxElem
+            local avgHit     = math.floor(estMaxHit / 2)
+            local atkSpeedMs = data.attackSpeed or 2000
+            local dpsVal     = (atkSpeedMs > 0) and (avgHit * 1000 / atkSpeedMs) or 0
+
+            local armorVal   = data.armor or 0
+            local defVal     = data.defense or 0
+            local avgArmor   = math.floor(armorVal / 2)
+            local blockPct   = (estMaxHit > 0)
+                and (math.min(defVal, estMaxHit) / (2 * math.max(defVal, estMaxHit)) * 100) or 0
+            local hp         = combatPlayer and combatPlayer:getMaxHealth() or 0
+            local avgDmgSwing = (1 - blockPct / 100) * math.max(1, avgHit - avgArmor)
+            local hitsToDie  = (hp > 0) and math.ceil(hp / avgDmgSwing) or 0
+
+            local modeNames = { [FightOffensive] = "Full Attack", [FightBalanced] = "Balanced", [FightDefensive] = "Defensive" }
+            local modeName  = modeNames[fightMode] or "Full Attack"
+            local skillNames = { [0]="Fist", [1]="Club", [2]="Sword", [3]="Axe", [4]="Distance" }
+            local skillName  = skillNames[data.weaponSkillId or 0] or "Fist"
+
+            -- Max Hit
+            if UI.CombatStats.estDps then
+                UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
+                local tip = string.format(
+                    "Est. max hit  (%s mode)\n%s skill %d  x  Attack %d  -> Phys: %d",
+                    modeName, skillName, skillLevel, attack, maxPhy)
+                if maxElem > 0 then
+                    tip = tip .. string.format("\nElement attack %d  -> Elem: %d", elemAttack, maxElem)
+                    tip = tip .. string.format("\nTotal: %d + %d = %d", maxPhy, maxElem, estMaxHit)
+                end
+                UI.CombatStats.estDps:setTooltip(tip)
+            end
+
+            -- Avg Hit
+            if UI.CombatStats.avgHit then
+                UI.CombatStats.avgHit.value:setText(tostring(avgHit))
+                UI.CombatStats.avgHit:setTooltip(string.format(
+                    "Average hit = Max Hit / 2\nActual per-hit: random(0, %d)", estMaxHit))
+            end
+
+            -- Attack Speed
+            if UI.CombatStats.atkSpeed then
+                UI.CombatStats.atkSpeed.value:setText(string.format("%.1fs", atkSpeedMs / 1000))
+            end
+
+            -- Est. DPS
+            if UI.CombatStats.dps then
+                UI.CombatStats.dps.value:setText(string.format("%.1f", dpsVal))
+                UI.CombatStats.dps:setTooltip(string.format(
+                    "Est. DPS = Avg Hit %.0f / Attack Speed %.1fs\nBefore defense & armor reduction",
+                    avgHit, atkSpeedMs / 1000))
+            end
+
+            -- Right column: repurposed as defensive stats
+            if UI.CombatStats.criticalChance then
+                UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", blockPct))
+                UI.CombatStats.criticalChance.value:setColor(blockPct >= 20 and "#44AD25" or "#C0C0C0")
+                UI.CombatStats.criticalChance:setTooltip(string.format(
+                    "Probability that defense roll beats attack roll\nDefence: %d  Max Hit: %d",
+                    defVal, estMaxHit))
+            end
+
+            if UI.CombatStats.criticalDamage then
+                UI.CombatStats.criticalDamage.value:setText(tostring(avgArmor))
+                UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
+                UI.CombatStats.criticalDamage:setTooltip(string.format(
+                    "Average armor flat reduction per hit\nArmor %d -> avg %d reduced", armorVal, avgArmor))
+            end
+
+            if UI.CombatStats.lifeLeech then
+                UI.CombatStats.lifeLeech.value:setText(tostring(hitsToDie))
+                UI.CombatStats.lifeLeech.value:setColor(hitsToDie > 10 and "#44AD25" or "#E06020")
+                UI.CombatStats.lifeLeech:setTooltip(string.format(
+                    "Hits to exhaust your %d HP\n(%.1f%% block chance, ~%.0f avg dmg/swing)", hp, blockPct, avgDmgSwing))
+            end
+        end
 
     if data.weaponElementDamage > 0 then
         UI.CombatStats.converted.none:setVisible(false)
@@ -800,34 +894,8 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     end
 
     local skill = getAdditionalSkillValue(Skill.CriticalChance)
-    UI.CombatStats.criticalChance.value:setText(string.format("%.2f%%", skill / 100))
-    if skill > 0 then
-        UI.CombatStats.criticalChance.value:setColor("#44AD25")
-    else
-        UI.CombatStats.criticalChance.value:setColor("#C0C0C0")
-    end
-
-    -- Critical Damage
-    skill = getAdditionalSkillValue(Skill.CriticalDamage)
-    UI.CombatStats.criticalDamage.value:setText(string.format("%.2f%%", skill / 100))
-    if skill > 0 then
-        UI.CombatStats.criticalDamage.value:setColor("#44AD25")
-    else
-        UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
-    end
-
-    -- Life Leech Amount
-    skill = getAdditionalSkillValue(Skill.LifeLeechAmount)
-    if skill > 0 then
-        UI.CombatStats.lifeLeech.value:setColor("#44AD25")
-        UI.CombatStats.lifeLeech.value:setText(string.format("%.2f%%", skill / 100))
-    else
-        UI.CombatStats.lifeLeech.value:setColor("#C0C0C0")
-        UI.CombatStats.lifeLeech.value:setText(string.format("%d%%", skill))
-    end
-
-    -- Mana Leech Amount
-    skill = getAdditionalSkillValue(Skill.ManaLeechAmount)
+    -- Mana Leech Amount (hidden)
+    local skill = getAdditionalSkillValue(Skill.ManaLeechAmount)
     if skill > 0 then
         UI.CombatStats.manaLeech.value:setColor("#44AD25")
         UI.CombatStats.manaLeech.value:setText(string.format("%.2f%%", skill / 100))

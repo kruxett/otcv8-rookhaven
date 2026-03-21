@@ -730,6 +730,7 @@ function Cyclopedia.buildAndLoadCombatStats()
         armor              = armorValue,
         haveBlessings      = blessingCount,
         weaponSkillId      = weaponSkillIdFallback,
+        attackSpeed        = 2000,
     }
 
     -- CriticalChance=7, CriticalDamage=8, LifeLeechAmount=10, ManaLeechAmount=12
@@ -790,6 +791,7 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         defense = toNumber(fields[6], 0),
         haveBlessings = toNumber(fields[7], 0),
         weaponSkillId = toNumber(fields[14], 0),
+        attackSpeed = toNumber(fields[15], 2000),
     }
 
     local mitigation = toNumber(fields[8], 0)

@@ -643,7 +643,7 @@ UIWidget
         margin-right: 2
     CharacterSkillBase
       id: converted
-      anchors.top: estDps.bottom
+        anchors.top: dps.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 0
@@ -784,7 +784,7 @@ UIWidget
       anchors.right: parent.right
       margin-top: 1
       SkillNameLabel
-        !text: tr('Critical Hit:')
+          !text: tr('Defensive Stats:')
         color: #C0C0C0
     CharacterSkillBase
       id: criticalChance
@@ -794,7 +794,7 @@ UIWidget
       margin-left: 15
       margin-top: 0
       SkillNameLabel
-        !text: tr('Chance')
+          !text: tr('Block Chance:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -807,7 +807,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Extra Damage')
+          !text: tr('Avg Armor Red.:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -820,7 +820,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Life Leech:')
+          !text: tr('Hits to Die:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
