@@ -17,6 +17,12 @@ Icons[PlayerStates.Pz] = { tooltip = tr('You are within a protection zone'), pat
 Icons[PlayerStates.Bleeding] = { tooltip = tr('You are bleeding'), path = '/images/game/states/bleeding', id = 'condition_bleeding' }
 Icons[PlayerStates.Hungry] = { tooltip = tr('You are hungry'), path = '/images/game/states/hungry', id = 'condition_hungry' }
 
+local WATER_OFFERINGS_EXP_BUFF_OPCODE = 32
+local WATER_OFFERINGS_EXP_BUFF_ICON_ID = 'condition_water_offerings_expbuff'
+local WATER_OFFERINGS_EXP_BUFF_ICON_PATH = '/images/game/states/expbuff'
+local waterOfferingsExpBuffState = { active = false, percent = 0, expiresAt = 0 }
+local waterOfferingsExpBuffTimerEvent = nil
+
 InventorySlotStyles = {
   [InventorySlotHead] = "HeadSlot",
   [InventorySlotNeck] = "NeckSlot",
@@ -90,7 +96,89 @@ soulLabel = nil
 capLabel = nil
 conditionPanel = nil
 
+local function cancelWaterOfferingsExpBuffTimer()
+  if waterOfferingsExpBuffTimerEvent then
+    removeEvent(waterOfferingsExpBuffTimerEvent)
+    waterOfferingsExpBuffTimerEvent = nil
+  end
+end
+
+local function formatExpBuffRemaining(secondsLeft)
+  if secondsLeft <= 0 then
+    return tr('Expired')
+  end
+
+  local hours = math.floor(secondsLeft / 3600)
+  local minutes = math.floor((secondsLeft % 3600) / 60)
+  if hours > 0 then
+    return string.format('%dh %02dm', hours, minutes)
+  end
+  return string.format('%dm', math.max(minutes, 1))
+end
+
+local function updateWaterOfferingsExpBuffIcon()
+  if not conditionPanel then
+    return
+  end
+
+  local icon = conditionPanel:getChildById(WATER_OFFERINGS_EXP_BUFF_ICON_ID)
+  if not waterOfferingsExpBuffState.active then
+    if icon then
+      icon:destroy()
+    end
+    return
+  end
+
+  local now = os.time()
+  local secondsLeft = (waterOfferingsExpBuffState.expiresAt or 0) - now
+  if secondsLeft <= 0 then
+    waterOfferingsExpBuffState.active = false
+    if icon then
+      icon:destroy()
+    end
+    return
+  end
+
+  if not icon then
+    icon = g_ui.createWidget('ConditionWidget', conditionPanel)
+    icon:setId(WATER_OFFERINGS_EXP_BUFF_ICON_ID)
+    icon:setImageSource(WATER_OFFERINGS_EXP_BUFF_ICON_PATH)
+  end
+
+  icon:setTooltip(string.format('Sacred Water Offering: +%d%% experience and skill gain.\nTime remaining: %s.',
+    waterOfferingsExpBuffState.percent or 0,
+    formatExpBuffRemaining(secondsLeft)))
+end
+
+local function scheduleWaterOfferingsExpBuffIconUpdate()
+  cancelWaterOfferingsExpBuffTimer()
+  if not waterOfferingsExpBuffState.active then
+    return
+  end
+
+  waterOfferingsExpBuffTimerEvent = scheduleEvent(function()
+    updateWaterOfferingsExpBuffIcon()
+    scheduleWaterOfferingsExpBuffIconUpdate()
+  end, 60000)
+end
+
+local function onWaterOfferingsExpBuffOpcode(protocol, opcode, buffer)
+  local parts = string.split(buffer or '', '|')
+  local active = tonumber(parts[1] or '0') == 1
+  local percent = tonumber(parts[2] or '0') or 0
+  local expiresAt = tonumber(parts[3] or '0') or 0
+
+  waterOfferingsExpBuffState.active = active and percent > 0 and expiresAt > os.time()
+  waterOfferingsExpBuffState.percent = percent
+  waterOfferingsExpBuffState.expiresAt = expiresAt
+
+  updateWaterOfferingsExpBuffIcon()
+  scheduleWaterOfferingsExpBuffIconUpdate()
+end
+
 function init()
+  ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
+
   connect(LocalPlayer, {
     onInventoryChange = onInventoryChange,
     onBlessingsChange = onBlessingsChange
@@ -178,6 +266,9 @@ function init()
 end
 
 function terminate()
+  cancelWaterOfferingsExpBuffTimer()
+  ProtocolGame.unregisterExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE)
+
   disconnect(LocalPlayer, {
     onInventoryChange = onInventoryChange,
     onBlessingsChange = onBlessingsChange
@@ -392,6 +483,9 @@ function online()
 end
 
 function offline()
+  cancelWaterOfferingsExpBuffTimer()
+  waterOfferingsExpBuffState.active = false
+
   local lastCombatControls = g_settings.getNode('LastCombatControls')
   if not lastCombatControls then
     lastCombatControls = {}
