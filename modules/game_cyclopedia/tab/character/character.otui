@@ -784,7 +784,7 @@ UIWidget
       anchors.right: parent.right
       margin-top: 1
       SkillNameLabel
-          !text: tr('Defensive Stats:')
+        !text: tr('Defensive Stats:')
         color: #C0C0C0
     CharacterSkillBase
       id: criticalChance
@@ -794,7 +794,7 @@ UIWidget
       margin-left: 15
       margin-top: 0
       SkillNameLabel
-          !text: tr('Block Chance:')
+        !text: tr('Block Chance:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -807,7 +807,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-          !text: tr('Avg Armor Red.:')
+        !text: tr('Avg Armor Red.:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -820,7 +820,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-          !text: tr('Hits to Die:')
+        !text: tr('Hits to Die:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
