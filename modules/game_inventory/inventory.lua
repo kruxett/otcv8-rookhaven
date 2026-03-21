@@ -30,6 +30,47 @@ InventorySlotStyles = {
   [InventorySlotAmmo] = "AmmoSlot"
 }
 
+InventorySlotImages = {
+  [InventorySlotHead] = "/images/game/slots/head",
+  [InventorySlotNeck] = "/images/game/slots/neck",
+  [InventorySlotBack] = "/images/game/slots/back",
+  [InventorySlotBody] = "/images/game/slots/body",
+  [InventorySlotRight] = "/images/game/slots/right-hand",
+  [InventorySlotLeft] = "/images/game/slots/left-hand",
+  [InventorySlotLeg] = "/images/game/slots/legs",
+  [InventorySlotFeet] = "/images/game/slots/feet",
+  [InventorySlotFinger] = "/images/game/slots/finger",
+  [InventorySlotAmmo] = "/images/game/slots/ammo"
+}
+
+InventorySlotBlessedImages = {
+  [InventorySlotHead] = "/images/game/slots/head-blessed",
+  [InventorySlotNeck] = "/images/game/slots/neck-blessed",
+  [InventorySlotBack] = "/images/game/slots/back-blessed",
+  [InventorySlotBody] = "/images/game/slots/body-blessed",
+  [InventorySlotRight] = "/images/game/slots/right-hand-blessed",
+  [InventorySlotLeft] = "/images/game/slots/left-hand-blessed",
+  [InventorySlotLeg] = "/images/game/slots/legs-blessed",
+  [InventorySlotFeet] = "/images/game/slots/feet-blessed",
+  [InventorySlotFinger] = "/images/game/slots/finger-blessed",
+  [InventorySlotAmmo] = "/images/game/slots/ammo-blessed"
+}
+
+local function applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
+  if not itemWidget then
+    return
+  end
+
+  local image = InventorySlotImages[slot]
+  if hasAdventurerBlessing and InventorySlotBlessedImages[slot] then
+    image = InventorySlotBlessedImages[slot]
+  end
+
+  if image then
+    itemWidget:setImageSource(image)
+  end
+end
+
 inventoryWindow = nil
 inventoryPanel = nil
 inventoryButton = nil
@@ -254,10 +295,9 @@ function onInventoryChange(player, slot, item, oldItem)
     
     itemWidget:setItem(item)
   else
-    -- Force style reapply for empty slots so any previous runtime image overrides are cleared.
-    itemWidget:setStyle('InventoryItem')
     itemWidget:setStyle(slotStyle)
     itemWidget:setOn(hasAdventurerBlessing)
+    applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
     itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setItem(nil)
   end
