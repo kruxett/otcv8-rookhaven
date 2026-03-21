@@ -384,9 +384,17 @@ function UIMinimap:createFlagWindow(pos)
   flagRadioGroup:selectWidget(flagRadioGroup:getFirstWidget())
 
   local successFunc = function()
-    -- Destroy window first before adding flag to ensure clean state
+    local selected = flagRadioGroup:getSelectedWidget() or flagRadioGroup:getFirstWidget()
+    if not selected then
+      self:destroyFlagWindow()
+      return
+    end
+
+    local selectedIcon = selected.icon
+    local descriptionText = description:getText()
+
     self:destroyFlagWindow()
-    self:addFlag(pos, flagRadioGroup:getSelectedWidget().icon, description:getText())
+    self:addFlag(pos, selectedIcon, descriptionText)
   end
 
   local cancelFunc = function()
