@@ -83,10 +83,12 @@ local function resetAndEnableMapFlagFilters()
     if showAllBox then
         showAllBox:setChecked(true)
     end
+    
+    -- Update visual state based on active marks
+    updateFilterCheckboxState()
 end
 
 function showMap()
-    g_minimap.saveOtmm('/minimap.otmm')
     UI = g_ui.loadUI("map", contentContainer)
     UI:show()
     controllerCyclopedia:registerEvents(LocalPlayer, {
@@ -112,34 +114,14 @@ function showMap()
 end
 
 function Cyclopedia.loadMap()
-    local clientVersion = g_game.getClientVersion()
     local minimapWidget = UI.MapBase.minimap
-
-    g_minimap.clean()
-
-    local loaded = false
-    local minimapFile = "/minimap.otmm"
-    local dataMinimapFile = "/data" .. minimapFile
-    local versionedMinimapFile = "/minimap" .. clientVersion .. ".otmm"
-
-    if g_resources.fileExists(dataMinimapFile) then
-        loaded = g_minimap.loadOtmm(dataMinimapFile)
-    end
-
-    if not loaded and g_resources.fileExists(versionedMinimapFile) then
-        loaded = g_minimap.loadOtmm(versionedMinimapFile)
-    end
-
-    if not loaded and g_resources.fileExists(minimapFile) then
-        loaded = g_minimap.loadOtmm(minimapFile)
-    end
-
-    if not loaded then
-        print("Minimap couldn't be loaded, file missing?")
-    end
-
     minimapWidget:load()
-    -- minimapWidget:hideFlags()
+
+    local player = g_game.getLocalPlayer()
+    if player and player:getPosition() then
+        minimapWidget:setCameraPosition(player:getPosition())
+        minimapWidget:setCrossPosition(player:getPosition())
+    end
 end
 
 function Cyclopedia.CreateMarkItem(Data)
@@ -180,12 +162,59 @@ function Cyclopedia.showAllFlags(checked)
     applyMapFlagFilters()
 end
 
+local function buildActiveIconSet()
+    local minimapWidget = getMapWidget()
+    if not minimapWidget or not minimapWidget.flags then
+        return {}
+    end
+    
+    local activeIcons = {}
+    for _, flag in pairs(minimapWidget.flags) do
+        if flag and flag.icon then
+            activeIcons[tonumber(flag.icon) or 0] = true
+        end
+    end
+    return activeIcons
+end
+
+local function updateFilterCheckboxState()
+    local list = getMarkList()
+    if not list then
+        return
+    end
+    
+    local activeIcons = buildActiveIconSet()
+    local showAllBox = getShowAllBox()
+    local showAll = not showAllBox or showAllBox:isChecked()
+    
+    -- Update each filter checkbox to show enabled state based on whether marks of that type exist
+    for _, child in ipairs(list:getChildren()) do
+        if child and child.setEnabled then
+            local id = tonumber(child:getId())
+            if id ~= nil then
+                -- Enable checkbox if there are marks of this type, or always enable if showing all
+                local hasMarks = activeIcons[id] ~= nil
+                local enabled = hasMarks or showAll
+                child:setEnabled(enabled)
+                
+                -- Add subtle visual indicator for active types
+                if hasMarks and child:isEnabled() then
+                    child:setOpacity(1.0)
+                elseif not hasMarks then
+                    child:setOpacity(0.6)
+                end
+            end
+        end
+    end
+end
+
 function Cyclopedia.onAutomapFlagChanged()
     if not UI then
         return
     end
 
     scheduleEvent(function()
+        updateFilterCheckboxState()
         applyMapFlagFilters()
     end, 0)
 end

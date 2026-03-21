@@ -1,3 +1,76 @@
+local activeMinimapWidgets = {}
+
+local function getStoredMinimapSettings()
+  return g_settings.getNode('Minimap') or { flags = {} }
+end
+
+local function getStoredMinimapFlags()
+  local settings = getStoredMinimapSettings()
+  return settings.flags or {}
+end
+
+local function saveStoredMinimapFlags(flags)
+  local settings = getStoredMinimapSettings()
+  settings.flags = flags or {}
+  g_settings.setNode('Minimap', settings)
+end
+
+local function sameFlag(a, pos, icon, description)
+  return a and a.position and a.position.x == pos.x and a.position.y == pos.y and a.position.z == pos.z and
+    tostring(a.icon) == tostring(icon) and tostring(a.description or '') == tostring(description or '')
+end
+
+local function persistFlag(pos, icon, description)
+  local flags = getStoredMinimapFlags()
+  for _, flag in pairs(flags) do
+    if sameFlag(flag, pos, icon, description) then
+      return
+    end
+  end
+
+  table.insert(flags, {
+    position = pos,
+    icon = icon,
+    description = description,
+  })
+  saveStoredMinimapFlags(flags)
+end
+
+local function unpersistFlag(pos, icon, description)
+  local flags = getStoredMinimapFlags()
+  local newFlags = {}
+  for _, flag in pairs(flags) do
+    if not sameFlag(flag, pos, icon, description) then
+      table.insert(newFlags, flag)
+    end
+  end
+  saveStoredMinimapFlags(newFlags)
+end
+
+local function broadcastFlagAdd(sourceWidget, pos, icon, description, temporary)
+  for _, minimap in pairs(activeMinimapWidgets) do
+    if minimap ~= sourceWidget and not minimap:isDestroyed() then
+      minimap:addFlag(pos, icon, description, temporary, true)
+    end
+  end
+  -- Notify any listeners (e.g., Cyclopedia map tab) that a flag was added
+  if g_game and g_game.onAddAutomapFlag then
+    g_game:onAddAutomapFlag(pos, icon, description)
+  end
+end
+
+local function broadcastFlagRemove(sourceWidget, pos, icon, description)
+  for _, minimap in pairs(activeMinimapWidgets) do
+    if minimap ~= sourceWidget and not minimap:isDestroyed() then
+      minimap:removeFlag(pos, icon, description, true)
+    end
+  end
+  -- Notify any listeners (e.g., Cyclopedia map tab) that a flag was removed
+  if g_game and g_game.onRemoveAutomapFlag then
+    g_game:onRemoveAutomapFlag(pos, icon, description)
+  end
+end
+
 function UIMinimap:onCreate()
   self.autowalk = true
 end
@@ -6,6 +79,7 @@ function UIMinimap:onSetup()
   self.flagWindow = nil
   self.flags = {}
   self.alternatives = {}
+  table.insert(activeMinimapWidgets, self)
   self.onAddAutomapFlag = function(pos, icon, description) self:addFlag(pos, icon, description) end
   self.onRemoveAutomapFlag = function(pos, icon, description) self:removeFlag(pos, icon, description) end
   connect(g_game, {
@@ -19,6 +93,7 @@ function UIMinimap:onDestroy()
     widget:destroy()
   end
   self.alternatives = {}
+  table.removevalue(activeMinimapWidgets, self)
   disconnect(g_game, {
     onAddAutomapFlag = self.onAddAutomapFlag,
     onRemoveAutomapFlag = self.onRemoveAutomapFlag,
@@ -58,7 +133,7 @@ function UIMinimap:load()
   if settings then
     if settings.flags then
       for _,flag in pairs(settings.flags) do
-        self:addFlag(flag.position, flag.icon, flag.description)
+        self:addFlag(flag.position, flag.icon, flag.description, false, true)
       end
     end
     self:setZoom(settings.zoom)
@@ -84,7 +159,14 @@ local function onFlagMouseRelease(widget, pos, button)
   if button == MouseRightButton then
     local menu = g_ui.createWidget('PopupMenu')
     menu:setGameMenu(true)
-    menu:addOption(tr('Delete mark'), function() widget:destroy() end)
+    menu:addOption(tr('Delete mark'), function()
+      local minimap = widget:getParent()
+      if minimap and minimap.removeFlag then
+        minimap:removeFlag(widget.pos, widget.icon, widget.description)
+      else
+        widget:destroy()
+      end
+    end)
     menu:display(pos)
     return true
   end
@@ -108,7 +190,7 @@ function UIMinimap:setCrossPosition(pos)
   end
 end
 
-function UIMinimap:addFlag(pos, icon, description, temporary)
+function UIMinimap:addFlag(pos, icon, description, temporary, skipBroadcast)
   if not pos or not icon then return end
   local flag = self:getFlag(pos, icon, description)
   if flag or not icon then
@@ -132,6 +214,11 @@ function UIMinimap:addFlag(pos, icon, description, temporary)
   flag.onDestroy = function() table.removevalue(self.flags, flag) end
   table.insert(self.flags, flag)
   self:centerInPosition(flag, pos)
+
+  if not temporary and not skipBroadcast then
+    persistFlag(pos, icon, description)
+    broadcastFlagAdd(self, pos, icon, description, temporary)
+  end
 end
 
 function UIMinimap:addAlternativeWidget(widget, pos, maxZoom)
@@ -175,10 +262,16 @@ function UIMinimap:getFlag(pos)
   return nil
 end
 
-function UIMinimap:removeFlag(pos, icon, description)
+function UIMinimap:removeFlag(pos, icon, description, skipBroadcast)
   local flag = self:getFlag(pos)
   if flag then
+    local removedIcon = flag.icon
+    local removedDescription = flag.description
     flag:destroy()
+    if not flag.temporary and not skipBroadcast then
+      unpersistFlag(pos, removedIcon or icon, removedDescription or description)
+      broadcastFlagRemove(self, pos, removedIcon or icon, removedDescription or description)
+    end
   end
 end
 
