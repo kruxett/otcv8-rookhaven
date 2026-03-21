@@ -108,10 +108,6 @@ function showBestiary()
     UI = g_ui.loadUI("bestiary", contentContainer)
     UI:show()
 
-    if UI.ShowUnknownCheck then
-        UI.ShowUnknownCheck:setChecked(Cyclopedia.Bestiary.ShowUnknown == true)
-    end
-
     UI.ListBase.CategoryList:setVisible(true)
     UI.ListBase.CreatureList:setVisible(false)
     UI.ListBase.CreatureInfo:setVisible(false)
@@ -192,7 +188,6 @@ end
 
 Cyclopedia.Bestiary = {}
 Cyclopedia.Bestiary.Stage = STAGES.CATEGORY
-Cyclopedia.Bestiary.ShowUnknown = false
 Cyclopedia.Bestiary.LastSearchText = ""
 Cyclopedia.Bestiary.AllCreatures = Cyclopedia.Bestiary.AllCreatures or {}
 
@@ -214,12 +209,11 @@ end
 
 local function filterBestiaryCreatures(creatures, searchText)
     local filtered = {}
-    local showUnknown = Cyclopedia.Bestiary.ShowUnknown == true
     local normalizedSearch = normalizeBestiarySearchText(searchText)
 
     for _, creature in ipairs(creatures or {}) do
         local known = bestiaryCreatureIsKnown(creature)
-        if showUnknown or known then
+        if known then
             if normalizedSearch == "" then
                 table.insert(filtered, creature)
             else
@@ -679,19 +673,6 @@ function Cyclopedia.BestiarySearchText(text)
             Cyclopedia.onStageChange()
             Cyclopedia.loadBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {})
         end
-    end
-end
-
-function Cyclopedia.ToggleBestiaryShowUnknown(checked)
-    Cyclopedia.Bestiary.ShowUnknown = checked and true or false
-
-    if Cyclopedia.Bestiary.Stage == STAGES.SEARCH then
-        Cyclopedia.BestiarySearch()
-        return
-    end
-
-    if Cyclopedia.Bestiary.Stage == STAGES.CREATURES then
-        Cyclopedia.loadBestiaryCreatures(Cyclopedia.Bestiary.AllCreatures or {})
     end
 end
 
