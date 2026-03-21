@@ -238,6 +238,7 @@ function onInventoryChange(player, slot, item, oldItem)
 
   local itemWidget = inventoryPanel:getChildById('slot' .. slot)
   local slotStyle = InventorySlotStyles[slot] or 'InventoryItem'
+  local hasAdventurerBlessing = player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false
   if item then
     itemWidget:setStyle(slotStyle)
     
@@ -253,7 +254,10 @@ function onInventoryChange(player, slot, item, oldItem)
     
     itemWidget:setItem(item)
   else
+    -- Force style reapply for empty slots so any previous runtime image overrides are cleared.
+    itemWidget:setStyle('InventoryItem')
     itemWidget:setStyle(slotStyle)
+    itemWidget:setOn(hasAdventurerBlessing)
     itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setItem(nil)
   end
