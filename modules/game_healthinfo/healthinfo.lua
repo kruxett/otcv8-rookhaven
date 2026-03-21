@@ -93,8 +93,6 @@ local function onWaterOfferingsExpBuffOpcode(protocol, opcode, buffer)
 end
 
 function init()
-  ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
-
   connect(LocalPlayer, { onHealthChange = onHealthChange,
                          onManaChange = onManaChange,
                          onLevelChange = onLevelChange,
@@ -199,8 +197,6 @@ function init()
 end
 
 function terminate()
-  ProtocolGame.unregisterExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE)
-
   disconnect(LocalPlayer, { onHealthChange = onHealthChange,
                             onManaChange = onManaChange,
                             onLevelChange = onLevelChange,
