@@ -471,6 +471,35 @@ function Cyclopedia.loadBestiarySelectedCreature(data)
         UI.ListBase.CreatureInfo.BonusValue:setText("?")
     end
 
+    local statsUnlocked = data.currentLevel > 1
+    local statsLockHint = "Unlock more bestiary progress (kills) to reveal this value."
+
+    local hpTooltip = statsUnlocked and string.format("Hit Points\nMaximum health: %s", tostring(data.maxHealth))
+        or ("Hit Points\n" .. statsLockHint)
+    local expTooltip = statsUnlocked and string.format("Experience\nXP granted on kill: %s", tostring(data.experience))
+        or ("Experience\n" .. statsLockHint)
+    local speedTooltip = statsUnlocked and string.format("Speed\nBase movement speed: %s", tostring(data.speed))
+        or ("Speed\n" .. statsLockHint)
+    local armorTooltip = statsUnlocked and string.format("Armor\nArmor value: %s", tostring(data.armor))
+        or ("Armor\n" .. statsLockHint)
+    local mitigationTooltip = statsUnlocked and string.format("Mitigation\nDamage reduction: %s%%", tostring(data.mitigation))
+        or ("Mitigation\n" .. statsLockHint)
+    local bonusTooltip = statsUnlocked and string.format("Charm Points\nPoints granted: %s", tostring(data.charmValue))
+        or ("Charm Points\n" .. statsLockHint)
+
+    if UI.ListBase.CreatureInfo.Icon1 then UI.ListBase.CreatureInfo.Icon1:setTooltip(hpTooltip) end
+    if UI.ListBase.CreatureInfo.Value1 then UI.ListBase.CreatureInfo.Value1:setTooltip(hpTooltip) end
+    if UI.ListBase.CreatureInfo.Icon2 then UI.ListBase.CreatureInfo.Icon2:setTooltip(expTooltip) end
+    if UI.ListBase.CreatureInfo.Value2 then UI.ListBase.CreatureInfo.Value2:setTooltip(expTooltip) end
+    if UI.ListBase.CreatureInfo.Icon3 then UI.ListBase.CreatureInfo.Icon3:setTooltip(speedTooltip) end
+    if UI.ListBase.CreatureInfo.Value3 then UI.ListBase.CreatureInfo.Value3:setTooltip(speedTooltip) end
+    if UI.ListBase.CreatureInfo.Icon4 then UI.ListBase.CreatureInfo.Icon4:setTooltip(armorTooltip) end
+    if UI.ListBase.CreatureInfo.Value4 then UI.ListBase.CreatureInfo.Value4:setTooltip(armorTooltip) end
+    if UI.ListBase.CreatureInfo.Icon5 then UI.ListBase.CreatureInfo.Icon5:setTooltip(mitigationTooltip) end
+    if UI.ListBase.CreatureInfo.Value5 then UI.ListBase.CreatureInfo.Value5:setTooltip(mitigationTooltip) end
+    if UI.ListBase.CreatureInfo.BonusIcon then UI.ListBase.CreatureInfo.BonusIcon:setTooltip(bonusTooltip) end
+    if UI.ListBase.CreatureInfo.BonusValue then UI.ListBase.CreatureInfo.BonusValue:setTooltip(bonusTooltip) end
+
     if data.attackMode == 1 then
         local rect = {
             height = 9,
