@@ -88,7 +88,9 @@ int main(int argc, const char* argv[]) {
 
     // initialize resources
     g_resources.init(argv[0]);
-    std::string compactName = g_resources.getCompactName();
+    // Keep compact name stable across all build modes so user data (minimap,
+    // settings, cache) always lands in the same AppData profile.
+    std::string compactName = "Rookhaven";
     g_logger.setLogFile(compactName + ".log");
 
     // setup application name and version
