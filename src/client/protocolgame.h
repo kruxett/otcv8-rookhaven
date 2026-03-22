@@ -27,6 +27,7 @@
 #include "protocolcodes.h"
 #include <framework/net/protocol.h>
 #include "creature.h"
+#include <unordered_map>
 
 class ProtocolGame : public Protocol
 {
@@ -330,6 +331,7 @@ private:
     std::string m_characterName;
     std::string m_worldName;
     LocalPlayerPtr m_localPlayer;
+    std::unordered_map<uint32_t, std::pair<uint8_t, std::string>> m_pendingPersonalStoreStates;
     int m_recivedPackeds = 0;
     int m_recivedPackedsSize = 0;
 };

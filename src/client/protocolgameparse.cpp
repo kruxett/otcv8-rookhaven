@@ -1611,6 +1611,11 @@ void ProtocolGame::parseCreaturePersonalStore(const InputMessagePtr& msg)
     CreaturePtr creature = g_map.getCreatureById(id);
     if (creature) {
         creature->setPersonalStore(psMode, psName);
+        m_pendingPersonalStoreStates.erase(id);
+    } else {
+        // Packet can arrive before the creature is present in the local map.
+        // Keep the latest state and apply it when the creature is parsed.
+        m_pendingPersonalStoreStates[id] = { static_cast<uint8_t>(psMode), psName };
     }
 }
 
@@ -3661,6 +3666,12 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
 
         if (creature) {
             creature->setPersonalStore(psMode, psName);
+
+            const auto pendingIt = m_pendingPersonalStoreStates.find(creature->getId());
+            if (pendingIt != m_pendingPersonalStoreStates.end()) {
+                creature->setPersonalStore(pendingIt->second.first, pendingIt->second.second);
+                m_pendingPersonalStoreStates.erase(pendingIt);
+            }
 
             creature->setHealthPercent(healthPercent);
             if (g_game.getFeature(Otc::GameCreaturesMana)) {
