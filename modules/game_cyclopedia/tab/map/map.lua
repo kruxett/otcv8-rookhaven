@@ -2,6 +2,7 @@ local UI = nil
 local virtualFloor = 7
 
 local mapFlagFilters = {}
+local updateFilterCheckboxState
 
 local function getMapWidget()
     if not UI or not UI.MapBase then
@@ -177,7 +178,7 @@ local function buildActiveIconSet()
     return activeIcons
 end
 
-local function updateFilterCheckboxState()
+function updateFilterCheckboxState()
     local list = getMarkList()
     if not list then
         return
