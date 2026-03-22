@@ -148,7 +148,7 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         fillColor = m_informationColor;
 
     // Override to orange if the personal store is active
-    if (m_psMode == 1) {
+    if (m_psMode > 0) {
         fillColor = Color(255, 165, 0); // Orange for health bar
     }
 
@@ -271,7 +271,7 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
         m_nameCache.draw(textRect, fillColor);
 
         // Show store icon if personal store is active
-        if (m_psMode == 1 && m_psIconTexture) {
+        if (m_psMode > 0 && m_psIconTexture) {
             Rect psIconRect = Rect(textRect.center().x - m_psIconTexture->getWidth() / 2, textRect.top() - m_psIconTexture->getHeight() - 4, m_psIconTexture->getSize());
             g_drawQueue->addTexturedRect(psIconRect, m_psIconTexture, Rect(0, 0, m_psIconTexture->getSize()));
         }
@@ -662,9 +662,9 @@ void Creature::setName(const std::string& name)
 }
 
 void Creature::setPersonalStore(uint8_t psMode, const std::string psName) {
-    m_psMode = psMode;
+    m_psMode = psMode > 0 ? 1 : 0;
     m_psNameCache.setText(psName);
-    callLuaField("onPersonalStoreChange", psMode, psName);
+    callLuaField("onPersonalStoreChange", m_psMode, psName);
 }
 
 void Creature::setHealthPercent(uint8 healthPercent)
