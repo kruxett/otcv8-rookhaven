@@ -54,6 +54,7 @@ function init()
 	connect(g_game, {
 		onGameStart = refresh,
 		onGameEnd = refresh,
+		onMapKnown = onMapKnown,
 	})
 	
 	ProtocolGame.registerExtendedOpcode(Opcode, parsePersonalStore)
@@ -73,6 +74,7 @@ function terminate()
 	disconnect(g_game, {
 		onGameStart = refresh,
 		onGameEnd = refresh,
+		onMapKnown = onMapKnown,
 	})
 	
 	ProtocolGame.unregisterExtendedOpcode(Opcode)
@@ -102,6 +104,19 @@ function refresh()
 			end
 		end, 250)
 	end
+end
+
+-- Called when the map is first loaded after any login (including reconnect to
+-- an offline-vendor session where onGameStart is never fired).  Triggers a
+-- silent store sync so the reconnecting owner's own client reflects the
+-- correct ps_mode immediately after the map is ready.
+function onMapKnown()
+	if not g_game.isOnline() then return end
+	scheduleEvent(function()
+		if g_game.isOnline() and g_game.getProtocolGame() then
+			requestPersonalStore(g_game.getCharacterName(), true)
+		end
+	end, 300)
 end
 
 function show()
