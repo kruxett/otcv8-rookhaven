@@ -17,7 +17,12 @@ local PersonalStoreModeOff = 0
 local PersonalStoreModeOn = 1
 
 local function isInProtectionZone()
-    return modules.game_inventory and modules.game_inventory.checkPz and modules.game_inventory.checkPz() or false
+	local localPlayer = g_game.getLocalPlayer and g_game.getLocalPlayer() or nil
+	if not localPlayer or not localPlayer.hasState or not PlayerStates or not PlayerStates.Pz then
+		return false
+	end
+
+	return localPlayer:hasState(PlayerStates.Pz)
 end
 
 local function updateRarityFrame(itemWidget, rarity)
