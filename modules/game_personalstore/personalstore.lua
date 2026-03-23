@@ -86,6 +86,10 @@ function toggle()
     if MainWindow:isVisible() then
         hide()
     else
+		if not isInProtectionZone() then
+			displayErrorBox('Personal Store', 'You can only open the personal store while in a protection zone (PZ).')
+			return
+		end
 		requestPersonalStore(g_game.getCharacterName())
     end
 end
@@ -458,6 +462,11 @@ end
 
 
 function requestPersonalStore(name, silent)
+	if not silent and not isInProtectionZone() then
+		displayErrorBox('Personal Store', 'You can only open the personal store while in a protection zone (PZ).')
+		return
+	end
+
 	pendingVisualSync = silent == true
 	g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'RequestPersonalStore', name = name }))
 end
