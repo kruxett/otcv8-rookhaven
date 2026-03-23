@@ -7,7 +7,7 @@ local ItemsPanel, EditStoreButton, StartStoreButton
 local Key = "Menu"
 local Opcode = 3
 
-local editMode = true
+local editMode = false
 local storeOpen = false
 local pendingVisualSync = false
 
@@ -162,13 +162,6 @@ function removeItemFromPanel(slot)
 		border:setOpacity(0)
 	end
 	
-	if EditStoreButton then
-		EditStoreButton:setText("Edit Store")
-	end
-	if EditPriceButton then
-		EditPriceButton:setVisible(false)
-	end
-	
 	local purchasePanel = MainPanel:getChildById('purchasePanel')
 	if purchasePanel then
 		local selectedItem = purchasePanel:getChildById('selectedItem')
@@ -196,39 +189,61 @@ function removeItemFromPanel(slot)
 	end
 end
 
+local function applyOwnerEditModeState()
+	if not CurrentStore or not CurrentStore.owner then
+		return
+	end
+
+	local color = editMode and "#00FF21" or "alpha"
+	for _, child in ipairs(ItemsPanel:getChildren()) do
+		child:setBackgroundColor(color)
+		if child.itemInfo and child.itemInfo.itemid and child.itemInfo.itemid > 0 then
+			child:getChildById('buyOrEdit'):setText(editMode and "Edit" or child.itemInfo.price)
+			child:getChildById('buyOrEdit'):enable()
+			child:getChildById('buyOrEdit').onClick = function()
+				if not child.itemInfo then
+					return
+				end
+
+				if editMode then
+					showEditItemPanel(child.itemInfo)
+				end
+			end
+
+			child:getChildById('remove'):setVisible(editMode)
+			child:getChildById('remove').onClick = function()
+				if not editMode or not child.itemInfo or not child.itemInfo.item_code then
+					return
+				end
+
+				g_game.getProtocolGame():sendExtendedOpcode(Opcode,
+				json.encode({ protocol = 'RemoveItemFromPersonalStore', item_code = child.itemInfo.item_code }))
+				removeItemFromPanel(child)
+			end
+		end
+	end
+
+	if EditStoreButton then
+		EditStoreButton:setVisible(true)
+		EditStoreButton:setText(editMode and "Finalize Edits" or "Edit Store")
+	end
+
+	if EditPriceButton then
+		EditPriceButton:setVisible(editMode)
+	end
+
+	if StartStoreButton then
+		StartStoreButton:setText(editMode and "Select Item" or
+		(CurrentStore.mode == PersonalStoreModeOff and "Start Store" or "Close Store"))
+	end
+end
+
 function enableEditionModeOrOfflineMode()
 	if CurrentStore.mode == PersonalStoreModeOn then
 		g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'ClosePersonalStore' }))
 	elseif CurrentStore.mode == PersonalStoreModeOff then
 		editMode = not editMode
-		local color = editMode and "#00FF21" or "alpha"
-		
-		for _, child in ipairs(ItemsPanel:getChildren()) do
-			child:setBackgroundColor(color)
-			if child.itemInfo and child.itemInfo.itemid and child.itemInfo.itemid > 0 then
-				child:getChildById('buyOrEdit'):setText(editMode and "Edit" or child.itemInfo.price)
-				child:getChildById('buyOrEdit'):enable()
-				child:getChildById('remove'):setVisible(editMode)
-				child:getChildById('remove').onClick = function()
-					g_game.getProtocolGame():sendExtendedOpcode(Opcode,
-					json.encode({ protocol = 'RemoveItemFromPersonalStore', item_code = child.itemInfo.item_code }))
-					removeItemFromPanel(child)
-				end
-			end
-		end
-		
-		
-		if EditStoreButton then
-			EditStoreButton:setVisible(true)
-			EditStoreButton:setText(editMode and "Finalize Edits" or "Edit Store")
-		end
-		
-		if EditPriceButton then
-			EditPriceButton:setVisible(editMode)
-		end
-		
-		StartStoreButton:setText(editMode and "Select Item" or
-		(CurrentStore.mode == PersonalStoreModeOff and "Start Store" or "Close Store"))
+		applyOwnerEditModeState()
 	end
 end
 
@@ -471,6 +486,7 @@ end
 
 function parsePersonalStore(protocol, opcode, buffer)
 	local personal_store = json.decode(buffer)
+	local wasEditing = editMode
 	local purchasePanel = MainPanel:getChildById('purchasePanel')
 	
 	if purchasePanel then
@@ -503,7 +519,7 @@ function parsePersonalStore(protocol, opcode, buffer)
 			return
 		end
 
-		editMode = false
+		editMode = personal_store.owner and personal_store.mode == PersonalStoreModeOff and wasEditing or false
 		
 		for _, child in ipairs(ItemsPanel:getChildren()) do
 			resetItemSlot(child)
@@ -581,6 +597,10 @@ function parsePersonalStore(protocol, opcode, buffer)
 					StartStoreButton:setText("Start Store")
 					if EditStoreButton then EditStoreButton:enable() end
 				end
+			end
+
+			if personal_store.mode == PersonalStoreModeOff then
+				applyOwnerEditModeState()
 			end
 		end
 		
