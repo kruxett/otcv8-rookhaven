@@ -24,6 +24,28 @@ spectateHideEvent = nil
 spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
 
+local function applySpectateLocalVisualNow()
+  if not spectateActive then
+    return
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer then
+    if spectateLocalOriginalName == nil then
+      spectateLocalOriginalName = localPlayer:getName()
+    end
+    localPlayer:setHidden(true)
+    localPlayer:setName('')
+    localPlayer:lockWalk(650)
+  end
+end
+
+local function onLocalPlayerPositionChange(player, newPos, oldPos)
+  if spectateActive then
+    applySpectateLocalVisualNow()
+  end
+end
+
 local function onSpectateMoveAttempt()
   if not spectateActive then
     return
@@ -65,21 +87,17 @@ local function enforceSpectateLocalVisual()
     return
   end
 
-  local localPlayer = g_game.getLocalPlayer()
-  if localPlayer then
-    if spectateLocalOriginalName == nil then
-      spectateLocalOriginalName = localPlayer:getName()
-    end
-    localPlayer:setHidden(true)
-    localPlayer:setName('')
-    localPlayer:lockWalk(650)
-  end
+  applySpectateLocalVisualNow()
 
-  spectateHideEvent = scheduleEvent(enforceSpectateLocalVisual, 100)
+  spectateHideEvent = scheduleEvent(enforceSpectateLocalVisual, 30)
 end
 
 function init()
   g_ui.importStyle('styles/countwindow')
+
+  connect(LocalPlayer, {
+    onPositionChange = onLocalPlayerPositionChange
+  })
 
   connect(g_game, {
     onGameStart = onGameStart,
@@ -180,6 +198,10 @@ function terminate()
   hookedMenuOptions = {}
   markThing = nil
   
+
+  disconnect(LocalPlayer, {
+    onPositionChange = onLocalPlayerPositionChange
+  })
 
   disconnect(g_game, {
     onGameStart = onGameStart,
