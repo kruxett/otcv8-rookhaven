@@ -19,6 +19,50 @@ hookedMenuOptions = {}
 lastDirTime = g_clock.millis()
 spectateLabel = nil
 spectateLocalWasHidden = false
+spectateActive = false
+spectateHideEvent = nil
+spectateLocalOriginalName = nil
+spectateMapWasDrawingNames = true
+
+local function stopSpectateLocalVisual()
+  spectateActive = false
+  if spectateHideEvent then
+    removeEvent(spectateHideEvent)
+    spectateHideEvent = nil
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer then
+    localPlayer:setHidden(spectateLocalWasHidden)
+    if spectateLocalOriginalName ~= nil then
+      localPlayer:setName(spectateLocalOriginalName)
+    end
+  end
+
+  if gameMapPanel then
+    gameMapPanel:setDrawNames(spectateMapWasDrawingNames)
+  end
+
+  spectateLocalWasHidden = false
+  spectateLocalOriginalName = nil
+end
+
+local function enforceSpectateLocalVisual()
+  if not spectateActive then
+    return
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer then
+    if spectateLocalOriginalName == nil then
+      spectateLocalOriginalName = localPlayer:getName()
+    end
+    localPlayer:setHidden(true)
+    localPlayer:setName('')
+  end
+
+  spectateHideEvent = scheduleEvent(enforceSpectateLocalVisual, 100)
+end
 
 function init()
   g_ui.importStyle('styles/countwindow')
@@ -131,11 +175,7 @@ end
 
 function onSpectateOpcode(protocol, opcode, buffer)
   if buffer == "stop" then
-    local localPlayer = g_game.getLocalPlayer()
-    if localPlayer then
-      localPlayer:setHidden(spectateLocalWasHidden)
-    end
-    spectateLocalWasHidden = false
+    stopSpectateLocalVisual()
     gameMapPanel:followCreature(g_game.getLocalPlayer())
     if spectateLabel then
       spectateLabel:destroy()
@@ -147,8 +187,13 @@ function onSpectateOpcode(protocol, opcode, buffer)
       local localPlayer = g_game.getLocalPlayer()
       if localPlayer then
         spectateLocalWasHidden = localPlayer:isHidden()
-        localPlayer:setHidden(true)
       end
+      if gameMapPanel then
+        spectateMapWasDrawingNames = gameMapPanel:isDrawingNames()
+        gameMapPanel:setDrawNames(false)
+      end
+      spectateActive = true
+      enforceSpectateLocalVisual()
       local creatureId = tonumber(parts[2])
       local targetName = parts[3] or "?"
       scheduleEvent(function()
@@ -176,11 +221,7 @@ end
 function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
-  local localPlayer = g_game.getLocalPlayer()
-  if localPlayer then
-    localPlayer:setHidden(spectateLocalWasHidden)
-  end
-  spectateLocalWasHidden = false
+  stopSpectateLocalVisual()
   ProtocolGame.unregisterExtendedOpcode(90)
   if spectateLabel then
     spectateLabel:destroy()
