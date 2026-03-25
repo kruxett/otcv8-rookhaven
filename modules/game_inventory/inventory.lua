@@ -77,6 +77,31 @@ local function applyInventorySlotBackground(itemWidget, slot, hasAdventurerBless
   end
 end
 
+local function applyInventoryOccupiedBackground(itemWidget, hasAdventurerBlessing)
+  if not itemWidget then
+    return
+  end
+
+  itemWidget:setImageSource(hasAdventurerBlessing and '/images/ui/item-blessed' or '/images/ui/item')
+end
+
+local function applyInventoryOccupiedAppearance(itemWidget, item, hasAdventurerBlessing)
+  if not itemWidget then
+    return
+  end
+
+  local affixSystem = _G.affixSystem
+  if affixSystem and item then
+    local rarityFrame = affixSystem.getRarityFrame(item)
+    if rarityFrame then
+      itemWidget:setImageSource(rarityFrame)
+      return
+    end
+  end
+
+  applyInventoryOccupiedBackground(itemWidget, hasAdventurerBlessing)
+end
+
 inventoryWindow = nil
 inventoryPanel = nil
 inventoryButton = nil
@@ -326,7 +351,14 @@ function toggleAdventurerStyle(hasBlessing)
   for slot = InventorySlotFirst, InventorySlotLast do
     local itemWidget = inventoryPanel:getChildById('slot' .. slot)
     if itemWidget then
-      itemWidget:setOn(hasBlessing)
+      local item = itemWidget:getItem()
+      if item then
+        itemWidget:setOn(false)
+        applyInventoryOccupiedAppearance(itemWidget, item, hasBlessing)
+      else
+        itemWidget:setOn(hasBlessing)
+        applyInventorySlotBackground(itemWidget, slot, hasBlessing)
+      end
     end
   end
 end
@@ -394,19 +426,8 @@ function onInventoryChange(player, slot, item, oldItem)
   local hasAdventurerBlessing = player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false
   if item then
     itemWidget:setStyle(slotStyle)
-
-    -- Restore rarity frame on equipped items (same source used by containers)
-    local affixSystem = _G.affixSystem
-    if affixSystem then
-      local rarityFrame = affixSystem.getRarityFrame(item)
-      if rarityFrame then
-        itemWidget:setImageSource(rarityFrame)
-      else
-        applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
-      end
-    else
-      applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
-    end
+    itemWidget:setOn(false)
+    applyInventoryOccupiedAppearance(itemWidget, item, hasAdventurerBlessing)
     
     -- Check if item is magical and apply purple tint
     local article = item:getArticle()
