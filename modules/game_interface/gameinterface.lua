@@ -18,6 +18,7 @@ limitedZoom = false
 hookedMenuOptions = {}
 lastDirTime = g_clock.millis()
 spectateLabel = nil
+spectateLocalWasHidden = false
 
 function init()
   g_ui.importStyle('styles/countwindow')
@@ -130,6 +131,11 @@ end
 
 function onSpectateOpcode(protocol, opcode, buffer)
   if buffer == "stop" then
+    local localPlayer = g_game.getLocalPlayer()
+    if localPlayer then
+      localPlayer:setHidden(spectateLocalWasHidden)
+    end
+    spectateLocalWasHidden = false
     gameMapPanel:followCreature(g_game.getLocalPlayer())
     if spectateLabel then
       spectateLabel:destroy()
@@ -138,6 +144,11 @@ function onSpectateOpcode(protocol, opcode, buffer)
   else
     local parts = buffer:split(",")
     if parts[1] == "start" then
+      local localPlayer = g_game.getLocalPlayer()
+      if localPlayer then
+        spectateLocalWasHidden = localPlayer:isHidden()
+        localPlayer:setHidden(true)
+      end
       local creatureId = tonumber(parts[2])
       local targetName = parts[3] or "?"
       scheduleEvent(function()
@@ -165,11 +176,16 @@ end
 function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
-    ProtocolGame.unregisterExtendedOpcode(90)
-    if spectateLabel then
-      spectateLabel:destroy()
-      spectateLabel = nil
-    end
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer then
+    localPlayer:setHidden(spectateLocalWasHidden)
+  end
+  spectateLocalWasHidden = false
+  ProtocolGame.unregisterExtendedOpcode(90)
+  if spectateLabel then
+    spectateLabel:destroy()
+    spectateLabel = nil
+  end
 end
 
 function show()
