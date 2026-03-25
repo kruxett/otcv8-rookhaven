@@ -22,7 +22,6 @@ spectateLocalWasHidden = false
 spectateActive = false
 spectateHideEvent = nil
 spectateLocalOriginalName = nil
-spectateMapWasDrawingNames = true
 
 local function stopSpectateLocalVisual()
   spectateActive = false
@@ -37,10 +36,6 @@ local function stopSpectateLocalVisual()
     if spectateLocalOriginalName ~= nil then
       localPlayer:setName(spectateLocalOriginalName)
     end
-  end
-
-  if gameMapPanel then
-    gameMapPanel:setDrawNames(spectateMapWasDrawingNames)
   end
 
   spectateLocalWasHidden = false
@@ -187,10 +182,6 @@ function onSpectateOpcode(protocol, opcode, buffer)
       local localPlayer = g_game.getLocalPlayer()
       if localPlayer then
         spectateLocalWasHidden = localPlayer:isHidden()
-      end
-      if gameMapPanel then
-        spectateMapWasDrawingNames = gameMapPanel:isDrawingNames()
-        gameMapPanel:setDrawNames(false)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
