@@ -353,6 +353,7 @@ function toggleAdventurerStyle(hasBlessing)
     if itemWidget then
       local item = itemWidget:getItem()
       if item then
+        itemWidget:setStyle('InventoryItem')
         itemWidget:setOn(false)
         applyInventoryOccupiedAppearance(itemWidget, item, hasBlessing)
       else
@@ -425,7 +426,7 @@ function onInventoryChange(player, slot, item, oldItem)
   local slotStyle = InventorySlotStyles[slot] or 'InventoryItem'
   local hasAdventurerBlessing = player and Bit.hasBit(player:getBlessings(), Blessings.Adventurer) or false
   if item then
-    itemWidget:setStyle(slotStyle)
+    itemWidget:setStyle('InventoryItem')
     itemWidget:setOn(false)
     applyInventoryOccupiedAppearance(itemWidget, item, hasAdventurerBlessing)
     
