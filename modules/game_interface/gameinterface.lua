@@ -22,6 +22,24 @@ spectateLocalWasHidden = false
 spectateActive = false
 spectateHideEvent = nil
 spectateLocalOriginalName = nil
+spectateMoveHintAt = 0
+
+local function onSpectateMoveAttempt()
+  if not spectateActive then
+    return
+  end
+
+  local now = g_clock.millis()
+  if now - spectateMoveHintAt > 1200 then
+    modules.game_textmessage.displayFailureMessage('You are spectating. Use /spectate to stop before moving.')
+    spectateMoveHintAt = now
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer then
+    localPlayer:lockWalk(650)
+  end
+end
 
 local function stopSpectateLocalVisual()
   spectateActive = false
@@ -54,6 +72,7 @@ local function enforceSpectateLocalVisual()
     end
     localPlayer:setHidden(true)
     localPlayer:setName('')
+    localPlayer:lockWalk(650)
   end
 
   spectateHideEvent = scheduleEvent(enforceSpectateLocalVisual, 100)
@@ -131,6 +150,28 @@ function bindKeys()
   g_keyboard.bindKeyDown('Ctrl+Q', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+L', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+W', function() g_map.cleanTexts() modules.game_textmessage.clearMessages() end, gameRootPanel)
+
+  -- Block local movement input during spectate for a clean camera feel.
+  g_keyboard.bindKeyDown('Up', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Right', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Down', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Left', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad8', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad9', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad6', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad3', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad2', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad1', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad4', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Numpad7', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('W', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('D', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('S', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('A', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('E', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Q', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('C', onSpectateMoveAttempt, gameRootPanel, true)
+  g_keyboard.bindKeyDown('Z', onSpectateMoveAttempt, gameRootPanel, true)
 end
 
 function terminate()
