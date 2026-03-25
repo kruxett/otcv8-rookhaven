@@ -17,6 +17,7 @@ bottomSplitter = nil
 limitedZoom = false
 hookedMenuOptions = {}
 lastDirTime = g_clock.millis()
+spectateLabel = nil
 
 function init()
   g_ui.importStyle('styles/countwindow')
@@ -119,17 +120,56 @@ end
 refreshViewMode()
 show()
   
--- open tibia has delay in auto walking
 if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
   else
     g_game.disableFeature(GameForceFirstAutoWalkStep)
+  end
+  ProtocolGame.registerExtendedOpcode(90, onSpectateOpcode)
+end
+
+function onSpectateOpcode(protocol, opcode, buffer)
+  if buffer == "stop" then
+    gameMapPanel:followCreature(g_game.getLocalPlayer())
+    if spectateLabel then
+      spectateLabel:destroy()
+      spectateLabel = nil
+    end
+  else
+    local parts = buffer:split(",")
+    if parts[1] == "start" then
+      local creatureId = tonumber(parts[2])
+      local targetName = parts[3] or "?"
+      scheduleEvent(function()
+        local creature = g_map.getCreatureById(creatureId)
+        if creature then
+          gameMapPanel:followCreature(creature)
+        end
+      end, 100)
+      if spectateLabel then spectateLabel:destroy() end
+      spectateLabel = g_ui.createWidget('UILabel', gameRootPanel)
+      spectateLabel:setText('[Spectating: ' .. targetName .. ']')
+      spectateLabel:setFont('verdana-11px-rounded')
+      spectateLabel:setColor('#ffffff')
+      spectateLabel:setBackgroundColor('#00000088')
+      spectateLabel:setWidth(220)
+      spectateLabel:setHeight(20)
+      spectateLabel:setTextAlign(AlignCenter)
+      spectateLabel:addAnchor(AnchorHorizontalCenter, 'parent', AnchorHorizontalCenter)
+      spectateLabel:addAnchor(AnchorBottom, 'parent', AnchorBottom)
+      spectateLabel:setMarginBottom(40)
+    end
   end
 end
 
 function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
+    ProtocolGame.unregisterExtendedOpcode(90)
+    if spectateLabel then
+      spectateLabel:destroy()
+      spectateLabel = nil
+    end
 end
 
 function show()
