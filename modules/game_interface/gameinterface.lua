@@ -23,6 +23,7 @@ spectateActive = false
 spectateHideEvent = nil
 spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
+spectateLocalBarsWasEnabled = true
 
 local function applySpectateLocalVisualNow()
   if not spectateActive then
@@ -76,6 +77,10 @@ local function stopSpectateLocalVisual()
     if spectateLocalOriginalName ~= nil then
       localPlayer:setName(spectateLocalOriginalName)
     end
+  end
+
+  if gameMapPanel then
+    gameMapPanel:setDrawPlayerBars(spectateLocalBarsWasEnabled)
   end
 
   spectateLocalWasHidden = false
@@ -245,6 +250,17 @@ function onSpectateOpcode(protocol, opcode, buffer)
       local localPlayer = g_game.getLocalPlayer()
       if localPlayer then
         spectateLocalWasHidden = localPlayer:isHidden()
+      end
+      if gameMapPanel then
+        local barsOption = true
+        if modules.client_options and modules.client_options.getOption then
+          local optValue = modules.client_options.getOption('hidePlayerBars')
+          if optValue ~= nil then
+            barsOption = optValue
+          end
+        end
+        spectateLocalBarsWasEnabled = barsOption
+        gameMapPanel:setDrawPlayerBars(false)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
