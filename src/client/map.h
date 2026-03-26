@@ -163,6 +163,7 @@ public:
 
     void addMapView(const MapViewPtr& mapView);
     void removeMapView(const MapViewPtr& mapView);
+    CreaturePtr getViewFollowingCreature() const;
     void notificateTileUpdate(const Position& pos, bool updateMinimap = false);
 
     void requestVisibleTilesCacheUpdate();

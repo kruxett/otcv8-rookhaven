@@ -122,7 +122,7 @@ void Creature::draw(const Point& dest, bool animate, LightView* lightView)
     bool applyMinimumDarknessLight = isLocalPlayer();
     if (!applyMinimumDarknessLight) {
         const auto localPlayer = g_game.getLocalPlayer();
-        const auto followingCreature = g_game.getFollowingCreature();
+        const auto followingCreature = g_map.getViewFollowingCreature();
         if (localPlayer && localPlayer->isHidden() && followingCreature && followingCreature.get() == this) {
             applyMinimumDarknessLight = true;
         }

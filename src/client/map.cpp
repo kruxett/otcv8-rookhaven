@@ -62,6 +62,22 @@ void Map::removeMapView(const MapViewPtr& mapView)
         m_mapViews.erase(it);
 }
 
+CreaturePtr Map::getViewFollowingCreature() const
+{
+    for (const MapViewPtr& mapView : m_mapViews) {
+        if (!mapView) {
+            continue;
+        }
+
+        CreaturePtr creature = mapView->getFollowingCreature();
+        if (creature) {
+            return creature;
+        }
+    }
+
+    return nullptr;
+}
+
 void Map::notificateTileUpdate(const Position& pos, bool updateMinimap)
 {
     if(!pos.isMapPosition())
