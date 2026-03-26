@@ -116,8 +116,19 @@ void Creature::draw(const Point& dest, bool animate, LightView* lightView)
     if (m_light.intensity != light.intensity || m_light.color != light.color)
         light = m_light;
 
-    // local player always have a minimum light in complete darkness
-    if (isLocalPlayer()) {
+    // local player always has a minimum light in complete darkness.
+    // During admin spectate, the local player is intentionally hidden; in that case
+    // apply the same minimum light rule to the followed creature to mirror true view.
+    bool applyMinimumDarknessLight = isLocalPlayer();
+    if (!applyMinimumDarknessLight) {
+        const auto localPlayer = g_game.getLocalPlayer();
+        const auto followingCreature = g_game.getFollowingCreature();
+        if (localPlayer && localPlayer->isHidden() && followingCreature && followingCreature.get() == this) {
+            applyMinimumDarknessLight = true;
+        }
+    }
+
+    if (applyMinimumDarknessLight) {
         light.intensity = std::max<uint8>(light.intensity, 2);
         if (light.color == 0 || light.color > 215)
             light.color = 215;
