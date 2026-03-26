@@ -24,6 +24,7 @@ spectateHideEvent = nil
 spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
 spectateLocalBarsWasEnabled = true
+spectateDrawLightsWasEnabled = true
 
 local function applySpectateLocalVisualNow()
   if not spectateActive then
@@ -81,6 +82,7 @@ local function stopSpectateLocalVisual()
 
   if gameMapPanel then
     gameMapPanel:setDrawPlayerBars(spectateLocalBarsWasEnabled)
+    gameMapPanel:setDrawLights(spectateDrawLightsWasEnabled)
   end
 
   spectateLocalWasHidden = false
@@ -261,6 +263,9 @@ function onSpectateOpcode(protocol, opcode, buffer)
         end
         spectateLocalBarsWasEnabled = barsOption
         gameMapPanel:setDrawPlayerBars(false)
+
+        spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
+        gameMapPanel:setDrawLights(true)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
