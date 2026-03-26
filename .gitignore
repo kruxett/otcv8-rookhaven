@@ -21,6 +21,9 @@ Makefile
 !android_libs.7z
 *.spr
 *.dat
+!data/things/
+!data/things/**/*.spr
+!data/things/**/*.dat
 *.kdev*
 *.cbp
 *~
