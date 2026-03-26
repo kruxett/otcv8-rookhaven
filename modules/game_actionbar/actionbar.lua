@@ -34,6 +34,20 @@ local function translateVocation(id)
   end
 end
 
+local function getSpellFilterVocations(id)
+  local vocations = {}
+  if id then
+    table.insert(vocations, id)
+  end
+
+  local translated = translateVocation(id)
+  if translated and not table.find(vocations, translated) then
+    table.insert(vocations, translated)
+  end
+
+  return vocations
+end
+
 local function isSpell(text) -- returns bool or table (spelldata, param text)
   text = text:lower():trim()
 
@@ -426,7 +440,6 @@ function setupButton(widget)
 
       local menu = g_ui.createWidget('PopupMenu')
       menu:setGameMenu(true)
-      menu:addOption(widget.spellId and tr('Edit Spell') or tr('Assign Spell'), function() assignSpell(widget) end)
       menu:addOption(widget.item:getItemId() > 100 and tr('Edit Object') or tr('Assign Object'), function() assignItem(widget) end)
       menu:addOption(widget.text:getText():len() > 0 and tr('Edit Text') or tr('Assign Text'), function() assignText(widget) end)
       menu:addOption(widget.hotkey and tr('Edit Hotkey') or tr('Assign Hotkey'), function() assignHotkey(widget) end)
@@ -687,34 +700,9 @@ function assignText(widget)
 
     settings[widget:getId()] = {hotkey=hotkey}
 
-    local spell = isSpell(text)
-    if spell then -- entered text is spell
-      local paramText = spell.param
-      local spellData = spell.data
-      local newGroup = {}
-      for groupId, duration in pairs(spellData.group) do
-        table.insert(newGroup, groupId)
-      end
-      spellData.group = newGroup
-
-  
-      settings[widget:getId()].type = TYPE.SPELL
-      settings[widget:getId()].spellData = {
-        words = spellData.words,
-        cd = spellData.exhaustion/1000,
-        mana = spellData.mana,
-        source = SpelllistSettings['Default'].iconFile,
-        clip = Spells.getImageClip(SpellIcons[spellData.icon][1], 'Default'),
-        name = spellData.spellName,
-        param = paramText,
-        group = spellData.group,
-        id = spellData.id
-      }
-    else -- is just text
-      settings[widget:getId()].sayText = text
-      settings[widget:getId()].type = TYPE.TEXT
-      settings[widget:getId()].autoSay = autoSay
-    end
+    settings[widget:getId()].sayText = text
+    settings[widget:getId()].type = TYPE.TEXT
+    settings[widget:getId()].autoSay = autoSay
   
     if destroy then
       window:destroy()
@@ -765,7 +753,6 @@ function assignSpell(widget)
     for groupId, duration in pairs(spellData.group) do
       table.insert(newGroup, groupId)
     end
-    spellData.group = newGroup
     
     widget:setId(spellData.id)
     widget:setText(spellName.."\n"..spellData.words)
@@ -784,7 +771,7 @@ function assignSpell(widget)
       clip = widget.clip,
       name = spellName,
       param = spellData.parameter,
-      group = spellData.group,
+      group = newGroup,
       id = spellData.id
     }
   end
@@ -801,12 +788,21 @@ function assignSpell(widget)
     window.spellList.onChildFocusChange = nil
 
     local widgets = window.spellList:getChildren()
-    local vocation = translateVocation(g_game.getLocalPlayer():getVocation())
+    local localPlayer = g_game.getLocalPlayer()
+    local vocations = getSpellFilterVocations(localPlayer and localPlayer:getVocation())
 
     -- visible
     local fistVisible = nil
     for i, widget in ipairs(widgets) do
-      local viable = not filter or table.find(widget.voc, vocation) and true or false
+      local viable = not filter
+      if not viable then
+        for _, vocation in ipairs(vocations) do
+          if table.find(widget.voc, vocation) then
+            viable = true
+            break
+          end
+        end
+      end
       widget:setVisible(viable)
       if viable and not fistVisible then
         fistVisible = widget

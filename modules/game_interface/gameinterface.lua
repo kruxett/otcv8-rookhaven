@@ -174,8 +174,7 @@ function bindKeys()
   g_keyboard.bindKeyPress('Ctrl+-', function() if g_game.getFeature(GameNoDebug) then return end gameMapPanel:zoomOut() end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+Q', function() tryLogout(false) end, gameRootPanel)
   g_keyboard.bindKeyDown('Ctrl+L', function() tryLogout(false) end, gameRootPanel)
-  g_keyboard.bindKeyDown('Ctrl+W', function() g_map.cleanTexts() modules.game_textmessage.clearMessages() end, gameRootPanel)
-
+snu
   -- Block local movement input during spectate for a clean camera feel.
   g_keyboard.bindKeyDown('Up', onSpectateMoveAttempt, gameRootPanel, true)
   g_keyboard.bindKeyDown('Right', onSpectateMoveAttempt, gameRootPanel, true)
