@@ -81,7 +81,7 @@ local function stopSpectateLocalVisual()
   end
 
   if gameMapPanel then
-    gameMapPanel:setDrawPlayerBars(spectateLocalBarsWasEnabled)
+    gameMapPanel:setDrawPlayerBars(true)
     gameMapPanel:setDrawLights(spectateDrawLightsWasEnabled)
   end
 
@@ -254,14 +254,7 @@ function onSpectateOpcode(protocol, opcode, buffer)
         spectateLocalWasHidden = localPlayer:isHidden()
       end
       if gameMapPanel then
-        local barsOption = true
-        if modules.client_options and modules.client_options.getOption then
-          local optValue = modules.client_options.getOption('hidePlayerBars')
-          if optValue ~= nil then
-            barsOption = optValue
-          end
-        end
-        spectateLocalBarsWasEnabled = barsOption
+        spectateLocalBarsWasEnabled = true
         gameMapPanel:setDrawPlayerBars(false)
 
         spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
