@@ -25,6 +25,33 @@ spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
 spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
+spectateMinimumAmbientLightWas = 0
+local STAFF_LIGHT_OPCODE = 91
+local staffLightMode = 'natural'
+
+local function applyStaffLightMode()
+  if not gameMapPanel or spectateActive then
+    return
+  end
+
+  if staffLightMode == 'full' then
+    gameMapPanel:setDrawLights(false)
+    gameMapPanel:setMinimumAmbientLight(1)
+  else
+    gameMapPanel:setDrawLights(true)
+    gameMapPanel:setMinimumAmbientLight(0)
+  end
+end
+
+local function onStaffLightOpcode(protocol, opcode, buffer)
+  if buffer == 'full' then
+    staffLightMode = 'full'
+  else
+    staffLightMode = 'natural'
+  end
+
+  applyStaffLightMode()
+end
 
 local function applySpectateLocalVisualNow()
   if not spectateActive then
@@ -83,10 +110,13 @@ local function stopSpectateLocalVisual()
   if gameMapPanel then
     gameMapPanel:setDrawPlayerBars(true)
     gameMapPanel:setDrawLights(spectateDrawLightsWasEnabled)
+    gameMapPanel:setMinimumAmbientLight(spectateMinimumAmbientLightWas)
   end
 
   spectateLocalWasHidden = false
   spectateLocalOriginalName = nil
+
+  applyStaffLightMode()
 end
 
 local function enforceSpectateLocalVisual()
@@ -227,6 +257,8 @@ if ClientLog and ClientLog.info then
 end
 refreshViewMode()
 show()
+  staffLightMode = 'natural'
+  applyStaffLightMode()
   
 if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
@@ -234,6 +266,7 @@ if not g_game.isOfficialTibia() then
     g_game.disableFeature(GameForceFirstAutoWalkStep)
   end
   ProtocolGame.registerExtendedOpcode(90, onSpectateOpcode)
+  ProtocolGame.registerExtendedOpcode(STAFF_LIGHT_OPCODE, onStaffLightOpcode)
 end
 
 function onSpectateOpcode(protocol, opcode, buffer)
@@ -256,7 +289,9 @@ function onSpectateOpcode(protocol, opcode, buffer)
         gameMapPanel:setDrawPlayerBars(false)
 
         spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
+        spectateMinimumAmbientLightWas = gameMapPanel:getMinimumAmbientLight()
         gameMapPanel:setDrawLights(true)
+        gameMapPanel:setMinimumAmbientLight(0)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
@@ -289,6 +324,8 @@ function onGameEnd()
   modules.client_topmenu.getTopMenu():setImageColor('white')
   stopSpectateLocalVisual()
   ProtocolGame.unregisterExtendedOpcode(90)
+  ProtocolGame.unregisterExtendedOpcode(STAFF_LIGHT_OPCODE)
+  staffLightMode = 'natural'
   if spectateLabel then
     spectateLabel:destroy()
     spectateLabel = nil
