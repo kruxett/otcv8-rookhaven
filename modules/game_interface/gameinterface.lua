@@ -27,22 +27,39 @@ spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
 spectateMinimumAmbientLightWas = 0
 gmFullLightEnabled = false
-gmRestoreDrawLights = nil
-gmRestoreAmbientLight = nil
+staffHelpersLevel = 0
+staffHasNonZeroGmAction = false
 
 local function hasStaffLightAccess()
-  -- Only allow GM/God characters to use light toggle.
-  -- Permission check is performed server-side regardless of this client-side gate.
-  return g_game.isGM()
-end
-
-local function refreshNaturalLightBaseline()
-  if not gameMapPanel then
-    return
+  if g_game.isGM() then
+    return true
   end
 
-  gmRestoreDrawLights = gameMapPanel:isDrawingLights()
-  gmRestoreAmbientLight = gameMapPanel:getMinimumAmbientLight()
+  if staffHasNonZeroGmAction then
+    return true
+  end
+
+  return staffHelpersLevel > 0
+end
+
+local function applyNaturalPlayerLightDefaults()
+  local enableLights = true
+  local ambientPercent = 0
+
+  if modules.client_options and modules.client_options.getOption then
+    local configuredEnableLights = modules.client_options.getOption('enableLights')
+    if configuredEnableLights ~= nil then
+      enableLights = configuredEnableLights
+    end
+
+    local configuredAmbientLight = modules.client_options.getOption('ambientLight')
+    if configuredAmbientLight ~= nil then
+      ambientPercent = configuredAmbientLight
+    end
+  end
+
+  gameMapPanel:setMinimumAmbientLight(ambientPercent / 100)
+  gameMapPanel:setDrawLights(enableLights and ambientPercent < 100)
 end
 
 local function applyGmLightMode(showMessage)
@@ -52,6 +69,7 @@ local function applyGmLightMode(showMessage)
 
   if not hasStaffLightAccess() then
     gmFullLightEnabled = false
+    applyNaturalPlayerLightDefaults()
     return
   end
 
@@ -69,14 +87,8 @@ local function applyGmLightMode(showMessage)
       modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
     end
   else
-    -- Natural mode must match regular player behavior exactly; only restore
-    -- previously captured values when coming back from FULL mode.
-    if gmRestoreAmbientLight ~= nil and gmRestoreDrawLights ~= nil then
-      gameMapPanel:setMinimumAmbientLight(gmRestoreAmbientLight)
-      gameMapPanel:setDrawLights(gmRestoreDrawLights)
-      gmRestoreAmbientLight = nil
-      gmRestoreDrawLights = nil
-    end
+    -- Natural mode must always match regular player defaults.
+    applyNaturalPlayerLightDefaults()
     if showMessage then
       modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')
     end
@@ -93,17 +105,27 @@ local function toggleGmLightMode()
     return
   end
 
-  if not gmFullLightEnabled then
-    -- Capture exact current state before FULL so NATURAL can restore it 1:1.
-    refreshNaturalLightBaseline()
-  end
-
   gmFullLightEnabled = not gmFullLightEnabled
   g_settings.set('gmFullLightMode', gmFullLightEnabled)
   applyGmLightMode(true)
 end
 
-local function onGMActions()
+local function onGMActions(actions)
+  staffHasNonZeroGmAction = false
+  if type(actions) == 'table' then
+    for _, value in ipairs(actions) do
+      if value and value > 0 then
+        staffHasNonZeroGmAction = true
+        break
+      end
+    end
+  end
+
+  applyGmLightMode(false)
+end
+
+local function onPlayerHelpersUpdate(helpers)
+  staffHelpersLevel = tonumber(helpers) or 0
   applyGmLightMode(false)
 end
 
@@ -195,6 +217,7 @@ function init()
     onGameEnd = onGameEnd,
     onLoginAdvice = onLoginAdvice,
     onGMActions = onGMActions,
+    onPlayerHelpersUpdate = onPlayerHelpersUpdate,
   }, true)
 
   -- Call load AFTER game window has been created and 
@@ -297,7 +320,8 @@ function terminate()
     onGameStart = onGameStart,
     onGameEnd = onGameEnd,
     onLoginAdvice = onLoginAdvice,
-    onGMActions = onGMActions
+    onGMActions = onGMActions,
+    onPlayerHelpersUpdate = onPlayerHelpersUpdate,
   })
 
   disconnect(gameMapPanel, { onGeometryChange = updateSize })
@@ -314,9 +338,8 @@ end
 refreshViewMode()
 show()
 
-  -- Capture the baseline light values immediately after login, before any mode toggling.
-  -- This ensures Natural mode restores exact player lighting, never pitch-black.
-  refreshNaturalLightBaseline()
+  staffHelpersLevel = 0
+  staffHasNonZeroGmAction = false
 
   gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
   applyGmLightMode(false)
@@ -383,6 +406,8 @@ function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
   stopSpectateLocalVisual()
+  staffHelpersLevel = 0
+  staffHasNonZeroGmAction = false
   ProtocolGame.unregisterExtendedOpcode(90)
   if spectateLabel then
     spectateLabel:destroy()
@@ -1232,7 +1257,7 @@ function getGmLightModeText()
 end
 
 function isGmLightToggleBlocked()
-  return not g_game.isGM() or spectateActive
+  return not hasStaffLightAccess() or spectateActive
 end
 
 function getRightPanel()

@@ -214,8 +214,12 @@ local function updateGmLightToggleButton()
     return
   end
 
-  gmLightToggleButton:setVisible(g_game.isOnline())
-  if not g_game.isOnline() then
+  local hasAccess = modules.game_interface
+    and modules.game_interface.hasGmLightAccess
+    and modules.game_interface.hasGmLightAccess()
+
+  gmLightToggleButton:setVisible(g_game.isOnline() and hasAccess)
+  if not g_game.isOnline() or not hasAccess then
     return
   end
 
@@ -317,6 +321,7 @@ function init()
     onGameStart = online,
     onGameEnd = offline,
     onGMActions = onInventoryGMActions,
+    onPlayerHelpersUpdate = onInventoryGMActions,
     onFightModeChange = update,
     onChaseModeChange = update,
     onSafeFightChange = update,
@@ -372,6 +377,7 @@ function terminate()
     onGameStart = online,
     onGameEnd = offline,
     onGMActions = onInventoryGMActions,
+    onPlayerHelpersUpdate = onInventoryGMActions,
     onFightModeChange = update,
     onChaseModeChange = update,
     onSafeFightChange = update,
