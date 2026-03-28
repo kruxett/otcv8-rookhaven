@@ -57,12 +57,12 @@ public:
     void setDrawNames(bool enable) { m_mapView->setDrawNames(enable); }
     void setDrawHealthBars(bool enable) { m_mapView->setDrawHealthBars(enable); }
     void setDrawHealthBarsOnTop(bool enable) { m_mapView->setDrawHealthBarsOnTop(enable); }
-    void setDrawLights(bool enable) { m_mapView->setDrawLights(enable); }
+    void setDrawLights(bool /*enable*/) { m_mapView->setDrawLights(true); }  // Force lights always ON
     void setDrawManaBar(bool enable) { m_mapView->setDrawManaBar(enable); }
     void setDrawPlayerBars(bool enable) { m_mapView->setDrawPlayerBars(enable); }
     void setAnimated(bool enable) { m_mapView->setAnimated(enable); }
     void setKeepAspectRatio(bool enable);
-    void setMinimumAmbientLight(float intensity) { m_mapView->setMinimumAmbientLight(intensity); }
+    void setMinimumAmbientLight(float /*intensity*/) { m_mapView->setMinimumAmbientLight(0.0f); }  // Force ambient to 0 (darkest)
     void setLimitVisibleRange(bool limitVisibleRange) { m_limitVisibleRange = limitVisibleRange; updateVisibleDimension(); }
     void setFloorFading(int value) { m_mapView->setFloorFading(value); }
     void setCrosshair(const std::string& type) { m_mapView->setCrosshair(type); }

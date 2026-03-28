@@ -113,6 +113,11 @@ void MapView::drawMapBackground(const Rect& rect, const TilePtr& crosshairTile) 
         updateVisibleTilesCache();
     }
 
+    if (g_game.getFeature(Otc::GameForceLight)) {
+        m_drawLight = true;
+        m_minimumAmbientLight = 0.05f;
+    }
+
     Rect srcRect = calcFramebufferSource(rect.size());
     g_drawQueue->setFrameBuffer(rect, m_optimizedSize, srcRect);
 

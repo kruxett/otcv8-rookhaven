@@ -25,109 +25,6 @@ spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
 spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
-spectateMinimumAmbientLightWas = 0
-gmFullLightEnabled = false
-staffHelpersLevel = 0
-staffHasNonZeroGmAction = false
-
-local function hasStaffLightAccess()
-  if g_game.isGM() then
-    return true
-  end
-
-  if staffHasNonZeroGmAction then
-    return true
-  end
-
-  return staffHelpersLevel > 0
-end
-
-local function applyNaturalPlayerLightDefaults()
-  local enableLights = true
-  local ambientPercent = 0
-
-  if modules.client_options and modules.client_options.getOption then
-    local configuredEnableLights = modules.client_options.getOption('enableLights')
-    if configuredEnableLights ~= nil then
-      enableLights = configuredEnableLights
-    end
-
-    local configuredAmbientLight = modules.client_options.getOption('ambientLight')
-    if configuredAmbientLight ~= nil then
-      ambientPercent = configuredAmbientLight
-    end
-  end
-
-  gameMapPanel:setMinimumAmbientLight(ambientPercent / 100)
-  gameMapPanel:setDrawLights(enableLights and ambientPercent < 100)
-end
-
-local function applyGmLightMode(showMessage)
-  if not g_game.isOnline() or not gameMapPanel then
-    return
-  end
-
-  if not hasStaffLightAccess() then
-    gmFullLightEnabled = false
-    applyNaturalPlayerLightDefaults()
-    return
-  end
-
-  if spectateActive then
-    if showMessage then
-      modules.game_textmessage.displayFailureMessage('Light mode toggle is disabled during spectate.')
-    end
-    return
-  end
-
-  if gmFullLightEnabled then
-    gameMapPanel:setMinimumAmbientLight(1)
-    gameMapPanel:setDrawLights(false)
-    if showMessage then
-      modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
-    end
-  else
-    -- Natural mode must always match regular player defaults.
-    applyNaturalPlayerLightDefaults()
-    if showMessage then
-      modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')
-    end
-  end
-end
-
-local function toggleGmLightMode()
-  if not g_game.isOnline() or not hasStaffLightAccess() then
-    return
-  end
-
-  if spectateActive then
-    applyGmLightMode(true)
-    return
-  end
-
-  gmFullLightEnabled = not gmFullLightEnabled
-  g_settings.set('gmFullLightMode', gmFullLightEnabled)
-  applyGmLightMode(true)
-end
-
-local function onGMActions(actions)
-  staffHasNonZeroGmAction = false
-  if type(actions) == 'table' then
-    for _, value in ipairs(actions) do
-      if value and value > 0 then
-        staffHasNonZeroGmAction = true
-        break
-      end
-    end
-  end
-
-  applyGmLightMode(false)
-end
-
-local function onPlayerHelpersUpdate(helpers)
-  staffHelpersLevel = tonumber(helpers) or 0
-  applyGmLightMode(false)
-end
 
 local function applySpectateLocalVisualNow()
   if not spectateActive then
@@ -186,13 +83,10 @@ local function stopSpectateLocalVisual()
   if gameMapPanel then
     gameMapPanel:setDrawPlayerBars(true)
     gameMapPanel:setDrawLights(spectateDrawLightsWasEnabled)
-    gameMapPanel:setMinimumAmbientLight(spectateMinimumAmbientLightWas)
   end
 
   spectateLocalWasHidden = false
   spectateLocalOriginalName = nil
-
-  applyGmLightMode(false)
 end
 
 local function enforceSpectateLocalVisual()
@@ -216,8 +110,6 @@ function init()
     onGameStart = onGameStart,
     onGameEnd = onGameEnd,
     onLoginAdvice = onLoginAdvice,
-    onGMActions = onGMActions,
-    onPlayerHelpersUpdate = onPlayerHelpersUpdate,
   }, true)
 
   -- Call load AFTER game window has been created and 
@@ -319,9 +211,7 @@ function terminate()
   disconnect(g_game, {
     onGameStart = onGameStart,
     onGameEnd = onGameEnd,
-    onLoginAdvice = onLoginAdvice,
-    onGMActions = onGMActions,
-    onPlayerHelpersUpdate = onPlayerHelpersUpdate,
+    onLoginAdvice = onLoginAdvice
   })
 
   disconnect(gameMapPanel, { onGeometryChange = updateSize })
@@ -337,12 +227,6 @@ if ClientLog and ClientLog.info then
 end
 refreshViewMode()
 show()
-
-  staffHelpersLevel = 0
-  staffHasNonZeroGmAction = false
-
-  gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
-  applyGmLightMode(false)
   
 if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
@@ -372,9 +256,7 @@ function onSpectateOpcode(protocol, opcode, buffer)
         gameMapPanel:setDrawPlayerBars(false)
 
         spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
-        spectateMinimumAmbientLightWas = gameMapPanel:getMinimumAmbientLight()
-        gameMapPanel:setDrawLights(false)
-        gameMapPanel:setMinimumAmbientLight(1)
+        gameMapPanel:setDrawLights(true)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
@@ -406,8 +288,6 @@ function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
   stopSpectateLocalVisual()
-  staffHelpersLevel = 0
-  staffHasNonZeroGmAction = false
   ProtocolGame.unregisterExtendedOpcode(90)
   if spectateLabel then
     spectateLabel:destroy()
@@ -1239,25 +1119,6 @@ end
 
 function getMapPanel()
   return gameMapPanel
-end
-
-function hasGmLightAccess()
-  return hasStaffLightAccess()
-end
-
-function toggleGmLightModeExternal()
-  toggleGmLightMode()
-end
-
-function getGmLightModeText()
-  if gmFullLightEnabled then
-    return 'FULL'
-  end
-  return 'NATURAL'
-end
-
-function isGmLightToggleBlocked()
-  return not hasStaffLightAccess() or spectateActive
 end
 
 function getRightPanel()
