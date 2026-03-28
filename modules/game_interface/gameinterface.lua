@@ -9,7 +9,6 @@ gameRightActionPanel = nil
 gameLeftActions = nil
 gameTopBar = nil
 logoutButton = nil
-gmLightButton = nil
 mouseGrabberWidget = nil
 countWindow = nil
 logoutWindow = nil
@@ -51,20 +50,12 @@ local function applyGmLightMode(showMessage)
 
   if not hasStaffLightAccess() then
     gmFullLightEnabled = false
-    if gmLightButton then
-      gmLightButton:hide()
-    end
     return
   end
 
-  if gmLightButton then
-    gmLightButton:show()
-    gmLightButton:setOn(gmFullLightEnabled)
-  end
-
   if spectateActive then
-    if gmLightButton then
-      gmLightButton:setTooltip('GM Light: Spectate active (toggle disabled)')
+    if showMessage then
+      modules.game_textmessage.displayFailureMessage('Light mode toggle is disabled during spectate.')
     end
     return
   end
@@ -72,9 +63,6 @@ local function applyGmLightMode(showMessage)
   if gmFullLightEnabled then
     gameMapPanel:setMinimumAmbientLight(1)
     gameMapPanel:setDrawLights(false)
-    if gmLightButton then
-      gmLightButton:setTooltip('GM Light: FULL (click to switch to NATURAL)')
-    end
     if showMessage then
       modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
     end
@@ -86,9 +74,6 @@ local function applyGmLightMode(showMessage)
       gameMapPanel:setDrawLights(gmRestoreDrawLights)
       gmRestoreAmbientLight = nil
       gmRestoreDrawLights = nil
-    end
-    if gmLightButton then
-      gmLightButton:setTooltip('GM Light: NATURAL (click to switch to FULL)')
     end
     if showMessage then
       modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')
@@ -102,7 +87,7 @@ local function toggleGmLightMode()
   end
 
   if spectateActive then
-    modules.game_textmessage.displayFailureMessage('Light mode toggle is disabled during spectate.')
+    applyGmLightMode(true)
     return
   end
 
@@ -242,9 +227,6 @@ function init()
 
   logoutButton = modules.client_topmenu.addLeftButton('logoutButton', tr('Exit'),
     '/images/topbuttons/logout', tryLogout, true)
-  gmLightButton = modules.client_topmenu.addLeftGameToggleButton('gmLightButton', 'GM Light: NATURAL',
-    '/images/topbuttons/debug', toggleGmLightMode, false, 10)
-  gmLightButton:hide()
 
 
   gameRightPanels:addChild(g_ui.createWidget('GameSidePanel'))
@@ -320,10 +302,6 @@ function terminate()
   connect(gameMapPanel, { onGeometryChange = updateSize, onVisibleDimensionChange = updateSize })
 
   logoutButton:destroy()
-  if gmLightButton then
-    gmLightButton:destroy()
-    gmLightButton = nil
-  end
   gameRootPanel:destroy()
 end
 
@@ -398,9 +376,6 @@ end
 function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
-  if gmLightButton then
-    gmLightButton:hide()
-  end
   stopSpectateLocalVisual()
   ProtocolGame.unregisterExtendedOpcode(90)
   if spectateLabel then
@@ -1233,6 +1208,25 @@ end
 
 function getMapPanel()
   return gameMapPanel
+end
+
+function hasGmLightAccess()
+  return hasStaffLightAccess()
+end
+
+function toggleGmLightModeExternal()
+  toggleGmLightMode()
+end
+
+function getGmLightModeText()
+  if gmFullLightEnabled then
+    return 'FULL'
+  end
+  return 'NATURAL'
+end
+
+function isGmLightToggleBlocked()
+  return spectateActive
 end
 
 function getRightPanel()

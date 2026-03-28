@@ -106,6 +106,7 @@ inventoryWindow = nil
 inventoryPanel = nil
 inventoryButton = nil
 purseButton = nil
+gmLightToggleButton = nil
 
 combatControlsWindow = nil
 fightOffensiveBox = nil
@@ -208,9 +209,49 @@ local function requestWaterOfferingsExpBuffStatus()
   end
 end
 
+local function updateGmLightToggleButton()
+  if not gmLightToggleButton then
+    return
+  end
+
+  local hasAccess = modules.game_interface
+    and modules.game_interface.hasGmLightAccess
+    and modules.game_interface.hasGmLightAccess()
+
+  gmLightToggleButton:setVisible(g_game.isOnline() and hasAccess)
+  if not (g_game.isOnline() and hasAccess) then
+    return
+  end
+
+  local mode = 'NATURAL'
+  if modules.game_interface and modules.game_interface.getGmLightModeText then
+    mode = modules.game_interface.getGmLightModeText()
+  end
+
+  local blocked = modules.game_interface
+    and modules.game_interface.isGmLightToggleBlocked
+    and modules.game_interface.isGmLightToggleBlocked()
+
+  gmLightToggleButton:setText('Light: ' .. mode)
+  gmLightToggleButton:setTooltip('GM Light mode: ' .. mode)
+  gmLightToggleButton:setEnabled(not blocked)
+end
+
+local function onGmLightToggleButtonClick()
+  if modules.game_interface and modules.game_interface.toggleGmLightModeExternal then
+    modules.game_interface.toggleGmLightModeExternal()
+  end
+  updateGmLightToggleButton()
+end
+
+local function onInventoryGMActions()
+  addEvent(updateGmLightToggleButton)
+end
+
 local function onInventoryGameStart()
   refresh()
   requestWaterOfferingsExpBuffStatus()
+  updateGmLightToggleButton()
 end
 
 function init()
@@ -234,6 +275,12 @@ function init()
   end
   
   purseButton = inventoryWindow:recursiveGetChildById('purseButton')
+  gmLightToggleButton = inventoryWindow:recursiveGetChildById('gmLightToggleButton')
+  if gmLightToggleButton then
+    gmLightToggleButton.onClick = onGmLightToggleButtonClick
+    updateGmLightToggleButton()
+  end
+
   purseButton.onClick = function()
     local purse = g_game.getLocalPlayer():getInventoryItem(InventorySlotPurse)
     if purse then
@@ -272,6 +319,7 @@ function init()
   connect(g_game, {
     onGameStart = online,
     onGameEnd = offline,
+    onGMActions = onInventoryGMActions,
     onFightModeChange = update,
     onChaseModeChange = update,
     onSafeFightChange = update,
@@ -285,6 +333,7 @@ function init()
   if g_game.isOnline() then
     online()
     requestWaterOfferingsExpBuffStatus()
+    updateGmLightToggleButton()
   end
 -- controls end
 
@@ -325,6 +374,7 @@ function terminate()
   disconnect(g_game, {
     onGameStart = online,
     onGameEnd = offline,
+    onGMActions = onInventoryGMActions,
     onFightModeChange = update,
     onChaseModeChange = update,
     onSafeFightChange = update,
@@ -523,6 +573,7 @@ function online()
   end
 
   update()
+  updateGmLightToggleButton()
 end
 
 function offline()
@@ -552,6 +603,8 @@ function offline()
     -- save last combat control settings
     g_settings.setNode('LastCombatControls', lastCombatControls)
   end
+
+  updateGmLightToggleButton()
 end
 
 function onSetFightMode(self, selectedFightButton)

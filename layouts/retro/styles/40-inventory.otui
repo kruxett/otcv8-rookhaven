@@ -332,6 +332,11 @@ InventoryWindow < HeadlessMiniWindow
           @onClick: modules.game_hotkeys.toggle()
 
         InventoryButton
+          id: gmLightToggleButton
+          !text: tr('GM Light')
+          visible: false
+
+        InventoryButton
           !text: tr('Logout')
           @onClick: modules.game_interface.tryLogout()
 
