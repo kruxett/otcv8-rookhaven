@@ -31,9 +31,9 @@ gmRestoreDrawLights = nil
 gmRestoreAmbientLight = nil
 
 local function hasStaffLightAccess()
-  -- GM action packets can arrive late or be unavailable for some access groups.
-  -- Keep light control available client-side; server-side access remains unchanged.
-  return true
+  -- Only allow GM/God characters to use light toggle.
+  -- Permission check is performed server-side regardless of this client-side gate.
+  return g_game.isGM()
 end
 
 local function refreshNaturalLightBaseline()
@@ -313,6 +313,10 @@ if ClientLog and ClientLog.info then
 end
 refreshViewMode()
 show()
+
+  -- Capture the baseline light values immediately after login, before any mode toggling.
+  -- This ensures Natural mode restores exact player lighting, never pitch-black.
+  refreshNaturalLightBaseline()
 
   gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
   applyGmLightMode(false)
@@ -1228,7 +1232,7 @@ function getGmLightModeText()
 end
 
 function isGmLightToggleBlocked()
-  return spectateActive
+  return not g_game.isGM() or spectateActive
 end
 
 function getRightPanel()
