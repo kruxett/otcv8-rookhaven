@@ -228,8 +228,9 @@ local function updateGmLightToggleButton()
     and modules.game_interface.isGmLightToggleBlocked
     and modules.game_interface.isGmLightToggleBlocked()
 
-  gmLightToggleButton:setText('Light: ' .. mode)
-  gmLightToggleButton:setTooltip('GM Light mode: ' .. mode)
+  gmLightToggleButton:setText('Light')
+  gmLightToggleButton:setTooltip('GM Light mode: ' .. mode .. ' (click to toggle)')
+  gmLightToggleButton:setOn(mode == 'FULL')
   gmLightToggleButton:setEnabled(not blocked)
 end
 

@@ -76,10 +76,6 @@ local function applyGmLightMode(showMessage)
       gameMapPanel:setDrawLights(gmRestoreDrawLights)
       gmRestoreAmbientLight = nil
       gmRestoreDrawLights = nil
-    else
-      -- Fallback for late login sync: keep natural mode usable and avoid pitch black.
-      gameMapPanel:setDrawLights(true)
-      gameMapPanel:setMinimumAmbientLight(0.05)
     end
     if showMessage then
       modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')
@@ -350,8 +346,8 @@ function onSpectateOpcode(protocol, opcode, buffer)
 
         spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
         spectateMinimumAmbientLightWas = gameMapPanel:getMinimumAmbientLight()
-        gameMapPanel:setDrawLights(true)
-        gameMapPanel:setMinimumAmbientLight(0)
+        gameMapPanel:setDrawLights(false)
+        gameMapPanel:setMinimumAmbientLight(1)
       end
       spectateActive = true
       enforceSpectateLocalVisual()

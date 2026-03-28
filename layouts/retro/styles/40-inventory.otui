@@ -129,7 +129,7 @@ MountButton < CombatBox
 
 InventoryWindow < HeadlessMiniWindow
   icon: /images/topbuttons/inventory
-  height: 174
+  height: 192
   id: inventoryWindow
   @onClose: modules.game_inventory.onMiniWindowClose()
   &save: true
@@ -333,7 +333,7 @@ InventoryWindow < HeadlessMiniWindow
 
         InventoryButton
           id: gmLightToggleButton
-          !text: tr('GM Light')
+          !text: tr('Light')
           visible: false
 
         InventoryButton
