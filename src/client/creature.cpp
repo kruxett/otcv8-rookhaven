@@ -128,7 +128,7 @@ void Creature::draw(const Point& dest, bool animate, LightView* lightView)
         }
     }
 
-    if (applyMinimumDarknessLight && light.intensity == 0) {
+    if (applyMinimumDarknessLight && light.intensity < 2) {
         light.intensity = 2;
         if (light.color == 0 || light.color > 215)
             light.color = 215;

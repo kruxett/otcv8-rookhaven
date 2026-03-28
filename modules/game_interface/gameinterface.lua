@@ -28,6 +28,17 @@ spectateDrawLightsWasEnabled = true
 spectateMinimumAmbientLightWas = 0
 local STAFF_LIGHT_OPCODE = 91
 local staffLightMode = 'natural'
+local staffNaturalDrawLightsWasEnabled = true
+local staffNaturalMinimumAmbientLightWas = 0
+
+local function rememberStaffNaturalLightMode()
+  if not gameMapPanel or spectateActive or staffLightMode == 'full' then
+    return
+  end
+
+  staffNaturalDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
+  staffNaturalMinimumAmbientLightWas = gameMapPanel:getMinimumAmbientLight()
+end
 
 local function applyStaffLightMode()
   if not gameMapPanel or spectateActive then
@@ -38,13 +49,14 @@ local function applyStaffLightMode()
     gameMapPanel:setDrawLights(false)
     gameMapPanel:setMinimumAmbientLight(1)
   else
-    gameMapPanel:setDrawLights(true)
-    gameMapPanel:setMinimumAmbientLight(0)
+    gameMapPanel:setDrawLights(staffNaturalDrawLightsWasEnabled)
+    gameMapPanel:setMinimumAmbientLight(staffNaturalMinimumAmbientLightWas)
   end
 end
 
 local function onStaffLightOpcode(protocol, opcode, buffer)
   if buffer == 'full' then
+    rememberStaffNaturalLightMode()
     staffLightMode = 'full'
   else
     staffLightMode = 'natural'
@@ -258,7 +270,7 @@ end
 refreshViewMode()
 show()
   staffLightMode = 'natural'
-  applyStaffLightMode()
+  rememberStaffNaturalLightMode()
   
 if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
@@ -326,6 +338,8 @@ function onGameEnd()
   ProtocolGame.unregisterExtendedOpcode(90)
   ProtocolGame.unregisterExtendedOpcode(STAFF_LIGHT_OPCODE)
   staffLightMode = 'natural'
+  staffNaturalDrawLightsWasEnabled = true
+  staffNaturalMinimumAmbientLightWas = 0
   if spectateLabel then
     spectateLabel:destroy()
     spectateLabel = nil
