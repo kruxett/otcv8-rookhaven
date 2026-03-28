@@ -9,6 +9,7 @@ gameRightActionPanel = nil
 gameLeftActions = nil
 gameTopBar = nil
 logoutButton = nil
+gmLightButton = nil
 mouseGrabberWidget = nil
 countWindow = nil
 logoutWindow = nil
@@ -25,6 +26,68 @@ spectateLocalOriginalName = nil
 spectateMoveHintAt = 0
 spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
+spectateMinimumAmbientLightWas = 0
+gmFullLightEnabled = false
+
+local function applyGmLightMode(showMessage)
+  if not g_game.isOnline() or not gameMapPanel then
+    return
+  end
+
+  if not g_game.isGM() then
+    gmFullLightEnabled = false
+    if gmLightButton then
+      gmLightButton:hide()
+    end
+    return
+  end
+
+  if gmLightButton then
+    gmLightButton:show()
+  end
+
+  if spectateActive then
+    if gmLightButton then
+      gmLightButton:setTooltip('GM Light: Spectate active (toggle disabled)')
+    end
+    return
+  end
+
+  if gmFullLightEnabled then
+    gameMapPanel:setMinimumAmbientLight(1)
+    gameMapPanel:setDrawLights(false)
+    if gmLightButton then
+      gmLightButton:setTooltip('GM Light: FULL (click to switch to NATURAL)')
+    end
+    if showMessage then
+      modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
+    end
+  else
+    gameMapPanel:setMinimumAmbientLight(0)
+    gameMapPanel:setDrawLights(true)
+    if gmLightButton then
+      gmLightButton:setTooltip('GM Light: NATURAL (click to switch to FULL)')
+    end
+    if showMessage then
+      modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')
+    end
+  end
+end
+
+local function toggleGmLightMode()
+  if not g_game.isOnline() or not g_game.isGM() then
+    return
+  end
+
+  if spectateActive then
+    modules.game_textmessage.displayFailureMessage('Light mode toggle is disabled during spectate.')
+    return
+  end
+
+  gmFullLightEnabled = not gmFullLightEnabled
+  g_settings.set('gmFullLightMode', gmFullLightEnabled)
+  applyGmLightMode(true)
+end
 
 local function applySpectateLocalVisualNow()
   if not spectateActive then
@@ -83,10 +146,13 @@ local function stopSpectateLocalVisual()
   if gameMapPanel then
     gameMapPanel:setDrawPlayerBars(true)
     gameMapPanel:setDrawLights(spectateDrawLightsWasEnabled)
+    gameMapPanel:setMinimumAmbientLight(spectateMinimumAmbientLightWas)
   end
 
   spectateLocalWasHidden = false
   spectateLocalOriginalName = nil
+
+  applyGmLightMode(false)
 end
 
 local function enforceSpectateLocalVisual()
@@ -144,6 +210,9 @@ function init()
 
   logoutButton = modules.client_topmenu.addLeftButton('logoutButton', tr('Exit'),
     '/images/topbuttons/logout', tryLogout, true)
+  gmLightButton = modules.client_topmenu.addLeftButton('gmLightButton', 'GM Light: NATURAL',
+    '/images/topbuttons/debug', toggleGmLightMode, true)
+  gmLightButton:hide()
 
 
   gameRightPanels:addChild(g_ui.createWidget('GameSidePanel'))
@@ -218,6 +287,10 @@ function terminate()
   connect(gameMapPanel, { onGeometryChange = updateSize, onVisibleDimensionChange = updateSize })
 
   logoutButton:destroy()
+  if gmLightButton then
+    gmLightButton:destroy()
+    gmLightButton = nil
+  end
   gameRootPanel:destroy()
 end
 
@@ -227,6 +300,9 @@ if ClientLog and ClientLog.info then
 end
 refreshViewMode()
 show()
+
+  gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
+  applyGmLightMode(false)
   
 if not g_game.isOfficialTibia() then
     g_game.enableFeature(GameForceFirstAutoWalkStep)
@@ -256,7 +332,9 @@ function onSpectateOpcode(protocol, opcode, buffer)
         gameMapPanel:setDrawPlayerBars(false)
 
         spectateDrawLightsWasEnabled = gameMapPanel:isDrawingLights()
+        spectateMinimumAmbientLightWas = gameMapPanel:getMinimumAmbientLight()
         gameMapPanel:setDrawLights(true)
+        gameMapPanel:setMinimumAmbientLight(0)
       end
       spectateActive = true
       enforceSpectateLocalVisual()
@@ -287,6 +365,9 @@ end
 function onGameEnd()
   hide()
   modules.client_topmenu.getTopMenu():setImageColor('white')
+  if gmLightButton then
+    gmLightButton:hide()
+  end
   stopSpectateLocalVisual()
   ProtocolGame.unregisterExtendedOpcode(90)
   if spectateLabel then
