@@ -28,13 +28,28 @@ spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
 spectateMinimumAmbientLightWas = 0
 gmFullLightEnabled = false
+gmNaturalDrawLights = true
+gmNaturalAmbientLight = 0
+
+local function hasStaffLightAccess()
+  return g_game.isGM()
+end
+
+local function refreshNaturalLightBaseline()
+  if not gameMapPanel then
+    return
+  end
+
+  gmNaturalDrawLights = gameMapPanel:isDrawingLights()
+  gmNaturalAmbientLight = gameMapPanel:getMinimumAmbientLight()
+end
 
 local function applyGmLightMode(showMessage)
   if not g_game.isOnline() or not gameMapPanel then
     return
   end
 
-  if not g_game.isGM() then
+  if not hasStaffLightAccess() then
     gmFullLightEnabled = false
     if gmLightButton then
       gmLightButton:hide()
@@ -63,8 +78,8 @@ local function applyGmLightMode(showMessage)
       modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
     end
   else
-    gameMapPanel:setMinimumAmbientLight(0)
-    gameMapPanel:setDrawLights(true)
+    gameMapPanel:setMinimumAmbientLight(gmNaturalAmbientLight)
+    gameMapPanel:setDrawLights(gmNaturalDrawLights)
     if gmLightButton then
       gmLightButton:setTooltip('GM Light: NATURAL (click to switch to FULL)')
     end
@@ -75,7 +90,7 @@ local function applyGmLightMode(showMessage)
 end
 
 local function toggleGmLightMode()
-  if not g_game.isOnline() or not g_game.isGM() then
+  if not g_game.isOnline() or not hasStaffLightAccess() then
     return
   end
 
@@ -84,9 +99,18 @@ local function toggleGmLightMode()
     return
   end
 
+  if not gmFullLightEnabled then
+    -- Capture current map lighting before enabling full light so NATURAL restores server/client defaults.
+    refreshNaturalLightBaseline()
+  end
+
   gmFullLightEnabled = not gmFullLightEnabled
   g_settings.set('gmFullLightMode', gmFullLightEnabled)
   applyGmLightMode(true)
+end
+
+local function onGMActions()
+  applyGmLightMode(false)
 end
 
 local function applySpectateLocalVisualNow()
@@ -176,6 +200,7 @@ function init()
     onGameStart = onGameStart,
     onGameEnd = onGameEnd,
     onLoginAdvice = onLoginAdvice,
+    onGMActions = onGMActions,
   }, true)
 
   -- Call load AFTER game window has been created and 
@@ -280,7 +305,8 @@ function terminate()
   disconnect(g_game, {
     onGameStart = onGameStart,
     onGameEnd = onGameEnd,
-    onLoginAdvice = onLoginAdvice
+    onLoginAdvice = onLoginAdvice,
+    onGMActions = onGMActions
   })
 
   disconnect(gameMapPanel, { onGeometryChange = updateSize })
@@ -301,6 +327,7 @@ end
 refreshViewMode()
 show()
 
+  refreshNaturalLightBaseline()
   gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
   applyGmLightMode(false)
   
