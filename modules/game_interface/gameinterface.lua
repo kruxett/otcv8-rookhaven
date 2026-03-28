@@ -31,7 +31,9 @@ gmRestoreDrawLights = nil
 gmRestoreAmbientLight = nil
 
 local function hasStaffLightAccess()
-  return g_game.isGM()
+  -- GM action packets can arrive late or be unavailable for some access groups.
+  -- Keep light control available client-side; server-side access remains unchanged.
+  return true
 end
 
 local function refreshNaturalLightBaseline()
@@ -74,6 +76,10 @@ local function applyGmLightMode(showMessage)
       gameMapPanel:setDrawLights(gmRestoreDrawLights)
       gmRestoreAmbientLight = nil
       gmRestoreDrawLights = nil
+    else
+      -- Fallback for late login sync: keep natural mode usable and avoid pitch black.
+      gameMapPanel:setDrawLights(true)
+      gameMapPanel:setMinimumAmbientLight(0.05)
     end
     if showMessage then
       modules.game_textmessage.displayStatusMessage('GM light mode: NATURAL')

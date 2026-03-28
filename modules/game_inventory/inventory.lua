@@ -214,12 +214,8 @@ local function updateGmLightToggleButton()
     return
   end
 
-  local hasAccess = modules.game_interface
-    and modules.game_interface.hasGmLightAccess
-    and modules.game_interface.hasGmLightAccess()
-
-  gmLightToggleButton:setVisible(g_game.isOnline() and hasAccess)
-  if not (g_game.isOnline() and hasAccess) then
+  gmLightToggleButton:setVisible(g_game.isOnline())
+  if not g_game.isOnline() then
     return
   end
 
