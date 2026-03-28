@@ -28,8 +28,8 @@ spectateLocalBarsWasEnabled = true
 spectateDrawLightsWasEnabled = true
 spectateMinimumAmbientLightWas = 0
 gmFullLightEnabled = false
-gmNaturalDrawLights = true
-gmNaturalAmbientLight = 0
+gmRestoreDrawLights = nil
+gmRestoreAmbientLight = nil
 
 local function hasStaffLightAccess()
   return g_game.isGM()
@@ -40,8 +40,8 @@ local function refreshNaturalLightBaseline()
     return
   end
 
-  gmNaturalDrawLights = gameMapPanel:isDrawingLights()
-  gmNaturalAmbientLight = gameMapPanel:getMinimumAmbientLight()
+  gmRestoreDrawLights = gameMapPanel:isDrawingLights()
+  gmRestoreAmbientLight = gameMapPanel:getMinimumAmbientLight()
 end
 
 local function applyGmLightMode(showMessage)
@@ -59,6 +59,7 @@ local function applyGmLightMode(showMessage)
 
   if gmLightButton then
     gmLightButton:show()
+    gmLightButton:setOn(gmFullLightEnabled)
   end
 
   if spectateActive then
@@ -78,8 +79,14 @@ local function applyGmLightMode(showMessage)
       modules.game_textmessage.displayStatusMessage('GM light mode: FULL')
     end
   else
-    gameMapPanel:setMinimumAmbientLight(gmNaturalAmbientLight)
-    gameMapPanel:setDrawLights(gmNaturalDrawLights)
+    -- Natural mode must match regular player behavior exactly; only restore
+    -- previously captured values when coming back from FULL mode.
+    if gmRestoreAmbientLight ~= nil and gmRestoreDrawLights ~= nil then
+      gameMapPanel:setMinimumAmbientLight(gmRestoreAmbientLight)
+      gameMapPanel:setDrawLights(gmRestoreDrawLights)
+      gmRestoreAmbientLight = nil
+      gmRestoreDrawLights = nil
+    end
     if gmLightButton then
       gmLightButton:setTooltip('GM Light: NATURAL (click to switch to FULL)')
     end
@@ -100,7 +107,7 @@ local function toggleGmLightMode()
   end
 
   if not gmFullLightEnabled then
-    -- Capture current map lighting before enabling full light so NATURAL restores server/client defaults.
+    -- Capture exact current state before FULL so NATURAL can restore it 1:1.
     refreshNaturalLightBaseline()
   end
 
@@ -235,8 +242,8 @@ function init()
 
   logoutButton = modules.client_topmenu.addLeftButton('logoutButton', tr('Exit'),
     '/images/topbuttons/logout', tryLogout, true)
-  gmLightButton = modules.client_topmenu.addLeftButton('gmLightButton', 'GM Light: NATURAL',
-    '/images/topbuttons/debug', toggleGmLightMode, true)
+  gmLightButton = modules.client_topmenu.addLeftGameToggleButton('gmLightButton', 'GM Light: NATURAL',
+    '/images/topbuttons/debug', toggleGmLightMode, false, 10)
   gmLightButton:hide()
 
 
@@ -327,7 +334,6 @@ end
 refreshViewMode()
 show()
 
-  refreshNaturalLightBaseline()
   gmFullLightEnabled = g_settings.getBoolean('gmFullLightMode')
   applyGmLightMode(false)
   
