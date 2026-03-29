@@ -2,30 +2,15 @@ local BOAT_FARE_OPCODE = 92
 
 local boatFareWindow = nil
 
-function init()
-  connect(g_game, {
-    onGameEnd = onGameEnd
-  })
-  ProtocolGame.registerExtendedOpcode(BOAT_FARE_OPCODE, onBoatFareOpcode)
-end
-
-function terminate()
-  disconnect(g_game, {
-    onGameEnd = onGameEnd
-  })
-  ProtocolGame.unregisterExtendedOpcode(BOAT_FARE_OPCODE)
-  destroyWindow()
-end
-
-function onGameEnd()
-  destroyWindow()
-end
-
 function destroyWindow()
   if boatFareWindow then
     boatFareWindow:destroy()
     boatFareWindow = nil
   end
+end
+
+function onGameEnd()
+  destroyWindow()
 end
 
 local function onBoatFareOpcode(protocol, opcode, buffer)
@@ -53,6 +38,21 @@ local function onBoatFareOpcode(protocol, opcode, buffer)
   end
 
   boatFareWindow:grabMouse()
+end
+
+function init()
+  connect(g_game, {
+    onGameEnd = onGameEnd
+  })
+  ProtocolGame.registerExtendedOpcode(BOAT_FARE_OPCODE, onBoatFareOpcode)
+end
+
+function terminate()
+  disconnect(g_game, {
+    onGameEnd = onGameEnd
+  })
+  ProtocolGame.unregisterExtendedOpcode(BOAT_FARE_OPCODE)
+  destroyWindow()
 end
 
 function accept()
