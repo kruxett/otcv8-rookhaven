@@ -1,0 +1,10 @@
+Module
+  name: game_boatfare
+  description: Boat Fare Station confirmation dialog
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ boatfare ]
+  @onLoad: init()
+  @onUnload: terminate()
