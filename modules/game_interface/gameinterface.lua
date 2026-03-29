@@ -340,6 +340,7 @@ function onGameEnd()
   staffLightMode = 'natural'
   staffNaturalDrawLightsWasEnabled = true
   staffNaturalMinimumAmbientLightWas = 0
+  applyStaffLightMode()
   if spectateLabel then
     spectateLabel:destroy()
     spectateLabel = nil
