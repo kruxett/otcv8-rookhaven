@@ -25,6 +25,9 @@ local function onBoatFareOpcode(protocol, opcode, buffer)
   end
 
   boatFareWindow = g_ui.displayUI('boatfare', rootWidget)
+  if not boatFareWindow then
+    return
+  end
 
   local destinationLabel = boatFareWindow:getChildById('destinationLabel')
   local priceLabel = boatFareWindow:getChildById('priceLabel')
@@ -76,3 +79,4 @@ function decline()
     end
   end
 end
+

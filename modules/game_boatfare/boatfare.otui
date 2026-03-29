@@ -1,4 +1,4 @@
-BoatFareWindow < MainWindow
+MainWindow
   id: boatFareWindow
   !text: tr('Boat Fare')
   size: 300 140
@@ -59,3 +59,4 @@ BoatFareWindow < MainWindow
       !text: tr('Decline')
       width: 64
       @onClick: modules.game_boatfare.decline()
+
