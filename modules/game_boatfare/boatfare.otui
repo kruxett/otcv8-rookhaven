@@ -44,19 +44,19 @@ MainWindow
     height: 28
     layout: horizontalBox
       align-right: true
-      spacing: 12
+      spacing: 8
     margin-bottom: 2
     margin-right: 6
 
     Button
       id: acceptButton
       !text: tr('Accept')
-      width: 54
+      width: 72
       @onClick: modules.game_boatfare.accept()
 
     Button
       id: declineButton
       !text: tr('Decline')
-      width: 54
+      width: 72
       @onClick: modules.game_boatfare.decline()
 
