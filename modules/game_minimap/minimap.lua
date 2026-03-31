@@ -140,11 +140,27 @@ function saveMap()
   local clientVersion = g_game.getClientVersion()
   local minimapFile = '/minimap' .. clientVersion .. '.otmm'
   local backupFile = minimapFile .. '.bak'
+
+  local function copyFileCompat(sourceFile, targetFile)
+    if g_resources.copyFile then
+      return g_resources.copyFile(sourceFile, targetFile)
+    end
+
+    local sourceData = g_resources.readFileContents(sourceFile)
+    if not sourceData or sourceData == '' then
+      return false
+    end
+
+    return g_resources.writeFileContents(targetFile, sourceData)
+  end
   
   -- Create backup of existing map before overwriting
   if g_resources.fileExists(minimapFile) then
-    g_resources.copyFile(minimapFile, backupFile)
-    print("[Minimap] Created backup at " .. backupFile)
+    if copyFileCompat(minimapFile, backupFile) then
+      print("[Minimap] Created backup at " .. backupFile)
+    else
+      print("[Minimap] Warning: failed to create backup at " .. backupFile)
+    end
   end
   
   -- Attempt to save the map

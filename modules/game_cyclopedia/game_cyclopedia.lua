@@ -1384,6 +1384,27 @@ local tabStack = {}
 local previousType = nil
 local windowTypes = {}
 local magicalArchives = nil
+
+local function purgeWidgetById(id)
+    if not id then
+        return
+    end
+
+    local root = g_ui.getRootWidget and g_ui.getRootWidget()
+    if not root then
+        return
+    end
+
+    -- Remove all stale instances in case the widget was reparented out of topmenu.
+    for _ = 1, 20 do
+        local widget = root:recursiveGetChildById(id)
+        if not widget then
+            break
+        end
+        widget:destroy()
+    end
+end
+
 function toggle(defaultWindow)
     if not controllerCyclopedia.ui then
         return
@@ -1418,19 +1439,13 @@ function controllerCyclopedia:onGameStart()
 
         safeRegisterCyclopediaOpcode()
 
-        local existingCyclopediaButton = modules.client_topmenu.getButton('CyclopediaButton')
-        if existingCyclopediaButton then
-            existingCyclopediaButton:destroy()
-        end
+        purgeWidgetById('CyclopediaButton')
 
         CyclopediaButton = modules.client_topmenu.addRightGameToggleButton('CyclopediaButton', tr('Cyclopedia'),
             '/images/topbuttons/cyclopedia', function() toggle("bestiary") end, false, 7)
         CyclopediaButton:setOn(false)
 
-        local existingBestiaryTrackerButton = modules.client_topmenu.getButton('BestiaryTrackerTopButton')
-        if existingBestiaryTrackerButton then
-            existingBestiaryTrackerButton:destroy()
-        end
+        purgeWidgetById('BestiaryTrackerTopButton')
 
         ButtonBestiary = modules.client_topmenu.addRightGameToggleButton('BestiaryTrackerTopButton', tr('Bestiary Tracker'),
             '/images/topbuttons/bestiaryTracker', function() Cyclopedia.toggleBestiaryTracker() end, false, 8)
