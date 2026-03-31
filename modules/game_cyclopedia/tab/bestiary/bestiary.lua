@@ -169,6 +169,15 @@ local function setBestiaryCategoryIcon(iconWidget, categoryName)
         ["earth elemental"] = "elemental",
         ["golem"] = "elemental",
         ["golems"] = "elemental",
+        ["construct"] = "elemental",
+        ["constructs"] = "elemental",
+        ["amphibian"] = "reptile",
+        ["amphibians"] = "reptile",
+        ["plant"] = "magical",
+        ["plants"] = "magical",
+        ["extra dimensional"] = "magical",
+        ["extra-dimensional"] = "magical",
+        ["unknown"] = "all",
         
         -- Dragons category
         ["dragon"] = "mammal",
