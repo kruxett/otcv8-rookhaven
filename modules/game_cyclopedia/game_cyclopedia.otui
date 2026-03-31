@@ -92,7 +92,7 @@ MainWindow
     UIButton
       id: map
       anchors.top: prev.top
-      anchors.left: prev.right
+      anchors.left: bestiary.right
       margin-left: 1
       @onClick: SelectWindow("map")
 
@@ -137,7 +137,7 @@ MainWindow
     UIButton
       id: character
       anchors.top: prev.top
-      anchors.left: prev.right
+      anchors.left: map.right
       margin-left: 1
       @onClick: SelectWindow("character")
 
