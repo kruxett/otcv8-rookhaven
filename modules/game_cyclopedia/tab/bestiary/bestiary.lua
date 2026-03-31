@@ -85,22 +85,128 @@ local function setBestiaryCategoryIcon(iconWidget, categoryName)
 
     local normalizedCategory = tostring(categoryName or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
     local iconNameByCategory = {
+        -- Legacy support
         ["all"] = "all",
+        ["other"] = "all",
+        
+        -- Humanoids category
         ["humanoid"] = "humanoid",
         ["humanoids"] = "humanoid",
+        ["human"] = "humanoid",
+        ["humans"] = "humanoid",
+        ["cultist"] = "humanoid",
+        ["cultists"] = "humanoid",
+        ["knight"] = "humanoid",
+        ["knights"] = "humanoid",
+        ["warrior"] = "humanoid",
+        ["warriors"] = "humanoid",
+        ["mage"] = "humanoid",
+        ["mages"] = "humanoid",
+        ["wizard"] = "humanoid",
+        ["wizards"] = "humanoid",
+        ["priest"] = "humanoid",
+        ["priests"] = "humanoid",
+        
+        -- Beasts category
         ["beast"] = "beast",
         ["mammals"] = "mammal",
+        ["mammal"] = "mammal",
         ["beasts"] = "mammal",
+        ["animal"] = "beast",
+        ["animals"] = "beast",
+        ["canine"] = "mammal",
+        ["canines"] = "mammal",
+        ["feline"] = "mammal",
+        ["felines"] = "mammal",
+        
+        -- Undead category
         ["undead"] = "undead",
+        ["skeleton"] = "undead",
+        ["skeletons"] = "undead",
+        ["zombie"] = "undead",
+        ["zombies"] = "undead",
+        ["wraith"] = "undead",
+        ["wraiths"] = "undead",
+        ["ghost"] = "undead",
+        ["ghosts"] = "undead",
+        ["vampire"] = "undead",
+        ["vampires"] = "undead",
+        ["lich"] = "undead",
+        ["liches"] = "undead",
+        
+        -- Demons category
+        ["demon"] = "demon",
+        ["demons"] = "demon",
+        ["devil"] = "demon",
+        ["devils"] = "demon",
+        ["fiend"] = "demon",
+        ["fiends"] = "demon",
+        ["infernal"] = "demon",
+        
+        -- Insects/Vermin category
+        ["insectoid"] = "insectoid",
+        ["insectoids"] = "insectoid",
+        ["insects"] = "vermin",
+        ["insect"] = "vermin",
+        ["vermin"] = "vermin",
+        ["spider"] = "vermin",
+        ["spiders"] = "vermin",
+        ["arachnid"] = "vermin",
+        ["arachnids"] = "vermin",
+        ["scorpion"] = "vermin",
+        ["scorpions"] = "vermin",
+        ["worm"] = "vermin",
+        ["worms"] = "vermin",
+        ["bug"] = "vermin",
+        ["bugs"] = "vermin",
+        
+        -- Elementals category
+        ["elemental"] = "elemental",
+        ["elementals"] = "elemental",
+        ["element"] = "elemental",
+        ["fire elemental"] = "elemental",
+        ["energy elemental"] = "elemental",
+        ["earth elemental"] = "elemental",
+        ["golem"] = "elemental",
+        ["golems"] = "elemental",
+        
+        -- Dragons category
+        ["dragon"] = "mammal",
+        ["dragons"] = "mammal",
+        ["dragonborn"] = "mammal",
+        ["drake"] = "mammal",
+        ["drakes"] = "mammal",
+        ["wyrm"] = "mammal",
+        ["wyrms"] = "mammal",
+        ["lindworm"] = "mammal",
+        
+        -- Reptiles category
         ["reptile"] = "reptile",
         ["reptiles"] = "reptile",
-        ["insectoid"] = "insectoid",
-        ["insects"] = "vermin",
-        ["demon"] = "demon",
+        ["reptilian"] = "reptile",
+        ["serpent"] = "reptile",
+        ["serpents"] = "reptile",
+        ["lizard"] = "reptile",
+        ["lizards"] = "reptile",
+        ["scaled"] = "reptile",
+        
+        -- Magical creatures
         ["magical"] = "magical",
-        ["elementals"] = "elemental",
+        ["magical creature"] = "magical",
+        ["magical creatures"] = "magical",
+        ["enchanted"] = "magical",
+        ["mystical"] = "magical",
+        ["spirit"] = "magical",
+        ["spirits"] = "magical",
+        ["wisp"] = "magical",
+        ["wisps"] = "magical",
+        
+        -- Boss category (uses demon icon, but maps bosses)
         ["bosses"] = "demon",
-        ["other"] = "-.---",
+        ["boss"] = "demon",
+        ["raid boss"] = "demon",
+        ["unique"] = "demon",
+        ["legendary"] = "demon",
     }
 
     local iconName = iconNameByCategory[normalizedCategory] or normalizedCategory:gsub(" ", "_")
