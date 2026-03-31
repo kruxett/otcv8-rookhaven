@@ -107,26 +107,50 @@ function loadMap()
   local minimapFile = '/minimap.otmm'
   local dataMinimapFile = '/data' .. minimapFile
   local versionedMinimapFile = '/minimap' .. clientVersion .. '.otmm'
+  local backupFile = versionedMinimapFile .. '.bak'
+  
+  -- Try to load in priority order
   if g_resources.fileExists(dataMinimapFile) then
     loaded = g_minimap.loadOtmm(dataMinimapFile)
   end
+  
   if not loaded and g_resources.fileExists(versionedMinimapFile) then
     loaded = g_minimap.loadOtmm(versionedMinimapFile)
+    -- If versioned file failed to load but backup exists, try backup
+    if not loaded and g_resources.fileExists(backupFile) then
+      print("[Minimap] Main map file corrupted, attempting to restore from backup...")
+      loaded = g_minimap.loadOtmm(backupFile)
+      if loaded then
+        print("[Minimap] Successfully restored from backup")
+      end
+    end
   end
+  
   if not loaded and g_resources.fileExists(minimapFile) then
     loaded = g_minimap.loadOtmm(minimapFile)
   end
+  
   if not loaded then
-    print("Minimap couldn't be loaded, file missing?")
+    print("[Minimap] Minimap couldn't be loaded, file missing or corrupted")
   end
   minimapWidget:load()
 end
 
 function saveMap()
   local clientVersion = g_game.getClientVersion()
-  local minimapFile = '/minimap' .. clientVersion .. '.otmm' 
+  local minimapFile = '/minimap' .. clientVersion .. '.otmm'
+  local backupFile = minimapFile .. '.bak'
+  
+  -- Create backup of existing map before overwriting
+  if g_resources.fileExists(minimapFile) then
+    g_resources.copyFile(minimapFile, backupFile)
+    print("[Minimap] Created backup at " .. backupFile)
+  end
+  
+  -- Attempt to save the map
   g_minimap.saveOtmm(minimapFile)
   minimapWidget:save()
+  print("[Minimap] Map saved successfully")
 end
 
 function updateCameraPosition()
