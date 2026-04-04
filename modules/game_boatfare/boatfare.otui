@@ -48,7 +48,7 @@ MainWindow
       id: acceptButton
       !text: tr('Accept')
       width: 72
-      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.right: parent.horizontalCenter
       margin-right: 5
       @onClick: modules.game_boatfare.accept()
 
@@ -56,7 +56,7 @@ MainWindow
       id: declineButton
       !text: tr('Decline')
       width: 72
-      anchors.left: acceptButton.right
-      margin-left: 10
+      anchors.left: parent.horizontalCenter
+      margin-left: 5
       @onClick: modules.game_boatfare.decline()
 
