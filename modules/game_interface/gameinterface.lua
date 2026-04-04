@@ -55,7 +55,14 @@ local function applyStaffLightMode()
 end
 
 local function onStaffLightOpcode(protocol, opcode, buffer)
-  if buffer == 'full' then
+  if buffer == 'toggle' then
+    if staffLightMode == 'full' then
+      staffLightMode = 'natural'
+    else
+      rememberStaffNaturalLightMode()
+      staffLightMode = 'full'
+    end
+  elseif buffer == 'full' then
     rememberStaffNaturalLightMode()
     staffLightMode = 'full'
   else

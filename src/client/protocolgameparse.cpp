@@ -3669,7 +3669,6 @@ CreaturePtr ProtocolGame::getCreature(const InputMessagePtr& msg, int type)
 
             const auto pendingIt = m_pendingPersonalStoreStates.find(creature->getId());
             if (pendingIt != m_pendingPersonalStoreStates.end()) {
-                creature->setPersonalStore(pendingIt->second.first, pendingIt->second.second);
                 m_pendingPersonalStoreStates.erase(pendingIt);
             }
 
