@@ -142,13 +142,6 @@ function UIGameMap:onMouseRelease(mousePosition, mouseButton)
     lookThing = tile:getTopLookThingEx(positionOffset)
     useThing = tile:getTopUseThing()
     creatureThing = tile:getTopCreatureEx(positionOffset)
-
-    -- Prefer the object under the cursor for use-actions; this fixes
-    -- wall-mounted fixtures that can be looked at but not used reliably.
-    local clickedUseThing = tile:getTopMultiUseThingEx(positionOffset)
-    if clickedUseThing and not clickedUseThing:isCreature() then
-      useThing = clickedUseThing
-    end
   end
 
   local autoWalkTile = g_map.getTile(autoWalkPos)
