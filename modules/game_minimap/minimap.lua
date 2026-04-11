@@ -6,6 +6,126 @@ fullmapView = false
 loaded = false
 oldZoom = nil
 oldPos = nil
+minimapSessionFile = nil
+minimapSessionLockFile = nil
+minimapSessionVersion = nil
+sharedMapSaveEnabled = true
+
+local ensureSessionFiles
+local releaseSessionLock
+
+local function copyFileCompat(sourceFile, targetFile)
+  local sourceData = g_resources.readFileContents(sourceFile)
+  if not sourceData or sourceData == '' then
+    return false
+  end
+
+  return g_resources.writeFileContents(targetFile, sourceData)
+end
+
+local function getVersionedMinimapFile(clientVersion)
+  return '/minimap' .. clientVersion .. '.otmm'
+end
+
+local function getSessionPid()
+  local pid = 0
+  if g_platform and g_platform.getProcessId then
+    pid = tonumber(g_platform.getProcessId()) or 0
+  end
+
+  if pid <= 0 then
+    pid = os.time()
+  end
+
+  return tostring(pid)
+end
+
+local function getSessionMinimapFile(clientVersion)
+  return '/minimap' .. clientVersion .. '.pid' .. getSessionPid() .. '.otmm'
+end
+
+local function getSessionLockFile(clientVersion)
+  return '/minimap' .. clientVersion .. '.pid' .. getSessionPid() .. '.lock'
+end
+
+local function getPidFromLockFile(fileName, clientVersion)
+  local pattern = '^minimap' .. tostring(clientVersion) .. '%.pid(%d+)%.lock$'
+  local pid = string.match(fileName, pattern)
+  return tonumber(pid)
+end
+
+local function refreshSharedSavePolicy(clientVersion)
+  local files = g_resources.listDirectoryFiles('/') or {}
+  local activeLocks = 0
+
+  for _, fileName in ipairs(files) do
+    local pid = getPidFromLockFile(fileName, clientVersion)
+    if pid then
+      if g_platform and g_platform.isProcessRunning and g_platform.isProcessRunning(pid) then
+        activeLocks = activeLocks + 1
+      else
+        g_resources.deleteFile('/' .. fileName)
+      end
+    end
+  end
+
+  sharedMapSaveEnabled = activeLocks <= 1
+  return activeLocks
+end
+
+ensureSessionFiles = function(clientVersion)
+  if minimapSessionVersion and minimapSessionVersion ~= clientVersion then
+    releaseSessionLock(minimapSessionVersion)
+    minimapSessionFile = nil
+  end
+
+  minimapSessionVersion = clientVersion
+
+  if not minimapSessionFile then
+    minimapSessionFile = getSessionMinimapFile(clientVersion)
+  end
+
+  if not minimapSessionLockFile then
+    minimapSessionLockFile = getSessionLockFile(clientVersion)
+    g_resources.writeFileContents(minimapSessionLockFile, tostring(os.time()))
+  end
+
+  local activeLocks = refreshSharedSavePolicy(clientVersion)
+  if activeLocks > 1 then
+    print('[Minimap] Multiclient detected (' .. activeLocks .. ' instances). Shared minimap file writes are temporarily disabled.')
+  end
+end
+
+releaseSessionLock = function(clientVersion)
+  if minimapSessionLockFile and g_resources.fileExists(minimapSessionLockFile) then
+    g_resources.deleteFile(minimapSessionLockFile)
+  end
+
+  minimapSessionLockFile = nil
+  minimapSessionVersion = nil
+  refreshSharedSavePolicy(clientVersion)
+end
+
+local function createBackupIfExists(filePath)
+  if not g_resources.fileExists(filePath) then
+    return
+  end
+
+  local backupFile = filePath .. '.bak'
+  if copyFileCompat(filePath, backupFile) then
+    print('[Minimap] Created backup at ' .. backupFile)
+  else
+    print('[Minimap] Warning: failed to create backup at ' .. backupFile)
+  end
+end
+
+local function tryLoadMapFile(filePath)
+  if not g_resources.fileExists(filePath) then
+    return false
+  end
+
+  return g_minimap.loadOtmm(filePath)
+end
 
 function init()
   minimapWindow = g_ui.loadUI('minimap', modules.game_interface.getRightPanel())
@@ -47,6 +167,7 @@ end
 function terminate()
   if g_game.isOnline() then
     saveMap()
+    releaseSessionLock(g_game.getClientVersion())
   end
 
   disconnect(g_game, {
@@ -90,12 +211,14 @@ function onMiniWindowClose()
 end
 
 function online()
+  ensureSessionFiles(g_game.getClientVersion())
   loadMap()
   updateCameraPosition()
 end
 
 function offline()
   saveMap()
+  releaseSessionLock(g_game.getClientVersion())
 end
 
 function loadMap()
@@ -104,69 +227,51 @@ function loadMap()
   g_minimap.clean()
   loaded = false
 
+  ensureSessionFiles(clientVersion)
+
   local minimapFile = '/minimap.otmm'
   local dataMinimapFile = '/data' .. minimapFile
-  local versionedMinimapFile = '/minimap' .. clientVersion .. '.otmm'
-  local backupFile = versionedMinimapFile .. '.bak'
-  
-  -- Try to load in priority order
-  if g_resources.fileExists(dataMinimapFile) then
-    loaded = g_minimap.loadOtmm(dataMinimapFile)
-  end
-  
-  if not loaded and g_resources.fileExists(versionedMinimapFile) then
-    loaded = g_minimap.loadOtmm(versionedMinimapFile)
-    -- If versioned file failed to load but backup exists, try backup
-    if not loaded and g_resources.fileExists(backupFile) then
-      print("[Minimap] Main map file corrupted, attempting to restore from backup...")
-      loaded = g_minimap.loadOtmm(backupFile)
-      if loaded then
-        print("[Minimap] Successfully restored from backup")
-      end
-    end
-  end
-  
-  if not loaded and g_resources.fileExists(minimapFile) then
-    loaded = g_minimap.loadOtmm(minimapFile)
-  end
-  
+  local versionedMinimapFile = getVersionedMinimapFile(clientVersion)
+  local versionedBackupFile = versionedMinimapFile .. '.bak'
+  local sessionFile = minimapSessionFile
+  local sessionBackupFile = sessionFile .. '.bak'
+
+  loaded = tryLoadMapFile(dataMinimapFile)
+  if not loaded then loaded = tryLoadMapFile(sessionFile) end
+  if not loaded then loaded = tryLoadMapFile(sessionBackupFile) end
+  if not loaded then loaded = tryLoadMapFile(versionedMinimapFile) end
+  if not loaded then loaded = tryLoadMapFile(versionedBackupFile) end
+  if not loaded then loaded = tryLoadMapFile(minimapFile) end
+
   if not loaded then
-    print("[Minimap] Minimap couldn't be loaded, file missing or corrupted")
+    print('[Minimap] Minimap could not be loaded, file missing or corrupted')
   end
   minimapWidget:load()
 end
 
 function saveMap()
   local clientVersion = g_game.getClientVersion()
-  local minimapFile = '/minimap' .. clientVersion .. '.otmm'
-  local backupFile = minimapFile .. '.bak'
+  ensureSessionFiles(clientVersion)
 
-  local function copyFileCompat(sourceFile, targetFile)
-    if g_resources.copyFile then
-      return g_resources.copyFile(sourceFile, targetFile)
-    end
+  local sessionFile = minimapSessionFile
+  local sharedFile = getVersionedMinimapFile(clientVersion)
 
-    local sourceData = g_resources.readFileContents(sourceFile)
-    if not sourceData or sourceData == '' then
-      return false
-    end
+  createBackupIfExists(sessionFile)
+  g_minimap.saveOtmm(sessionFile)
 
-    return g_resources.writeFileContents(targetFile, sourceData)
-  end
-  
-  -- Create backup of existing map before overwriting
-  if g_resources.fileExists(minimapFile) then
-    if copyFileCompat(minimapFile, backupFile) then
-      print("[Minimap] Created backup at " .. backupFile)
+  if sharedMapSaveEnabled then
+    createBackupIfExists(sharedFile)
+    if copyFileCompat(sessionFile, sharedFile) then
+      print('[Minimap] Shared map synchronized from session file')
     else
-      print("[Minimap] Warning: failed to create backup at " .. backupFile)
+      print('[Minimap] Warning: failed to synchronize shared map file')
     end
+  else
+    print('[Minimap] Skipping shared map save while multiple clients are running')
   end
-  
-  -- Attempt to save the map
-  g_minimap.saveOtmm(minimapFile)
+
   minimapWidget:save()
-  print("[Minimap] Map saved successfully")
+  print('[Minimap] Map saved successfully to ' .. sessionFile)
 end
 
 function updateCameraPosition()
