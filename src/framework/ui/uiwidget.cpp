@@ -1010,6 +1010,11 @@ void UIWidget::setStyleFromNode(const OTMLNodePtr& styleNode)
 void UIWidget::setEnabled(bool enabled)
 {
     if(enabled != m_enabled) {
+        if (!enabled && m_cursorPushed) {
+            g_mouse.popCursor(m_cursor);
+            m_cursorPushed = false;
+        }
+
         m_enabled = enabled;
 
         updateState(Fw::DisabledState);
@@ -1020,6 +1025,11 @@ void UIWidget::setEnabled(bool enabled)
 void UIWidget::setVisible(bool visible)
 {
     if (m_visible != visible) {
+        if (!visible && m_cursorPushed) {
+            g_mouse.popCursor(m_cursor);
+            m_cursorPushed = false;
+        }
+
         m_visible = visible;
 
         // hiding a widget make it lose focus

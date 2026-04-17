@@ -32,6 +32,7 @@ public:
     void addCursor(const std::string& name, const std::string& file, const Point& hotSpot);
     void pushCursor(const std::string& name);
     void popCursor(const std::string& name);
+    void clearCursorStack();
     bool isCursorChanged();
     bool isPressed(Fw::MouseButton mouseButton);
 

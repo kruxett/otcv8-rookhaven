@@ -117,6 +117,18 @@ void Mouse::popCursor(const std::string& name)
         g_window.restoreMouseCursor();
 }
 
+void Mouse::clearCursorStack()
+{
+    if (g_graphicsThreadId != std::this_thread::get_id()) {
+        g_graphicsDispatcher.addEvent(std::bind(&Mouse::clearCursorStack, this));
+        return;
+    }
+
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_cursorStack.clear();
+    g_window.restoreMouseCursor();
+}
+
 bool Mouse::isCursorChanged()
 {
     std::lock_guard<std::mutex> lock(m_mutex);

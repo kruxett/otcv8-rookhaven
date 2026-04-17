@@ -282,7 +282,7 @@ void UIManager::onWidgetAppear(const UIWidgetPtr& widget)
 
 void UIManager::onWidgetDisappear(const UIWidgetPtr& widget)
 {
-    if(widget->containsPoint(g_window.getMousePosition()))
+    if (m_hoveredWidget == widget || widget->containsPoint(g_window.getMousePosition()))
         updateHoveredWidget();
 }
 

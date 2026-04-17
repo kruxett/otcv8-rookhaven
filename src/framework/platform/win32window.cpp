@@ -29,6 +29,7 @@
 #include <framework/core/eventdispatcher.h>
 #include <framework/util/stats.h>
 #include <framework/util/extras.h>
+#include <framework/input/mouse.h>
 
 #define HSB_BIT_SET(p, n) (p[(n)/8] |= (128 >>((n)%8)))
 
@@ -751,11 +752,12 @@ LRESULT WIN32Window::dispatcherWindowProc(HWND, UINT uMsg, WPARAM wParam, LPARAM
         break;
     }
     case WM_SETFOCUS:
-    case WM_KILLFOCUS:
-    {
         releaseAllKeys();
         break;
-    }
+    case WM_KILLFOCUS:
+        releaseAllKeys();
+        g_mouse.clearCursorStack();
+        break;
     case WM_CHAR:
     {
         if (wParam >= 32 && wParam <= 255) {
