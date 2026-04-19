@@ -71,22 +71,14 @@ local function onCharacterLiveStatsChanged(...)
     queueCharacterLiveRefresh()
 end
 
--- Dedicated XP handler: accumulates delta so we don't rely on player:getExperience() snapshots
-local function onCharacterXpChanged(player, newXp)
-    if type(newXp) ~= 'number' or newXp <= 0 then
-        queueCharacterLiveRefresh()
-        return
-    end
-    -- Start tracking on first real XP value received
-    if not _sessionLastXp then
-        _sessionLastXp  = newXp
-        _sessionStartTime = _sessionStartTime or os.time()
-    else
-        local delta = newXp - _sessionLastXp
+-- Dedicated XP handler: signal fires as (newXp, oldXp) — no player arg
+local function onCharacterXpChanged(newXp, oldXp)
+    if type(newXp) == 'number' and type(oldXp) == 'number' then
+        local delta = newXp - oldXp
         if delta > 0 then
             _sessionXpGained = (_sessionXpGained or 0) + delta
+            _sessionStartTime = _sessionStartTime or os.time()
         end
-        _sessionLastXp = newXp
     end
     queueCharacterLiveRefresh()
 end
