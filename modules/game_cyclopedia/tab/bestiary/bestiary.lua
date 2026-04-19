@@ -1601,6 +1601,7 @@ function Cyclopedia.onParseTaskTracker(data)
         local secondGoal = tonumber(entry.secondGoal) or 2
         local required = tonumber(entry.required) or 3
         local taskName = tostring(entry.taskName or "Task")
+        local completed = entry.completed == true or progress >= required
         local creatureName = tostring(entry.creatureName or "Unknown creature")
         local outfitType = tonumber(entry.outfitType) or 0
         local creatures = entry.creatures or {}
@@ -1636,11 +1637,25 @@ function Cyclopedia.onParseTaskTracker(data)
                 addons = 0,
             })
         end
-        widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
-        widget.kills:setText(progress .. "/" .. required)
+        local displayName = taskName
+        if completed then
+            displayName = taskName .. " [Done]"
+        end
+        widget.label:setText(displayName:len() > 18 and displayName:sub(1, 15) .. "..." or displayName)
+        if completed then
+            widget.kills:setText("Completed")
+            widget.kills:setColor("#7BD77A")
+        else
+            widget.kills:setText(progress .. "/" .. required)
+            widget.kills:setColor("#ffffff")
+        end
 
         local creaturesBlock = buildTaskCreaturesTooltipLines(creatures, creatureName)
-        widget:setTooltip(string.format("%s\nCreatures:\n%s\nProgress: %d/%d", taskName, creaturesBlock, progress, required))
+        if completed then
+            widget:setTooltip(string.format("%s\nStatus: Completed (turn in reward)\nCreatures:\n%s\nProgress: %d/%d", taskName, creaturesBlock, progress, required))
+        else
+            widget:setTooltip(string.format("%s\nCreatures:\n%s\nProgress: %d/%d", taskName, creaturesBlock, progress, required))
+        end
 
         Cyclopedia.SetBestiaryProgress(54, widget.killsBar2, widget.ProgressBack33, widget.ProgressBack55,
             progress, firstGoal, secondGoal, required)
