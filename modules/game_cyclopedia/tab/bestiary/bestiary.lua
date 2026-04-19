@@ -1606,15 +1606,35 @@ function Cyclopedia.onParseTaskTracker(data)
         local creatures = entry.creatures or {}
 
         local raceData = raceId > 0 and g_things.getRaceData(raceId) or nil
+        if (not raceData or not raceData.outfit or (tonumber(raceData.outfit.type) or 0) <= 0) and creatureName ~= "" and g_things.getRacesByName then
+            local races = g_things.getRacesByName(creatureName)
+            if races and races[1] then
+                local lookupRaceId = races[1].id or races[1].raceId
+                if lookupRaceId then
+                    local lookedUp = g_things.getRaceData(lookupRaceId)
+                    if lookedUp then
+                        raceData = lookedUp
+                    end
+                end
+            end
+        end
         local widget = g_ui.createWidget("TrackerButton", trackerMiniWindowTask.contentsPanel)
         widget:setId(taskId)
-        if raceData and raceData.outfit then
+        local raceOutfitType = raceData and raceData.outfit and tonumber(raceData.outfit.type) or 0
+        if raceData and raceOutfitType and raceOutfitType > 0 then
             widget.creature:setOutfit(raceData.outfit)
             if raceData.name and raceData.name ~= "" and raceData.name ~= "Unknown" then
                 creatureName = raceData.name
             end
         else
-            widget.creature:setOutfit({ type = outfitType })
+            widget.creature:setOutfit({
+                type = outfitType,
+                head = 0,
+                body = 0,
+                legs = 0,
+                feet = 0,
+                addons = 0,
+            })
         end
         widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
         widget.kills:setText(progress .. "/" .. required)
