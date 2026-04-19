@@ -1,3 +1,12 @@
+local function clearDragHoverHighlight(widget)
+  if not widget or not widget.hoveredWho then
+    return
+  end
+
+  widget.hoveredWho:setBorderWidth(0)
+  widget.hoveredWho = nil
+end
+
 function UIItem:onDragEnter(mousePos)
   if self:isVirtual() then return false end
 
@@ -12,31 +21,47 @@ end
 
 function UIItem:onDragLeave(droppedWidget, mousePos)
   if self:isVirtual() then return false end
+  clearDragHoverHighlight(self)
   self.currentDragThing = nil
   g_mouse.popCursor('target')
   self:setBorderWidth(0)
-  self.hoveredWho = nil
   return true
 end
 
 function UIItem:onDrop(widget, mousePos, forced)
-  if not self:canAcceptDrop(widget, mousePos) and not forced then return false end
+  if not self:canAcceptDrop(widget, mousePos) and not forced then
+    clearDragHoverHighlight(widget)
+    self:setBorderWidth(0)
+    return false
+  end
 
   local item = widget.currentDragThing
-  if not item or not item:isItem() then return false end
+  if not item or not item:isItem() then
+    clearDragHoverHighlight(widget)
+    self:setBorderWidth(0)
+    return false
+  end
   
   if self.selectable then
     if item:isPickupable() then
       self:setItem(Item.create(item:getId(), item:getCountOrSubType()))
+      clearDragHoverHighlight(widget)
+      self:setBorderWidth(0)
       return true
     end
+    clearDragHoverHighlight(widget)
+    self:setBorderWidth(0)
     return false
   end
 
   local toPos = self.position
 
   local itemPos = item:getPosition()
-  if itemPos.x == toPos.x and itemPos.y == toPos.y and itemPos.z == toPos.z then return false end
+  if itemPos.x == toPos.x and itemPos.y == toPos.y and itemPos.z == toPos.z then
+    clearDragHoverHighlight(widget)
+    self:setBorderWidth(0)
+    return false
+  end
 
   if item:getCount() > 1 then
     modules.game_interface.moveStackableItem(item, toPos)
@@ -44,6 +69,7 @@ function UIItem:onDrop(widget, mousePos, forced)
     g_game.move(item, toPos, 1)
   end
 
+  clearDragHoverHighlight(widget)
   self:setBorderWidth(0)
   return true
 end
