@@ -76,6 +76,8 @@ local function disconnectCharacterLiveSignals()
 
     disconnect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
+        onExperienceChange = onCharacterLiveStatsChanged,
+        onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
         onBaseSpeedChange = onCharacterLiveStatsChanged,
         onFreeCapacityChange = onCharacterLiveStatsChanged,
@@ -97,6 +99,8 @@ local function connectCharacterLiveSignals()
 
     connect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
+        onExperienceChange = onCharacterLiveStatsChanged,
+        onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
         onBaseSpeedChange = onCharacterLiveStatsChanged,
         onFreeCapacityChange = onCharacterLiveStatsChanged,
