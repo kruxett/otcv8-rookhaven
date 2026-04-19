@@ -1302,19 +1302,12 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         end
     end
 
-    -- Session XP/hour tracker (uses accumulated delta from onExperienceChange)
-    if not _sessionStartTime then
-        _sessionStartTime = os.time()
-    end
-    local sessionXp   = _sessionXpGained or 0
-    local sessionSecs = math.max(1, os.time() - _sessionStartTime)
+    -- Session XP/hour: read expSpeed from LocalPlayer (same source as Skills widget)
     local xpPerHourText
-    if sessionSecs < 60 and sessionXp == 0 then
-        xpPerHourText = "Calculating..."
-    elseif sessionXp == 0 then
-        xpPerHourText = "0 /h"
+    if player.expSpeed ~= nil and player.expSpeed > 0 then
+        xpPerHourText = comma_value(math.floor(player.expSpeed * 3600)) .. " /h"
     else
-        xpPerHourText = comma_value(math.floor(sessionXp * 3600 / sessionSecs)) .. " /h"
+        xpPerHourText = "0 /h"
     end
     Cyclopedia.setCharacterSkillValue("xpPerHour", xpPerHourText)
     local xpHrWidget = UI.CharacterStats:recursiveGetChildById("xpPerHour")
