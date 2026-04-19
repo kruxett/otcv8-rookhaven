@@ -12,10 +12,15 @@ local resendWaitEvent
 local loginEvent
 local autoReconnectEvent
 local lastLogout = 0
+local orphanCleanupDoneThisLogin = false
 
 -- private functions
 local function tryLogin(charInfo, tries)
   tries = tries or 1
+
+  if tries == 1 then
+    orphanCleanupDoneThisLogin = false
+  end
 
   if tries > 50 then
     return
@@ -405,23 +410,27 @@ function CharacterList.destroyLoadBox()
     g_logger.info("Destroying loadBox")
     loadBox:destroy()
     loadBox = nil
+    orphanCleanupDoneThisLogin = true
   else
+    if orphanCleanupDoneThisLogin then
+      return
+    end
+
     g_logger.info("loadBox is nil, checking for orphaned messageboxes")
-    -- Try to find and destroy any message box with "Connecting to game server" text
+    -- Avoid expensive full-tree scans here. Try a bounded direct lookup.
     local rootWidget = g_ui.getRootWidget()
     if rootWidget then
-      local children = rootWidget:recursiveGetChildrenByPos({x=0, y=0, width=99999, height=99999})
-      for _, child in ipairs(children) do
-        if child:getId() == 'messageBox' then
-          local label = child:recursiveGetChildById('messageBoxLabel')
-          if label and label:getText():find("Connecting to game server") then
-            g_logger.info("Found orphaned connecting dialog, destroying it")
-            child:destroy()
-            return
-          end
+      local messageBox = rootWidget:recursiveGetChildById('messageBox')
+      if messageBox then
+        local label = messageBox:recursiveGetChildById('messageBoxLabel')
+        if label and label:getText():find("Connecting to game server") then
+          g_logger.info("Found orphaned connecting dialog, destroying it")
+          messageBox:destroy()
         end
       end
     end
+
+    orphanCleanupDoneThisLogin = true
   end
 end
 

@@ -110,6 +110,8 @@ local CYCLOPEDIA_EXT_OPCODE = 31
 local CYCLOPEDIA_PROTOCOL_PREFIX = "cp"
 local CYCLOPEDIA_PROTOCOL_VERSION = "1"
 local CYCLOPEDIA_DEBUG = ClientLog and ClientLog.isEnabled and ClientLog.isEnabled("cyclopedia") or false
+local CYCLOPEDIA_LOGIN_GRACE_MS = 800
+local CYCLOPEDIA_FLUSH_STEP_MS = 60
 
 -- These remain intentionally disabled until the dedicated rollout phase.
 local HARD_DISABLED_TABS = {
@@ -137,6 +139,8 @@ Cyclopedia.TransportReady = false
 Cyclopedia.PendingRequests = {}
 Cyclopedia.PendingRequestSet = {}
 Cyclopedia.CapabilitiesRequested = false
+Cyclopedia.LoginGraceUntil = 0
+Cyclopedia.FlushEvent = nil
 
 local encodeCyclopediaPayload
 local decodeCyclopediaPayload
@@ -160,6 +164,27 @@ local function queueCyclopediaPendingRequest(action, payload)
     return true
 end
 
+local function clearCyclopediaPendingRequests()
+    Cyclopedia.PendingRequests = {}
+    Cyclopedia.PendingRequestSet = {}
+end
+
+local function cancelCyclopediaFlushEvent()
+    if Cyclopedia.FlushEvent then
+        removeEvent(Cyclopedia.FlushEvent)
+        Cyclopedia.FlushEvent = nil
+    end
+end
+
+local function isCyclopediaInLoginGrace()
+    return g_clock.millis() < (Cyclopedia.LoginGraceUntil or 0)
+end
+
+local function sendCyclopediaRequestNow(protocol, action, payload)
+    protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
+        encodeCyclopediaPayload("req", action, payload))
+end
+
 local function flushCyclopediaPendingRequests()
     if not Cyclopedia.TransportReady then
         return
@@ -170,16 +195,57 @@ local function flushCyclopediaPendingRequests()
         return
     end
 
-    for _, req in ipairs(Cyclopedia.PendingRequests) do
+    if #Cyclopedia.PendingRequests == 0 then
+        cancelCyclopediaFlushEvent()
+        return
+    end
+
+    if isCyclopediaInLoginGrace() then
+        if not Cyclopedia.FlushEvent then
+            local delay = math.max(1, Cyclopedia.LoginGraceUntil - g_clock.millis())
+            Cyclopedia.FlushEvent = scheduleEvent(function()
+                Cyclopedia.FlushEvent = nil
+                flushCyclopediaPendingRequests()
+            end, delay)
+        end
+        return
+    end
+
+    if Cyclopedia.FlushEvent then
+        return
+    end
+
+    local function flushStep()
+        Cyclopedia.FlushEvent = nil
+
+        if not Cyclopedia.TransportReady then
+            return
+        end
+
+        local activeProtocol = g_game.getProtocolGame()
+        if not activeProtocol or not activeProtocol.sendExtendedOpcode then
+            return
+        end
+
+        local req = table.remove(Cyclopedia.PendingRequests, 1)
+        if not req then
+            return
+        end
+
+        Cyclopedia.PendingRequestSet[getPendingRequestKey(req.action, req.payload)] = nil
+
         if CYCLOPEDIA_DEBUG then
             print(string.format("[Cyclopedia] flush request action=%s payloadLen=%d", req.action, #(req.payload or "")))
         end
-        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
-            encodeCyclopediaPayload("req", req.action, req.payload))
+
+        sendCyclopediaRequestNow(activeProtocol, req.action, req.payload)
+
+        if #Cyclopedia.PendingRequests > 0 then
+            Cyclopedia.FlushEvent = scheduleEvent(flushStep, CYCLOPEDIA_FLUSH_STEP_MS)
+        end
     end
 
-    Cyclopedia.PendingRequests = {}
-    Cyclopedia.PendingRequestSet = {}
+    flushStep()
 end
 
 encodeCyclopediaPayload = function(kind, action, extra)
@@ -446,15 +512,17 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
     payload = payload or ""
 
     local shouldSendNow = true
-    if action ~= "capabilities" and not Cyclopedia.TransportReady then
+    if action ~= "capabilities" and (not Cyclopedia.TransportReady or isCyclopediaInLoginGrace()) then
         local queued = queueCyclopediaPendingRequest(action, payload)
         if not queued then
             Cyclopedia.requestCapabilities()
             return true, false
         end
 
-        shouldSendNow = true -- send first request optimistically; duplicates stay queued only.
+        -- During login warm-up / pre-transport phase, queue only.
+        shouldSendNow = false
         Cyclopedia.requestCapabilities()
+        flushCyclopediaPendingRequests()
     end
 
     if CYCLOPEDIA_DEBUG then
@@ -462,8 +530,7 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
     end
 
     if shouldSendNow then
-        protocol:sendExtendedOpcode(CYCLOPEDIA_EXT_OPCODE,
-            encodeCyclopediaPayload("req", action, payload))
+        sendCyclopediaRequestNow(protocol, action, payload)
         return true, true
     end
 
@@ -1425,9 +1492,10 @@ function controllerCyclopedia:onGameStart()
         end
 
         Cyclopedia.TransportReady = false
-        Cyclopedia.PendingRequests = {}
-        Cyclopedia.PendingRequestSet = {}
+        clearCyclopediaPendingRequests()
         Cyclopedia.CapabilitiesRequested = false
+        Cyclopedia.LoginGraceUntil = g_clock.millis() + CYCLOPEDIA_LOGIN_GRACE_MS
+        cancelCyclopediaFlushEvent()
 
         -- Reset session XP tracker on each login
         if Cyclopedia.resetSessionXp then
@@ -1786,9 +1854,10 @@ end
 function controllerCyclopedia:onGameEnd()
     safeUnregisterCyclopediaOpcode()
     Cyclopedia.TransportReady = false
-    Cyclopedia.PendingRequests = {}
-    Cyclopedia.PendingRequestSet = {}
+    clearCyclopediaPendingRequests()
     Cyclopedia.CapabilitiesRequested = false
+    Cyclopedia.LoginGraceUntil = 0
+    cancelCyclopediaFlushEvent()
 
     if trackerMiniWindow then
         trackerMiniWindow.contentsPanel:destroyChildren()
