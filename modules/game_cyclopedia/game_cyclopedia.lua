@@ -1251,7 +1251,7 @@ function Cyclopedia.parseAndLoadBestiaryTracker(data)
 end
 
 -- tasks.active response
--- Format: taskId,raceId,progress,firstGoal,secondGoal,required,taskName,creatureName,outfitType~...
+-- Format: taskId,raceId,progress,firstGoal,secondGoal,required,taskName,creatureName,outfitType,creatures(; separated)~...
 function Cyclopedia.parseAndLoadTaskTracker(data)
     if not Cyclopedia.onParseTaskTracker then
         return
@@ -1262,6 +1262,17 @@ function Cyclopedia.parseAndLoadTaskTracker(data)
         for _, record in ipairs(string.split(data, "~")) do
             local f = string.split(record, ",")
             if f and #f >= 7 then
+                local creatures = {}
+                if f[10] and f[10] ~= "" then
+                    for _, creature in ipairs(string.split(f[10], ";")) do
+                        if creature and creature ~= "" then
+                            table.insert(creatures, creature)
+                        end
+                    end
+                elseif f[8] and f[8] ~= "" then
+                    table.insert(creatures, f[8])
+                end
+
                 table.insert(trackerEntries, {
                     taskId = tonumber(f[1]) or 0,
                     raceId = tonumber(f[2]) or 0,
@@ -1272,6 +1283,7 @@ function Cyclopedia.parseAndLoadTaskTracker(data)
                     taskName = f[7] or "Task",
                     creatureName = f[8] or "Unknown creature",
                     outfitType = tonumber(f[9]) or 0,
+                    creatures = creatures,
                 })
             end
         end
@@ -1416,6 +1428,7 @@ local bosstiary = nil
 local bossSlot = nil
 local ButtonBossSlot = nil
 local ButtonBestiary = nil
+local ButtonTaskTracker = nil
 local tabStack = {}
 local previousType = nil
 local windowTypes = {}
@@ -1486,6 +1499,12 @@ function controllerCyclopedia:onGameStart()
         ButtonBestiary = modules.client_topmenu.addRightGameToggleButton('BestiaryTrackerTopButton', tr('Bestiary Tracker'),
             '/images/topbuttons/bestiaryTracker', function() Cyclopedia.toggleBestiaryTracker() end, false, 8)
         ButtonBestiary:setOn(false)
+
+        purgeWidgetById('TaskTrackerTopButton')
+
+        ButtonTaskTracker = modules.client_topmenu.addRightGameToggleButton('TaskTrackerTopButton', tr('Task Tracker'),
+            '/images/topbuttons/bestiaryTracker', function() Cyclopedia.toggleTaskTracker() end, false, 8)
+        ButtonTaskTracker:setOn(false)
 
         contentContainer = controllerCyclopedia.ui:recursiveGetChildById('contentContainer')
         buttonSelection = controllerCyclopedia.ui:recursiveGetChildById('buttonSelection')
@@ -1695,11 +1714,16 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindowTask.onOpen = function()
+                if ButtonTaskTracker then ButtonTaskTracker:setOn(true) end
                 scheduleEvent(function()
                     if Cyclopedia.refreshTaskTracker then
                         Cyclopedia.refreshTaskTracker()
                     end
                 end, 50)
+            end
+
+            trackerMiniWindowTask.onClose = function()
+                if ButtonTaskTracker then ButtonTaskTracker:setOn(false) end
             end
 
             trackerMiniWindowTask:setup()
@@ -1822,6 +1846,9 @@ function controllerCyclopedia:onGameStart()
         if trackerMiniWindowBosstiary:isVisible() and trackerButtonBosstiary then
             trackerButtonBosstiary:setOn(true)
         end
+        if trackerMiniWindowTask:isVisible() and ButtonTaskTracker then
+            ButtonTaskTracker:setOn(true)
+        end
         
         Cyclopedia.BossSlots.UnlockBosses = {}
         Keybind.new("Windows", "Show/hide Bosstiary Tracker", "", "")
@@ -1910,6 +1937,11 @@ function controllerCyclopedia:onGameEnd()
         ButtonBestiary = nil
     end
 
+    if ButtonTaskTracker then
+        ButtonTaskTracker:destroy()
+        ButtonTaskTracker = nil
+    end
+
     hide()
     
     -- Save tracker filters and data for current character
@@ -1981,6 +2013,10 @@ function controllerCyclopedia:onTerminate()
     if ButtonBestiary then
         ButtonBestiary:destroy()
         ButtonBestiary = nil
+    end
+    if ButtonTaskTracker then
+        ButtonTaskTracker:destroy()
+        ButtonTaskTracker = nil
     end
     
     -- Clear character tracking on module termination

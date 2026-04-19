@@ -1564,6 +1564,35 @@ function Cyclopedia.onParseTaskTracker(data)
     trackerMiniWindowTask.contentsPanel:destroyChildren()
     local sorted = Cyclopedia.sortTrackerData(data, "tasks")
 
+    local function buildTaskCreaturesTooltipLines(creatures, fallbackName)
+        local lines = {}
+        local normalized = {}
+
+        for _, creature in ipairs(creatures or {}) do
+            local text = tostring(creature or "")
+            text = text:gsub("^%s+", ""):gsub("%s+$", "")
+            if text ~= "" then
+                table.insert(normalized, text)
+            end
+        end
+
+        if #normalized == 0 then
+            table.insert(normalized, fallbackName or "Unknown creature")
+        end
+
+        local maxVisible = 3
+        local visibleCount = math.min(#normalized, maxVisible)
+        for i = 1, visibleCount do
+            table.insert(lines, "- " .. normalized[i])
+        end
+
+        if #normalized > maxVisible then
+            table.insert(lines, "+" .. (#normalized - maxVisible) .. " more")
+        end
+
+        return table.concat(lines, "\n")
+    end
+
     for _, entry in ipairs(sorted) do
         local taskId = tonumber(entry.taskId) or 0
         local raceId = tonumber(entry.raceId) or 0
@@ -1574,6 +1603,7 @@ function Cyclopedia.onParseTaskTracker(data)
         local taskName = tostring(entry.taskName or "Task")
         local creatureName = tostring(entry.creatureName or "Unknown creature")
         local outfitType = tonumber(entry.outfitType) or 0
+        local creatures = entry.creatures or {}
 
         local raceData = raceId > 0 and g_things.getRaceData(raceId) or nil
         local widget = g_ui.createWidget("TrackerButton", trackerMiniWindowTask.contentsPanel)
@@ -1589,7 +1619,8 @@ function Cyclopedia.onParseTaskTracker(data)
         widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
         widget.kills:setText(progress .. "/" .. required)
 
-        widget:setTooltip(string.format("%s\nCreature: %s\nProgress: %d/%d", taskName, creatureName, progress, required))
+        local creaturesBlock = buildTaskCreaturesTooltipLines(creatures, creatureName)
+        widget:setTooltip(string.format("%s\nCreatures:\n%s\nProgress: %d/%d", taskName, creaturesBlock, progress, required))
 
         Cyclopedia.SetBestiaryProgress(54, widget.killsBar2, widget.ProgressBack33, widget.ProgressBack55,
             progress, firstGoal, secondGoal, required)
