@@ -1572,15 +1572,23 @@ function Cyclopedia.onParseTaskTracker(data)
         local secondGoal = tonumber(entry.secondGoal) or 2
         local required = tonumber(entry.required) or 3
         local taskName = tostring(entry.taskName or "Task")
+        local creatureName = tostring(entry.creatureName or "Unknown creature")
+        local outfitType = tonumber(entry.outfitType) or 0
 
         local raceData = raceId > 0 and g_things.getRaceData(raceId) or nil
         local widget = g_ui.createWidget("TrackerButton", trackerMiniWindowTask.contentsPanel)
         widget:setId(taskId)
-        widget.creature:setOutfit((raceData and raceData.outfit) or { type = 0 })
+        if raceData and raceData.outfit then
+            widget.creature:setOutfit(raceData.outfit)
+            if raceData.name and raceData.name ~= "" and raceData.name ~= "Unknown" then
+                creatureName = raceData.name
+            end
+        else
+            widget.creature:setOutfit({ type = outfitType })
+        end
         widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
         widget.kills:setText(progress .. "/" .. required)
 
-        local creatureName = raceData and raceData.name or "Unknown creature"
         widget:setTooltip(string.format("%s\nCreature: %s\nProgress: %d/%d", taskName, creatureName, progress, required))
 
         Cyclopedia.SetBestiaryProgress(54, widget.killsBar2, widget.ProgressBack33, widget.ProgressBack55,

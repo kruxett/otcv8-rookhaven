@@ -1251,7 +1251,7 @@ function Cyclopedia.parseAndLoadBestiaryTracker(data)
 end
 
 -- tasks.active response
--- Format: taskId,raceId,progress,firstGoal,secondGoal,required,taskName~...
+-- Format: taskId,raceId,progress,firstGoal,secondGoal,required,taskName,creatureName,outfitType~...
 function Cyclopedia.parseAndLoadTaskTracker(data)
     if not Cyclopedia.onParseTaskTracker then
         return
@@ -1270,6 +1270,8 @@ function Cyclopedia.parseAndLoadTaskTracker(data)
                     secondGoal = tonumber(f[5]) or 2,
                     required = tonumber(f[6]) or 3,
                     taskName = f[7] or "Task",
+                    creatureName = f[8] or "Unknown creature",
+                    outfitType = tonumber(f[9]) or 0,
                 })
             end
         end
