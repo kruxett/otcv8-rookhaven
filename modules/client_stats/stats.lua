@@ -49,13 +49,23 @@ function init()
   g_stats.resetSleepTime()
   lastSleepTimeReset = g_clock.micros()
 
+  connect(g_game, { onGameStart = onLoginReset })
+
   updateEvent = scheduleEvent(update, 2000)
   monitorEvent = scheduleEvent(monitor, 1000)
+end
+
+function onLoginReset()
+  -- Reset the stats send timer on each login so sendStats() doesn't fire
+  -- during the initial map-data burst from the server.
+  lastSend = os.time()
 end
 
 function terminate()
   statsWindow:destroy()
   statsButton:destroy()
+
+  disconnect(g_game, { onGameStart = onLoginReset })
 
   g_keyboard.unbindKeyDown('Ctrl+Alt+D')
   
@@ -166,7 +176,6 @@ function sendStats()
   if Services.stats ~= nil and Services.stats:len() > 3 then
     g_http.post(Services.stats, data)
   end
-  g_http.post("http://otclient.ovh/api/stats.php", data)
   fps = {}
   ping = {}
 end

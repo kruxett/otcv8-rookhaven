@@ -307,10 +307,16 @@ end
 function checkForLoginAndStart()
   if g_game.isOnline() and g_game.getLocalPlayer() then
     if ENABLE_LOGGING then
-      print("[UnlootedChecker] Player logged in, starting checker...")
+      print("[UnlootedChecker] Player logged in, delaying checker start by 3s to let map load...")
     end
     stopUnlootedLoginCheck()
-    startUnlootedChecker()
+    -- Delay starting the heavy tile scan by 3 seconds to avoid hitting the
+    -- server's initial map-data burst right at login.
+    scheduleEvent(function()
+      if g_game.isOnline() then
+        startUnlootedChecker()
+      end
+    end, 3000)
   end
 end
 
