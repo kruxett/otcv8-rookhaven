@@ -1302,6 +1302,12 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         end
     end
 
+    local sessionXp = math.max(0, tonumber(_sessionXpGained) or 0)
+    local sessionSecs = 0
+    if _sessionStartTime and _sessionStartTime > 0 then
+        sessionSecs = math.max(0, os.time() - _sessionStartTime)
+    end
+
     -- Session XP/hour: read expSpeed from LocalPlayer (same source as Skills widget)
     local xpPerHourText
     if player.expSpeed ~= nil and player.expSpeed > 0 then
