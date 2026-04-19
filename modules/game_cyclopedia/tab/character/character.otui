@@ -226,34 +226,20 @@ UIWidget
         color: #C0C0C0
       SkillValueLabel
         color: #44AD25
-    UIWidget
-      id: xpBoostButton
-      image-source: /images/ui/button-storexp
-      anchors.horizontalCenter: level.horizontalCenter
-      anchors.top: xpPerHour.bottom
-      @onClick: modules.game_shop.toggle()
-      $pressed:
-        image-source: /images/ui/button-storexp-pressed
     HorizontalSeparator
       id: leftSeparator
       anchors.top: xpPerHour.bottom
       anchors.left: parent.left
-      anchors.right: xpBoostButton.left
+      anchors.right: separator.right
       margin-top: 5
       margin-left: 5
-    HorizontalSeparator
-      id: rightSeparator
-      anchors.top: leftSeparator.top
-      anchors.left: xpBoostButton.right
-      anchors.right: separator.right
-      margin-left: 1
       margin-right: 5
     CharacterSkillBase
       id: health
-      anchors.top: xpBoostButton.bottom
+      anchors.top: leftSeparator.bottom
       anchors.left: parent.left
       anchors.right: separator.right
-      margin-top: 10
+      margin-top: 5
       SkillNameLabel
         !text: tr('Hit Points')
         color: #C0C0C0
@@ -363,20 +349,8 @@ UIWidget
         !text: tr('33')
         color: #C0C0C0
     CharacterSkillBase
-      id: loyaltyTitle
-      anchors.top: accountStatus.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 5
-      SkillNameLabel
-        !text: tr('Loyalty Title')
-        color: #C0C0C0
-      SkillValueLabel
-        !text: tr('33')
-        color: #C0C0C0
-    CharacterSkillBase
       id: playtime
-      anchors.top: loyaltyTitle.bottom
+      anchors.top: accountStatus.bottom
       anchors.left: parent.left
       anchors.right: separator.right
       margin-top: 5
@@ -537,43 +511,7 @@ UIWidget
         margin-top: 15
         margin-left: 5
         background-color: #00C000
-    Label
-      !text: tr('Account Badges')
-      margin-top: 12
-      anchors.top: skillId6.bottom
-      anchors.left: separator.left
-      anchors.right: parent.right
-      margin-left: 75
 
-    UIScrollArea
-      id: ListBadge
-      vertical-scrollbar: ListBadgeScrollbar
-      anchors.top: prev.bottom
-      anchors.left: separator.left
-      anchors.right: parent.right
-      height: 140
-      border-width: 1
-      border-color: #00000077
-      background-color: #ffffff11
-      layout:
-        type: grid
-        cell-size: 64 64
-        cell-spacing: 5
-        flow: true
-        fit-children: false
-      padding-left: 20
-
-        
-    VerticalScrollBar
-      id: ListBadgeScrollbar
-      anchors.top: ListBadge.top
-      anchors.right: ListBadge.right
-      anchors.bottom: ListBadge.bottom
-      margin: 1
-      margin-bottom: 10
-
-      step: 5
-      pixel-scroll: true
 
   BorderBox
     id: CombatStats

@@ -116,6 +116,8 @@ end
 function Cyclopedia.resetSessionXp()
     _sessionStartXp = nil
     _sessionStartTime = nil
+    _profileKills  = nil
+    _profileDeaths = nil
 end
 
 local function getPlayerVocationName(player)
@@ -1291,8 +1293,10 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     local xpPerHourText
     if sessionSecs < 60 then
         xpPerHourText = "Calculating..."
+    elseif sessionXp == 0 then
+        xpPerHourText = "0 /h"
     else
-        xpPerHourText = comma_value(math.floor(sessionXp * 3600 / sessionSecs)) .. "/h"
+        xpPerHourText = comma_value(math.floor(sessionXp * 3600 / sessionSecs)) .. " /h"
     end
     Cyclopedia.setCharacterSkillValue("xpPerHour", xpPerHourText)
     local xpHrWidget = UI.CharacterStats:recursiveGetChildById("xpPerHour")
@@ -1319,6 +1323,18 @@ function Cyclopedia.loadCharacterPlaytime(seconds)
     local widget = UI.CharacterStats:recursiveGetChildById("playtime")
     if widget then
         widget:setTooltip("Total time spent in Rookhaven")
+    end
+end
+
+local _profileKills  = nil
+local _profileDeaths = nil
+
+function Cyclopedia.updateProfileStats(kills, deaths)
+    _profileKills  = kills
+    _profileDeaths = deaths
+    -- Refresh the description list if it is currently visible
+    if UI and UI.InfoBase and UI.InfoBase:isVisible() then
+        Cyclopedia.createCharacterDescription()
     end
 end
 
@@ -1654,11 +1670,22 @@ function Cyclopedia.createCharacterDescription()
     local descriptions = {
         { Level = player:getLevel() },
         { Vocation = getPlayerVocationName(player) },
-        { loyaltyTitle = "?" },
-        { Prey = "?" },
-        { Outfit = "?" },
         { }
     }
+
+    -- Total gold (carried + bank, both locally available)
+    local carried = player.getMoney and player:getMoney() or 0
+    local bank    = player.getBankBalance and player:getBankBalance() or 0
+    local totalGold = carried + bank
+    table.insert(descriptions, #descriptions, { ["Total Gold"] = comma_value(totalGold) .. " gp" })
+
+    -- Kills & Deaths from server (set asynchronously by updateProfileStats)
+    if _profileKills ~= nil then
+        table.insert(descriptions, #descriptions, { ["Monster Kills"] = comma_value(_profileKills) })
+    end
+    if _profileDeaths ~= nil then
+        table.insert(descriptions, #descriptions, { ["Deaths"] = tostring(_profileDeaths) })
+    end
 
     for _, description in ipairs(descriptions) do
         local widget = g_ui.createWidget("UIWidget", UI.InfoBase.DetailsBase.List)
@@ -1685,7 +1712,9 @@ function Cyclopedia.characterButton(widget)
 end
 
 function Cyclopedia.loadCharacterBadges(showAccountInformation, playerOnline, playerPremium, loyaltyTitle, badgesVector)
-    UI.CharacterStats.ListBadge:destroyChildren()
+    -- ListBadge has been removed from UI, skip badge rendering
+    local listBadge = UI.CharacterStats:recursiveGetChildById('ListBadge')
+    if listBadge then listBadge:destroyChildren() end
 
     local accountStatus = "Free"
     local accountStatusColor = "#ff0000"
@@ -1699,13 +1728,14 @@ function Cyclopedia.loadCharacterBadges(showAccountInformation, playerOnline, pl
     end
 
     Cyclopedia.setCharacterSkillValue("accountStatus", accountStatus, accountStatusColor)
-    Cyclopedia.setCharacterSkillValue("loyaltyTitle", loyaltyTitle)
 
-    for _, badge in ipairs(badgesVector) do
-        local cell = g_ui.createWidget("CharacterBadge", UI.CharacterStats.ListBadge)
-        if cell then
-            cell:setImageClip(getImageClip(badge[1]))
-            cell:setTooltip(badge[2])
+    if listBadge then
+        for _, badge in ipairs(badgesVector) do
+            local cell = g_ui.createWidget("CharacterBadge", listBadge)
+            if cell then
+                cell:setImageClip(getImageClip(badge[1]))
+                cell:setTooltip(badge[2])
+            end
         end
     end
 end

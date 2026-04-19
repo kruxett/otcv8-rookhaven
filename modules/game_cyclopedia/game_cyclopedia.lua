@@ -409,6 +409,15 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadAppearances(data)
     elseif action == "character.playtime" then
         Cyclopedia.parseAndLoadPlaytime(data)
+    elseif action == "character.accountStatus" then
+        local premium = tonumber(data) or 0
+        if Cyclopedia.loadCharacterBadges then
+            local player = g_game.getLocalPlayer()
+            local online = (player and g_game.isOnline()) and 1 or 0
+            Cyclopedia.loadCharacterBadges(true, online, premium, "", {})
+        end
+    elseif action == "character.profileStats" then
+        Cyclopedia.parseAndLoadProfileStats(data)
     elseif action == "bestiary.categories" then
         Cyclopedia.parseAndLoadBestiaryCategories(data)
     elseif action == "bestiary.overview" then
@@ -830,31 +839,11 @@ g_game.requestCharacterInfo = function(characterId, infoType, ...)
     if infoType == T.GeneralStats then
         Cyclopedia.buildAndLoadGeneralStats()
         Cyclopedia.sendCyclopediaRequest("character.playtime", "")
+        Cyclopedia.sendCyclopediaRequest("character.accountStatus", "")
+        Cyclopedia.sendCyclopediaRequest("character.profileStats", "")
     elseif infoType == T.Badges then
-        if Cyclopedia.loadCharacterBadges then
-            local player = g_game.getLocalPlayer()
-            local online = g_game.isOnline() and 1 or 0
-            local premium = 0
-            local loyaltyTitle = ""
-
-            if player then
-                if player.isPremium then
-                    local okPremium, isPremium = pcall(player.isPremium, player)
-                    if okPremium and isPremium then
-                        premium = 1
-                    end
-                end
-
-                if player.getLoyaltyTitle then
-                    local okTitle, title = pcall(player.getLoyaltyTitle, player)
-                    if okTitle and title and title ~= "" then
-                        loyaltyTitle = title
-                    end
-                end
-            end
-
-            Cyclopedia.loadCharacterBadges(true, online, premium, loyaltyTitle, {})
-        end
+        -- Account status is now fetched from server via character.accountStatus request
+        Cyclopedia.sendCyclopediaRequest("character.accountStatus", "")
     elseif infoType == T.CombatStats
         or infoType == T.Offencestats
         or infoType == T.Defencestats
@@ -1027,6 +1016,14 @@ function Cyclopedia.parseAndLoadPlaytime(data)
     if Cyclopedia.updateFoodRegen then
         Cyclopedia.updateFoodRegen(regenSecs)
     end
+end
+
+function Cyclopedia.parseAndLoadProfileStats(data)
+    if not Cyclopedia.updateProfileStats then return end
+    local parts = string.split(data or "", ",")
+    local totalKills  = tonumber(parts[1]) or 0
+    local totalDeaths = tonumber(parts[2]) or 0
+    Cyclopedia.updateProfileStats(totalKills, totalDeaths)
 end
 
 -- bestiary.categories response
