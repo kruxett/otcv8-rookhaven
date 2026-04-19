@@ -384,9 +384,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
 
     if payload.action == "capabilities" then
         Cyclopedia.CapabilitiesRequested = false
-        if payload.status == "ok" then
-            Cyclopedia.applyCapabilities(parseCapabilities(payload.data))
-        end
+        -- Keep tab layout static in this client branch. Some servers send
+        -- capability payloads that can destabilize tab visibility/anchors.
         return
     end
 
@@ -1475,8 +1474,16 @@ function controllerCyclopedia:onGameStart()
             character = { obj = character, func = showCharacter },
         }
 
-        applyTabVisibilityFromCapabilities()
-        rebalanceTopTabs()
+        -- Keep a fixed, stable tab layout for this client branch.
+        if bestiary then bestiary:setVisible(true) end
+        if map then map:setVisible(true) end
+        if character then character:setVisible(true) end
+        if items then items:setVisible(false) end
+        if houses then houses:setVisible(false) end
+        if charms then charms:setVisible(false) end
+        if bosstiary then bosstiary:setVisible(false) end
+        if bossSlot then bossSlot:setVisible(false) end
+        if magicalArchives then magicalArchives:setVisible(false) end
 
         g_ui.importStyle("cyclopedia_widgets")
         g_ui.importStyle("cyclopedia_pages")

@@ -1729,7 +1729,7 @@ function Cyclopedia.loadCharacterBadges(showAccountInformation, playerOnline, pl
 
     local accountStatus = "Free"
     local accountStatusColor = "#ff0000"
-    if playerPremium == 1 then
+    if tonumber(playerPremium) and tonumber(playerPremium) > 0 then
         accountStatus = "Premium"
         accountStatusColor = "#00ff00"
     end
