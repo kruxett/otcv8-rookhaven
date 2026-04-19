@@ -1,13 +1,11 @@
 buttonsWindow = nil
 contentsPanel = nil
-baseButtonsWindowHeight = nil
 
 function init()
   buttonsWindow = g_ui.loadUI('buttons', modules.game_interface.getRightPanel())
   buttonsWindow:disableResize()
   buttonsWindow:setup()
   contentsPanel = buttonsWindow.contentsPanel
-  baseButtonsWindowHeight = buttonsWindow:getHeight()
   if not buttonsWindow.forceOpen or not contentsPanel.buttons then
     buttonsWindow:close()
   end
@@ -47,23 +45,13 @@ function updateOrder()
     end
   end
 
-  if not baseButtonsWindowHeight then
-    baseButtonsWindowHeight = buttonsWindow:getHeight()
-  end
-
-  -- Grid is effectively 6 buttons per row in the current right panel width.
-  local buttonsPerRow = 6
+  -- Retro layout: 8 buttons per row (cell-size: 20, spacing: 3)
+  -- 1-row height = 32px (matches original behaviour); each extra row adds 23px (20 cell + 3 spacing)
+  local buttonsPerRow = 8
   local rows = math.max(1, math.ceil(visibleCount / buttonsPerRow))
-  local targetHeight = baseButtonsWindowHeight + ((rows - 1) * 22)
+  local targetHeight = 32 + (rows - 1) * 23
 
   if buttonsWindow:getHeight() ~= targetHeight then
     buttonsWindow:setHeight(targetHeight)
-
-    -- Force right panel relayout so miniwindows below (e.g. Battle) move down.
-    local parent = buttonsWindow:getParent()
-    local layout = parent and parent:getLayout()
-    if layout then
-      layout:update()
-    end
   end
 end
