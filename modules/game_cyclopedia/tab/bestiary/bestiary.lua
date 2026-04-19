@@ -13,6 +13,7 @@ local storedRaceIDs = {}
 -- Move tracker data to global Cyclopedia namespace to persist across module reloads
 Cyclopedia.storedTrackerData = Cyclopedia.storedTrackerData or nil
 Cyclopedia.storedBosstiaryTrackerData = Cyclopedia.storedBosstiaryTrackerData or nil
+Cyclopedia.storedTaskTrackerData = Cyclopedia.storedTaskTrackerData or nil
 local animusMasteryPoints = 0
 local bestiaryTrackerLiveRefreshEvent = nil
 local BESTIARY_TRACKER_LIVE_REFRESH_MS = 1500
@@ -34,14 +35,22 @@ local function scheduleBestiaryTrackerLiveRefresh()
             return
         end
 
-        if not trackerMiniWindow or not trackerMiniWindow:isVisible() then
+        local bestiaryVisible = trackerMiniWindow and trackerMiniWindow:isVisible()
+        local taskVisible = trackerMiniWindowTask and trackerMiniWindowTask:isVisible()
+        if not bestiaryVisible and not taskVisible then
             return
         end
 
-        if g_game.requestBestiaryTracker then
-            g_game.requestBestiaryTracker()
-        else
-            g_game.requestBestiary()
+        if bestiaryVisible then
+            if g_game.requestBestiaryTracker then
+                g_game.requestBestiaryTracker()
+            else
+                g_game.requestBestiary()
+            end
+        end
+
+        if taskVisible and g_game.requestTaskTracker then
+            g_game.requestTaskTracker()
         end
 
         scheduleBestiaryTrackerLiveRefresh()
@@ -281,6 +290,9 @@ function showBestiary()
     controllerCyclopedia.ui.CharmsBase:setVisible(false)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(true)
+    if controllerCyclopedia.ui.TaskTrackerButton then
+        controllerCyclopedia.ui.TaskTrackerButton:setVisible(true)
+    end
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase1410:hide()
     end
@@ -1226,6 +1238,31 @@ function Cyclopedia.refreshAllVisibleTrackers()
     if trackerMiniWindowBosstiary and trackerMiniWindowBosstiary:isVisible() then
         Cyclopedia.refreshBosstiaryTracker()
     end
+
+    if trackerMiniWindowTask and trackerMiniWindowTask:isVisible() then
+        Cyclopedia.refreshTaskTracker()
+    end
+end
+
+function Cyclopedia.refreshTaskTracker()
+    local char = g_game.getCharacterName()
+    if not char or #char == 0 then
+        return
+    end
+
+    Cyclopedia.initializeTrackerData()
+
+    local cachedData = Cyclopedia.loadTrackerData("tasks")
+    if cachedData and #cachedData > 0 then
+        Cyclopedia.storedTaskTrackerData = cachedData
+        if trackerMiniWindowTask then
+            Cyclopedia.onParseTaskTracker(Cyclopedia.storedTaskTrackerData)
+        end
+    end
+
+    if g_game.requestTaskTracker then
+        g_game.requestTaskTracker()
+    end
 end
 
 -- Force refresh function that can be called manually to reload data
@@ -1390,6 +1427,43 @@ function Cyclopedia.toggleBosstiaryTracker()
     end
 end
 
+function Cyclopedia.toggleTaskTracker()
+    if not trackerMiniWindowTask then
+        return
+    end
+
+    if trackerMiniWindowTask:isVisible() then
+        trackerMiniWindowTask:close()
+        return
+    end
+
+    if not trackerMiniWindowTask:getParent() then
+        local panel = modules.game_interface.findContentPanelAvailable(trackerMiniWindowTask,
+            trackerMiniWindowTask:getMinimumHeight())
+        if not panel then
+            return
+        end
+        panel:addChild(trackerMiniWindowTask)
+    end
+
+    local char = g_game.getCharacterName()
+    if char and #char > 0 then
+        Cyclopedia.initializeTrackerData()
+        if Cyclopedia.storedTaskTrackerData and #Cyclopedia.storedTaskTrackerData > 0 then
+            Cyclopedia.onParseTaskTracker(Cyclopedia.storedTaskTrackerData)
+        end
+    end
+
+    trackerMiniWindowTask:open()
+    scheduleBestiaryTrackerLiveRefresh()
+
+    scheduleEvent(function()
+        if trackerMiniWindowTask:isVisible() and trackerMiniWindowTask.contentsPanel:getChildCount() == 0 then
+            Cyclopedia.refreshTaskTracker()
+        end
+    end, 100)
+end
+
 function Cyclopedia.onTrackerClose(temp)
     cancelBestiaryTrackerLiveRefresh()
     -- Button states are now handled by onClose callbacks
@@ -1475,6 +1549,45 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
     end
 end
 
+function Cyclopedia.onParseTaskTracker(data)
+    if not data then
+        return
+    end
+
+    Cyclopedia.storedTaskTrackerData = data
+    Cyclopedia.saveTrackerData("tasks", data)
+
+    if not trackerMiniWindowTask or not trackerMiniWindowTask.contentsPanel then
+        return
+    end
+
+    trackerMiniWindowTask.contentsPanel:destroyChildren()
+    local sorted = Cyclopedia.sortTrackerData(data, "tasks")
+
+    for _, entry in ipairs(sorted) do
+        local taskId = tonumber(entry.taskId) or 0
+        local raceId = tonumber(entry.raceId) or 0
+        local progress = tonumber(entry.progress) or 0
+        local firstGoal = tonumber(entry.firstGoal) or 1
+        local secondGoal = tonumber(entry.secondGoal) or 2
+        local required = tonumber(entry.required) or 3
+        local taskName = tostring(entry.taskName or "Task")
+
+        local raceData = raceId > 0 and g_things.getRaceData(raceId) or nil
+        local widget = g_ui.createWidget("TrackerButton", trackerMiniWindowTask.contentsPanel)
+        widget:setId(taskId)
+        widget.creature:setOutfit((raceData and raceData.outfit) or { type = 0 })
+        widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
+        widget.kills:setText(progress .. "/" .. required)
+
+        local creatureName = raceData and raceData.name or "Unknown creature"
+        widget:setTooltip(string.format("%s\nCreature: %s\nProgress: %d/%d", taskName, creatureName, progress, required))
+
+        Cyclopedia.SetBestiaryProgress(54, widget.killsBar2, widget.ProgressBack33, widget.ProgressBack55,
+            progress, firstGoal, secondGoal, required)
+    end
+end
+
 local BESTIATYTRACKER_FILTERS = {
     ["sortByName"] = false,
     ["ShortByPercentage"] = false,
@@ -1491,16 +1604,39 @@ local BOSSTIARYTRACKER_FILTERS = {
     ["sortByDescending"] = false
 }
 
+local TASKTRACKER_FILTERS = {
+    ["sortByName"] = false,
+    ["ShortByPercentage"] = false,
+    ["sortByKills"] = true,
+    ["sortByAscending"] = true,
+    ["sortByDescending"] = false
+}
+
 function Cyclopedia.loadTrackerFilters(trackerType)
     local char = g_game.getCharacterName()
     if not char or #char == 0 then
-        local defaultFilters = trackerType == "bosstiary" and BOSSTIARYTRACKER_FILTERS or BESTIATYTRACKER_FILTERS
+        local defaultFilters = BESTIATYTRACKER_FILTERS
+        if trackerType == "bosstiary" then
+            defaultFilters = BOSSTIARYTRACKER_FILTERS
+        elseif trackerType == "tasks" then
+            defaultFilters = TASKTRACKER_FILTERS
+        end
         return defaultFilters
     end
     
-    local filterKey = trackerType == "bosstiary" and "bosstiaryTracker" or "bestiaryTracker"
+    local filterKey = "bestiaryTracker"
+    if trackerType == "bosstiary" then
+        filterKey = "bosstiaryTracker"
+    elseif trackerType == "tasks" then
+        filterKey = "taskTracker"
+    end
     local charFilterKey = string.format("%s_%s", filterKey, char)
-    local defaultFilters = trackerType == "bosstiary" and BOSSTIARYTRACKER_FILTERS or BESTIATYTRACKER_FILTERS
+    local defaultFilters = BESTIATYTRACKER_FILTERS
+    if trackerType == "bosstiary" then
+        defaultFilters = BOSSTIARYTRACKER_FILTERS
+    elseif trackerType == "tasks" then
+        defaultFilters = TASKTRACKER_FILTERS
+    end
     
     local settings = g_settings.getNode(charFilterKey)
     if not settings or not settings['filters'] then
@@ -1520,7 +1656,12 @@ function Cyclopedia.saveTrackerFilters(trackerType)
         return
     end
     
-    local filterKey = trackerType == "bosstiary" and "bosstiaryTracker" or "bestiaryTracker"
+    local filterKey = "bestiaryTracker"
+    if trackerType == "bosstiary" then
+        filterKey = "bosstiaryTracker"
+    elseif trackerType == "tasks" then
+        filterKey = "taskTracker"
+    end
     local charFilterKey = string.format("%s_%s", filterKey, char)
     
     g_settings.mergeNode(charFilterKey, {
@@ -1536,7 +1677,12 @@ function Cyclopedia.saveTrackerData(trackerType, data)
         return
     end
     
-    local dataKey = trackerType == "bosstiary" and "bosstiaryTrackerData" or "bestiaryTrackerData"
+    local dataKey = "bestiaryTrackerData"
+    if trackerType == "bosstiary" then
+        dataKey = "bosstiaryTrackerData"
+    elseif trackerType == "tasks" then
+        dataKey = "taskTrackerData"
+    end
     local charDataKey = string.format("%s_%s", dataKey, char)
     
     g_settings.mergeNode(charDataKey, {
@@ -1552,7 +1698,12 @@ function Cyclopedia.loadTrackerData(trackerType)
         return nil
     end
     
-    local dataKey = trackerType == "bosstiary" and "bosstiaryTrackerData" or "bestiaryTrackerData"
+    local dataKey = "bestiaryTrackerData"
+    if trackerType == "bosstiary" then
+        dataKey = "bosstiaryTrackerData"
+    elseif trackerType == "tasks" then
+        dataKey = "taskTrackerData"
+    end
     local charDataKey = string.format("%s_%s", dataKey, char)
     
     local settings = g_settings.getNode(charDataKey)
@@ -1581,6 +1732,9 @@ function Cyclopedia.initializeTrackerData()
     if not Cyclopedia.storedBosstiaryTrackerData then
         Cyclopedia.storedBosstiaryTrackerData = {}
     end
+    if not Cyclopedia.storedTaskTrackerData then
+        Cyclopedia.storedTaskTrackerData = {}
+    end
     
     -- Load cached bestiary tracker data for current character (only if not already loaded)
     if #Cyclopedia.storedTrackerData == 0 then
@@ -1595,6 +1749,13 @@ function Cyclopedia.initializeTrackerData()
         local cachedBosstiaryData = Cyclopedia.loadTrackerData("bosstiary")
         if cachedBosstiaryData and #cachedBosstiaryData > 0 then
             Cyclopedia.storedBosstiaryTrackerData = cachedBosstiaryData
+        end
+    end
+
+    if #Cyclopedia.storedTaskTrackerData == 0 then
+        local cachedTaskData = Cyclopedia.loadTrackerData("tasks")
+        if cachedTaskData and #cachedTaskData > 0 then
+            Cyclopedia.storedTaskTrackerData = cachedTaskData
         end
     end
 end
@@ -1624,6 +1785,7 @@ function Cyclopedia.clearTrackerDataForCharacterChange()
     -- Clear in-memory data
     Cyclopedia.storedTrackerData = {}
     Cyclopedia.storedBosstiaryTrackerData = {}
+    Cyclopedia.storedTaskTrackerData = {}
     
     -- Clear visual tracker displays
     if trackerMiniWindow and trackerMiniWindow.contentsPanel then
@@ -1631,6 +1793,9 @@ function Cyclopedia.clearTrackerDataForCharacterChange()
     end
     if trackerMiniWindowBosstiary and trackerMiniWindowBosstiary.contentsPanel then
         trackerMiniWindowBosstiary.contentsPanel:destroyChildren()
+    end
+    if trackerMiniWindowTask and trackerMiniWindowTask.contentsPanel then
+        trackerMiniWindowTask.contentsPanel:destroyChildren()
     end
     
     -- Clear stored race IDs
@@ -1647,8 +1812,10 @@ function Cyclopedia.cleanupOldTrackerData(daysOld)
     for key, value in pairs(allSettings) do
         if string.match(key, "^bestiaryTrackerData_") or 
            string.match(key, "^bosstiaryTrackerData_") or
+              string.match(key, "^taskTrackerData_") or
            string.match(key, "^bestiaryTracker_") or
-           string.match(key, "^bosstiaryTracker_") then
+              string.match(key, "^bosstiaryTracker_") or
+              string.match(key, "^taskTracker_") then
             
             if value.timestamp and value.timestamp < cutoffTime then
                 g_settings.remove(key)
@@ -1685,6 +1852,14 @@ function Cyclopedia.populateVisibleTrackersWithCachedData()
         else
             -- Try to load cached data and populate
             Cyclopedia.refreshBosstiaryTracker()
+        end
+    end
+
+    if trackerMiniWindowTask and trackerMiniWindowTask:isVisible() then
+        if Cyclopedia.storedTaskTrackerData and #Cyclopedia.storedTaskTrackerData > 0 then
+            Cyclopedia.onParseTaskTracker(Cyclopedia.storedTaskTrackerData)
+        else
+            Cyclopedia.refreshTaskTracker()
         end
     end
 end
@@ -1732,6 +1907,10 @@ function Cyclopedia.refreshTracker(trackerType)
         if trackerMiniWindowBosstiary and Cyclopedia.storedBosstiaryTrackerData then
             Cyclopedia.onParseCyclopediaTracker(1, Cyclopedia.storedBosstiaryTrackerData)
         end
+    elseif trackerType == "tasks" then
+        if trackerMiniWindowTask and Cyclopedia.storedTaskTrackerData then
+            Cyclopedia.onParseTaskTracker(Cyclopedia.storedTaskTrackerData)
+        end
     else
         if trackerMiniWindow and Cyclopedia.storedTrackerData then
             Cyclopedia.onParseCyclopediaTracker(0, Cyclopedia.storedTrackerData)
@@ -1749,6 +1928,43 @@ function Cyclopedia.sortTrackerData(data, trackerType)
         sortedData[i] = v
     end
     
+    if trackerType == "tasks" then
+        if filters.sortByName then
+            table.sort(sortedData, function(a, b)
+                local nameA = tostring(a.taskName or "task"):lower()
+                local nameB = tostring(b.taskName or "task"):lower()
+                if isDescending then
+                    return nameA > nameB
+                else
+                    return nameA < nameB
+                end
+            end)
+        elseif filters.ShortByPercentage then
+            table.sort(sortedData, function(a, b)
+                local requiredA = tonumber(a.required) or 1
+                local requiredB = tonumber(b.required) or 1
+                local percentA = requiredA > 0 and ((tonumber(a.progress) or 0) / requiredA * 100) or 0
+                local percentB = requiredB > 0 and ((tonumber(b.progress) or 0) / requiredB * 100) or 0
+                if isDescending then
+                    return percentA > percentB
+                else
+                    return percentA < percentB
+                end
+            end)
+        elseif filters.sortByKills then
+            table.sort(sortedData, function(a, b)
+                local remainingA = (tonumber(a.required) or 0) - (tonumber(a.progress) or 0)
+                local remainingB = (tonumber(b.required) or 0) - (tonumber(b.progress) or 0)
+                if isDescending then
+                    return remainingA > remainingB
+                else
+                    return remainingA < remainingB
+                end
+            end)
+        end
+        return sortedData
+    end
+
     if filters.sortByName then
         table.sort(sortedData, function(a, b)
             local raceA = g_things.getRaceData(a[1])

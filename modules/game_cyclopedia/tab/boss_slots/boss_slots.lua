@@ -10,6 +10,9 @@ function showBossSlot()
     controllerCyclopedia.ui.CharmsBase:setVisible(false)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
+        if controllerCyclopedia.ui.TaskTrackerButton then
+            controllerCyclopedia.ui.TaskTrackerButton:setVisible(false)
+        end
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase1410:hide()
     end

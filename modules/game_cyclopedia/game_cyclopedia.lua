@@ -32,6 +32,7 @@ end
 makeSafeStub("requestBestiary")
 makeSafeStub("requestBestiaryOverview")
 makeSafeStub("requestBestiarySearch")
+makeSafeStub("requestTaskTracker")
 makeSafeStub("requestBosstiaryInfo")
 makeSafeStub("requestCharacterInfo")
 makeSafeStub("sendStatusTrackerBestiary")
@@ -425,6 +426,8 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         Cyclopedia.parseAndLoadBestiaryCreature(data)
     elseif action == "bestiary.tracker" then
         Cyclopedia.parseAndLoadBestiaryTracker(data)
+    elseif action == "tasks.active" then
+        Cyclopedia.parseAndLoadTaskTracker(data)
     elseif action == "houses.list" then
         Cyclopedia.parseAndLoadHousesList(data)
     elseif action == "houses.towns" then
@@ -905,6 +908,10 @@ g_game.requestBestiaryTracker = function(...)
     Cyclopedia.sendCyclopediaRequest("bestiary.tracker", "list")
 end
 
+g_game.requestTaskTracker = function(...)
+    Cyclopedia.sendCyclopediaRequest("tasks.active", "")
+end
+
 local _origRequestShowHouses = g_game.requestShowHouses
 g_game.requestShowHouses = function(townName, ...)
     Cyclopedia.sendCyclopediaRequest("houses.list", tostring(townName or ""))
@@ -1243,6 +1250,34 @@ function Cyclopedia.parseAndLoadBestiaryTracker(data)
     Cyclopedia.onParseCyclopediaTracker(0, trackerEntries)
 end
 
+-- tasks.active response
+-- Format: taskId,raceId,progress,firstGoal,secondGoal,required,taskName~...
+function Cyclopedia.parseAndLoadTaskTracker(data)
+    if not Cyclopedia.onParseTaskTracker then
+        return
+    end
+
+    local trackerEntries = {}
+    if data and data ~= "" then
+        for _, record in ipairs(string.split(data, "~")) do
+            local f = string.split(record, ",")
+            if f and #f >= 7 then
+                table.insert(trackerEntries, {
+                    taskId = tonumber(f[1]) or 0,
+                    raceId = tonumber(f[2]) or 0,
+                    progress = tonumber(f[3]) or 0,
+                    firstGoal = tonumber(f[4]) or 1,
+                    secondGoal = tonumber(f[5]) or 2,
+                    required = tonumber(f[6]) or 3,
+                    taskName = f[7] or "Task",
+                })
+            end
+        end
+    end
+
+    Cyclopedia.onParseTaskTracker(trackerEntries)
+end
+
 -- houses.list response
 -- Format: id,name,townName,rent,beds,sqm,ownerName,state,paidUntil~...
 function Cyclopedia.parseAndLoadHousesList(data)
@@ -1361,6 +1396,7 @@ trackerButton = nil
 trackerMiniWindow = nil
 trackerButtonBosstiary = nil
 trackerMiniWindowBosstiary = nil
+trackerMiniWindowTask = nil
 contentContainer = nil
 
 -- Track current character to detect character changes
@@ -1620,6 +1656,55 @@ function controllerCyclopedia:onGameStart()
         end
 
         --[[===================================================
+    =               Tracker Tasks                         =
+    =================================================== ]] --
+
+        if not trackerMiniWindowTask then
+            trackerMiniWindowTask = g_ui.createWidget('BestiaryTracker', modules.game_interface.getRightPanel())
+            trackerMiniWindowTask:setId('TaskTrackerWindow')
+            trackerMiniWindowTask:setText(tr('Task Tracker'))
+            trackerMiniWindowTask:setIcon('/images/icons/icon-bestiarytracker-widget')
+
+            local contextMenuButtonTask = trackerMiniWindowTask:recursiveGetChildById('contextMenuButton')
+            local newWindowButtonTask = trackerMiniWindowTask:recursiveGetChildById('newWindowButton')
+            local minimizeButtonTask = trackerMiniWindowTask:recursiveGetChildById('minimizeButton')
+
+            if contextMenuButtonTask then
+                contextMenuButtonTask:setVisible(true)
+                if minimizeButtonTask then
+                    contextMenuButtonTask:breakAnchors()
+                    contextMenuButtonTask:addAnchor(AnchorTop, minimizeButtonTask:getId(), AnchorTop)
+                    contextMenuButtonTask:addAnchor(AnchorRight, minimizeButtonTask:getId(), AnchorLeft)
+                    contextMenuButtonTask:setMarginRight(7)
+                    contextMenuButtonTask:setMarginTop(0)
+                end
+
+                contextMenuButtonTask.onClick = function(widget, mousePos, mouseButton)
+                    return Cyclopedia.createTrackerContextMenu("tasks", mousePos)
+                end
+            end
+
+            if newWindowButtonTask then
+                newWindowButtonTask:setVisible(true)
+                newWindowButtonTask.onClick = function(widget, mousePos, mouseButton)
+                    toggle("bestiary")
+                    return true
+                end
+            end
+
+            trackerMiniWindowTask.onOpen = function()
+                scheduleEvent(function()
+                    if Cyclopedia.refreshTaskTracker then
+                        Cyclopedia.refreshTaskTracker()
+                    end
+                end, 50)
+            end
+
+            trackerMiniWindowTask:setup()
+            trackerMiniWindowTask:hide()
+        end
+
+        --[[===================================================
     =               Tracker Bosstiary                     =
     =================================================== ]] --
 
@@ -1715,8 +1800,12 @@ function controllerCyclopedia:onGameStart()
         if trackerMiniWindowBosstiary and trackerMiniWindowBosstiary.setupOnStart then
             trackerMiniWindowBosstiary:setupOnStart()
         end
+        if trackerMiniWindowTask and trackerMiniWindowTask.setupOnStart then
+            trackerMiniWindowTask:setupOnStart()
+        end
         Cyclopedia.loadTrackerFilters("bestiary")
         Cyclopedia.loadTrackerFilters("bosstiary")
+        Cyclopedia.loadTrackerFilters("tasks")
         
         -- Populate any visible trackers with cached data after windows are set up
         Cyclopedia.populateVisibleTrackersWithCachedData()
@@ -1805,6 +1894,9 @@ function controllerCyclopedia:onGameEnd()
     if trackerMiniWindowBosstiary then
         trackerMiniWindowBosstiary.contentsPanel:destroyChildren()
     end
+    if trackerMiniWindowTask then
+        trackerMiniWindowTask.contentsPanel:destroyChildren()
+    end
 
     if CyclopediaButton then
         CyclopediaButton:destroy()
@@ -1822,6 +1914,7 @@ function controllerCyclopedia:onGameEnd()
     if Cyclopedia.saveTrackerFilters then
         Cyclopedia.saveTrackerFilters("bestiary")
         Cyclopedia.saveTrackerFilters("bosstiary")
+        Cyclopedia.saveTrackerFilters("tasks")
     end
     
     -- Save current tracker data for current character
@@ -1831,6 +1924,9 @@ function controllerCyclopedia:onGameEnd()
         end
         if Cyclopedia.storedBosstiaryTrackerData then
             Cyclopedia.saveTrackerData("bosstiary", Cyclopedia.storedBosstiaryTrackerData)
+        end
+        if Cyclopedia.storedTaskTrackerData then
+            Cyclopedia.saveTrackerData("tasks", Cyclopedia.storedTaskTrackerData)
         end
     end
     
@@ -1865,6 +1961,11 @@ function controllerCyclopedia:onTerminate()
     if trackerMiniWindowBosstiary then
         trackerMiniWindowBosstiary:destroy()
         trackerMiniWindowBosstiary = nil
+    end
+
+    if trackerMiniWindowTask then
+        trackerMiniWindowTask:destroy()
+        trackerMiniWindowTask = nil
     end
 
     if CyclopediaButton then

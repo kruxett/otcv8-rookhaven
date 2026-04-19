@@ -271,6 +271,9 @@ function showCharacter()
     controllerCyclopedia.ui.CharmsBase:setVisible(false)  -- charms not used in 8.60
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
+    if controllerCyclopedia.ui.TaskTrackerButton then
+        controllerCyclopedia.ui.TaskTrackerButton:setVisible(false)
+    end
     if g_game.getClientVersion() >= 1410 then
         controllerCyclopedia.ui.CharmsBase1410:setVisible(true)
     end

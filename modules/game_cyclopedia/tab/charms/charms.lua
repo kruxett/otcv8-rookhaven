@@ -272,6 +272,9 @@ function showCharms()
     controllerCyclopedia.ui.CharmsBase:setVisible(true)
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
+    if controllerCyclopedia.ui.TaskTrackerButton then
+        controllerCyclopedia.ui.TaskTrackerButton:setVisible(false)
+    end
     if isModernUI then
         controllerCyclopedia.ui.CharmsBase1410:setVisible(true)
         TypeCharmRadioGroup = UIRadioGroup.create()
