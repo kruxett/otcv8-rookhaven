@@ -2,6 +2,8 @@ local characterPanel = nil
 local UI = nil
 local _sessionStartXp = nil
 local _sessionStartTime = nil
+local _sessionXpGained = 0       -- accumulated XP delta from onExperienceChange
+local _sessionLastXp  = nil      -- last known XP value for delta calculation
 local characterLiveRefreshEvent = nil
 local characterLiveSignalsConnected = false
 
@@ -69,6 +71,26 @@ local function onCharacterLiveStatsChanged(...)
     queueCharacterLiveRefresh()
 end
 
+-- Dedicated XP handler: accumulates delta so we don't rely on player:getExperience() snapshots
+local function onCharacterXpChanged(player, newXp)
+    if type(newXp) ~= 'number' or newXp <= 0 then
+        queueCharacterLiveRefresh()
+        return
+    end
+    -- Start tracking on first real XP value received
+    if not _sessionLastXp then
+        _sessionLastXp  = newXp
+        _sessionStartTime = _sessionStartTime or os.time()
+    else
+        local delta = newXp - _sessionLastXp
+        if delta > 0 then
+            _sessionXpGained = (_sessionXpGained or 0) + delta
+        end
+        _sessionLastXp = newXp
+    end
+    queueCharacterLiveRefresh()
+end
+
 local function disconnectCharacterLiveSignals()
     if not characterLiveSignalsConnected then
         return
@@ -76,7 +98,7 @@ local function disconnectCharacterLiveSignals()
 
     disconnect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
-        onExperienceChange = onCharacterLiveStatsChanged,
+        onExperienceChange = onCharacterXpChanged,
         onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
         onBaseSpeedChange = onCharacterLiveStatsChanged,
@@ -99,7 +121,7 @@ local function connectCharacterLiveSignals()
 
     connect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
-        onExperienceChange = onCharacterLiveStatsChanged,
+        onExperienceChange = onCharacterXpChanged,
         onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
         onBaseSpeedChange = onCharacterLiveStatsChanged,
@@ -118,10 +140,12 @@ local function connectCharacterLiveSignals()
 end
 
 function Cyclopedia.resetSessionXp()
-    _sessionStartXp = nil
+    _sessionStartXp   = nil
     _sessionStartTime = nil
-    _profileKills  = nil
-    _profileDeaths = nil
+    _sessionXpGained  = 0
+    _sessionLastXp    = nil
+    _profileKills     = nil
+    _profileDeaths    = nil
 end
 
 local function getPlayerVocationName(player)
@@ -1286,16 +1310,14 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
         end
     end
 
-    -- Session XP/hour tracker
-    local currentXp = player:getExperience()
-    if not _sessionStartXp then
-        _sessionStartXp = currentXp
+    -- Session XP/hour tracker (uses accumulated delta from onExperienceChange)
+    if not _sessionStartTime then
         _sessionStartTime = os.time()
     end
-    local sessionXp = math.max(0, currentXp - _sessionStartXp)
+    local sessionXp   = _sessionXpGained or 0
     local sessionSecs = math.max(1, os.time() - _sessionStartTime)
     local xpPerHourText
-    if sessionSecs < 60 then
+    if sessionSecs < 60 and sessionXp == 0 then
         xpPerHourText = "Calculating..."
     elseif sessionXp == 0 then
         xpPerHourText = "0 /h"
