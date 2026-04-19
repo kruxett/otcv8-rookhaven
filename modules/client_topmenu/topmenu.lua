@@ -44,8 +44,7 @@ end
 -- public functions
 function init()
   connect(g_game, { onGameStart = online,
-                    onGameEnd = offline,
-                    onPingBack = updatePing })
+                    onGameEnd = offline })
 
   topMenu = g_ui.createWidget('TopMenu', g_ui.getRootWidget())
   if not topMenu then
@@ -65,8 +64,7 @@ end
 
 function terminate()
   disconnect(g_game, { onGameStart = online,
-                       onGameEnd = offline,
-                       onPingBack = updatePing })
+                       onGameEnd = offline })
   removeEvent(fpsUpdateEvent)
   removeEvent(statusUpdateEvent)
   
@@ -85,16 +83,6 @@ function online()
   end
   
   showGameButtons()
-
-  if topMenu.pingLabel then
-    addEvent(function()
-      if modules.client_options.getOption('showPing') and (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
-        topMenu.pingLabel:show()
-      else
-        topMenu.pingLabel:hide()      
-      end
-    end)
-  end
 end
 
 function offline()
@@ -106,9 +94,6 @@ function offline()
   end
 
   hideGameButtons()
-  if topMenu.pingLabel then
-    topMenu.pingLabel:hide()
-  end
   updateStatus()
 end
 
@@ -117,36 +102,6 @@ function updateFps()
   fpsUpdateEvent = scheduleEvent(updateFps, 500)
   text = 'FPS: ' .. g_app.getFps()
   topMenu.fpsLabel:setText(text)
-end
-
-function updatePing(ping)
-  if not topMenu.pingLabel then return end
-  if g_proxy and g_proxy.getPing() > 0 then
-    ping = g_proxy.getPing()
-  end
-  
-  local text = 'Ping: '
-  local color
-  if ping < 0 then
-    text = text .. "??"
-    color = 'yellow'
-  else
-    text = text .. ping .. ' ms'
-    if ping >= 500 then
-      color = 'red'
-    elseif ping >= 250 then
-      color = 'yellow'
-    else
-      color = 'green'
-    end
-  end
-  topMenu.pingLabel:setColor(color)
-  topMenu.pingLabel:setText(text)
-end
-
-function setPingVisible(enable)
-  if not topMenu.pingLabel then return end
-  topMenu.pingLabel:setVisible(enable)
 end
 
 function setFpsVisible(enable)

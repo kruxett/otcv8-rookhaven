@@ -62,9 +62,6 @@ TopMenuFrameCounterLabel < Label
   margin-top: 4
   margin-left: 5
 
-TopMenuPingLabel < Label
-  font: verdana-11px-rounded
-
 TopMenu < TopMenuPanel
   id: topMenu
   anchors.top: parent.top
@@ -89,13 +86,6 @@ TopMenu < TopMenuPanel
     text-auto-resize: true
     anchors.top: parent.top
     anchors.left: leftGameButtonsPanel.right
-
-  TopMenuPingLabel
-    color: white
-    id: pingLabel
-    text-auto-resize: true
-    anchors.top: fpsLabel.bottom
-    anchors.left: fpsLabel.left
 
   Label
     id: onlineLabel

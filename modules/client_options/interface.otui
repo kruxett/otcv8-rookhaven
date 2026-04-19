@@ -15,11 +15,6 @@ OptionPanel
 //    visible: false
       
   OptionCheckBox
-    id: showPing
-    !text: tr('Show connection ping')
-    !tooltip: tr('Display connection speed to the server (milliseconds)')
-
-  OptionCheckBox
     id: displayNames
     !text: tr('Display creature names')
 

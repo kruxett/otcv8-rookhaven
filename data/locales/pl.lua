@@ -278,7 +278,6 @@ locale = {
     ["Set Outfit"] = "Ustaw outfit",
     ["Shielding"] = "Obrona tarcza",
     ["Show all items"] = "Pokaz wszystkie przedmioty",
-    ["Show connection ping"] = "Wyswietl ping",
     ["Show Depot Only"] = "Pokaz tylko przedmioty z depozytu",
     ["Show event messages in console"] = "Pokaz wydarzenia w konsoli",
     ["Show frame rate"] = "Pokaz FPS",

@@ -271,7 +271,6 @@ neededTranslations = {
   "Set Outfit",
   "Shielding",
   "Show all items",
-  "Show connection ping",
   "Show Depot Only",
   "Show event messages in console",
   "Show frame rate",
