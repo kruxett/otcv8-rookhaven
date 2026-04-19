@@ -1637,11 +1637,7 @@ function Cyclopedia.onParseTaskTracker(data)
                 addons = 0,
             })
         end
-        local displayName = taskName
-        if completed then
-            displayName = taskName .. " [Done]"
-        end
-        widget.label:setText(displayName:len() > 18 and displayName:sub(1, 15) .. "..." or displayName)
+        widget.label:setText(taskName:len() > 18 and taskName:sub(1, 15) .. "..." or taskName)
         if completed then
             widget.kills:setText("Completed")
             widget.kills:setColor("#7BD77A")
