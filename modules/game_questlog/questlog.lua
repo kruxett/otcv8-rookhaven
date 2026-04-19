@@ -6,6 +6,10 @@ settings = {}
 
 local callDelay = 1000 -- each call delay is also increased by random values (0-callDelay/2)
 local dispatcher = {}
+local refreshQuestsEvent = nil
+local refreshTrackerEvent = nil
+local LOGIN_TRACKER_SYNC_DELAY = 1200
+local TRACKER_REQUEST_STEP_DELAY = 120
 
 function init()
   g_ui.importStyle('questlogwindow')
@@ -52,6 +56,15 @@ function toggle()
 end
 
 function offline()
+  if refreshQuestsEvent then
+    removeEvent(refreshQuestsEvent)
+    refreshQuestsEvent = nil
+  end
+  if refreshTrackerEvent then
+    removeEvent(refreshTrackerEvent)
+    refreshTrackerEvent = nil
+  end
+
   if window then
     window:hide()
   end
@@ -67,9 +80,24 @@ end
 function online()
   local playerName = g_game.getCharacterName()
   if not playerName then return end -- just to be sure
+
+  if refreshQuestsEvent then
+    removeEvent(refreshQuestsEvent)
+    refreshQuestsEvent = nil
+  end
+  if refreshTrackerEvent then
+    removeEvent(refreshTrackerEvent)
+    refreshTrackerEvent = nil
+  end
+
   load()
   refreshQuests()
-  refreshTrackerWidgets()
+  -- Delay initial tracker sync slightly to avoid request bursts while
+  -- the login/map packet burst is still being processed.
+  refreshTrackerEvent = scheduleEvent(function()
+    refreshTrackerEvent = nil
+    refreshTrackerWidgets()
+  end, LOGIN_TRACKER_SYNC_DELAY)
 
   local playerName = g_game.getCharacterName()
   settings[playerName] = settings[playerName] or {}
@@ -213,7 +241,10 @@ function onTrackOptionChange(checkbox)
 end
 
 function refreshQuests()
-  if not g_game.isOnline() then return end
+  if not g_game.isOnline() then
+    refreshQuestsEvent = nil
+    return
+  end
   local data = settings[g_game.getCharacterName()]
   data = data or {}
 
@@ -237,7 +268,7 @@ function refreshQuests()
     end
   end
 
-  scheduleEvent(refreshQuests, callDelay)
+  refreshQuestsEvent = scheduleEvent(refreshQuests, callDelay)
 end
 
 function refreshTrackerWidgets()
@@ -245,14 +276,25 @@ function refreshTrackerWidgets()
   local data = settings[g_game.getCharacterName()]
   data = data or {}
 
+  local pendingQuestIds = {}
+
   for questData, enabled in pairs(data) do
-    local data = string.split(questData, ".")
-    local id = tonumber(data[1])
+    local parts = string.split(questData, ".")
+    local id = tonumber(parts[1])
 
     local widget = trackerWindow.contentsPanel.list[questData]
-    if not widget then
-      g_game.requestQuestLine(id)
+    if enabled and not widget and id then
+      table.insert(pendingQuestIds, id)
     end
+  end
+
+  table.sort(pendingQuestIds)
+  for i, id in ipairs(pendingQuestIds) do
+    scheduleEvent(function()
+      if g_game.isOnline() then
+        g_game.requestQuestLine(id)
+      end
+    end, (i - 1) * TRACKER_REQUEST_STEP_DELAY)
   end
 end
 
