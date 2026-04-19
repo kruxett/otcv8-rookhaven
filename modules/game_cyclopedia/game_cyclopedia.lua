@@ -452,7 +452,9 @@ function Cyclopedia.sendCyclopediaRequest(action, payload)
             return true, false
         end
 
-        shouldSendNow = true -- send first request optimistically; duplicates stay queued only.
+        -- Avoid optimistic sends during login handshakes. Queue and flush when
+        -- transport becomes ready to reduce bursty request spikes.
+        shouldSendNow = false
         Cyclopedia.requestCapabilities()
     end
 
