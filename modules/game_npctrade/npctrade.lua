@@ -291,6 +291,22 @@ function getItemPrice(item, single)
   return item.price*amount
 end
 
+local function isRarityRolledItem(item)
+  if not item then
+    return false
+  end
+
+  local article = item:getArticle()
+  if not article or article == '' then
+    return false
+  end
+
+  article = article:lower()
+  return article:find('rare', 1, true) ~= nil or
+         article:find('epic', 1, true) ~= nil or
+         article:find('legendary', 1, true) ~= nil
+end
+
 function getSellQuantity(item)
   if not item or not playerItems[item:getId()] then return 0 end
   local removeAmount = 0
@@ -298,7 +314,7 @@ function getSellQuantity(item)
     local localPlayer = g_game.getLocalPlayer()
     for i=1,LAST_INVENTORY do
       local inventoryItem = localPlayer:getInventoryItem(i)
-      if inventoryItem and inventoryItem:getId() == item:getId() then
+      if inventoryItem and inventoryItem:getId() == item:getId() and not isRarityRolledItem(inventoryItem) then
         removeAmount = removeAmount + inventoryItem:getCount()
       end
     end
