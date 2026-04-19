@@ -1838,15 +1838,34 @@ bool UIWidget::propagateOnMouseMove(const Point& mousePos, const Point& mouseMov
     return true;
 }
 
+void UIWidget::setChangeCursorImage(bool enable)
+{
+    if (m_changeCursorImage == enable)
+        return;
+
+    if (!enable && m_cursorPushed) {
+        g_mouse.popCursor(m_cursor);
+        m_cursorPushed = false;
+    }
+
+    m_changeCursorImage = enable;
+
+    if (enable && !m_cursor.empty() && isHovered() && isEnabled() && !m_cursorPushed && !g_mouse.isCursorChanged()) {
+        g_mouse.pushCursor(m_cursor);
+        m_cursorPushed = true;
+    }
+}
+
 void UIWidget::setCursor(const std::string& cursor)
 {
     if (m_cursor == cursor) return;
 
+    if (m_cursorPushed) {
+        g_mouse.popCursor(m_cursor);
+        m_cursorPushed = false;
+    }
+
     if (cursor.empty()) {
-        if (m_cursorPushed) {
-            g_mouse.popCursor(m_cursor);
-            m_cursorPushed = false;
-        }
         m_cursor = "";
         m_changeCursorImage = false;
         return;
@@ -1854,4 +1873,8 @@ void UIWidget::setCursor(const std::string& cursor)
 
     m_cursor = cursor;
     m_changeCursorImage = true;
+    if (isHovered() && isEnabled() && !g_mouse.isCursorChanged()) {
+        g_mouse.pushCursor(m_cursor);
+        m_cursorPushed = true;
+    }
 }

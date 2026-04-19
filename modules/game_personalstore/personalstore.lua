@@ -334,9 +334,7 @@ function selectItemToSell()
 			end
 		end
 		
-		while g_mouse.isCursorChanged() do
-			g_mouse.popCursor('target')
-		end
+		g_mouse.popCursor('target')
 		self:ungrabMouse()
 		mouseGrabberWidget.onMouseRelease = nil
 		mouseGrabberWidget.onMouseRelease = gameInterface.onMouseGrabberRelease

@@ -372,7 +372,7 @@ public:
     void setPaddingLeft(int padding) { m_padding.left = padding; updateLayout(); }
     void setOpacity(float opacity) { m_opacity = stdext::clamp<float>(opacity, 0.0f, 1.0f); }
     void setRotation(float degrees) { m_rotation = degrees; }
-    void setChangeCursorImage(bool enable) { m_changeCursorImage = enable; }
+    void setChangeCursorImage(bool enable);
     void setCursor(const std::string& cursor);
 
     int getX() { return m_rect.x(); }
