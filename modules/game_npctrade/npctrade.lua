@@ -602,3 +602,67 @@ function sellAll(delayed, exceptions)
     g_game.sellItem(entry[1], entry[2], entry[3])
   end
 end
+
+local function buildSellAllSummary(exceptions, maxLines)
+  exceptions = exceptions or {}
+  maxLines = maxLines or 20
+
+  local entries = {}
+  local totalGold = 0
+
+  for _, tradeEntry in ipairs(tradeItems[SELL]) do
+    local itemId = tradeEntry.ptr:getId()
+    if not table.find(exceptions, itemId) then
+      local amount = getSellQuantity(tradeEntry.ptr)
+      if amount > 0 then
+        local lineTotal = tradeEntry.price * amount
+        totalGold = totalGold + lineTotal
+        table.insert(entries, {
+          name = tradeEntry.name,
+          text = string.format("%dx %s (%d gold)", amount, tradeEntry.name, lineTotal)
+        })
+      end
+    end
+  end
+
+  table.sort(entries, function(a, b)
+    return a.name < b.name
+  end)
+
+  local lines = {}
+  for i = 1, math.min(#entries, maxLines) do
+    lines[#lines + 1] = entries[i].text
+  end
+
+  local hiddenEntries = #entries - #lines
+  if hiddenEntries > 0 then
+    lines[#lines + 1] = tr("...and %d more item stacks.", hiddenEntries)
+  end
+
+  return lines, totalGold, #entries
+end
+
+function confirmSellAll(delayed, exceptions)
+  exceptions = exceptions or {}
+
+  local lines, totalGold, entryCount = buildSellAllSummary(exceptions, 20)
+  if entryCount == 0 then
+    return
+  end
+
+  local message = tr("Are you sure you want to sell these items?") .. "\n\n" ..
+                  table.concat(lines, "\n") .. "\n\n" ..
+                  tr("Total: %d gold", totalGold)
+
+  displayGeneralBox(tr("Confirm Sell All"), message, {
+    {
+      text = tr("Yes"),
+      callback = function()
+        sellAll(delayed, exceptions)
+      end
+    },
+    {
+      text = tr("No")
+    }
+  })
+end

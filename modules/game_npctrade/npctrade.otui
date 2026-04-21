@@ -268,7 +268,7 @@ MainWindow
     anchors.bottom: parent.bottom
     margin-right: 10
     visible: false
-    @onClick: modules.game_npctrade.sellAll(true)
+    @onClick: modules.game_npctrade.confirmSellAll(true)
 
   Button
     id: sellAllButton
@@ -278,7 +278,7 @@ MainWindow
     anchors.bottom: parent.bottom
     margin-right: 10
     visible: false
-    @onClick: modules.game_npctrade.sellAll()
+    @onClick: modules.game_npctrade.confirmSellAll()
 
   Button
     id: tradeButton
