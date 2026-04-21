@@ -607,6 +607,13 @@ local function buildSellAllSummary(exceptions, maxLines)
   exceptions = exceptions or {}
   maxLines = maxLines or 20
 
+  local function normalizeItemName(name)
+    name = tostring(name or "")
+    name = name:gsub("%s+", " ")
+    name = name:match("^%s*(.-)%s*$") or ""
+    return name
+  end
+
   local entries = {}
   local totalGold = 0
 
@@ -615,11 +622,12 @@ local function buildSellAllSummary(exceptions, maxLines)
     if not table.find(exceptions, itemId) then
       local amount = getSellQuantity(tradeEntry.ptr)
       if amount > 0 then
+        local itemName = normalizeItemName(tradeEntry.name)
         local lineTotal = tradeEntry.price * amount
         totalGold = totalGold + lineTotal
         table.insert(entries, {
-          name = tradeEntry.name,
-          text = string.format("%dx %s (%d gold)", amount, tradeEntry.name, lineTotal)
+          name = itemName,
+          text = string.format("%dx %s (%d gold)", amount, itemName, lineTotal)
         })
       end
     end
@@ -654,15 +662,24 @@ function confirmSellAll(delayed, exceptions)
                   table.concat(lines, "\n") .. "\n\n" ..
                   tr("Total: %d gold", totalGold)
 
-  displayGeneralBox(tr("Confirm Sell All"), message, {
+  local confirmWindow
+  confirmWindow = displayGeneralBox(tr("Confirm Sell All"), message, {
     {
       text = tr("Yes"),
       callback = function()
+        if confirmWindow then
+          confirmWindow:ok()
+        end
         sellAll(delayed, exceptions)
       end
     },
     {
-      text = tr("No")
+      text = tr("No"),
+      callback = function()
+        if confirmWindow then
+          confirmWindow:cancel()
+        end
+      end
     }
   })
 end
