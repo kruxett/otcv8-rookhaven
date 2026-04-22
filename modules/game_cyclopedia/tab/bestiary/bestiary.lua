@@ -57,6 +57,10 @@ local function scheduleBestiaryTrackerLiveRefresh()
     end, BESTIARY_TRACKER_LIVE_REFRESH_MS)
 end
 
+-- Expose for game lifecycle hooks (onGameStart / onGameEnd in game_cyclopedia.lua)
+Cyclopedia.scheduleTrackerLiveRefresh = scheduleBestiaryTrackerLiveRefresh
+Cyclopedia.cancelTrackerLiveRefresh = cancelBestiaryTrackerLiveRefresh
+
 local function getCreatureWidgetCreature(widget)
     if not widget or not widget.getCreature then
         return nil

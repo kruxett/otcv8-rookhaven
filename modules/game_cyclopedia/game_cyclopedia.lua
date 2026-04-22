@@ -1892,6 +1892,15 @@ function controllerCyclopedia:onGameStart()
                 scheduleEvent(function()
                     Cyclopedia.populateVisibleTrackersWithCachedData()
                     Cyclopedia.refreshAllVisibleTrackers()
+                    -- Restart the live refresh polling loop for any tracker windows that
+                    -- were open when the player logged out and are still visible now.
+                    if Cyclopedia.scheduleTrackerLiveRefresh then
+                        local bestiaryVisible = trackerMiniWindow and trackerMiniWindow:isVisible()
+                        local taskVisible = trackerMiniWindowTask and trackerMiniWindowTask:isVisible()
+                        if bestiaryVisible or taskVisible then
+                            Cyclopedia.scheduleTrackerLiveRefresh()
+                        end
+                    end
                 end, 500)
                 
                 -- Final fallback check
@@ -1913,6 +1922,10 @@ end
 
 function controllerCyclopedia:onGameEnd()
     safeUnregisterCyclopediaOpcode()
+    -- Stop the live refresh polling loop before tearing down state
+    if Cyclopedia.cancelTrackerLiveRefresh then
+        Cyclopedia.cancelTrackerLiveRefresh()
+    end
     Cyclopedia.TransportReady = false
     Cyclopedia.PendingRequests = {}
     Cyclopedia.PendingRequestSet = {}
