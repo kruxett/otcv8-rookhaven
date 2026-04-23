@@ -89,7 +89,20 @@ local function setupDropSlot()
     return
   end
 
+  itemPreview.onDragEnter = function(self, mousePos)
+    self:setBorderWidth(1)
+    setStatus('Release to select this item for upgrade.', '#d6c9e8')
+    return true
+  end
+
+  itemPreview.onDragLeave = function(self, droppedWidget, mousePos)
+    self:setBorderWidth(0)
+    return true
+  end
+
   itemPreview.onDrop = function(self, widget, mousePos, forced)
+    self:setBorderWidth(0)
+
     local item = widget and widget.currentDragThing
     if not item or not item.isItem or not item:isItem() then
       setStatus('Drop an inventory item here.', '#d26b6b')
