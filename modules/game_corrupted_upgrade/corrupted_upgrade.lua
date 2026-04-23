@@ -343,6 +343,13 @@ local function ensureWindow()
   end
 
   window = g_ui.displayUI('corrupted_upgrade', rootWidget)
+  window:setDraggable(false)
+  window.static = true
+  window.onDragEnter = function(self, mousePos)
+    debugDrop('window.onDragEnter ignored')
+    return false
+  end
+  debugDrop('window configured as non-draggable/static')
   setupDropSlot()
   return window
 end
