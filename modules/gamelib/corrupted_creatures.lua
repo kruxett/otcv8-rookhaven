@@ -3,13 +3,13 @@
 -- to monsters whose names contain "Corrupted".
 
 local CORRUPTED_NAME_TOKEN = "corrupted"
-local CORRUPTED_INFO_COLOR_HEX = "#8c3cbeff"
+local CORRUPTED_INFO_COLOR_HEX = "#6b2f8dff"
 local CORRUPTED_OUTFIT_SHADER = "outfit_corrupted_pulse"
 local applyingShader = false
 
 local function getCorruptedInfoColor()
   if Color then
-    return Color(140, 60, 190)
+    return Color(107, 47, 141)
   end
 
   if tocolor then

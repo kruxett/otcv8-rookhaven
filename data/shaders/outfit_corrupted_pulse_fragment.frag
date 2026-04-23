@@ -28,10 +28,10 @@ void main()
     float pulse = wave * 0.65 + 0.20;
 
     // Dark component + emissive violet component for clear readability.
-    vec3 corruptedDark = vec3(0.32, 0.06, 0.40);
-    vec3 corruptedGlow = vec3(0.56, 0.10, 0.72);
+    vec3 corruptedDark = vec3(0.26, 0.04, 0.33);
+    vec3 corruptedGlow = vec3(0.40, 0.07, 0.52);
 
     vec3 darkened = max(base.rgb - (corruptedDark * pulse * 0.75), vec3(0.0));
-    vec3 finalColor = darkened + (corruptedGlow * pulse * 0.45);
+    vec3 finalColor = darkened + (corruptedGlow * pulse * 0.32);
     gl_FragColor = vec4(finalColor, base.a);
 }
