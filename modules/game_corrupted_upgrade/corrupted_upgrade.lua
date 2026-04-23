@@ -78,31 +78,57 @@ local function startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectIt
   local lastDraggedItem = nil
 
   local function tick()
-    if not window or not itemDropZone then
+    local ok, err = pcall(function()
+      if not window or not itemDropZone then
+        dragMonitorEvent = nil
+        return
+      end
+
+      local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
+      local mousePos = g_window and g_window.getMousePosition and g_window.getMousePosition() or nil
+      local overSlot = (mousePos and itemDropZone:containsPoint(mousePos)) and true or false
+
+      if DEBUG_DROP and window then
+        local debugLabel = window:getChildById('debugLabel')
+        if debugLabel then
+          local draggingClass = draggingWidget and draggingWidget:getClassName() or 'none'
+          local lastId = lastDraggedItem and tostring(lastDraggedItem:getId()) or 'none'
+          debugLabel:setText(string.format('DBG tick drag=%s overSlot=%s lastItem=%s', draggingClass, tostring(overSlot), lastId))
+        end
+      end
+
+      if draggingWidget then
+        local item = resolveItemFromWidget(draggingWidget)
+        if item then
+          lastDraggedItem = item
+        end
+        wasDragging = true
+      elseif wasDragging then
+        -- Drag just ended: if mouse is over our drop zone, accept via fallback.
+        if lastDraggedItem and overSlot then
+          debugDrop('drag monitor fallback: release over slot detected')
+          trySelectItem(lastDraggedItem)
+        end
+        wasDragging = false
+        lastDraggedItem = nil
+      end
+    end)
+
+    if not ok then
+      if DEBUG_DROP and window then
+        local debugLabel = window:getChildById('debugLabel')
+        if debugLabel then
+          debugLabel:setText('DBG monitor error: ' .. tostring(err))
+        end
+      end
+      print('[CorruptedUpgradeUI] drag monitor error: ' .. tostring(err))
+    end
+
+    if window then
+      dragMonitorEvent = scheduleEvent(tick, 50)
+    else
       dragMonitorEvent = nil
-      return
     end
-
-    local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
-    local mousePos = g_window and g_window.getMousePosition and g_window.getMousePosition() or nil
-
-    if draggingWidget then
-      local item = resolveItemFromWidget(draggingWidget)
-      if item then
-        lastDraggedItem = item
-      end
-      wasDragging = true
-    elseif wasDragging then
-      -- Drag just ended: if mouse is over our drop zone, accept via fallback.
-      if lastDraggedItem and mousePos and itemDropZone:containsPoint(mousePos) then
-        debugDrop('drag monitor fallback: release over slot detected')
-        trySelectItem(lastDraggedItem)
-      end
-      wasDragging = false
-      lastDraggedItem = nil
-    end
-
-    dragMonitorEvent = scheduleEvent(tick, 50)
   end
 
   dragMonitorEvent = scheduleEvent(tick, 50)
@@ -237,6 +263,10 @@ local function setupDropSlot()
     debugDrop('Entry missing for chosen path=' .. tostring(chosenPath))
     return false
   end
+
+  -- Expose helpers for debug-only external triggers.
+  window._corruptedResolveItemFromWidget = resolveItemFromWidget
+  window._corruptedTrySelectItem = trySelectItem
 
   itemDropZone.onDragEnter = function(self, mousePos)
     self:setBorderWidth(1)
@@ -468,6 +498,39 @@ function toggleDebug()
   DEBUG_DROP = not DEBUG_DROP
   syncDebugUi()
   debugDrop('Debug toggled to ' .. (DEBUG_DROP and 'ON' or 'OFF'))
+end
+
+function debugPickFromDrag()
+  if not window then
+    return
+  end
+
+  local resolver = window._corruptedResolveItemFromWidget
+  local trySelect = window._corruptedTrySelectItem
+  if not resolver or not trySelect then
+    setStatus('Debug helper unavailable.', '#d26b6b')
+    return
+  end
+
+  local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
+  debugDrop('debugPickFromDrag draggingWidget=' .. tostring(draggingWidget and draggingWidget:getClassName() or 'nil'))
+
+  if not draggingWidget then
+    setStatus('No active dragged widget detected right now.', '#d26b6b')
+    return
+  end
+
+  local item = resolver(draggingWidget)
+  if not item then
+    setStatus('Active dragged widget has no item payload.', '#d26b6b')
+    return
+  end
+
+  if not trySelect(item) then
+    return
+  end
+
+  setStatus('Debug pick selected current dragged item.', '#7fd992')
 end
 
 function decline()

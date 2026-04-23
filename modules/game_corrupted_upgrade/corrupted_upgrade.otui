@@ -173,10 +173,18 @@ MainWindow
       @onClick: modules.game_corrupted_upgrade.toggleDebug()
 
     Button
+      id: debugPickButton
+      !text: tr('Pick Drag')
+      width: 72
+      anchors.left: debugButton.right
+      margin-left: 6
+      @onClick: modules.game_corrupted_upgrade.debugPickFromDrag()
+
+    Button
       id: acceptButton
       !text: tr('Upgrade')
       width: 72
-      anchors.left: debugButton.right
+      anchors.left: debugPickButton.right
       margin-left: 6
       @onClick: modules.game_corrupted_upgrade.accept()
 
