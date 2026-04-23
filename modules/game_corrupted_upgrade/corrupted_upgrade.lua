@@ -6,6 +6,7 @@ local selectedPath = nil
 local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
+local dragMonitorEvent = nil
 
 local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
@@ -52,6 +53,11 @@ local function syncDebugUi()
 end
 
 local function destroyWindow()
+  if dragMonitorEvent then
+    removeEvent(dragMonitorEvent)
+    dragMonitorEvent = nil
+  end
+
   if window then
     window:destroy()
     window = nil
@@ -60,6 +66,46 @@ local function destroyWindow()
     pathsByClientId = {}
     pathsByItemId = {}
   end
+end
+
+local function startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectItem)
+  if dragMonitorEvent then
+    removeEvent(dragMonitorEvent)
+    dragMonitorEvent = nil
+  end
+
+  local wasDragging = false
+  local lastDraggedItem = nil
+
+  local function tick()
+    if not window or not itemDropZone then
+      dragMonitorEvent = nil
+      return
+    end
+
+    local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
+    local mousePos = g_window and g_window.getMousePosition and g_window.getMousePosition() or nil
+
+    if draggingWidget then
+      local item = resolveItemFromWidget(draggingWidget)
+      if item then
+        lastDraggedItem = item
+      end
+      wasDragging = true
+    elseif wasDragging then
+      -- Drag just ended: if mouse is over our drop zone, accept via fallback.
+      if lastDraggedItem and mousePos and itemDropZone:containsPoint(mousePos) then
+        debugDrop('drag monitor fallback: release over slot detected')
+        trySelectItem(lastDraggedItem)
+      end
+      wasDragging = false
+      lastDraggedItem = nil
+    end
+
+    dragMonitorEvent = scheduleEvent(tick, 50)
+  end
+
+  dragMonitorEvent = scheduleEvent(tick, 50)
 end
 
 local function setStatus(text, color)
@@ -270,6 +316,8 @@ local function setupDropSlot()
     end
     return false
   end
+
+  startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectItem)
 end
 
 local function populate(data)
