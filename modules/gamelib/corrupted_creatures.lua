@@ -3,8 +3,20 @@
 -- to monsters whose names contain "Corrupted".
 
 local CORRUPTED_NAME_TOKEN = "corrupted"
-local CORRUPTED_INFO_COLOR = Color(140, 60, 190)
+local CORRUPTED_INFO_COLOR_HEX = "#8c3cbeff"
 local CORRUPTED_OUTFIT_SHADER = "outfit_corrupted_pulse"
+
+local function getCorruptedInfoColor()
+  if Color then
+    return Color(140, 60, 190)
+  end
+
+  if tocolor then
+    return tocolor(CORRUPTED_INFO_COLOR_HEX)
+  end
+
+  return nil
+end
 
 local function isCorruptedMonster(creature)
   if not creature or not creature:isMonster() then
@@ -24,7 +36,10 @@ local function applyCorruptedVisuals(creature)
     return
   end
 
-  creature:setInformationColor(CORRUPTED_INFO_COLOR)
+  local infoColor = getCorruptedInfoColor()
+  if infoColor then
+    creature:setInformationColor(infoColor)
+  end
   creature:setOutfitShader(CORRUPTED_OUTFIT_SHADER)
 end
 
