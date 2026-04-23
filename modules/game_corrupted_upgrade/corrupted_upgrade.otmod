@@ -1,0 +1,10 @@
+Module
+  name: game_corrupted_upgrade
+  description: Samwell corrupted item upgrade window
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ corrupted_upgrade ]
+  @onLoad: init()
+  @onUnload: terminate()

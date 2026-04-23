@@ -1,0 +1,145 @@
+MainWindow
+  id: corruptedUpgradeWindow
+  !text: tr('Corrupted Upgrade')
+  size: 390 255
+  @onEscape: modules.game_corrupted_upgrade.decline()
+
+  Label
+    id: headlineLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    text: Corrupted forge infusion
+    color: #b57ae0
+    margin-top: 2
+    height: 18
+
+  HorizontalSeparator
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+
+  Label
+    id: costsLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    margin-left: 8
+    margin-right: 8
+    text: Cost: 1 Corrupted Fragment + 1000 gold
+
+  Label
+    id: resourceLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    margin-left: 8
+    margin-right: 8
+    text: Your resources: -
+
+  ComboBox
+    id: itemCombo
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 8
+    margin-left: 8
+    margin-right: 8
+    height: 20
+
+  Panel
+    id: previewPanel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 90
+    margin-top: 8
+    margin-left: 8
+    margin-right: 8
+
+    UIItem
+      id: itemPreview
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: 2
+      margin-top: 4
+      size: 40 40
+      virtual: true
+
+    Label
+      id: itemNameLabel
+      anchors.left: prev.right
+      anchors.right: parent.right
+      anchors.top: parent.top
+      margin-left: 8
+      margin-right: 4
+      margin-top: 4
+      text: No item selected
+
+    Label
+      id: itemTypeLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: itemNameLabel.bottom
+      margin-top: 3
+      text: Type: -
+
+    Label
+      id: bonusPreviewLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: itemTypeLabel.bottom
+      margin-top: 3
+      text: Upgrade: -
+
+  Label
+    id: statusLabel
+    anchors.top: previewPanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    margin-left: 8
+    margin-right: 8
+    color: #d6c9e8
+    text: Select an item and confirm.
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: next.top
+    margin-bottom: 6
+
+  Panel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 30
+    margin-bottom: 2
+
+    Button
+      id: refreshButton
+      !text: tr('Refresh')
+      width: 72
+      anchors.left: parent.left
+      margin-left: 10
+      @onClick: modules.game_corrupted_upgrade.refresh()
+
+    Button
+      id: acceptButton
+      !text: tr('Upgrade')
+      width: 72
+      anchors.right: parent.horizontalCenter
+      margin-right: 5
+      @onClick: modules.game_corrupted_upgrade.accept()
+
+    Button
+      id: declineButton
+      !text: tr('Close')
+      width: 72
+      anchors.left: parent.horizontalCenter
+      margin-left: 5
+      @onClick: modules.game_corrupted_upgrade.decline()
