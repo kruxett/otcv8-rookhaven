@@ -7,9 +7,12 @@ local ui = {}
 local dragMonitorEvent = nil
 
 local selectedPath = nil
+local selectedItem = nil
 local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
+
+local updatePreview
 
 local lastDraggedItem = nil
 local wasDragging = false
@@ -50,9 +53,6 @@ local function bindWidgets()
   ui.costsLabel = findWidgetById(window, 'costsLabel')
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
   ui.statusLabel = findWidgetById(window, 'statusLabel')
-  ui.debugLabel = findWidgetById(window, 'debugLabel')
-  ui.debugButton = findWidgetById(window, 'debugButton')
-
   ui.itemNameLabel = findWidgetById(window, 'itemNameLabel')
   ui.itemTypeLabel = findWidgetById(window, 'itemTypeLabel')
   ui.bonusPreviewLabel = findWidgetById(window, 'bonusPreviewLabel')
@@ -65,6 +65,36 @@ local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
   if protocol then
     protocol:sendExtendedOpcode(CORRUPTED_UPGRADE_OPCODE, json.encode(payload))
+  end
+end
+
+local function applyPreviewRarityFrame(item)
+  if not ui.itemPreview then
+    return
+  end
+
+  local framePath = nil
+  if _G.affixSystem and item then
+    framePath = _G.affixSystem.getRarityFrame(item)
+  end
+
+  ui.itemPreview:setImageSource(framePath or '/images/ui/item')
+end
+
+local function refreshItemVisuals()
+  if modules and modules.game_inventory and modules.game_inventory.refresh then
+    modules.game_inventory.refresh()
+  end
+
+  if modules and modules.game_containers and modules.game_containers.reloadContainers then
+    modules.game_containers.reloadContainers()
+  end
+
+  if selectedItem and ui.itemPreview then
+    applyPreviewRarityFrame(selectedItem)
+    if selectedPath then
+      updatePreview(selectedPath)
+    end
   end
 end
 
@@ -88,33 +118,27 @@ local function debugDrop(msg)
   if g_logger and g_logger.info then
     g_logger.info(text)
   end
-
-  if ui.debugLabel then
-    ui.debugLabel:setText('DBG: ' .. tostring(msg))
-  end
 end
 
 local function syncDebugUi()
-  if ui.debugButton then
-    ui.debugButton:setText(DEBUG_DROP and 'Debug ON' or 'Debug OFF')
-  end
-
-  if ui.debugLabel then
-    ui.debugLabel:setText(DEBUG_DROP and 'DBG: waiting for drag state...' or 'Debug OFF')
-  end
+  return
 end
 
 local function clearSelection()
   selectedPath = nil
+  selectedItem = nil
 
-  if ui.itemPreview then ui.itemPreview:setItemId(0) end
+  if ui.itemPreview then
+    ui.itemPreview:setImageSource('/images/ui/item')
+    ui.itemPreview:setItemId(0)
+  end
   if ui.itemNameLabel then ui.itemNameLabel:setText('No item selected') end
   if ui.itemTypeLabel then ui.itemTypeLabel:setText('Type: -') end
   if ui.bonusPreviewLabel then ui.bonusPreviewLabel:setText('Upgrade: -') end
   if ui.selectedPathLabel then ui.selectedPathLabel:setText('Selected: none') end
 end
 
-local function updatePreview(path)
+updatePreview = function(path)
   selectedPath = path
   local entry = entryByPath[path or '']
   if not entry then
@@ -122,6 +146,7 @@ local function updatePreview(path)
   end
 
   if ui.itemPreview then
+    applyPreviewRarityFrame(selectedItem)
     ui.itemPreview:setItemId(tonumber(entry.clientId) or tonumber(entry.itemId) or 0)
   end
 
@@ -195,6 +220,7 @@ local function trySelectItem(item)
     setStatus('Item selected. Press Upgrade to continue.')
   end
 
+  selectedItem = item
   updatePreview(chosenPath)
   debugDrop('trySelectItem: selected path=' .. tostring(chosenPath) .. ' id=' .. tostring(draggedId))
   return true
@@ -222,12 +248,6 @@ local function startDragMonitor()
       local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
       local mousePos = g_window and g_window.getMousePosition and g_window.getMousePosition() or nil
       local overSlot = (mousePos and ui.itemDropZone:containsPoint(mousePos)) and true or false
-
-      if DEBUG_DROP and ui.debugLabel then
-        local draggingClass = draggingWidget and draggingWidget:getClassName() or 'none'
-        local itemId = lastDraggedItem and tostring(lastDraggedItem:getId()) or 'none'
-        ui.debugLabel:setText(string.format('DBG tick drag=%s overSlot=%s item=%s', draggingClass, tostring(overSlot), itemId))
-      end
 
       if draggingWidget then
         local item = resolveItemFromWidget(draggingWidget)
@@ -404,6 +424,10 @@ local function onOpcode(protocol, opcode, buffer)
   if data.action == 'result' then
     if data.success then
       setStatus(data.message or 'Upgrade successful.', '#7fd992')
+      scheduleEvent(function()
+        refreshItemVisuals()
+      end, 150)
+      scheduleEvent(refreshItemVisuals, 400)
       protocolSend({ action = 'refresh' })
     else
       setStatus(data.message or 'Upgrade failed.', '#d26b6b')
@@ -447,27 +471,6 @@ function toggleDebug()
   DEBUG_DROP = not DEBUG_DROP
   syncDebugUi()
   debugDrop('Debug toggled to ' .. (DEBUG_DROP and 'ON' or 'OFF'))
-end
-
-function debugPickFromDrag()
-  local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
-  if not draggingWidget then
-    setStatus('No active dragged widget detected right now.', '#d26b6b')
-    debugDrop('debugPickFromDrag: no draggingWidget')
-    return
-  end
-
-  local item = resolveItemFromWidget(draggingWidget)
-  if not item then
-    setStatus('Active dragged widget has no item payload.', '#d26b6b')
-    debugDrop('debugPickFromDrag: draggingWidget has no item')
-    return
-  end
-
-  if trySelectItem(item) then
-    setStatus('Debug pick selected current dragged item.', '#7fd992')
-    debugDrop('debugPickFromDrag: success')
-  end
 end
 
 function decline()
