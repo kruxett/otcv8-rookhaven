@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Corrupted Upgrade')
-  size: 390 275
+  size: 390 285
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -56,8 +56,9 @@ MainWindow
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    height: 110
+    anchors.bottom: statusLabel.top
     margin-top: 6
+    margin-bottom: 8
     margin-left: 8
     margin-right: 8
 
@@ -71,7 +72,9 @@ MainWindow
       virtual: true
       selectable: true
       draggable: false
-      border-width: 1
+      image-source: /images/ui/item.png
+      image-border: 0
+      border-width: 0
       tooltip: Drag an inventory item here
 
     Label
@@ -111,29 +114,30 @@ MainWindow
 
   Label
     id: statusLabel
-    anchors.top: previewPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 4
+    anchors.bottom: controlsPanel.top
+    margin-bottom: 7
     margin-left: 8
     margin-right: 8
-    height: 20
+    height: 28
+    text-wrap: true
     color: #d6c9e8
     text: Drag an item into the slot, then press Upgrade.
 
   HorizontalSeparator
-    anchors.top: statusLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: next.top
-    margin-bottom: 6
+    anchors.bottom: statusLabel.top
+    margin-bottom: 5
 
   Panel
+    id: controlsPanel
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     height: 30
-    margin-bottom: 2
+    margin-bottom: 4
 
     Button
       id: refreshButton

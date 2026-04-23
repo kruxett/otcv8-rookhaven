@@ -221,7 +221,6 @@ local function onOpcode(protocol, opcode, buffer)
     win:show()
     win:raise()
     win:focus()
-    win:grabMouse()
     return
   end
 
@@ -268,8 +267,5 @@ function refresh()
 end
 
 function decline()
-  if window then
-    window:ungrabMouse()
-  end
   destroyWindow()
 end
