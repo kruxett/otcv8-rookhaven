@@ -13,6 +13,7 @@ local pathsByClientId = {}
 local pathsByItemId = {}
 
 local updatePreview
+local stopDragMonitor
 local FORCE_RARE_FRAME_PATH = '/images/ui/rarity_blue'
 
 local lastDraggedItem = nil
@@ -137,6 +138,9 @@ end
 local function applyImmediateRareFrame()
   if ui.itemPreview then
     ui.itemPreview:setImageSource(FORCE_RARE_FRAME_PATH)
+    if selectedItem then
+      ui.itemPreview:setItem(selectedItem)
+    end
   end
 
   local slot = getSelectedInventorySlot()
@@ -148,6 +152,12 @@ local function applyImmediateRareFrame()
     local itemWidget = inventoryPanel:getChildById('slot' .. slot)
     if itemWidget then
       itemWidget:setImageSource(FORCE_RARE_FRAME_PATH)
+
+      local localPlayer = g_game and g_game.getLocalPlayer and g_game.getLocalPlayer() or nil
+      local equippedItem = localPlayer and localPlayer.getInventoryItem and localPlayer:getInventoryItem(slot) or nil
+      if equippedItem then
+        itemWidget:setItem(equippedItem)
+      end
     end
   end
 end
@@ -280,7 +290,7 @@ local function trySelectItem(item)
   return true
 end
 
-local function stopDragMonitor()
+stopDragMonitor = function()
   if dragMonitorEvent then
     removeEvent(dragMonitorEvent)
     dragMonitorEvent = nil
