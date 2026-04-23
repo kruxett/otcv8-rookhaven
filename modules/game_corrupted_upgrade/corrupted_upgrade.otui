@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Corrupted Upgrade')
-  size: 390 255
+  size: 390 275
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -41,23 +41,23 @@ MainWindow
     margin-right: 8
     text: Your resources: -
 
-  ComboBox
-    id: itemCombo
+  Label
+    id: slotHintLabel
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-top: 8
     margin-left: 8
     margin-right: 8
-    height: 20
+    text: Drag the item you want to upgrade into the slot below.
 
   Panel
     id: previewPanel
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    height: 90
-    margin-top: 8
+    height: 110
+    margin-top: 6
     margin-left: 8
     margin-right: 8
 
@@ -67,8 +67,12 @@ MainWindow
       anchors.top: parent.top
       margin-left: 2
       margin-top: 4
-      size: 40 40
+      size: 42 42
       virtual: true
+      selectable: true
+      draggable: false
+      border-width: 1
+      tooltip: Drag an inventory item here
 
     Label
       id: itemNameLabel
@@ -96,18 +100,29 @@ MainWindow
       margin-top: 3
       text: Upgrade: -
 
+    Label
+      id: selectedPathLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: bonusPreviewLabel.bottom
+      margin-top: 3
+      text: Selected: none
+      color: #9b9b9b
+
   Label
     id: statusLabel
     anchors.top: previewPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 3
+    margin-top: 4
     margin-left: 8
     margin-right: 8
+    height: 20
     color: #d6c9e8
-    text: Select an item and confirm.
+    text: Drag an item into the slot, then press Upgrade.
 
   HorizontalSeparator
+    anchors.top: statusLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: next.top

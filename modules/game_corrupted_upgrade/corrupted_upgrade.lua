@@ -3,6 +3,7 @@ local CORRUPTED_UPGRADE_OPCODE = 93
 local window = nil
 local selectedPath = nil
 local entryByPath = {}
+local pathsByClientId = {}
 
 local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
@@ -17,6 +18,7 @@ local function destroyWindow()
     window = nil
     selectedPath = nil
     entryByPath = {}
+    pathsByClientId = {}
   end
 end
 
@@ -51,6 +53,7 @@ local function updatePreview(path)
   local itemNameLabel = window:getChildById('itemNameLabel')
   local itemTypeLabel = window:getChildById('itemTypeLabel')
   local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
+  local selectedPathLabel = window:getChildById('selectedPathLabel')
 
   if itemPreview then
     itemPreview:setItemId(tonumber(entry.clientId) or 0)
@@ -68,6 +71,74 @@ local function updatePreview(path)
   if bonusPreviewLabel then
     bonusPreviewLabel:setText('Upgrade: ' .. (entry.preview or '-'))
   end
+
+  if selectedPathLabel then
+    selectedPathLabel:setText('Selected: ' .. tostring(path or 'none'))
+  end
+end
+
+local function setupDropSlot()
+  if not window then
+    return
+  end
+
+  local itemPreview = window:getChildById('itemPreview')
+  if not itemPreview then
+    return
+  end
+
+  itemPreview.onDrop = function(self, widget, mousePos, forced)
+    local item = widget and widget.currentDragThing
+    if not item or not item.isItem or not item:isItem() then
+      setStatus('Drop an inventory item here.', '#d26b6b')
+      return false
+    end
+
+    local draggedId = tonumber(item:getId() or 0) or 0
+    local candidates = pathsByClientId[draggedId]
+    if not candidates or #candidates == 0 then
+      setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
+      return false
+    end
+
+    if #candidates > 1 then
+      setStatus('Multiple matching items found. Using the first eligible one.', '#d6c9e8')
+    else
+      setStatus('Item selected. Press Upgrade to continue.', '#d6c9e8')
+    end
+
+    local chosenPath = candidates[1]
+    local chosenEntry = entryByPath[chosenPath]
+    if chosenEntry then
+      self:setItemId(tonumber(chosenEntry.clientId) or draggedId)
+      updatePreview(chosenPath)
+      return true
+    end
+
+    setStatus('Failed to resolve dropped item.', '#d26b6b')
+    return false
+  end
+
+  itemPreview.onMouseRelease = function(self, mousePosition, mouseButton)
+    if mouseButton == MouseRightButton then
+      selectedPath = nil
+      self:setItemId(0)
+
+      local itemNameLabel = window:getChildById('itemNameLabel')
+      local itemTypeLabel = window:getChildById('itemTypeLabel')
+      local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
+      local selectedPathLabel = window:getChildById('selectedPathLabel')
+
+      if itemNameLabel then itemNameLabel:setText('No item selected') end
+      if itemTypeLabel then itemTypeLabel:setText('Type: -') end
+      if bonusPreviewLabel then bonusPreviewLabel:setText('Upgrade: -') end
+      if selectedPathLabel then selectedPathLabel:setText('Selected: none') end
+
+      setStatus('Selection cleared. Drag an item into the slot.', '#d6c9e8')
+      return true
+    end
+    return false
+  end
 end
 
 local function populate(data)
@@ -76,11 +147,16 @@ local function populate(data)
   end
 
   entryByPath = {}
+  pathsByClientId = {}
   selectedPath = nil
 
   local costsLabel = window:getChildById('costsLabel')
   local resourceLabel = window:getChildById('resourceLabel')
-  local itemCombo = window:getChildById('itemCombo')
+  local itemPreview = window:getChildById('itemPreview')
+  local itemNameLabel = window:getChildById('itemNameLabel')
+  local itemTypeLabel = window:getChildById('itemTypeLabel')
+  local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
+  local selectedPathLabel = window:getChildById('selectedPathLabel')
 
   if costsLabel then
     costsLabel:setText(string.format('Cost: 1 Corrupted Fragment + %d gold', tonumber(data.costGold) or 1000))
@@ -90,36 +166,31 @@ local function populate(data)
     resourceLabel:setText(string.format('Your resources: %d fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
 
-  if not itemCombo then
-    return
+  if itemPreview then
+    itemPreview:setItemId(0)
   end
-
-  itemCombo:clearOptions()
-
-  itemCombo.onOptionChange = function(widget, option, value)
-    updatePreview(value)
-  end
+  if itemNameLabel then itemNameLabel:setText('No item selected') end
+  if itemTypeLabel then itemTypeLabel:setText('Type: -') end
+  if bonusPreviewLabel then bonusPreviewLabel:setText('Upgrade: -') end
+  if selectedPathLabel then selectedPathLabel:setText('Selected: none') end
 
   for _, entry in ipairs(data.items or {}) do
     if entry.path then
       entryByPath[entry.path] = entry
-      itemCombo:addOption(entry.label or entry.name or entry.path, entry.path)
+
+      local clientId = tonumber(entry.clientId or entry.itemId or 0) or 0
+      if clientId > 0 then
+        if not pathsByClientId[clientId] then
+          pathsByClientId[clientId] = {}
+        end
+        table.insert(pathsByClientId[clientId], entry.path)
+      end
     end
   end
 
   local hasAny = next(entryByPath) ~= nil
   if hasAny then
-    local firstPath = nil
-    for _, entry in ipairs(data.items or {}) do
-      if entry.path then
-        firstPath = entry.path
-        break
-      end
-    end
-    if firstPath then
-      updatePreview(firstPath)
-    end
-    setStatus('Select an item and press Upgrade.')
+    setStatus('Drag an item into the slot, then press Upgrade.')
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
   end
@@ -131,6 +202,7 @@ local function ensureWindow()
   end
 
   window = g_ui.displayUI('corrupted_upgrade', rootWidget)
+  setupDropSlot()
   return window
 end
 
