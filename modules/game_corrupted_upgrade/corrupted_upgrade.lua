@@ -84,26 +84,34 @@ local function setupDropSlot()
     return
   end
 
+  local itemDropZone = window:getChildById('itemDropZone')
   local itemPreview = window:getChildById('itemPreview')
-  if not itemPreview then
+  if not itemDropZone or not itemPreview then
     return
   end
 
-  itemPreview.onDragEnter = function(self, mousePos)
+  itemDropZone.onDragEnter = function(self, mousePos)
     self:setBorderWidth(1)
     setStatus('Release to select this item for upgrade.', '#d6c9e8')
     return true
   end
 
-  itemPreview.onDragLeave = function(self, droppedWidget, mousePos)
+  itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
     return true
   end
 
-  itemPreview.onDrop = function(self, widget, mousePos, forced)
+  itemDropZone.onDrop = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
 
-    local item = widget and widget.currentDragThing
+    local item = nil
+    if droppedWidget and type(droppedWidget.getItem) == 'function' then
+      item = droppedWidget:getItem()
+    end
+    if not item and droppedWidget then
+      item = droppedWidget.currentDragThing
+    end
+
     if not item or not item.isItem or not item:isItem() then
       setStatus('Drop an inventory item here.', '#d26b6b')
       return false
@@ -128,7 +136,7 @@ local function setupDropSlot()
     local chosenPath = candidates[1]
     local chosenEntry = entryByPath[chosenPath]
     if chosenEntry then
-      self:setItemId(tonumber(chosenEntry.clientId) or draggedId)
+      itemPreview:setItemId(tonumber(chosenEntry.clientId) or draggedId)
       updatePreview(chosenPath)
       return true
     end
@@ -137,10 +145,10 @@ local function setupDropSlot()
     return false
   end
 
-  itemPreview.onMouseRelease = function(self, mousePosition, mouseButton)
+  itemDropZone.onMouseRelease = function(self, mousePosition, mouseButton)
     if mouseButton == MouseRightButton then
       selectedPath = nil
-      self:setItemId(0)
+      itemPreview:setItemId(0)
 
       local itemNameLabel = window:getChildById('itemNameLabel')
       local itemTypeLabel = window:getChildById('itemTypeLabel')

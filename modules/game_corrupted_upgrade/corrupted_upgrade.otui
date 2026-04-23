@@ -62,8 +62,8 @@ MainWindow
     margin-left: 8
     margin-right: 8
 
-    UIItem
-      id: itemSlotFrame
+    Panel
+      id: itemDropZone
       anchors.left: parent.left
       anchors.top: parent.top
       margin-left: 2
@@ -74,9 +74,9 @@ MainWindow
 
     UIItem
       id: itemPreview
-      anchors.fill: itemSlotFrame
+      anchors.fill: itemDropZone
       virtual: true
-      selectable: true
+      selectable: false
       draggable: false
       border-width: 0
       tooltip: Drag an inventory item here
