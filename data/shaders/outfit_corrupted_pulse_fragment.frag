@@ -21,19 +21,19 @@ void main()
         discard;
     }
 
-    // Stronger corruption pulse tuned for readability in normal gameplay.
-    float waveA = sin(u_Time * 2.8 + v_TexCoord.y * 9.5) * 0.5 + 0.5;
-    float waveB = sin(u_Time * 1.6 + v_TexCoord.x * 6.5) * 0.5 + 0.5;
-    float wave = (waveA * 0.7) + (waveB * 0.3);
-    float pulse = wave * 0.60 + 0.25;
+    // Subtler corruption pulse: darker taint, less glow-like energy.
+    float waveA = sin(u_Time * 2.1 + v_TexCoord.y * 8.0) * 0.5 + 0.5;
+    float waveB = sin(u_Time * 1.2 + v_TexCoord.x * 5.4) * 0.5 + 0.5;
+    float wave = (waveA * 0.65) + (waveB * 0.35);
+    float pulse = wave * 0.45 + 0.20;
 
-    // Dark component + vivid violet core + mild emissive boost.
-    vec3 corruptedDark = vec3(0.30, 0.06, 0.38);
-    vec3 corruptedCore = vec3(0.58, 0.14, 0.74);
-    vec3 corruptedGlow = vec3(0.44, 0.10, 0.58);
+    // Dark corruption veil + muted violet veins (non-additive).
+    vec3 corruptedDark = vec3(0.22, 0.04, 0.28);
+    vec3 corruptedVein = vec3(0.42, 0.12, 0.52);
 
-    vec3 darkened = max(base.rgb - (corruptedDark * pulse * 0.80), vec3(0.0));
-    float blendFactor = clamp(0.40 + pulse * 0.36, 0.0, 0.92);
-    vec3 finalColor = mix(darkened, corruptedCore, blendFactor) + (corruptedGlow * pulse * 0.18);
+    vec3 darkened = max(base.rgb - (corruptedDark * (0.55 + pulse * 0.45)), vec3(0.0));
+    float veinMask = smoothstep(0.72, 0.96, waveA * waveB);
+    float blendFactor = clamp(0.18 + pulse * 0.24 + veinMask * 0.28, 0.0, 0.62);
+    vec3 finalColor = mix(darkened, corruptedVein, blendFactor);
     gl_FragColor = vec4(finalColor, base.a);
 }
