@@ -63,17 +63,21 @@ MainWindow
     margin-right: 8
 
     UIItem
-      id: itemPreview
+      id: itemSlotFrame
       anchors.left: parent.left
       anchors.top: parent.top
       margin-left: 2
       margin-top: 4
-      size: 42 42
+      size: 32 32
+      image-source: /images/ui/item.png
+      border-width: 0
+
+    UIItem
+      id: itemPreview
+      anchors.fill: itemSlotFrame
       virtual: true
       selectable: true
       draggable: false
-      image-source: /images/ui/item.png
-      image-border: 0
       border-width: 0
       tooltip: Drag an inventory item here
 

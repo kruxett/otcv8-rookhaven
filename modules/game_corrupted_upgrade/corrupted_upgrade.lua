@@ -4,6 +4,7 @@ local window = nil
 local selectedPath = nil
 local entryByPath = {}
 local pathsByClientId = {}
+local pathsByItemId = {}
 
 local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
@@ -19,6 +20,7 @@ local function destroyWindow()
     selectedPath = nil
     entryByPath = {}
     pathsByClientId = {}
+    pathsByItemId = {}
   end
 end
 
@@ -97,6 +99,9 @@ local function setupDropSlot()
     local draggedId = tonumber(item:getId() or 0) or 0
     local candidates = pathsByClientId[draggedId]
     if not candidates or #candidates == 0 then
+      candidates = pathsByItemId[draggedId]
+    end
+    if not candidates or #candidates == 0 then
       setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
       return false
     end
@@ -148,6 +153,7 @@ local function populate(data)
 
   entryByPath = {}
   pathsByClientId = {}
+  pathsByItemId = {}
   selectedPath = nil
 
   local costsLabel = window:getChildById('costsLabel')
@@ -179,11 +185,18 @@ local function populate(data)
       entryByPath[entry.path] = entry
 
       local clientId = tonumber(entry.clientId or entry.itemId or 0) or 0
+      local itemId = tonumber(entry.itemId or 0) or 0
       if clientId > 0 then
         if not pathsByClientId[clientId] then
           pathsByClientId[clientId] = {}
         end
         table.insert(pathsByClientId[clientId], entry.path)
+      end
+      if itemId > 0 then
+        if not pathsByItemId[itemId] then
+          pathsByItemId[itemId] = {}
+        end
+        table.insert(pathsByItemId[itemId], entry.path)
       end
     end
   end
