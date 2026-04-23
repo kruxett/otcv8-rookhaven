@@ -15,6 +15,9 @@ function init()
   g_shaders.createOutfitShader("outfit_rainbow", "/shaders/outfit_rainbow_vertex", "/shaders/outfit_rainbow_fragment")
   g_shaders.addTexture("outfit_rainbow", "/images/shaders/rainbow.png")
 
+  -- corrupted creature shader (dark pulsing aura)
+  g_shaders.createOutfitShader("outfit_corrupted_pulse", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_corrupted_pulse_fragment")
+
   -- you can use creature:setOutfitShader("outfit_rainbow") to set shader
 
   -- item rarity outline shaders
