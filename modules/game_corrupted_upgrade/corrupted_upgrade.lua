@@ -1,4 +1,5 @@
 local CORRUPTED_UPGRADE_OPCODE = 93
+local DEBUG_DROP = true
 
 local window = nil
 local selectedPath = nil
@@ -10,6 +11,12 @@ local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
   if protocol then
     protocol:sendExtendedOpcode(CORRUPTED_UPGRADE_OPCODE, json.encode(payload))
+  end
+end
+
+local function debugDrop(msg)
+  if DEBUG_DROP then
+    print('[CorruptedUpgradeUI] ' .. tostring(msg))
   end
 end
 
@@ -90,45 +97,48 @@ local function setupDropSlot()
     return
   end
 
-  itemDropZone.onDragEnter = function(self, mousePos)
-    self:setBorderWidth(1)
-    setStatus('Release to select this item for upgrade.', '#d6c9e8')
-    return true
-  end
-
-  itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
-    self:setBorderWidth(0)
-    return true
-  end
-
-  itemDropZone.onDrop = function(self, droppedWidget, mousePos)
-    self:setBorderWidth(0)
-
-    local item = nil
-    if droppedWidget and type(droppedWidget.getItem) == 'function' then
-      item = droppedWidget:getItem()
-    end
-    if not item and droppedWidget then
-      item = droppedWidget.currentDragThing
+  local function resolveItemFromWidget(w)
+    if not w then
+      return nil
     end
 
+    if type(w.getItem) == 'function' then
+      local ok, fromGetItem = pcall(function() return w:getItem() end)
+      if ok and fromGetItem and fromGetItem.isItem and fromGetItem:isItem() then
+        return fromGetItem
+      end
+    end
+
+    local dragThing = w.currentDragThing
+    if dragThing and dragThing.isItem and dragThing:isItem() then
+      return dragThing
+    end
+
+    return nil
+  end
+
+  local function trySelectItem(item)
     if not item or not item.isItem or not item:isItem() then
       setStatus('Drop an inventory item here.', '#d26b6b')
       return false
     end
 
     local draggedId = tonumber(item:getId() or 0) or 0
+    debugDrop('Trying dropped item id=' .. tostring(draggedId))
+
     local candidates = pathsByClientId[draggedId]
     if not candidates or #candidates == 0 then
       candidates = pathsByItemId[draggedId]
     end
     if not candidates or #candidates == 0 then
       setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
+      debugDrop('No candidates for id=' .. tostring(draggedId))
       return false
     end
 
     if #candidates > 1 then
       setStatus('Multiple matching items found. Using the first eligible one.', '#d6c9e8')
+      debugDrop('Multiple candidates for id=' .. tostring(draggedId) .. ' count=' .. tostring(#candidates))
     else
       setStatus('Item selected. Press Upgrade to continue.', '#d6c9e8')
     end
@@ -138,14 +148,50 @@ local function setupDropSlot()
     if chosenEntry then
       itemPreview:setItemId(tonumber(chosenEntry.clientId) or draggedId)
       updatePreview(chosenPath)
+      debugDrop('Selected path=' .. tostring(chosenPath))
       return true
     end
 
     setStatus('Failed to resolve dropped item.', '#d26b6b')
+    debugDrop('Entry missing for chosen path=' .. tostring(chosenPath))
     return false
   end
 
+  itemDropZone.onDragEnter = function(self, mousePos)
+    self:setBorderWidth(1)
+    setStatus('Release to select this item for upgrade.', '#d6c9e8')
+    debugDrop('onDragEnter fired')
+    return true
+  end
+
+  itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
+    self:setBorderWidth(0)
+    debugDrop('onDragLeave fired')
+    return true
+  end
+
+  itemDropZone.onDrop = function(self, droppedWidget, mousePos)
+    self:setBorderWidth(0)
+    debugDrop('onDrop fired. droppedWidget=' .. tostring(droppedWidget and droppedWidget:getClassName() or 'nil'))
+
+    local item = resolveItemFromWidget(droppedWidget)
+    return trySelectItem(item)
+  end
+
   itemDropZone.onMouseRelease = function(self, mousePosition, mouseButton)
+    debugDrop('onMouseRelease fired button=' .. tostring(mouseButton))
+
+    if mouseButton == MouseLeftButton then
+      local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
+      if draggingWidget then
+        debugDrop('MouseRelease fallback with draggingWidget=' .. tostring(draggingWidget:getClassName()))
+        local item = resolveItemFromWidget(draggingWidget)
+        if trySelectItem(item) then
+          return true
+        end
+      end
+    end
+
     if mouseButton == MouseRightButton then
       selectedPath = nil
       itemPreview:setItemId(0)
@@ -161,6 +207,7 @@ local function setupDropSlot()
       if selectedPathLabel then selectedPathLabel:setText('Selected: none') end
 
       setStatus('Selection cleared. Drag an item into the slot.', '#d6c9e8')
+      debugDrop('Selection cleared by right click')
       return true
     end
     return false
