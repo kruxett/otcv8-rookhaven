@@ -21,11 +21,17 @@ void main()
         discard;
     }
 
-    // Subtle dark-violet pulse to signal corruption.
-    float wave = sin(u_Time * 3.0 + v_TexCoord.y * 9.0) * 0.5 + 0.5;
-    float pulse = wave * 0.28 + 0.06;
-    vec3 corruptedTint = vec3(0.26, 0.05, 0.33);
+    // Stronger, more visible corruption pulse.
+    float waveA = sin(u_Time * 4.2 + v_TexCoord.y * 10.0) * 0.5 + 0.5;
+    float waveB = sin(u_Time * 2.1 + v_TexCoord.x * 7.0) * 0.5 + 0.5;
+    float wave = (waveA * 0.7) + (waveB * 0.3);
+    float pulse = wave * 0.65 + 0.20;
 
-    vec3 finalColor = max(base.rgb - (corruptedTint * pulse), vec3(0.0));
+    // Dark component + emissive violet component for clear readability.
+    vec3 corruptedDark = vec3(0.32, 0.06, 0.40);
+    vec3 corruptedGlow = vec3(0.56, 0.10, 0.72);
+
+    vec3 darkened = max(base.rgb - (corruptedDark * pulse * 0.75), vec3(0.0));
+    vec3 finalColor = darkened + (corruptedGlow * pulse * 0.45);
     gl_FragColor = vec4(finalColor, base.a);
 }

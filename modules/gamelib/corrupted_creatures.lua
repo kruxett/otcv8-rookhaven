@@ -5,6 +5,7 @@
 local CORRUPTED_NAME_TOKEN = "corrupted"
 local CORRUPTED_INFO_COLOR_HEX = "#8c3cbeff"
 local CORRUPTED_OUTFIT_SHADER = "outfit_corrupted_pulse"
+local applyingShader = false
 
 local function getCorruptedInfoColor()
   if Color then
@@ -40,7 +41,26 @@ local function applyCorruptedVisuals(creature)
   if infoColor then
     creature:setInformationColor(infoColor)
   end
-  creature:setOutfitShader(CORRUPTED_OUTFIT_SHADER)
+
+  -- Avoid recursive outfit-change loops.
+  if applyingShader then
+    return
+  end
+
+  local outfit = creature:getOutfit()
+  if not outfit or outfit.shader == CORRUPTED_OUTFIT_SHADER then
+    return
+  end
+
+  applyingShader = true
+  local ok = pcall(function()
+    creature:setOutfitShader(CORRUPTED_OUTFIT_SHADER)
+  end)
+  applyingShader = false
+
+  if not ok then
+    return
+  end
 end
 
 local function refreshVisibleCorruptedCreatures()
