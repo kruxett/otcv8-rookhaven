@@ -79,6 +79,7 @@ MainWindow
       selectable: false
       draggable: false
       border-width: 0
+      phantom: true
       tooltip: Drag an inventory item here
 
     Label

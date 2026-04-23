@@ -123,6 +123,7 @@ local function setupDropSlot()
   end
 
   local itemDropZone = window:getChildById('itemDropZone')
+  local previewPanel = window:getChildById('previewPanel')
   local itemPreview = window:getChildById('itemPreview')
   if not itemDropZone or not itemPreview then
     return
@@ -210,6 +211,29 @@ local function setupDropSlot()
 
     local item = resolveItemFromWidget(droppedWidget)
     return trySelectItem(item)
+  end
+
+  if previewPanel then
+    previewPanel.onDragEnter = function(self, mousePos)
+      itemDropZone:setBorderWidth(1)
+      setStatus('Release to select this item for upgrade.', '#d6c9e8')
+      debugDrop('previewPanel onDragEnter fired')
+      return true
+    end
+
+    previewPanel.onDragLeave = function(self, droppedWidget, mousePos)
+      itemDropZone:setBorderWidth(0)
+      debugDrop('previewPanel onDragLeave fired')
+      return true
+    end
+
+    previewPanel.onDrop = function(self, droppedWidget, mousePos)
+      itemDropZone:setBorderWidth(0)
+      debugDrop('previewPanel onDrop fired')
+
+      local item = resolveItemFromWidget(droppedWidget)
+      return trySelectItem(item)
+    end
   end
 
   itemDropZone.onMouseRelease = function(self, mousePosition, mouseButton)
