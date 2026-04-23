@@ -1,5 +1,5 @@
 local CORRUPTED_UPGRADE_OPCODE = 93
-local DEBUG_DROP = true
+local DEBUG_DROP = false
 
 local window = nil
 local selectedPath = nil
@@ -15,8 +15,39 @@ local function protocolSend(payload)
 end
 
 local function debugDrop(msg)
-  if DEBUG_DROP then
-    print('[CorruptedUpgradeUI] ' .. tostring(msg))
+  if not DEBUG_DROP then
+    return
+  end
+
+  local text = '[CorruptedUpgradeUI] ' .. tostring(msg)
+  print(text)
+
+  if g_logger and g_logger.info then
+    g_logger.info(text)
+  end
+
+  if window then
+    local debugLabel = window:getChildById('debugLabel')
+    if debugLabel then
+      debugLabel:setText('DBG: ' .. tostring(msg))
+    end
+  end
+end
+
+local function syncDebugUi()
+  if not window then
+    return
+  end
+
+  local debugButton = window:getChildById('debugButton')
+  local debugLabel = window:getChildById('debugLabel')
+
+  if debugButton then
+    debugButton:setText(DEBUG_DROP and 'Debug ON' or 'Debug OFF')
+  end
+
+  if debugLabel then
+    debugLabel:setText(DEBUG_DROP and 'DBG: waiting for drag event...' or 'Debug OFF')
   end
 end
 
@@ -96,6 +127,9 @@ local function setupDropSlot()
   if not itemDropZone or not itemPreview then
     return
   end
+
+  syncDebugUi()
+  debugDrop('setupDropSlot initialized')
 
   local function resolveItemFromWidget(w)
     if not w then
@@ -272,8 +306,10 @@ local function populate(data)
   local hasAny = next(entryByPath) ~= nil
   if hasAny then
     setStatus('Drag an item into the slot, then press Upgrade.')
+    debugDrop('populate: eligible entries=' .. tostring(#(data.items or {})))
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
+    debugDrop('populate: no eligible entries')
   end
 end
 
@@ -299,9 +335,11 @@ local function onOpcode(protocol, opcode, buffer)
       return
     end
     populate(data)
+    syncDebugUi()
     win:show()
     win:raise()
     win:focus()
+    debugDrop('window opened')
     return
   end
 
@@ -345,6 +383,12 @@ end
 
 function refresh()
   protocolSend({ action = 'refresh' })
+end
+
+function toggleDebug()
+  DEBUG_DROP = not DEBUG_DROP
+  syncDebugUi()
+  debugDrop('Debug toggled to ' .. (DEBUG_DROP and 'ON' or 'OFF'))
 end
 
 function decline()

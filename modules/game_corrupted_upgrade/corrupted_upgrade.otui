@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Corrupted Upgrade')
-  size: 390 285
+  size: 390 308
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -120,8 +120,8 @@ MainWindow
     id: statusLabel
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: controlsPanel.top
-    margin-bottom: 7
+    anchors.bottom: debugLabel.top
+    margin-bottom: 2
     margin-left: 8
     margin-right: 8
     height: 28
@@ -129,11 +129,23 @@ MainWindow
     color: #d6c9e8
     text: Drag an item into the slot, then press Upgrade.
 
+  Label
+    id: debugLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: controlsPanel.top
+    margin-bottom: 6
+    margin-left: 8
+    margin-right: 8
+    height: 16
+    color: #8cb6ff
+    text: Debug OFF
+
   HorizontalSeparator
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: statusLabel.top
-    margin-bottom: 5
+    margin-bottom: 3
 
   Panel
     id: controlsPanel
@@ -152,17 +164,25 @@ MainWindow
       @onClick: modules.game_corrupted_upgrade.refresh()
 
     Button
+      id: debugButton
+      !text: tr('Debug OFF')
+      width: 72
+      anchors.left: refreshButton.right
+      margin-left: 6
+      @onClick: modules.game_corrupted_upgrade.toggleDebug()
+
+    Button
       id: acceptButton
       !text: tr('Upgrade')
       width: 72
-      anchors.right: parent.horizontalCenter
-      margin-right: 5
+      anchors.left: debugButton.right
+      margin-left: 6
       @onClick: modules.game_corrupted_upgrade.accept()
 
     Button
       id: declineButton
       !text: tr('Close')
       width: 72
-      anchors.left: parent.horizontalCenter
-      margin-left: 5
+      anchors.left: acceptButton.right
+      margin-left: 6
       @onClick: modules.game_corrupted_upgrade.decline()
