@@ -13,6 +13,7 @@ local pathsByClientId = {}
 local pathsByItemId = {}
 
 local updatePreview
+local FORCE_RARE_FRAME_PATH = '/images/ui/rarity_blue'
 
 local lastDraggedItem = nil
 local wasDragging = false
@@ -94,6 +95,59 @@ local function refreshItemVisuals()
     applyPreviewRarityFrame(selectedItem)
     if selectedPath then
       updatePreview(selectedPath)
+    end
+  end
+end
+
+local function destroyWindow()
+  stopDragMonitor()
+
+  if window then
+    window:destroy()
+    window = nil
+  end
+
+  ui = {}
+  selectedPath = nil
+  selectedItem = nil
+  entryByPath = {}
+  pathsByClientId = {}
+  pathsByItemId = {}
+end
+
+local function getSelectedInventorySlot()
+  if type(selectedPath) ~= 'string' or selectedPath == '' then
+    return nil
+  end
+
+  local slotToken = selectedPath:match('^(%d+):') or selectedPath:match('^(%d+)$')
+  local slot = tonumber(slotToken)
+  if not slot then
+    return nil
+  end
+
+  local chain = selectedPath:match('^%d+:(.*)$') or ''
+  if chain ~= '' then
+    return nil
+  end
+
+  return slot
+end
+
+local function applyImmediateRareFrame()
+  if ui.itemPreview then
+    ui.itemPreview:setImageSource(FORCE_RARE_FRAME_PATH)
+  end
+
+  local slot = getSelectedInventorySlot()
+  if not slot then
+    return
+  end
+
+  if inventoryPanel then
+    local itemWidget = inventoryPanel:getChildById('slot' .. slot)
+    if itemWidget then
+      itemWidget:setImageSource(FORCE_RARE_FRAME_PATH)
     end
   end
 end
@@ -424,6 +478,7 @@ local function onOpcode(protocol, opcode, buffer)
   if data.action == 'result' then
     if data.success then
       setStatus(data.message or 'Upgrade successful.', '#7fd992')
+      applyImmediateRareFrame()
       scheduleEvent(function()
         refreshItemVisuals()
       end, 150)
