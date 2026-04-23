@@ -3,13 +3,15 @@
 -- to monsters whose names contain "Corrupted".
 
 local CORRUPTED_NAME_TOKEN = "corrupted"
-local CORRUPTED_INFO_COLOR_HEX = "#6b2f8dff"
+local CORRUPTED_INFO_COLOR_HEX = "#8c3cbeff"
 local CORRUPTED_OUTFIT_SHADER = "outfit_corrupted_pulse"
+local CORRUPTED_REFRESH_INTERVAL_MS = 1200
 local applyingShader = false
+local refreshEvent = nil
 
 local function getCorruptedInfoColor()
   if Color then
-    return Color(107, 47, 141)
+    return Color(140, 60, 190)
   end
 
   if tocolor then
@@ -48,14 +50,25 @@ local function applyCorruptedVisuals(creature)
   end
 
   local outfit = creature:getOutfit()
-  if not outfit or outfit.shader == CORRUPTED_OUTFIT_SHADER then
+  if outfit and outfit.shader == CORRUPTED_OUTFIT_SHADER then
     return
   end
 
   applyingShader = true
-  local ok = pcall(function()
-    creature:setOutfitShader(CORRUPTED_OUTFIT_SHADER)
-  end)
+  local ok = false
+
+  if creature.setOutfitShader then
+    ok = pcall(function()
+      creature:setOutfitShader(CORRUPTED_OUTFIT_SHADER)
+    end)
+  end
+
+  if not ok and creature.setShader then
+    ok = pcall(function()
+      creature:setShader(CORRUPTED_OUTFIT_SHADER)
+    end)
+  end
+
   applyingShader = false
 
   if not ok then
@@ -83,9 +96,38 @@ local function onCreatureOutfitChange(creature, outfit, oldOutfit)
   applyCorruptedVisuals(creature)
 end
 
+local function stopRefreshLoop()
+  if refreshEvent then
+    removeEvent(refreshEvent)
+    refreshEvent = nil
+  end
+end
+
+local function startRefreshLoop()
+  stopRefreshLoop()
+
+  local function tick()
+    refreshVisibleCorruptedCreatures()
+    if g_game.isOnline() then
+      refreshEvent = scheduleEvent(tick, CORRUPTED_REFRESH_INTERVAL_MS)
+    else
+      refreshEvent = nil
+    end
+  end
+
+  if g_game.isOnline() then
+    refreshEvent = scheduleEvent(tick, CORRUPTED_REFRESH_INTERVAL_MS)
+  end
+end
+
 local function onGameStart()
   -- Delay a little so visible creatures are fully initialized.
   scheduleEvent(refreshVisibleCorruptedCreatures, 200)
+  startRefreshLoop()
+end
+
+local function onGameEnd()
+  stopRefreshLoop()
 end
 
 connect(Creature, {
@@ -95,4 +137,5 @@ connect(Creature, {
 
 connect(g_game, {
   onGameStart = onGameStart,
+  onGameEnd = onGameEnd,
 })

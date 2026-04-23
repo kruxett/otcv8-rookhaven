@@ -21,18 +21,19 @@ void main()
         discard;
     }
 
-    // Slower corruption pulse with denser tint.
-    float waveA = sin(u_Time * 1.7 + v_TexCoord.y * 8.0) * 0.5 + 0.5;
-    float waveB = sin(u_Time * 0.9 + v_TexCoord.x * 5.0) * 0.5 + 0.5;
+    // Stronger corruption pulse tuned for readability in normal gameplay.
+    float waveA = sin(u_Time * 2.8 + v_TexCoord.y * 9.5) * 0.5 + 0.5;
+    float waveB = sin(u_Time * 1.6 + v_TexCoord.x * 6.5) * 0.5 + 0.5;
     float wave = (waveA * 0.7) + (waveB * 0.3);
-    float pulse = wave * 0.45 + 0.35;
+    float pulse = wave * 0.60 + 0.25;
 
-    // Dark component + denser violet core.
-    vec3 corruptedDark = vec3(0.23, 0.03, 0.30);
-    vec3 corruptedCore = vec3(0.34, 0.05, 0.45);
+    // Dark component + vivid violet core + mild emissive boost.
+    vec3 corruptedDark = vec3(0.30, 0.06, 0.38);
+    vec3 corruptedCore = vec3(0.58, 0.14, 0.74);
+    vec3 corruptedGlow = vec3(0.44, 0.10, 0.58);
 
-    vec3 darkened = max(base.rgb - (corruptedDark * pulse * 0.95), vec3(0.0));
-    float blendFactor = clamp(0.28 + pulse * 0.30, 0.0, 0.75);
-    vec3 finalColor = mix(darkened, corruptedCore, blendFactor);
+    vec3 darkened = max(base.rgb - (corruptedDark * pulse * 0.80), vec3(0.0));
+    float blendFactor = clamp(0.40 + pulse * 0.36, 0.0, 0.92);
+    vec3 finalColor = mix(darkened, corruptedCore, blendFactor) + (corruptedGlow * pulse * 0.18);
     gl_FragColor = vec4(finalColor, base.a);
 }
