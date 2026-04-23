@@ -1,18 +1,80 @@
 local CORRUPTED_UPGRADE_OPCODE = 93
+
 local DEBUG_DROP = false
 
 local window = nil
+local ui = {}
+local dragMonitorEvent = nil
+
 local selectedPath = nil
 local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
-local dragMonitorEvent = nil
+
+local lastDraggedItem = nil
+local wasDragging = false
+
+local function findWidgetById(root, id)
+  if not root or not id then
+    return nil
+  end
+
+  if root.getId and root:getId() == id then
+    return root
+  end
+
+  if not root.getChildren then
+    return nil
+  end
+
+  for _, child in ipairs(root:getChildren() or {}) do
+    local found = findWidgetById(child, id)
+    if found then
+      return found
+    end
+  end
+
+  return nil
+end
+
+local function bindWidgets()
+  ui = {}
+  if not window then
+    return false
+  end
+
+  ui.previewPanel = findWidgetById(window, 'previewPanel')
+  ui.itemDropZone = findWidgetById(window, 'itemDropZone')
+  ui.itemPreview = findWidgetById(window, 'itemPreview')
+
+  ui.costsLabel = findWidgetById(window, 'costsLabel')
+  ui.resourceLabel = findWidgetById(window, 'resourceLabel')
+  ui.statusLabel = findWidgetById(window, 'statusLabel')
+  ui.debugLabel = findWidgetById(window, 'debugLabel')
+  ui.debugButton = findWidgetById(window, 'debugButton')
+
+  ui.itemNameLabel = findWidgetById(window, 'itemNameLabel')
+  ui.itemTypeLabel = findWidgetById(window, 'itemTypeLabel')
+  ui.bonusPreviewLabel = findWidgetById(window, 'bonusPreviewLabel')
+  ui.selectedPathLabel = findWidgetById(window, 'selectedPathLabel')
+
+  return ui.itemDropZone ~= nil and ui.itemPreview ~= nil and ui.statusLabel ~= nil
+end
 
 local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
   if protocol then
     protocol:sendExtendedOpcode(CORRUPTED_UPGRADE_OPCODE, json.encode(payload))
   end
+end
+
+local function setStatus(text, color)
+  if not ui.statusLabel then
+    return
+  end
+
+  ui.statusLabel:setText(text or '')
+  ui.statusLabel:setColor(color or '#d6c9e8')
 end
 
 local function debugDrop(msg)
@@ -27,74 +89,144 @@ local function debugDrop(msg)
     g_logger.info(text)
   end
 
-  if window then
-    local debugLabel = window:getChildById('debugLabel')
-    if debugLabel then
-      debugLabel:setText('DBG: ' .. tostring(msg))
-    end
+  if ui.debugLabel then
+    ui.debugLabel:setText('DBG: ' .. tostring(msg))
   end
 end
 
 local function syncDebugUi()
-  if not window then
+  if ui.debugButton then
+    ui.debugButton:setText(DEBUG_DROP and 'Debug ON' or 'Debug OFF')
+  end
+
+  if ui.debugLabel then
+    ui.debugLabel:setText(DEBUG_DROP and 'DBG: waiting for drag state...' or 'Debug OFF')
+  end
+end
+
+local function clearSelection()
+  selectedPath = nil
+
+  if ui.itemPreview then ui.itemPreview:setItemId(0) end
+  if ui.itemNameLabel then ui.itemNameLabel:setText('No item selected') end
+  if ui.itemTypeLabel then ui.itemTypeLabel:setText('Type: -') end
+  if ui.bonusPreviewLabel then ui.bonusPreviewLabel:setText('Upgrade: -') end
+  if ui.selectedPathLabel then ui.selectedPathLabel:setText('Selected: none') end
+end
+
+local function updatePreview(path)
+  selectedPath = path
+  local entry = entryByPath[path or '']
+  if not entry then
     return
   end
 
-  local debugButton = window:getChildById('debugButton')
-  local debugLabel = window:getChildById('debugLabel')
-
-  if debugButton then
-    debugButton:setText(DEBUG_DROP and 'Debug ON' or 'Debug OFF')
+  if ui.itemPreview then
+    ui.itemPreview:setItemId(tonumber(entry.clientId) or tonumber(entry.itemId) or 0)
   end
 
-  if debugLabel then
-    debugLabel:setText(DEBUG_DROP and 'DBG: waiting for drag event...' or 'Debug OFF')
+  if ui.itemNameLabel then
+    ui.itemNameLabel:setText(entry.name or 'Unknown item')
+  end
+
+  if ui.itemTypeLabel then
+    ui.itemTypeLabel:setText('Type: ' .. ((entry.kind == 'weapon') and 'Weapon' or 'Armor'))
+  end
+
+  if ui.bonusPreviewLabel then
+    ui.bonusPreviewLabel:setText('Upgrade: ' .. (entry.preview or '-'))
+  end
+
+  if ui.selectedPathLabel then
+    ui.selectedPathLabel:setText('Selected: ' .. tostring(path))
   end
 end
 
-local function destroyWindow()
+local function resolveItemFromWidget(w)
+  if not w then
+    return nil
+  end
+
+  if type(w.getItem) == 'function' then
+    local ok, fromGetItem = pcall(function() return w:getItem() end)
+    if ok and fromGetItem and fromGetItem.isItem and fromGetItem:isItem() then
+      return fromGetItem
+    end
+  end
+
+  local dragThing = w.currentDragThing
+  if dragThing and dragThing.isItem and dragThing:isItem() then
+    return dragThing
+  end
+
+  return nil
+end
+
+local function trySelectItem(item)
+  if not item or not item.isItem or not item:isItem() then
+    setStatus('Drop an inventory item here.', '#d26b6b')
+    debugDrop('trySelectItem: no item payload')
+    return false
+  end
+
+  local draggedId = tonumber(item:getId() or 0) or 0
+  local candidates = pathsByClientId[draggedId]
+  if not candidates or #candidates == 0 then
+    candidates = pathsByItemId[draggedId]
+  end
+
+  if not candidates or #candidates == 0 then
+    setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
+    debugDrop('trySelectItem: no candidates for id=' .. tostring(draggedId))
+    return false
+  end
+
+  local chosenPath = candidates[1]
+  local chosenEntry = entryByPath[chosenPath]
+  if not chosenEntry then
+    setStatus('Failed to resolve selected item.', '#d26b6b')
+    debugDrop('trySelectItem: entry missing for path=' .. tostring(chosenPath))
+    return false
+  end
+
+  if #candidates > 1 then
+    setStatus('Multiple identical items found. Using first eligible match.')
+  else
+    setStatus('Item selected. Press Upgrade to continue.')
+  end
+
+  updatePreview(chosenPath)
+  debugDrop('trySelectItem: selected path=' .. tostring(chosenPath) .. ' id=' .. tostring(draggedId))
+  return true
+end
+
+local function stopDragMonitor()
   if dragMonitorEvent then
     removeEvent(dragMonitorEvent)
     dragMonitorEvent = nil
   end
-
-  if window then
-    window:destroy()
-    window = nil
-    selectedPath = nil
-    entryByPath = {}
-    pathsByClientId = {}
-    pathsByItemId = {}
-  end
+  wasDragging = false
+  lastDraggedItem = nil
 end
 
-local function startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectItem)
-  if dragMonitorEvent then
-    removeEvent(dragMonitorEvent)
-    dragMonitorEvent = nil
-  end
-
-  local wasDragging = false
-  local lastDraggedItem = nil
+local function startDragMonitor()
+  stopDragMonitor()
 
   local function tick()
-    local ok, err = pcall(function()
-      if not window or not itemDropZone then
-        dragMonitorEvent = nil
-        return
-      end
+    if not window or not ui.itemDropZone then
+      dragMonitorEvent = nil
+      return
+    end
 
+    local ok = pcall(function()
       local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
       local mousePos = g_window and g_window.getMousePosition and g_window.getMousePosition() or nil
-      local overSlot = (mousePos and itemDropZone:containsPoint(mousePos)) and true or false
+      local overSlot = (mousePos and ui.itemDropZone:containsPoint(mousePos)) and true or false
 
-      if DEBUG_DROP and window then
-        local debugLabel = window:getChildById('debugLabel')
-        if debugLabel then
-          local draggingClass = draggingWidget and draggingWidget:getClassName() or 'none'
-          local lastId = lastDraggedItem and tostring(lastDraggedItem:getId()) or 'none'
-          debugLabel:setText(string.format('DBG tick drag=%s overSlot=%s lastItem=%s', draggingClass, tostring(overSlot), lastId))
-        end
+      if DEBUG_DROP and ui.debugLabel then
+        local draggingClass = draggingWidget and draggingWidget:getClassName() or 'none'
+        local itemId = lastDraggedItem and tostring(lastDraggedItem:getId()) or 'none'
+        ui.debugLabel:setText(string.format('DBG tick drag=%s overSlot=%s item=%s', draggingClass, tostring(overSlot), itemId))
       end
 
       if draggingWidget then
@@ -104,9 +236,8 @@ local function startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectIt
         end
         wasDragging = true
       elseif wasDragging then
-        -- Drag just ended: if mouse is over our drop zone, accept via fallback.
         if lastDraggedItem and overSlot then
-          debugDrop('drag monitor fallback: release over slot detected')
+          debugDrop('drag monitor: release over slot detected')
           trySelectItem(lastDraggedItem)
         end
         wasDragging = false
@@ -115,210 +246,64 @@ local function startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectIt
     end)
 
     if not ok then
-      if DEBUG_DROP and window then
-        local debugLabel = window:getChildById('debugLabel')
-        if debugLabel then
-          debugLabel:setText('DBG monitor error: ' .. tostring(err))
-        end
-      end
-      print('[CorruptedUpgradeUI] drag monitor error: ' .. tostring(err))
+      debugDrop('drag monitor: runtime error')
     end
 
     if window then
       dragMonitorEvent = scheduleEvent(tick, 50)
-    else
-      dragMonitorEvent = nil
     end
   end
 
   dragMonitorEvent = scheduleEvent(tick, 50)
 end
 
-local function setStatus(text, color)
-  if not window then
+local function setupDropHandlers()
+  if not ui.itemDropZone then
+    debugDrop('setupDropHandlers: missing itemDropZone')
     return
   end
 
-  local statusLabel = window:getChildById('statusLabel')
-  if statusLabel then
-    statusLabel:setText(text or '')
-    if color then
-      statusLabel:setColor(color)
-    else
-      statusLabel:setColor('#d6c9e8')
-    end
-  end
-end
-
-local function updatePreview(path)
-  if not window then
-    return
-  end
-
-  selectedPath = path
-  local entry = entryByPath[path or '']
-  if not entry then
-    return
-  end
-
-  local itemPreview = window:getChildById('itemPreview')
-  local itemNameLabel = window:getChildById('itemNameLabel')
-  local itemTypeLabel = window:getChildById('itemTypeLabel')
-  local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
-  local selectedPathLabel = window:getChildById('selectedPathLabel')
-
-  if itemPreview then
-    itemPreview:setItemId(tonumber(entry.clientId) or 0)
-  end
-
-  if itemNameLabel then
-    itemNameLabel:setText(entry.name or 'Unknown item')
-  end
-
-  if itemTypeLabel then
-    local typeText = (entry.kind == 'weapon') and 'Weapon' or 'Armor'
-    itemTypeLabel:setText('Type: ' .. typeText)
-  end
-
-  if bonusPreviewLabel then
-    bonusPreviewLabel:setText('Upgrade: ' .. (entry.preview or '-'))
-  end
-
-  if selectedPathLabel then
-    selectedPathLabel:setText('Selected: ' .. tostring(path or 'none'))
-  end
-end
-
-local function setupDropSlot()
-  if not window then
-    return
-  end
-
-  local itemDropZone = window:getChildById('itemDropZone')
-  local previewPanel = window:getChildById('previewPanel')
-  local itemPreview = window:getChildById('itemPreview')
-  if not itemDropZone or not itemPreview then
-    return
-  end
-
-  syncDebugUi()
-  debugDrop('setupDropSlot initialized')
-
-  local function resolveItemFromWidget(w)
-    if not w then
-      return nil
-    end
-
-    if type(w.getItem) == 'function' then
-      local ok, fromGetItem = pcall(function() return w:getItem() end)
-      if ok and fromGetItem and fromGetItem.isItem and fromGetItem:isItem() then
-        return fromGetItem
-      end
-    end
-
-    local dragThing = w.currentDragThing
-    if dragThing and dragThing.isItem and dragThing:isItem() then
-      return dragThing
-    end
-
-    return nil
-  end
-
-  local function trySelectItem(item)
-    if not item or not item.isItem or not item:isItem() then
-      setStatus('Drop an inventory item here.', '#d26b6b')
-      return false
-    end
-
-    local draggedId = tonumber(item:getId() or 0) or 0
-    debugDrop('Trying dropped item id=' .. tostring(draggedId))
-
-    local candidates = pathsByClientId[draggedId]
-    if not candidates or #candidates == 0 then
-      candidates = pathsByItemId[draggedId]
-    end
-    if not candidates or #candidates == 0 then
-      setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
-      debugDrop('No candidates for id=' .. tostring(draggedId))
-      return false
-    end
-
-    if #candidates > 1 then
-      setStatus('Multiple matching items found. Using the first eligible one.', '#d6c9e8')
-      debugDrop('Multiple candidates for id=' .. tostring(draggedId) .. ' count=' .. tostring(#candidates))
-    else
-      setStatus('Item selected. Press Upgrade to continue.', '#d6c9e8')
-    end
-
-    local chosenPath = candidates[1]
-    local chosenEntry = entryByPath[chosenPath]
-    if chosenEntry then
-      itemPreview:setItemId(tonumber(chosenEntry.clientId) or draggedId)
-      updatePreview(chosenPath)
-      debugDrop('Selected path=' .. tostring(chosenPath))
-      return true
-    end
-
-    setStatus('Failed to resolve dropped item.', '#d26b6b')
-    debugDrop('Entry missing for chosen path=' .. tostring(chosenPath))
-    return false
-  end
-
-  -- Expose helpers for debug-only external triggers.
-  window._corruptedResolveItemFromWidget = resolveItemFromWidget
-  window._corruptedTrySelectItem = trySelectItem
-
-  itemDropZone.onDragEnter = function(self, mousePos)
+  ui.itemDropZone.onDragEnter = function(self, mousePos)
     self:setBorderWidth(1)
-    setStatus('Release to select this item for upgrade.', '#d6c9e8')
-    debugDrop('onDragEnter fired')
+    setStatus('Release to select this item for upgrade.')
+    debugDrop('itemDropZone.onDragEnter')
     return true
   end
 
-  itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
+  ui.itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
-    debugDrop('onDragLeave fired')
+    debugDrop('itemDropZone.onDragLeave')
     return true
   end
 
-  itemDropZone.onDrop = function(self, droppedWidget, mousePos)
+  ui.itemDropZone.onDrop = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
-    debugDrop('onDrop fired. droppedWidget=' .. tostring(droppedWidget and droppedWidget:getClassName() or 'nil'))
-
+    debugDrop('itemDropZone.onDrop')
     local item = resolveItemFromWidget(droppedWidget)
     return trySelectItem(item)
   end
 
-  if previewPanel then
-    previewPanel.onDragEnter = function(self, mousePos)
-      itemDropZone:setBorderWidth(1)
-      setStatus('Release to select this item for upgrade.', '#d6c9e8')
-      debugDrop('previewPanel onDragEnter fired')
-      return true
-    end
-
-    previewPanel.onDragLeave = function(self, droppedWidget, mousePos)
-      itemDropZone:setBorderWidth(0)
-      debugDrop('previewPanel onDragLeave fired')
-      return true
-    end
-
-    previewPanel.onDrop = function(self, droppedWidget, mousePos)
-      itemDropZone:setBorderWidth(0)
-      debugDrop('previewPanel onDrop fired')
-
+  if ui.previewPanel then
+    ui.previewPanel.onDrop = function(self, droppedWidget, mousePos)
+      if ui.itemDropZone then ui.itemDropZone:setBorderWidth(0) end
+      debugDrop('previewPanel.onDrop fallback')
       local item = resolveItemFromWidget(droppedWidget)
       return trySelectItem(item)
     end
   end
 
-  itemDropZone.onMouseRelease = function(self, mousePosition, mouseButton)
-    debugDrop('onMouseRelease fired button=' .. tostring(mouseButton))
+  ui.itemDropZone.onMouseRelease = function(self, mousePos, mouseButton)
+    if mouseButton == MouseRightButton then
+      clearSelection()
+      setStatus('Selection cleared. Drag an item into the slot.')
+      debugDrop('itemDropZone.onMouseRelease right-click clear')
+      return true
+    end
 
     if mouseButton == MouseLeftButton then
       local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
       if draggingWidget then
-        debugDrop('MouseRelease fallback with draggingWidget=' .. tostring(draggingWidget:getClassName()))
+        debugDrop('itemDropZone.onMouseRelease left fallback')
         local item = resolveItemFromWidget(draggingWidget)
         if trySelectItem(item) then
           return true
@@ -326,92 +311,50 @@ local function setupDropSlot()
       end
     end
 
-    if mouseButton == MouseRightButton then
-      selectedPath = nil
-      itemPreview:setItemId(0)
-
-      local itemNameLabel = window:getChildById('itemNameLabel')
-      local itemTypeLabel = window:getChildById('itemTypeLabel')
-      local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
-      local selectedPathLabel = window:getChildById('selectedPathLabel')
-
-      if itemNameLabel then itemNameLabel:setText('No item selected') end
-      if itemTypeLabel then itemTypeLabel:setText('Type: -') end
-      if bonusPreviewLabel then bonusPreviewLabel:setText('Upgrade: -') end
-      if selectedPathLabel then selectedPathLabel:setText('Selected: none') end
-
-      setStatus('Selection cleared. Drag an item into the slot.', '#d6c9e8')
-      debugDrop('Selection cleared by right click')
-      return true
-    end
     return false
   end
-
-  startDragMonitor(itemDropZone, resolveItemFromWidget, trySelectItem)
 end
 
 local function populate(data)
-  if not window then
-    return
-  end
-
   entryByPath = {}
   pathsByClientId = {}
   pathsByItemId = {}
-  selectedPath = nil
 
-  local costsLabel = window:getChildById('costsLabel')
-  local resourceLabel = window:getChildById('resourceLabel')
-  local itemPreview = window:getChildById('itemPreview')
-  local itemNameLabel = window:getChildById('itemNameLabel')
-  local itemTypeLabel = window:getChildById('itemTypeLabel')
-  local bonusPreviewLabel = window:getChildById('bonusPreviewLabel')
-  local selectedPathLabel = window:getChildById('selectedPathLabel')
-
-  if costsLabel then
-    costsLabel:setText(string.format('Cost: 1 Corrupted Fragment + %d gold', tonumber(data.costGold) or 1000))
+  if ui.costsLabel then
+    ui.costsLabel:setText(string.format('Cost: 1 Corrupted Fragment + %d gold', tonumber(data.costGold) or 1000))
   end
 
-  if resourceLabel then
-    resourceLabel:setText(string.format('Your resources: %d fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
+  if ui.resourceLabel then
+    ui.resourceLabel:setText(string.format('Your resources: %d fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
 
-  if itemPreview then
-    itemPreview:setItemId(0)
-  end
-  if itemNameLabel then itemNameLabel:setText('No item selected') end
-  if itemTypeLabel then itemTypeLabel:setText('Type: -') end
-  if bonusPreviewLabel then bonusPreviewLabel:setText('Upgrade: -') end
-  if selectedPathLabel then selectedPathLabel:setText('Selected: none') end
+  clearSelection()
 
   for _, entry in ipairs(data.items or {}) do
     if entry.path then
       entryByPath[entry.path] = entry
 
-      local clientId = tonumber(entry.clientId or entry.itemId or 0) or 0
+      local clientId = tonumber(entry.clientId or 0) or 0
       local itemId = tonumber(entry.itemId or 0) or 0
+
       if clientId > 0 then
-        if not pathsByClientId[clientId] then
-          pathsByClientId[clientId] = {}
-        end
+        pathsByClientId[clientId] = pathsByClientId[clientId] or {}
         table.insert(pathsByClientId[clientId], entry.path)
       end
+
       if itemId > 0 then
-        if not pathsByItemId[itemId] then
-          pathsByItemId[itemId] = {}
-        end
+        pathsByItemId[itemId] = pathsByItemId[itemId] or {}
         table.insert(pathsByItemId[itemId], entry.path)
       end
     end
   end
 
-  local hasAny = next(entryByPath) ~= nil
-  if hasAny then
+  if next(entryByPath) then
     setStatus('Drag an item into the slot, then press Upgrade.')
-    debugDrop('populate: eligible entries=' .. tostring(#(data.items or {})))
+    debugDrop('populate: loaded eligible items=' .. tostring(#(data.items or {})))
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
-    debugDrop('populate: no eligible entries')
+    debugDrop('populate: no eligible items')
   end
 end
 
@@ -424,11 +367,18 @@ local function ensureWindow()
   window:setDraggable(false)
   window.static = true
   window.onDragEnter = function(self, mousePos)
-    debugDrop('window.onDragEnter ignored')
+    -- Important: do not let the window consume drag events from items.
     return false
   end
-  debugDrop('window configured as non-draggable/static')
-  setupDropSlot()
+
+  if not bindWidgets() then
+    print('[CorruptedUpgradeUI] Failed to bind required widgets')
+  end
+
+  syncDebugUi()
+  setupDropHandlers()
+  startDragMonitor()
+
   return window
 end
 
@@ -444,7 +394,6 @@ local function onOpcode(protocol, opcode, buffer)
       return
     end
     populate(data)
-    syncDebugUi()
     win:show()
     win:raise()
     win:focus()
@@ -501,36 +450,24 @@ function toggleDebug()
 end
 
 function debugPickFromDrag()
-  if not window then
-    return
-  end
-
-  local resolver = window._corruptedResolveItemFromWidget
-  local trySelect = window._corruptedTrySelectItem
-  if not resolver or not trySelect then
-    setStatus('Debug helper unavailable.', '#d26b6b')
-    return
-  end
-
   local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
-  debugDrop('debugPickFromDrag draggingWidget=' .. tostring(draggingWidget and draggingWidget:getClassName() or 'nil'))
-
   if not draggingWidget then
     setStatus('No active dragged widget detected right now.', '#d26b6b')
+    debugDrop('debugPickFromDrag: no draggingWidget')
     return
   end
 
-  local item = resolver(draggingWidget)
+  local item = resolveItemFromWidget(draggingWidget)
   if not item then
     setStatus('Active dragged widget has no item payload.', '#d26b6b')
+    debugDrop('debugPickFromDrag: draggingWidget has no item')
     return
   end
 
-  if not trySelect(item) then
-    return
+  if trySelectItem(item) then
+    setStatus('Debug pick selected current dragged item.', '#7fd992')
+    debugDrop('debugPickFromDrag: success')
   end
-
-  setStatus('Debug pick selected current dragged item.', '#7fd992')
 end
 
 function decline()
