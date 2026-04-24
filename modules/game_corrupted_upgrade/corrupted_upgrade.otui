@@ -106,7 +106,7 @@ MainWindow
       anchors.right: itemNameLabel.right
       anchors.top: itemTypeLabel.bottom
       margin-top: 3
-      height: 30
+      height: 40
       text-wrap: true
       text: Upgrade: -
 
