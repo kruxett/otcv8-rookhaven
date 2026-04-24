@@ -16,6 +16,41 @@ local CurrentStore = {}
 local PersonalStoreModeOff = 0
 local PersonalStoreModeOn = 1
 
+local function roundHalfUp(value)
+	return math.floor(value + 0.5)
+end
+
+local function getCurrentStoreTaxInfo()
+	local taxData = CurrentStore and CurrentStore.tax or {}
+	local enabled = taxData.enabled == true
+	local percent = tonumber(taxData.percent) or 0
+	if percent < 0 then
+		percent = 0
+	elseif percent > 100 then
+		percent = 100
+	end
+	return enabled, percent
+end
+
+local function getSellerNetFromGross(grossPrice)
+	local gross = tonumber(grossPrice) or 0
+	if gross < 0 then
+		gross = 0
+	end
+
+	local enabled, percent = getCurrentStoreTaxInfo()
+	if not enabled or percent <= 0 then
+		return gross, 0, percent
+	end
+
+	local taxAmount = roundHalfUp(gross * (percent / 100))
+	if taxAmount > gross then
+		taxAmount = gross
+	end
+
+	return gross - taxAmount, taxAmount, percent
+end
+
 local function isInProtectionZone()
 	local localPlayer = g_game.getLocalPlayer and g_game.getLocalPlayer() or nil
 	if not localPlayer or not localPlayer.hasState or not PlayerStates or not PlayerStates.Pz then
@@ -385,13 +420,32 @@ function showEditItemPanel(itemInfo)
 	ItemEditPanel:getChildById('count'):setValue(itemInfo.count)
 	ItemEditPanel:getChildById('price'):getChildById('value'):setText(itemInfo.price)
 	updatePrices(ItemEditPanel:getChildById('price'):getChildById('moneyPanel'), itemInfo.price)
+	local taxSummary = ItemEditPanel:getChildById('taxSummary')
+	local function updateTaxSummary()
+		if not taxSummary then
+			return
+		end
+		local unitPrice = tonumber(ItemEditPanel:getChildById('price'):getChildById('value'):getText()) or 0
+		local amount = tonumber(ItemEditPanel:getChildById('count'):getValue()) or 1
+		local grossTotal = unitPrice * amount
+		local sellerNet, taxAmount, taxPercent = getSellerNetFromGross(grossTotal)
+		if taxAmount > 0 then
+			taxSummary:setText("Tax: " .. taxPercent .. "% | You receive: " .. sellerNet)
+		else
+			taxSummary:setText("Tax: 0% | You receive: " .. sellerNet)
+		end
+	end
+
+	updateTaxSummary()
 	ItemEditPanel:getChildById('count').onValueChange = function(self, value)
 		ItemEditPanel:getChildById('item'):setItemCount(value)
+		updateTaxSummary()
 	end
 	ItemEditPanel:getChildById('price'):getChildById('value').onTextChange = function(self, text, oldText)
 		if tonumber(text) then
 			updatePrices(ItemEditPanel:getChildById('price'):getChildById('moneyPanel'), tonumber(text))
 		end
+		updateTaxSummary()
 	end
 	ItemEditPanel:getChildById('confirm').onClick = function()
 		local count = tonumber(ItemEditPanel:getChildById('count'):getValue())
@@ -429,6 +483,15 @@ end
 function showStartStorePanel()
 	MainPanel:hide()
 	StartStorePanel:getChildById('description'):setText(CurrentStore.name)
+	local startTaxNotice = StartStorePanel:getChildById('taxNotice')
+	if startTaxNotice then
+		local enabled, percent = getCurrentStoreTaxInfo()
+		if enabled and percent > 0 then
+			startTaxNotice:setText("A " .. percent .. "% tax is charged on each sale.")
+		else
+			startTaxNotice:setText("No tax is charged on sales.")
+		end
+	end
 	StartStorePanel:getChildById('confirm').onClick = function()
 		g_game.getProtocolGame():sendExtendedOpcode(Opcode,
 		json.encode({ protocol = 'StartPersonalStore', name = StartStorePanel:getChildById('description'):getText() }))
@@ -539,6 +602,9 @@ function parsePersonalStore(protocol, opcode, buffer)
 		
 		MainWindow:setText(personal_store.name)
 		CurrentStore = personal_store
+		if not CurrentStore.tax then
+			CurrentStore.tax = { enabled = false, percent = 0 }
+		end
 		
 		if distanceCheckerEvent then
 			removeEvent(distanceCheckerEvent)
@@ -802,6 +868,7 @@ function updatePurchasePanel(itemInfo)
 	local selectedItem = purchasePanel:getChildById('selectedItem')
 	local countScroll = purchasePanel:getChildById('itemCountScroll')
 	local buyButton = purchasePanel:getChildById('buyButton')
+	local ownerTaxNotice = purchasePanel:getChildById('ownerTaxNotice')
 	local containerPanel = purchasePanel:getChildById('containerItemsPanel')
 	
 	if not itemInfo then
@@ -811,6 +878,9 @@ function updatePurchasePanel(itemInfo)
 		purchasePanel:getChildById('itemPrice'):setText("Price: 0")
 		purchasePanel:getChildById('itemAmount'):setText("Amount: 0x")
 		purchasePanel:getChildById('itemWeight'):setText("Weight: 0 oz")
+		if ownerTaxNotice then
+			ownerTaxNotice:setText("")
+		end
 		countScroll:setVisible(false)
 		
 		if containerPanel then
@@ -830,6 +900,7 @@ function updatePurchasePanel(itemInfo)
 	local name = itemInfo.name or "Unknown Item"
 	local rarity = itemInfo.rarity or 0
 	local maxCount = itemInfo.count or 1
+	local isOwnerView = CurrentStore and CurrentStore.ownername == g_game.getCharacterName()
 	
 	selectedItem:setItemId(itemInfo.clientId)
 	updateRarityFrame(selectedItem, rarity)
@@ -838,6 +909,18 @@ function updatePurchasePanel(itemInfo)
 	purchasePanel:getChildById('itemPrice'):setText("Price: " .. unitPrice)
 	purchasePanel:getChildById('itemAmount'):setText("Amount: 1x")
 	purchasePanel:getChildById('itemWeight'):setText(string.format("Weight: %.2f oz", weight))
+	if ownerTaxNotice then
+		if isOwnerView then
+			local sellerNet, taxAmount, taxPercent = getSellerNetFromGross(unitPrice)
+			if taxAmount > 0 then
+				ownerTaxNotice:setText("Tax: " .. taxPercent .. "% | You receive: " .. sellerNet)
+			else
+				ownerTaxNotice:setText("Tax: 0% | You receive: " .. sellerNet)
+			end
+		else
+			ownerTaxNotice:setText("")
+		end
+	end
 	
 	countScroll:setVisible(true)
 	countScroll:setMinimum(1)
@@ -849,6 +932,15 @@ function updatePurchasePanel(itemInfo)
 		purchasePanel:getChildById('itemAmount'):setText("Amount: " .. value .. "x")
 		purchasePanel:getChildById('itemPrice'):setText("Price: " .. (unitPrice * value))
 		purchasePanel:getChildById('itemWeight'):setText(string.format("Weight: %.2f oz", weight * value))
+		if ownerTaxNotice and isOwnerView then
+			local grossTotal = unitPrice * value
+			local sellerNet, taxAmount, taxPercent = getSellerNetFromGross(grossTotal)
+			if taxAmount > 0 then
+				ownerTaxNotice:setText("Tax: " .. taxPercent .. "% | You receive: " .. sellerNet)
+			else
+				ownerTaxNotice:setText("Tax: 0% | You receive: " .. sellerNet)
+			end
+		end
 	end
 	
 	if buyButton then

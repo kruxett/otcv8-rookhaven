@@ -78,10 +78,17 @@ StartStorePanel < PSPanel
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 30
 
+  Label
+    id: taxNotice
+    anchors.top: description.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+    text: ""
+
   Button
     id: confirm
     size: 80 22
-    anchors.top: description.bottom
+    anchors.top: taxNotice.bottom
     anchors.left: description.left
     margin-top: 5
     text: Confirm
@@ -89,7 +96,7 @@ StartStorePanel < PSPanel
   Button
     id: cancel
     size: 80 22
-    anchors.top: description.bottom
+    anchors.top: taxNotice.bottom
     anchors.right: description.right
     margin-top: 5
     text: Cancel
@@ -184,10 +191,17 @@ ItemEditPanel < PSPanel
       anchors.left: value.right
       anchors.top: value.top
 
+  Label
+    id: taxSummary
+    anchors.top: price.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 5
+    text: "Tax: 0% | You receive: 0"
+
   Button
     id: confirm
     size: 80 22
-    anchors.top: price.bottom
+    anchors.top: taxSummary.bottom
     anchors.left: count.left
     margin-top: 5
     text: Confirm
@@ -195,7 +209,7 @@ ItemEditPanel < PSPanel
   Button
     id: cancel
     size: 80 22
-    anchors.top: price.bottom
+    anchors.top: taxSummary.bottom
     anchors.right: count.right
     margin-top: 5
     text: Cancel
@@ -384,6 +398,15 @@ MainPanel < PSPanel
       margin-left: 10
       width: 120
       text: "Weight: 0 oz"
+
+    Label
+      id: ownerTaxNotice
+      anchors.left: selectedItem.right
+      anchors.top: itemCountScroll.bottom
+      margin-left: 10
+      margin-top: 4
+      width: 160
+      text: ""
 
     Button
       id: buyButton
