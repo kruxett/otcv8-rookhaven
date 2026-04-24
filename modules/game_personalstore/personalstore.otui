@@ -197,6 +197,7 @@ ItemEditPanel < PSPanel
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 5
     width: 240
+    text-align: center
     text: "Tax: 0% | You receive: 0"
 
   Button
@@ -407,6 +408,7 @@ MainPanel < PSPanel
       margin-left: 10
       margin-top: 4
       width: 240
+      text-align: left
       text: ""
 
     Button
