@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Corrupted Upgrade')
-  size: 390 304
+  size: 390 292
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -118,6 +118,7 @@ MainWindow
       margin-top: 2
       text: Source: none
       color: #9b9b9b
+      visible: false
 
   Label
     id: statusLabel
