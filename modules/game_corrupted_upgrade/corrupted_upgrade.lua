@@ -16,6 +16,19 @@ local updatePreview
 local stopDragMonitor
 local FORCE_RARE_FRAME_PATH = '/images/ui/rarity_blue'
 
+local SLOT_NAMES = {
+  [1] = 'Head',
+  [2] = 'Necklace',
+  [3] = 'Backpack',
+  [4] = 'Armor',
+  [5] = 'Right Hand',
+  [6] = 'Left Hand',
+  [7] = 'Legs',
+  [8] = 'Feet',
+  [9] = 'Ring',
+  [10] = 'Ammo',
+}
+
 local lastDraggedItem = nil
 local wasDragging = false
 
@@ -199,7 +212,37 @@ local function clearSelection()
   if ui.itemNameLabel then ui.itemNameLabel:setText('No item selected') end
   if ui.itemTypeLabel then ui.itemTypeLabel:setText('Type: -') end
   if ui.bonusPreviewLabel then ui.bonusPreviewLabel:setText('Upgrade: -') end
-  if ui.selectedPathLabel then ui.selectedPathLabel:setText('Selected: none') end
+  if ui.selectedPathLabel then ui.selectedPathLabel:setText('Source: none') end
+end
+
+local function formatSourcePath(path)
+  if type(path) ~= 'string' or path == '' then
+    return 'Source: unknown'
+  end
+
+  local slotToken, chain = path:match('^(%d+):(.*)$')
+  if not slotToken then
+    slotToken = path
+    chain = ''
+  end
+
+  local slot = tonumber(slotToken)
+  local slotName = SLOT_NAMES[slot or 0] or ('Slot ' .. tostring(slotToken))
+
+  if chain == '' then
+    return 'Source: Equipped ' .. slotName
+  end
+
+  local depth = 1
+  for _ in string.gmatch(chain, ',') do
+    depth = depth + 1
+  end
+
+  if slotName == 'Backpack' then
+    return string.format('Source: %s item (depth %d)', slotName, depth)
+  end
+
+  return string.format('Source: %s container item (depth %d)', slotName, depth)
 end
 
 updatePreview = function(path)
@@ -227,7 +270,7 @@ updatePreview = function(path)
   end
 
   if ui.selectedPathLabel then
-    ui.selectedPathLabel:setText('Selected: ' .. tostring(path))
+    ui.selectedPathLabel:setText(formatSourcePath(path))
   end
 end
 
