@@ -4,6 +4,7 @@ TaskCenterListItem < Panel
   border-width: 1
   border-color: #000000
   background-color: #232323
+  focusable: true
 
   $hover:
     border-color: #ffffff

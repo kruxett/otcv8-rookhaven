@@ -27,6 +27,7 @@ local selectedKey = nil
 local requestId = 0
 local availablePage = 1
 local availablePageSize = 20
+local renderedEntries = {}
 
 local function destroyWindow()
   if taskCenterWindow then
@@ -51,6 +52,7 @@ local function destroyWindow()
   prevPageButton = nil
   nextPageButton = nil
   pageInfoLabel = nil
+  renderedEntries = {}
 end
 
 local function sendRequest(action, payload)
@@ -122,8 +124,8 @@ local function formatCreatures(creatures)
   return table.concat(creatures, ', ')
 end
 
-local function findSelectedEntry()
-  local entries = getEntriesForCurrentTab()
+local function findSelectedEntry(entriesOverride)
+  local entries = entriesOverride or renderedEntries
   if #entries == 0 then
     return nil
   end
@@ -238,7 +240,7 @@ local function renderList()
   listPanel:destroyChildren()
   local entries = getEntriesForCurrentTab()
 
-  -- Filter locked tasks out of the available list
+  -- Safety filter: only show tasks the player can accept on the available tab
   if currentTab == 'available' then
     local filtered = {}
     for _, e in ipairs(entries) do
@@ -248,6 +250,9 @@ local function renderList()
     end
     entries = filtered
   end
+
+  -- Always track what's actually rendered so findSelectedEntry stays in sync
+  renderedEntries = entries
 
   if #entries == 0 then
     selectedKey = nil
@@ -261,8 +266,7 @@ local function renderList()
 
   local selectedExists = false
   for _, entry in ipairs(entries) do
-    local key = buildEntryKey(entry)
-    if key == selectedKey then
+    if buildEntryKey(entry) == selectedKey then
       selectedExists = true
       break
     end
