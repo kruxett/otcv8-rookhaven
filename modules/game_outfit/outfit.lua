@@ -329,12 +329,12 @@ function create(currentOutfit, outfitList, mountList, wingList, auraList, shader
   window.preview.options.showMount:setVisible(g_game.getFeature(GamePlayerMounts))
   window.preview.options.showWings:setVisible(g_game.getFeature(GameWingsAndAura))
   window.preview.options.showAura:setVisible(g_game.getFeature(GameWingsAndAura))
-  window.preview.options.showShader:setVisible(g_game.getFeature(GameOutfitShaders))
+  window.preview.options.showShader:setVisible(false)
 
   window.appearance.settings.mount:setVisible(g_game.getFeature(GamePlayerMounts))
   window.appearance.settings.wings:setVisible(g_game.getFeature(GameWingsAndAura))
   window.appearance.settings.aura:setVisible(g_game.getFeature(GameWingsAndAura))
-  window.appearance.settings.shader:setVisible(g_game.getFeature(GameOutfitShaders))
+  window.appearance.settings.shader:setVisible(false)
   window.appearance.settings.healthBar:setVisible(g_game.getFeature(GameHealthInfoBackground))
   window.appearance.settings.manaBar:setVisible(g_game.getFeature(GameHealthInfoBackground))
 

@@ -18,6 +18,9 @@ function init()
   -- corrupted creature shader (dark pulsing aura)
   g_shaders.createOutfitShader("outfit_corrupted_pulse", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_corrupted_pulse_fragment")
 
+  -- blood rage shader (corrupted pulse tuned to a blood-red aura)
+  g_shaders.createOutfitShader("outfit_blood_rage_pulse", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_blood_rage_fragment")
+
   -- you can use creature:setOutfitShader("outfit_rainbow") to set shader
 
   -- item rarity outline shaders
