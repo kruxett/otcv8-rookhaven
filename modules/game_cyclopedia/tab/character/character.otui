@@ -748,7 +748,7 @@ UIWidget
       margin-left: 15
       margin-top: 0
       SkillNameLabel
-        !text: tr('Block Chance:')
+        !text: tr('Armor Mitig.:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0

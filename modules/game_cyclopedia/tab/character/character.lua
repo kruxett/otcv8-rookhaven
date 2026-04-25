@@ -846,12 +846,32 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             local dpsVal     = (atkSpeedMs > 0) and (avgHit * 1000 / atkSpeedMs) or 0
 
             local armorVal   = data.armor or 0
-            local defVal     = data.defense or 0
-            local avgArmor   = math.floor(armorVal / 2)
-            local blockPct   = (estMaxHit > 0)
-                and (math.min(defVal, estMaxHit) / (2 * math.max(defVal, estMaxHit)) * 100) or 0
+
+            -- Match server armor behavior (Creature::blockHit):
+            -- armor 1-3 => fixed reduction of 1
+            -- armor >3  => random in [armor/2, armor - (armor % 2 + 1)]
+            local function getAverageArmorReduction(armor)
+                if armor <= 0 then
+                    return 0
+                end
+                if armor <= 3 then
+                    return 1
+                end
+
+                local minReduction = math.floor(armor / 2)
+                local maxReduction = armor - ((armor % 2) + 1)
+                if maxReduction < minReduction then
+                    maxReduction = minReduction
+                end
+
+                return (minReduction + maxReduction) / 2
+            end
+
+            local avgArmor   = getAverageArmorReduction(armorVal)
+            local armorMitigationPct = (avgHit > 0)
+                and math.min(95, (avgArmor / avgHit) * 100) or 0
             local hp         = combatPlayer and combatPlayer:getMaxHealth() or 0
-            local avgDmgSwing = (1 - blockPct / 100) * math.max(1, avgHit - avgArmor)
+            local avgDmgSwing = math.max(1, avgHit - avgArmor)
             local hitsToDie  = (hp > 0) and math.ceil(hp / avgDmgSwing) or 0
 
             local modeNames = { [FightOffensive] = "Full Attack", [FightBalanced] = "Balanced", [FightDefensive] = "Defensive" }
@@ -894,25 +914,26 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
             -- Right column: repurposed as defensive stats
             if UI.CombatStats.criticalChance then
-                UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", blockPct))
-                UI.CombatStats.criticalChance.value:setColor(blockPct >= 20 and "#44AD25" or "#C0C0C0")
+                UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", armorMitigationPct))
+                UI.CombatStats.criticalChance.value:setColor(armorMitigationPct >= 15 and "#44AD25" or "#C0C0C0")
                 UI.CombatStats.criticalChance:setTooltip(string.format(
-                    "Probability that defense roll beats attack roll\nDefence: %d  Max Hit: %d",
-                    defVal, estMaxHit))
+                    "Estimated armor mitigation against your average incoming hit.\nAvg hit: %d  Avg armor reduction: %.1f",
+                    avgHit, avgArmor))
             end
 
             if UI.CombatStats.criticalDamage then
-                UI.CombatStats.criticalDamage.value:setText(tostring(avgArmor))
+                UI.CombatStats.criticalDamage.value:setText(string.format("%.1f", avgArmor))
                 UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
                 UI.CombatStats.criticalDamage:setTooltip(string.format(
-                    "Average armor flat reduction per hit\nArmor %d -> avg %d reduced", armorVal, avgArmor))
+                    "Average flat reduction per hit from armor.\nArmor %d -> avg %.1f reduced", armorVal, avgArmor))
             end
 
             if UI.CombatStats.lifeLeech then
                 UI.CombatStats.lifeLeech.value:setText(tostring(hitsToDie))
                 UI.CombatStats.lifeLeech.value:setColor(hitsToDie > 10 and "#44AD25" or "#E06020")
                 UI.CombatStats.lifeLeech:setTooltip(string.format(
-                    "Hits to exhaust your %d HP\n(%.1f%% block chance, ~%.0f avg dmg/swing)", hp, blockPct, avgDmgSwing))
+                    "Estimated hits until 0 HP using armor-only mitigation.\nHP: %d  Avg damage/swing after armor: %.1f",
+                    hp, avgDmgSwing))
             end
         end
 
