@@ -55,6 +55,8 @@ TaskCreaturePreview < UIWidget
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 2
+    size: 44 34
+    phantom: true
 
   Label
     id: nameLabel

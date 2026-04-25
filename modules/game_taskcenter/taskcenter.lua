@@ -204,15 +204,23 @@ local function renderCreaturePreviews(creatures, creatureVisuals)
     preview.nameLabel:setText(tostring(visual.name))
     preview:setTooltip(tostring(visual.name))
 
+    local appliedOutfit = nil
     if visual.outfitType and visual.outfitType > 0 then
-      preview.sprite:setOutfit({ type = visual.outfitType })
+      appliedOutfit = { type = visual.outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 }
     else
-      local outfit = resolveCreatureOutfit(visual.name)
-      if outfit then
-        preview.sprite:setOutfit(outfit)
-      else
-        preview.sprite:setVisible(false)
-      end
+      appliedOutfit = resolveCreatureOutfit(visual.name)
+    end
+
+    if appliedOutfit then
+      preview.sprite:setOutfit(appliedOutfit)
+      pcall(function()
+        local creature = preview.sprite:getCreature()
+        if creature and creature.setStaticWalking then
+          creature:setStaticWalking(1000)
+        end
+      end)
+    else
+      preview.sprite:setVisible(false)
     end
   end
 end
