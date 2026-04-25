@@ -667,9 +667,9 @@ function parsePersonalStore(protocol, opcode, buffer)
 					slot:getChildById('item').item_code = itemInfo.item_code
 					updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
 					slot:getChildById('item'):setItemCount(itemInfo.count)
-					slot:getChildById('buyOrEdit'):setText(personal_store.owner and formatSlotPrice(itemInfo.price) or "Buy")
-					slot:getChildById('buyOrEdit'):setTooltip(personal_store.owner and 'Unit price' or 'Buy this listing')
-					slot:getChildById('buyOrEdit'):enable()
+					slot:getChildById('buyOrEdit'):setText(formatSlotPrice(itemInfo.price))
+					slot:getChildById('buyOrEdit'):setTooltip('Unit price')
+					slot:getChildById('buyOrEdit'):disable()
 					slot:getChildById('buyOrEdit'):setVisible(true)
 				else
 					resetItemSlot(slot)
