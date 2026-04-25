@@ -633,14 +633,19 @@ function parsePersonalStore(protocol, opcode, buffer)
 			local slot = ItemsPanel:getChildById('item' .. i)
 			
 			if slot then
-				slot.itemInfo = itemInfo
-				slot:getChildById('item'):setItemId(itemInfo.clientId)
-				slot:getChildById('item').item_code = itemInfo.item_code
-				updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
-				slot:getChildById('item'):setItemCount(itemInfo.count)
-				slot:getChildById('buyOrEdit'):setText(personal_store.owner and itemInfo.price or "Buy")
-				slot:getChildById('buyOrEdit'):enable()
-				slot:getChildById('buyOrEdit'):setVisible(true)
+				local hasRealItem = (tonumber(itemInfo and itemInfo.itemid) or 0) > 0 and (tonumber(itemInfo and itemInfo.clientId) or 0) > 0
+				if hasRealItem then
+					slot.itemInfo = itemInfo
+					slot:getChildById('item'):setItemId(itemInfo.clientId)
+					slot:getChildById('item').item_code = itemInfo.item_code
+					updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
+					slot:getChildById('item'):setItemCount(itemInfo.count)
+					slot:getChildById('buyOrEdit'):setText(personal_store.owner and itemInfo.price or "Buy")
+					slot:getChildById('buyOrEdit'):enable()
+					slot:getChildById('buyOrEdit'):setVisible(true)
+				else
+					resetItemSlot(slot)
+				end
 				
 				
 				slot:getChildById('item').onClick = function()

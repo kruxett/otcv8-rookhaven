@@ -345,7 +345,7 @@ MainPanel < PSPanel
       cell-spacing: 4
       flow: true
     vertical-scrollbar: itemsScrollBar
-    size: 436 240
+    size: 372 240
     image-border: 1
     padding: 8
     image-source: /images/ui/panel_content
@@ -383,48 +383,6 @@ MainPanel < PSPanel
       id: item14
     PSItem
       id: item15
-    PSItem
-      id: item16
-    PSItem
-      id: item17
-    PSItem
-      id: item18
-    PSItem
-      id: item19
-    PSItem
-      id: item20
-    PSItem
-      id: item21
-    PSItem
-      id: item22
-    PSItem
-      id: item23
-    PSItem
-      id: item24
-    PSItem
-      id: item25
-    PSItem
-      id: item26
-    PSItem
-      id: item27
-    PSItem
-      id: item28
-    PSItem
-      id: item29
-    PSItem
-      id: item30
-    PSItem
-      id: item31
-    PSItem
-      id: item32
-    PSItem
-      id: item33
-    PSItem
-      id: item34
-    PSItem
-      id: item35
-    PSItem
-      id: item36
 
   VerticalScrollBar
     id: itemsScrollBar
@@ -533,12 +491,12 @@ MainPanel < PSPanel
       anchors.left: selectedItem.right
       anchors.top: itemWeight.bottom
       margin-left: 12
-      margin-top: 5
+      margin-top: 6
       minimum: 1
       maximum: 100
       step: 1
       value: 1
-      width: 220
+      width: 210
 
     Label
       id: ownerTaxNotice
