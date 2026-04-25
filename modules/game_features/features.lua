@@ -31,7 +31,6 @@ end
         g_game.enableFeature(GameMessageLevel)
         g_game.enableFeature(GamePlayerStateU16)
         g_game.enableFeature(GameNewOutfitProtocol)
-        g_game.enableFeature(GameOutfitShaders)
     end
 
     if(version >= 790) then

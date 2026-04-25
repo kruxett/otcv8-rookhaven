@@ -214,6 +214,8 @@ GameMissionId = 125
 GameItemCustomAttributes = 126
 GameAnimatedTextCustomFont = 127
 
+FuriousRageVisualOpcode = 94
+
 LastGameFeature = 130
         
 TextColors = {
