@@ -740,7 +740,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     perfectShotDamageRanges, combatsArray, concoctionsArray)
 
     -- Hide stats not applicable to Tibia 8.60
-    local sectionsToHide = {"manaLeech", "concoction", "concoctionPanel"}
+    local sectionsToHide = {"concoction", "concoctionPanel"}
     for _, id in ipairs(sectionsToHide) do
         if UI.CombatStats[id] then
             UI.CombatStats[id]:setVisible(false)
@@ -913,11 +913,29 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
             local avgArmor = getAverageArmorReduction(armorVal)
 
+            local minArmorReduction = 0
+            local maxArmorReduction = 0
+            if armorVal > 0 then
+                if armorVal <= 3 then
+                    minArmorReduction = 1
+                    maxArmorReduction = 1
+                else
+                    minArmorReduction = math.floor(armorVal / 2)
+                    maxArmorReduction = armorVal - ((armorVal % 2) + 1)
+                    if maxArmorReduction < minArmorReduction then
+                        maxArmorReduction = minArmorReduction
+                    end
+                end
+            end
+
             -- Match server defense behavior (Creature::blockHit):
             -- damage -= random(defense / 2, defense)
             local minDefenseReduction = math.floor(defenseVal / 2)
             local maxDefenseReduction = defenseVal
             local avgDefenseReduction = (minDefenseReduction + maxDefenseReduction) / 2
+            local avgTotalReduction = avgArmor + avgDefenseReduction
+            local minTotalReduction = minArmorReduction + minDefenseReduction
+            local maxTotalReduction = maxArmorReduction + maxDefenseReduction
 
             if UI.CombatStats.criticalChance then
                 UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", totalMitigationPct))
@@ -940,6 +958,24 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.lifeLeech:setTooltip(string.format(
                     "Defense roll reduction from combat formula.\nDefense Value: %d\nRoll range: %d to %d\nAverage reduction: %.1f when defense check triggers",
                     defenseVal, minDefenseReduction, maxDefenseReduction, avgDefenseReduction))
+            end
+
+            if UI.CombatStats.manaLeech then
+                UI.CombatStats.manaLeech:setVisible(true)
+                UI.CombatStats.manaLeech.value:setText(string.format("%.1f", avgTotalReduction))
+                UI.CombatStats.manaLeech.value:setColor("#44AD25")
+                UI.CombatStats.manaLeech:setTooltip(string.format(
+                    "Combined average flat reduction from armor + defense formulas.\nArmor avg: %.1f\nDefense avg: %.1f\nTotal avg: %.1f\nApplies when both checks are active.",
+                    avgArmor, avgDefenseReduction, avgTotalReduction))
+            end
+
+            if UI.CombatStats.defenseWindow then
+                UI.CombatStats.defenseWindow:setVisible(true)
+                UI.CombatStats.defenseWindow.value:setText(string.format("%d - %d", minTotalReduction, maxTotalReduction))
+                UI.CombatStats.defenseWindow.value:setColor("#C0C0C0")
+                UI.CombatStats.defenseWindow:setTooltip(string.format(
+                    "Theoretical total reduction interval from server formulas.\nArmor range: %d to %d\nDefense range: %d to %d\nCombined range: %d to %d\nDefense component requires a defense check.",
+                    minArmorReduction, maxArmorReduction, minDefenseReduction, maxDefenseReduction, minTotalReduction, maxTotalReduction))
             end
         end
 
@@ -1876,112 +1912,91 @@ local  function getWeaponSkillName(skillType)
     function Cyclopedia.onCyclopediaCharacterOffenceStats(data)
         UI.OffenceStats.rightPanel:destroyChildren()
         UI.OffenceStats.leftPanel:destroyChildren()
-    
-        local attackValue = data.weaponAttack + data.weaponFlatModifier + data.weaponDamage + data.weaponSkillLevel
-        local stats = {
-            {name = "Flat Damage and healing", value = data.flatDamage or 0, icon = false, percent = false},
-            {name = "Attack Value", value = attackValue, icon = true, weaponElement = data.weaponElement},
-            {name = "From Base Attack", value = data.weaponAttack or 0, align = "center", icon = false},
-            {name = "From Equipment", value = data.weaponFlatModifier or 0, align = "center", icon = false},
-    
-            {name = getWeaponSkillName(data.weaponSkillType), value = data.weaponSkillLevel or 0, align = "center", icon = false},
-            {name = "From Combat Tactics", value = data.weaponDamage or 0, align = "center", icon = false},
-    
-            {name = "Life Leech", value = data.lifeLeechTotal or 0, icon = false, percent = true},
-            {name = "From Base", value = data.lifeLeechEquipament or 0, align = "center", percent = true, icon = false},
-            {name = "From Equipment", value = data.lifeLeechImbuement or 0, align = "center", percent = true, icon = false},
-            {name = "From Wheel", value = data.lifeLeechWheel or 0, align = "center", percent = true, icon = false},
-    
-            {name = "Mana Leech", value = data.manaLeechTotal or 0, icon = false, percent = true},
-            {name = "From Base", value = data.manaLeechEquipament or 0, align = "center", percent = true, icon = false},
-            {name = "From Equipment", value = data.manaLeechImbuement or 0, align = "center", percent = true, icon = false},
-            {name = "From Wheel", value = data.manaLeechWheel or 0, align = "center", percent = true, icon = false},
-    
-            {name = "Onslaught", value = data.onslaught or 0, icon = false, percent = true},
-            {name = "From Base", value = data.onslaughtBase or 0, align = "center", percent = true, icon = false},
-            {name = "From Amplification", value = data.onslaughtBonus or 0, align = "center", percent = true, icon = false},
-    
-            {name = "Critical Hit", parent = "right", value = "", icon = false},
-            {name = "     Chance", parent = "right", value = data.critChanceTotal or 0, percent = true, icon = false},
-            {name = "     Extra Damage", parent = "right", value = data.critChanceFlat or 0, percent = true, icon = false},
-            {name = "From Base", parent = "right", value = data.critChanceEquipament or 0, align = "center", percent = true, icon = false},
-            {name = "From Equipment", parent = "right", value = data.critDamageImbuement or 0, align = "center", percent = true, icon = false},
-            {name = "From Wheel", parent = "right", value = data.critDamageWheel or 0, align = "center", percent = true, icon = false}
-        }
-        
-        if data.perfectShotDamage then
-            for i = 1, 5 do
-                if data.perfectShotDamage[i] and data.perfectShotDamage[i] > 0 then
-                    table.insert(stats, {
-                        name = "Perfect Shot Damage Bonus", 
-                        parent = "right", 
-                        value = "", 
-                        icon = false
-                    })
-                    table.insert(stats, {
-                        name = "     +" .. data.perfectShotDamage[i] .. " from range " .. i, 
-                        parent = "right", 
-                        value = "", 
-                        align = "center", 
-                        icon = false
-                    })
-                    break
-                end
+
+        local function getElementName(elementId)
+            local entry = Cyclopedia.clientCombat and Cyclopedia.clientCombat[elementId]
+            return entry and entry.id or "Physical"
+        end
+
+        local function addStat(parent, name, valueText, tooltip)
+            local widget = g_ui.createWidget("CharacterSkillBase", parent)
+            local nameLabel = g_ui.createWidget("SkillNameLabel", widget)
+            local valueLabel = g_ui.createWidget("SkillValueLabel", widget)
+            nameLabel:setText(name .. ":")
+            valueLabel:setText(valueText)
+            if tooltip and tooltip ~= "" then
+                widget:setTooltip(tooltip)
+            end
+            return widget
+        end
+
+        local attackValue = tonumber(data.weaponAttack) or 0
+        local weaponSkillType = tonumber(data.weaponSkillType) or 0
+        local weaponSkillLevel = tonumber(data.weaponSkillLevel) or 0
+        if weaponSkillLevel <= 0 and g_game and g_game.getLocalPlayer then
+            local player = g_game.getLocalPlayer()
+            if player and player.getSkillLevel then
+                weaponSkillLevel = tonumber(player:getSkillLevel(weaponSkillType)) or weaponSkillLevel
             end
         end
-    
-        local function renderStat(stat)
-            local parent = stat.parent == "right" and UI.OffenceStats.rightPanel or UI.OffenceStats.leftPanel
-    
-            if stat.align == "center" then
-                local widget = g_ui.createWidget("Label", parent)
-                local valueText = stat.value
-                if stat.percent then
-                    local percentValue = math.floor(stat.value * 10000) / 100
-                    local sign = percentValue > 0 and "+ " or ""
-                    valueText = sign .. percentValue .. "%"
-                end
-                widget:setText("   " .. valueText .. " " .. stat.name)
-                widget:setMarginLeft(80)
-                return widget
-            else
-                local widget = g_ui.createWidget("CharacterSkillBase", parent)
-                local nameLabel = g_ui.createWidget("SkillNameLabel", widget)
-                nameLabel:setText(stat.name .. ":")
-                local valueLabel = g_ui.createWidget("SkillValueLabel", widget)
-                if stat.percent then
-                    local percentValue = math.floor(stat.value * 10000) / 100
-                    local sign = percentValue > 0 and "+ " or ""
-                    valueLabel:setText(sign .. percentValue .. "%")
-                else
-                    valueLabel:setText(tostring(stat.value))
-                end
-                if stat.icon then
-                    valueLabel:setMarginRight(12)
-                    local icon = g_ui.createWidget("SkillCharacterIcon", widget)
-                    icon:setMarginTop(2)
-                    icon:addAnchor(AnchorRight, "parent", AnchorRight)
-                    local element = clientCombat[stat.weaponElement]
-                    if element then
-                        icon:setImageSource(element.path)
-                        icon:setImageSize({
-                            width = 9,
-                            height = 9
-                        })
-                    end
-                end
-    
-                return widget
-            end
+        local attackSpeedMs = tonumber(data.attackSpeed) or 2000
+        local attackSpeedSec = attackSpeedMs / 1000
+        local critChance = tonumber(data.critChanceTotal) or 0
+        local critTotal = tonumber(data.critDamageTotal) or 100
+        local critExtra = math.max(0, critTotal - 100)
+        local convertedDamage = tonumber(data.weaponElementDamage) or 0
+        local convertedElement = tonumber(data.weaponElement) or 0
+
+        addStat(
+            UI.OffenceStats.leftPanel,
+            "Attack Value",
+            tostring(attackValue),
+            "Base weapon attack value from the combat packet.\nUsed as an input in melee/distance damage formulas."
+        )
+
+        addStat(
+            UI.OffenceStats.leftPanel,
+            getWeaponSkillName(weaponSkillType),
+            tostring(weaponSkillLevel),
+            "Current offensive skill used by the equipped weapon.\nDirectly contributes to formula damage output."
+        )
+
+        addStat(
+            UI.OffenceStats.leftPanel,
+            "Attack Speed",
+            string.format("%.2fs", attackSpeedSec),
+            "Time between attacks from vocation/weapon attack speed.\nLower values mean more hits over time."
+        )
+
+        if convertedDamage > 0 then
+            addStat(
+                UI.OffenceStats.leftPanel,
+                "Element Conversion",
+                string.format("%d%% %s", convertedDamage, getElementName(convertedElement)),
+                "Weapon element conversion from equipped item attributes.\nAffects the element split of your outgoing hits."
+            )
         end
-    
-        for _, stat in ipairs(stats) do
-            if stat.align ~= "center" and stat.value == 0 and stat.value ~= "" then
-                -- Skip
-            else
-                renderStat(stat)
-            end
-        end
+
+        addStat(
+            UI.OffenceStats.rightPanel,
+            "Critical Chance",
+            string.format("%.2f%%", critChance),
+            "Chance for a critical hit from SPECIALSKILL_CRITICALHITCHANCE."
+        )
+
+        addStat(
+            UI.OffenceStats.rightPanel,
+            "Critical Extra Damage",
+            string.format("+%.2f%%", critExtra),
+            "Extra damage added on critical hits from SPECIALSKILL_CRITICALHITAMOUNT."
+        )
+
+        addStat(
+            UI.OffenceStats.rightPanel,
+            "Critical Total Multiplier",
+            string.format("%.2f%%", critTotal),
+            "Total critical hit damage multiplier (100% base + extra critical damage)."
+        )
     end
     function Cyclopedia.onCyclopediaCharacterDefenceStats(data)
         UI.DeffenceStats.rightPanel:destroyChildren()

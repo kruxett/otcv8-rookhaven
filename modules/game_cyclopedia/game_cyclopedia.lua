@@ -804,7 +804,7 @@ function Cyclopedia.buildAndLoadCombatStats()
 end
 
 -- Format:
--- attack,weaponElement,convertedDamage,convertedType,armor,defense,blessings,mitigation,critChance,critDamage,lifeLeech,manaLeech,reductions,weaponSkillId,attackSpeed,shieldDefense,shieldingSkill
+-- attack,weaponElement,convertedDamage,convertedType,armor,defense,blessings,mitigation,critChance,critDamage,lifeLeech,manaLeech,reductions,weaponSkillId,attackSpeed,shieldDefense,shieldingSkill,weaponSkillLevel
 -- reductions format: elementId:percent;elementId:percent;...
 function Cyclopedia.parseAndLoadCombatStats(data)
     if not Cyclopedia.loadCharacterCombatStats then
@@ -854,6 +854,7 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         haveBlessings = toNumber(fields[7], 0),
         weaponSkillId = toNumber(fields[14], 0),
         attackSpeed = toNumber(fields[15], 2000),
+        weaponSkillLevel = toNumber(fields[18], 0),
     }
 
     local mitigation = toNumber(fields[8], 0)
@@ -880,6 +881,20 @@ function Cyclopedia.parseAndLoadCombatStats(data)
     end
 
     Cyclopedia.loadCharacterCombatStats(parsedData, mitigation, additionalSkillsArray, {}, {}, reductions, {})
+
+    if Cyclopedia.onCyclopediaCharacterOffenceStats then
+        Cyclopedia.onCyclopediaCharacterOffenceStats({
+            weaponAttack = parsedData.weaponMaxHitChance,
+            weaponElement = parsedData.weaponElement,
+            weaponElementDamage = parsedData.weaponElementDamage,
+            weaponSkillType = parsedData.weaponSkillId,
+            weaponSkillLevel = parsedData.weaponSkillLevel,
+            attackSpeed = parsedData.attackSpeed,
+            critChanceTotal = toNumber(fields[9], 0),
+            critDamageTotal = toNumber(fields[10], 100),
+        })
+    end
+
 end
 
 -- =========================================================
