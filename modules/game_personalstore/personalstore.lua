@@ -250,7 +250,13 @@ local function applyOwnerEditModeState()
 	for _, child in ipairs(ItemsPanel:getChildren()) do
 		child:setBackgroundColor(color)
 		if child.itemInfo and child.itemInfo.itemid and child.itemInfo.itemid > 0 then
-			child:getChildById('buyOrEdit'):setText(editMode and "Edit" or formatSlotPrice(child.itemInfo.price))
+			if editMode then
+				child:getChildById('buyOrEdit'):setText("Edit")
+				child:getChildById('buyOrEdit'):setTooltip('Edit this listing')
+			else
+				child:getChildById('buyOrEdit'):setText(formatSlotPrice(child.itemInfo.price))
+				child:getChildById('buyOrEdit'):setTooltip('Unit price')
+			end
 			if editMode then
 				child:getChildById('buyOrEdit'):enable()
 			else
@@ -611,6 +617,15 @@ function parsePersonalStore(protocol, opcode, buffer)
 	end
 	
 	if personal_store.protocol == "ps" then
+		local storeSubtitle = MainPanel:getChildById('storeSubtitle')
+		if storeSubtitle then
+			if personal_store.owner then
+				storeSubtitle:setText('Slot labels show unit price')
+			else
+				storeSubtitle:setText('Browse listings and buy with confidence')
+			end
+		end
+
 		if personal_store.owner then
 			local localPlayer = g_game.getLocalPlayer()
 			if localPlayer then
@@ -653,6 +668,7 @@ function parsePersonalStore(protocol, opcode, buffer)
 					updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
 					slot:getChildById('item'):setItemCount(itemInfo.count)
 					slot:getChildById('buyOrEdit'):setText(personal_store.owner and formatSlotPrice(itemInfo.price) or "Buy")
+					slot:getChildById('buyOrEdit'):setTooltip(personal_store.owner and 'Unit price' or 'Buy this listing')
 					slot:getChildById('buyOrEdit'):enable()
 					slot:getChildById('buyOrEdit'):setVisible(true)
 				else
@@ -665,6 +681,8 @@ function parsePersonalStore(protocol, opcode, buffer)
 						return
 					end
 					
+					local wasSelected = slot.itemInfo.isSelected == true
+					
 					for _, sibling in ipairs(ItemsPanel:getChildren()) do
 						if sibling.itemInfo then
 							sibling.itemInfo.isSelected = false
@@ -674,6 +692,11 @@ function parsePersonalStore(protocol, opcode, buffer)
 								siblingBorder:setOpacity(0)
 							end
 						end
+					end
+
+					if wasSelected then
+						updatePurchasePanel(nil)
+						return
 					end
 					
 					slot.itemInfo.isSelected = true
