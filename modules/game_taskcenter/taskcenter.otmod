@@ -1,6 +1,6 @@
 Module
   name: game_taskcenter
-  description: Task Center window for NPC hunting tasks
+  description: Task Board window for NPC hunting tasks
   author: Rookhaven
   website:
   autoload: true

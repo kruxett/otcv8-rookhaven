@@ -71,7 +71,7 @@ TaskCreaturePreview < UIWidget
 
 MainWindow
   id: taskCenterWindow
-  !text: tr('Task Center')
+  !text: tr('Task Board')
   size: 760 430
   @onEscape: modules.game_taskcenter.hide()
 
@@ -266,7 +266,7 @@ MainWindow
 
       Button
         id: actionButton
-        !text: tr('Action')
+        !text: tr('Accept Task')
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: refreshButton.top
@@ -282,7 +282,8 @@ MainWindow
         anchors.right: closeButton.left
         anchors.bottom: parent.bottom
         margin-left: 8
-        margin-right: 4
+        margin-right: 6
+        margin-bottom: 8
 
       Button
         id: closeButton
@@ -291,3 +292,4 @@ MainWindow
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         margin-right: 8
+        margin-bottom: 8

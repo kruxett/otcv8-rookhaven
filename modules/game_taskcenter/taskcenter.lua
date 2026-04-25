@@ -615,7 +615,7 @@ local function onExtendedOpcode(protocol, opcode, buffer)
 
   if action == 'error' then
     modules.game_taskcenter.show()
-    setStatus(payload.message or 'Task Center request failed.', '#d97a7a')
+    setStatus(payload.message or 'Task Board request failed.', '#d97a7a')
   end
 end
 
@@ -626,7 +626,7 @@ function init()
 
   ProtocolGame.registerExtendedOpcode(TASK_CENTER_OPCODE, onExtendedOpcode)
 
-  taskCenterButton = modules.client_topmenu.addRightGameToggleButton('taskCenterButton', tr('Task Center'), '/images/topbuttons/quest_tracker',
+  taskCenterButton = modules.client_topmenu.addRightGameToggleButton('taskCenterButton', tr('Task Board'), '/images/topbuttons/quest_tracker',
     function()
       modules.game_taskcenter.toggle()
     end, false, 11)
