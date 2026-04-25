@@ -1,0 +1,10 @@
+Module
+  name: game_taskcenter
+  description: Task Center window for NPC hunting tasks
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ taskcenter ]
+  @onLoad: init()
+  @onUnload: terminate()

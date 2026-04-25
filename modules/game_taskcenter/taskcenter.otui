@@ -1,0 +1,217 @@
+TaskCenterListItem < Panel
+  height: 44
+  margin-bottom: 3
+  border-width: 1
+  border-color: #000000
+  background-color: #232323
+
+  $hover:
+    border-color: #ffffff
+
+  Label
+    id: title
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 6
+    margin-right: 6
+    margin-top: 4
+    text-auto-resize: true
+
+  Label
+    id: subtitle
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: title.bottom
+    margin-left: 6
+    margin-right: 6
+    margin-top: 1
+    color: #b0b0b0
+    text-auto-resize: true
+
+  Label
+    id: status
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 6
+    margin-bottom: 4
+    color: #8fdc8f
+    text-auto-resize: true
+
+MainWindow
+  id: taskCenterWindow
+  !text: tr('Task Center')
+  size: 760 430
+  @onEscape: modules.game_taskcenter.hide()
+
+  $mobile:
+    size: 600 350
+
+  TabButton
+    id: availableTab
+    !text: tr('Available')
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-right: 126
+    checked: true
+    on: true
+
+  TabButton
+    id: activeTab
+    !text: tr('Active')
+    anchors.left: availableTab.right
+    anchors.right: readyTab.left
+    anchors.top: parent.top
+    margin-left: 3
+    margin-right: 3
+
+  TabButton
+    id: readyTab
+    !text: tr('Ready To Turn In')
+    anchors.right: parent.right
+    anchors.top: parent.top
+    width: 250
+
+  FlatPanel
+    id: content
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: availableTab.bottom
+    anchors.bottom: parent.bottom
+    margin-top: 6
+
+    VerticalScrollBar
+      id: listScrollBar
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      width: 12
+      step: 36
+      pixels-scroll: true
+
+    ScrollablePanel
+      id: listPanel
+      anchors.left: listScrollBar.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      width: 330
+      margin-left: 4
+      margin-right: 5
+      vertical-scrollbar: listScrollBar
+      layout:
+        type: verticalBox
+        fit-children: true
+
+    FlatPanel
+      id: detailsPanel
+      anchors.left: listPanel.right
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-left: 5
+
+      Label
+        id: statusLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: 4
+        margin-left: 6
+        margin-right: 6
+        color: #9fc7ff
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: taskTitle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: statusLabel.bottom
+        margin-top: 8
+        margin-left: 6
+        margin-right: 6
+        text: tr('Select a task from the list')
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: creaturesLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: taskTitle.bottom
+        margin-top: 6
+        margin-left: 6
+        margin-right: 6
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: progressLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: creaturesLabel.bottom
+        margin-top: 6
+        margin-left: 6
+        margin-right: 6
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: rewardLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: progressLabel.bottom
+        margin-top: 6
+        margin-left: 6
+        margin-right: 6
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: reasonLabel
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: rewardLabel.bottom
+        margin-top: 6
+        margin-left: 6
+        margin-right: 6
+        color: #e0b070
+        text-wrap: true
+        text-auto-resize: true
+
+      HorizontalSeparator
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: actionButton.top
+        margin-left: 4
+        margin-right: 4
+        margin-bottom: 8
+
+      Button
+        id: actionButton
+        !text: tr('Action')
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: refreshButton.top
+        margin-left: 8
+        margin-right: 8
+        margin-bottom: 6
+        enabled: false
+
+      Button
+        id: refreshButton
+        !text: tr('Refresh')
+        anchors.left: parent.left
+        anchors.right: closeButton.left
+        anchors.bottom: parent.bottom
+        margin-left: 8
+        margin-right: 4
+
+      Button
+        id: closeButton
+        !text: tr('Close')
+        width: 95
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-right: 8

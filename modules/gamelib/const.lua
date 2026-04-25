@@ -215,6 +215,7 @@ GameItemCustomAttributes = 126
 GameAnimatedTextCustomFont = 127
 
 FuriousRageVisualOpcode = 94
+TaskCenterOpcode = 95
 
 LastGameFeature = 130
         
