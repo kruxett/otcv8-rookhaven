@@ -45,8 +45,8 @@ TaskCenterListItem < Panel
     phantom: true
 
 TaskCreaturePreview < UIWidget
-  size: 64 52
-  margin-right: 4
+  size: 80 70
+  margin-right: 6
   image-source: /images/ui/outfits/minipanel
   image-border: 20
 
@@ -55,7 +55,7 @@ TaskCreaturePreview < UIWidget
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
     margin-top: 2
-    size: 44 34
+    size: 60 50
     phantom: true
 
   Label
@@ -218,7 +218,7 @@ MainWindow
         margin-top: 4
         margin-left: 6
         margin-right: 6
-        height: 54
+        height: 72
         layout:
           type: horizontalBox
 
