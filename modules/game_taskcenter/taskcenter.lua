@@ -162,35 +162,57 @@ local function resolveCreatureOutfit(creatureName)
   return raceData.outfit
 end
 
-local function renderCreaturePreviews(creatures)
+local function renderCreaturePreviews(creatures, creatureVisuals)
   if not creaturesPreviewPanel then
     return
   end
 
   creaturesPreviewPanel:destroyChildren()
-  if not creatures or #creatures == 0 then
+  local visualEntries = {}
+
+  if creatureVisuals and #creatureVisuals > 0 then
+    for _, visual in ipairs(creatureVisuals) do
+      visualEntries[#visualEntries + 1] = {
+        name = tostring(visual.name or ''),
+        outfitType = tonumber(visual.outfitType) or 0,
+      }
+    end
+  elseif creatures and #creatures > 0 then
+    for _, creatureName in ipairs(creatures) do
+      visualEntries[#visualEntries + 1] = {
+        name = tostring(creatureName or ''),
+        outfitType = 0,
+      }
+    end
+  end
+
+  if #visualEntries == 0 then
     return
   end
 
   local maxPreviews = 6
-  for index, creatureName in ipairs(creatures) do
+  for index, visual in ipairs(visualEntries) do
     if index > maxPreviews then
       local more = g_ui.createWidget('TaskCreaturePreview', creaturesPreviewPanel)
-      more.nameLabel:setText('+' .. tostring(#creatures - maxPreviews))
-      more:setTooltip(string.format('%d more creatures', #creatures - maxPreviews))
+      more.nameLabel:setText('+' .. tostring(#visualEntries - maxPreviews))
+      more:setTooltip(string.format('%d more creatures', #visualEntries - maxPreviews))
       more.sprite:setVisible(false)
       return
     end
 
     local preview = g_ui.createWidget('TaskCreaturePreview', creaturesPreviewPanel)
-    preview.nameLabel:setText(tostring(creatureName))
-    preview:setTooltip(tostring(creatureName))
+    preview.nameLabel:setText(tostring(visual.name))
+    preview:setTooltip(tostring(visual.name))
 
-    local outfit = resolveCreatureOutfit(creatureName)
-    if outfit then
-      preview.sprite:setOutfit(outfit)
+    if visual.outfitType and visual.outfitType > 0 then
+      preview.sprite:setOutfit({ type = visual.outfitType })
     else
-      preview.sprite:setVisible(false)
+      local outfit = resolveCreatureOutfit(visual.name)
+      if outfit then
+        preview.sprite:setOutfit(outfit)
+      else
+        preview.sprite:setVisible(false)
+      end
     end
   end
 end
@@ -248,7 +270,7 @@ local function updateDetails()
   if not entry then
     taskTitle:setText('No task selected')
     creaturesLabel:setText('')
-    renderCreaturePreviews(nil)
+    renderCreaturePreviews(nil, nil)
     progressLabel:setText('')
     rewardLabel:setText('')
     reasonLabel:setText('')
@@ -260,7 +282,7 @@ local function updateDetails()
   local creatures = formatCreatures(entry.creatures)
   taskTitle:setText(taskName)
   creaturesLabel:setText('Creatures: ' .. creatures)
-  renderCreaturePreviews(entry.creatures)
+  renderCreaturePreviews(entry.creatures, entry.creatureVisuals)
 
   if currentTab == 'available' then
     progressLabel:setText('Required kills: ' .. tostring(entry.killsRequired or 0))
