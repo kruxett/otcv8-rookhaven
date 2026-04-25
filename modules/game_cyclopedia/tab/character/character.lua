@@ -959,12 +959,10 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     if UI.CombatStats.defence then
         local itemDefense = tonumber(data.defenseItemValue) or 0
         local shieldingSkill = tonumber(data.shieldingSkillLevel) or 0
-        local defenseBonus = tonumber(data.defenseSkillBonus) or 0
-
-        if itemDefense > 0 or shieldingSkill > 0 or defenseBonus > 0 then
+        if itemDefense > 0 or shieldingSkill > 0 then
             UI.CombatStats.defence:setTooltip(string.format(
-                "Defense Value is a combined score.\nItem Defense: %d\nShielding Skill: %d\nSkill Bonus: +%d\nTotal Defense Value: %d",
-                itemDefense, shieldingSkill, defenseBonus, tonumber(data.defense) or 0))
+                "Defense Value comes from server combat formula.\nShield Defense (item): %d\nShielding Skill: %d\nFinal Defense Value: %d",
+                itemDefense, shieldingSkill, tonumber(data.defense) or 0))
         else
             UI.CombatStats.defence:setTooltip(string.format(
                 "Defense Value shown by current combat stats packet.\nTotal Defense Value: %d",

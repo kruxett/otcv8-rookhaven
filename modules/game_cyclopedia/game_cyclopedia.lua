@@ -804,7 +804,7 @@ function Cyclopedia.buildAndLoadCombatStats()
 end
 
 -- Format:
--- attack,weaponElement,convertedDamage,convertedType,armor,defense,blessings,mitigation,critChance,critDamage,lifeLeech,manaLeech,reductions
+-- attack,weaponElement,convertedDamage,convertedType,armor,defense,blessings,mitigation,critChance,critDamage,lifeLeech,manaLeech,reductions,weaponSkillId,attackSpeed,shieldDefense,shieldingSkill
 -- reductions format: elementId:percent;elementId:percent;...
 function Cyclopedia.parseAndLoadCombatStats(data)
     if not Cyclopedia.loadCharacterCombatStats then
@@ -848,8 +848,8 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         weaponElementType = toNumber(fields[4], 0),
         armor = toNumber(fields[5], 0),
         defense = toNumber(fields[6], 0),
-        defenseItemValue = 0,
-        shieldingSkillLevel = 0,
+        defenseItemValue = toNumber(fields[16], 0),
+        shieldingSkillLevel = toNumber(fields[17], 0),
         defenseSkillBonus = 0,
         haveBlessings = toNumber(fields[7], 0),
         weaponSkillId = toNumber(fields[14], 0),
