@@ -238,7 +238,8 @@ local function applyOwnerEditModeState()
 		return
 	end
 
-	local color = editMode and "#00FF21" or "alpha"
+	-- Keep slot backgrounds neutral; edit mode is signaled by controls/text.
+	local color = "alpha"
 	for _, child in ipairs(ItemsPanel:getChildren()) do
 		child:setBackgroundColor(color)
 		if child.itemInfo and child.itemInfo.itemid and child.itemInfo.itemid > 0 then
@@ -508,7 +509,7 @@ function showMainPanel()
 	ItemEditPanel:hide()
 	StartStorePanel:hide()
 	MainPanel:show()
-	local color = editMode and "#00FF21" or "alpha"
+	local color = "alpha"
 	for i, child in ipairs(ItemsPanel:getChildren()) do
 		child:setBackgroundColor(color)
 	end
