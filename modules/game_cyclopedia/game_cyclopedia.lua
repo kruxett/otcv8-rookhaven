@@ -662,7 +662,27 @@ function Cyclopedia.buildAndLoadCombatStats()
 
     local defenseLeft = parseFirstNumberByAliases(leftText, { "def", "defense", "defence" })
     local defenseRight = parseFirstNumberByAliases(rightText, { "def", "defense", "defence" })
-    local defenseItemValue = math.max(defenseLeft, defenseRight)
+
+    local function isShield(item)
+        if not item or not item.getMarketData then
+            return false
+        end
+
+        local ok, marketData = pcall(function()
+            return item:getMarketData()
+        end)
+        return ok and marketData and tonumber(marketData.category) == 13
+    end
+
+    local shieldDefenseValue = 0
+    if isShield(leftItem) then
+        shieldDefenseValue = math.max(shieldDefenseValue, defenseLeft)
+    end
+    if isShield(rightItem) then
+        shieldDefenseValue = math.max(shieldDefenseValue, defenseRight)
+    end
+
+    local defenseItemValue = (shieldDefenseValue > 0) and shieldDefenseValue or math.max(defenseLeft, defenseRight)
     local shieldingLevel = safePlayerCall('getSkillLevel', 0, Skill.Shielding)
     local defenseValue = defenseItemValue + math.floor(shieldingLevel / 5)
 
@@ -671,7 +691,8 @@ function Cyclopedia.buildAndLoadCombatStats()
         armorValue = armorValue + math.max(0, parseFirstNumberByAliases(info.text, { "arm", "armor" }))
     end
 
-    local mitigationPercent = math.min(60, math.max(0, armorValue * 0.15 + shieldingLevel * 0.03))
+    local mitigationPercent = math.min(60, math.max(0,
+        armorValue * 0.15 + shieldingLevel * 0.03 + shieldDefenseValue * 0.25))
 
     local convertedDamage, convertedElement = 0, 0
     do
