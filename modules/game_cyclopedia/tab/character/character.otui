@@ -530,11 +530,21 @@ UIWidget
       margin-top: 5
       margin-bottom: 5
     CharacterSkillBase
-      id: attack
+      id: offensiveHit
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: separator.right
-      margin-top: 5
+      margin-top: 1
+      margin-left: 5
+      SkillNameLabel
+        !text: tr('Offensive Stats:')
+        color: #C0C0C0
+    CharacterSkillBase
+      id: attack
+      anchors.top: offensiveHit.bottom
+      anchors.left: parent.left
+      anchors.right: separator.right
+      margin-top: 0
       margin-left: 5
       SkillNameLabel
         !text: tr('Attack Value:')
@@ -625,7 +635,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Defence Value:')
+        !text: tr('Critical Chance:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -637,7 +647,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 1
       SkillNameLabel
-        !text: tr('Armor Value:')
+        !text: tr('Critical Extra Damage:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -649,7 +659,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Mitigation:')
+        !text: tr('Critical Total Multiplier:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0

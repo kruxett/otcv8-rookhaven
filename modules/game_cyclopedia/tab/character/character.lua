@@ -740,7 +740,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     perfectShotDamageRanges, combatsArray, concoctionsArray)
 
     -- Hide stats not applicable to Tibia 8.60
-    local sectionsToHide = {"concoction", "concoctionPanel"}
+    local sectionsToHide = {"concoction", "concoctionPanel", "blessings", "reduction", "reductionNone"}
     for _, id in ipairs(sectionsToHide) do
         if UI.CombatStats[id] then
             UI.CombatStats[id]:setVisible(false)
@@ -991,79 +991,49 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         UI.CombatStats.converted.icon:setVisible(false)
     end
 
-    UI.CombatStats.defence.value:setText(data.defense)
+    local function getAdditionalSkillValue(skillId)
+        local skillIndex = ({
+            [Skill.CriticalChance] = 1,
+            [Skill.CriticalDamage] = 2,
+            [Skill.LifeLeechAmount] = 3,
+            [Skill.ManaLeechAmount] = 4,
+        })[skillId]
+
+        if not skillIndex or not additionalSkillsArray or not additionalSkillsArray[skillIndex] then
+            return 0
+        end
+
+        return tonumber(additionalSkillsArray[skillIndex][2]) or 0
+    end
+
+    local critChance = getAdditionalSkillValue(Skill.CriticalChance)
+    local critTotal = getAdditionalSkillValue(Skill.CriticalDamage)
+    if critTotal <= 0 then
+        critTotal = 100
+    end
+    local critExtra = math.max(0, critTotal - 100)
+
     if UI.CombatStats.defence then
-        local itemDefense = tonumber(data.defenseItemValue) or 0
-        local shieldingSkill = tonumber(data.shieldingSkillLevel) or 0
-        if itemDefense > 0 or shieldingSkill > 0 then
-            UI.CombatStats.defence:setTooltip(string.format(
-                "Defense Value comes from server combat formula.\nShield Defense (item): %d\nShielding Skill: %d\nFinal Defense Value: %d",
-                itemDefense, shieldingSkill, tonumber(data.defense) or 0))
-        else
-            UI.CombatStats.defence:setTooltip(string.format(
-                "Defense Value shown by current combat stats packet.\nTotal Defense Value: %d",
-                tonumber(data.defense) or 0))
-        end
+        UI.CombatStats.defence.value:setText(string.format("%.2f%%", critChance))
+        UI.CombatStats.defence:setTooltip(
+            "Chance for a critical hit.\nSource: SPECIALSKILL_CRITICALHITCHANCE from server combat stats.")
     end
-    UI.CombatStats.armor.value:setText(data.armor)
-    UI.CombatStats.mitigation.value:setText(string.format("%.2f%%", mitigation))
-    UI.CombatStats.blessings.value:setText(string.format("%d/8", data.haveBlessings))
 
-    for i = 0, 6 do
-        local id = "reduction_" .. i
-        if UI.CombatStats[id] then
-            UI.CombatStats[id]:destroy()
-        end
+    if UI.CombatStats.armor then
+        UI.CombatStats.armor.value:setText(string.format("+%.2f%%", critExtra))
+        UI.CombatStats.armor:setTooltip(
+            "Extra damage added when a critical hit triggers.\nSource: SPECIALSKILL_CRITICALHITAMOUNT.")
     end
-    UI.CombatStats.reductionNone:destroyChildren()
 
-    if (next(combatsArray) == nil) then
-        UI.CombatStats.reductionNone:setVisible(true)
-    else
-        UI.CombatStats.reductionNone:setVisible(true)
-        for i = 1, #combatsArray do
-            local widget = g_ui.createWidget("CharacterElementReduction", UI.CombatStats.reductionNone)
-            widget:setId("reduction_" .. i)
+    if UI.CombatStats.mitigation then
+        UI.CombatStats.mitigation.value:setText(string.format("%.2f%%", critTotal))
+        UI.CombatStats.mitigation:setTooltip(
+            "Total critical hit multiplier.\nFormula: 100% base + critical extra damage.")
+    end
 
-            local element = Cyclopedia.clientCombat[combatsArray[i][1]]
-
-            if element then
-                widget.icon:setImageSource(element.path)
-                widget.icon:setImageSize({
-                    width = 9,
-                    height = 9
-                })
-            else
-                print(string.format("WARNING: Element not found for combat array index %d with key %s.", i, tostring(combatsArray[i][1])))
-            end
-            local valor = combatsArray[i][2]
-            local porcentaje = valor / 100
-            local diferencia = 65535 - valor
-            local porcentaje_negativo = diferencia / 100
-            local resultado
-            local isResistance
-            if porcentaje <= porcentaje_negativo then
-                resultado = string.format("+%.2f%%", porcentaje)
-                widget.value:setColor("green")
-                isResistance = true
-            else
-                resultado = string.format("-%.2f%%", porcentaje_negativo)
-                widget.value:setColor("red")
-                isResistance = false
-            end
-            widget.value:setText(resultado)
-            if element then
-                widget.name:setText(element.id)
-            end
-            -- Resistance bar
-            if widget.bar then
-                local magnitude = isResistance and porcentaje or porcentaje_negativo
-                local barPct = math.min(100, math.floor(magnitude))
-                widget.bar:setPercent(barPct)
-                widget.bar:setBackgroundColor(isResistance and "#44AD25" or "#b22222")
-            end
-            widget:setMarginLeft(13)
-        end
+    if UI.CombatStats.reductionNone then
+        UI.CombatStats.reductionNone:destroyChildren()
+        UI.CombatStats.reductionNone:setVisible(false)
     end
 
     -- concoctions
@@ -1087,33 +1057,6 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             widget.item:setTooltip(string.format("%s: %.0f minutes", itemName, minutes))
             widget.amount:setVisible(false)
         end
-    end
-
-    local skillsIndexes = {
-        [Skill.CriticalChance] = 1,
-        [Skill.CriticalDamage] = 2,
-        [Skill.LifeLeechAmount] = 3,
-        [Skill.ManaLeechAmount] = 4
-    }
-
-    -- Critical Chance
-    local function getAdditionalSkillValue(skillId)
-        local skillIndex = skillsIndexes[skillId]
-        if not skillIndex or not additionalSkillsArray or not additionalSkillsArray[skillIndex] then
-            return 0
-        end
-        return additionalSkillsArray[skillIndex][2] or 0
-    end
-
-    local skill = getAdditionalSkillValue(Skill.CriticalChance)
-    -- Mana Leech Amount (hidden)
-    local skill = getAdditionalSkillValue(Skill.ManaLeechAmount)
-    if skill > 0 then
-        UI.CombatStats.manaLeech.value:setColor("#44AD25")
-        UI.CombatStats.manaLeech.value:setText(string.format("%.2f%%", skill / 100))
-    else
-        UI.CombatStats.manaLeech.value:setColor("#C0C0C0")
-        UI.CombatStats.manaLeech.value:setText(string.format("%d%%", skill))
     end
 
     for i = 1, #forgeSkillsArray do
