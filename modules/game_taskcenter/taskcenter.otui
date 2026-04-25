@@ -18,6 +18,7 @@ TaskCenterListItem < Panel
     margin-top: 4
     height: 14
     font: verdana-11px-rounded
+    phantom: true
 
   Label
     id: subtitle
@@ -30,6 +31,7 @@ TaskCenterListItem < Panel
     height: 12
     color: #b0b0b0
     font: verdana-11px-rounded
+    phantom: true
 
   Label
     id: status
@@ -39,6 +41,7 @@ TaskCenterListItem < Panel
     margin-bottom: 4
     color: #8fdc8f
     text-auto-resize: true
+    phantom: true
 
 MainWindow
   id: taskCenterWindow

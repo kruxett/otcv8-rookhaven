@@ -238,6 +238,17 @@ local function renderList()
   listPanel:destroyChildren()
   local entries = getEntriesForCurrentTab()
 
+  -- Filter locked tasks out of the available list
+  if currentTab == 'available' then
+    local filtered = {}
+    for _, e in ipairs(entries) do
+      if e.canAccept then
+        filtered[#filtered + 1] = e
+      end
+    end
+    entries = filtered
+  end
+
   if #entries == 0 then
     selectedKey = nil
     local empty = g_ui.createWidget('TaskCenterListItem', listPanel)
@@ -271,13 +282,8 @@ local function renderList()
     row.subtitle:setText(subtitle)
 
     if currentTab == 'available' then
-      if entry.canAccept then
-        row.status:setText('Available')
-        row.status:setColor('#8fdc8f')
-      else
-        row.status:setText('Locked')
-        row.status:setColor('#d18f8f')
-      end
+      row.status:setText('Available')
+      row.status:setColor('#8fdc8f')
     elseif currentTab == 'active' then
       row.status:setText(string.format('%d/%d', tonumber(entry.progress) or 0, tonumber(entry.required) or 0))
       row.status:setColor('#ffd27f')
@@ -308,13 +314,13 @@ local function setTab(tabName)
   currentTab = tabName
 
   if availableTab then
-    availableTab:setChecked(tabName == 'available')
+    availableTab:setOn(tabName == 'available')
   end
   if activeTab then
-    activeTab:setChecked(tabName == 'active')
+    activeTab:setOn(tabName == 'active')
   end
   if readyTab then
-    readyTab:setChecked(tabName == 'ready')
+    readyTab:setOn(tabName == 'ready')
   end
 
   selectedKey = nil
