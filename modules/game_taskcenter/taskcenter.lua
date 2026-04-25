@@ -319,7 +319,6 @@ local function setTab(tabName)
 
   selectedKey = nil
   renderList()
-  updatePaginator()
 end
 
 local function applySnapshot(payload)

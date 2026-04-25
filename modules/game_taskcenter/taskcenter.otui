@@ -107,8 +107,9 @@ MainWindow
 
     FlatPanel
       id: availablePaginator
-      anchors.left: listPanel.left
-      anchors.right: listPanel.right
+      anchors.left: listScrollBar.right
+      margin-left: 4
+      width: 330
       anchors.bottom: parent.bottom
       height: 24
 
