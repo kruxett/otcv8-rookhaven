@@ -684,7 +684,8 @@ function Cyclopedia.buildAndLoadCombatStats()
 
     local defenseItemValue = (shieldDefenseValue > 0) and shieldDefenseValue or math.max(defenseLeft, defenseRight)
     local shieldingLevel = safePlayerCall('getSkillLevel', 0, Skill.Shielding)
-    local defenseValue = defenseItemValue + math.floor(shieldingLevel / 5)
+    local defenseSkillBonus = math.floor(shieldingLevel / 5)
+    local defenseValue = defenseItemValue + defenseSkillBonus
 
     local armorValue = 0
     for _, info in ipairs(equipped) do
@@ -782,6 +783,9 @@ function Cyclopedia.buildAndLoadCombatStats()
         weaponElementDamage = convertedDamage,
         weaponElementType  = convertedElement,
         defense            = defenseValue,
+        defenseItemValue   = defenseItemValue,
+        shieldingSkillLevel = shieldingLevel,
+        defenseSkillBonus  = defenseSkillBonus,
         armor              = armorValue,
         haveBlessings      = blessingCount,
         weaponSkillId      = weaponSkillIdFallback,
@@ -844,6 +848,9 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         weaponElementType = toNumber(fields[4], 0),
         armor = toNumber(fields[5], 0),
         defense = toNumber(fields[6], 0),
+        defenseItemValue = 0,
+        shieldingSkillLevel = 0,
+        defenseSkillBonus = 0,
         haveBlessings = toNumber(fields[7], 0),
         weaponSkillId = toNumber(fields[14], 0),
         attackSpeed = toNumber(fields[15], 2000),
