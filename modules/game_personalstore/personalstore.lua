@@ -471,6 +471,10 @@ function showBuyItemPanel(itemInfo)
 		updatePrices(BuyItemPanel:getChildById('price'), (itemInfo.price * value))
 		BuyItemPanel:getChildById('count'):setValue(value)
 		BuyItemPanel:getChildById('item'):setItemCount(value)
+		local countLabel = BuyItemPanel:getChildById('countLabel')
+		if countLabel then
+			countLabel:setText('Quantity: ' .. value)
+		end
 	end
 	BuyItemPanel:getChildById('confirm').onClick = function()
 		g_game.getProtocolGame():sendExtendedOpcode(Opcode,
