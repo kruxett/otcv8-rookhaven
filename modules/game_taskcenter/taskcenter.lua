@@ -1,7 +1,9 @@
 local TASK_CENTER_OPCODE = TaskCenterOpcode or 95
+local TASK_NPC_MAX_DISTANCE = 5
 
 local taskCenterWindow = nil
-local taskCenterButton = nil
+local npcSessionActive = false
+local npcSessionSource = nil
 
 local availableTab = nil
 local activeTab = nil
@@ -30,6 +32,95 @@ local availablePage = 1
 local availablePageSize = 20
 local renderedEntries = {}
 
+local TASK_NPC_SOURCE_ALIASES = {
+  torvind = { 'Torvind' },
+  anne = { 'Anne Bonefang' },
+  annebonefang = { 'Anne Bonefang' },
+  braydon = { 'Braydon' },
+}
+
+local TASK_NPC_FALLBACK_NAMES = {
+  'Torvind',
+  'Anne Bonefang',
+  'Braydon',
+}
+
+local function normalizeNpcName(name)
+  return tostring(name or ''):lower():gsub('[^a-z0-9]', '')
+end
+
+local function getNpcCandidateNames(source)
+  local normalizedSource = normalizeNpcName(source)
+  if normalizedSource ~= '' and TASK_NPC_SOURCE_ALIASES[normalizedSource] then
+    return TASK_NPC_SOURCE_ALIASES[normalizedSource]
+  end
+
+  return TASK_NPC_FALLBACK_NAMES
+end
+
+local function getChebyshevDistance(a, b)
+  if not a or not b then
+    return math.huge
+  end
+
+  if a.z ~= b.z then
+    return math.huge
+  end
+
+  return math.max(math.abs((a.x or 0) - (b.x or 0)), math.abs((a.y or 0) - (b.y or 0)))
+end
+
+local function isNearTaskNpc(source)
+  local player = g_game.getLocalPlayer and g_game.getLocalPlayer() or nil
+  if not player then
+    return false
+  end
+
+  local playerPos = player:getPosition()
+  if not playerPos then
+    return false
+  end
+
+  local spectators = g_map.getSpectators and g_map.getSpectators(playerPos, false) or {}
+  local candidateNames = getNpcCandidateNames(source)
+  local candidateLookup = {}
+  for _, name in ipairs(candidateNames) do
+    candidateLookup[normalizeNpcName(name)] = true
+  end
+
+  for _, creature in ipairs(spectators) do
+    if creature and creature:isNpc() then
+      local creatureName = creature:getName()
+      if candidateLookup[normalizeNpcName(creatureName)] then
+        local npcPos = creature:getPosition()
+        if getChebyshevDistance(playerPos, npcPos) <= TASK_NPC_MAX_DISTANCE then
+          return true
+        end
+      end
+    end
+  end
+
+  return false
+end
+
+local function enforceNpcProximity()
+  if not npcSessionActive then
+    return
+  end
+
+  if not taskCenterWindow or not taskCenterWindow:isVisible() then
+    return
+  end
+
+  if not isNearTaskNpc(npcSessionSource) then
+    modules.game_taskcenter.hide()
+  end
+end
+
+local function onLocalPlayerPositionChange(player, newPos, oldPos)
+  enforceNpcProximity()
+end
+
 local function destroyWindow()
   if taskCenterWindow then
     taskCenterWindow:destroy()
@@ -55,6 +146,8 @@ local function destroyWindow()
   nextPageButton = nil
   pageInfoLabel = nil
   renderedEntries = {}
+  npcSessionActive = false
+  npcSessionSource = nil
 end
 
 local function sendRequest(action, payload)
@@ -598,6 +691,8 @@ local function onExtendedOpcode(protocol, opcode, buffer)
   local action = tostring(payload.action or ''):lower()
 
   if action == 'open' then
+    npcSessionActive = true
+    npcSessionSource = payload.source
     modules.game_taskcenter.show()
     sendRequest('refresh', {
       source = payload.source or 'server',
@@ -624,12 +719,11 @@ function init()
     onGameEnd = destroyWindow,
   })
 
-  ProtocolGame.registerExtendedOpcode(TASK_CENTER_OPCODE, onExtendedOpcode)
+  connect(LocalPlayer, {
+    onPositionChange = onLocalPlayerPositionChange,
+  })
 
-  taskCenterButton = modules.client_topmenu.addRightGameToggleButton('taskCenterButton', tr('Task Board'), '/images/topbuttons/quest_tracker',
-    function()
-      modules.game_taskcenter.toggle()
-    end, false, 11)
+  ProtocolGame.registerExtendedOpcode(TASK_CENTER_OPCODE, onExtendedOpcode)
 end
 
 function terminate()
@@ -639,15 +733,18 @@ function terminate()
     onGameEnd = destroyWindow,
   })
 
-  destroyWindow()
+  disconnect(LocalPlayer, {
+    onPositionChange = onLocalPlayerPositionChange,
+  })
 
-  if taskCenterButton then
-    taskCenterButton:destroy()
-    taskCenterButton = nil
-  end
+  destroyWindow()
 end
 
 function show()
+  if not npcSessionActive then
+    return
+  end
+
   local window = ensureWindow()
   if not window then
     return
@@ -656,10 +753,6 @@ function show()
   window:show()
   window:raise()
   window:focus()
-
-  if taskCenterButton then
-    taskCenterButton:setOn(true)
-  end
 end
 
 function hide()
@@ -667,22 +760,13 @@ function hide()
     taskCenterWindow:hide()
   end
 
-  if taskCenterButton then
-    taskCenterButton:setOn(false)
-  end
+  -- Require a new NPC interaction before reopening.
+  npcSessionActive = false
+  npcSessionSource = nil
 end
 
 function toggle()
-  local window = ensureWindow()
-  if not window then
-    return
-  end
-
-  if window:isVisible() then
+  if taskCenterWindow and taskCenterWindow:isVisible() then
     hide()
-    return
   end
-
-  show()
-  sendRequest('open', { source = 'client_toggle' })
 end
