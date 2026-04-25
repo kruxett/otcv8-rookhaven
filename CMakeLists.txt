@@ -178,7 +178,7 @@ option(FRAMEWORK_SOUND "Use SOUND " OFF)
 option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
 option(FRAMEWORK_NET "Use NET " ON)
-option(WITH_ENCRYPTION "Enable ENC3 file encryption support" OFF)
+option(WITH_ENCRYPTION "Enable ENC3 file encryption support" ON)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_LUAC_RELEASE "Compile Lua scripts to bytecode in Release builds" ON)
@@ -691,6 +691,24 @@ if(USE_STATIC_LIBS)
             if(EXISTS \"\${_bot_disabled}\")
                 file(RENAME \"\${_bot_disabled}\" \"\${_temp_dir}/modules/game_bot/bot.otmod\")
             endif()
+
+            if(${WITH_ENCRYPTION})
+                set(_encrypt_exe \"\${_install_prefix}/${CLIENT_TARGET}${CMAKE_EXECUTABLE_SUFFIX}\")
+                if(EXISTS \"\${_encrypt_exe}\")
+                    message(STATUS \"Encrypting client resources before packaging...\")
+                    execute_process(
+                        COMMAND \"\${_encrypt_exe}\" --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
+                        WORKING_DIRECTORY \"\${_temp_dir}\"
+                        RESULT_VARIABLE _enc_result
+                        ERROR_VARIABLE _enc_error
+                    )
+                    if(NOT _enc_result EQUAL 0)
+                        message(FATAL_ERROR \"Failed to encrypt resources: \${_enc_error}\")
+                    endif()
+                else()
+                    message(FATAL_ERROR \"Encryption executable not found: \${_encrypt_exe}\")
+                endif()
+            endif()
                 
             # Create ZIP from files using CMake tar
             message(STATUS \"Creating data.zip at: \${_data_zip_path}\")
@@ -767,6 +785,24 @@ if(USE_STATIC_LIBS)
             file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\"
                  PATTERN \"game_bot\" EXCLUDE)
             file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
+
+            if(${WITH_ENCRYPTION})
+                set(_encrypt_exe \"\${_install_prefix}/${CLIENT_TARGET}${CMAKE_EXECUTABLE_SUFFIX}\")
+                if(EXISTS \"\${_encrypt_exe}\")
+                    message(STATUS \"Encrypting client resources before packaging...\")
+                    execute_process(
+                        COMMAND \"\${_encrypt_exe}\" --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
+                        WORKING_DIRECTORY \"\${_temp_dir}\"
+                        RESULT_VARIABLE _enc_result
+                        ERROR_VARIABLE _enc_error
+                    )
+                    if(NOT _enc_result EQUAL 0)
+                        message(FATAL_ERROR \"Failed to encrypt resources: \${_enc_error}\")
+                    endif()
+                else()
+                    message(FATAL_ERROR \"Encryption executable not found: \${_encrypt_exe}\")
+                endif()
+            endif()
                 
             # Create ZIP from files using CMake tar
             message(STATUS \"Creating data.zip at: \${_data_zip_path}\")

@@ -71,9 +71,17 @@ static void setupDllSearchPath() {
 int main(int argc, const char* argv[]) {
     std::vector<std::string> args(argv, argv + argc);
     std::string runScriptPath;
+    std::string encryptSeed;
     for(size_t i = 1; i < args.size(); ++i) {
         if(args[i] == "--run-script" && i + 1 < args.size()) {
             runScriptPath = args[i + 1];
+            break;
+        }
+        if(args[i] == "--encrypt-data") {
+            if(i + 1 < args.size() && !args[i + 1].empty() && args[i + 1].rfind("--", 0) != 0)
+                encryptSeed = args[i + 1];
+            else
+                encryptSeed = "";
             break;
         }
     }
@@ -105,6 +113,18 @@ int main(int argc, const char* argv[]) {
     // initialize application framework and otclient
     g_app.init(args);
     g_client.init(args);
+
+#ifdef WITH_ENCRYPTION
+    if (std::find(args.begin(), args.end(), "--encrypt-data") != args.end()) {
+#if !defined(ANDROID)
+        g_resources.encrypt(encryptSeed);
+#endif
+        g_app.deinit();
+        g_client.terminate();
+        g_app.terminate();
+        return 0;
+    }
+#endif
 
 #ifdef DEFAULT_SERVER_ENDPOINT
     // Expose the baked-in default server endpoint to Lua before init.lua runs

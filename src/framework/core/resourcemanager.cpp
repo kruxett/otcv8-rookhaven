@@ -1085,7 +1085,10 @@ void ResourceManager::encrypt(const std::string& seed) {
 
     std::queue<std::filesystem::path> toEncrypt;
     // you can add custom files here
-    toEncrypt.push(std::filesystem::path(INIT_FILENAME));
+    if (std::filesystem::exists(INIT_FILENAME_COMPILED))
+        toEncrypt.push(std::filesystem::path(INIT_FILENAME_COMPILED));
+    else
+        toEncrypt.push(std::filesystem::path(INIT_FILENAME));
 
     for (auto& dir : dirsToCheck) {
         if (!std::filesystem::exists(dir))
