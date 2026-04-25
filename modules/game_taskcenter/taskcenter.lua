@@ -13,6 +13,7 @@ local creaturesLabel = nil
 local progressLabel = nil
 local rewardLabel = nil
 local reasonLabel = nil
+local creaturesPreviewPanel = nil
 local actionButton = nil
 local refreshButton = nil
 local closeButton = nil
@@ -45,6 +46,7 @@ local function destroyWindow()
   progressLabel = nil
   rewardLabel = nil
   reasonLabel = nil
+  creaturesPreviewPanel = nil
   actionButton = nil
   refreshButton = nil
   closeButton = nil
@@ -124,6 +126,98 @@ local function formatCreatures(creatures)
   return table.concat(creatures, ', ')
 end
 
+local function resolveCreatureOutfit(creatureName)
+  if not creatureName or creatureName == '' then
+    return nil
+  end
+
+  if not g_things or not g_things.getRacesByName or not g_things.getRaceData then
+    return nil
+  end
+
+  local races = g_things.getRacesByName(creatureName) or {}
+  if #races == 0 then
+    return nil
+  end
+
+  local selected = races[1]
+  local needle = tostring(creatureName):lower()
+  for _, race in ipairs(races) do
+    if tostring(race.name or ''):lower() == needle then
+      selected = race
+      break
+    end
+  end
+
+  local raceId = tonumber(selected.raceId)
+  if not raceId then
+    return nil
+  end
+
+  local raceData = g_things.getRaceData(raceId)
+  if not raceData or not raceData.outfit or (tonumber(raceData.outfit.type) or 0) <= 0 then
+    return nil
+  end
+
+  return raceData.outfit
+end
+
+local function renderCreaturePreviews(creatures)
+  if not creaturesPreviewPanel then
+    return
+  end
+
+  creaturesPreviewPanel:destroyChildren()
+  if not creatures or #creatures == 0 then
+    return
+  end
+
+  local maxPreviews = 6
+  for index, creatureName in ipairs(creatures) do
+    if index > maxPreviews then
+      local more = g_ui.createWidget('TaskCreaturePreview', creaturesPreviewPanel)
+      more.nameLabel:setText('+' .. tostring(#creatures - maxPreviews))
+      more:setTooltip(string.format('%d more creatures', #creatures - maxPreviews))
+      more.sprite:setVisible(false)
+      return
+    end
+
+    local preview = g_ui.createWidget('TaskCreaturePreview', creaturesPreviewPanel)
+    preview.nameLabel:setText(tostring(creatureName))
+    preview:setTooltip(tostring(creatureName))
+
+    local outfit = resolveCreatureOutfit(creatureName)
+    if outfit then
+      preview.sprite:setOutfit(outfit)
+    else
+      preview.sprite:setVisible(false)
+    end
+  end
+end
+
+local function updateStatusFromSnapshot(message)
+  local playerData = snapshotData and snapshotData.player or {}
+  local cooldownBlocks = playerData and playerData.cooldownBlocksAccept == true
+  local cooldownRemaining = math.max(0, tonumber(playerData and playerData.cooldownRemaining) or 0)
+
+  if cooldownBlocks and cooldownRemaining > 0 then
+    local mins = math.floor(cooldownRemaining / 60)
+    local secs = cooldownRemaining % 60
+    setStatus(string.format('Cooldown active: %02d:%02d before new tasks can be accepted.', mins, secs), '#e0b070')
+    return
+  end
+
+  if message and message ~= '' then
+    local lower = message:lower()
+    if lower:find('failed', 1, true) or lower:find('invalid', 1, true) or lower:find('error', 1, true) then
+      setStatus(message, '#d97a7a')
+      return
+    end
+  end
+
+  setStatus('', '#9fc7ff')
+end
+
 local function findSelectedEntry(entriesOverride)
   local entries = entriesOverride or renderedEntries
   if #entries == 0 then
@@ -154,6 +248,7 @@ local function updateDetails()
   if not entry then
     taskTitle:setText('No task selected')
     creaturesLabel:setText('')
+    renderCreaturePreviews(nil)
     progressLabel:setText('')
     rewardLabel:setText('')
     reasonLabel:setText('')
@@ -165,6 +260,7 @@ local function updateDetails()
   local creatures = formatCreatures(entry.creatures)
   taskTitle:setText(taskName)
   creaturesLabel:setText('Creatures: ' .. creatures)
+  renderCreaturePreviews(entry.creatures)
 
   if currentTab == 'available' then
     progressLabel:setText('Required kills: ' .. tostring(entry.killsRequired or 0))
@@ -355,11 +451,7 @@ local function applySnapshot(payload)
     end
   end
 
-  if message and message ~= '' then
-    setStatus(message, '#9fc7ff')
-  else
-    setStatus('Task board synced.', '#9fc7ff')
-  end
+  updateStatusFromSnapshot(message)
 
   renderList()
 end
@@ -384,6 +476,7 @@ local function ensureWindow()
   progressLabel = taskCenterWindow:recursiveGetChildById('progressLabel')
   rewardLabel = taskCenterWindow:recursiveGetChildById('rewardLabel')
   reasonLabel = taskCenterWindow:recursiveGetChildById('reasonLabel')
+  creaturesPreviewPanel = taskCenterWindow:recursiveGetChildById('creaturesPreviewPanel')
   actionButton = taskCenterWindow:recursiveGetChildById('actionButton')
   refreshButton = taskCenterWindow:recursiveGetChildById('refreshButton')
   closeButton = taskCenterWindow:recursiveGetChildById('closeButton')
@@ -454,7 +547,7 @@ local function ensureWindow()
   end
 
   setTab('available')
-  setStatus('Task board ready.', '#9fc7ff')
+  setStatus('', '#9fc7ff')
   taskCenterWindow:hide()
 
   return taskCenterWindow
