@@ -73,8 +73,6 @@ function init()
 	BuyItemPanel = MainWindow:getChildById('buyItemPanel')
 	StartStorePanel = MainWindow:getChildById('startStorePanel')
 	ItemsPanel = MainPanel:getChildById('itemsFlatPanel')
-	CountSelector = MainPanel:getChildById('countSelector')
-	BuyButton = MainPanel:getChildById('buyButton')
 	
 	local PurchasePanel = MainPanel:getChildById('purchasePanel')
 	if PurchasePanel then
@@ -199,6 +197,7 @@ function removeItemFromPanel(slot)
 	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("")
 	slot:getChildById('buyOrEdit'):disable()
+	slot:getChildById('buyOrEdit'):setVisible(false)
 	slot:getChildById('remove'):setVisible(false)
 	
 	local border = slot:getChildById('border')
@@ -255,6 +254,7 @@ local function applyOwnerEditModeState()
 				end
 			end
 
+			child:getChildById('buyOrEdit'):setVisible(true)
 			child:getChildById('remove'):setVisible(editMode)
 			child:getChildById('remove').onClick = function()
 				if not editMode or not child.itemInfo or not child.itemInfo.item_code then
@@ -305,7 +305,7 @@ function openEditPricePanel()
 	end
 	
 	if not selectedItemInfo then
-		displayErrorBox("Erro", "Nenhum item selecionado para edi��o de pre�o.")
+		displayErrorBox("Error", "No item selected for price editing.")
 		return
 	end
 	
@@ -419,6 +419,10 @@ function showEditItemPanel(itemInfo)
 	ItemEditPanel:getChildById('count'):setMaximum(itemInfo.count)
 	ItemEditPanel:getChildById('count'):setMinimum(1)
 	ItemEditPanel:getChildById('count'):setValue(itemInfo.count)
+	local editCountLabel = ItemEditPanel:getChildById('countLabel')
+	if editCountLabel then
+		editCountLabel:setText('Quantity: ' .. itemInfo.count)
+	end
 	ItemEditPanel:getChildById('price'):getChildById('value'):setText(itemInfo.price)
 	updatePrices(ItemEditPanel:getChildById('price'):getChildById('moneyPanel'), itemInfo.price)
 	local taxSummary = ItemEditPanel:getChildById('taxSummary')
@@ -440,6 +444,10 @@ function showEditItemPanel(itemInfo)
 	updateTaxSummary()
 	ItemEditPanel:getChildById('count').onValueChange = function(self, value)
 		ItemEditPanel:getChildById('item'):setItemCount(value)
+		local countLabel = ItemEditPanel:getChildById('countLabel')
+		if countLabel then
+			countLabel:setText('Quantity: ' .. value)
+		end
 		updateTaxSummary()
 	end
 	ItemEditPanel:getChildById('price'):getChildById('value').onTextChange = function(self, text, oldText)
@@ -467,6 +475,10 @@ function showBuyItemPanel(itemInfo)
 	BuyItemPanel:getChildById('count'):setMaximum(itemInfo.count)
 	BuyItemPanel:getChildById('count'):setMinimum(1)
 	BuyItemPanel:getChildById('count'):setValue(itemInfo.count)
+	local buyCountLabel = BuyItemPanel:getChildById('countLabel')
+	if buyCountLabel then
+		buyCountLabel:setText('Quantity: ' .. itemInfo.count)
+	end
 	updatePrices(BuyItemPanel:getChildById('price'), (itemInfo.price * itemInfo.count))
 	BuyItemPanel:getChildById('count').onValueChange = function(self, value)
 		updatePrices(BuyItemPanel:getChildById('price'), (itemInfo.price * value))
@@ -628,6 +640,7 @@ function parsePersonalStore(protocol, opcode, buffer)
 				slot:getChildById('item'):setItemCount(itemInfo.count)
 				slot:getChildById('buyOrEdit'):setText(personal_store.owner and itemInfo.price or "Buy")
 				slot:getChildById('buyOrEdit'):enable()
+				slot:getChildById('buyOrEdit'):setVisible(true)
 				
 				
 				slot:getChildById('item').onClick = function()
@@ -658,9 +671,10 @@ function parsePersonalStore(protocol, opcode, buffer)
 					if slot.itemInfo.isContainer and slot.itemInfo.items then
 						showContainerItems(slot.itemInfo)
 					else
-						local containerPanel = MainPanel:getChildById('containerItemsPanel')
+						local purchasePanel = MainPanel:getChildById('purchasePanel')
+						local containerPanel = purchasePanel and purchasePanel:getChildById('containerItemsPanel')
 						if containerPanel then
-							containerPanel:setVisible(true)
+							containerPanel:setVisible(false)
 							containerPanel:destroyChildren()
 						end
 					end
@@ -714,6 +728,8 @@ function showContainerItems(containerInfo)
 		slot:getChildById('item'):setItemId(itemInfo.clientId)
 		slot:getChildById('item'):setItemCount(itemInfo.count or 1)
 		updateRarityFrame(slot:getChildById('item'), itemInfo.rarity or 0)
+		slot:getChildById('buyOrEdit'):setVisible(false)
+		slot:getChildById('remove'):setVisible(false)
 	end
 	
 	containerPanel:setVisible(true)
@@ -807,6 +823,7 @@ function addItemToPanel(slot, item)
 	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("Edit")
 	slot:getChildById('buyOrEdit'):enable()
+	slot:getChildById('buyOrEdit'):setVisible(true)
 	slot:getChildById('remove'):setVisible(true)
 	slot:getChildById('remove').onClick = function()
 		removeItemFromPanel(slot)
@@ -856,6 +873,7 @@ function resetItemSlot(slot)
 	updateRarityFrame(slot:getChildById('item'), 0)
 	slot:getChildById('buyOrEdit'):setText("")
 	slot:getChildById('buyOrEdit'):disable()
+	slot:getChildById('buyOrEdit'):setVisible(false)
 	slot:getChildById('remove'):setVisible(false)
 	
 	local border = slot:getChildById('border')
@@ -897,11 +915,13 @@ function updatePurchasePanel(itemInfo)
 			buyButton:setVisible(false)
 			buyButton:disable()
 		end
+
+		countScroll.onValueChange = nil
 		return
 	end
 	
-	local unitPrice = itemInfo.price or 0
-	local weight = itemInfo.weight / 100
+	local unitPrice = tonumber(itemInfo.price) or 0
+	local weight = (tonumber(itemInfo.weight) or 0) / 100
 	local name = itemInfo.name or "Unknown Item"
 	local rarity = itemInfo.rarity or 0
 	local maxCount = itemInfo.count or 1

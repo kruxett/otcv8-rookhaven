@@ -23,23 +23,23 @@ MoneyPanel < UIWidget
     id: 1
 
 PSItem < UIWidget
-  size: 90 65
-  margin-right: 2
-  margin-bottom: 2
+  size: 74 72
+  margin-right: 0
+  margin-bottom: 0
 
   UIWidget
     id: background
     anchors.fill: parent
-    image-source: /images/ui/panel_flat
-    image-border: 5
-    opacity: 0.7
+    image-source: /images/ui/panel_content
+    image-border: 4
+    opacity: 0.95
 
   Item
     id: item
-    size: 42 42
+    size: 36 36
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
-    margin-top: 4
+    margin-top: 5
     virtual: true
 
     UIWidget
@@ -52,18 +52,18 @@ PSItem < UIWidget
   UIWidget
     id: border
     anchors.fill: parent
-    border-color: #666666
+    border-color: #7f8ea0
     border-width: 1
     phantom: true
-    opacity: 0.5
+    opacity: 0
 
   Button
     id: remove
     size: 16 16
     anchors.top: parent.top
     anchors.right: parent.right
-    margin-right: -2
-    margin-top: -2
+    margin-right: -4
+    margin-top: -4
     tooltip: Remove
     text: x
     font: verdana-10px-rounded
@@ -71,13 +71,16 @@ PSItem < UIWidget
 
   Button
     id: buyOrEdit
-    height: 18
-    anchors.top: item.bottom
+    height: 16
+    anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin: 3
+    margin-left: 3
+    margin-right: 3
+    margin-bottom: 3
     enabled: false
     font: verdana-9px-rounded
+    visible: false
 
 PSPanel < UIWidget
   anchors.fill: parent
@@ -301,8 +304,10 @@ ItemEditPanel < PSPanel
 MainPanel < PSPanel
   id: mainPanel
   visible: true
-  margin-left: -15
-  margin-top: -20
+  margin-left: 10
+  margin-right: 10
+  margin-top: 10
+  margin-bottom: 10
 
   Label
     id: storeTitle
@@ -311,32 +316,42 @@ MainPanel < PSPanel
     color: #d0a860
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
-    margin-top: 12
+    margin-top: 2
+    text-auto-resize: true
+
+  Label
+    id: storeSubtitle
+    text: "Curate, price and sell with style"
+    font: verdana-10px-rounded
+    color: #9db3c7
+    anchors.top: storeTitle.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 2
     text-auto-resize: true
 
   HorizontalSeparator
-    anchors.top: storeTitle.bottom
+    anchors.top: storeSubtitle.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-top: 8
-    margin-left: 15
-    margin-right: 15
+    margin-left: 8
+    margin-right: 8
 
   ScrollablePanel
     id: itemsFlatPanel
     layout:
       type: grid
-      cell-size: 42 42
-      cell-spacing: 6
+      cell-size: 74 72
+      cell-spacing: 4
       flow: true
     vertical-scrollbar: itemsScrollBar
-    size: 380 180
+    size: 456 228
     image-border: 1
-    padding: 6
+    padding: 8
     image-source: /images/ui/panel_content
-    anchors.top: storeTitle.bottom
+    anchors.top: storeSubtitle.bottom
     anchors.horizontalCenter: parent.horizontalCenter
-    margin-top: 12
+    margin-top: 14
 
     PSItem
       id: item1
@@ -428,9 +443,9 @@ MainPanel < PSPanel
     anchors.top: itemsFlatPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 12
-    margin-left: 15
-    margin-right: 15
+    margin-top: 10
+    margin-left: 8
+    margin-right: 8
 
   Label
     id: purchaseLabel
@@ -439,8 +454,8 @@ MainPanel < PSPanel
     color: #d0a860
     anchors.top: separatorAboveItems.bottom
     anchors.left: parent.left
-    margin-top: 10
-    margin-left: 20
+    margin-top: 8
+    margin-left: 12
     text-auto-resize: true
 
   Panel
@@ -448,20 +463,21 @@ MainPanel < PSPanel
     anchors.top: purchaseLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 8
-    margin-left: 15
-    margin-right: 15
-    height: 110
-    padding: 8
-    image-source: /images/ui/panel_flat
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    margin-left: 8
+    margin-right: 8
+    margin-bottom: 0
+    padding: 10
+    image-source: /images/ui/panel_content
     image-border: 5
 
     Item
       id: selectedItem
-      size: 56 56
+      size: 60 60
       anchors.left: parent.left
       anchors.top: parent.top
-      margin-top: 2
+      margin-top: 4
       UIWidget
         id: rarityId
         anchors.fill: parent
@@ -474,8 +490,8 @@ MainPanel < PSPanel
       anchors.left: selectedItem.right
       anchors.top: parent.top
       margin-left: 12
-      margin-top: 2
-      width: 200
+      margin-top: 4
+      width: 220
       text: "No Item Selected"
       color: #e0d0c0
       font: verdana-11px-rounded
@@ -485,8 +501,8 @@ MainPanel < PSPanel
       anchors.left: selectedItem.right
       anchors.top: itemName.bottom
       margin-left: 12
-      margin-top: 3
-      width: 200
+      margin-top: 4
+      width: 220
       text: "Price: 0"
       color: #c7d6e8
       font: verdana-10px-rounded
@@ -496,8 +512,8 @@ MainPanel < PSPanel
       anchors.left: selectedItem.right
       anchors.top: itemPrice.bottom
       margin-left: 12
-      margin-top: 2
-      width: 200
+      margin-top: 3
+      width: 220
       text: "Amount: 0x"
       color: #c7d6e8
       font: verdana-10px-rounded
@@ -507,8 +523,8 @@ MainPanel < PSPanel
       anchors.left: selectedItem.right
       anchors.top: itemAmount.bottom
       margin-left: 12
-      margin-top: 2
-      width: 200
+      margin-top: 3
+      width: 220
       text: "Weight: 0 oz"
       color: #c7d6e8
       font: verdana-10px-rounded
@@ -516,23 +532,23 @@ MainPanel < PSPanel
     HorizontalScrollBar
       id: itemCountScroll
       anchors.left: selectedItem.right
-      anchors.bottom: parent.bottom
+      anchors.top: itemWeight.bottom
       margin-left: 12
-      margin-bottom: 2
+      margin-top: 5
       minimum: 1
       maximum: 100
       step: 1
       value: 1
-      width: 160
+      width: 220
 
     Label
       id: ownerTaxNotice
-      anchors.right: parent.right
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      margin-right: 8
-      width: 120
-      text-align: center
+      anchors.left: selectedItem.right
+      anchors.top: itemCountScroll.bottom
+      margin-left: 12
+      margin-top: 4
+      width: 220
+      text-align: left
       text: ""
       color: #c0a050
       font: verdana-9px-rounded
@@ -542,21 +558,21 @@ MainPanel < PSPanel
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-right: 8
-      margin-bottom: 2
+      margin-bottom: 8
       text: "Buy"
       visible: false
-      width: 60
-      height: 24
+      width: 120
+      height: 26
       font: verdana-11px-rounded
       @onClick: modules.game_personalstore.buySelectedItem()
 
     Button
       id: editStoreButton
-      size: 85 24
+      size: 120 24
       anchors.right: parent.right
       anchors.top: parent.top
       margin-right: 8
-      margin-top: 2
+      margin-top: 4
       visible: false
       text: "Edit Store"
       font: verdana-11px-rounded
@@ -564,11 +580,11 @@ MainPanel < PSPanel
 
     Button
       id: startStoreButton
-      size: 85 24
+      size: 120 24
       anchors.right: parent.right
       anchors.top: editStoreButton.bottom
       margin-right: 8
-      margin-top: 4
+      margin-top: 6
       visible: false
       text: "Start Sales"
       font: verdana-11px-rounded
@@ -576,11 +592,11 @@ MainPanel < PSPanel
 
     Button
       id: editPriceButton
-      size: 85 24
+      size: 120 24
       anchors.right: parent.right
       anchors.top: startStoreButton.bottom
       margin-right: 8
-      margin-top: 4
+      margin-top: 6
       visible: false
       text: "Edit Price"
       font: verdana-11px-rounded
@@ -589,18 +605,19 @@ MainPanel < PSPanel
       id: containerItemsPanel
       layout:
         type: grid
-        cell-size: 34 34
-        cell-spacing: 5
+        cell-size: 30 30
+        cell-spacing: 2
         flow: true
       vertical-scrollbar: containerItemsScrollBar
-      size: 163 80
+      size: 120 66
       image-border: 1
-      padding: 5
+      padding: 4
       visible: false
       image-source: /images/ui/panel_flat
-      anchors.top: purchasePanel.bottom
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-left: 25
+      anchors.right: parent.right
+      anchors.top: editPriceButton.bottom
+      margin-right: 8
+      margin-top: 6
 
     VerticalScrollBar
       id: containerItemsScrollBar
@@ -619,13 +636,13 @@ MainPanel < PSPanel
     anchors.top: purchasePanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 10
-    margin-left: 15
-    margin-right: 15
+    margin-top: 8
+    margin-left: 8
+    margin-right: 8
     visible: false
 
 MainWindow
-  size: 520 360
+  size: 500 500
   anchors.centerIn: parent
   text: Personal Store
   @onEscape: modules.game_personalstore.hide()
@@ -635,8 +652,8 @@ MainWindow
     size: 20 20
     anchors.top: parent.top
     anchors.right: parent.right
-    margin-right: -15
-    margin-top: -5
+    margin-right: 6
+    margin-top: 6
     text: x
     font: verdana-11px-rounded
     @onClick: modules.game_personalstore.hide()
