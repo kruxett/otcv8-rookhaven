@@ -3201,6 +3201,8 @@ void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
 {
     if (msg->getUnreadSize() < 3) {
         g_logger.error(stdext::format("Malformed extended opcode packet: unread=%d (expected at least 3)", msg->getUnreadSize()));
+        if (msg->getUnreadSize() > 0)
+            msg->skipBytes(msg->getUnreadSize());
         return;
     }
 
@@ -3208,6 +3210,8 @@ void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
 
     if (msg->getUnreadSize() < 2) {
         g_logger.error(stdext::format("Malformed extended opcode payload header: sub=0x%02x unread=%d", opcode, msg->getUnreadSize()));
+        if (msg->getUnreadSize() > 0)
+            msg->skipBytes(msg->getUnreadSize());
         return;
     }
 
