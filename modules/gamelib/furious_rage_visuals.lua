@@ -135,3 +135,8 @@ function terminate()
   end
   activeState = {}
 end
+
+-- Initialize on load
+init()
+
+connect(g_game, "onGameEnd", terminate)
