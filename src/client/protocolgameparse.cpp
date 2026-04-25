@@ -3199,7 +3199,18 @@ void ProtocolGame::parseHunting(const InputMessagePtr& msg)
 
 void ProtocolGame::parseExtendedOpcode(const InputMessagePtr& msg)
 {
+    if (msg->getUnreadSize() < 3) {
+        g_logger.error(stdext::format("Malformed extended opcode packet: unread=%d (expected at least 3)", msg->getUnreadSize()));
+        return;
+    }
+
     int opcode = msg->getU8();
+
+    if (msg->getUnreadSize() < 2) {
+        g_logger.error(stdext::format("Malformed extended opcode payload header: sub=0x%02x unread=%d", opcode, msg->getUnreadSize()));
+        return;
+    }
+
     std::string buffer = msg->getString();
 
     if (opcode == 0) {
