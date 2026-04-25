@@ -43,36 +43,33 @@ local function removeVisual(creatureId)
   clearTimer(creatureId)
 
   local state = activeState[creatureId]
-  activeState[creatureId] = nil
   if not state then
     return
   end
 
+  -- Try to remove from creature if it's loaded on map
   local creature = g_map.getCreatureById(creatureId)
-  if not creature then
-    return
+  if creature then
+    local outfit = creature:getOutfit()
+    local currentShader = outfit and outfit.shader or ""
+    if currentShader == SHADER then
+      setCreatureShader(creature, state.previousShader or "")
+    end
   end
-
-  local outfit = creature:getOutfit()
-  local currentShader = outfit and outfit.shader or ""
-  if currentShader ~= SHADER then
-    return
-  end
-
-  setCreatureShader(creature, state.previousShader or "")
+  
+  -- Clear state regardless of whether creature is on map
+  activeState[creatureId] = nil
 end
 
 local function applyVisual(creatureId, durationMs)
   local creature = g_map.getCreatureById(creatureId)
-  if not creature then
-    return
-  end
-
+  
+  -- Store state even if creature is not on map (for when it enters view later)
   local previousShader = ""
   local existing = activeState[creatureId]
   if existing and existing.previousShader then
     previousShader = existing.previousShader
-  else
+  elseif creature then
     local outfit = creature:getOutfit()
     previousShader = outfit and outfit.shader or ""
     if previousShader == SHADER then
@@ -81,11 +78,17 @@ local function applyVisual(creatureId, durationMs)
   end
 
   activeState[creatureId] = {
-    previousShader = previousShader
+    previousShader = previousShader,
+    shaderActive = true,
+    appliedAt = os.time()
   }
 
-  setCreatureShader(creature, SHADER)
+  -- Apply shader to creature if loaded
+  if creature then
+    setCreatureShader(creature, SHADER)
+  end
 
+  -- Set up removal timer
   clearTimer(creatureId)
   local ttl = tonumber(durationMs) or DEFAULT_DURATION_MS
   if ttl > 0 then
@@ -93,6 +96,23 @@ local function applyVisual(creatureId, durationMs)
       removeVisual(creatureId)
     end, ttl)
   end
+end
+
+-- Hook for when creatures enter the map view
+local function onCreatureLoad(creature)
+  if not creature then return end
+  local creatureId = creature:getId()
+  local state = activeState[creatureId]
+  
+  -- If we have an active visual state for this creature, apply it now
+  if state and state.shaderActive then
+    setCreatureShader(creature, SHADER)
+  end
+end
+
+-- Hook for when creatures leave the map view (optional cleanup)
+local function onCreatureUnload(creature)
+  -- No need to do anything - state is preserved for when they return
 end
 
 local function onExtendedOpcode(protocol, opcode, buffer)
@@ -121,12 +141,25 @@ end
 
 function init()
   ProtocolGame.registerExtendedOpcode(OPCODE, onExtendedOpcode)
+  
+  -- Connect creature load/unload hooks
+  if g_game then
+    connect(g_game, "onCreatureLoad", onCreatureLoad)
+    connect(g_game, "onCreatureUnload", onCreatureUnload)
+  end
 end
 
 function terminate()
   if ProtocolGame then
     pcall(function()
       ProtocolGame.unregisterExtendedOpcode(OPCODE)
+    end)
+  end
+
+  if g_game then
+    pcall(function()
+      disconnect(g_game, "onCreatureLoad", onCreatureLoad)
+      disconnect(g_game, "onCreatureUnload", onCreatureUnload)
     end)
   end
 

@@ -21,17 +21,31 @@ void main()
         discard;
     }
 
-    float waveA = sin(u_Time * 2.35 + v_TexCoord.y * 8.2) * 0.5 + 0.5;
-    float waveB = sin(u_Time * 1.45 + v_TexCoord.x * 5.8) * 0.5 + 0.5;
-    float wave = (waveA * 0.62) + (waveB * 0.38);
-    float pulse = wave * 0.52 + 0.22;
+    // Subtle global pulse effect (not moving wave)
+    float globalPulse = sin(u_Time * 1.8) * 0.5 + 0.5;
+    
+    // Veins that subtly animate with position-based variation
+    float veinPattern = sin(v_TexCoord.y * 12.0) * 0.5 + 0.5;
+    veinPattern *= sin(v_TexCoord.x * 8.0) * 0.5 + 0.5;
+    
+    // Combine for elegant vein pulsing
+    float pulse = mix(0.3, 0.7, globalPulse);
+    float veinIntensity = mix(veinPattern, globalPulse, 0.6);
 
-    vec3 bloodDark = vec3(0.30, 0.02, 0.02);
-    vec3 bloodVein = vec3(0.82, 0.08, 0.08);
+    // Darker, more elegant blood colors
+    vec3 bloodDark = vec3(0.25, 0.01, 0.01);
+    vec3 bloodVein = vec3(0.75, 0.05, 0.05);
+    vec3 bloodBright = vec3(0.95, 0.15, 0.15);
 
-    vec3 darkened = max(base.rgb - (bloodDark * (0.50 + pulse * 0.50)), vec3(0.0));
-    float veinMask = smoothstep(0.68, 0.95, waveA * waveB);
-    float blendFactor = clamp(0.16 + pulse * 0.28 + veinMask * 0.34, 0.0, 0.74);
-    vec3 finalColor = mix(darkened, bloodVein, blendFactor);
+    // Apply subtle darkening
+    vec3 darkened = max(base.rgb - (bloodDark * 0.3), vec3(0.0));
+    
+    // Vein mask with smooth transitions
+    float veinMask = smoothstep(0.4, 0.8, veinIntensity);
+    
+    // Blend: mostly darkened, with veins pulsing in
+    float blendFactor = clamp(0.12 + pulse * 0.18 + veinMask * 0.25, 0.0, 0.5);
+    vec3 finalColor = mix(darkened, mix(bloodVein, bloodBright, pulse), blendFactor);
+    
     gl_FragColor = vec4(finalColor, base.a);
 }
