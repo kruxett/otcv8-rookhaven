@@ -23,7 +23,7 @@ MoneyPanel < UIWidget
     id: 1
 
 PSItem < UIWidget
-  size: 74 72
+  size: 68 68
   margin-right: 0
   margin-bottom: 0
 
@@ -36,10 +36,10 @@ PSItem < UIWidget
 
   Item
     id: item
-    size: 36 36
-    anchors.top: parent.top
+    size: 40 40
+    anchors.verticalCenter: parent.verticalCenter
     anchors.horizontalCenter: parent.horizontalCenter
-    margin-top: 5
+    margin-top: -8
     virtual: true
 
     UIWidget
@@ -71,13 +71,13 @@ PSItem < UIWidget
 
   Button
     id: buyOrEdit
-    height: 16
+    height: 14
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-left: 3
-    margin-right: 3
-    margin-bottom: 3
+    margin-left: 2
+    margin-right: 2
+    margin-bottom: 2
     enabled: false
     font: verdana-9px-rounded
     visible: false
@@ -341,11 +341,11 @@ MainPanel < PSPanel
     id: itemsFlatPanel
     layout:
       type: grid
-      cell-size: 74 72
+      cell-size: 68 68
       cell-spacing: 4
       flow: true
     vertical-scrollbar: itemsScrollBar
-    size: 456 240
+    size: 436 240
     image-border: 1
     padding: 8
     image-source: /images/ui/panel_content
