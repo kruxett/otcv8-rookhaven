@@ -66,6 +66,14 @@ local function updateRarityFrame(itemWidget, rarity)
 	end
 end
 
+local function formatSlotPrice(price)
+	local value = tonumber(price) or 0
+	if value < 0 then
+		value = 0
+	end
+	return string.format('%d gp', value)
+end
+
 function init()
 	MainWindow = g_ui.displayUI('personalstore')
 	MainPanel = MainWindow:getChildById('mainPanel')
@@ -242,8 +250,12 @@ local function applyOwnerEditModeState()
 	for _, child in ipairs(ItemsPanel:getChildren()) do
 		child:setBackgroundColor(color)
 		if child.itemInfo and child.itemInfo.itemid and child.itemInfo.itemid > 0 then
-			child:getChildById('buyOrEdit'):setText(editMode and "Edit" or child.itemInfo.price)
-			child:getChildById('buyOrEdit'):enable()
+			child:getChildById('buyOrEdit'):setText(editMode and "Edit" or formatSlotPrice(child.itemInfo.price))
+			if editMode then
+				child:getChildById('buyOrEdit'):enable()
+			else
+				child:getChildById('buyOrEdit'):disable()
+			end
 			child:getChildById('buyOrEdit').onClick = function()
 				if not child.itemInfo then
 					return
@@ -640,7 +652,7 @@ function parsePersonalStore(protocol, opcode, buffer)
 					slot:getChildById('item').item_code = itemInfo.item_code
 					updateRarityFrame(slot:getChildById('item'), itemInfo.rarity)
 					slot:getChildById('item'):setItemCount(itemInfo.count)
-					slot:getChildById('buyOrEdit'):setText(personal_store.owner and itemInfo.price or "Buy")
+					slot:getChildById('buyOrEdit'):setText(personal_store.owner and formatSlotPrice(itemInfo.price) or "Buy")
 					slot:getChildById('buyOrEdit'):enable()
 					slot:getChildById('buyOrEdit'):setVisible(true)
 				else
