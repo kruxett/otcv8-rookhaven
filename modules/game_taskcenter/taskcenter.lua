@@ -53,7 +53,13 @@ local function sendRequest(action, payload)
   local request = payload or {}
   request.action = action
   request.requestId = requestId
-  protocol:sendExtendedOpcode(TASK_CENTER_OPCODE, json.encode(request))
+
+  local ok, encoded = pcall(function() return json.encode(request) end)
+  if not ok or type(encoded) ~= 'string' then
+    return
+  end
+
+  protocol:sendExtendedOpcode(TASK_CENTER_OPCODE, encoded)
 end
 
 local function getEntriesForCurrentTab()
@@ -367,8 +373,6 @@ local function onExtendedOpcode(protocol, opcode, buffer)
 end
 
 function init()
-  g_ui.importStyle('taskcenter')
-
   connect(g_game, {
     onGameEnd = destroyWindow,
   })
