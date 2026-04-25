@@ -276,6 +276,15 @@ local function renderList()
     selectedKey = buildEntryKey(entries[1])
   end
 
+  local function selectRow(widget, key)
+    selectedKey = key
+    for _, child in ipairs(listPanel:getChildren()) do
+      child:setBackgroundColor('#232323')
+    end
+    widget:setBackgroundColor('#ffffff22')
+    updateDetails()
+  end
+
   for _, entry in ipairs(entries) do
     local row = g_ui.createWidget('TaskCenterListItem', listPanel)
     local key = buildEntryKey(entry)
@@ -300,13 +309,13 @@ local function renderList()
       row:setBackgroundColor('#ffffff22')
     end
 
+    row.onMousePress = function(widget)
+      selectRow(widget, key)
+      return true
+    end
+
     row.onClick = function(widget)
-      selectedKey = key
-      for _, child in ipairs(listPanel:getChildren()) do
-        child:setBackgroundColor('#232323')
-      end
-      widget:setBackgroundColor('#ffffff22')
-      updateDetails()
+      selectRow(widget, key)
     end
   end
 
