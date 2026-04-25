@@ -564,7 +564,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Est. Max Hit:')
+        !text: tr('Estimated Max Hit:')
         color: #C0C0C0
       SkillValueLabel
         color: #E8A040
@@ -576,7 +576,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Avg Hit:')
+        !text: tr('Average Hit:')
         color: #C0C0C0
       SkillValueLabel
         color: #D0A050
@@ -588,7 +588,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Atk Speed:')
+        !text: tr('Attack Speed:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -600,7 +600,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Est. DPS:')
+        !text: tr('Estimated DPS:')
         color: #C0C0C0
       SkillValueLabel
         color: #E06020
@@ -612,7 +612,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 0
       SkillNameLabel
-        !text: tr('Converted Damage:')
+        !text: tr('Element Conversion:')
         color: #C0C0C0
       SkillValueLabel
         id: none
@@ -743,7 +743,7 @@ UIWidget
 
     CharacterSkillBase
       id: criticalHit
-      anchors.top: attack.top
+      anchors.top: offensiveHit.top
       anchors.left: separator.left
       anchors.right: parent.right
       margin-top: 1
@@ -771,7 +771,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Armor Reduction (Avg):')
+        !text: tr('Armor Reduction (Average):')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -784,7 +784,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Defense Reduction (Avg):')
+        !text: tr('Defense Reduction (Average):')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -797,7 +797,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Total Reduction (Avg):')
+        !text: tr('Total Reduction (Average):')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0

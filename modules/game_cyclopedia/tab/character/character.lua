@@ -854,10 +854,10 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             if UI.CombatStats.estDps then
                 UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
                 local tip = string.format(
-                    "Est. max hit  (%s mode)\n%s skill %d  x  Attack %d  -> Phys: %d",
+                    "Estimated max hit (%s mode)\n%s skill %d x Attack %d -> Physical: %d",
                     modeName, skillName, skillLevel, attack, maxPhy)
                 if maxElem > 0 then
-                    tip = tip .. string.format("\nElement attack %d  -> Elem: %d", elemAttack, maxElem)
+                    tip = tip .. string.format("\nElement attack %d -> Element: %d", elemAttack, maxElem)
                     tip = tip .. string.format("\nTotal: %d + %d = %d", maxPhy, maxElem, estMaxHit)
                 end
                 UI.CombatStats.estDps:setTooltip(tip)
@@ -867,7 +867,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             if UI.CombatStats.avgHit then
                 UI.CombatStats.avgHit.value:setText(tostring(avgHit))
                 UI.CombatStats.avgHit:setTooltip(string.format(
-                    "Average hit = Max Hit / 2\nActual per-hit: random(0, %d)", estMaxHit))
+                    "Average hit is half of estimated max hit.\nActual hit roll: random(0, %d).", estMaxHit))
             end
 
             -- Attack Speed
@@ -879,7 +879,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             if UI.CombatStats.dps then
                 UI.CombatStats.dps.value:setText(string.format("%.1f", dpsVal))
                 UI.CombatStats.dps:setTooltip(string.format(
-                    "Est. DPS = Avg Hit %.0f / Attack Speed %.1fs\nBefore defense & armor reduction",
+                    "Estimated DPS = Average Hit %.0f / Attack Speed %.1fs\nShown before armor and defense reductions.",
                     avgHit, atkSpeedMs / 1000))
             end
 
@@ -941,7 +941,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", totalMitigationPct))
                 UI.CombatStats.criticalChance.value:setColor(totalMitigationPct >= 15 and "#44AD25" or "#C0C0C0")
                 UI.CombatStats.criticalChance:setTooltip(string.format(
-                    "Estimated mitigation from your active defensive setup.\nBased on armor formula output.\nAverage flat armor reduction: %.1f per hit",
+                    "Estimated mitigation from your defensive setup.\nBased on armor formula output.\nAverage flat armor reduction: %.1f per hit.",
                     avgArmor))
             end
 
@@ -949,14 +949,14 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.criticalDamage.value:setText(string.format("%.1f", avgArmor))
                 UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
                 UI.CombatStats.criticalDamage:setTooltip(string.format(
-                    "Armor reduction derived from combat formula.\nArmor Value: %d\nAverage reduction: %.1f per hit", armorVal, avgArmor))
+                    "Armor reduction from the combat formula.\nArmor value: %d\nAverage reduction: %.1f per hit.", armorVal, avgArmor))
             end
 
             if UI.CombatStats.lifeLeech then
                 UI.CombatStats.lifeLeech.value:setText(string.format("%.1f", avgDefenseReduction))
                 UI.CombatStats.lifeLeech.value:setColor("#C0C0C0")
                 UI.CombatStats.lifeLeech:setTooltip(string.format(
-                    "Defense roll reduction from combat formula.\nDefense Value: %d\nRoll range: %d to %d\nAverage reduction: %.1f when defense check triggers",
+                    "Defense roll reduction from the combat formula.\nDefense value: %d\nRoll range: %d to %d\nAverage reduction: %.1f when a defense check triggers.",
                     defenseVal, minDefenseReduction, maxDefenseReduction, avgDefenseReduction))
             end
 
@@ -965,7 +965,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.manaLeech.value:setText(string.format("%.1f", avgTotalReduction))
                 UI.CombatStats.manaLeech.value:setColor("#44AD25")
                 UI.CombatStats.manaLeech:setTooltip(string.format(
-                    "Combined average flat reduction from armor + defense formulas.\nArmor avg: %.1f\nDefense avg: %.1f\nTotal avg: %.1f\nApplies when both checks are active.",
+                    "Combined average flat reduction from armor and defense formulas.\nArmor average: %.1f\nDefense average: %.1f\nTotal average: %.1f\nApplies when both checks are active.",
                     avgArmor, avgDefenseReduction, avgTotalReduction))
             end
 
@@ -974,7 +974,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.defenseWindow.value:setText(string.format("%d - %d", minTotalReduction, maxTotalReduction))
                 UI.CombatStats.defenseWindow.value:setColor("#C0C0C0")
                 UI.CombatStats.defenseWindow:setTooltip(string.format(
-                    "Theoretical total reduction interval from server formulas.\nArmor range: %d to %d\nDefense range: %d to %d\nCombined range: %d to %d\nDefense component requires a defense check.",
+                    "Theoretical total reduction interval from server formulas.\nArmor range: %d to %d\nDefense range: %d to %d\nCombined range: %d to %d\nThe defense component requires a defense check.",
                     minArmorReduction, maxArmorReduction, minDefenseReduction, maxDefenseReduction, minTotalReduction, maxTotalReduction))
             end
         end
@@ -1016,13 +1016,13 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     if UI.CombatStats.defence then
         UI.CombatStats.defence.value:setText(string.format("%.2f%%", critChance))
         UI.CombatStats.defence:setTooltip(
-            "Chance for a critical hit.\nSource: SPECIALSKILL_CRITICALHITCHANCE from server combat stats.")
+            "Chance that your attack becomes a critical hit.")
     end
 
     if UI.CombatStats.armor then
         UI.CombatStats.armor.value:setText(string.format("+%.2f%%", critExtra))
         UI.CombatStats.armor:setTooltip(
-            "Extra damage added when a critical hit triggers.\nSource: SPECIALSKILL_CRITICALHITAMOUNT.")
+            "Extra damage added when a critical hit triggers.")
     end
 
     if UI.CombatStats.mitigation then
@@ -1894,7 +1894,7 @@ local  function getWeaponSkillName(skillType)
             UI.OffenceStats.leftPanel,
             "Attack Value",
             tostring(attackValue),
-            "Base weapon attack value from the combat packet.\nUsed as an input in melee/distance damage formulas."
+            "Base weapon attack value from the combat packet.\nUsed as an input in melee and distance damage formulas."
         )
 
         addStat(
@@ -1908,7 +1908,7 @@ local  function getWeaponSkillName(skillType)
             UI.OffenceStats.leftPanel,
             "Attack Speed",
             string.format("%.2fs", attackSpeedSec),
-            "Time between attacks from vocation/weapon attack speed.\nLower values mean more hits over time."
+            "Time between attacks based on vocation and weapon speed.\nLower values mean more hits over time."
         )
 
         if convertedDamage > 0 then
@@ -1924,14 +1924,14 @@ local  function getWeaponSkillName(skillType)
             UI.OffenceStats.rightPanel,
             "Critical Chance",
             string.format("%.2f%%", critChance),
-            "Chance for a critical hit from SPECIALSKILL_CRITICALHITCHANCE."
+            "Chance that an attack becomes a critical hit."
         )
 
         addStat(
             UI.OffenceStats.rightPanel,
             "Critical Extra Damage",
             string.format("+%.2f%%", critExtra),
-            "Extra damage added on critical hits from SPECIALSKILL_CRITICALHITAMOUNT."
+            "Extra damage added when a critical hit triggers."
         )
 
         addStat(
@@ -1946,7 +1946,7 @@ local  function getWeaponSkillName(skillType)
         UI.DeffenceStats.leftPanel:destroyChildren()
     
         local stats = {
-            {name = "Defence Value", value = data.defense or 0, icon = false, percent = false},
+            {name = "Defense Value", value = data.defense or 0, icon = false, percent = false},
             {name = "From Equipment", value = data.defenseEquipment or 0, align = "center", icon = false},
             {name = "From Wheel", value = data.defenseWheel or 0, align = "center", icon = false},
             {name = getWeaponSkillName(data.defenseSkillType), value = data.shieldingSkill or 0, align = "center", icon = false},
