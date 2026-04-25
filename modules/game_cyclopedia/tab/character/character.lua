@@ -889,9 +889,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         do
             local armorVal = data.armor or 0
             local totalMitigationPct = math.max(0, math.min(95, tonumber(mitigation) or 0))
-            local benchmarkIncomingHit = 100
-            local defensivePlayer = g_game.getLocalPlayer()
-            local hp = defensivePlayer and defensivePlayer:getMaxHealth() or 0
+            local defenseVal = math.max(0, tonumber(data.defense) or 0)
 
             -- Match server armor behavior (Creature::blockHit):
             -- armor 1-3 => fixed reduction of 1
@@ -914,14 +912,18 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             end
 
             local avgArmor = getAverageArmorReduction(armorVal)
-            local avgDmgSwing = math.max(1, benchmarkIncomingHit * (1 - (totalMitigationPct / 100)))
-            local hitsToDie = (hp > 0) and math.ceil(hp / avgDmgSwing) or 0
+
+            -- Match server defense behavior (Creature::blockHit):
+            -- damage -= random(defense / 2, defense)
+            local minDefenseReduction = math.floor(defenseVal / 2)
+            local maxDefenseReduction = defenseVal
+            local avgDefenseReduction = (minDefenseReduction + maxDefenseReduction) / 2
 
             if UI.CombatStats.criticalChance then
                 UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", totalMitigationPct))
                 UI.CombatStats.criticalChance.value:setColor(totalMitigationPct >= 15 and "#44AD25" or "#C0C0C0")
                 UI.CombatStats.criticalChance:setTooltip(string.format(
-                    "Combined mitigation from armor + shielding.\nArmor avg flat reduction: %.1f",
+                    "Estimated mitigation from your active defensive setup.\nBased on armor formula output.\nAverage flat armor reduction: %.1f per hit",
                     avgArmor))
             end
 
@@ -929,15 +931,15 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 UI.CombatStats.criticalDamage.value:setText(string.format("%.1f", avgArmor))
                 UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
                 UI.CombatStats.criticalDamage:setTooltip(string.format(
-                    "Average flat reduction per hit from armor.\nArmor %d -> avg %.1f reduced", armorVal, avgArmor))
+                    "Armor reduction derived from combat formula.\nArmor Value: %d\nAverage reduction: %.1f per hit", armorVal, avgArmor))
             end
 
             if UI.CombatStats.lifeLeech then
-                UI.CombatStats.lifeLeech.value:setText(tostring(hitsToDie))
-                UI.CombatStats.lifeLeech.value:setColor(hitsToDie > 10 and "#44AD25" or "#E06020")
+                UI.CombatStats.lifeLeech.value:setText(string.format("%.1f", avgDefenseReduction))
+                UI.CombatStats.lifeLeech.value:setColor("#C0C0C0")
                 UI.CombatStats.lifeLeech:setTooltip(string.format(
-                    "Estimated hits until 0 HP with a fixed incoming hit benchmark (%d).\nHP: %d  Avg damage/swing after mitigation: %.1f",
-                    benchmarkIncomingHit, hp, avgDmgSwing))
+                    "Defense roll reduction from combat formula.\nDefense Value: %d\nRoll range: %d to %d\nAverage reduction: %.1f when defense check triggers",
+                    defenseVal, minDefenseReduction, maxDefenseReduction, avgDefenseReduction))
             end
         end
 

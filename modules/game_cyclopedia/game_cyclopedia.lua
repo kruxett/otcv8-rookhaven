@@ -691,8 +691,29 @@ function Cyclopedia.buildAndLoadCombatStats()
         armorValue = armorValue + math.max(0, parseFirstNumberByAliases(info.text, { "arm", "armor" }))
     end
 
-    local mitigationPercent = math.min(60, math.max(0,
-        armorValue * 0.15 + shieldingLevel * 0.03 + shieldDefenseValue * 0.25))
+    -- Formula-aligned armor mitigation estimate for UI (% against a 100-damage benchmark):
+    -- Creature::blockHit uses:
+    -- armor 1-3 => fixed reduction 1
+    -- armor >3  => random in [armor/2, armor - (armor % 2 + 1)]
+    local function getAverageArmorReduction(armor)
+        if armor <= 0 then
+            return 0
+        end
+        if armor <= 3 then
+            return 1
+        end
+
+        local minReduction = math.floor(armor / 2)
+        local maxReduction = armor - ((armor % 2) + 1)
+        if maxReduction < minReduction then
+            maxReduction = minReduction
+        end
+
+        return (minReduction + maxReduction) / 2
+    end
+
+    local averageArmorReduction = getAverageArmorReduction(armorValue)
+    local mitigationPercent = math.max(0, math.min(95, averageArmorReduction))
 
     local convertedDamage, convertedElement = 0, 0
     do

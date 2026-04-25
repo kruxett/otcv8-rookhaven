@@ -748,7 +748,7 @@ UIWidget
       margin-left: 15
       margin-top: 0
       SkillNameLabel
-        !text: tr('Armor Mitig.:')
+        !text: tr('Armor Mitigation:')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -761,7 +761,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Avg Armor Red.:')
+        !text: tr('Armor Reduction (Avg):')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
@@ -774,7 +774,7 @@ UIWidget
       margin-left: 0
       margin-top: 0
       SkillNameLabel
-        !text: tr('Hits to Die:')
+        !text: tr('Defense Reduction (Avg):')
         color: #C0C0C0
       SkillValueLabel
         color: #C0C0C0
