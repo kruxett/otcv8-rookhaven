@@ -345,7 +345,7 @@ MainPanel < PSPanel
       cell-spacing: 4
       flow: true
     vertical-scrollbar: itemsScrollBar
-    size: 456 228
+    size: 456 240
     image-border: 1
     padding: 8
     image-source: /images/ui/panel_content
@@ -463,11 +463,10 @@ MainPanel < PSPanel
     anchors.top: purchaseLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
     margin-top: 6
     margin-left: 8
     margin-right: 8
-    margin-bottom: 0
+    height: 138
     padding: 10
     image-source: /images/ui/panel_content
     image-border: 5
@@ -642,7 +641,7 @@ MainPanel < PSPanel
     visible: false
 
 MainWindow
-  size: 500 500
+  size: 500 520
   anchors.centerIn: parent
   text: Personal Store
   @onEscape: modules.game_personalstore.hide()
