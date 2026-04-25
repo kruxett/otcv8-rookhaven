@@ -358,16 +358,7 @@ local function renderList()
   listPanel:destroyChildren()
   local entries = getEntriesForCurrentTab()
 
-  -- Safety filter: only show tasks the player can accept on the available tab
-  if currentTab == 'available' then
-    local filtered = {}
-    for _, e in ipairs(entries) do
-      if e.canAccept then
-        filtered[#filtered + 1] = e
-      end
-    end
-    entries = filtered
-  end
+  -- Snapshot is already filtered server-side (including cooldown-visible tasks).
 
   -- Always track what's actually rendered so findSelectedEntry stays in sync
   renderedEntries = entries
@@ -413,8 +404,16 @@ local function renderList()
     row.subtitle:setText(subtitle)
 
     if currentTab == 'available' then
-      row.status:setText('Available')
-      row.status:setColor('#8fdc8f')
+      if entry.canAccept then
+        row.status:setText('Available')
+        row.status:setColor('#8fdc8f')
+      elseif entry.cooldownLocked then
+        row.status:setText('Cooldown')
+        row.status:setColor('#e0b070')
+      else
+        row.status:setText('Locked')
+        row.status:setColor('#d18f8f')
+      end
     elseif currentTab == 'active' then
       row.status:setText(string.format('%d/%d', tonumber(entry.progress) or 0, tonumber(entry.required) or 0))
       row.status:setColor('#ffd27f')
