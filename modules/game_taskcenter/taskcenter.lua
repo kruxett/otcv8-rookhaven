@@ -16,11 +16,17 @@ local reasonLabel = nil
 local actionButton = nil
 local refreshButton = nil
 local closeButton = nil
+local availablePaginator = nil
+local prevPageButton = nil
+local nextPageButton = nil
+local pageInfoLabel = nil
 
 local currentTab = 'available'
 local snapshotData = nil
 local selectedKey = nil
 local requestId = 0
+local availablePage = 1
+local availablePageSize = 20
 
 local function destroyWindow()
   if taskCenterWindow then
@@ -41,6 +47,10 @@ local function destroyWindow()
   actionButton = nil
   refreshButton = nil
   closeButton = nil
+  availablePaginator = nil
+  prevPageButton = nil
+  nextPageButton = nil
+  pageInfoLabel = nil
 end
 
 local function sendRequest(action, payload)
@@ -60,6 +70,13 @@ local function sendRequest(action, payload)
   end
 
   protocol:sendExtendedOpcode(TASK_CENTER_OPCODE, encoded)
+end
+
+local function sendRefreshRequest()
+  sendRequest('refresh', {
+    availablePage = availablePage,
+    availablePageSize = availablePageSize,
+  })
 end
 
 local function getEntriesForCurrentTab()
@@ -178,6 +195,41 @@ local function updateDetails()
   end
 end
 
+local function updatePaginator()
+  if not availablePaginator or not prevPageButton or not nextPageButton or not pageInfoLabel then
+    return
+  end
+
+  if currentTab ~= 'available' then
+    availablePaginator:hide()
+    return
+  end
+
+  availablePaginator:show()
+
+  local pagination = snapshotData and snapshotData.pagination and snapshotData.pagination.available or {}
+  local page = math.max(1, tonumber(pagination.page) or availablePage or 1)
+  local totalPages = math.max(1, tonumber(pagination.totalPages) or 1)
+  local totalItems = math.max(0, tonumber(pagination.totalItems) or 0)
+  local hasPrev = (pagination.hasPrev == true) or page > 1
+  local hasNext = (pagination.hasNext == true) or page < totalPages
+
+  availablePage = page
+  pageInfoLabel:setText(string.format('Page %d/%d  (%d tasks)', page, totalPages, totalItems))
+
+  if hasPrev then
+    prevPageButton:enable()
+  else
+    prevPageButton:disable()
+  end
+
+  if hasNext then
+    nextPageButton:enable()
+  else
+    nextPageButton:disable()
+  end
+end
+
 local function renderList()
   if not listPanel then
     return
@@ -249,6 +301,7 @@ local function renderList()
   end
 
   updateDetails()
+  updatePaginator()
 end
 
 local function setTab(tabName)
@@ -266,11 +319,23 @@ local function setTab(tabName)
 
   selectedKey = nil
   renderList()
+  updatePaginator()
 end
 
 local function applySnapshot(payload)
   snapshotData = payload and payload.data or nil
   local message = payload and payload.message
+
+  if snapshotData and snapshotData.pagination and snapshotData.pagination.available then
+    local page = tonumber(snapshotData.pagination.available.page)
+    local pageSize = tonumber(snapshotData.pagination.available.pageSize)
+    if page and page >= 1 then
+      availablePage = math.floor(page)
+    end
+    if pageSize and pageSize >= 1 then
+      availablePageSize = math.floor(pageSize)
+    end
+  end
 
   if message and message ~= '' then
     setStatus(message, '#9fc7ff')
@@ -304,6 +369,10 @@ local function ensureWindow()
   actionButton = taskCenterWindow:recursiveGetChildById('actionButton')
   refreshButton = taskCenterWindow:recursiveGetChildById('refreshButton')
   closeButton = taskCenterWindow:recursiveGetChildById('closeButton')
+  availablePaginator = taskCenterWindow:recursiveGetChildById('availablePaginator')
+  prevPageButton = taskCenterWindow:recursiveGetChildById('prevPageButton')
+  nextPageButton = taskCenterWindow:recursiveGetChildById('nextPageButton')
+  pageInfoLabel = taskCenterWindow:recursiveGetChildById('pageInfoLabel')
 
   availableTab.onClick = function() setTab('available') end
   activeTab.onClick = function() setTab('active') end
@@ -316,16 +385,50 @@ local function ensureWindow()
     end
 
     if currentTab == 'available' then
-      sendRequest('accept', { taskId = entry.taskId })
+      sendRequest('accept', {
+        taskId = entry.taskId,
+        availablePage = availablePage,
+        availablePageSize = availablePageSize,
+      })
     elseif currentTab == 'active' then
-      sendRequest('abandon', { slot = entry.slot })
+      sendRequest('abandon', {
+        slot = entry.slot,
+        availablePage = availablePage,
+        availablePageSize = availablePageSize,
+      })
     else
-      sendRequest('claim', {})
+      sendRequest('claim', {
+        availablePage = availablePage,
+        availablePageSize = availablePageSize,
+      })
     end
   end
 
   refreshButton.onClick = function()
-    sendRequest('refresh', {})
+    sendRefreshRequest()
+  end
+
+  prevPageButton.onClick = function()
+    if availablePage <= 1 then
+      return
+    end
+
+    availablePage = availablePage - 1
+    sendRefreshRequest()
+  end
+
+  nextPageButton.onClick = function()
+    local totalPages = 1
+    if snapshotData and snapshotData.pagination and snapshotData.pagination.available then
+      totalPages = math.max(1, tonumber(snapshotData.pagination.available.totalPages) or 1)
+    end
+
+    if availablePage >= totalPages then
+      return
+    end
+
+    availablePage = availablePage + 1
+    sendRefreshRequest()
   end
 
   closeButton.onClick = function()
@@ -356,7 +459,11 @@ local function onExtendedOpcode(protocol, opcode, buffer)
 
   if action == 'open' then
     modules.game_taskcenter.show()
-    sendRequest('refresh', { source = payload.source or 'server' })
+    sendRequest('refresh', {
+      source = payload.source or 'server',
+      availablePage = availablePage,
+      availablePageSize = availablePageSize,
+    })
     return
   end
 

@@ -96,13 +96,46 @@ MainWindow
       id: listPanel
       anchors.left: listScrollBar.right
       anchors.top: parent.top
-      anchors.bottom: parent.bottom
+      anchors.bottom: availablePaginator.top
       width: 330
       margin-left: 4
       margin-right: 5
+      margin-bottom: 4
       vertical-scrollbar: listScrollBar
       layout:
         type: verticalBox
+
+    FlatPanel
+      id: availablePaginator
+      anchors.left: listPanel.left
+      anchors.right: listPanel.right
+      anchors.bottom: parent.bottom
+      height: 24
+
+      Button
+        id: prevPageButton
+        !text: tr('Prev')
+        width: 70
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+      Label
+        id: pageInfoLabel
+        anchors.left: prevPageButton.right
+        anchors.right: nextPageButton.left
+        anchors.verticalCenter: prevPageButton.verticalCenter
+        margin-left: 6
+        margin-right: 6
+        text-align: center
+        color: #c7d6e8
+        text: tr('Page 1/1')
+
+      Button
+        id: nextPageButton
+        !text: tr('Next')
+        width: 70
+        anchors.right: parent.right
+        anchors.top: parent.top
 
     FlatPanel
       id: detailsPanel
