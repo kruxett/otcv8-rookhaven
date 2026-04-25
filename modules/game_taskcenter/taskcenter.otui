@@ -16,7 +16,8 @@ TaskCenterListItem < Panel
     margin-left: 6
     margin-right: 6
     margin-top: 4
-    text-auto-resize: true
+    height: 14
+    font: verdana-11px-rounded
 
   Label
     id: subtitle
@@ -26,8 +27,9 @@ TaskCenterListItem < Panel
     margin-left: 6
     margin-right: 6
     margin-top: 1
+    height: 12
     color: #b0b0b0
-    text-auto-resize: true
+    font: verdana-11px-rounded
 
   Label
     id: status
@@ -101,7 +103,6 @@ MainWindow
       vertical-scrollbar: listScrollBar
       layout:
         type: verticalBox
-        fit-children: true
 
     FlatPanel
       id: detailsPanel
@@ -119,9 +120,9 @@ MainWindow
         margin-top: 4
         margin-left: 6
         margin-right: 6
+        height: 16
         color: #9fc7ff
         text-wrap: true
-        text-auto-resize: true
 
       Label
         id: taskTitle
@@ -131,9 +132,9 @@ MainWindow
         margin-top: 8
         margin-left: 6
         margin-right: 6
+        height: 30
         text: tr('Select a task from the list')
         text-wrap: true
-        text-auto-resize: true
 
       Label
         id: creaturesLabel
@@ -143,8 +144,8 @@ MainWindow
         margin-top: 6
         margin-left: 6
         margin-right: 6
+        height: 16
         text-wrap: true
-        text-auto-resize: true
 
       Label
         id: progressLabel
@@ -154,8 +155,8 @@ MainWindow
         margin-top: 6
         margin-left: 6
         margin-right: 6
+        height: 16
         text-wrap: true
-        text-auto-resize: true
 
       Label
         id: rewardLabel
@@ -165,8 +166,8 @@ MainWindow
         margin-top: 6
         margin-left: 6
         margin-right: 6
+        height: 16
         text-wrap: true
-        text-auto-resize: true
 
       Label
         id: reasonLabel
@@ -176,9 +177,9 @@ MainWindow
         margin-top: 6
         margin-left: 6
         margin-right: 6
+        height: 16
         color: #e0b070
         text-wrap: true
-        text-auto-resize: true
 
       HorizontalSeparator
         anchors.left: parent.left
