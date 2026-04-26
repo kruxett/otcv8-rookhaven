@@ -108,7 +108,7 @@ void ProtocolGame::parseMessage(const InputMessagePtr& msg)
                 break;
             case Proto::GameServerPing:
             case Proto::GameServerPingBack:
-                if ((opcode == Proto::GameServerPing && g_game.getFeature(Otc::GameClientPing)) ||
+                if ((opcode == Proto::GameServerPing && g_game.getFeature(Otc::GameClientPing) && g_game.hasPendingPingRequest()) ||
                     (opcode == Proto::GameServerPingBack && !g_game.getFeature(Otc::GameClientPing)))
                     parsePingBack(msg);
                 else
