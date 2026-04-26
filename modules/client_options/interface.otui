@@ -19,6 +19,10 @@ OptionPanel
     !text: tr('Display creature names')
 
   OptionCheckBox
+    id: showPing
+    !text: tr('Show ping')
+
+  OptionCheckBox
     id: displayHealth
     !text: tr('Display creature health bars')
     visible: false

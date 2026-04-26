@@ -11,3 +11,7 @@ UIWidget
   Label
     id: fps
     font: verdana-11px-rounded
+
+  Label
+    id: ping
+    font: verdana-11px-rounded
