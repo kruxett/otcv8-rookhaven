@@ -139,3 +139,6 @@ ipch/
 # ReSharper is a .NET coding add-in
 _ReSharper*/
 *.[Rr]e[Ss]harper
+
+# Local workspace docs
+UPDATER_VPS_IMPLEMENTATION.md
