@@ -22,6 +22,10 @@ OptionPanel
     id: showFps
     !text: tr('Show frame rate')
 
+  OptionCheckBox
+    id: showPing
+    !text: tr('Show ping')
+
 //  OptionCheckBox
 //    id: enableLights
 //    !text: tr('Enable lights')

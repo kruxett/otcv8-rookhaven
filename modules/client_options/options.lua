@@ -2,6 +2,7 @@ local defaultOptions = {
 layout = DEFAULT_LAYOUT, -- set in init.lua
 vsync = true,
 showFps = true,
+showPing = true,
 fullscreen = false,
 classicView = not g_app.isMobile(),
 cacheMap = g_app.isMobile(),
@@ -272,6 +273,11 @@ function setOption(key, value, force)
     modules.client_topmenu.setFpsVisible(value)
     if modules.game_stats and modules.game_stats.ui.fps then
       modules.game_stats.ui.fps:setVisible(value)
+    end
+  elseif key == 'showPing' then
+    modules.client_topmenu.setPingVisible(value)
+    if modules.game_stats and modules.game_stats.ui and modules.game_stats.ui.ping then
+      modules.game_stats.ui.ping:setVisible(value)
     end
   elseif key == 'fullscreen' then
     g_window.setFullscreen(value)

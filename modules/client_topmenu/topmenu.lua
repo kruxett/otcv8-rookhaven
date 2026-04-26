@@ -1,7 +1,46 @@
 -- private variables
 local topMenu
 local fpsUpdateEvent = nil
+local pingUpdateEvent = nil
 local statusUpdateEvent = nil
+
+local function getPingTextAndColor()
+  if not g_game.isOnline() then
+    return 'PING: --', '#ffffff'
+  end
+
+  if not (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
+    return 'PING: N/A', '#9e9e9e'
+  end
+
+  local ping = tonumber(g_game.getPing()) or -1
+  if ping < 0 then
+    return 'PING: ...', '#e0b070'
+  end
+
+  local color = '#7ac97a'
+  if ping >= 300 then
+    color = '#d97a7a'
+  elseif ping >= 150 then
+    color = '#e0b070'
+  end
+
+  return string.format('PING: %d ms', ping), color
+end
+
+local function refreshPingLabel()
+  if not topMenu or not topMenu.pingLabel then
+    return
+  end
+
+  local text, color = getPingTextAndColor()
+  topMenu.pingLabel:setText(text)
+  topMenu.pingLabel:setColor(color)
+end
+
+local function onPingBack()
+  refreshPingLabel()
+end
 
 -- private functions
 local function addButton(id, description, icon, callback, panel, toggle, front, index)
@@ -44,7 +83,8 @@ end
 -- public functions
 function init()
   connect(g_game, { onGameStart = online,
-                    onGameEnd = offline })
+                    onGameEnd = offline,
+                    onPingBack = onPingBack })
 
   topMenu = g_ui.createWidget('TopMenu', g_ui.getRootWidget())
   if not topMenu then
@@ -59,13 +99,16 @@ function init()
   end
   
   updateFps()  
+  updatePing()
   updateStatus()
 end
 
 function terminate()
   disconnect(g_game, { onGameStart = online,
-                       onGameEnd = offline })
+                       onGameEnd = offline,
+                       onPingBack = onPingBack })
   removeEvent(fpsUpdateEvent)
+  removeEvent(pingUpdateEvent)
   removeEvent(statusUpdateEvent)
   
   g_keyboard.unbindKeyDown('Ctrl+Shift+T')
@@ -83,6 +126,10 @@ function online()
   end
   
   showGameButtons()
+  if g_game.setPingDelay and (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
+    g_game.setPingDelay(1000)
+  end
+  refreshPingLabel()
 end
 
 function offline()
@@ -94,6 +141,7 @@ function offline()
   end
 
   hideGameButtons()
+  refreshPingLabel()
   updateStatus()
 end
 
@@ -104,9 +152,20 @@ function updateFps()
   topMenu.fpsLabel:setText(text)
 end
 
+function updatePing()
+  if not topMenu or not topMenu.pingLabel then return end
+  pingUpdateEvent = scheduleEvent(updatePing, 500)
+  refreshPingLabel()
+end
+
 function setFpsVisible(enable)
   if not topMenu.fpsLabel then return end
   topMenu.fpsLabel:setVisible(enable)
+end
+
+function setPingVisible(enable)
+  if not topMenu or not topMenu.pingLabel then return end
+  topMenu.pingLabel:setVisible(enable)
 end
 
 function addLeftButton(id, description, icon, callback, front, index)

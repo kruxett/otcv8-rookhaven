@@ -87,6 +87,13 @@ TopMenu < TopMenuPanel
     anchors.top: parent.top
     anchors.left: leftGameButtonsPanel.right
 
+  TopMenuFrameCounterLabel
+    id: pingLabel
+    text-auto-resize: true
+    anchors.top: parent.top
+    anchors.left: fpsLabel.right
+    margin-left: 8
+
   Label
     id: onlineLabel
     anchors.top: parent.top
