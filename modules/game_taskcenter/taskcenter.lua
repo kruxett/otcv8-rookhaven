@@ -265,9 +265,23 @@ local function renderCreaturePreviews(creatures, creatureVisuals)
 
   if creatureVisuals and #creatureVisuals > 0 then
     for _, visual in ipairs(creatureVisuals) do
+      local outfitType = tonumber(visual.outfitType) or 0
+      local visualOutfit = nil
+      if outfitType > 0 then
+        visualOutfit = {
+          type = outfitType,
+          head = tonumber(visual.head) or 0,
+          body = tonumber(visual.body) or 0,
+          legs = tonumber(visual.legs) or 0,
+          feet = tonumber(visual.feet) or 0,
+          addons = tonumber(visual.addons) or 0,
+        }
+      end
+
       visualEntries[#visualEntries + 1] = {
         name = tostring(visual.name or ''),
-        outfitType = tonumber(visual.outfitType) or 0,
+        outfitType = outfitType,
+        outfit = visualOutfit,
       }
     end
   elseif creatures and #creatures > 0 then
@@ -298,10 +312,14 @@ local function renderCreaturePreviews(creatures, creatureVisuals)
     preview:setTooltip(tostring(visual.name))
 
     local appliedOutfit = nil
-    if visual.outfitType and visual.outfitType > 0 then
-      appliedOutfit = { type = visual.outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 }
+    if visual.outfit and visual.outfit.type and visual.outfit.type > 0 then
+      appliedOutfit = visual.outfit
     else
       appliedOutfit = resolveCreatureOutfit(visual.name)
+      if (not appliedOutfit) and visual.outfitType and visual.outfitType > 0 then
+        -- Last-resort fallback for entries that only provide lookType.
+        appliedOutfit = { type = visual.outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 }
+      end
     end
 
     if appliedOutfit then
