@@ -9,10 +9,6 @@ local function getPingTextAndColor()
     return 'PING: --', '#ffffff'
   end
 
-  if not (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
-    return 'PING: N/A', '#9e9e9e'
-  end
-
   local ping = tonumber(g_game.getPing()) or -1
   if ping < 0 then
     return 'PING: ...', '#e0b070'
@@ -126,7 +122,7 @@ function online()
   end
   
   showGameButtons()
-  if g_game.setPingDelay and (g_game.getFeature(GameClientPing) or g_game.getFeature(GameExtendedClientPing)) then
+  if g_game.setPingDelay then
     g_game.setPingDelay(1000)
   end
   refreshPingLabel()
