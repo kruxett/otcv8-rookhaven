@@ -4,6 +4,7 @@ local DEFAULT_DURATION_MS = 20000
 
 local activeTimers = {}
 local activeState = {}
+local initialized = false
 
 local function clearTimer(creatureId)
   local eventId = activeTimers[creatureId]
@@ -135,35 +136,52 @@ local function onExtendedOpcode(protocol, opcode, buffer)
   end
 end
 
-function init()
-  ProtocolGame.registerExtendedOpcode(OPCODE, onExtendedOpcode)
-  connect(Creature, {
-    onAppear = onCreatureAppear,
-  })
-end
-
-function terminate()
-  if ProtocolGame then
-    pcall(function()
-      ProtocolGame.unregisterExtendedOpcode(OPCODE)
-    end)
-  end
-
-  pcall(function()
-    disconnect(Creature, {
-      onAppear = onCreatureAppear,
-    })
-  end)
-
+local function clearAllState()
   for creatureId, _ in pairs(activeTimers) do
     clearTimer(creatureId)
   end
   activeState = {}
 end
 
+local function onGameEnd()
+  clearAllState()
+end
+
+function init()
+  if initialized then
+    return
+  end
+
+  ProtocolGame.registerExtendedOpcode(OPCODE, onExtendedOpcode)
+  connect(Creature, {
+    onAppear = onCreatureAppear,
+  })
+
+  initialized = true
+end
+
+function terminate()
+  if ProtocolGame and initialized then
+    pcall(function()
+      ProtocolGame.unregisterExtendedOpcode(OPCODE)
+    end)
+  end
+
+  if initialized then
+    pcall(function()
+      disconnect(Creature, {
+        onAppear = onCreatureAppear,
+      })
+    end)
+    initialized = false
+  end
+
+  clearAllState()
+end
+
 -- Initialize on load
 init()
 
 connect(g_game, {
-  onGameEnd = terminate,
+  onGameEnd = onGameEnd,
 })
