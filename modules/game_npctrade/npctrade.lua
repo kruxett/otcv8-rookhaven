@@ -73,7 +73,7 @@ function init()
   buyTab = npcWindow:getChildById('buyTab')
   sellTab = npcWindow:getChildById('sellTab')
 
-  confirmSellAllCheckbox:setChecked(g_settings.getBoolean('npcTradeConfirmSellAll', true))
+  confirmSellAllCheckbox:setChecked(not g_settings.getBoolean('npcTradeConfirmSellAll', true))
 
   radioTabs = UIRadioGroup.create()
   radioTabs:addWidget(buyTab)
@@ -240,7 +240,7 @@ function onShowAllItemsChange()
 end
 
 function onConfirmSellAllChange()
-  g_settings.set('npcTradeConfirmSellAll', confirmSellAllCheckbox:isChecked())
+  g_settings.set('npcTradeConfirmSellAll', not confirmSellAllCheckbox:isChecked())
 end
 
 function setCurrency(currency, decimal)
@@ -662,7 +662,7 @@ end
 function confirmSellAll(delayed, exceptions)
   exceptions = exceptions or {}
 
-  if confirmSellAllCheckbox and not confirmSellAllCheckbox:isChecked() then
+  if confirmSellAllCheckbox and confirmSellAllCheckbox:isChecked() then
     sellAll(delayed, exceptions)
     return
   end

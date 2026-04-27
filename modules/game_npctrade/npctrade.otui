@@ -262,14 +262,15 @@ MainWindow
 
     CheckBox
       id: confirmSellAll
-      !text: tr('Confirm Sell all')
+      !text: tr('Disable Sell all warning')
+      !tooltip: tr('When enabled, Sell all executes immediately. When disabled, Sell all asks for confirmation.')
       anchors.top: prev.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       margin-left: 5
       margin-top: 3
       visible: false
-      checked: true
+      checked: false
       @onCheckChange: modules.game_npctrade.onConfirmSellAllChange()
 
   Button
