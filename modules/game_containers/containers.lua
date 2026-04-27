@@ -193,9 +193,6 @@ function onContainerOpen(container, previousContainer)
   end
   
   containerWindow:setId('container' .. container:getId())
-  if gameStart + 1000 < g_clock.millis() then
-    containerWindow:clearSettings()
-  end
   
   local containerPanel = containerWindow:getChildById('contentsPanel')
   local layout = containerPanel:getLayout()
