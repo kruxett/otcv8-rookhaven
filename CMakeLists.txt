@@ -159,7 +159,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "game.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
-set(CLIENT_VERSION "2.5" CACHE STRING "Client version string" FORCE)
+set(CLIENT_VERSION "2.6" CACHE STRING "Client version string" FORCE)
 set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
 
 # default build type
@@ -621,7 +621,6 @@ if(NOT USE_STATIC_LIBS)
     # Install runtime DLLs to lib/ (Release) - glew32.dll and libcrypto go to root
     install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/glew32.dll" DESTINATION "." OPTIONAL)
     install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/libcrypto-3-x64.dll" DESTINATION "." OPTIONAL)
-    install(FILES "${CMAKE_SOURCE_DIR}/discord-rpc.dll" DESTINATION "lib" OPTIONAL)
     install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/bz2.dll" DESTINATION "lib" OPTIONAL)
     install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/libssl-3-x64.dll" DESTINATION "lib" OPTIONAL)
     install(FILES "${VCPKG_INSTALLED_DIR}/x64-windows/bin/lua51.dll" DESTINATION "lib" OPTIONAL)
@@ -637,6 +636,9 @@ if(NOT USE_STATIC_LIBS)
         install(FILES "${_boost_dll}" DESTINATION "lib" OPTIONAL)
     endforeach()
 endif()
+
+# Discord RPC DLL is runtime-loaded and needed in both static and dynamic builds.
+install(FILES "${CMAKE_SOURCE_DIR}/discord-rpc.dll" DESTINATION "lib" OPTIONAL)
 
 # Install resource directories
 # For static (Release) builds: package data/, modules/, layouts/ and init.lua into data.zip (no encryption)

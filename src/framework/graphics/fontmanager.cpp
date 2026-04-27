@@ -101,6 +101,22 @@ BitmapFontPtr FontManager::getFont(const std::string& fontName)
             return font;
     }
 
+    if(fontName == "verdana-9px-rounded") {
+        for(const BitmapFontPtr& font : m_fonts) {
+            if(font->getName() == "verdana-9px")
+                return font;
+        }
+    }
+
+    if(fontName == "verdana-10px-rounded" ||
+       fontName == "verdana-12px-rounded" ||
+       fontName == "verdana-14px-rounded") {
+        for(const BitmapFontPtr& font : m_fonts) {
+            if(font->getName() == "verdana-11px-rounded")
+                return font;
+        }
+    }
+
     // when not found, fallback to default font
     g_logger.error(stdext::format("font '%s' not found", fontName));
     return getDefaultFont();

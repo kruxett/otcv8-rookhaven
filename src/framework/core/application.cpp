@@ -34,7 +34,7 @@
 #include <framework/http/http.h>
 
 #if !(defined(ANDROID) || defined(FREE_VERSION))
-#include <boost/process.hpp>
+#include <boost/process/v1.hpp>
 #endif
 
 #include <locale>
@@ -183,7 +183,7 @@ void Application::close()
 void Application::restart()
 {
 #if !(defined(ANDROID) || defined(FREE_VERSION))
-    boost::process::child c(g_resources.getBinaryName());
+    boost::process::v1::child c(g_resources.getBinaryName());
     std::error_code ec2;
     if (c.wait_for(std::chrono::seconds(1), ec2)) {
         g_logger.fatal("Updater restart error. Please restart application");
@@ -198,7 +198,7 @@ void Application::restart()
 void Application::restartArgs(const std::vector<std::string>& args)
 {
 #if !(defined(ANDROID) || defined(FREE_VERSION))
-    boost::process::child c(g_resources.getBinaryName(), boost::process::args(args));
+    boost::process::v1::child c(g_resources.getBinaryName(), boost::process::v1::args(args));
     std::error_code ec2;
     if (c.wait_for(std::chrono::seconds(1), ec2)) {
         g_logger.fatal("Updater restart error. Please restart application");

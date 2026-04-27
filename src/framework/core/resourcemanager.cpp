@@ -34,7 +34,7 @@
 #include <algorithm>
 
 #if !(defined(ANDROID) || defined(FREE_VERSION))
-#include <boost/process.hpp>
+#include <boost/process/v1.hpp>
 #endif
 #include <locale>
 #include <zlib.h>
@@ -133,7 +133,7 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     if (binary == m_binaryPath)
         return false;
 
-    boost::process::child c(binary.string());
+    boost::process::v1::child c(binary.string());
     std::error_code ec2;
     if (c.wait_for(std::chrono::seconds(5), ec2)) {
         return c.exit_code() == 0;
@@ -921,7 +921,7 @@ void ResourceManager::updateExecutable(std::string fileName)
     PHYSFS_close(file);
 
     std::filesystem::path newBinaryPath(std::filesystem::u8path(PHYSFS_getWriteDir()));
-#if defined(WIN32) && !(defined(FREE_VERSION))
+#if defined(WIN32) && !defined(FREE_VERSION)
     installDlls(newBinaryPath);
 #endif
 #endif
@@ -1048,7 +1048,7 @@ std::map<std::string, std::string> ResourceManager::decompressArchive(std::strin
 #endif
 }
 
-#if defined(WIN32) && not(defined(FREE_VERSION))
+#if defined(WIN32) && !defined(FREE_VERSION)
 void ResourceManager::installDlls(std::filesystem::path dest)
 {
     static std::list<std::string> dlls = {

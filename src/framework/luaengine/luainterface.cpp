@@ -741,6 +741,7 @@ void LuaInterface::createLuaState()
 
     // load bit32 lib for bitwise operations
     luaopen_bit32(L);
+    lua_setglobal(L, "bit32");
 
     // creates weak table
     newTable();

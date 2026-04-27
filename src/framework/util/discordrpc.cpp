@@ -6,6 +6,50 @@
 #include <windows.h>
 #include <cstring>
 #include <cstdint>
+#include <string>
+
+namespace {
+std::string getExecutableDir()
+{
+    char modulePath[MAX_PATH] = { 0 };
+    if (GetModuleFileNameA(nullptr, modulePath, MAX_PATH) == 0)
+        return "";
+
+    std::string path(modulePath);
+    const auto pos = path.find_last_of("\\/");
+    if (pos == std::string::npos)
+        return "";
+    return path.substr(0, pos);
+}
+
+HMODULE loadDiscordLibrary(std::string& loadedFrom)
+{
+    HMODULE lib = LoadLibraryA("discord-rpc.dll");
+    if (lib) {
+        loadedFrom = "discord-rpc.dll";
+        return lib;
+    }
+
+    const std::string exeDir = getExecutableDir();
+    if (!exeDir.empty()) {
+        const std::string inExeDir = exeDir + "\\discord-rpc.dll";
+        lib = LoadLibraryA(inExeDir.c_str());
+        if (lib) {
+            loadedFrom = inExeDir;
+            return lib;
+        }
+
+        const std::string inLibDir = exeDir + "\\lib\\discord-rpc.dll";
+        lib = LoadLibraryA(inLibDir.c_str());
+        if (lib) {
+            loadedFrom = inLibDir;
+            return lib;
+        }
+    }
+
+    return nullptr;
+}
+}
 
 struct DiscordUser {
     const char* userId;
@@ -74,9 +118,10 @@ bool DiscordRPCManager::initialize(const std::string& applicationId)
     }
 
     auto* data = new PlatformData();
-    data->library = LoadLibraryA("discord-rpc.dll");
+    std::string loadedFrom;
+    data->library = loadDiscordLibrary(loadedFrom);
     if (!data->library) {
-        setError("Unable to load discord-rpc.dll from client path/lib");
+        setError("Unable to load discord-rpc.dll (tried executable path and executable path/lib)");
         delete data;
         m_available = false;
         return false;
@@ -107,7 +152,7 @@ bool DiscordRPCManager::initialize(const std::string& applicationId)
     m_available = true;
     m_lastError.clear();
 
-    g_logger.info("Discord RPC initialized (appId=" + applicationId + ")");
+    g_logger.info("Discord RPC initialized (appId=" + applicationId + ", dll=" + loadedFrom + ")");
     return true;
 #else
     (void)applicationId;

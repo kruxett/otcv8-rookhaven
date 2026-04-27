@@ -83,7 +83,7 @@ function init()
     return
   end
 
-  local appId = getSetting('discordRpcAppId', '')
+  local appId = getSetting('discordRpcAppId', '1498395619964878958')
   if appId == '' then
     g_logger.info('Discord RPC disabled: set setting discordRpcAppId to enable Rich Presence')
     initialized = true
