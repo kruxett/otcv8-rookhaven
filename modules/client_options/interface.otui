@@ -77,11 +77,14 @@ OptionPanel
       margin-right: 20
       @onOptionChange: modules.client_options.setOption(self:getId(), self.currentIndex)
       @onSetup: |
+        local onOptionChange = self.onOptionChange
+        self.onOptionChange = nil
         self:addOption("0")
         self:addOption("1")
         self:addOption("2")
         self:addOption("3")
         self:addOption("4")
+        self.onOptionChange = onOptionChange
 
     ComboBox
       id: rightPanels
@@ -92,10 +95,13 @@ OptionPanel
       margin-right: 20
       @onOptionChange: modules.client_options.setOption(self:getId(), self.currentIndex)
       @onSetup: |
+        local onOptionChange = self.onOptionChange
+        self.onOptionChange = nil
         self:addOption("1")
         self:addOption("2")
         self:addOption("3")
         self:addOption("4")
+        self.onOptionChange = onOptionChange
 
     ComboBox
       id: containerPanel
@@ -105,6 +111,8 @@ OptionPanel
       margin-top: 3
       @onOptionChange: modules.client_options.setOption(self:getId(), self.currentIndex)
       @onSetup: |
+        local onOptionChange = self.onOptionChange
+        self.onOptionChange = nil
         self:addOption("1st left panel")
         self:addOption("2nd left panel")
         self:addOption("3rd left panel")
@@ -113,6 +121,7 @@ OptionPanel
         self:addOption("2nd right panel")
         self:addOption("3rd right panel")
         self:addOption("4th right panel")
+        self.onOptionChange = onOptionChange
 
   Label
     id: floorFadingLabel
