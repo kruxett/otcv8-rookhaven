@@ -12,6 +12,7 @@ local listPanel = nil
 local statusLabel = nil
 local taskTitle = nil
 local rankLabel = nil
+local playerRankLabel = nil
 local creaturesLabel = nil
 local progressLabel = nil
 local rewardLabel = nil
@@ -24,6 +25,7 @@ local availablePaginator = nil
 local prevPageButton = nil
 local nextPageButton = nil
 local pageInfoLabel = nil
+local rankBarWidget = nil
 
 local currentTab = 'available'
 local snapshotData = nil
@@ -135,6 +137,7 @@ local function destroyWindow()
   statusLabel = nil
   taskTitle = nil
   rankLabel = nil
+  playerRankLabel = nil
   creaturesLabel = nil
   progressLabel = nil
   rewardLabel = nil
@@ -147,6 +150,7 @@ local function destroyWindow()
   prevPageButton = nil
   nextPageButton = nil
   pageInfoLabel = nil
+  rankBarWidget = nil
   renderedEntries = {}
   npcSessionActive = false
   npcSessionSource = nil
@@ -406,6 +410,7 @@ local function updateDetails()
   if not entry then
     taskTitle:setText('No task selected')
     setLabelTextSafe(rankLabel, '')
+    setLabelTextSafe(playerRankLabel, '')
     creaturesLabel:setText('')
     renderCreaturePreviews(nil, nil)
     progressLabel:setText('')
@@ -422,13 +427,14 @@ local function updateDetails()
   if playerRankName == '' then playerRankName = 'Rank ' .. tostring(playerData.rank or 0) end
 
   taskTitle:setText(taskName)
+  setLabelTextSafe(playerRankLabel, 'Your Rank: ' .. playerRankName)
 
   if currentTab == 'available' then
     local reqRankName = tostring(entry.minRankName or '')
     if reqRankName == '' then reqRankName = 'Rank ' .. tostring(entry.minRank or 0) end
-    setLabelTextSafe(rankLabel, string.format('Required Rank: %s    Your Rank: %s', reqRankName, playerRankName))
+    setLabelTextSafe(rankLabel, 'Required Rank: ' .. reqRankName)
   else
-    setLabelTextSafe(rankLabel, 'Your Rank: ' .. playerRankName)
+    setLabelTextSafe(rankLabel, '')
   end
 
   creaturesLabel:setText('Creatures: ' .. creatures)
@@ -550,7 +556,9 @@ local function renderList()
     local name = entry.taskName or ('Task ' .. tostring(entry.taskId or 0))
     local subtitle = formatCreatures(entry.creatures)
     if currentTab == 'available' then
-      subtitle = string.format('Rank: %s | %s', formatRankLabel(entry.minRank, entry.minRankName), subtitle)
+      local rankName = tostring(entry.minRankName or '')
+      if rankName == '' then rankName = 'Rank ' .. tostring(entry.minRank or 0) end
+      subtitle = string.format('Rank: %s | %s', rankName, subtitle)
     end
 
     row.title:setText(name)
@@ -610,6 +618,39 @@ local function setTab(tabName)
   renderList()
 end
 
+local function updateRankBar()
+  if not rankBarWidget then return end
+  local player = snapshotData and snapshotData.player or nil
+  if not player then
+    rankBarWidget:setPercent(0)
+    rankBarWidget:setText('')
+    rankBarWidget:setTooltip('')
+    return
+  end
+
+  local pct = math.max(0, math.min(100, math.floor(tonumber(player.rankProgress) or 0)))
+  local isMaxRank = not player.nextRank
+  rankBarWidget:setPercent(pct)
+
+  if isMaxRank then
+    rankBarWidget:setBackgroundColor('#a07820')
+    rankBarWidget:setText('Max Rank — ' .. tostring(player.rankName or 'Elite Hunter'))
+    rankBarWidget:setTooltip('You have reached the highest rank!')
+    setLabelTextSafe(playerRankLabel, tostring(player.rankName or '') .. '  ★ MAX')
+  else
+    rankBarWidget:setBackgroundColor('#7b5c2a')
+    local totalKills = tonumber(player.totalKills) or 0
+    local nextRank = tonumber(player.nextRank) or 0
+    local nextName = tostring(player.nextRankName or '')
+    rankBarWidget:setText(string.format('%s  %d%%  →  %s', tostring(player.rankName or ''), pct, nextName))
+    rankBarWidget:setTooltip(string.format(
+      'Rank Progress: %d%%\nKills: %d / %d\nNext Rank: %s',
+      pct, totalKills, nextRank, nextName
+    ))
+    setLabelTextSafe(playerRankLabel, 'Your Rank: ' .. tostring(player.rankName or ''))
+  end
+end
+
 local function applySnapshot(payload)
   snapshotData = payload and payload.data or nil
   local message = payload and payload.message
@@ -626,7 +667,7 @@ local function applySnapshot(payload)
   end
 
   updateStatusFromSnapshot(message)
-
+  updateRankBar()
   renderList()
 end
 
@@ -647,6 +688,7 @@ local function ensureWindow()
   statusLabel = taskCenterWindow:recursiveGetChildById('statusLabel')
   taskTitle = taskCenterWindow:recursiveGetChildById('taskTitle')
   rankLabel = taskCenterWindow:recursiveGetChildById('rankLabel')
+  playerRankLabel = taskCenterWindow:recursiveGetChildById('playerRankLabel')
   creaturesLabel = taskCenterWindow:recursiveGetChildById('creaturesLabel')
   progressLabel = taskCenterWindow:recursiveGetChildById('progressLabel')
   rewardLabel = taskCenterWindow:recursiveGetChildById('rewardLabel')
@@ -659,6 +701,7 @@ local function ensureWindow()
   prevPageButton = taskCenterWindow:recursiveGetChildById('prevPageButton')
   nextPageButton = taskCenterWindow:recursiveGetChildById('nextPageButton')
   pageInfoLabel = taskCenterWindow:recursiveGetChildById('pageInfoLabel')
+  rankBarWidget = taskCenterWindow:recursiveGetChildById('rankBar')
 
   availableTab.onClick = function() setTab('available') end
   activeTab.onClick = function() setTab('active') end

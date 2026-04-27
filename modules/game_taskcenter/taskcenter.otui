@@ -24,10 +24,10 @@ TaskCenterListItem < Panel
   Label
     id: subtitle
     anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.right: status.left
     anchors.top: title.bottom
     margin-left: 6
-    margin-right: 6
+    margin-right: 4
     margin-top: 1
     height: 12
     color: #b0b0b0
@@ -139,7 +139,8 @@ MainWindow
       anchors.left: listScrollBar.right
       margin-left: 4
       width: 330
-      anchors.bottom: parent.bottom
+      anchors.bottom: rankProgressBar.top
+      margin-bottom: 2
       height: 24
 
       Button
@@ -172,8 +173,20 @@ MainWindow
       anchors.left: listPanel.right
       anchors.right: parent.right
       anchors.top: parent.top
-      anchors.bottom: parent.bottom
+      anchors.bottom: rankProgressBar.top
+      margin-bottom: 2
       margin-left: 5
+
+      Label
+        id: playerRankLabel
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: 4
+        margin-right: 6
+        height: 14
+        color: #e0d08a
+        text-align: right
+        text-auto-resize: true
 
       Label
         id: statusLabel
@@ -207,7 +220,7 @@ MainWindow
         margin-top: 4
         margin-left: 6
         margin-right: 6
-        height: 16
+        height: 14
         color: #e0d08a
         text-wrap: true
 
@@ -305,3 +318,29 @@ MainWindow
         anchors.bottom: parent.bottom
         margin-right: 8
         margin-bottom: 8
+
+    Panel
+      id: rankProgressBar
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      height: 22
+      margin-left: 2
+      margin-right: 2
+      margin-bottom: 2
+      background-color: #1a1a1a
+      border-width: 1
+      border-color: #404040
+
+      UIProgressBar
+        id: rankBar
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        background-color: #7b5c2a
+        image-source: /images/ui/progressbar
+        image-border: 1
+        font: verdana-11px-rounded
+        text-offset: 0 2
+        percent: 0
