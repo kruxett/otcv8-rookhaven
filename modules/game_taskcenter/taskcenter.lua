@@ -11,6 +11,7 @@ local readyTab = nil
 local listPanel = nil
 local statusLabel = nil
 local taskTitle = nil
+local rankLabel = nil
 local creaturesLabel = nil
 local progressLabel = nil
 local rewardLabel = nil
@@ -133,6 +134,7 @@ local function destroyWindow()
   listPanel = nil
   statusLabel = nil
   taskTitle = nil
+  rankLabel = nil
   creaturesLabel = nil
   progressLabel = nil
   rewardLabel = nil
@@ -217,6 +219,21 @@ local function formatCreatures(creatures)
   end
 
   return table.concat(creatures, ', ')
+end
+
+local function formatRankLabel(rankValue, rankName)
+  local rank = math.max(0, math.floor(tonumber(rankValue) or 0))
+  local name = tostring(rankName or '')
+  if name == '' then
+    name = 'Rank ' .. tostring(rank)
+  end
+  return string.format('%s (%d)', name, rank)
+end
+
+local function setLabelTextSafe(widget, text)
+  if widget then
+    widget:setText(text or '')
+  end
 end
 
 local function resolveCreatureOutfit(creatureName)
@@ -388,6 +405,7 @@ local function updateDetails()
   local entry = findSelectedEntry()
   if not entry then
     taskTitle:setText('No task selected')
+    setLabelTextSafe(rankLabel, '')
     creaturesLabel:setText('')
     renderCreaturePreviews(nil, nil)
     progressLabel:setText('')
@@ -399,7 +417,18 @@ local function updateDetails()
 
   local taskName = entry.taskName or ('Task ' .. tostring(entry.taskId or 0))
   local creatures = formatCreatures(entry.creatures)
+  local playerData = snapshotData and snapshotData.player or {}
+  local playerRankText = formatRankLabel(playerData.rank, playerData.rankName)
+
   taskTitle:setText(taskName)
+
+  if currentTab == 'available' then
+    local requiredRankText = formatRankLabel(entry.minRank, entry.minRankName)
+    setLabelTextSafe(rankLabel, string.format('Required Rank: %s    Your Rank: %s', requiredRankText, playerRankText))
+  else
+    setLabelTextSafe(rankLabel, 'Your Rank: ' .. playerRankText)
+  end
+
   creaturesLabel:setText('Creatures: ' .. creatures)
   renderCreaturePreviews(entry.creatures, entry.creatureVisuals)
 
@@ -518,6 +547,9 @@ local function renderList()
     local key = buildEntryKey(entry)
     local name = entry.taskName or ('Task ' .. tostring(entry.taskId or 0))
     local subtitle = formatCreatures(entry.creatures)
+    if currentTab == 'available' then
+      subtitle = string.format('Rank: %s | %s', formatRankLabel(entry.minRank, entry.minRankName), subtitle)
+    end
 
     row.title:setText(name)
     row.subtitle:setText(subtitle)
@@ -612,6 +644,7 @@ local function ensureWindow()
   listPanel = taskCenterWindow:recursiveGetChildById('listPanel')
   statusLabel = taskCenterWindow:recursiveGetChildById('statusLabel')
   taskTitle = taskCenterWindow:recursiveGetChildById('taskTitle')
+  rankLabel = taskCenterWindow:recursiveGetChildById('rankLabel')
   creaturesLabel = taskCenterWindow:recursiveGetChildById('creaturesLabel')
   progressLabel = taskCenterWindow:recursiveGetChildById('progressLabel')
   rewardLabel = taskCenterWindow:recursiveGetChildById('rewardLabel')
