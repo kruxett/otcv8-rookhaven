@@ -119,6 +119,9 @@ function UIMiniWindowContainer:onDrop(widget, mousePos)
     end
 
     self:fitAll(widget)
+    if widget.containerWindow and modules.game_interface and modules.game_interface.saveContainerPanel then
+      modules.game_interface.saveContainerPanel(self)
+    end
     return true
   end
 end
