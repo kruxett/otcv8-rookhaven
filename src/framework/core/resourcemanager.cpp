@@ -33,7 +33,7 @@
 #include <regex>
 #include <algorithm>
 
-#if not(defined(ANDROID) || defined(FREE_VERSION))
+#if !(defined(ANDROID) || defined(FREE_VERSION))
 #include <boost/process.hpp>
 #endif
 #include <locale>
@@ -71,7 +71,7 @@ void ResourceManager::terminate()
 }
 
 bool ResourceManager::launchCorrect(const std::string& product, const std::string& app) { // curently works only on windows
-#if not(defined(ANDROID) || defined(FREE_VERSION))
+#if !(defined(ANDROID) || defined(FREE_VERSION))
     auto init_path = m_binaryPath.parent_path();
     init_path /= INIT_FILENAME;
     auto init_path_compiled = m_binaryPath.parent_path();
@@ -793,7 +793,7 @@ std::string ResourceManager::selfChecksum() {
 }
 
 void ResourceManager::updateData(const std::set<std::string>& files, bool reMount) {
-#if not(defined(__EMSCRIPTEN__) || defined(FREE_VERSION))
+#if !(defined(__EMSCRIPTEN__) || defined(FREE_VERSION))
     if (!m_loadedFromArchive)
         g_logger.fatal("Client can be updated only when running from zip archive");
 
@@ -921,7 +921,7 @@ void ResourceManager::updateExecutable(std::string fileName)
     PHYSFS_close(file);
 
     std::filesystem::path newBinaryPath(std::filesystem::u8path(PHYSFS_getWriteDir()));
-#if defined(WIN32) && not(defined(FREE_VERSION))
+#if defined(WIN32) && !(defined(FREE_VERSION))
     installDlls(newBinaryPath);
 #endif
 #endif

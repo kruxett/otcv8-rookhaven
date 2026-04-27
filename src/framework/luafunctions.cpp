@@ -218,12 +218,12 @@ void Application::registerLuaFunctions()
     g_lua.registerSingletonClass("g_discord");
     g_lua.bindSingletonFunction("g_discord", "initialize", &DiscordRPCManager::initialize, &g_discord);
     g_lua.bindSingletonFunction("g_discord", "shutdown", &DiscordRPCManager::shutdown, &g_discord);
-    g_lua.bindSingletonFunction("g_discord", "isInitialized", &DiscordRPCManager::isInitialized, &g_discord);
-    g_lua.bindSingletonFunction("g_discord", "isAvailable", &DiscordRPCManager::isAvailable, &g_discord);
-    g_lua.bindSingletonFunction("g_discord", "getLastError", &DiscordRPCManager::getLastError, &g_discord);
     g_lua.bindSingletonFunction("g_discord", "runCallbacks", &DiscordRPCManager::runCallbacks, &g_discord);
     g_lua.bindSingletonFunction("g_discord", "clearPresence", &DiscordRPCManager::clearPresence, &g_discord);
     g_lua.bindSingletonFunction("g_discord", "setPresence", &DiscordRPCManager::setPresence, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "isInitialized", [] { return g_discord.isInitialized(); });
+    g_lua.bindSingletonFunction("g_discord", "isAvailable", [] { return g_discord.isAvailable(); });
+    g_lua.bindSingletonFunction("g_discord", "getLastError", [] { return g_discord.getLastError(); });
 
     g_lua.registerSingletonClass("g_atlas");
     g_lua.bindSingletonFunction("g_atlas", "getStats", &Atlas::getStats, &g_atlas);

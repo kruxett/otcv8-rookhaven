@@ -55,11 +55,6 @@ struct DiscordRPCManager::PlatformData {
     Discord_UpdatePresenceFn updatePresence = nullptr;
     Discord_ClearPresenceFn clearPresence = nullptr;
 };
-
-static bool hasRequiredSymbols(const DiscordRPCManager::PlatformData* data)
-{
-    return data && data->initialize && data->shutdown && data->runCallbacks && data->updatePresence && data->clearPresence;
-}
 #endif
 
 DiscordRPCManager g_discord;
@@ -93,7 +88,7 @@ bool DiscordRPCManager::initialize(const std::string& applicationId)
     data->updatePresence = reinterpret_cast<Discord_UpdatePresenceFn>(GetProcAddress(data->library, "Discord_UpdatePresence"));
     data->clearPresence = reinterpret_cast<Discord_ClearPresenceFn>(GetProcAddress(data->library, "Discord_ClearPresence"));
 
-    if (!hasRequiredSymbols(data)) {
+    if (!data->initialize || !data->shutdown || !data->runCallbacks || !data->updatePresence || !data->clearPresence) {
         setError("discord-rpc.dll is missing required symbols");
         FreeLibrary(data->library);
         delete data;
