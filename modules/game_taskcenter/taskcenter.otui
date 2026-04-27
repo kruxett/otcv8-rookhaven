@@ -116,7 +116,7 @@ MainWindow
       id: listScrollBar
       anchors.left: parent.left
       anchors.top: parent.top
-      anchors.bottom: parent.bottom
+      anchors.bottom: availablePaginator.top
       width: 12
       step: 36
       pixels-scroll: true

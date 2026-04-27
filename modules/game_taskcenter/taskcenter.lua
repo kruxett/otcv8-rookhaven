@@ -639,13 +639,11 @@ local function updateRankBar()
     setLabelTextSafe(playerRankLabel, tostring(player.rankName or '') .. '  ★ MAX')
   else
     rankBarWidget:setBackgroundColor('#7b5c2a')
-    local totalKills = tonumber(player.totalKills) or 0
-    local nextRank = tonumber(player.nextRank) or 0
     local nextName = tostring(player.nextRankName or '')
-    rankBarWidget:setText(string.format('%s  %d%%  →  %s', tostring(player.rankName or ''), pct, nextName))
+    rankBarWidget:setText(string.format('%s  %d%%  ->  %s', tostring(player.rankName or ''), pct, nextName))
     rankBarWidget:setTooltip(string.format(
-      'Rank Progress: %d%%\nKills: %d / %d\nNext Rank: %s',
-      pct, totalKills, nextRank, nextName
+      'Rank Progress: %d%%\nNext Rank: %s',
+      pct, nextName
     ))
     setLabelTextSafe(playerRankLabel, 'Your Rank: ' .. tostring(player.rankName or ''))
   end
