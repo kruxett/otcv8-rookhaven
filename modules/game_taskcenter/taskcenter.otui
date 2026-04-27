@@ -138,7 +138,7 @@ MainWindow
     FlatPanel
       id: availablePaginator
       anchors.left: parent.left
-      anchors.right: listPanel.right
+      width: 346
       anchors.bottom: rankProgressBar.top
       margin-bottom: 2
       height: 24
