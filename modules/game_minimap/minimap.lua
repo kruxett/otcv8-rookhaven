@@ -10,6 +10,8 @@ minimapSessionFile = nil
 minimapSessionLockFile = nil
 minimapSessionVersion = nil
 sharedMapSaveEnabled = true
+sessionPid = nil
+hardCleanupDone = false
 
 local ensureSessionFiles
 local releaseSessionLock
@@ -28,6 +30,10 @@ local function getVersionedMinimapFile(clientVersion)
 end
 
 local function getSessionPid()
+  if sessionPid then
+    return sessionPid
+  end
+
   local pid = 0
   if g_platform and g_platform.getProcessId then
     pid = tonumber(g_platform.getProcessId()) or 0
@@ -37,7 +43,8 @@ local function getSessionPid()
     pid = os.time()
   end
 
-  return tostring(pid)
+  sessionPid = tostring(pid)
+  return sessionPid
 end
 
 local function getSessionMinimapFile(clientVersion)
@@ -46,6 +53,74 @@ end
 
 local function getSessionLockFile(clientVersion)
   return '/minimap' .. clientVersion .. '.pid' .. getSessionPid() .. '.lock'
+end
+
+local function getSessionMapFileForPid(clientVersion, pid)
+  return '/minimap' .. clientVersion .. '.pid' .. tostring(pid) .. '.otmm'
+end
+
+local function deleteFileIfExists(filePath)
+  if g_resources.fileExists(filePath) then
+    g_resources.deleteFile(filePath)
+  end
+end
+
+local function getSessionPidFromMapFile(fileName, clientVersion)
+  local basePattern = '^minimap' .. tostring(clientVersion) .. '%.pid(%d+)%.otmm$'
+  local backupPattern = '^minimap' .. tostring(clientVersion) .. '%.pid(%d+)%.otmm%.bak$'
+  local pid = string.match(fileName, basePattern)
+  if not pid then
+    pid = string.match(fileName, backupPattern)
+  end
+  return tonumber(pid)
+end
+
+local function pruneMinimapBackups(clientVersion)
+  local files = g_resources.listDirectoryFiles('/') or {}
+  local keepBackup = 'minimap' .. tostring(clientVersion) .. '.otmm.bak'
+
+  for _, fileName in ipairs(files) do
+    if string.match(fileName, '^minimap.*%.otmm%.bak$') and fileName ~= keepBackup then
+      g_resources.deleteFile('/' .. fileName)
+    end
+  end
+end
+
+local function hardCleanupLegacyMinimapFiles(clientVersion)
+  if hardCleanupDone then
+    return
+  end
+
+  local sessionFile = minimapSessionFile
+  local sharedFile = getVersionedMinimapFile(clientVersion)
+  local keepFiles = {
+    [string.sub(sharedFile, 2)] = true,
+    [string.sub(sharedFile .. '.bak', 2)] = true,
+  }
+
+  if sessionFile then
+    keepFiles[string.sub(sessionFile, 2)] = true
+  end
+
+  if minimapSessionLockFile then
+    keepFiles[string.sub(minimapSessionLockFile, 2)] = true
+  end
+
+  local files = g_resources.listDirectoryFiles('/') or {}
+  local removed = 0
+  for _, fileName in ipairs(files) do
+    if string.match(fileName, '^minimap.*%.otmm$') or string.match(fileName, '^minimap.*%.otmm%.bak$') then
+      if not keepFiles[fileName] then
+        g_resources.deleteFile('/' .. fileName)
+        removed = removed + 1
+      end
+    end
+  end
+
+  hardCleanupDone = true
+  if removed > 0 then
+    print('[Minimap] Hard cleanup removed ' .. removed .. ' old minimap files')
+  end
 end
 
 local function getPidFromLockFile(fileName, clientVersion)
@@ -57,17 +132,34 @@ end
 local function refreshSharedSavePolicy(clientVersion)
   local files = g_resources.listDirectoryFiles('/') or {}
   local activeLocks = 0
+  local runningPids = {}
+  local currentPid = tonumber(getSessionPid()) or 0
 
   for _, fileName in ipairs(files) do
     local pid = getPidFromLockFile(fileName, clientVersion)
     if pid then
       if g_platform and g_platform.isProcessRunning and g_platform.isProcessRunning(pid) then
         activeLocks = activeLocks + 1
+        runningPids[pid] = true
       else
         g_resources.deleteFile('/' .. fileName)
+        local staleSessionFile = getSessionMapFileForPid(clientVersion, pid)
+        deleteFileIfExists(staleSessionFile)
+        deleteFileIfExists(staleSessionFile .. '.bak')
       end
     end
   end
+
+  -- Clean up orphaned session map files left by crashed/closed clients.
+  for _, fileName in ipairs(files) do
+    local pid = getSessionPidFromMapFile(fileName, clientVersion)
+    if pid and pid ~= currentPid and not runningPids[pid] then
+      g_resources.deleteFile('/' .. fileName)
+    end
+  end
+
+  -- Keep only one backup file for minimap safeguards.
+  pruneMinimapBackups(clientVersion)
 
   sharedMapSaveEnabled = activeLocks <= 1
   return activeLocks
@@ -93,6 +185,8 @@ ensureSessionFiles = function(clientVersion)
   local activeLocks = refreshSharedSavePolicy(clientVersion)
   if activeLocks > 1 then
     print('[Minimap] Multiclient detected (' .. activeLocks .. ' instances). Shared minimap file writes are temporarily disabled.')
+  else
+    hardCleanupLegacyMinimapFiles(clientVersion)
   end
 end
 
@@ -256,7 +350,6 @@ function saveMap()
   local sessionFile = minimapSessionFile
   local sharedFile = getVersionedMinimapFile(clientVersion)
 
-  createBackupIfExists(sessionFile)
   g_minimap.saveOtmm(sessionFile)
 
   if sharedMapSaveEnabled then
