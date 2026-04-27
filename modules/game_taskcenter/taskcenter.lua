@@ -418,15 +418,17 @@ local function updateDetails()
   local taskName = entry.taskName or ('Task ' .. tostring(entry.taskId or 0))
   local creatures = formatCreatures(entry.creatures)
   local playerData = snapshotData and snapshotData.player or {}
-  local playerRankText = formatRankLabel(playerData.rank, playerData.rankName)
+  local playerRankName = tostring(playerData.rankName or '')
+  if playerRankName == '' then playerRankName = 'Rank ' .. tostring(playerData.rank or 0) end
 
   taskTitle:setText(taskName)
 
   if currentTab == 'available' then
-    local requiredRankText = formatRankLabel(entry.minRank, entry.minRankName)
-    setLabelTextSafe(rankLabel, string.format('Required Rank: %s    Your Rank: %s', requiredRankText, playerRankText))
+    local reqRankName = tostring(entry.minRankName or '')
+    if reqRankName == '' then reqRankName = 'Rank ' .. tostring(entry.minRank or 0) end
+    setLabelTextSafe(rankLabel, string.format('Required Rank: %s    Your Rank: %s', reqRankName, playerRankName))
   else
-    setLabelTextSafe(rankLabel, 'Your Rank: ' .. playerRankText)
+    setLabelTextSafe(rankLabel, 'Your Rank: ' .. playerRankName)
   end
 
   creaturesLabel:setText('Creatures: ' .. creatures)
