@@ -35,6 +35,7 @@
 #include <framework/stdext/net.h>
 #include <framework/platform/platform.h>
 #include <framework/util/stats.h>
+#include <framework/util/discordrpc.h>
 #include <regex>
 
 #ifdef FW_SOUND
@@ -213,6 +214,16 @@ void Application::registerLuaFunctions()
     g_lua.bindSingletonFunction("g_extras", "get", &Extras::get, &g_extras);
     g_lua.bindSingletonFunction("g_extras", "getDescription", &Extras::getDescription, &g_extras);
     g_lua.bindSingletonFunction("g_extras", "getAll", &Extras::getAll, &g_extras);
+
+    g_lua.registerSingletonClass("g_discord");
+    g_lua.bindSingletonFunction("g_discord", "initialize", &DiscordRPCManager::initialize, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "shutdown", &DiscordRPCManager::shutdown, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "isInitialized", &DiscordRPCManager::isInitialized, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "isAvailable", &DiscordRPCManager::isAvailable, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "getLastError", &DiscordRPCManager::getLastError, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "runCallbacks", &DiscordRPCManager::runCallbacks, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "clearPresence", &DiscordRPCManager::clearPresence, &g_discord);
+    g_lua.bindSingletonFunction("g_discord", "setPresence", &DiscordRPCManager::setPresence, &g_discord);
 
     g_lua.registerSingletonClass("g_atlas");
     g_lua.bindSingletonFunction("g_atlas", "getStats", &Atlas::getStats, &g_atlas);

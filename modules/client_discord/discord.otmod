@@ -1,0 +1,9 @@
+Module
+  name: client_discord
+  description: Discord Rich Presence integration
+  author: rookhaven
+  sandboxed: true
+  scripts: [ discord ]
+  dependencies: [ client_entergame ]
+  @onLoad: init()
+  @onUnload: terminate()

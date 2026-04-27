@@ -26,6 +26,8 @@ set(framework_SOURCES ${framework_SOURCES}
     ${CMAKE_CURRENT_LIST_DIR}/util/color.h
     ${CMAKE_CURRENT_LIST_DIR}/util/crypt.cpp
     ${CMAKE_CURRENT_LIST_DIR}/util/crypt.h
+    ${CMAKE_CURRENT_LIST_DIR}/util/discordrpc.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/util/discordrpc.h
     ${CMAKE_CURRENT_LIST_DIR}/util/databuffer.h
     ${CMAKE_CURRENT_LIST_DIR}/util/extras.cpp
     ${CMAKE_CURRENT_LIST_DIR}/util/extras.h
