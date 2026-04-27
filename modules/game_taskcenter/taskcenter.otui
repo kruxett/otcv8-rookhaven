@@ -117,6 +117,7 @@ MainWindow
       anchors.left: parent.left
       anchors.top: parent.top
       anchors.bottom: availablePaginator.top
+      margin-bottom: 2
       width: 12
       step: 36
       pixels-scroll: true
