@@ -260,6 +260,18 @@ MainWindow
       checked: true
       @onCheckChange: modules.game_npctrade.onShowAllItemsChange()
 
+    CheckBox
+      id: confirmSellAll
+      !text: tr('Confirm Sell all')
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-left: 5
+      margin-top: 3
+      visible: false
+      checked: true
+      @onCheckChange: modules.game_npctrade.onConfirmSellAllChange()
+
   Button
     id: sellAllWithDelayButton
     !text: tr('Sell all with delay')

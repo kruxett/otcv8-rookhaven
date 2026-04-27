@@ -31,6 +31,7 @@ buyWithBackpack = nil
 ignoreCapacity = nil
 ignoreEquipped = nil
 showAllItems = nil
+confirmSellAllCheckbox = nil
 sellAllButton = nil
 sellAllWithDelayButton = nil
 playerFreeCapacity = 0
@@ -66,10 +67,13 @@ function init()
   ignoreCapacity = npcWindow:recursiveGetChildById('ignoreCapacity')
   ignoreEquipped = npcWindow:recursiveGetChildById('ignoreEquipped')
   showAllItems = npcWindow:recursiveGetChildById('showAllItems')
+  confirmSellAllCheckbox = npcWindow:recursiveGetChildById('confirmSellAll')
   sellAllButton = npcWindow:recursiveGetChildById('sellAllButton')
   sellAllWithDelayButton = npcWindow:recursiveGetChildById('sellAllWithDelayButton')
   buyTab = npcWindow:getChildById('buyTab')
   sellTab = npcWindow:getChildById('sellTab')
+
+  confirmSellAllCheckbox:setChecked(g_settings.getBoolean('npcTradeConfirmSellAll', true))
 
   radioTabs = UIRadioGroup.create()
   radioTabs:addWidget(buyTab)
@@ -175,6 +179,7 @@ function onTradeTypeChange(radioTabs, selected, deselected)
   ignoreCapacity:setVisible(currentTradeType == BUY)
   ignoreEquipped:setVisible(currentTradeType == SELL)
   showAllItems:setVisible(currentTradeType == SELL)
+  confirmSellAllCheckbox:setVisible(currentTradeType == SELL)
   sellAllButton:setVisible(currentTradeType == SELL)
   sellAllWithDelayButton:setVisible(currentTradeType == SELL)
   
@@ -232,6 +237,10 @@ end
 
 function onShowAllItemsChange()
   refreshPlayerGoods()
+end
+
+function onConfirmSellAllChange()
+  g_settings.set('npcTradeConfirmSellAll', confirmSellAllCheckbox:isChecked())
 end
 
 function setCurrency(currency, decimal)
@@ -652,6 +661,11 @@ end
 
 function confirmSellAll(delayed, exceptions)
   exceptions = exceptions or {}
+
+  if confirmSellAllCheckbox and not confirmSellAllCheckbox:isChecked() then
+    sellAll(delayed, exceptions)
+    return
+  end
 
   local lines, totalGold, entryCount = buildSellAllSummary(exceptions, 20)
   if entryCount == 0 then
