@@ -11,7 +11,6 @@ local readyTab = nil
 local listPanel = nil
 local statusLabel = nil
 local taskTitle = nil
-local rankLabel = nil
 local playerRankLabel = nil
 local creaturesLabel = nil
 local progressLabel = nil
@@ -136,7 +135,6 @@ local function destroyWindow()
   listPanel = nil
   statusLabel = nil
   taskTitle = nil
-  rankLabel = nil
   playerRankLabel = nil
   creaturesLabel = nil
   progressLabel = nil
@@ -223,15 +221,6 @@ local function formatCreatures(creatures)
   end
 
   return table.concat(creatures, ', ')
-end
-
-local function formatRankLabel(rankValue, rankName)
-  local rank = math.max(0, math.floor(tonumber(rankValue) or 0))
-  local name = tostring(rankName or '')
-  if name == '' then
-    name = 'Rank ' .. tostring(rank)
-  end
-  return string.format('%s (%d)', name, rank)
 end
 
 local function setLabelTextSafe(widget, text)
@@ -409,7 +398,6 @@ local function updateDetails()
   local entry = findSelectedEntry()
   if not entry then
     taskTitle:setText('No task selected')
-    setLabelTextSafe(rankLabel, '')
     setLabelTextSafe(playerRankLabel, '')
     creaturesLabel:setText('')
     renderCreaturePreviews(nil, nil)
@@ -428,14 +416,6 @@ local function updateDetails()
 
   taskTitle:setText(taskName)
   setLabelTextSafe(playerRankLabel, 'Your Rank: ' .. playerRankName)
-
-  if currentTab == 'available' then
-    local reqRankName = tostring(entry.minRankName or '')
-    if reqRankName == '' then reqRankName = 'Rank ' .. tostring(entry.minRank or 0) end
-    setLabelTextSafe(rankLabel, 'Required Rank: ' .. reqRankName)
-  else
-    setLabelTextSafe(rankLabel, '')
-  end
 
   creaturesLabel:setText('Creatures: ' .. creatures)
   renderCreaturePreviews(entry.creatures, entry.creatureVisuals)
@@ -685,7 +665,6 @@ local function ensureWindow()
   listPanel = taskCenterWindow:recursiveGetChildById('listPanel')
   statusLabel = taskCenterWindow:recursiveGetChildById('statusLabel')
   taskTitle = taskCenterWindow:recursiveGetChildById('taskTitle')
-  rankLabel = taskCenterWindow:recursiveGetChildById('rankLabel')
   playerRankLabel = taskCenterWindow:recursiveGetChildById('playerRankLabel')
   creaturesLabel = taskCenterWindow:recursiveGetChildById('creaturesLabel')
   progressLabel = taskCenterWindow:recursiveGetChildById('progressLabel')

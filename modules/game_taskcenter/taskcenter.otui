@@ -136,9 +136,8 @@ MainWindow
 
     FlatPanel
       id: availablePaginator
-      anchors.left: listScrollBar.right
-      margin-left: 4
-      width: 330
+      anchors.left: parent.left
+      anchors.right: listPanel.right
       anchors.bottom: rankProgressBar.top
       margin-bottom: 2
       height: 24
@@ -213,22 +212,10 @@ MainWindow
         text-wrap: true
 
       Label
-        id: rankLabel
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: taskTitle.bottom
-        margin-top: 4
-        margin-left: 6
-        margin-right: 6
-        height: 14
-        color: #e0d08a
-        text-wrap: true
-
-      Label
         id: creaturesLabel
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: rankLabel.bottom
+        anchors.top: taskTitle.bottom
         margin-top: 4
         margin-left: 6
         margin-right: 6
