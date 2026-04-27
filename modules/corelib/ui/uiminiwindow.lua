@@ -266,6 +266,10 @@ function UIMiniWindow:onDragLeave(droppedWidget, mousePos)
     self.fromContainer = nil
   end
 
+  if self.containerWindow and modules.game_interface and modules.game_interface.saveContainerPanel then
+    modules.game_interface.saveContainerPanel(self:getParent())
+  end
+
   UIWindow:onDragLeave(self, droppedWidget, mousePos)
   self:saveParent(self:getParent())
 end

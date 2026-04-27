@@ -193,6 +193,11 @@ function onContainerOpen(container, previousContainer)
   end
   
   containerWindow:setId('container' .. container:getId())
+  -- Container ids are reused by the server; keep open-state settings clean
+  -- and rely on the saved default container panel preference instead.
+  if gameStart + 1000 < g_clock.millis() then
+    containerWindow:clearSettings()
+  end
   
   local containerPanel = containerWindow:getChildById('contentsPanel')
   local layout = containerPanel:getLayout()

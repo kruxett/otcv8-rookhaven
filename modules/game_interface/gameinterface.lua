@@ -1198,6 +1198,12 @@ end
 
 function getContainerPanel()
   local containerPanel = g_settings.getNumber("containerPanel")
+  if not containerPanel or containerPanel < 1 then
+    containerPanel = 1
+  elseif containerPanel > 8 then
+    containerPanel = 8
+  end
+
   if containerPanel >= 5 then
     containerPanel = containerPanel - 4
     return gameRightPanels:getChildByIndex(math.min(containerPanel, gameRightPanels:getChildCount()))
@@ -1206,6 +1212,41 @@ function getContainerPanel()
     return getRightPanel()
   end
   return gameLeftPanels:getChildByIndex(math.min(containerPanel, gameLeftPanels:getChildCount()))
+end
+
+function saveContainerPanel(panel)
+  if not panel or panel:getClassName() ~= 'UIMiniWindowContainer' then
+    return
+  end
+
+  local panelId = panel:getId()
+  if not panelId then
+    return
+  end
+
+  local leftIndex = panelId:match('^leftPanel(%d+)$')
+  if leftIndex then
+    local value = tonumber(leftIndex)
+    if value then
+      g_settings.set('containerPanel', value)
+      if modules.client_options and modules.client_options.setOption then
+        modules.client_options.setOption('containerPanel', value, true)
+      end
+    end
+    return
+  end
+
+  local rightIndex = panelId:match('^rightPanel(%d+)$')
+  if rightIndex then
+    local value = tonumber(rightIndex)
+    if value then
+      value = value + 4
+      g_settings.set('containerPanel', value)
+      if modules.client_options and modules.client_options.setOption then
+        modules.client_options.setOption('containerPanel', value, true)
+      end
+    end
+  end
 end
 
 local function addRightPanel()
