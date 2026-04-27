@@ -216,6 +216,7 @@ GameAnimatedTextCustomFont = 127
 
 FuriousRageVisualOpcode = 94
 TaskCenterOpcode = 95
+BulwarkVisualOpcode = 96
 
 LastGameFeature = 130
         

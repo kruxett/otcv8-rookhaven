@@ -21,6 +21,9 @@ function init()
   -- blood rage shader (corrupted pulse tuned to a blood-red aura)
   g_shaders.createOutfitShader("outfit_blood_rage_pulse", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_blood_rage_fragment")
 
+  -- bulwark shader (golden fortified aegis pulse)
+  g_shaders.createOutfitShader("outfit_bulwark_aegis", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_bulwark_fragment")
+
   -- you can use creature:setOutfitShader("outfit_rainbow") to set shader
 
   -- item rarity outline shaders
