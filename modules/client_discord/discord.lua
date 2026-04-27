@@ -1,4 +1,5 @@
 local updateEvent = nil
+local initEvent = nil
 local initialized = false
 local rpcEnabled = false
 
@@ -39,18 +40,22 @@ local function buildPresence()
   }
 end
 
-local function updatePresence()
+-- Non-blocking update - schedules Discord presence update for next frame
+local function schedulePresenceUpdate()
   if not rpcEnabled or not g_discord.isInitialized() then
     return
   end
 
-  local largeImageKey = getSetting('discordRpcLargeImageKey', '')
-  local largeImageText = getSetting('discordRpcLargeImageText', 'Rookhaven')
-  local smallImageKey = getSetting('discordRpcSmallImageKey', '')
-  local smallImageText = getSetting('discordRpcSmallImageText', '')
+  -- Schedule the update for the next frame to avoid blocking
+  scheduleEvent(function()
+    local largeImageKey = getSetting('discordRpcLargeImageKey', '')
+    local largeImageText = getSetting('discordRpcLargeImageText', 'Rookhaven')
+    local smallImageKey = getSetting('discordRpcSmallImageKey', '')
+    local smallImageText = getSetting('discordRpcSmallImageText', '')
 
-  local presence = buildPresence()
-  g_discord.setPresence(presence.state, presence.details, largeImageKey, largeImageText, smallImageKey, smallImageText)
+    local presence = buildPresence()
+    g_discord.setPresence(presence.state, presence.details, largeImageKey, largeImageText, smallImageKey, smallImageText)
+  end, 1)
 end
 
 local function tick()
@@ -58,13 +63,15 @@ local function tick()
     return
   end
 
-  g_discord.runCallbacks()
-  updatePresence()
-  updateEvent = scheduleEvent(tick, 15000)
+  -- Don't call runCallbacks() - it can block if Discord is slow
+  -- Instead, just schedule the presence update
+  schedulePresenceUpdate()
+  updateEvent = scheduleEvent(tick, 30000)  -- Increased from 15s to 30s to reduce IPC overhead
 end
 
 local function onGameStart()
-  updatePresence()
+  -- Schedule presence update instead of calling directly
+  schedulePresenceUpdate()
 end
 
 local function onGameEnd()
@@ -73,7 +80,8 @@ local function onGameEnd()
   end
 end
 
-function init()
+-- Initialize Discord asynchronously - don't block during module load
+local function initializeDiscord()
   if initialized then
     return
   end
@@ -102,12 +110,26 @@ function init()
     onGameEnd = onGameEnd,
   })
 
-  updatePresence()
-  updateEvent = scheduleEvent(tick, 1000)
+  -- Schedule first presence update instead of calling directly
+  schedulePresenceUpdate()
+  updateEvent = scheduleEvent(tick, 30000)
   initialized = true
 end
 
+-- Defer initialization until after module load completes
+function init()
+  if initEvent then
+    removeEvent(initEvent)
+  end
+  initEvent = scheduleEvent(initializeDiscord, 100)
+end
+
 function terminate()
+  if initEvent then
+    removeEvent(initEvent)
+    initEvent = nil
+  end
+
   if updateEvent then
     removeEvent(updateEvent)
     updateEvent = nil
