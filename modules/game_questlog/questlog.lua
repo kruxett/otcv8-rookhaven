@@ -3,6 +3,8 @@ questTrackerButton = nil
 window = nil
 trackerWindow = nil
 settings = {}
+hideCompletedSettings = {}
+currentQuestLogEntries = nil
 
 local callDelay = 1000 -- each call delay is also increased by random values (0-callDelay/2)
 local dispatcher = {}
@@ -101,7 +103,11 @@ function online()
 
   local playerName = g_game.getCharacterName()
   settings[playerName] = settings[playerName] or {}
+  hideCompletedSettings[playerName] = hideCompletedSettings[playerName] or false
   local settings = settings[playerName]
+  if window and window.questlog and window.questlog.hideCompleted then
+    window.questlog.hideCompleted:setChecked(hideCompletedSettings[playerName])
+  end
   local missionList = window.missionlog.missionList
   local track = window.missionlog.track
   local missionDescription = window.missionlog.missionDescription
@@ -117,6 +123,44 @@ function online()
       end 
     }
   )
+end
+
+local function shouldHideCompletedQuests()
+  local playerName = g_game.getCharacterName()
+  if not playerName then return false end
+  return hideCompletedSettings[playerName] == true
+end
+
+local function renderQuestLog(quests)
+  local questList = window.questlog.questList
+  questList:destroyChildren()
+
+  local rowIndex = 0
+  for _, questEntry in pairs(quests or {}) do
+    local id, name, completed = unpack(questEntry)
+    local isCompleted = completed == true or completed == 1
+
+    if not (shouldHideCompletedQuests() and isCompleted) then
+      rowIndex = rowIndex + 1
+
+      local questLabel = g_ui.createWidget('QuestLabel', questList)
+      questLabel:setChecked(rowIndex % 2 == 0)
+      questLabel.questId = id -- for quest tracker
+      questLabel.questName = name
+      name = isCompleted and name .. " (completed)" or name
+      questLabel:setText(name)
+      questLabel.onDoubleClick = function()
+        window.missionlog.currentQuest = id
+        g_game.requestQuestLine(id)
+        window.missionlog.questName:setText(questLabel.questName)
+      end
+    end
+  end
+
+  local firstChild = questList:getFirstChild()
+  if firstChild then
+    questList:focusChild(firstChild)
+  end
 end
 
 function show(questlog)
@@ -161,26 +205,22 @@ end
 
 function onGameQuestLog(quests)
   show(true)
+  currentQuestLogEntries = quests
+  renderQuestLog(quests)
+end
 
-  local questList = window.questlog.questList
+function onHideCompletedOptionChange(checkbox)
+  local newStatus = not checkbox:isChecked()
+  checkbox:setChecked(newStatus)
 
-  questList:destroyChildren()
-  for i,questEntry in pairs(quests) do
-    local id, name, completed = unpack(questEntry)
-
-    local questLabel = g_ui.createWidget('QuestLabel', questList)
-    questLabel:setChecked(i % 2 == 0)
-    questLabel.questId = id -- for quest tracker
-    questLabel.questName = name
-    name = completed and name.." (completed)" or name
-    questLabel:setText(name)
-    questLabel.onDoubleClick = function()
-      window.missionlog.currentQuest = id
-      g_game.requestQuestLine(id)
-      window.missionlog.questName:setText(questLabel.questName)
-    end
+  local playerName = g_game.getCharacterName()
+  if not playerName then
+    return
   end
-  questList:focusChild(questList:getFirstChild())
+
+  hideCompletedSettings[playerName] = newStatus
+  renderQuestLog(currentQuestLogEntries)
+  save()
 end
 
 function onGameQuestLine(questId, questMissions)
@@ -310,13 +350,23 @@ function load()
                    "Error while reading profiles file. To fix this problem you can delete storage.json. Details: " ..
                        result)
     end
-    settings = result
+    if type(result) == 'table' and result.settings then
+      settings = result.settings or {}
+      hideCompletedSettings = result.hideCompletedSettings or {}
+    else
+      settings = result or {}
+      hideCompletedSettings = {}
+    end
   end
 end
 
 function save()
   local file = "/settings/questlog.json"
-  local status, result = pcall(function() return json.encode(settings, 2) end)
+  local payload = {
+    settings = settings,
+    hideCompletedSettings = hideCompletedSettings,
+  }
+  local status, result = pcall(function() return json.encode(payload, 2) end)
   if not status then
       return g_logger.error(
                  "Error while saving profile settings. Data won't be saved. Details: " ..

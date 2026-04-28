@@ -34,7 +34,7 @@ QuestLog < Panel
   TextList
     id: questList
     anchors.fill: parent
-    margin-bottom: 20
+    margin-bottom: 42
     focusable: false
     background-color: #484848
     vertical-scrollbar: questListScrollBar
@@ -46,6 +46,17 @@ QuestLog < Panel
     anchors.right: questList.right
     step: 14
     pixels-scroll: true
+
+  CheckBox
+    id: hideCompleted
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 2
+    margin-right: 2
+    margin-bottom: 2
+    !text: tr('Hide completed quests')
+    @onClick: modules.game_questlog.onHideCompletedOptionChange(self)
 
 MissionLog < Panel
   Label
