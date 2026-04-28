@@ -445,7 +445,7 @@ local function updateDetails()
     progressLabel:setText(string.format('Completed kills: %d', tonumber(entry.killsCompleted) or 0))
     local reward = entry.rewardExact or {}
     rewardLabel:setText(string.format('Ready Reward: %d XP, %d gold', tonumber(reward.xpBonus) or 0, tonumber(reward.goldBonus) or 0))
-    reasonLabel:setText('Claiming rewards clears ready tasks.')
+    reasonLabel:setText('Claims reward for selected task.')
     actionButton:setText('Claim Reward')
     actionButton:enable()
   end
@@ -698,6 +698,7 @@ local function ensureWindow()
       })
     else
       sendRequest('claim', {
+        taskId = entry.taskId,
         availablePage = availablePage,
         availablePageSize = availablePageSize,
       })
