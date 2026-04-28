@@ -175,6 +175,14 @@ MiniWindow
       SkillValueLabel
       SkillPercentPanel
 
+    SkillButton
+      id: excavation
+      visible: false
+      SkillNameLabel
+        !text: tr('Excavation')
+      SkillValueLabel
+      SkillPercentPanel
+
     SmallSkillButton
       id: skillId7
       SkillNameLabel

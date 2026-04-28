@@ -1,5 +1,50 @@
 skillsWindow = nil
 skillsButton = nil
+local EXCAVATION_SKILL_OPCODE = ExcavationSkillOpcode or 97
+local excavationState = { learned = false, level = 0, percent = 0 }
+
+local function applyExcavationSkillState()
+  if not skillsWindow then
+    return
+  end
+
+  local excavation = skillsWindow:recursiveGetChildById('excavation')
+  if not excavation then
+    return
+  end
+
+  excavation:setVisible(excavationState.learned)
+  if not excavationState.learned then
+    return
+  end
+
+  setSkillValue('excavation', excavationState.level)
+  setSkillPercent('excavation', excavationState.percent, tr('You have %s percent to go', 100 - excavationState.percent))
+end
+
+local function requestExcavationSkillStatus()
+  local protocol = g_game.getProtocolGame()
+  if protocol and protocol.sendExtendedOpcode then
+    protocol:sendExtendedOpcode(EXCAVATION_SKILL_OPCODE, 'status')
+  end
+end
+
+local function onExcavationSkillOpcode(protocol, opcode, buffer)
+  if opcode ~= EXCAVATION_SKILL_OPCODE then
+    return
+  end
+
+  local values = {}
+  for part in string.gmatch(buffer or '', '([^|]+)') do
+    values[#values + 1] = tonumber(part) or 0
+  end
+
+  excavationState.level = math.max(0, values[1] or 0)
+  excavationState.percent = math.max(0, math.min(100, values[2] or 0))
+  excavationState.learned = excavationState.level > 0
+
+  applyExcavationSkillState()
+end
 
 function init()
   connect(LocalPlayer, {
@@ -28,6 +73,7 @@ function init()
   skillsButton = modules.client_topmenu.addRightGameToggleButton('skillsButton', tr('Skills'), '/images/topbuttons/skills', toggle, false, 1)
   skillsButton:setOn(true)
   skillsWindow = g_ui.loadUI('skills', modules.game_interface.getRightPanel())
+  ProtocolGame.registerExtendedOpcode(EXCAVATION_SKILL_OPCODE, onExcavationSkillOpcode)
   
   refresh()
   skillsWindow:setup()
@@ -56,6 +102,8 @@ function terminate()
     onGameStart = refresh,
     onGameEnd = offline
   })
+
+  ProtocolGame.unregisterExtendedOpcode(EXCAVATION_SKILL_OPCODE)
 
   skillsWindow:destroy()
   skillsButton:destroy()
@@ -211,6 +259,8 @@ function refresh()
   onOfflineTrainingChange(player, player:getOfflineTrainingTime())
   onRegenerationChange(player, player:getRegenerationTime())
   onSpeedChange(player, player:getSpeed())
+  applyExcavationSkillState()
+  requestExcavationSkillStatus()
 
   local hasAdditionalSkills = g_game.getFeature(GameAdditionalSkills)
   for i = Skill.Fist, Skill.ManaLeechAmount do
@@ -231,10 +281,22 @@ function refresh()
   else
     skillsWindow:setContentMaximumHeight(390)
   end
+
+  if excavationState.learned then
+    if hasAdditionalSkills then
+      skillsWindow:setContentMaximumHeight(501)
+    else
+      skillsWindow:setContentMaximumHeight(411)
+    end
+  end
 end
 
 function offline()
   if expSpeedEvent then expSpeedEvent:cancel() expSpeedEvent = nil end
+  excavationState.learned = false
+  excavationState.level = 0
+  excavationState.percent = 0
+  applyExcavationSkillState()
 end
 
 function toggle()
