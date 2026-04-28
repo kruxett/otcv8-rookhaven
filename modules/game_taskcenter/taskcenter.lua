@@ -1,7 +1,7 @@
-local TASK_CENTER_OPCODE = TaskCenterOpcode or 95
+local TASK_BOARD_OPCODE = TaskBoardOpcode or TaskCenterOpcode or 95
 local TASK_NPC_MAX_DISTANCE = 5
 
-local taskCenterWindow = nil
+local taskBoardWindow = nil
 local npcSessionActive = false
 local npcSessionSource = nil
 
@@ -110,7 +110,7 @@ local function enforceNpcProximity()
     return
   end
 
-  if not taskCenterWindow or not taskCenterWindow:isVisible() then
+  if not taskBoardWindow or not taskBoardWindow:isVisible() then
     return
   end
 
@@ -124,9 +124,9 @@ local function onLocalPlayerPositionChange(player, newPos, oldPos)
 end
 
 local function destroyWindow()
-  if taskCenterWindow then
-    taskCenterWindow:destroy()
-    taskCenterWindow = nil
+  if taskBoardWindow then
+    taskBoardWindow:destroy()
+    taskBoardWindow = nil
   end
 
   availableTab = nil
@@ -170,7 +170,7 @@ local function sendRequest(action, payload)
     return
   end
 
-  protocol:sendExtendedOpcode(TASK_CENTER_OPCODE, encoded)
+  protocol:sendExtendedOpcode(TASK_BOARD_OPCODE, encoded)
 end
 
 local function sendRefreshRequest()
@@ -391,7 +391,7 @@ local function findSelectedEntry(entriesOverride)
 end
 
 local function updateDetails()
-  if not taskCenterWindow then
+  if not taskBoardWindow then
     return
   end
 
@@ -501,7 +501,7 @@ local function renderList()
 
   if #entries == 0 then
     selectedKey = nil
-    local empty = g_ui.createWidget('TaskCenterListItem', listPanel)
+    local empty = g_ui.createWidget('TaskBoardListItem', listPanel)
     empty.title:setText('Nothing to show')
     empty.subtitle:setText('Try another tab or refresh.')
     empty.status:setText('')
@@ -531,16 +531,10 @@ local function renderList()
   end
 
   for _, entry in ipairs(entries) do
-    local row = g_ui.createWidget('TaskCenterListItem', listPanel)
+    local row = g_ui.createWidget('TaskBoardListItem', listPanel)
     local key = buildEntryKey(entry)
     local name = entry.taskName or ('Task ' .. tostring(entry.taskId or 0))
     local subtitle = formatCreatures(entry.creatures)
-    if currentTab == 'available' then
-      local rankName = tostring(entry.minRankName or '')
-      if rankName == '' then rankName = 'Rank ' .. tostring(entry.minRank or 0) end
-      subtitle = string.format('Rank: %s | %s', rankName, subtitle)
-    end
-
     row.title:setText(name)
     row.subtitle:setText(subtitle)
 
@@ -650,35 +644,35 @@ local function applySnapshot(payload)
 end
 
 local function ensureWindow()
-  if taskCenterWindow then
-    return taskCenterWindow
+  if taskBoardWindow then
+    return taskBoardWindow
   end
 
-  taskCenterWindow = g_ui.displayUI('taskcenter', rootWidget)
-  if not taskCenterWindow then
+  taskBoardWindow = g_ui.displayUI('taskcenter', rootWidget)
+  if not taskBoardWindow then
     return nil
   end
 
-  availableTab = taskCenterWindow:getChildById('availableTab')
-  activeTab = taskCenterWindow:getChildById('activeTab')
-  readyTab = taskCenterWindow:getChildById('readyTab')
-  listPanel = taskCenterWindow:recursiveGetChildById('listPanel')
-  statusLabel = taskCenterWindow:recursiveGetChildById('statusLabel')
-  taskTitle = taskCenterWindow:recursiveGetChildById('taskTitle')
-  playerRankLabel = taskCenterWindow:recursiveGetChildById('playerRankLabel')
-  creaturesLabel = taskCenterWindow:recursiveGetChildById('creaturesLabel')
-  progressLabel = taskCenterWindow:recursiveGetChildById('progressLabel')
-  rewardLabel = taskCenterWindow:recursiveGetChildById('rewardLabel')
-  reasonLabel = taskCenterWindow:recursiveGetChildById('reasonLabel')
-  creaturesPreviewPanel = taskCenterWindow:recursiveGetChildById('creaturesPreviewPanel')
-  actionButton = taskCenterWindow:recursiveGetChildById('actionButton')
-  refreshButton = taskCenterWindow:recursiveGetChildById('refreshButton')
-  closeButton = taskCenterWindow:recursiveGetChildById('closeButton')
-  availablePaginator = taskCenterWindow:recursiveGetChildById('availablePaginator')
-  prevPageButton = taskCenterWindow:recursiveGetChildById('prevPageButton')
-  nextPageButton = taskCenterWindow:recursiveGetChildById('nextPageButton')
-  pageInfoLabel = taskCenterWindow:recursiveGetChildById('pageInfoLabel')
-  rankBarWidget = taskCenterWindow:recursiveGetChildById('rankBar')
+  availableTab = taskBoardWindow:getChildById('availableTab')
+  activeTab = taskBoardWindow:getChildById('activeTab')
+  readyTab = taskBoardWindow:getChildById('readyTab')
+  listPanel = taskBoardWindow:recursiveGetChildById('listPanel')
+  statusLabel = taskBoardWindow:recursiveGetChildById('statusLabel')
+  taskTitle = taskBoardWindow:recursiveGetChildById('taskTitle')
+  playerRankLabel = taskBoardWindow:recursiveGetChildById('playerRankLabel')
+  creaturesLabel = taskBoardWindow:recursiveGetChildById('creaturesLabel')
+  progressLabel = taskBoardWindow:recursiveGetChildById('progressLabel')
+  rewardLabel = taskBoardWindow:recursiveGetChildById('rewardLabel')
+  reasonLabel = taskBoardWindow:recursiveGetChildById('reasonLabel')
+  creaturesPreviewPanel = taskBoardWindow:recursiveGetChildById('creaturesPreviewPanel')
+  actionButton = taskBoardWindow:recursiveGetChildById('actionButton')
+  refreshButton = taskBoardWindow:recursiveGetChildById('refreshButton')
+  closeButton = taskBoardWindow:recursiveGetChildById('closeButton')
+  availablePaginator = taskBoardWindow:recursiveGetChildById('availablePaginator')
+  prevPageButton = taskBoardWindow:recursiveGetChildById('prevPageButton')
+  nextPageButton = taskBoardWindow:recursiveGetChildById('nextPageButton')
+  pageInfoLabel = taskBoardWindow:recursiveGetChildById('pageInfoLabel')
+  rankBarWidget = taskBoardWindow:recursiveGetChildById('rankBar')
 
   availableTab.onClick = function() setTab('available') end
   activeTab.onClick = function() setTab('active') end
@@ -743,9 +737,9 @@ local function ensureWindow()
 
   setTab('available')
   setStatus('', '#9fc7ff')
-  taskCenterWindow:hide()
+  taskBoardWindow:hide()
 
-  return taskCenterWindow
+  return taskBoardWindow
 end
 
 local function onExtendedOpcode(protocol, opcode, buffer)
@@ -796,11 +790,11 @@ function init()
     onPositionChange = onLocalPlayerPositionChange,
   })
 
-  ProtocolGame.registerExtendedOpcode(TASK_CENTER_OPCODE, onExtendedOpcode)
+  ProtocolGame.registerExtendedOpcode(TASK_BOARD_OPCODE, onExtendedOpcode)
 end
 
 function terminate()
-  ProtocolGame.unregisterExtendedOpcode(TASK_CENTER_OPCODE)
+  ProtocolGame.unregisterExtendedOpcode(TASK_BOARD_OPCODE)
 
   disconnect(g_game, {
     onGameEnd = destroyWindow,
@@ -829,8 +823,8 @@ function show()
 end
 
 function hide()
-  if taskCenterWindow then
-    taskCenterWindow:hide()
+  if taskBoardWindow then
+    taskBoardWindow:hide()
   end
 
   -- Require a new NPC interaction before reopening.
@@ -839,7 +833,7 @@ function hide()
 end
 
 function toggle()
-  if taskCenterWindow and taskCenterWindow:isVisible() then
+  if taskBoardWindow and taskBoardWindow:isVisible() then
     hide()
   end
 end

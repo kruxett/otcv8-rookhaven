@@ -215,7 +215,8 @@ GameItemCustomAttributes = 126
 GameAnimatedTextCustomFont = 127
 
 FuriousRageVisualOpcode = 94
-TaskCenterOpcode = 95
+TaskBoardOpcode = 95
+TaskCenterOpcode = TaskBoardOpcode -- backward compatibility alias
 BulwarkVisualOpcode = 96
 
 LastGameFeature = 130

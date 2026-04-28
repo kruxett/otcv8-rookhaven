@@ -1,4 +1,4 @@
-TaskCenterListItem < Panel
+TaskBoardListItem < Panel
   height: 44
   margin-bottom: 3
   border-width: 1
@@ -70,7 +70,7 @@ TaskCreaturePreview < UIWidget
     text-auto-resize: true
 
 MainWindow
-  id: taskCenterWindow
+  id: taskBoardWindow
   !text: tr('Task Board')
   size: 760 430
   @onEscape: modules.game_taskcenter.hide()
