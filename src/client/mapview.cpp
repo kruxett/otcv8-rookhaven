@@ -389,7 +389,6 @@ void MapView::updateVisibleTilesCache()
 
 void MapView::updateGeometry(const Size& visibleDimension, const Size& optimizedSize)
 {
-    m_multifloor = true;
     m_visibleDimension = visibleDimension;
     m_drawDimension = visibleDimension + Size(3, 3);
     m_virtualCenterOffset = (m_drawDimension / 2 - Size(1, 1)).toPoint();
