@@ -353,7 +353,7 @@ end
 
 -- json handlers
 function load()
-  local file = "/settings/questlog.json"
+  local file = modules.client_profiles.getSettingsFilePath("questlog.json")
   if g_resources.fileExists(file) then
     local status, result = pcall(function()
         return json.decode(g_resources.readFileContents(file))
@@ -374,7 +374,7 @@ function load()
 end
 
 function save()
-  local file = "/settings/questlog.json"
+  local file = modules.client_profiles.getSettingsFilePath("questlog.json")
   local payload = {
     settings = settings,
     hideCompletedSettings = hideCompletedSettings,
