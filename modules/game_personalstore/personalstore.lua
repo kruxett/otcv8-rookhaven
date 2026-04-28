@@ -145,13 +145,8 @@ function refresh()
 	pendingVisualSync = false
 	MainWindow:hide()
 
-	if g_game.isOnline() then
-		scheduleEvent(function()
-			if g_game.isOnline() and g_game.getProtocolGame() then
-				requestPersonalStore(g_game.getCharacterName(), true)
-			end
-		end, 250)
-	end
+	-- The server already syncs personal store mode/name during login.
+	-- Avoid fetching full store data automatically here; request it only when the UI is opened.
 end
 
 function show()

@@ -210,7 +210,14 @@ end
 
 local function onInventoryGameStart()
   refresh()
-  requestWaterOfferingsExpBuffStatus()
+
+  -- Fallback: the server already pushes the status on login, but keep one delayed
+  -- client-side request to recover if that packet is missed during session startup.
+  scheduleEvent(function()
+    if g_game.isOnline() then
+      requestWaterOfferingsExpBuffStatus()
+    end
+  end, 1000)
 end
 
 function init()

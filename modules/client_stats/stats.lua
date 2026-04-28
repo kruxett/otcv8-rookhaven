@@ -19,9 +19,15 @@ local monitorEvent = nil
 local iter = 0
 local lastSend = 0
 local sendInterval = 60 -- 1 m
+local UPDATE_INTERVAL_VISIBLE = 20
+local UPDATE_INTERVAL_HIDDEN = 500
 local fps = {}
 local ping = {}
 local lastSleepTimeReset = 0
+
+local function hasStatsService()
+  return Services and type(Services.stats) == 'string' and Services.stats:len() > 3
+end
 
 function init()
   statsButton = modules.client_topmenu.addLeftButton('statsButton', 'Debug Info', '/images/topbuttons/debug', toggle)
@@ -103,6 +109,16 @@ end
 
 function sendStats()
   lastSend = os.time()
+
+  -- Avoid building a large payload when telemetry endpoint is not configured.
+  if not hasStatsService() then
+    fps = {}
+    ping = {}
+    lastSleepTimeReset = g_clock.micros()
+    g_stats.resetSleepTime()
+    return
+  end
+
   local localPlayer = g_game.getLocalPlayer()
   local playerData = nil
   if localPlayer ~= nil then
@@ -173,20 +189,20 @@ function sendStats()
   end
   data.widgets = g_stats.getWidgetsInfo(10, false)
   data = json.encode(data, 1)
-  if Services.stats ~= nil and Services.stats:len() > 3 then
-    g_http.post(Services.stats, data)
-  end
+  g_http.post(Services.stats, data)
   fps = {}
   ping = {}
 end
 
 function update()
-  updateEvent = scheduleEvent(update, 20)
+  local isVisible = statsWindow and statsWindow:isVisible()
+  updateEvent = scheduleEvent(update, isVisible and UPDATE_INTERVAL_VISIBLE or UPDATE_INTERVAL_HIDDEN)
+
   if lastSend + sendInterval < os.time() then
     sendStats()
   end
   
-  if not statsWindow:isVisible() then
+  if not isVisible then
     return
   end
   

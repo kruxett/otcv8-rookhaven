@@ -256,7 +256,6 @@ function offline()
 end
 
 function online()
-  requestWaterOfferingsExpBuffStatus()
 end
 
 -- hooked events
