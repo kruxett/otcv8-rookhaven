@@ -89,7 +89,7 @@ void Map::notificateTileUpdate(const Position& pos, bool updateMinimap)
     if (!updateMinimap)
         return;
 
-    if (!g_game.getFeature(Otc::GameMinimapLimitedToSingleFloor) || (m_centralPosition.z == pos.z)) {
+    if (m_centralPosition.z == pos.z) {
         g_minimap.updateTile(pos, getTile(pos));
     }
 }
@@ -420,7 +420,7 @@ void Map::cleanTile(const Position& pos)
             ++it;
     }
 
-    if (!g_game.getFeature(Otc::GameMinimapLimitedToSingleFloor) || (m_centralPosition.z == pos.z)) {
+    if (m_centralPosition.z == pos.z) {
         g_minimap.updateTile(pos, getTile(pos));
     }
 }

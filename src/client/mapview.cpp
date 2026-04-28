@@ -341,9 +341,6 @@ void MapView::updateVisibleTilesCache()
         return;
     }
 
-    // Hard single-floor mode: never cache tiles from floors different than camera z.
-    const int forcedFloor = cameraPosition.z;
-
     // fading
     if (!m_lastCameraPosition.isValid() || m_lastCameraPosition.z != cameraPosition.z || m_lastCameraPosition.distance(cameraPosition) >= 3) { 
         for (int iz = m_cachedLastVisibleFloor; iz >= m_cachedFirstFadingFloor; --iz) {
@@ -370,8 +367,6 @@ void MapView::updateVisibleTilesCache()
 
     // draw from last floor (the lower) to first floor (the higher)
     for(int iz = m_cachedLastVisibleFloor; iz >= (m_floorFading ? m_cachedFirstFadingFloor : m_cachedFirstVisibleFloor); --iz) {
-        if (iz != forcedFloor)
-            continue;
         for (int diagonal = 0; diagonal < numDiagonals; ++diagonal) {
             // loop current diagonal tiles
             int advance = std::max<int>(diagonal - m_drawDimension.height(), 0);
@@ -381,8 +376,6 @@ void MapView::updateVisibleTilesCache()
                 Position tilePos = cameraPosition.translated(ix - m_virtualCenterOffset.x, iy - m_virtualCenterOffset.y);
                 // adjust tilePos to the wanted floor
                 tilePos.coveredUp(cameraPosition.z - iz);
-                if (tilePos.z != forcedFloor)
-                    continue;
                 if (const TilePtr& tile = g_map.getTile(tilePos)) {
                     if (!tile->isDrawable())
                         continue;
@@ -550,17 +543,12 @@ Rect MapView::calcFramebufferSource(const Size& destSize, bool inNextFrame)
 
 int MapView::calcFirstVisibleFloor(bool forFading)
 {
-    Position cameraPosition = getCameraPosition();
-    if (cameraPosition.isValid()) {
-        return stdext::clamp<int>(cameraPosition.z, 0, (int)Otc::MAX_Z);
-    }
-
     int z = 7;
     // return forced first visible floor
     if(m_lockedFirstVisibleFloor != -1) {
         z = m_lockedFirstVisibleFloor;
     } else {
-        cameraPosition = getCameraPosition();
+        Position cameraPosition = getCameraPosition();
 
         // this could happens if the player is not known yet
         if(cameraPosition.isValid()) {
@@ -615,7 +603,27 @@ int MapView::calcFirstVisibleFloor(bool forFading)
 
 int MapView::calcLastVisibleFloor()
 {
-    return calcFirstVisibleFloor();
+    if(!m_multifloor)
+        return calcFirstVisibleFloor();
+
+    int z = 7;
+
+    Position cameraPosition = getCameraPosition();
+    // this could happens if the player is not known yet
+    if(cameraPosition.isValid()) {
+        // view only underground floors when below sea level
+        if(cameraPosition.z > Otc::SEA_FLOOR)
+            z = cameraPosition.z + Otc::AWARE_UNDEGROUND_FLOOR_RANGE;
+        else
+            z = Otc::SEA_FLOOR;
+    }
+
+    if(m_lockedFirstVisibleFloor != -1)
+        z = std::max<int>(m_lockedFirstVisibleFloor, z);
+
+    // just ensure the that the floor is in the valid range
+    z = stdext::clamp<int>(z, 0, (int)Otc::MAX_Z);
+    return z;
 }
 
 Point MapView::transformPositionTo2D(const Position& position, const Position& relativePosition) {
