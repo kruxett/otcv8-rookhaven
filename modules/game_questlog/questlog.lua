@@ -12,6 +12,7 @@ local refreshQuestsEvent = nil
 local refreshTrackerEvent = nil
 local LOGIN_TRACKER_SYNC_DELAY = 1200
 local TRACKER_REQUEST_STEP_DELAY = 120
+local updateHideCompletedButton = nil
 
 function init()
   g_ui.importStyle('questlogwindow')
@@ -105,9 +106,7 @@ function online()
   settings[playerName] = settings[playerName] or {}
   hideCompletedSettings[playerName] = hideCompletedSettings[playerName] or false
   local settings = settings[playerName]
-  if window and window.questlog and window.questlog.hideCompleted then
-    window.questlog.hideCompleted:setChecked(hideCompletedSettings[playerName])
-  end
+  updateHideCompletedButton()
   local missionList = window.missionlog.missionList
   local track = window.missionlog.track
   local missionDescription = window.missionlog.missionDescription
@@ -129,6 +128,18 @@ local function shouldHideCompletedQuests()
   local playerName = g_game.getCharacterName()
   if not playerName then return false end
   return hideCompletedSettings[playerName] == true
+end
+
+updateHideCompletedButton = function()
+  if not window or not window.hideCompletedButton then
+    return
+  end
+
+  if shouldHideCompletedQuests() then
+    window.hideCompletedButton:setText('Show Completed')
+  else
+    window.hideCompletedButton:setText('Hide Completed')
+  end
 end
 
 local function renderQuestLog(quests)
@@ -173,14 +184,17 @@ function show(questlog)
     window.missionlog:setVisible(false)
     window.closeButton:setText('Close')
     window.showButton:setVisible(true)
+    window.hideCompletedButton:setVisible(true)
     window.missionlog.track:setEnabled(false)
     window.missionlog.track:setChecked(false)
     window.missionlog.missionDescription:setText('')
+    updateHideCompletedButton()
   else
     window.questlog:setVisible(false)
     window.missionlog:setVisible(true)
     window.closeButton:setText('Back')
     window.showButton:setVisible(false)
+    window.hideCompletedButton:setVisible(false)
   end
 end
 
@@ -206,19 +220,18 @@ end
 function onGameQuestLog(quests)
   show(true)
   currentQuestLogEntries = quests
+  updateHideCompletedButton()
   renderQuestLog(quests)
 end
 
-function onHideCompletedOptionChange(checkbox)
-  local newStatus = not checkbox:isChecked()
-  checkbox:setChecked(newStatus)
-
+function onHideCompletedButtonClick()
   local playerName = g_game.getCharacterName()
   if not playerName then
     return
   end
 
-  hideCompletedSettings[playerName] = newStatus
+  hideCompletedSettings[playerName] = not shouldHideCompletedQuests()
+  updateHideCompletedButton()
   renderQuestLog(currentQuestLogEntries)
   save()
 end
