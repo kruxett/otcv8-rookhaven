@@ -151,7 +151,6 @@ function init()
         onBaseSkillChange = onBaseSkillChange
     })
     connect(g_game, {onGameStart = refresh, onGameEnd = offline})
-    ProtocolGame.registerExtendedOpcode(excavationOpcode, onExcavationOpcode)
 
     -- load condition icons
     for k, v in pairs(Icons) do g_textures.preload(v.path) end
@@ -172,7 +171,6 @@ function terminate()
         onBaseSkillChange = onBaseSkillChange
     })
     disconnect(g_game, {onGameStart = refresh, onGameEnd = offline})
-    ProtocolGame.unregisterExtendedOpcode(excavationOpcode)
 end
 
 function setupTopBar()
@@ -197,7 +195,6 @@ function refresh(profileChange)
     setupSkills()
     show()
     refreshVisibleBars()
-    requestExcavationStatus()
 
     onLevelChange(player, player:getLevel(), player:getLevelPercent())
     onHealthChange(player, player:getHealth(), player:getMaxHealth())
