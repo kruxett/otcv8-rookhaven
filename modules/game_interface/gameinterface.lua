@@ -181,8 +181,8 @@ function init()
 
   bottomSplitter = gameRootPanel:getChildById('bottomSplitter')
   gameMapPanel = gameRootPanel:getChildById('gameMapPanel')
-  -- Force single-floor rendering on the main map panel.
-  gameMapPanel:setMultifloor(false)
+  -- Restore default world-map behavior: allow normal floor rendering (holes/trapdoors/stairs).
+  gameMapPanel:setMultifloor(true)
   gameRightPanels = gameRootPanel:getChildById('gameRightPanels')
   gameLeftPanels = gameRootPanel:getChildById('gameLeftPanels')
   gameBottomPanel = gameRootPanel:getChildById('gameBottomPanel')
