@@ -352,8 +352,21 @@ function refreshTrackerWidgets()
 end
 
 -- json handlers
+local function getQuestlogSettingsFilePath()
+  if modules and modules.client_profiles and modules.client_profiles.getSettingsFilePath then
+    local ok, path = pcall(function()
+      return modules.client_profiles.getSettingsFilePath("questlog.json")
+    end)
+    if ok and type(path) == 'string' and path:len() > 0 then
+      return path
+    end
+  end
+
+  return "/settings/questlog.json"
+end
+
 function load()
-  local file = modules.client_profiles.getSettingsFilePath("questlog.json")
+  local file = getQuestlogSettingsFilePath()
   if g_resources.fileExists(file) then
     local status, result = pcall(function()
         return json.decode(g_resources.readFileContents(file))
@@ -374,7 +387,7 @@ function load()
 end
 
 function save()
-  local file = modules.client_profiles.getSettingsFilePath("questlog.json")
+  local file = getQuestlogSettingsFilePath()
   local payload = {
     settings = settings,
     hideCompletedSettings = hideCompletedSettings,
