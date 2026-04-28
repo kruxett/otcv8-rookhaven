@@ -218,6 +218,7 @@ FuriousRageVisualOpcode = 94
 TaskBoardOpcode = 95
 TaskCenterOpcode = TaskBoardOpcode -- backward compatibility alias
 BulwarkVisualOpcode = 96
+ExcavationSkillOpcode = 97
 
 LastGameFeature = 130
         

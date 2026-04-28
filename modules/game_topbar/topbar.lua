@@ -94,7 +94,8 @@ local iconsTable = {
     ["Fist"] = 4,
     ["Shielding"] = 5,
     ["Sword"] = 6,
-    ["Fishing"] = 7
+    ["Fishing"] = 7,
+    ["Excavation"] = 2
 }
 
 local healthBar = nil
@@ -102,7 +103,40 @@ local manaBar = nil
 local topBar = nil
 local states = nil
 local experienceTooltip = 'You have %d%% to advance to level %d.'
+local excavationOpcode = ExcavationSkillOpcode or 97
+local excavationLevel = 0
+local excavationPercent = 0
 local settings = {}
+
+local function parseExcavationPayload(buffer)
+    local values = {}
+    for part in string.gmatch(buffer or '', '([^|]+)') do
+        values[#values + 1] = tonumber(part) or 0
+    end
+
+    excavationLevel = values[1] or 0
+    excavationPercent = values[2] or 0
+    excavationPercent = math.max(0, math.min(100, excavationPercent))
+
+    if topBar and topBar.skills and topBar.skills.Excavation then
+        setSkillValue('Excavation', excavationLevel)
+        setSkillPercent('Excavation', excavationPercent)
+    end
+end
+
+local function requestExcavationStatus()
+    local protocol = g_game.getProtocolGame()
+    if protocol then
+        protocol:sendExtendedOpcode(excavationOpcode, 'status')
+    end
+end
+
+local function onExcavationOpcode(protocol, opcode, buffer)
+    if opcode ~= excavationOpcode then
+        return
+    end
+    parseExcavationPayload(buffer)
+end
 
 function init()
     
@@ -117,6 +151,7 @@ function init()
         onBaseSkillChange = onBaseSkillChange
     })
     connect(g_game, {onGameStart = refresh, onGameEnd = offline})
+    ProtocolGame.registerExtendedOpcode(excavationOpcode, onExcavationOpcode)
 
     -- load condition icons
     for k, v in pairs(Icons) do g_textures.preload(v.path) end
@@ -137,6 +172,7 @@ function terminate()
         onBaseSkillChange = onBaseSkillChange
     })
     disconnect(g_game, {onGameStart = refresh, onGameEnd = offline})
+    ProtocolGame.unregisterExtendedOpcode(excavationOpcode)
 end
 
 function setupTopBar()
@@ -161,6 +197,7 @@ function refresh(profileChange)
     setupSkills()
     show()
     refreshVisibleBars()
+    requestExcavationStatus()
 
     onLevelChange(player, player:getLevel(), player:getLevelPercent())
     onHealthChange(player, player:getHealth(), player:getMaxHealth())
@@ -183,7 +220,7 @@ end
 
 function refreshVisibleBars()
     local ids = {"Experience", "Magic", "Axe", "Club", "Distance", "Fist", "Shielding",
-    "Sword", "Fishing"}
+    "Sword", "Fishing", "Excavation"}
 
     for i, id in ipairs(ids) do
         local panel = topBar[id] or topBar.skills[id]
@@ -363,7 +400,7 @@ end
 function setupSkills()
     local t = {
         "Experience", "Magic", "Axe", "Club", "Distance", "Fist", "Shielding",
-        "Sword", "Fishing"
+        "Sword", "Fishing", "Excavation"
     }
 
     for i, id in ipairs(t) do
@@ -375,6 +412,9 @@ function setupSkills()
 
     local child = topBar.Experience
     topBar:moveChildToIndex(child, 2)
+
+    setSkillValue('Excavation', excavationLevel)
+    setSkillPercent('Excavation', excavationPercent)
 end
 
 function toggleSkillPanel(id)
