@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Station')
-  size: 460 468
+  size: 460 492
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -173,7 +173,7 @@ MainWindow
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      width: 80
+      width: 96
       height: 18
       text: 1
 
@@ -267,13 +267,21 @@ MainWindow
     color: #d9d2bf
     text: Drop an item into the forge slot to begin.
 
-  Panel
-    id: controlsPanel
+  HorizontalSeparator
+    id: controlsSep
+    anchors.top: statusLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
+    margin-top: 2
+
+  Panel
+    id: controlsPanel
+    anchors.top: controlsSep.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
     height: 34
-    margin-bottom: 4
+    margin-bottom: 2
 
     Button
       id: acceptButton
@@ -292,9 +300,3 @@ MainWindow
       anchors.left: parent.horizontalCenter
       margin-left: 6
       @onClick: modules.game_corrupted_upgrade.decline()
-
-  HorizontalSeparator
-    anchors.bottom: controlsPanel.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-bottom: 2
