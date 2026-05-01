@@ -24,7 +24,7 @@ local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
-local REQ_CARD_WIDTH = 66
+local REQ_CARD_WIDTH = 72
 local REQ_CARD_SPACING = 8
 
 local updatePreview
@@ -113,15 +113,14 @@ local function setStatus(text, color)
   ui.statusLabel:setColor(color or '#d9d2bf')
 end
 
-local function formatGold(amount)
-  local n = tonumber(amount) or 0
-  if n >= 1000000 then
-    return string.format('%.1fM', n / 1000000)
-  elseif n >= 10000 then
-    return string.format('%dk', math.floor(n / 1000))
-  else
-    return tostring(n)
-  end
+local function formatCount(amount)
+  local n = math.floor(tonumber(amount) or 0)
+  local s = tostring(n)
+  local k = 0
+  repeat
+    s, k = s:gsub('^(%-?%d+)(%d%d%d)', '%1,%2')
+  until k == 0
+  return s
 end
 
 local function isUsingCorrupted()
@@ -189,25 +188,45 @@ local function resolveCoinDisplay(haveGold, needGold)
   local need = tonumber(needGold) or 0
   local scaleSource = math.max(have, need)
 
+  local iconDivisor = 1
   if scaleSource >= 10000 then
-    return {
-      itemId = CRYSTAL_COIN_ITEM_ID,
-      label = 'Crystal Coin',
-      divisor = 10000,
-    }
+    iconDivisor = 10000
   elseif scaleSource >= 100 then
-    return {
-      itemId = PLATINUM_COIN_ITEM_ID,
-      label = 'Platinum Coin',
-      divisor = 100,
-    }
+    iconDivisor = 100
   end
 
   return {
-    itemId = GOLD_COIN_ITEM_ID,
-    label = 'Gold',
-    divisor = 1,
+    -- Use crystal coin art for premium readability, but keep raw gold amount in text.
+    itemId = CRYSTAL_COIN_ITEM_ID,
+    label = 'Gold Cost',
+    iconDivisor = iconDivisor,
+    showRawCount = true,
   }
+end
+
+local function prettifyRequirementLabel(label)
+  local raw = tostring(label or '?')
+  local lower = string.lower(raw)
+
+  if lower == 'gold' or lower == 'platinum coin' or lower == 'crystal coin' or lower == 'gold cost' then
+    return 'Gold Cost'
+  elseif lower == 'light blue fragment' then
+    return 'Light Blue Fragment'
+  elseif lower == 'green fragment' then
+    return 'Green Fragment'
+  elseif lower == 'red fragment' then
+    return 'Red Fragment'
+  elseif lower == 'pristine forging shard' then
+    return 'Pristine Shard'
+  elseif lower == 'tempered forging shard' then
+    return 'Tempered Shard'
+  elseif lower == 'forging shard' then
+    return 'Forging Shard'
+  end
+
+  local first = string.sub(raw, 1, 1)
+  local rest = string.sub(raw, 2)
+  return string.upper(first) .. rest
 end
 
 local function buildRequirementWidgets(entry)
@@ -228,7 +247,8 @@ local function buildRequirementWidgets(entry)
       label = coinDisplay.label,
       have = goldHave,
       required = goldNeed,
-      displayDivisor = coinDisplay.divisor,
+      iconDivisor = coinDisplay.iconDivisor,
+      showRawCount = coinDisplay.showRawCount,
     })
   end
 
@@ -237,15 +257,17 @@ local function buildRequirementWidgets(entry)
     local have = tonumber(req.have) or 0
     local need = tonumber(req.required) or 0
     local met = have >= need
-    local divisor = tonumber(req.displayDivisor) or 1
+    local divisor = tonumber(req.iconDivisor) or 1
 
     local iconNeedCount = need
     local displayHave = have
     local displayNeed = need
     if divisor > 1 then
       iconNeedCount = math.ceil(need / divisor)
-      displayHave = math.floor(have / divisor)
-      displayNeed = math.ceil(need / divisor)
+      if not req.showRawCount then
+        displayHave = math.floor(have / divisor)
+        displayNeed = math.ceil(need / divisor)
+      end
     end
 
     local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
@@ -264,13 +286,13 @@ local function buildRequirementWidgets(entry)
 
     local countLabel = card:getChildById('reqCountLabel')
     if countLabel then
-      countLabel:setText(formatGold(displayHave) .. ' / ' .. formatGold(displayNeed))
+      countLabel:setText(formatCount(displayHave) .. ' / ' .. formatCount(displayNeed))
       countLabel:setColor(met and '#7fd992' or '#e05050')
     end
 
     local nameLabel = card:getChildById('reqNameLabel')
     if nameLabel then
-      nameLabel:setText(truncateText(req.label or '?', 10))
+      nameLabel:setText(truncateText(prettifyRequirementLabel(req.label), 18))
     end
 
     x = x + REQ_CARD_WIDTH + REQ_CARD_SPACING
