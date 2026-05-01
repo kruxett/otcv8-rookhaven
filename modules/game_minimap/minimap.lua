@@ -350,21 +350,24 @@ function saveMap()
   local sessionFile = minimapSessionFile
   local sharedFile = getVersionedMinimapFile(clientVersion)
 
+  -- Always save session file synchronously to prevent minimap loss on crash/relog.
   g_minimap.saveOtmm(sessionFile)
+  minimapWidget:save()
+  print('[Minimap] Map saved successfully to ' .. sessionFile)
 
+  -- Defer the expensive shared-file backup + copy so it doesn't stall the logout transition.
   if sharedMapSaveEnabled then
-    createBackupIfExists(sharedFile)
-    if copyFileCompat(sessionFile, sharedFile) then
-      print('[Minimap] Shared map synchronized from session file')
-    else
-      print('[Minimap] Warning: failed to synchronize shared map file')
-    end
+    scheduleEvent(function()
+      createBackupIfExists(sharedFile)
+      if copyFileCompat(sessionFile, sharedFile) then
+        print('[Minimap] Shared map synchronized from session file')
+      else
+        print('[Minimap] Warning: failed to synchronize shared map file')
+      end
+    end, 50)
   else
     print('[Minimap] Skipping shared map save while multiple clients are running')
   end
-
-  minimapWidget:save()
-  print('[Minimap] Map saved successfully to ' .. sessionFile)
 end
 
 function updateCameraPosition()
