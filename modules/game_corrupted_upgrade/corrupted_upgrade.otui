@@ -181,7 +181,7 @@ MainWindow
     margin-left: 10
     margin-right: 10
     margin-top: 3
-    height: 92
+    height: 112
 
     CheckBox
       id: useCorruptedBox
@@ -209,10 +209,30 @@ MainWindow
       text: 1
 
     Label
-      id: affixTargetLabel
+      id: corruptedCountLimitLabel
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 12
+      margin-left: 6
+      text: / 0
+
+    HorizontalScrollBar
+      id: corruptedCountSlider
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: corruptedCountEdit.bottom
+      margin-left: 2
+      margin-right: 2
+      margin-top: 4
+      minimum: 0
+      maximum: 0
+      step: 1
+      value: 0
+
+    Label
+      id: affixTargetLabel
+      anchors.left: parent.left
+      anchors.top: corruptedCountLabel.top
+      margin-left: 220
       text: Weighted affix:
 
     ComboBox
@@ -227,17 +247,32 @@ MainWindow
     Label
       id: failChanceLabel
       anchors.left: parent.left
-      anchors.top: corruptedCountLabel.bottom
+      anchors.top: corruptedCountSlider.bottom
       margin-left: 2
-      margin-top: 8
+      margin-top: 6
       text: Fail chance: 0.0%
 
     Label
-      id: weightLabel
+      id: successChanceLabel
       anchors.left: failChanceLabel.right
       anchors.top: failChanceLabel.top
       margin-left: 16
+      text: Success chance: 100.0%
+
+    Label
+      id: weightLabel
+      anchors.left: parent.left
+      anchors.top: failChanceLabel.bottom
+      margin-left: 2
+      margin-top: 2
       text: Weight multiplier: x1.00
+
+    Label
+      id: targetAffixChanceLabel
+      anchors.left: weightLabel.right
+      anchors.top: weightLabel.top
+      margin-left: 16
+      text: Target affix chance (next roll): -
 
   HorizontalSeparator
     id: statusSep

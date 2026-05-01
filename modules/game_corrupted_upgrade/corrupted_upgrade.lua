@@ -19,6 +19,8 @@ local failConfig = {
 }
 
 local GOLD_COIN_ITEM_ID = 3031
+local PLATINUM_COIN_ITEM_ID = 3035
+local CRYSTAL_COIN_ITEM_ID = 3043
 local REQ_CARD_WIDTH = 66
 local REQ_CARD_SPACING = 8
 
@@ -29,6 +31,10 @@ local truncateText
 
 local lastDraggedItem = nil
 local wasDragging = false
+local availableCorruptedFragments = 0
+local investSyncLock = false
+local pendingStatusText = nil
+local pendingStatusColor = nil
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -74,9 +80,13 @@ local function bindWidgets()
 
   ui.useCorruptedBox = findWidgetById(window, 'useCorruptedBox')
   ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
+  ui.corruptedCountSlider = findWidgetById(window, 'corruptedCountSlider')
+  ui.corruptedCountLimitLabel = findWidgetById(window, 'corruptedCountLimitLabel')
   ui.affixSelector = findWidgetById(window, 'affixSelector')
   ui.failChanceLabel = findWidgetById(window, 'failChanceLabel')
+  ui.successChanceLabel = findWidgetById(window, 'successChanceLabel')
   ui.weightLabel = findWidgetById(window, 'weightLabel')
+  ui.targetAffixChanceLabel = findWidgetById(window, 'targetAffixChanceLabel')
 
   return ui.itemDropZone ~= nil and ui.itemPreview ~= nil and ui.statusLabel ~= nil
 end
@@ -116,6 +126,32 @@ local function clearRequirementWidgets()
   end
 end
 
+local function resolveCoinDisplay(haveGold, needGold)
+  local have = tonumber(haveGold) or 0
+  local need = tonumber(needGold) or 0
+  local scaleSource = math.max(have, need)
+
+  if scaleSource >= 10000 then
+    return {
+      itemId = CRYSTAL_COIN_ITEM_ID,
+      label = 'Crystal Coin',
+      divisor = 10000,
+    }
+  elseif scaleSource >= 100 then
+    return {
+      itemId = PLATINUM_COIN_ITEM_ID,
+      label = 'Platinum Coin',
+      divisor = 100,
+    }
+  end
+
+  return {
+    itemId = GOLD_COIN_ITEM_ID,
+    label = 'Gold',
+    divisor = 1,
+  }
+end
+
 local function buildRequirementWidgets(entry)
   clearRequirementWidgets()
   if not ui.requirementsPanel or not entry then return end
@@ -128,11 +164,13 @@ local function buildRequirementWidgets(entry)
   local goldHave = tonumber(entry.goldHave) or 0
   local goldNeed = tonumber(entry.goldRequired) or 0
   if goldNeed > 0 then
+    local coinDisplay = resolveCoinDisplay(goldHave, goldNeed)
     table.insert(allReqs, {
-      itemId = GOLD_COIN_ITEM_ID,
-      label = 'Gold',
+      itemId = coinDisplay.itemId,
+      label = coinDisplay.label,
       have = goldHave,
       required = goldNeed,
+      displayDivisor = coinDisplay.divisor,
     })
   end
 
@@ -141,6 +179,16 @@ local function buildRequirementWidgets(entry)
     local have = tonumber(req.have) or 0
     local need = tonumber(req.required) or 0
     local met = have >= need
+    local divisor = tonumber(req.displayDivisor) or 1
+
+    local iconNeedCount = need
+    local displayHave = have
+    local displayNeed = need
+    if divisor > 1 then
+      iconNeedCount = math.ceil(need / divisor)
+      displayHave = have / divisor
+      displayNeed = need / divisor
+    end
 
     local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
     card:setWidth(REQ_CARD_WIDTH)
@@ -153,12 +201,12 @@ local function buildRequirementWidgets(entry)
     if icon then
       local displayId = tonumber(req.clientId) or tonumber(req.itemId) or 0
       icon:setItemId(displayId)
-      icon:setItemCount(math.min(math.max(need, 1), 9999))
+      icon:setItemCount(math.min(math.max(math.floor(iconNeedCount), 1), 9999))
     end
 
     local countLabel = card:getChildById('reqCountLabel')
     if countLabel then
-      countLabel:setText(formatGold(have) .. ' / ' .. formatGold(need))
+      countLabel:setText(formatGold(displayHave) .. ' / ' .. formatGold(displayNeed))
       countLabel:setColor(met and '#7fd992' or '#e05050')
     end
 
@@ -190,6 +238,25 @@ truncateText = function(text, limit)
   return string.sub(s, 1, maxLen - 3) .. '...'
 end
 
+local function getInvestCap()
+  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  local cap = tonumber(availableCorruptedFragments) or 0
+  if cap < 0 then
+    cap = 0
+  end
+  if cap > maxInvest then
+    cap = maxInvest
+  end
+  return math.floor(cap)
+end
+
+local function syncInvestLimitLabel()
+  if not ui.corruptedCountLimitLabel then
+    return
+  end
+  ui.corruptedCountLimitLabel:setText('/ ' .. tostring(getInvestCap()))
+end
+
 local function getInvestCount()
   if not ui.corruptedCountEdit then
     return 0
@@ -199,7 +266,7 @@ local function getInvestCount()
   if raw < 0 then
     raw = 0
   end
-  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  local maxInvest = getInvestCap()
   if raw > maxInvest then
     raw = maxInvest
   end
@@ -215,11 +282,73 @@ local function setInvestCount(v)
   if value < 0 then
     value = 0
   end
-  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  local maxInvest = getInvestCap()
   if value > maxInvest then
     value = maxInvest
   end
-  ui.corruptedCountEdit:setText(tostring(math.floor(value)))
+
+  value = math.floor(value)
+
+  investSyncLock = true
+  ui.corruptedCountEdit:setText(tostring(value))
+  if ui.corruptedCountSlider then
+    ui.corruptedCountSlider:setValue(value)
+  end
+  investSyncLock = false
+end
+
+local function syncInvestBoundsAndValue(defaultValue)
+  local cap = getInvestCap()
+
+  if ui.corruptedCountSlider then
+    ui.corruptedCountSlider:setMinimum(0)
+    ui.corruptedCountSlider:setMaximum(cap)
+    ui.corruptedCountSlider:setStep(1)
+  end
+
+  syncInvestLimitLabel()
+
+  if defaultValue ~= nil then
+    setInvestCount(defaultValue)
+  else
+    setInvestCount(getInvestCount())
+  end
+end
+
+local function calculateTargetAffixChance(entry, selectedAffixId, weight)
+  if type(entry) ~= 'table' or type(entry.affixOptions) ~= 'table' then
+    return nil, nil
+  end
+
+  local selectedId = tonumber(selectedAffixId) or 0
+  if selectedId <= 0 then
+    return nil, nil
+  end
+
+  local totalBase = 0
+  local selectedBase = 0
+  for _, option in ipairs(entry.affixOptions) do
+    local base = tonumber(option.baseWeight) or tonumber(option.chance) or 0
+    if base > 0 then
+      totalBase = totalBase + base
+      if tonumber(option.id) == selectedId then
+        selectedBase = base
+      end
+    end
+  end
+
+  if totalBase <= 0 or selectedBase <= 0 then
+    return nil, nil
+  end
+
+  local weightedTotal = totalBase - selectedBase + (selectedBase * weight)
+  if weightedTotal <= 0 then
+    return nil, nil
+  end
+
+  local baseChance = selectedBase / totalBase
+  local weightedChance = (selectedBase * weight) / weightedTotal
+  return baseChance, weightedChance
 end
 
 local function getSelectedAffixId()
@@ -257,7 +386,21 @@ local function refreshRiskPreview()
   end
 
   ui.failChanceLabel:setText(string.format('Fail chance: %.1f%%', failChance * 100))
+  if ui.successChanceLabel then
+    ui.successChanceLabel:setText(string.format('Success chance: %.1f%%', (1 - failChance) * 100))
+  end
   ui.weightLabel:setText(string.format('Weight multiplier: x%.2f', weight))
+
+  if ui.targetAffixChanceLabel then
+    local entry = selectedPath and entryByPath[selectedPath] or nil
+    local affixId = getSelectedAffixId()
+    local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
+    if baseChance and weightedChance then
+      ui.targetAffixChanceLabel:setText(string.format('Target affix chance (next roll): %.1f%% -> %.1f%%', baseChance * 100, weightedChance * 100))
+    else
+      ui.targetAffixChanceLabel:setText('Target affix chance (next roll): -')
+    end
+  end
 end
 
 local function refreshOptionalWidgetState()
@@ -265,6 +408,10 @@ local function refreshOptionalWidgetState()
 
   if ui.corruptedCountEdit then
     ui.corruptedCountEdit:setEnabled(checked)
+  end
+
+  if ui.corruptedCountSlider then
+    ui.corruptedCountSlider:setEnabled(checked)
   end
 
   if ui.affixSelector then
@@ -553,7 +700,20 @@ local function bindOptionalControls()
 
   if ui.corruptedCountEdit then
     ui.corruptedCountEdit.onTextChange = function(widget, text)
+      if investSyncLock then
+        return
+      end
       setInvestCount(tonumber(text) or 0)
+      refreshRiskPreview()
+    end
+  end
+
+  if ui.corruptedCountSlider then
+    ui.corruptedCountSlider.onValueChange = function(widget, value)
+      if investSyncLock then
+        return
+      end
+      setInvestCount(tonumber(value) or 0)
       refreshRiskPreview()
     end
   end
@@ -566,6 +726,11 @@ local function bindOptionalControls()
 end
 
 local function populate(data)
+  local previousPath = selectedPath
+  local previousUseCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+  local previousInvestCount = getInvestCount()
+  local previousAffixId = getSelectedAffixId()
+
   entryByPath = {}
   pathsByClientId = {}
   pathsByItemId = {}
@@ -578,12 +743,17 @@ local function populate(data)
     ui.resourceLabel:setText(string.format('Your resources: %d Corrupted Fragment(s)  |  %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
 
+  availableCorruptedFragments = tonumber(data.fragmentCount) or 0
+
   clearSelection()
 
   if ui.useCorruptedBox then
-    ui.useCorruptedBox:setChecked(false)
+    ui.useCorruptedBox:setChecked(previousUseCorrupted)
   end
-  setInvestCount(1)
+  if previousInvestCount <= 0 then
+    previousInvestCount = math.min(1, getInvestCap())
+  end
+  syncInvestBoundsAndValue(previousInvestCount)
   refreshOptionalWidgetState()
 
   for _, entry in ipairs(data.items or {}) do
@@ -606,9 +776,23 @@ local function populate(data)
   end
 
   if next(entryByPath) then
-    setStatus('Drop an item into the forge slot to begin.')
+    if previousPath and entryByPath[previousPath] then
+      updatePreview(previousPath)
+      if ui.affixSelector and previousAffixId > 0 then
+        ui.affixSelector:setCurrentOptionByData(previousAffixId, true)
+      end
+      setStatus('Item selected. Press Upgrade to continue.')
+    else
+      setStatus('Drop an item into the forge slot to begin.')
+    end
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
+  end
+
+  if pendingStatusText then
+    setStatus(pendingStatusText, pendingStatusColor)
+    pendingStatusText = nil
+    pendingStatusColor = nil
   end
 
   refreshRiskPreview()
@@ -665,19 +849,23 @@ local function onOpcode(protocol, opcode, buffer)
 
   if data.action == 'result' then
     if data.success then
-      setStatus(data.message or 'Upgrade successful.', '#7fd992')
-      scheduleEvent(function()
-        if modules and modules.game_inventory and modules.game_inventory.refresh then
-          modules.game_inventory.refresh()
-        end
-        if modules and modules.game_containers and modules.game_containers.reloadContainers then
-          modules.game_containers.reloadContainers()
-        end
-      end, 150)
-      protocolSend({ action = 'refresh' })
+      pendingStatusText = data.message or 'Upgrade successful.'
+      pendingStatusColor = '#7fd992'
     else
-      setStatus(data.message or 'Upgrade failed.', '#d26b6b')
+      pendingStatusText = data.message or 'Upgrade failed.'
+      pendingStatusColor = '#d26b6b'
     end
+
+    scheduleEvent(function()
+      if modules and modules.game_inventory and modules.game_inventory.refresh then
+        modules.game_inventory.refresh()
+      end
+      if modules and modules.game_containers and modules.game_containers.reloadContainers then
+        modules.game_containers.reloadContainers()
+      end
+    end, 150)
+
+    protocolSend({ action = 'refresh' })
   end
 end
 
