@@ -18,9 +18,14 @@ local failConfig = {
   maxInvest = 100000,
 }
 
+local GOLD_COIN_ITEM_ID = 3031
+local REQ_CARD_WIDTH = 66
+local REQ_CARD_SPACING = 8
+
 local updatePreview
 local stopDragMonitor
 local destroyWindow
+local truncateText
 
 local lastDraggedItem = nil
 local wasDragging = false
@@ -58,17 +63,14 @@ local function bindWidgets()
   ui.itemDropZone = findWidgetById(window, 'itemDropZone')
   ui.itemPreview = findWidgetById(window, 'itemPreview')
 
-  ui.costsLabel = findWidgetById(window, 'costsLabel')
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
   ui.statusLabel = findWidgetById(window, 'statusLabel')
   ui.itemNameLabel = findWidgetById(window, 'itemNameLabel')
   ui.itemTypeLabel = findWidgetById(window, 'itemTypeLabel')
-  ui.bonusPreviewLabel = findWidgetById(window, 'bonusPreviewLabel')
-  ui.selectedPathLabel = findWidgetById(window, 'selectedPathLabel')
 
   ui.tierLabel = findWidgetById(window, 'tierLabel')
   ui.rollsLabel = findWidgetById(window, 'rollsLabel')
-  ui.reqListLabel = findWidgetById(window, 'reqListLabel')
+  ui.requirementsPanel = findWidgetById(window, 'requirementsPanel')
 
   ui.useCorruptedBox = findWidgetById(window, 'useCorruptedBox')
   ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
@@ -92,7 +94,99 @@ local function setStatus(text, color)
   end
 
   ui.statusLabel:setText(text or '')
-  ui.statusLabel:setColor(color or '#d6c9e8')
+  ui.statusLabel:setColor(color or '#d9d2bf')
+end
+
+local function formatGold(amount)
+  local n = tonumber(amount) or 0
+  if n >= 1000000 then
+    return string.format('%.1fM', n / 1000000)
+  elseif n >= 10000 then
+    return string.format('%dk', math.floor(n / 1000))
+  else
+    return tostring(n)
+  end
+end
+
+local function clearRequirementWidgets()
+  if not ui.requirementsPanel then return end
+  local children = ui.requirementsPanel:getChildren()
+  for _, child in ipairs(children or {}) do
+    child:destroy()
+  end
+end
+
+local function buildRequirementWidgets(entry)
+  clearRequirementWidgets()
+  if not ui.requirementsPanel or not entry then return end
+
+  local allReqs = {}
+  for _, r in ipairs(entry.requirements or {}) do
+    table.insert(allReqs, r)
+  end
+
+  local goldHave = tonumber(entry.goldHave) or 0
+  local goldNeed = tonumber(entry.goldRequired) or 0
+  if goldNeed > 0 then
+    table.insert(allReqs, {
+      itemId = GOLD_COIN_ITEM_ID,
+      label = 'Gold',
+      have = goldHave,
+      required = goldNeed,
+    })
+  end
+
+  local x = 2
+  for _, req in ipairs(allReqs) do
+    local have = tonumber(req.have) or 0
+    local need = tonumber(req.required) or 0
+    local met = have >= need
+
+    local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
+    card:setWidth(REQ_CARD_WIDTH)
+    card:addAnchor(AnchorLeft, 'parent', AnchorLeft)
+    card:addAnchor(AnchorTop, 'parent', AnchorTop)
+    card:setMarginLeft(x)
+    card:setMarginTop(4)
+
+    local icon = card:getChildById('reqItemIcon')
+    if icon then
+      icon:setItemId(tonumber(req.itemId) or 0)
+      icon:setItemCount(math.min(math.max(need, 1), 9999))
+    end
+
+    local countLabel = card:getChildById('reqCountLabel')
+    if countLabel then
+      countLabel:setText(formatGold(have) .. ' / ' .. formatGold(need))
+      countLabel:setColor(met and '#7fd992' or '#e05050')
+    end
+
+    local nameLabel = card:getChildById('reqNameLabel')
+    if nameLabel then
+      nameLabel:setText(truncateText(req.label or '?', 10))
+    end
+
+    x = x + REQ_CARD_WIDTH + REQ_CARD_SPACING
+  end
+end
+
+local function normalizeLabel(label)
+  if type(label) ~= 'string' or label == '' then
+    return 'Unknown'
+  end
+
+  local first = string.sub(label, 1, 1)
+  local rest = string.sub(label, 2)
+  return string.upper(first) .. rest
+end
+
+local function truncateText(text, limit)
+  local s = tostring(text or '')
+  local maxLen = tonumber(limit) or 140
+  if #s <= maxLen then
+    return s
+  end
+  return string.sub(s, 1, maxLen - 3) .. '...'
 end
 
 local function getInvestCount()
@@ -189,13 +283,13 @@ local function formatRequirements(entry)
     local req = reqs[i]
     local have = tonumber(req.have) or 0
     local need = tonumber(req.required) or 0
-    local label = req.label or ('Item ' .. tostring(req.itemId or 0))
-    lines[#lines + 1] = string.format('%s: %d/%d', label, have, need)
+    local label = normalizeLabel(req.label or ('Item ' .. tostring(req.itemId or 0)))
+    lines[#lines + 1] = string.format('- %s: %d/%d', label, have, need)
   end
 
   local goldHave = tonumber(entry.goldHave) or 0
   local goldNeed = tonumber(entry.goldRequired) or 0
-  lines[#lines + 1] = string.format('Gold: %d/%d', goldHave, goldNeed)
+  lines[#lines + 1] = string.format('- Gold: %d/%d', goldHave, goldNeed)
 
   if #lines == 0 then
     return '-'
@@ -213,18 +307,14 @@ local function clearSelection()
     ui.itemPreview:setItemId(0)
   end
   if ui.itemNameLabel then ui.itemNameLabel:setText('No item selected') end
-  if ui.itemTypeLabel then ui.itemTypeLabel:setText('Type: -') end
-  if ui.bonusPreviewLabel then ui.bonusPreviewLabel:setText('Upgrade: -') end
+  if ui.itemTypeLabel then ui.itemTypeLabel:setText('-') end
   if ui.tierLabel then ui.tierLabel:setText('Tier: -') end
-  if ui.rollsLabel then ui.rollsLabel:setText('New rolls this upgrade: -') end
-  if ui.reqListLabel then ui.reqListLabel:setText('-') end
+  if ui.rollsLabel then ui.rollsLabel:setText('New rolls: -') end
+
+  clearRequirementWidgets()
 
   if ui.affixSelector then
     ui.affixSelector:clearOptions()
-  end
-
-  if ui.costsLabel then
-    ui.costsLabel:setText('Requirements: select an item to view exact materials')
   end
 
   refreshOptionalWidgetState()
@@ -262,25 +352,17 @@ updatePreview = function(path)
     ui.itemTypeLabel:setText('Type: ' .. typeText)
   end
 
-  if ui.bonusPreviewLabel then
-    ui.bonusPreviewLabel:setText('Upgrade: ' .. (entry.preview or '-'))
-  end
-
   if ui.tierLabel then
-    ui.tierLabel:setText(string.format('Tier: %s -> %s', entry.currentTierLabel or 'Common', entry.nextTierLabel or 'Max'))
+    ui.tierLabel:setText(string.format('Tier: %s  ->  %s', entry.currentTierLabel or 'Common', entry.nextTierLabel or 'Max'))
   end
 
   if ui.rollsLabel then
-    ui.rollsLabel:setText(string.format('New rolls this upgrade: %d', tonumber(entry.rollsToAdd) or 0))
+    local rolls = tonumber(entry.rollsToAdd) or 0
+    local rollText = rolls == 1 and '+1 new affix roll' or ('+' .. rolls .. ' new affix rolls')
+    ui.rollsLabel:setText(rollText)
   end
 
-  if ui.reqListLabel then
-    ui.reqListLabel:setText(formatRequirements(entry))
-  end
-
-  if ui.costsLabel then
-    ui.costsLabel:setText('Requirements: ' .. (entry.requirementSummary or '-'))
-  end
+  buildRequirementWidgets(entry)
 
   if ui.affixSelector then
     ui.affixSelector:clearOptions()
@@ -288,6 +370,9 @@ updatePreview = function(path)
     for i = 1, #options do
       local opt = options[i]
       ui.affixSelector:addOption(opt.name or ('Affix ' .. tostring(opt.id)), tonumber(opt.id) or 0)
+    end
+    if #options == 0 then
+      ui.affixSelector:addOption('No affix options available', 0)
     end
   end
 
@@ -488,12 +573,8 @@ local function populate(data)
     failConfig = data.failConfig
   end
 
-  if ui.costsLabel then
-    ui.costsLabel:setText('Requirements: select an item to view exact materials')
-  end
-
   if ui.resourceLabel then
-    ui.resourceLabel:setText(string.format('Your resources: %d corrupted fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
+    ui.resourceLabel:setText(string.format('Your resources: %d Corrupted Fragment(s)  |  %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
 
   clearSelection()
@@ -524,7 +605,7 @@ local function populate(data)
   end
 
   if next(entryByPath) then
-    setStatus('Drag an item into the slot, then press Upgrade.')
+    setStatus('Drop an item into the forge slot to begin.')
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
   end

@@ -1,7 +1,42 @@
+﻿ForgingReqCard < Panel
+  size: 66 76
+
+  UIItem
+    id: reqItemIcon
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    margin-top: 4
+    size: 34 34
+    virtual: true
+    selectable: false
+    draggable: false
+    phantom: true
+
+  Label
+    id: reqCountLabel
+    anchors.top: reqItemIcon.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 3
+    height: 14
+    text-align: center
+    text: -
+
+  Label
+    id: reqNameLabel
+    anchors.top: reqCountLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    height: 14
+    text-align: center
+    text: -
+    color: #9e9080
+
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Upgrade')
-  size: 440 470
+  size: 460 540
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -10,78 +45,75 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
-    text: Samwell Upgrade Forge
-    color: #b57ae0
-    margin-top: 2
-    height: 18
+    text: Samwell Forging Station
+    color: #d8c16f
+    margin-top: 4
+    height: 20
 
   HorizontalSeparator
-    anchors.top: prev.bottom
+    anchors.top: headlineLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 4
-
-  Label
-    id: costsLabel
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 6
-    margin-left: 8
-    margin-right: 8
-    text: Requirements: -
+    margin-top: 3
 
   Label
     id: resourceLabel
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 2
-    margin-left: 8
-    margin-right: 8
+    margin-top: 5
+    margin-left: 10
+    margin-right: 10
+    height: 14
     text: Your resources: -
 
   Label
     id: tierFlowLabel
-    anchors.top: prev.bottom
+    anchors.top: resourceLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 2
-    margin-left: 8
-    margin-right: 8
+    margin-top: 3
+    margin-left: 10
+    margin-right: 10
+    height: 14
     text: Path: Common -> Rare -> Epic -> Legendary
-    color: #b8a8cf
+    color: #cdbb91
+
+  HorizontalSeparator
+    id: slotSep
+    anchors.top: tierFlowLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
 
   Label
-    id: slotHintLabel
-    anchors.top: prev.bottom
+    anchors.top: slotSep.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 6
-    margin-left: 8
-    margin-right: 8
-    text: Drag the item you want to upgrade into the slot below.
+    margin-top: 4
+    margin-left: 10
+    height: 14
+    text: Item to Forge
+    color: #e1d3a1
 
   Panel
     id: previewPanel
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: optionalPanel.top
-    margin-top: 6
-    margin-bottom: 6
-    margin-left: 8
-    margin-right: 8
+    margin-top: 4
+    margin-left: 10
+    margin-right: 10
+    height: 80
 
     Panel
       id: itemDropZone
       anchors.left: parent.left
-      anchors.top: parent.top
-      margin-left: 2
-      margin-top: 4
-      size: 32 32
+      anchors.verticalCenter: parent.verticalCenter
+      size: 46 46
       image-source: /images/ui/item.png
-      border-width: 0
+      border-width: 1
+      border-color: #5a5040
 
     UIItem
       id: itemPreview
@@ -95,94 +127,96 @@ MainWindow
 
     Label
       id: itemNameLabel
-      anchors.left: prev.right
+      anchors.left: itemDropZone.right
       anchors.right: parent.right
       anchors.top: parent.top
-      margin-left: 8
-      margin-right: 4
-      margin-top: 4
+      margin-left: 10
+      margin-top: 6
+      height: 16
       text: No item selected
 
     Label
       id: itemTypeLabel
       anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
+      anchors.right: parent.right
       anchors.top: itemNameLabel.bottom
       margin-top: 3
-      text: Type: -
-
-    Label
-      id: bonusPreviewLabel
-      anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
-      anchors.top: itemTypeLabel.bottom
-      margin-top: 3
-      height: 40
-      text-wrap: true
-      text: Upgrade: -
-
-    Label
-      id: selectedPathLabel
-      anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
-      anchors.top: bonusPreviewLabel.bottom
-      margin-top: 2
-      text: Source: none
-      color: #9b9b9b
-      visible: false
+      height: 14
+      text: -
+      color: #9e9080
 
     Label
       id: tierLabel
       anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
-      anchors.top: selectedPathLabel.bottom
-      margin-top: 2
+      anchors.right: parent.right
+      anchors.top: itemTypeLabel.bottom
+      margin-top: 3
+      height: 14
       text: Tier: -
 
     Label
       id: rollsLabel
       anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
+      anchors.right: parent.right
       anchors.top: tierLabel.bottom
-      margin-top: 2
-      text: New rolls this upgrade: -
-
-    Label
-      id: reqHeaderLabel
-      anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
-      anchors.top: rollsLabel.bottom
-      margin-top: 2
-      text: Upgrade requirements:
-      color: #cfc4df
-
-    Label
-      id: reqListLabel
-      anchors.left: itemNameLabel.left
-      anchors.right: itemNameLabel.right
-      anchors.top: reqHeaderLabel.bottom
-      margin-top: 2
-      height: 82
-      text-wrap: true
-      text: -
+      margin-top: 3
+      height: 14
+      text: New rolls: -
+      color: #cdbb91
 
   HorizontalSeparator
+    id: reqSep
+    anchors.top: previewPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: optionalPanel.top
-    margin-left: 8
-    margin-right: 8
-    margin-bottom: 6
+    margin-top: 4
+
+  Label
+    anchors.top: reqSep.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    margin-left: 10
+    height: 14
+    text: Upgrade Requirements
+    color: #e1d3a1
+
+  Panel
+    id: requirementsPanel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    margin-left: 10
+    margin-right: 10
+    height: 82
+
+  HorizontalSeparator
+    id: optSep
+    anchors.top: requirementsPanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+
+  Label
+    anchors.top: optSep.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    margin-left: 10
+    height: 14
+    text: Optional Corrupted Fragment Weighting
+    color: #e1d3a1
 
   Panel
     id: optionalPanel
+    anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: statusLabel.top
-    margin-left: 8
-    margin-right: 8
-    margin-bottom: 6
-    height: 94
+    margin-left: 10
+    margin-right: 10
+    margin-top: 3
+    height: 92
 
     CheckBox
       id: useCorruptedBox
@@ -190,13 +224,13 @@ MainWindow
       anchors.top: parent.top
       margin-left: 2
       margin-top: 2
-      text: Use Corrupted Fragments for weighting (optional)
+      text: Use Corrupted Fragments for weighted affix
 
     Label
       id: corruptedCountLabel
       anchors.left: parent.left
       anchors.top: useCorruptedBox.bottom
-      margin-top: 4
+      margin-top: 6
       margin-left: 2
       text: Fragment count:
 
@@ -205,7 +239,7 @@ MainWindow
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 6
-      width: 52
+      width: 48
       height: 18
       text: 1
 
@@ -213,7 +247,7 @@ MainWindow
       id: affixTargetLabel
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 10
+      margin-left: 12
       text: Weighted affix:
 
     ComboBox
@@ -230,37 +264,45 @@ MainWindow
       anchors.left: parent.left
       anchors.top: corruptedCountLabel.bottom
       margin-left: 2
-      margin-top: 5
+      margin-top: 8
       text: Fail chance: 0.0%
 
     Label
       id: weightLabel
       anchors.left: failChanceLabel.right
       anchors.top: failChanceLabel.top
-      margin-left: 14
+      margin-left: 16
       text: Weight multiplier: x1.00
+
+  HorizontalSeparator
+    id: statusSep
+    anchors.top: optionalPanel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
 
   Label
     id: statusLabel
+    anchors.top: statusSep.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: controlsPanel.top
-    margin-bottom: 6
-    margin-left: 8
-    margin-right: 8
-    height: 32
+    margin-top: 4
+    margin-left: 10
+    margin-right: 10
+    height: 22
     text-wrap: true
-    color: #d6c9e8
-    text: Drag an item into the slot, then press Upgrade.
+    color: #d9d2bf
+    text: Drop an item into the forge slot to begin.
 
   HorizontalSeparator
+    anchors.top: statusLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: statusLabel.top
-    margin-bottom: 3
+    margin-top: 2
 
   Panel
     id: controlsPanel
+    anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
@@ -270,7 +312,7 @@ MainWindow
     Button
       id: acceptButton
       !text: tr('Upgrade')
-      width: 72
+      width: 80
       anchors.right: parent.horizontalCenter
       margin-right: 6
       @onClick: modules.game_corrupted_upgrade.accept()
@@ -278,7 +320,7 @@ MainWindow
     Button
       id: declineButton
       !text: tr('Close')
-      width: 72
+      width: 80
       anchors.left: parent.horizontalCenter
       margin-left: 6
       @onClick: modules.game_corrupted_upgrade.decline()
