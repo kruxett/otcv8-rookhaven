@@ -151,7 +151,8 @@ local function buildRequirementWidgets(entry)
 
     local icon = card:getChildById('reqItemIcon')
     if icon then
-      icon:setItemId(tonumber(req.itemId) or 0)
+      local displayId = tonumber(req.clientId) or tonumber(req.itemId) or 0
+      icon:setItemId(displayId)
       icon:setItemCount(math.min(math.max(need, 1), 9999))
     end
 
