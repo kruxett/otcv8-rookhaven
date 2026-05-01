@@ -1,39 +1,4 @@
-﻿ForgingReqCard < Panel
-  size: 66 76
-
-  UIItem
-    id: reqItemIcon
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: parent.top
-    margin-top: 4
-    size: 34 34
-    virtual: true
-    selectable: false
-    draggable: false
-    phantom: true
-
-  Label
-    id: reqCountLabel
-    anchors.top: reqItemIcon.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 3
-    height: 14
-    text-align: center
-    text: -
-
-  Label
-    id: reqNameLabel
-    anchors.top: reqCountLabel.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 2
-    height: 14
-    text-align: center
-    text: -
-    color: #9e9080
-
-MainWindow
+﻿MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Upgrade')
   size: 460 540

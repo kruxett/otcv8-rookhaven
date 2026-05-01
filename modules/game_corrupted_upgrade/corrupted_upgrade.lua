@@ -681,6 +681,8 @@ local function onOpcode(protocol, opcode, buffer)
 end
 
 function init()
+  g_ui.importStyle('corrupted_upgrade_styles')
+
   destroyWindow = function()
     if window then
       window:destroy()
