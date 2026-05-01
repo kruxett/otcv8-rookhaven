@@ -10,11 +10,11 @@ local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
-  minChance = 0.02,
-  maxChance = 0.40,
-  failExponent = 0.08,
-  weightMaxBonus = 1.5,
-  weightExponent = 0.12,
+  minChance = 0.01,
+  maxChance = 0.28,
+  failExponent = 0.075,
+  weightMaxBonus = 3.2,
+  weightExponent = 0.14,
   maxInvest = 20,
 }
 
@@ -419,30 +419,35 @@ refreshRiskPreview = function()
   local failChance = 0
   local weight = 1.0
   if invest > 0 then
-    local minC = tonumber(failConfig.minChance) or 0.02
-    local maxC = tonumber(failConfig.maxChance) or 0.40
-    local kFail = tonumber(failConfig.failExponent) or 0.08
-    local maxBonus = tonumber(failConfig.weightMaxBonus) or 1.5
-    local kWeight = tonumber(failConfig.weightExponent) or 0.12
+    local minC = tonumber(failConfig.minChance) or 0.01
+    local maxC = tonumber(failConfig.maxChance) or 0.28
+    local kFail = tonumber(failConfig.failExponent) or 0.075
+    local maxBonus = tonumber(failConfig.weightMaxBonus) or 3.2
+    local kWeight = tonumber(failConfig.weightExponent) or 0.14
 
     failChance = minC + (maxC - minC) * (1 - math.exp(-kFail * invest))
     weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
   end
 
-  ui.failChanceLabel:setText(string.format('Fail: %.1f%%', failChance * 100))
+  ui.failChanceLabel:setText(string.format('Risk: %.1f%% fail chance', failChance * 100))
   if ui.successChanceLabel then
-    ui.successChanceLabel:setText(string.format('Success: %.1f%%', (1 - failChance) * 100))
+    ui.successChanceLabel:setText(string.format('Upgrade success: %.1f%%', (1 - failChance) * 100))
   end
-  ui.weightLabel:setText(string.format('Weight: x%.2f', weight))
+  ui.weightLabel:setText('Chosen affix next roll: -')
 
   if ui.targetAffixChanceLabel then
     local entry = selectedPath and entryByPath[selectedPath] or nil
     local affixId = getSelectedAffixId()
     local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
     if baseChance and weightedChance then
-      ui.targetAffixChanceLabel:setText(string.format('Affix: %.1f%% -> %.1f%%', baseChance * 100, weightedChance * 100))
+      ui.weightLabel:setText(string.format('Chosen affix next roll: %.1f%%', weightedChance * 100))
+      ui.targetAffixChanceLabel:setText(string.format('Base chance without imbuement: %.1f%%', baseChance * 100))
     else
-      ui.targetAffixChanceLabel:setText('Affix chance: -')
+      if invest > 0 then
+        ui.targetAffixChanceLabel:setText('Pick an affix to see the improved next-roll chance.')
+      else
+        ui.targetAffixChanceLabel:setText('More fragments improve the chosen affix, but raise the fail risk.')
+      end
     end
   end
 end

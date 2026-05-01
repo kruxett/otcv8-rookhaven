@@ -184,7 +184,7 @@ MainWindow
     margin-left: 10
     margin-right: 10
     margin-top: 0
-    height: 130
+    height: 146
     visible: false
 
     Label
@@ -200,7 +200,7 @@ MainWindow
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      width: 46
+      width: 64
       height: 18
       text: 1
 
@@ -246,29 +246,31 @@ MainWindow
       anchors.top: affixSelector.bottom
       margin-left: 2
       margin-top: 6
-      text: Fail: 0.0%
+      text: Risk: 0.0% fail chance
 
     Label
       id: successChanceLabel
-      anchors.left: failChanceLabel.right
-      anchors.top: failChanceLabel.top
-      margin-left: 12
-      text: Success: 100.0%
+      anchors.left: parent.left
+      anchors.top: failChanceLabel.bottom
+      margin-left: 2
+      margin-top: 2
+      text: Upgrade success: 100.0%
 
     Label
       id: weightLabel
       anchors.left: parent.left
-      anchors.top: failChanceLabel.bottom
+      anchors.top: successChanceLabel.bottom
       margin-left: 2
-      margin-top: 3
-      text: Weight: x1.00
+      margin-top: 2
+      text: Chosen affix next roll: -
 
     Label
       id: targetAffixChanceLabel
-      anchors.left: weightLabel.right
-      anchors.top: weightLabel.top
-      margin-left: 12
-      text: Affix chance: -
+      anchors.left: parent.left
+      anchors.top: weightLabel.bottom
+      margin-left: 2
+      margin-top: 2
+      text: More fragments improve the chosen affix, but raise the fail risk.
 
   HorizontalSeparator
     id: statusSep
