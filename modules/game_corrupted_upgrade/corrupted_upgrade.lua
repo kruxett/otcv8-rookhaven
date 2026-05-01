@@ -22,6 +22,7 @@ local GOLD_COIN_ITEM_ID = 3031
 local PLATINUM_COIN_ITEM_ID = 3035
 local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
+local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
 local REQ_CARD_WIDTH = 66
 local REQ_CARD_SPACING = 8
@@ -127,6 +128,22 @@ local function isUsingCorrupted()
   return ui.optionalPanel ~= nil and ui.optionalPanel:isVisible()
 end
 
+local function refreshCorruptedFragmentIcon()
+  if not ui.corruptedFragmentIcon then
+    return
+  end
+
+  local iconId = tonumber(corruptedFragmentClientId) or CORRUPTED_FRAGMENT_ITEM_ID
+  if iconId <= 0 then
+    iconId = CORRUPTED_FRAGMENT_ITEM_ID
+  end
+
+  -- Force a redraw when opening/repopulating the window to avoid stale empty UIItem state.
+  ui.corruptedFragmentIcon:setItemId(0)
+  ui.corruptedFragmentIcon:setItemId(iconId)
+  ui.corruptedFragmentIcon:setTooltip('Corrupted Fragment')
+end
+
 local syncInvestLimitLabel
 local refreshRiskPreview
 local refreshOptionalWidgetState
@@ -149,6 +166,7 @@ local function toggleAffixPanelInternal()
     ui.optionalPanel:setHeight(OPTIONAL_PANEL_HEIGHT)
     ui.optionalPanel:setVisible(true)
     window:resize(currentSize.width, currentSize.height + OPTIONAL_PANEL_HEIGHT)
+    refreshCorruptedFragmentIcon()
     if ui.toggleAffixBoostButton then
       ui.toggleAffixBoostButton:setText('- Corrupted Affix Imbuement')
     end
@@ -805,6 +823,15 @@ local function populate(data)
     failConfig = data.failConfig
   end
 
+  local fragmentClientId = tonumber(data.fragmentClientId)
+    or tonumber(data.corruptedFragmentClientId)
+    or tonumber(data.fragmentItemId)
+    or 0
+  if fragmentClientId > 0 then
+    corruptedFragmentClientId = fragmentClientId
+  end
+  refreshCorruptedFragmentIcon()
+
   if ui.resourceLabel then
     ui.resourceLabel:setText(string.format('Your resources: %d Corrupted Fragment(s)  |  %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
@@ -885,10 +912,7 @@ local function ensureWindow()
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
   end
-  if ui.corruptedFragmentIcon then
-    ui.corruptedFragmentIcon:setItemId(CORRUPTED_FRAGMENT_ITEM_ID)
-    ui.corruptedFragmentIcon:setTooltip('Corrupted Fragment')
-  end
+  refreshCorruptedFragmentIcon()
   if ui.toggleAffixBoostButton then
     ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
   end

@@ -140,16 +140,24 @@ MainWindow
     height: 146
     visible: false
 
-    UIItem
-      id: corruptedFragmentIcon
+    Panel
+      id: corruptedFragmentSlot
       anchors.left: parent.left
       anchors.top: parent.top
       margin-top: 2
       margin-left: 2
-      size: 32 32
+      size: 34 34
+      image-source: /images/ui/item.png
+      border-width: 1
+      border-color: #5a5040
+
+    UIItem
+      id: corruptedFragmentIcon
+      anchors.fill: corruptedFragmentSlot
       virtual: true
       selectable: false
       draggable: false
+      border-width: 0
       phantom: true
 
     Label
@@ -259,25 +267,19 @@ MainWindow
     color: #d9d2bf
     text: Drop an item into the forge slot to begin.
 
-  HorizontalSeparator
-    anchors.top: statusLabel.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 2
-
   Panel
     id: controlsPanel
-    anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    height: 30
+    height: 34
     margin-bottom: 4
 
     Button
       id: acceptButton
       !text: tr('Upgrade')
-      width: 80
+      width: 100
+      anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.horizontalCenter
       margin-right: 6
       @onClick: modules.game_corrupted_upgrade.accept()
@@ -285,7 +287,14 @@ MainWindow
     Button
       id: declineButton
       !text: tr('Close')
-      width: 80
+      width: 100
+      anchors.verticalCenter: parent.verticalCenter
       anchors.left: parent.horizontalCenter
       margin-left: 6
       @onClick: modules.game_corrupted_upgrade.decline()
+
+  HorizontalSeparator
+    anchors.bottom: controlsPanel.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-bottom: 2
