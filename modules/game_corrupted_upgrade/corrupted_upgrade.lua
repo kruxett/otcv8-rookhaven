@@ -180,7 +180,7 @@ local function normalizeLabel(label)
   return string.upper(first) .. rest
 end
 
-local function truncateText(text, limit)
+truncateText = function(text, limit)
   local s = tostring(text or '')
   local maxLen = tonumber(limit) or 140
   if #s <= maxLen then
