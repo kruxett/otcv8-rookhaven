@@ -10,9 +10,9 @@ local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
-  minChance = 0.01,
-  maxChance = 0.22,
-  failExponent = 0.09,
+  minChance = 0.02,
+  maxChance = 0.40,
+  failExponent = 0.08,
   weightMaxBonus = 1.5,
   weightExponent = 0.12,
   maxInvest = 20,
@@ -87,6 +87,8 @@ local function bindWidgets()
   ui.successChanceLabel = findWidgetById(window, 'successChanceLabel')
   ui.weightLabel = findWidgetById(window, 'weightLabel')
   ui.targetAffixChanceLabel = findWidgetById(window, 'targetAffixChanceLabel')
+  ui.toggleAffixBoostButton = findWidgetById(window, 'toggleAffixBoostButton')
+  ui.optionalPanel = findWidgetById(window, 'optionalPanel')
 
   return ui.itemDropZone ~= nil and ui.itemPreview ~= nil and ui.statusLabel ~= nil
 end
@@ -115,6 +117,21 @@ local function formatGold(amount)
     return string.format('%dk', math.floor(n / 1000))
   else
     return tostring(n)
+  end
+end
+
+local function toggleAffixPanelInternal()
+  if not ui.optionalPanel then return end
+  local isVisible = ui.optionalPanel:isVisible()
+  ui.optionalPanel:setVisible(not isVisible)
+  
+  if ui.toggleAffixBoostButton then
+    if not isVisible then
+      ui.toggleAffixBoostButton:setText('- Hide Affix Boost')
+      syncInvestLimitLabel()
+    else
+      ui.toggleAffixBoostButton:setText('+ Enhance with Corrupted Fragments')
+    end
   end
 end
 
@@ -290,9 +307,14 @@ local function setInvestCount(v)
   value = math.floor(value)
 
   investSyncLock = true
-  ui.corruptedCountEdit:setText(tostring(value))
+  local textValue = tostring(value)
+  if ui.corruptedCountEdit:getText() ~= textValue then
+    ui.corruptedCountEdit:setText(textValue)
+  end
   if ui.corruptedCountSlider then
-    ui.corruptedCountSlider:setValue(value)
+    if ui.corruptedCountSlider:getValue() ~= value then
+      ui.corruptedCountSlider:setValue(value)
+    end
   end
   investSyncLock = false
 end
@@ -692,6 +714,12 @@ local function setupDropHandlers()
 end
 
 local function bindOptionalControls()
+  if ui.toggleAffixBoostButton then
+    ui.toggleAffixBoostButton.onClick = function(widget)
+      toggleAffixPanelInternal()
+    end
+  end
+
   if ui.useCorruptedBox then
     ui.useCorruptedBox.onCheckChange = function(widget, checked)
       refreshOptionalWidgetState()
@@ -944,4 +972,8 @@ function decline()
   entryByPath = {}
   pathsByClientId = {}
   pathsByItemId = {}
+end
+
+function toggleAffixPanel()
+  toggleAffixPanelInternal()
 end

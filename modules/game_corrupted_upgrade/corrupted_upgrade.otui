@@ -163,25 +163,28 @@ MainWindow
     anchors.right: parent.right
     margin-top: 4
 
-  Label
+  Button
+    id: toggleAffixBoostButton
     anchors.top: optSep.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-top: 4
     margin-left: 10
-    height: 14
-    text: Affix Boost
-    color: #e1d3a1
+    margin-right: 10
+    height: 20
+    text: + Enhance with Corrupted Fragments
+    @onClick: modules.game_corrupted_upgrade.toggleAffixPanel()
 
   Panel
     id: optionalPanel
-    anchors.top: prev.bottom
+    anchors.top: toggleAffixBoostButton.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-left: 10
     margin-right: 10
     margin-top: 3
     height: 135
+    visible: false
 
     CheckBox
       id: useCorruptedBox
@@ -232,7 +235,7 @@ MainWindow
       anchors.top: corruptedCountSlider.bottom
       margin-left: 2
       margin-top: 8
-      text: Weighted affix:
+      text: Target affix:
 
     ComboBox
       id: affixSelector
