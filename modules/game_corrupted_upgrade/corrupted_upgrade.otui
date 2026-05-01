@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
-  !text: tr('Corrupted Upgrade')
-  size: 390 292
+  !text: tr('Forging Upgrade')
+  size: 430 420
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -10,7 +10,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
-    text: Corrupted forge infusion
+    text: Samwell Upgrade Forge
     color: #b57ae0
     margin-top: 2
     height: 18
@@ -29,7 +29,7 @@ MainWindow
     margin-top: 6
     margin-left: 8
     margin-right: 8
-    text: Cost: 1 Corrupted Fragment + 1000 gold
+    text: Requirements: -
 
   Label
     id: resourceLabel
@@ -42,11 +42,22 @@ MainWindow
     text: Your resources: -
 
   Label
+    id: tierFlowLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    margin-left: 8
+    margin-right: 8
+    text: Path: Common -> Rare -> Epic -> Legendary
+    color: #b8a8cf
+
+  Label
     id: slotHintLabel
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 8
+    margin-top: 6
     margin-left: 8
     margin-right: 8
     text: Drag the item you want to upgrade into the slot below.
@@ -120,12 +131,121 @@ MainWindow
       color: #9b9b9b
       visible: false
 
+    Label
+      id: tierLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: selectedPathLabel.bottom
+      margin-top: 2
+      text: Tier: -
+
+    Label
+      id: rollsLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: tierLabel.bottom
+      margin-top: 2
+      text: New rolls this upgrade: -
+
+    Label
+      id: reqHeaderLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: rollsLabel.bottom
+      margin-top: 2
+      text: Upgrade requirements:
+      color: #cfc4df
+
+    Label
+      id: reqListLabel
+      anchors.left: itemNameLabel.left
+      anchors.right: itemNameLabel.right
+      anchors.top: reqHeaderLabel.bottom
+      margin-top: 2
+      height: 40
+      text-wrap: true
+      text: -
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: optionalPanel.top
+    margin-left: 8
+    margin-right: 8
+    margin-bottom: 6
+
+  Panel
+    id: optionalPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: statusLabel.top
+    margin-left: 8
+    margin-right: 8
+    margin-bottom: 6
+    height: 86
+
+    CheckBox
+      id: useCorruptedBox
+      anchors.left: parent.left
+      anchors.top: parent.top
+      margin-left: 2
+      margin-top: 2
+      text: Use Corrupted Fragments for weighting (optional)
+
+    Label
+      id: corruptedCountLabel
+      anchors.left: parent.left
+      anchors.top: useCorruptedBox.bottom
+      margin-top: 4
+      margin-left: 2
+      text: Fragment count:
+
+    TextEdit
+      id: corruptedCountEdit
+      anchors.left: corruptedCountLabel.right
+      anchors.top: corruptedCountLabel.top
+      margin-left: 6
+      width: 52
+      height: 18
+      text: 1
+
+    Label
+      id: affixTargetLabel
+      anchors.left: corruptedCountEdit.right
+      anchors.top: corruptedCountLabel.top
+      margin-left: 10
+      text: Weighted affix:
+
+    ComboBox
+      id: affixSelector
+      anchors.left: affixTargetLabel.right
+      anchors.right: parent.right
+      anchors.top: corruptedCountLabel.top
+      margin-left: 6
+      margin-right: 2
+      height: 18
+
+    Label
+      id: failChanceLabel
+      anchors.left: parent.left
+      anchors.top: corruptedCountLabel.bottom
+      margin-left: 2
+      margin-top: 5
+      text: Fail chance: 0.0%
+
+    Label
+      id: weightLabel
+      anchors.left: failChanceLabel.right
+      anchors.top: failChanceLabel.top
+      margin-left: 14
+      text: Weight multiplier: x1.00
+
   Label
     id: statusLabel
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: controlsPanel.top
-    margin-bottom: 8
+    margin-bottom: 6
     margin-left: 8
     margin-right: 8
     height: 28
@@ -137,7 +257,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: statusLabel.top
-    margin-bottom: 4
+    margin-bottom: 3
 
   Panel
     id: controlsPanel

@@ -1,6 +1,4 @@
-local CORRUPTED_UPGRADE_OPCODE = 93
-
-local DEBUG_DROP = false
+local FORGING_UPGRADE_OPCODE = 93
 
 local window = nil
 local ui = {}
@@ -11,10 +9,18 @@ local selectedItem = nil
 local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
+local failConfig = {
+  minChance = 0.04,
+  maxChance = 0.70,
+  failExponent = 0.11,
+  weightMaxBonus = 3.2,
+  weightExponent = 0.08,
+  maxInvest = 100000,
+}
 
 local updatePreview
 local stopDragMonitor
-local FORCE_RARE_FRAME_PATH = '/images/ui/rarity_blue'
+local destroyWindow
 
 local lastDraggedItem = nil
 local wasDragging = false
@@ -60,105 +66,23 @@ local function bindWidgets()
   ui.bonusPreviewLabel = findWidgetById(window, 'bonusPreviewLabel')
   ui.selectedPathLabel = findWidgetById(window, 'selectedPathLabel')
 
+  ui.tierLabel = findWidgetById(window, 'tierLabel')
+  ui.rollsLabel = findWidgetById(window, 'rollsLabel')
+  ui.reqListLabel = findWidgetById(window, 'reqListLabel')
+
+  ui.useCorruptedBox = findWidgetById(window, 'useCorruptedBox')
+  ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
+  ui.affixSelector = findWidgetById(window, 'affixSelector')
+  ui.failChanceLabel = findWidgetById(window, 'failChanceLabel')
+  ui.weightLabel = findWidgetById(window, 'weightLabel')
+
   return ui.itemDropZone ~= nil and ui.itemPreview ~= nil and ui.statusLabel ~= nil
 end
 
 local function protocolSend(payload)
   local protocol = g_game.getProtocolGame()
   if protocol then
-    protocol:sendExtendedOpcode(CORRUPTED_UPGRADE_OPCODE, json.encode(payload))
-  end
-end
-
-local function applyPreviewRarityFrame(item)
-  if not ui.itemPreview then
-    return
-  end
-
-  local framePath = nil
-  if _G.affixSystem and item then
-    framePath = _G.affixSystem.getRarityFrame(item)
-  end
-
-  ui.itemPreview:setImageSource(framePath or '/images/ui/item')
-end
-
-local function refreshItemVisuals()
-  if modules and modules.game_inventory and modules.game_inventory.refresh then
-    modules.game_inventory.refresh()
-  end
-
-  if modules and modules.game_containers and modules.game_containers.reloadContainers then
-    modules.game_containers.reloadContainers()
-  end
-
-  if selectedItem and ui.itemPreview then
-    applyPreviewRarityFrame(selectedItem)
-    if selectedPath then
-      updatePreview(selectedPath)
-    end
-  end
-end
-
-local function destroyWindow()
-  stopDragMonitor()
-
-  if window then
-    window:destroy()
-    window = nil
-  end
-
-  ui = {}
-  selectedPath = nil
-  selectedItem = nil
-  entryByPath = {}
-  pathsByClientId = {}
-  pathsByItemId = {}
-end
-
-local function getSelectedInventorySlot()
-  if type(selectedPath) ~= 'string' or selectedPath == '' then
-    return nil
-  end
-
-  local slotToken = selectedPath:match('^(%d+):') or selectedPath:match('^(%d+)$')
-  local slot = tonumber(slotToken)
-  if not slot then
-    return nil
-  end
-
-  local chain = selectedPath:match('^%d+:(.*)$') or ''
-  if chain ~= '' then
-    return nil
-  end
-
-  return slot
-end
-
-local function applyImmediateRareFrame()
-  if ui.itemPreview then
-    ui.itemPreview:setImageSource(FORCE_RARE_FRAME_PATH)
-    if selectedItem then
-      ui.itemPreview:setItem(selectedItem)
-    end
-  end
-
-  local slot = getSelectedInventorySlot()
-  if not slot then
-    return
-  end
-
-  if inventoryPanel then
-    local itemWidget = inventoryPanel:getChildById('slot' .. slot)
-    if itemWidget then
-      itemWidget:setImageSource(FORCE_RARE_FRAME_PATH)
-
-      local localPlayer = g_game and g_game.getLocalPlayer and g_game.getLocalPlayer() or nil
-      local equippedItem = localPlayer and localPlayer.getInventoryItem and localPlayer:getInventoryItem(slot) or nil
-      if equippedItem then
-        itemWidget:setItem(equippedItem)
-      end
-    end
+    protocol:sendExtendedOpcode(FORGING_UPGRADE_OPCODE, json.encode(payload))
   end
 end
 
@@ -171,21 +95,74 @@ local function setStatus(text, color)
   ui.statusLabel:setColor(color or '#d6c9e8')
 end
 
-local function debugDrop(msg)
-  if not DEBUG_DROP then
+local function getInvestCount()
+  if not ui.corruptedCountEdit then
+    return 0
+  end
+
+  local raw = tonumber(ui.corruptedCountEdit:getText() or '0') or 0
+  if raw < 0 then
+    raw = 0
+  end
+  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  if raw > maxInvest then
+    raw = maxInvest
+  end
+  return math.floor(raw)
+end
+
+local function setInvestCount(v)
+  if not ui.corruptedCountEdit then
     return
   end
 
-  local text = '[CorruptedUpgradeUI] ' .. tostring(msg)
-  print(text)
-
-  if g_logger and g_logger.info then
-    g_logger.info(text)
+  local value = tonumber(v) or 0
+  if value < 0 then
+    value = 0
   end
+  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  if value > maxInvest then
+    value = maxInvest
+  end
+  ui.corruptedCountEdit:setText(tostring(math.floor(value)))
 end
 
-local function syncDebugUi()
-  return
+local function getSelectedAffixId()
+  if not ui.affixSelector then
+    return 0
+  end
+
+  local option = ui.affixSelector:getCurrentOption()
+  if not option or option.data == nil then
+    return 0
+  end
+
+  return tonumber(option.data) or 0
+end
+
+local function refreshRiskPreview()
+  if not ui.failChanceLabel or not ui.weightLabel then
+    return
+  end
+
+  local useCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+  local invest = useCorrupted and getInvestCount() or 0
+
+  local failChance = 0
+  local weight = 1.0
+  if invest > 0 then
+    local minC = tonumber(failConfig.minChance) or 0.04
+    local maxC = tonumber(failConfig.maxChance) or 0.70
+    local kFail = tonumber(failConfig.failExponent) or 0.11
+    local maxBonus = tonumber(failConfig.weightMaxBonus) or 3.2
+    local kWeight = tonumber(failConfig.weightExponent) or 0.08
+
+    failChance = minC + (maxC - minC) * (1 - math.exp(-kFail * invest))
+    weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
+  end
+
+  ui.failChanceLabel:setText(string.format('Fail chance: %.1f%%', failChance * 100))
+  ui.weightLabel:setText(string.format('Weight multiplier: x%.2f', weight))
 end
 
 local function clearSelection()
@@ -199,6 +176,15 @@ local function clearSelection()
   if ui.itemNameLabel then ui.itemNameLabel:setText('No item selected') end
   if ui.itemTypeLabel then ui.itemTypeLabel:setText('Type: -') end
   if ui.bonusPreviewLabel then ui.bonusPreviewLabel:setText('Upgrade: -') end
+  if ui.tierLabel then ui.tierLabel:setText('Tier: -') end
+  if ui.rollsLabel then ui.rollsLabel:setText('New rolls this upgrade: -') end
+  if ui.reqListLabel then ui.reqListLabel:setText('-') end
+
+  if ui.affixSelector then
+    ui.affixSelector:clearOptions()
+  end
+
+  refreshRiskPreview()
 end
 
 updatePreview = function(path)
@@ -209,7 +195,7 @@ updatePreview = function(path)
   end
 
   if ui.itemPreview then
-    applyPreviewRarityFrame(selectedItem)
+    ui.itemPreview:setImageSource('/images/ui/item')
     ui.itemPreview:setItemId(tonumber(entry.clientId) or tonumber(entry.itemId) or 0)
   end
 
@@ -226,6 +212,8 @@ updatePreview = function(path)
       typeText = 'Shield'
     elseif kind == 'amulet' then
       typeText = 'Amulet'
+    elseif kind == 'boots' then
+      typeText = 'Boots'
     end
     ui.itemTypeLabel:setText('Type: ' .. typeText)
   end
@@ -234,6 +222,28 @@ updatePreview = function(path)
     ui.bonusPreviewLabel:setText('Upgrade: ' .. (entry.preview or '-'))
   end
 
+  if ui.tierLabel then
+    ui.tierLabel:setText(string.format('Tier: %s -> %s', entry.currentTierLabel or 'Common', entry.nextTierLabel or 'Max'))
+  end
+
+  if ui.rollsLabel then
+    ui.rollsLabel:setText(string.format('New rolls this upgrade: %d', tonumber(entry.rollsToAdd) or 0))
+  end
+
+  if ui.reqListLabel then
+    ui.reqListLabel:setText(entry.requirementSummary or '-')
+  end
+
+  if ui.affixSelector then
+    ui.affixSelector:clearOptions()
+    local options = entry.affixOptions or {}
+    for i = 1, #options do
+      local opt = options[i]
+      ui.affixSelector:addOption(opt.name or ('Affix ' .. tostring(opt.id)), tonumber(opt.id) or 0)
+    end
+  end
+
+  refreshRiskPreview()
 end
 
 local function resolveItemFromWidget(w)
@@ -259,7 +269,6 @@ end
 local function trySelectItem(item)
   if not item or not item.isItem or not item:isItem() then
     setStatus('Drop an inventory item here.', '#d26b6b')
-    debugDrop('trySelectItem: no item payload')
     return false
   end
 
@@ -270,8 +279,7 @@ local function trySelectItem(item)
   end
 
   if not candidates or #candidates == 0 then
-    setStatus('That item is not eligible for corrupted upgrade.', '#d26b6b')
-    debugDrop('trySelectItem: no candidates for id=' .. tostring(draggedId))
+    setStatus('That item is not eligible for forging upgrade.', '#d26b6b')
     return false
   end
 
@@ -279,7 +287,6 @@ local function trySelectItem(item)
   local chosenEntry = entryByPath[chosenPath]
   if not chosenEntry then
     setStatus('Failed to resolve selected item.', '#d26b6b')
-    debugDrop('trySelectItem: entry missing for path=' .. tostring(chosenPath))
     return false
   end
 
@@ -291,7 +298,6 @@ local function trySelectItem(item)
 
   selectedItem = item
   updatePreview(chosenPath)
-  debugDrop('trySelectItem: selected path=' .. tostring(chosenPath) .. ' id=' .. tostring(draggedId))
   return true
 end
 
@@ -326,7 +332,6 @@ local function startDragMonitor()
         wasDragging = true
       elseif wasDragging then
         if lastDraggedItem and overSlot then
-          debugDrop('drag monitor: release over slot detected')
           trySelectItem(lastDraggedItem)
         end
         wasDragging = false
@@ -335,7 +340,7 @@ local function startDragMonitor()
     end)
 
     if not ok then
-      debugDrop('drag monitor: runtime error')
+      -- ignore
     end
 
     if window then
@@ -348,26 +353,22 @@ end
 
 local function setupDropHandlers()
   if not ui.itemDropZone then
-    debugDrop('setupDropHandlers: missing itemDropZone')
     return
   end
 
   ui.itemDropZone.onDragEnter = function(self, mousePos)
     self:setBorderWidth(1)
     setStatus('Release to select this item for upgrade.')
-    debugDrop('itemDropZone.onDragEnter')
     return true
   end
 
   ui.itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
-    debugDrop('itemDropZone.onDragLeave')
     return true
   end
 
   ui.itemDropZone.onDrop = function(self, droppedWidget, mousePos)
     self:setBorderWidth(0)
-    debugDrop('itemDropZone.onDrop')
     local item = resolveItemFromWidget(droppedWidget)
     return trySelectItem(item)
   end
@@ -375,7 +376,6 @@ local function setupDropHandlers()
   if ui.previewPanel then
     ui.previewPanel.onDrop = function(self, droppedWidget, mousePos)
       if ui.itemDropZone then ui.itemDropZone:setBorderWidth(0) end
-      debugDrop('previewPanel.onDrop fallback')
       local item = resolveItemFromWidget(droppedWidget)
       return trySelectItem(item)
     end
@@ -385,14 +385,12 @@ local function setupDropHandlers()
     if mouseButton == MouseRightButton then
       clearSelection()
       setStatus('Selection cleared. Drag an item into the slot.')
-      debugDrop('itemDropZone.onMouseRelease right-click clear')
       return true
     end
 
     if mouseButton == MouseLeftButton then
       local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
       if draggingWidget then
-        debugDrop('itemDropZone.onMouseRelease left fallback')
         local item = resolveItemFromWidget(draggingWidget)
         if trySelectItem(item) then
           return true
@@ -404,20 +402,56 @@ local function setupDropHandlers()
   end
 end
 
+local function bindOptionalControls()
+  if ui.useCorruptedBox then
+    ui.useCorruptedBox.onCheckChange = function(widget, checked)
+      if ui.corruptedCountEdit then
+        ui.corruptedCountEdit:setEnabled(checked)
+      end
+      if ui.affixSelector then
+        ui.affixSelector:setEnabled(checked)
+      end
+      refreshRiskPreview()
+    end
+  end
+
+  if ui.corruptedCountEdit then
+    ui.corruptedCountEdit.onTextChange = function(widget, text)
+      setInvestCount(tonumber(text) or 0)
+      refreshRiskPreview()
+    end
+  end
+
+  if ui.affixSelector then
+    ui.affixSelector.onOptionChange = function(widget, text, data)
+      refreshRiskPreview()
+    end
+  end
+end
+
 local function populate(data)
   entryByPath = {}
   pathsByClientId = {}
   pathsByItemId = {}
 
+  if type(data.failConfig) == 'table' then
+    failConfig = data.failConfig
+  end
+
   if ui.costsLabel then
-    ui.costsLabel:setText(string.format('Cost: 1 Corrupted Fragment + %d gold', tonumber(data.costGold) or 1000))
+    ui.costsLabel:setText('Requirements: depends on selected tier step')
   end
 
   if ui.resourceLabel then
-    ui.resourceLabel:setText(string.format('Your resources: %d fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
+    ui.resourceLabel:setText(string.format('Your resources: %d corrupted fragment(s), %d gold', tonumber(data.fragmentCount) or 0, tonumber(data.gold) or 0))
   end
 
   clearSelection()
+
+  if ui.useCorruptedBox then
+    ui.useCorruptedBox:setChecked(false)
+  end
+  setInvestCount(1)
 
   for _, entry in ipairs(data.items or {}) do
     if entry.path then
@@ -440,11 +474,11 @@ local function populate(data)
 
   if next(entryByPath) then
     setStatus('Drag an item into the slot, then press Upgrade.')
-    debugDrop('populate: loaded eligible items=' .. tostring(#(data.items or {})))
   else
     setStatus('No eligible items found in inventory.', '#d26b6b')
-    debugDrop('populate: no eligible items')
   end
+
+  refreshRiskPreview()
 end
 
 local function ensureWindow()
@@ -456,7 +490,6 @@ local function ensureWindow()
   window:setDraggable(false)
   window.static = true
   window.onDragEnter = function(self, mousePos)
-    -- Important: do not let the window consume drag events from items.
     return false
   end
 
@@ -464,9 +497,16 @@ local function ensureWindow()
     print('[CorruptedUpgradeUI] Failed to bind required widgets')
   end
 
-  syncDebugUi()
+  bindOptionalControls()
   setupDropHandlers()
   startDragMonitor()
+
+  if ui.corruptedCountEdit then
+    ui.corruptedCountEdit:setEnabled(false)
+  end
+  if ui.affixSelector then
+    ui.affixSelector:setEnabled(false)
+  end
 
   return window
 end
@@ -486,18 +526,20 @@ local function onOpcode(protocol, opcode, buffer)
     win:show()
     win:raise()
     win:focus()
-    debugDrop('window opened')
     return
   end
 
   if data.action == 'result' then
     if data.success then
       setStatus(data.message or 'Upgrade successful.', '#7fd992')
-      applyImmediateRareFrame()
       scheduleEvent(function()
-        refreshItemVisuals()
+        if modules and modules.game_inventory and modules.game_inventory.refresh then
+          modules.game_inventory.refresh()
+        end
+        if modules and modules.game_containers and modules.game_containers.reloadContainers then
+          modules.game_containers.reloadContainers()
+        end
       end, 150)
-      scheduleEvent(refreshItemVisuals, 400)
       protocolSend({ action = 'refresh' })
     else
       setStatus(data.message or 'Upgrade failed.', '#d26b6b')
@@ -506,17 +548,31 @@ local function onOpcode(protocol, opcode, buffer)
 end
 
 function init()
+  destroyWindow = function()
+    if window then
+      window:destroy()
+      window = nil
+    end
+    ui = {}
+    selectedPath = nil
+    selectedItem = nil
+    entryByPath = {}
+    pathsByClientId = {}
+    pathsByItemId = {}
+    stopDragMonitor()
+  end
+
   connect(g_game, {
     onGameEnd = destroyWindow,
   })
-  ProtocolGame.registerExtendedOpcode(CORRUPTED_UPGRADE_OPCODE, onOpcode)
+  ProtocolGame.registerExtendedOpcode(FORGING_UPGRADE_OPCODE, onOpcode)
 end
 
 function terminate()
   disconnect(g_game, {
     onGameEnd = destroyWindow,
   })
-  ProtocolGame.unregisterExtendedOpcode(CORRUPTED_UPGRADE_OPCODE)
+  ProtocolGame.unregisterExtendedOpcode(FORGING_UPGRADE_OPCODE)
   destroyWindow()
 end
 
@@ -530,19 +586,37 @@ function accept()
     return
   end
 
-  protocolSend({ action = 'confirm', path = selectedPath })
+  local useCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+  local invest = useCorrupted and getInvestCount() or 0
+  local selectedAffixId = useCorrupted and getSelectedAffixId() or 0
+
+  if invest > 0 and selectedAffixId <= 0 then
+    setStatus('Pick one affix when using Corrupted Fragments.', '#d26b6b')
+    return
+  end
+
+  protocolSend({
+    action = 'confirm',
+    path = selectedPath,
+    corruptedInvestCount = invest,
+    selectedAffixId = selectedAffixId,
+  })
 end
 
 function refresh()
   protocolSend({ action = 'refresh' })
 end
 
-function toggleDebug()
-  DEBUG_DROP = not DEBUG_DROP
-  syncDebugUi()
-  debugDrop('Debug toggled to ' .. (DEBUG_DROP and 'ON' or 'OFF'))
-end
-
 function decline()
-  destroyWindow()
+  stopDragMonitor()
+  if window then
+    window:destroy()
+    window = nil
+  end
+  ui = {}
+  selectedPath = nil
+  selectedItem = nil
+  entryByPath = {}
+  pathsByClientId = {}
+  pathsByItemId = {}
 end
