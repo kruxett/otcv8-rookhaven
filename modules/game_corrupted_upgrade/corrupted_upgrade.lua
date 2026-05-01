@@ -124,6 +124,7 @@ local function isUsingCorrupted()
   return ui.optionalPanel ~= nil and ui.optionalPanel:isVisible()
 end
 
+local syncInvestLimitLabel
 local refreshRiskPreview
 local refreshOptionalWidgetState
 
@@ -287,7 +288,7 @@ local function getInvestCap()
   return math.floor(cap)
 end
 
-local function syncInvestLimitLabel()
+syncInvestLimitLabel = function()
   if not ui.corruptedCountLimitLabel then
     return
   end
@@ -856,8 +857,23 @@ local function ensureWindow()
   setupDropHandlers()
   startDragMonitor()
 
+  if ui.optionalPanel then
+    ui.optionalPanel:setVisible(false)
+    ui.optionalPanel:setHeight(0)
+  end
+  if ui.toggleAffixBoostButton then
+    ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
+  end
+  local initialSize = window:getSize()
+  if initialSize and initialSize.height > 130 then
+    window:resize(initialSize.width, initialSize.height - 130)
+  end
+
   if ui.corruptedCountEdit then
     ui.corruptedCountEdit:setEnabled(false)
+  end
+  if ui.corruptedCountSlider then
+    ui.corruptedCountSlider:setEnabled(false)
   end
   if ui.affixSelector then
     ui.affixSelector:setEnabled(false)
