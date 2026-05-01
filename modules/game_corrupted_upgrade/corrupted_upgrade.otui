@@ -217,11 +217,9 @@ MainWindow
 
     HorizontalScrollBar
       id: corruptedCountSlider
-      anchors.left: parent.left
-      anchors.right: parent.right
+      anchors.left: corruptedCountEdit.left
       anchors.top: corruptedCountEdit.bottom
-      margin-left: 2
-      margin-right: 2
+      width: 120
       margin-top: 4
       minimum: 0
       maximum: 0

@@ -10,12 +10,12 @@ local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
-  minChance = 0.04,
-  maxChance = 0.70,
-  failExponent = 0.11,
-  weightMaxBonus = 3.2,
-  weightExponent = 0.08,
-  maxInvest = 100000,
+  minChance = 0.01,
+  maxChance = 0.22,
+  failExponent = 0.09,
+  weightMaxBonus = 1.5,
+  weightExponent = 0.12,
+  maxInvest = 20,
 }
 
 local GOLD_COIN_ITEM_ID = 3031
@@ -186,8 +186,8 @@ local function buildRequirementWidgets(entry)
     local displayNeed = need
     if divisor > 1 then
       iconNeedCount = math.ceil(need / divisor)
-      displayHave = have / divisor
-      displayNeed = need / divisor
+      displayHave = math.floor(have / divisor)
+      displayNeed = math.ceil(need / divisor)
     end
 
     local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
@@ -239,7 +239,7 @@ truncateText = function(text, limit)
 end
 
 local function getInvestCap()
-  local maxInvest = tonumber(failConfig.maxInvest) or 100000
+  local maxInvest = tonumber(failConfig.maxInvest) or 20
   local cap = tonumber(availableCorruptedFragments) or 0
   if cap < 0 then
     cap = 0
@@ -304,6 +304,7 @@ local function syncInvestBoundsAndValue(defaultValue)
     ui.corruptedCountSlider:setMinimum(0)
     ui.corruptedCountSlider:setMaximum(cap)
     ui.corruptedCountSlider:setStep(1)
+    ui.corruptedCountSlider:setVisible(cap > 1)
   end
 
   syncInvestLimitLabel()
@@ -375,11 +376,11 @@ local function refreshRiskPreview()
   local failChance = 0
   local weight = 1.0
   if invest > 0 then
-    local minC = tonumber(failConfig.minChance) or 0.04
-    local maxC = tonumber(failConfig.maxChance) or 0.70
-    local kFail = tonumber(failConfig.failExponent) or 0.11
-    local maxBonus = tonumber(failConfig.weightMaxBonus) or 3.2
-    local kWeight = tonumber(failConfig.weightExponent) or 0.08
+    local minC = tonumber(failConfig.minChance) or 0.01
+    local maxC = tonumber(failConfig.maxChance) or 0.22
+    local kFail = tonumber(failConfig.failExponent) or 0.09
+    local maxBonus = tonumber(failConfig.weightMaxBonus) or 1.5
+    local kWeight = tonumber(failConfig.weightExponent) or 0.12
 
     failChance = minC + (maxC - minC) * (1 - math.exp(-kFail * invest))
     weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
@@ -398,7 +399,7 @@ local function refreshRiskPreview()
     if baseChance and weightedChance then
       ui.targetAffixChanceLabel:setText(string.format('Target affix chance (next roll): %.1f%% -> %.1f%%', baseChance * 100, weightedChance * 100))
     else
-      ui.targetAffixChanceLabel:setText('Target affix chance (next roll): -')
+      ui.targetAffixChanceLabel:setText('Target affix chance (next roll): N/A')
     end
   end
 end
