@@ -165,6 +165,45 @@ local function refreshRiskPreview()
   ui.weightLabel:setText(string.format('Weight multiplier: x%.2f', weight))
 end
 
+local function refreshOptionalWidgetState()
+  local checked = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+
+  if ui.corruptedCountEdit then
+    ui.corruptedCountEdit:setEnabled(checked)
+  end
+
+  if ui.affixSelector then
+    local canUseSelector = checked and selectedPath ~= nil and ui.affixSelector:getOptionsCount() > 0
+    ui.affixSelector:setEnabled(canUseSelector)
+  end
+end
+
+local function formatRequirements(entry)
+  if not entry then
+    return '-'
+  end
+
+  local lines = {}
+  local reqs = entry.requirements or {}
+  for i = 1, #reqs do
+    local req = reqs[i]
+    local have = tonumber(req.have) or 0
+    local need = tonumber(req.required) or 0
+    local label = req.label or ('Item ' .. tostring(req.itemId or 0))
+    lines[#lines + 1] = string.format('%s: %d/%d', label, have, need)
+  end
+
+  local goldHave = tonumber(entry.goldHave) or 0
+  local goldNeed = tonumber(entry.goldRequired) or 0
+  lines[#lines + 1] = string.format('Gold: %d/%d', goldHave, goldNeed)
+
+  if #lines == 0 then
+    return '-'
+  end
+
+  return table.concat(lines, '\n')
+end
+
 local function clearSelection()
   selectedPath = nil
   selectedItem = nil
@@ -184,6 +223,11 @@ local function clearSelection()
     ui.affixSelector:clearOptions()
   end
 
+  if ui.costsLabel then
+    ui.costsLabel:setText('Requirements: select an item to view exact materials')
+  end
+
+  refreshOptionalWidgetState()
   refreshRiskPreview()
 end
 
@@ -231,7 +275,11 @@ updatePreview = function(path)
   end
 
   if ui.reqListLabel then
-    ui.reqListLabel:setText(entry.requirementSummary or '-')
+    ui.reqListLabel:setText(formatRequirements(entry))
+  end
+
+  if ui.costsLabel then
+    ui.costsLabel:setText('Requirements: ' .. (entry.requirementSummary or '-'))
   end
 
   if ui.affixSelector then
@@ -243,6 +291,7 @@ updatePreview = function(path)
     end
   end
 
+  refreshOptionalWidgetState()
   refreshRiskPreview()
 end
 
@@ -357,18 +406,24 @@ local function setupDropHandlers()
   end
 
   ui.itemDropZone.onDragEnter = function(self, mousePos)
-    self:setBorderWidth(1)
+    if self then
+      self:setBorderWidth(1)
+    end
     setStatus('Release to select this item for upgrade.')
     return true
   end
 
   ui.itemDropZone.onDragLeave = function(self, droppedWidget, mousePos)
-    self:setBorderWidth(0)
+    if self then
+      self:setBorderWidth(0)
+    end
     return true
   end
 
   ui.itemDropZone.onDrop = function(self, droppedWidget, mousePos)
-    self:setBorderWidth(0)
+    if self then
+      self:setBorderWidth(0)
+    end
     local item = resolveItemFromWidget(droppedWidget)
     return trySelectItem(item)
   end
@@ -405,12 +460,7 @@ end
 local function bindOptionalControls()
   if ui.useCorruptedBox then
     ui.useCorruptedBox.onCheckChange = function(widget, checked)
-      if ui.corruptedCountEdit then
-        ui.corruptedCountEdit:setEnabled(checked)
-      end
-      if ui.affixSelector then
-        ui.affixSelector:setEnabled(checked)
-      end
+      refreshOptionalWidgetState()
       refreshRiskPreview()
     end
   end
@@ -439,7 +489,7 @@ local function populate(data)
   end
 
   if ui.costsLabel then
-    ui.costsLabel:setText('Requirements: depends on selected tier step')
+    ui.costsLabel:setText('Requirements: select an item to view exact materials')
   end
 
   if ui.resourceLabel then
@@ -452,6 +502,7 @@ local function populate(data)
     ui.useCorruptedBox:setChecked(false)
   end
   setInvestCount(1)
+  refreshOptionalWidgetState()
 
   for _, entry in ipairs(data.items or {}) do
     if entry.path then
@@ -507,6 +558,7 @@ local function ensureWindow()
   if ui.affixSelector then
     ui.affixSelector:setEnabled(false)
   end
+  refreshOptionalWidgetState()
 
   return window
 end

@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Upgrade')
-  size: 430 420
+  size: 440 470
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -67,9 +67,9 @@ MainWindow
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: statusLabel.top
+    anchors.bottom: optionalPanel.top
     margin-top: 6
-    margin-bottom: 8
+    margin-bottom: 6
     margin-left: 8
     margin-right: 8
 
@@ -162,7 +162,7 @@ MainWindow
       anchors.right: itemNameLabel.right
       anchors.top: reqHeaderLabel.bottom
       margin-top: 2
-      height: 40
+      height: 82
       text-wrap: true
       text: -
 
@@ -182,7 +182,7 @@ MainWindow
     margin-left: 8
     margin-right: 8
     margin-bottom: 6
-    height: 86
+    height: 94
 
     CheckBox
       id: useCorruptedBox
@@ -248,7 +248,7 @@ MainWindow
     margin-bottom: 6
     margin-left: 8
     margin-right: 8
-    height: 28
+    height: 32
     text-wrap: true
     color: #d6c9e8
     text: Drag an item into the slot, then press Upgrade.
