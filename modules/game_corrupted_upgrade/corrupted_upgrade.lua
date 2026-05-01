@@ -38,6 +38,7 @@ local availableCorruptedFragments = 0
 local investSyncLock = false
 local pendingStatusText = nil
 local pendingStatusColor = nil
+local detailsRequestPending = {}
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -102,6 +103,16 @@ local function protocolSend(payload)
   if protocol then
     protocol:sendExtendedOpcode(FORGING_UPGRADE_OPCODE, json.encode(payload))
   end
+end
+
+local function requestEntryDetails(path)
+  local key = tostring(path or '')
+  if key == '' or detailsRequestPending[key] then
+    return
+  end
+
+  detailsRequestPending[key] = true
+  protocolSend({ action = 'details', path = key })
 end
 
 local function setStatus(text, color)
@@ -578,7 +589,8 @@ refreshOptionalWidgetState = function()
   end
 
   if ui.affixSelector then
-    local canUseSelector = active and selectedPath ~= nil and ui.affixSelector:getOptionsCount() > 0
+    local entry = selectedPath and entryByPath[selectedPath] or nil
+    local canUseSelector = active and entry ~= nil and entry.detailsLoaded == true and ui.affixSelector:getOptionsCount() > 0
     ui.affixSelector:setEnabled(canUseSelector)
   end
 end
@@ -671,6 +683,21 @@ updatePreview = function(path)
     local rolls = tonumber(entry.rollsToAdd) or 0
     local rollText = rolls == 1 and '+1 new affix roll' or ('+' .. rolls .. ' new affix rolls')
     ui.rollsLabel:setText(rollText)
+  end
+
+  if entry.detailsLoaded ~= true then
+    clearRequirementWidgets()
+
+    if ui.affixSelector then
+      ui.affixSelector:clearOptions()
+      ui.affixSelector:addOption('Loading item details...', 0)
+    end
+
+    setStatus('Loading item details...')
+    refreshOptionalWidgetState()
+    refreshRiskPreview()
+    requestEntryDetails(path)
+    return
   end
 
   buildRequirementWidgets(entry)
@@ -895,6 +922,7 @@ local function populate(data)
   entryByPath = {}
   pathsByClientId = {}
   pathsByItemId = {}
+  detailsRequestPending = {}
 
   if type(data.failConfig) == 'table' then
     failConfig = data.failConfig
@@ -1030,6 +1058,36 @@ local function onOpcode(protocol, opcode, buffer)
     return
   end
 
+  if data.action == 'details' then
+    local path = tostring(data.path or '')
+    detailsRequestPending[path] = nil
+
+    if data.success == false then
+      setStatus(data.message or 'Failed to load item details.', '#d26b6b')
+      return
+    end
+
+    local entry = data.entry
+    if type(entry) == 'table' and entry.path then
+      local merged = entryByPath[entry.path] or {}
+      for key, value in pairs(entry) do
+        merged[key] = value
+      end
+      merged.detailsLoaded = true
+      entryByPath[entry.path] = merged
+    end
+
+    availableCorruptedFragments = tonumber(data.fragmentCount) or availableCorruptedFragments
+    if ui.resourceLabel then
+      ui.resourceLabel:setText(string.format('Your resources: %d Corrupted Fragment(s)  |  %d gold', availableCorruptedFragments, tonumber(data.gold) or 0))
+    end
+
+    if selectedPath and entryByPath[selectedPath] and entryByPath[selectedPath].detailsLoaded == true then
+      updatePreview(selectedPath)
+    end
+    return
+  end
+
   if data.action == 'result' then
     if data.success then
       pendingStatusText = data.message or 'Upgrade successful.'
@@ -1066,6 +1124,7 @@ function init()
     entryByPath = {}
     pathsByClientId = {}
     pathsByItemId = {}
+    detailsRequestPending = {}
     stopDragMonitor()
   end
 
