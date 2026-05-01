@@ -172,7 +172,8 @@ MainWindow
     margin-left: 10
     margin-right: 10
     height: 20
-    text: + Enhance with Corrupted Fragments
+    text: + Corrupted Affix Imbuement
+    tooltip: Spend Corrupted Fragments to steer your next affix roll toward a chosen stat. More fragments = stronger pull, but higher risk of failure.
     @onClick: modules.game_corrupted_upgrade.toggleAffixPanel()
 
   Panel
@@ -182,23 +183,15 @@ MainWindow
     anchors.right: parent.right
     margin-left: 10
     margin-right: 10
-    margin-top: 3
-    height: 135
+    margin-top: 0
+    height: 130
     visible: false
-
-    CheckBox
-      id: useCorruptedBox
-      anchors.left: parent.left
-      anchors.top: parent.top
-      margin-left: 2
-      margin-top: 2
-      text: Use Corrupted Fragments for weighted affix
 
     Label
       id: corruptedCountLabel
       anchors.left: parent.left
-      anchors.top: useCorruptedBox.bottom
-      margin-top: 8
+      anchors.top: parent.top
+      margin-top: 6
       margin-left: 2
       text: Fragment count:
 
@@ -207,7 +200,7 @@ MainWindow
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      width: 52
+      width: 46
       height: 18
       text: 1
 
@@ -215,15 +208,15 @@ MainWindow
       id: corruptedCountLimitLabel
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 8
-      text: / 0
+      margin-left: 6
+      text: / 20
 
     HorizontalScrollBar
       id: corruptedCountSlider
       anchors.left: corruptedCountEdit.left
       anchors.top: corruptedCountEdit.bottom
       width: 120
-      margin-top: 6
+      margin-top: 4
       minimum: 0
       maximum: 0
       step: 1
@@ -252,30 +245,30 @@ MainWindow
       anchors.left: parent.left
       anchors.top: affixSelector.bottom
       margin-left: 2
-      margin-top: 8
-      text: Fail chance: 0.0%
+      margin-top: 6
+      text: Fail: 0.0%
 
     Label
       id: successChanceLabel
       anchors.left: failChanceLabel.right
       anchors.top: failChanceLabel.top
-      margin-left: 16
-      text: Success chance: 100.0%
+      margin-left: 12
+      text: Success: 100.0%
 
     Label
       id: weightLabel
       anchors.left: parent.left
       anchors.top: failChanceLabel.bottom
       margin-left: 2
-      margin-top: 4
-      text: Weight multiplier: x1.00
+      margin-top: 3
+      text: Weight: x1.00
 
     Label
       id: targetAffixChanceLabel
       anchors.left: weightLabel.right
       anchors.top: weightLabel.top
-      margin-left: 16
-      text: Target affix chance (next roll): -
+      margin-left: 12
+      text: Affix chance: -
 
   HorizontalSeparator
     id: statusSep

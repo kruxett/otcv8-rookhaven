@@ -78,7 +78,7 @@ local function bindWidgets()
   ui.rollsLabel = findWidgetById(window, 'rollsLabel')
   ui.requirementsPanel = findWidgetById(window, 'requirementsPanel')
 
-  ui.useCorruptedBox = findWidgetById(window, 'useCorruptedBox')
+  ui.useCorruptedBox = nil -- removed: panel visibility is the toggle now
   ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
   ui.corruptedCountSlider = findWidgetById(window, 'corruptedCountSlider')
   ui.corruptedCountLimitLabel = findWidgetById(window, 'corruptedCountLimitLabel')
@@ -120,18 +120,38 @@ local function formatGold(amount)
   end
 end
 
+local function isUsingCorrupted()
+  return ui.optionalPanel ~= nil and ui.optionalPanel:isVisible()
+end
+
+local refreshRiskPreview
+local refreshOptionalWidgetState
+
 local function toggleAffixPanelInternal()
-  if not ui.optionalPanel then return end
-  local isVisible = ui.optionalPanel:isVisible()
-  ui.optionalPanel:setVisible(not isVisible)
-  
-  if ui.toggleAffixBoostButton then
-    if not isVisible then
-      ui.toggleAffixBoostButton:setText('- Hide Affix Boost')
-      syncInvestLimitLabel()
-    else
-      ui.toggleAffixBoostButton:setText('+ Enhance with Corrupted Fragments')
+  if not ui.optionalPanel or not window then return end
+  local PANEL_HEIGHT = 130
+  local isExpanded = ui.optionalPanel:isVisible()
+  local currentSize = window:getSize()
+
+  if isExpanded then
+    -- collapse
+    ui.optionalPanel:setVisible(false)
+    ui.optionalPanel:setHeight(0)
+    window:resize(currentSize.width, currentSize.height - PANEL_HEIGHT)
+    if ui.toggleAffixBoostButton then
+      ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
     end
+  else
+    -- expand
+    ui.optionalPanel:setHeight(PANEL_HEIGHT)
+    ui.optionalPanel:setVisible(true)
+    window:resize(currentSize.width, currentSize.height + PANEL_HEIGHT)
+    if ui.toggleAffixBoostButton then
+      ui.toggleAffixBoostButton:setText('- Corrupted Affix Imbuement')
+    end
+    syncInvestLimitLabel()
+    refreshOptionalWidgetState()
+    refreshRiskPreview()
   end
 end
 
@@ -271,7 +291,8 @@ local function syncInvestLimitLabel()
   if not ui.corruptedCountLimitLabel then
     return
   end
-  ui.corruptedCountLimitLabel:setText('/ ' .. tostring(getInvestCap()))
+  local maxInvest = tonumber(failConfig.maxInvest) or 20
+  ui.corruptedCountLimitLabel:setText('/ ' .. tostring(maxInvest))
 end
 
 local function getInvestCount()
@@ -387,20 +408,19 @@ local function getSelectedAffixId()
   return tonumber(option.data) or 0
 end
 
-local function refreshRiskPreview()
+refreshRiskPreview = function()
   if not ui.failChanceLabel or not ui.weightLabel then
     return
   end
 
-  local useCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
-  local invest = useCorrupted and getInvestCount() or 0
+  local invest = isUsingCorrupted() and getInvestCount() or 0
 
   local failChance = 0
   local weight = 1.0
   if invest > 0 then
-    local minC = tonumber(failConfig.minChance) or 0.01
-    local maxC = tonumber(failConfig.maxChance) or 0.22
-    local kFail = tonumber(failConfig.failExponent) or 0.09
+    local minC = tonumber(failConfig.minChance) or 0.02
+    local maxC = tonumber(failConfig.maxChance) or 0.40
+    local kFail = tonumber(failConfig.failExponent) or 0.08
     local maxBonus = tonumber(failConfig.weightMaxBonus) or 1.5
     local kWeight = tonumber(failConfig.weightExponent) or 0.12
 
@@ -408,37 +428,37 @@ local function refreshRiskPreview()
     weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
   end
 
-  ui.failChanceLabel:setText(string.format('Fail chance: %.1f%%', failChance * 100))
+  ui.failChanceLabel:setText(string.format('Fail: %.1f%%', failChance * 100))
   if ui.successChanceLabel then
-    ui.successChanceLabel:setText(string.format('Success chance: %.1f%%', (1 - failChance) * 100))
+    ui.successChanceLabel:setText(string.format('Success: %.1f%%', (1 - failChance) * 100))
   end
-  ui.weightLabel:setText(string.format('Weight multiplier: x%.2f', weight))
+  ui.weightLabel:setText(string.format('Weight: x%.2f', weight))
 
   if ui.targetAffixChanceLabel then
     local entry = selectedPath and entryByPath[selectedPath] or nil
     local affixId = getSelectedAffixId()
     local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
     if baseChance and weightedChance then
-      ui.targetAffixChanceLabel:setText(string.format('Target affix chance (next roll): %.1f%% -> %.1f%%', baseChance * 100, weightedChance * 100))
+      ui.targetAffixChanceLabel:setText(string.format('Affix: %.1f%% -> %.1f%%', baseChance * 100, weightedChance * 100))
     else
-      ui.targetAffixChanceLabel:setText('Target affix chance (next roll): N/A')
+      ui.targetAffixChanceLabel:setText('Affix chance: -')
     end
   end
 end
 
-local function refreshOptionalWidgetState()
-  local checked = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+refreshOptionalWidgetState = function()
+  local active = isUsingCorrupted()
 
   if ui.corruptedCountEdit then
-    ui.corruptedCountEdit:setEnabled(checked)
+    ui.corruptedCountEdit:setEnabled(active)
   end
 
   if ui.corruptedCountSlider then
-    ui.corruptedCountSlider:setEnabled(checked)
+    ui.corruptedCountSlider:setEnabled(active)
   end
 
   if ui.affixSelector then
-    local canUseSelector = checked and selectedPath ~= nil and ui.affixSelector:getOptionsCount() > 0
+    local canUseSelector = active and selectedPath ~= nil and ui.affixSelector:getOptionsCount() > 0
     ui.affixSelector:setEnabled(canUseSelector)
   end
 end
@@ -720,13 +740,6 @@ local function bindOptionalControls()
     end
   end
 
-  if ui.useCorruptedBox then
-    ui.useCorruptedBox.onCheckChange = function(widget, checked)
-      refreshOptionalWidgetState()
-      refreshRiskPreview()
-    end
-  end
-
   if ui.corruptedCountEdit then
     ui.corruptedCountEdit.onTextChange = function(widget, text)
       if investSyncLock then
@@ -756,7 +769,6 @@ end
 
 local function populate(data)
   local previousPath = selectedPath
-  local previousUseCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
   local previousInvestCount = getInvestCount()
   local previousAffixId = getSelectedAffixId()
 
@@ -776,9 +788,6 @@ local function populate(data)
 
   clearSelection()
 
-  if ui.useCorruptedBox then
-    ui.useCorruptedBox:setChecked(previousUseCorrupted)
-  end
   if previousInvestCount <= 0 then
     previousInvestCount = math.min(1, getInvestCap())
   end
@@ -939,7 +948,7 @@ function accept()
     return
   end
 
-  local useCorrupted = ui.useCorruptedBox and ui.useCorruptedBox:isChecked() or false
+  local useCorrupted = isUsingCorrupted()
   local invest = useCorrupted and getInvestCount() or 0
   local selectedAffixId = useCorrupted and getSelectedAffixId() or 0
 
