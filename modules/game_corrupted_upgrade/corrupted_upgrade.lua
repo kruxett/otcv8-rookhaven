@@ -24,8 +24,8 @@ local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
-local REQ_CARD_WIDTH = 100
-local REQ_CARD_SPACING = 4
+local REQ_CARD_WIDTH = 106
+local REQ_CARD_SPACING = 2
 
 local updatePreview
 local stopDragMonitor
@@ -121,6 +121,17 @@ local function formatCount(amount)
     s, k = s:gsub('^(%-?%d+)(%d%d%d)', '%1,%2')
   until k == 0
   return s
+end
+
+local function formatCompactCount(amount)
+  local n = math.floor(tonumber(amount) or 0)
+  if n >= 1000000 then
+    return string.format('%.1fM', n / 1000000)
+  end
+  if n >= 1000 then
+    return string.format('%dk', math.floor(n / 1000))
+  end
+  return tostring(n)
 end
 
 local function isUsingCorrupted()
@@ -278,21 +289,32 @@ local function buildRequirementWidgets(entry)
     card:setMarginTop(4)
 
     local icon = card:getChildById('reqItemIcon')
+    local prettyLabel = prettifyRequirementLabel(req.label)
     if icon then
       local displayId = tonumber(req.clientId) or tonumber(req.itemId) or 0
       icon:setItemId(displayId)
       icon:setItemCount(math.min(math.max(math.floor(iconNeedCount), 1), 9999))
+      icon:setTooltip(prettyLabel)
+    end
+
+    if card.setTooltip then
+      card:setTooltip(prettyLabel)
     end
 
     local countLabel = card:getChildById('reqCountLabel')
     if countLabel then
-      countLabel:setText(formatCount(displayHave) .. ' / ' .. formatCount(displayNeed))
+      if req.showRawCount then
+        -- Keep required gold fully visible while compacting the player's amount.
+        countLabel:setText(formatCompactCount(displayHave) .. '/' .. formatCount(displayNeed))
+      else
+        countLabel:setText(formatCount(displayHave) .. '/' .. formatCount(displayNeed))
+      end
       countLabel:setColor(met and '#7fd992' or '#e05050')
     end
 
     local nameLabel = card:getChildById('reqNameLabel')
     if nameLabel then
-      nameLabel:setText(truncateText(prettifyRequirementLabel(req.label), 14))
+      nameLabel:setText('')
     end
 
     x = x + REQ_CARD_WIDTH + REQ_CARD_SPACING
