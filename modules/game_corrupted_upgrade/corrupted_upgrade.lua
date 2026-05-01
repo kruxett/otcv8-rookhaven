@@ -24,8 +24,8 @@ local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
-local REQ_CARD_WIDTH = 72
-local REQ_CARD_SPACING = 8
+local REQ_CARD_WIDTH = 100
+local REQ_CARD_SPACING = 4
 
 local updatePreview
 local stopDragMonitor
@@ -209,19 +209,19 @@ local function prettifyRequirementLabel(label)
   local lower = string.lower(raw)
 
   if lower == 'gold' or lower == 'platinum coin' or lower == 'crystal coin' or lower == 'gold cost' then
-    return 'Gold Cost'
+    return 'Gold'
   elseif lower == 'light blue fragment' then
-    return 'Light Blue Fragment'
+    return 'Light Blue'
   elseif lower == 'green fragment' then
-    return 'Green Fragment'
+    return 'Green Frag'
   elseif lower == 'red fragment' then
-    return 'Red Fragment'
+    return 'Red Frag'
   elseif lower == 'pristine forging shard' then
-    return 'Pristine Shard'
+    return 'Pristine'
   elseif lower == 'tempered forging shard' then
-    return 'Tempered Shard'
+    return 'Tempered'
   elseif lower == 'forging shard' then
-    return 'Forging Shard'
+    return 'Shard'
   end
 
   local first = string.sub(raw, 1, 1)
@@ -292,7 +292,7 @@ local function buildRequirementWidgets(entry)
 
     local nameLabel = card:getChildById('reqNameLabel')
     if nameLabel then
-      nameLabel:setText(truncateText(prettifyRequirementLabel(req.label), 18))
+      nameLabel:setText(truncateText(prettifyRequirementLabel(req.label), 14))
     end
 
     x = x + REQ_CARD_WIDTH + REQ_CARD_SPACING
