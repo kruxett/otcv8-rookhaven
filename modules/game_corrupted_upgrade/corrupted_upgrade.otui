@@ -1,6 +1,6 @@
 MainWindow
   id: corruptedUpgradeWindow
-  !text: tr('Forging Upgrade')
+  !text: tr('Forging Station')
   size: 460 540
   @onEscape: modules.game_corrupted_upgrade.decline()
 
@@ -10,7 +10,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
-    text: Samwell Forging Station
+    text: Forging Station
     color: #d8c16f
     margin-top: 4
     height: 20
@@ -170,7 +170,7 @@ MainWindow
     margin-top: 4
     margin-left: 10
     height: 14
-    text: Optional Corrupted Fragment Weighting
+    text: Affix Boost
     color: #e1d3a1
 
   Panel
@@ -181,7 +181,7 @@ MainWindow
     margin-left: 10
     margin-right: 10
     margin-top: 3
-    height: 112
+    height: 135
 
     CheckBox
       id: useCorruptedBox
@@ -195,7 +195,7 @@ MainWindow
       id: corruptedCountLabel
       anchors.left: parent.left
       anchors.top: useCorruptedBox.bottom
-      margin-top: 6
+      margin-top: 8
       margin-left: 2
       text: Fragment count:
 
@@ -203,8 +203,8 @@ MainWindow
       id: corruptedCountEdit
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 6
-      width: 48
+      margin-left: 8
+      width: 52
       height: 18
       text: 1
 
@@ -212,7 +212,7 @@ MainWindow
       id: corruptedCountLimitLabel
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 6
+      margin-left: 8
       text: / 0
 
     HorizontalScrollBar
@@ -220,7 +220,7 @@ MainWindow
       anchors.left: corruptedCountEdit.left
       anchors.top: corruptedCountEdit.bottom
       width: 120
-      margin-top: 4
+      margin-top: 6
       minimum: 0
       maximum: 0
       step: 1
@@ -229,25 +229,27 @@ MainWindow
     Label
       id: affixTargetLabel
       anchors.left: parent.left
-      anchors.top: corruptedCountLabel.top
-      margin-left: 220
+      anchors.top: corruptedCountSlider.bottom
+      margin-left: 2
+      margin-top: 8
       text: Weighted affix:
 
     ComboBox
       id: affixSelector
-      anchors.left: affixTargetLabel.right
+      anchors.left: parent.left
       anchors.right: parent.right
-      anchors.top: corruptedCountLabel.top
-      margin-left: 6
+      anchors.top: affixTargetLabel.bottom
+      margin-left: 2
       margin-right: 2
+      margin-top: 4
       height: 18
 
     Label
       id: failChanceLabel
       anchors.left: parent.left
-      anchors.top: corruptedCountSlider.bottom
+      anchors.top: affixSelector.bottom
       margin-left: 2
-      margin-top: 6
+      margin-top: 8
       text: Fail chance: 0.0%
 
     Label
@@ -262,7 +264,7 @@ MainWindow
       anchors.left: parent.left
       anchors.top: failChanceLabel.bottom
       margin-left: 2
-      margin-top: 2
+      margin-top: 4
       text: Weight multiplier: x1.00
 
     Label
