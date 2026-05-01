@@ -10,7 +10,7 @@ ForgingReqCard < Panel
     virtual: true
     selectable: false
     draggable: false
-    phantom: true
+    phantom: false
 
   Label
     id: reqCountLabel

@@ -200,15 +200,17 @@ local function resolveCoinDisplay(haveGold, needGold)
   local scaleSource = math.max(have, need)
 
   local iconDivisor = 1
-  if scaleSource >= 10000 then
+  local iconItemId = GOLD_COIN_ITEM_ID
+  if scaleSource > 10000 then
+    iconItemId = CRYSTAL_COIN_ITEM_ID
     iconDivisor = 10000
-  elseif scaleSource >= 100 then
+  elseif scaleSource > 1000 then
+    iconItemId = PLATINUM_COIN_ITEM_ID
     iconDivisor = 100
   end
 
   return {
-    -- Use crystal coin art for premium readability, but keep raw gold amount in text.
-    itemId = CRYSTAL_COIN_ITEM_ID,
+    itemId = iconItemId,
     label = 'Gold Cost',
     iconDivisor = iconDivisor,
     showRawCount = true,
@@ -240,6 +242,15 @@ local function prettifyRequirementLabel(label)
   return string.upper(first) .. rest
 end
 
+local function getRequirementTooltip(req)
+  local raw = tostring((req and req.label) or '?')
+  local lower = string.lower(raw)
+  if lower == 'gold' or lower == 'gold cost' or lower == 'crystal coin' or lower == 'platinum coin' then
+    return 'Gold Cost'
+  end
+  return raw
+end
+
 local function buildRequirementWidgets(entry)
   clearRequirementWidgets()
   if not ui.requirementsPanel or not entry then return end
@@ -263,7 +274,10 @@ local function buildRequirementWidgets(entry)
     })
   end
 
-  local x = 2
+  local reqCount = #allReqs
+  local totalWidth = (reqCount * REQ_CARD_WIDTH) + (math.max(reqCount - 1, 0) * REQ_CARD_SPACING)
+  local panelWidth = ui.requirementsPanel:getWidth() or totalWidth
+  local x = math.max(math.floor((panelWidth - totalWidth) / 2), 0)
   for _, req in ipairs(allReqs) do
     local have = tonumber(req.have) or 0
     local need = tonumber(req.required) or 0
@@ -288,17 +302,18 @@ local function buildRequirementWidgets(entry)
     card:setMarginLeft(x)
     card:setMarginTop(4)
 
-    local icon = card:getChildById('reqItemIcon')
     local prettyLabel = prettifyRequirementLabel(req.label)
+    local hoverLabel = getRequirementTooltip(req)
+    local icon = card:getChildById('reqItemIcon')
     if icon then
       local displayId = tonumber(req.clientId) or tonumber(req.itemId) or 0
       icon:setItemId(displayId)
       icon:setItemCount(math.min(math.max(math.floor(iconNeedCount), 1), 9999))
-      icon:setTooltip(prettyLabel)
+      icon:setTooltip(hoverLabel)
     end
 
     if card.setTooltip then
-      card:setTooltip(prettyLabel)
+      card:setTooltip(hoverLabel)
     end
 
     local countLabel = card:getChildById('reqCountLabel')
