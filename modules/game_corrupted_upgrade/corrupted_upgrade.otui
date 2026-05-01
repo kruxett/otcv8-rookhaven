@@ -173,15 +173,16 @@ MainWindow
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      width: 96
-      height: 18
+      width: 130
+      height: 22
+      text-align: left
       text: 1
 
     Label
       id: corruptedCountLimitLabel
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
-      margin-left: 6
+      margin-left: 8
       text: / 20
 
     HorizontalScrollBar
