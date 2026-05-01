@@ -125,8 +125,8 @@ MainWindow
     margin-left: 10
     margin-right: 10
     height: 20
-    text: + Corrupted Affix Imbuement
-    tooltip: Spend Corrupted Fragments to steer your next affix roll toward a chosen stat. More fragments = stronger pull, but higher risk of failure.
+    text: + Corrupted Imbuement
+    tooltip: Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. Greater investment strengthens your influence, but invites ruin.
     @onClick: modules.game_corrupted_upgrade.toggleAffixPanel()
 
   Panel

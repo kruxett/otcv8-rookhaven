@@ -169,7 +169,7 @@ local function toggleAffixPanelInternal()
     ui.optionalPanel:setHeight(0)
     window:resize(currentSize.width, currentSize.height - OPTIONAL_PANEL_HEIGHT)
     if ui.toggleAffixBoostButton then
-      ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
+      ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
     end
   else
     -- expand
@@ -178,7 +178,7 @@ local function toggleAffixPanelInternal()
     window:resize(currentSize.width, currentSize.height + OPTIONAL_PANEL_HEIGHT)
     refreshCorruptedFragmentIcon()
     if ui.toggleAffixBoostButton then
-      ui.toggleAffixBoostButton:setText('- Corrupted Affix Imbuement')
+      ui.toggleAffixBoostButton:setText('- Corrupted Imbuement')
     end
     syncInvestLimitLabel()
     refreshOptionalWidgetState()
@@ -195,9 +195,8 @@ local function clearRequirementWidgets()
 end
 
 local function resolveCoinDisplay(haveGold, needGold)
-  local have = tonumber(haveGold) or 0
   local need = tonumber(needGold) or 0
-  local scaleSource = math.max(have, need)
+  local scaleSource = need
 
   local iconDivisor = 1
   local iconItemId = GOLD_COIN_ITEM_ID
@@ -251,6 +250,25 @@ local function getRequirementTooltip(req)
   return raw
 end
 
+local function getRequirementPanelWidth()
+  local width = 0
+
+  if ui.requirementsPanel and ui.requirementsPanel.getWidth then
+    width = tonumber(ui.requirementsPanel:getWidth()) or 0
+  end
+
+  if width <= 0 and window and window.getWidth then
+    -- requirementsPanel uses 10px margins on both sides.
+    width = (tonumber(window:getWidth()) or 460) - 20
+  end
+
+  if width <= 0 then
+    width = 430
+  end
+
+  return math.floor(width)
+end
+
 local function buildRequirementWidgets(entry)
   clearRequirementWidgets()
   if not ui.requirementsPanel or not entry then return end
@@ -276,7 +294,7 @@ local function buildRequirementWidgets(entry)
 
   local reqCount = #allReqs
   local totalWidth = (reqCount * REQ_CARD_WIDTH) + (math.max(reqCount - 1, 0) * REQ_CARD_SPACING)
-  local panelWidth = ui.requirementsPanel:getWidth() or totalWidth
+  local panelWidth = getRequirementPanelWidth()
   local x = math.max(math.floor((panelWidth - totalWidth) / 2), 0)
   for _, req in ipairs(allReqs) do
     local have = tonumber(req.have) or 0
@@ -973,7 +991,7 @@ local function ensureWindow()
   end
   refreshCorruptedFragmentIcon()
   if ui.toggleAffixBoostButton then
-    ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
+    ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
   end
   local initialSize = window:getSize()
   if initialSize and initialSize.height > OPTIONAL_PANEL_HEIGHT then
