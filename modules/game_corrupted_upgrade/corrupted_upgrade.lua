@@ -21,6 +21,8 @@ local failConfig = {
 local GOLD_COIN_ITEM_ID = 3031
 local PLATINUM_COIN_ITEM_ID = 3035
 local CRYSTAL_COIN_ITEM_ID = 3043
+local CORRUPTED_FRAGMENT_ITEM_ID = 12787
+local OPTIONAL_PANEL_HEIGHT = 146
 local REQ_CARD_WIDTH = 66
 local REQ_CARD_SPACING = 8
 
@@ -82,6 +84,7 @@ local function bindWidgets()
   ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
   ui.corruptedCountSlider = findWidgetById(window, 'corruptedCountSlider')
   ui.corruptedCountLimitLabel = findWidgetById(window, 'corruptedCountLimitLabel')
+  ui.corruptedFragmentIcon = findWidgetById(window, 'corruptedFragmentIcon')
   ui.affixSelector = findWidgetById(window, 'affixSelector')
   ui.failChanceLabel = findWidgetById(window, 'failChanceLabel')
   ui.successChanceLabel = findWidgetById(window, 'successChanceLabel')
@@ -130,7 +133,6 @@ local refreshOptionalWidgetState
 
 local function toggleAffixPanelInternal()
   if not ui.optionalPanel or not window then return end
-  local PANEL_HEIGHT = 130
   local isExpanded = ui.optionalPanel:isVisible()
   local currentSize = window:getSize()
 
@@ -138,15 +140,15 @@ local function toggleAffixPanelInternal()
     -- collapse
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
-    window:resize(currentSize.width, currentSize.height - PANEL_HEIGHT)
+    window:resize(currentSize.width, currentSize.height - OPTIONAL_PANEL_HEIGHT)
     if ui.toggleAffixBoostButton then
       ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
     end
   else
     -- expand
-    ui.optionalPanel:setHeight(PANEL_HEIGHT)
+    ui.optionalPanel:setHeight(OPTIONAL_PANEL_HEIGHT)
     ui.optionalPanel:setVisible(true)
-    window:resize(currentSize.width, currentSize.height + PANEL_HEIGHT)
+    window:resize(currentSize.width, currentSize.height + OPTIONAL_PANEL_HEIGHT)
     if ui.toggleAffixBoostButton then
       ui.toggleAffixBoostButton:setText('- Corrupted Affix Imbuement')
     end
@@ -429,25 +431,42 @@ refreshRiskPreview = function()
     weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
   end
 
-  ui.failChanceLabel:setText(string.format('Risk: %.1f%% fail chance', failChance * 100))
-  if ui.successChanceLabel then
-    ui.successChanceLabel:setText(string.format('Upgrade success: %.1f%%', (1 - failChance) * 100))
+  local function pickRiskColor(value)
+    if value >= 0.18 then
+      return '#e05050'
+    elseif value >= 0.10 then
+      return '#d8b56a'
+    end
+    return '#7fd992'
   end
-  ui.weightLabel:setText('Chosen affix next roll: -')
+
+  local function pickChanceColor(value)
+    if value >= 0.25 then
+      return '#7fd992'
+    elseif value >= 0.12 then
+      return '#d8b56a'
+    end
+    return '#d9d2bf'
+  end
+
+  ui.failChanceLabel:setText(string.format('Ruin risk: %.1f%%', failChance * 100))
+  ui.failChanceLabel:setColor(pickRiskColor(failChance))
+  if ui.successChanceLabel then
+    ui.successChanceLabel:setText(string.format('Forge success: %.1f%%', (1 - failChance) * 100))
+    ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
+  end
+  ui.weightLabel:setText('Favored affix: -')
+  ui.weightLabel:setColor('#d9d2bf')
 
   if ui.targetAffixChanceLabel then
     local entry = selectedPath and entryByPath[selectedPath] or nil
     local affixId = getSelectedAffixId()
     local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
     if baseChance and weightedChance then
-      ui.weightLabel:setText(string.format('Chosen affix next roll: %.1f%%', weightedChance * 100))
-      ui.targetAffixChanceLabel:setText(string.format('Base chance without imbuement: %.1f%%', baseChance * 100))
+      ui.weightLabel:setText(string.format('Favored affix: %.1f%%', weightedChance * 100))
+      ui.weightLabel:setColor(pickChanceColor(weightedChance))
     else
-      if invest > 0 then
-        ui.targetAffixChanceLabel:setText('Pick an affix to see the improved next-roll chance.')
-      else
-        ui.targetAffixChanceLabel:setText('More fragments improve the chosen affix, but raise the fail risk.')
-      end
+      ui.weightLabel:setText('Favored affix: choose one')
     end
   end
 end
@@ -866,12 +885,16 @@ local function ensureWindow()
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
   end
+  if ui.corruptedFragmentIcon then
+    ui.corruptedFragmentIcon:setItemId(CORRUPTED_FRAGMENT_ITEM_ID)
+    ui.corruptedFragmentIcon:setTooltip('Corrupted Fragment')
+  end
   if ui.toggleAffixBoostButton then
     ui.toggleAffixBoostButton:setText('+ Corrupted Affix Imbuement')
   end
   local initialSize = window:getSize()
-  if initialSize and initialSize.height > 130 then
-    window:resize(initialSize.width, initialSize.height - 130)
+  if initialSize and initialSize.height > OPTIONAL_PANEL_HEIGHT then
+    window:resize(initialSize.width, initialSize.height - OPTIONAL_PANEL_HEIGHT)
   end
 
   if ui.corruptedCountEdit then

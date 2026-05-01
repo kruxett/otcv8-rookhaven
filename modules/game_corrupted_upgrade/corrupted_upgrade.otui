@@ -187,12 +187,24 @@ MainWindow
     height: 146
     visible: false
 
-    Label
-      id: corruptedCountLabel
+    UIItem
+      id: corruptedFragmentIcon
       anchors.left: parent.left
       anchors.top: parent.top
-      margin-top: 6
+      margin-top: 4
       margin-left: 2
+      size: 18 18
+      virtual: true
+      selectable: false
+      draggable: false
+      phantom: true
+
+    Label
+      id: corruptedCountLabel
+      anchors.left: corruptedFragmentIcon.right
+      anchors.top: parent.top
+      margin-top: 6
+      margin-left: 6
       text: Fragment count:
 
     TextEdit
@@ -243,34 +255,36 @@ MainWindow
     Label
       id: failChanceLabel
       anchors.left: parent.left
+      anchors.right: parent.right
       anchors.top: affixSelector.bottom
       margin-left: 2
+      margin-right: 2
       margin-top: 6
-      text: Risk: 0.0% fail chance
+      text: Ruin risk: 0.0%
 
     Label
       id: successChanceLabel
       anchors.left: parent.left
+      anchors.right: parent.right
       anchors.top: failChanceLabel.bottom
       margin-left: 2
+      margin-right: 2
       margin-top: 2
-      text: Upgrade success: 100.0%
+      text: Forge success: 100.0%
 
     Label
       id: weightLabel
       anchors.left: parent.left
+      anchors.right: parent.right
       anchors.top: successChanceLabel.bottom
       margin-left: 2
+      margin-right: 2
       margin-top: 2
-      text: Chosen affix next roll: -
+      text: Favored affix: -
 
     Label
       id: targetAffixChanceLabel
-      anchors.left: parent.left
-      anchors.top: weightLabel.bottom
-      margin-left: 2
-      margin-top: 2
-      text: More fragments improve the chosen affix, but raise the fail risk.
+      visible: false
 
   HorizontalSeparator
     id: statusSep
