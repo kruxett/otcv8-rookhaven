@@ -1,4 +1,4 @@
-﻿MainWindow
+MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Upgrade')
   size: 460 540
