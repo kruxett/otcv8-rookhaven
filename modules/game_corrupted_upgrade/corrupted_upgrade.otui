@@ -1,61 +1,14 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Station')
-  size: 460 540
+  size: 460 468
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
-    id: headlineLabel
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-    text-align: center
-    text: Forging Station
-    color: #d8c16f
-    margin-top: 4
-    height: 20
-
-  HorizontalSeparator
-    anchors.top: headlineLabel.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 3
-
-  Label
-    id: resourceLabel
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 5
-    margin-left: 10
-    margin-right: 10
-    height: 14
-    text: Your resources: -
-
-  Label
-    id: tierFlowLabel
-    anchors.top: resourceLabel.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 3
-    margin-left: 10
-    margin-right: 10
-    height: 14
-    text: Path: Common -> Rare -> Epic -> Legendary
-    color: #cdbb91
-
-  HorizontalSeparator
-    id: slotSep
-    anchors.top: tierFlowLabel.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 5
-
-  Label
-    anchors.top: slotSep.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 4
+    margin-top: 8
     margin-left: 10
     height: 14
     text: Item to Forge
@@ -191,9 +144,9 @@ MainWindow
       id: corruptedFragmentIcon
       anchors.left: parent.left
       anchors.top: parent.top
-      margin-top: 4
+      margin-top: 2
       margin-left: 2
-      size: 18 18
+      size: 32 32
       virtual: true
       selectable: false
       draggable: false
@@ -203,16 +156,16 @@ MainWindow
       id: corruptedCountLabel
       anchors.left: corruptedFragmentIcon.right
       anchors.top: parent.top
-      margin-top: 6
+      margin-top: 10
       margin-left: 6
-      text: Fragment count:
+      text: Fragments:
 
     TextEdit
       id: corruptedCountEdit
       anchors.left: corruptedCountLabel.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      width: 64
+      width: 80
       height: 18
       text: 1
 

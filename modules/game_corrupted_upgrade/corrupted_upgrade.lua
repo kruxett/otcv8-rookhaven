@@ -10,11 +10,11 @@ local entryByPath = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
-  minChance = 0.01,
-  maxChance = 0.28,
-  failExponent = 0.075,
-  weightMaxBonus = 3.2,
-  weightExponent = 0.14,
+  minChance = 0.02,
+  maxChance = 0.45,
+  failExponent = 0.11,
+  weightMaxBonus = 6.0,
+  weightExponent = 0.16,
   maxInvest = 20,
 }
 
@@ -432,18 +432,18 @@ refreshRiskPreview = function()
   end
 
   local function pickRiskColor(value)
-    if value >= 0.18 then
+    if value >= 0.30 then
       return '#e05050'
-    elseif value >= 0.10 then
+    elseif value >= 0.15 then
       return '#d8b56a'
     end
     return '#7fd992'
   end
 
   local function pickChanceColor(value)
-    if value >= 0.25 then
+    if value >= 0.50 then
       return '#7fd992'
-    elseif value >= 0.12 then
+    elseif value >= 0.25 then
       return '#d8b56a'
     end
     return '#d9d2bf'
