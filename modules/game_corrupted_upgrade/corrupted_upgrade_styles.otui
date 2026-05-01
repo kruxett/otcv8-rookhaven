@@ -1,5 +1,5 @@
 ForgingReqCard < Panel
-  size: 106 76
+  size: 98 76
 
   UIItem
     id: reqItemIcon

@@ -24,8 +24,8 @@ local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
-local REQ_CARD_WIDTH = 106
-local REQ_CARD_SPACING = 2
+local REQ_CARD_WIDTH = 98
+local REQ_CARD_SPACING = 4
 
 local updatePreview
 local stopDragMonitor
