@@ -1084,6 +1084,7 @@ local function onOpcode(protocol, opcode, buffer)
 
     if selectedPath and entryByPath[selectedPath] and entryByPath[selectedPath].detailsLoaded == true then
       updatePreview(selectedPath)
+      setStatus('Item selected. Press Upgrade to continue.')
     end
     return
   end
