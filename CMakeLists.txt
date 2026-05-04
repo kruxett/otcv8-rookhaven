@@ -224,14 +224,8 @@ set(executable_SOURCES
 
 # add executable icon for win32 platforms
 if(WIN32)
-    add_custom_command(
-        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/otcicon.res
-        COMMAND ${CMAKE_RC_COMPILER}
-            /I${CMAKE_CURRENT_SOURCE_DIR}/src
-            /fo${CMAKE_CURRENT_BINARY_DIR}/otcicon.res
-            ${CMAKE_CURRENT_SOURCE_DIR}/src/otcicon.rc
-    )
-    set(executable_SOURCES ${executable_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/otcicon.res)
+    set(executable_SOURCES ${executable_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/src/otcicon.rc)
+    set(CMAKE_RC_FLAGS "${CMAKE_RC_FLAGS} /I\"${CMAKE_CURRENT_SOURCE_DIR}/src\"")
 endif()
 
 if(VERSION)
