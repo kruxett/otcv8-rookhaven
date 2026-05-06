@@ -21,6 +21,7 @@ local selectedTierId = nil
 local selectedDestId = nil
 local tiersData = nil
 local routesData = nil
+local lastSelectData = nil
 
 local function destroyWindow()
   if tradepackWindow then
@@ -102,9 +103,66 @@ local function highlightTierRow(listPanel, selectedId)
   end
 end
 
+local function displaySelectUI(data)
+  destroyWindow()
+  tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
+  if not tradepackWindow then return end
+
+  tiersData = data.tiers or {}
+  routesData = data.routes or {}
+
+  local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
+  local destSelector = tradepackWindow:recursiveGetChildById('destSelector')
+
+  if listPanel then
+    for i, t in ipairs(tiersData) do
+      local row = g_ui.createWidget('TradepackTierRow', listPanel)
+      row:setId(t.id)
+      local crateIcon = row:getChildById('crateIcon')
+      local rowTitle = row:getChildById('rowTitle')
+      local rowSub = row:getChildById('rowSub')
+      if crateIcon then crateIcon:setItemId(7483) end
+      if rowTitle then rowTitle:setText(t.label or t.id) end
+      if rowSub then rowSub:setText('-' .. tostring(t.slowdown or 0) .. '% speed') end
+
+      if i == 1 then
+        selectedTierId = t.id
+        row:setBackgroundColor('#ffffff22')
+        row:setBorderColor('#888888')
+      end
+
+      row.onMousePress = function(widget)
+        selectedTierId = t.id
+        highlightTierRow(listPanel, t.id)
+        updateDetails()
+        return true
+      end
+    end
+  end
+
+  if destSelector then
+    destSelector:clearOptions()
+    for i, r in ipairs(routesData) do
+      destSelector:addOption(tostring(r.label or r.id), tostring(r.id))
+      if i == 1 then
+        selectedDestId = tostring(r.id)
+        destSelector:setCurrentOption(tostring(r.label or r.id), false)
+      end
+    end
+
+    destSelector.onOptionChange = function(widget, text, optionData)
+      selectedDestId = (optionData ~= nil and optionData ~= '') and tostring(optionData) or text
+      updateDetails()
+    end
+  end
+
+  updateDetails()
+end
+
 -- ---- public callbacks (referenced from .otui) ---------------
 
 function cancel()
+  lastSelectData = nil
   sendResponse({ action = "cancel" })
   destroyWindow()
 end
@@ -112,6 +170,12 @@ end
 function confirm()
   sendResponse({ action = "confirm" })
   destroyWindow()
+end
+
+function prev()
+  if lastSelectData then
+    displaySelectUI(lastSelectData)
+  end
 end
 
 function requestPack()
@@ -127,64 +191,12 @@ local function onTradepackOpcode(protocol, opcode, buffer)
   local ok, data = pcall(function() return json.decode(buffer) end)
   if not ok or not data then return end
 
-  destroyWindow()
-
   if data.mode == "select" then
-    tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
-    if not tradepackWindow then return end
-
-    tiersData = data.tiers or {}
-    routesData = data.routes or {}
-
-    local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
-    local destSelector = tradepackWindow:recursiveGetChildById('destSelector')
-
-    -- Populate tier list rows
-    if listPanel then
-      for i, t in ipairs(tiersData) do
-        local row = g_ui.createWidget('TradepackTierRow', listPanel)
-        row:setId(t.id)
-        local rowTitle = row:getChildById('rowTitle')
-        local rowSub = row:getChildById('rowSub')
-        if rowTitle then rowTitle:setText(t.label or t.id) end
-        if rowSub then rowSub:setText('-' .. tostring(t.slowdown or 0) .. '% speed') end
-
-        if i == 1 then
-          selectedTierId = t.id
-          row:setBackgroundColor('#ffffff22')
-          row:setBorderColor('#888888')
-        end
-
-        row.onMousePress = function(widget)
-          selectedTierId = t.id
-          highlightTierRow(listPanel, t.id)
-          updateDetails()
-          return true
-        end
-      end
-    end
-
-    -- Populate destination ComboBox
-    if destSelector then
-      destSelector:clearOptions()
-      for i, r in ipairs(routesData) do
-        destSelector:addOption(tostring(r.label or r.id), tostring(r.id))
-        if i == 1 then
-          selectedDestId = tostring(r.id)
-          destSelector:setCurrentOption(tostring(r.label or r.id), false)
-        end
-      end
-
-      destSelector.onOptionChange = function(widget, text, optionData)
-        selectedDestId = (optionData ~= nil and optionData ~= '') and tostring(optionData) or text
-        updateDetails()
-      end
-    end
-
-    -- Render initial detail panel
-    updateDetails()
+    lastSelectData = data
+    displaySelectUI(data)
 
   elseif data.mode == "confirm" then
+    destroyWindow()
     tradepackWindow = g_ui.displayUI('tradepack_confirm', rootWidget)
     if not tradepackWindow then return end
 
@@ -193,18 +205,22 @@ local function onTradepackOpcode(protocol, opcode, buffer)
       if w then w:setText(text) end
     end
 
-    setLabel('sizeLabel',   'Size: '          .. (data.tier_label or ''))
-    setLabel('destLabel',   'Destination: '   .. (data.dest_label or ''))
-    setLabel('costLabel',   'Cost: '          .. (data.cost       or '') .. ' (materials)')
-    setLabel('rewardLabel', 'Reward: '        .. tostring(data.reward or '') .. ' gold on delivery')
+    setLabel('sizeLabel',   'Size: '           .. (data.tier_label or ''))
+    setLabel('destLabel',   'Destination: '    .. (data.dest_label or ''))
+    setLabel('costLabel',   'Cost: '           .. (data.cost       or '') .. ' (materials)')
+    setLabel('rewardLabel', 'Reward: '         .. tostring(data.reward or '') .. ' gold on delivery')
     setLabel('slowLabel',   'Speed penalty: -' .. tostring(data.slowdown or '') .. '%')
+
+    local costW = tradepackWindow:getChildById('costLabel')
+    if costW then
+      costW:setColor(data.can_afford and '#70e070' or '#e07070')
+    end
   end
 end
 
 -- ---- module lifecycle ---------------------------------------
 
 function init()
-  g_ui.importStyle('tradepack_styles')
   connect(g_game, { onGameEnd = destroyWindow })
   ProtocolGame.registerExtendedOpcode(TRADEPACK_OPCODE, onTradepackOpcode)
 end

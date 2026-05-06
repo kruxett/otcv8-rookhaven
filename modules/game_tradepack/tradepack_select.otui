@@ -56,23 +56,23 @@ MainWindow
         margin-top: 6
         margin-left: 8
         margin-right: 8
-        height: 16
         font: verdana-11px-monochrome
         color: #c8a456
         text-wrap: true
+        text-auto-resize: true
 
       Label
         id: detailCost
         anchors.top: detailTitle.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        margin-top: 8
+        margin-top: 6
         margin-left: 8
         margin-right: 8
-        height: 14
         font: verdana-11px-rounded
         color: #e07070
         text-wrap: true
+        text-auto-resize: true
 
       Label
         id: detailReward
@@ -82,9 +82,10 @@ MainWindow
         margin-top: 4
         margin-left: 8
         margin-right: 8
-        height: 14
         font: verdana-11px-rounded
         color: #70d870
+        text-wrap: true
+        text-auto-resize: true
 
       Label
         id: detailSpeed
@@ -94,9 +95,10 @@ MainWindow
         margin-top: 4
         margin-left: 8
         margin-right: 8
-        height: 14
         font: verdana-11px-rounded
         color: #aaaaaa
+        text-wrap: true
+        text-auto-resize: true
 
     // Destination row at the bottom of the FlatPanel
     Panel

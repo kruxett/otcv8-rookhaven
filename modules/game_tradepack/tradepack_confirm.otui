@@ -5,7 +5,7 @@
 MainWindow
   id: tradepackConfirmWindow
   !text: tr('Confirm Tradepack')
-  size: 300 210
+  size: 300 230
   @onEscape: modules.game_tradepack.cancel()
 
   Label
@@ -16,23 +16,25 @@ MainWindow
     text-align: center
     font: verdana-11px-monochrome
     color: #c8a456
-    margin-top: 6
-    height: 18
+    margin-top: 8
+    text-wrap: true
+    text-auto-resize: true
 
   Label
     id: destLabel
-    anchors.top: prev.bottom
+    anchors.top: sizeLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
     font: verdana-11px-monochrome
     margin-top: 4
-    height: 16
+    text-wrap: true
+    text-auto-resize: true
 
   HorizontalSeparator
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.top: prev.bottom
+    anchors.top: destLabel.bottom
     margin-top: 6
 
   Label
@@ -44,37 +46,41 @@ MainWindow
     font: verdana-11px-monochrome
     color: #e07070
     margin-top: 6
-    height: 16
+    text-wrap: true
+    text-auto-resize: true
 
   Label
     id: rewardLabel
-    anchors.top: prev.bottom
+    anchors.top: costLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
     font: verdana-11px-monochrome
     color: #70e070
     margin-top: 4
-    height: 16
+    text-wrap: true
+    text-auto-resize: true
 
   Label
     id: slowLabel
-    anchors.top: prev.bottom
+    anchors.top: rewardLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     text-align: center
     font: verdana-11px-monochrome
     color: #aaaaaa
     margin-top: 4
-    height: 16
+    text-wrap: true
+    text-auto-resize: true
 
   HorizontalSeparator
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.bottom: next.top
+    anchors.bottom: buttonsPanel.top
     margin-bottom: 6
 
   Panel
+    id: buttonsPanel
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
@@ -82,17 +88,25 @@ MainWindow
     margin-bottom: 2
 
     Button
-      id: confirmButton
-      !text: tr('Confirm')
-      width: 72
-      anchors.right: parent.horizontalCenter
-      margin-right: 5
-      @onClick: modules.game_tradepack.confirm()
-
-    Button
       id: cancelButton
       !text: tr('Cancel')
       width: 72
-      anchors.left: parent.horizontalCenter
-      margin-left: 5
+      anchors.right: parent.right
+      margin-right: 10
       @onClick: modules.game_tradepack.cancel()
+
+    Button
+      id: confirmButton
+      !text: tr('Confirm')
+      width: 72
+      anchors.right: cancelButton.left
+      margin-right: 6
+      @onClick: modules.game_tradepack.confirm()
+
+    Button
+      id: prevButton
+      !text: tr('Prev')
+      width: 64
+      anchors.right: confirmButton.left
+      margin-right: 6
+      @onClick: modules.game_tradepack.prev()

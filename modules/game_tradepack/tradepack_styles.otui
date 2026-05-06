@@ -9,13 +9,24 @@ TradepackTierRow < Panel
   $hover:
     border-color: #555555
 
+  UIItem
+    id: crateIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    size: 32 32
+    virtual: true
+    selectable: false
+    draggable: false
+    phantom: true
+
   Label
     id: rowTitle
-    anchors.left: parent.left
+    anchors.left: crateIcon.right
     anchors.right: parent.right
     anchors.top: parent.top
-    margin-left: 8
-    margin-right: 8
+    margin-left: 5
+    margin-right: 6
     margin-top: 7
     height: 14
     font: verdana-11px-rounded
@@ -23,11 +34,11 @@ TradepackTierRow < Panel
 
   Label
     id: rowSub
-    anchors.left: parent.left
+    anchors.left: crateIcon.right
     anchors.right: parent.right
     anchors.top: rowTitle.bottom
-    margin-left: 8
-    margin-right: 8
+    margin-left: 5
+    margin-right: 6
     margin-top: 2
     height: 12
     color: #b0b0b0
