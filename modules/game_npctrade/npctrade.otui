@@ -24,7 +24,7 @@ NPCItemBox < UICheckBox
     id: protectedOverlay
     border-width: 2
     border-color: #66ccaa
-    background: none
+    background-color: #00000000
     anchors.fill: parent
     phantom: true
     focusable: false
