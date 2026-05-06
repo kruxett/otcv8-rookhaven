@@ -29,6 +29,7 @@ local REQUIREMENTS_SECTION_HEIGHT = 108
 local WINDOW_BASE_HEIGHT = 202  -- no requirements, no optional panel
 local REQ_CARD_WIDTH = 98
 local REQ_CARD_SPACING = 4
+local REQ_CARD_MIN_WIDTH = 84
 
 local updatePreview
 local stopDragMonitor
@@ -439,8 +440,14 @@ local function buildRequirementWidgets(entry)
   end
 
   local reqCount = #allReqs
-  local totalWidth = (reqCount * REQ_CARD_WIDTH) + (math.max(reqCount - 1, 0) * REQ_CARD_SPACING)
   local panelWidth = getRequirementPanelWidth()
+  local availableSpacing = math.max(reqCount - 1, 0) * REQ_CARD_SPACING
+  local cardWidth = REQ_CARD_WIDTH
+  if reqCount > 0 then
+    cardWidth = math.floor((panelWidth - availableSpacing) / reqCount)
+    cardWidth = math.max(math.min(cardWidth, REQ_CARD_WIDTH), REQ_CARD_MIN_WIDTH)
+  end
+  local totalWidth = (reqCount * cardWidth) + availableSpacing
   local x = math.max(math.floor((panelWidth - totalWidth) / 2), 0)
   for _, req in ipairs(allReqs) do
     local have = tonumber(req.have) or 0
@@ -460,7 +467,7 @@ local function buildRequirementWidgets(entry)
     end
 
     local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
-    card:setWidth(REQ_CARD_WIDTH)
+  card:setWidth(cardWidth)
     card:addAnchor(AnchorLeft, 'parent', AnchorLeft)
     card:addAnchor(AnchorTop, 'parent', AnchorTop)
     card:setMarginLeft(x)
@@ -496,7 +503,7 @@ local function buildRequirementWidgets(entry)
       nameLabel:setText('')
     end
 
-    x = x + REQ_CARD_WIDTH + REQ_CARD_SPACING
+    x = x + cardWidth + REQ_CARD_SPACING
   end
 end
 
