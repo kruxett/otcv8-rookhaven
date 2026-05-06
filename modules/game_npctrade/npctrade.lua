@@ -233,6 +233,14 @@ function itemPopup(self, mousePosition, mouseButton)
     local menu = g_ui.createWidget('PopupMenu')
     menu:setGameMenu(true)
     menu:addOption(tr('Look'), function() return g_game.inspectNpcTrade(self:getItem()) end)
+    if getCurrentTradeType() == SELL then
+      local itemId = self:getItem():getId()
+      local label = isExcluded(itemId) and tr('Unprotect from Sell All') or tr('Protect from Sell All')
+      menu:addOption(label, function()
+        toggleExclusion(itemId)
+        refreshPlayerGoods()
+      end)
+    end
     menu:display(mousePosition)
     return true
   elseif ((g_mouse.isPressed(MouseLeftButton) and mouseButton == MouseRightButton)
@@ -264,6 +272,39 @@ end
 
 function onConfirmSellAllChange()
   g_settings.set('npcTradeConfirmSellAll', not confirmSellAllCheckbox:isChecked())
+end
+
+-- Sell All exclusion helpers
+function getExclusions()
+  local raw = g_settings.get('sellAllExclusions', '')
+  local result = {}
+  for part in raw:gmatch('[^,]+') do
+    local id = tonumber(part)
+    if id then result[id] = true end
+  end
+  return result
+end
+
+function saveExclusions(excludeMap)
+  local parts = {}
+  for id, _ in pairs(excludeMap) do
+    parts[#parts + 1] = tostring(id)
+  end
+  g_settings.set('sellAllExclusions', table.concat(parts, ','))
+end
+
+function toggleExclusion(itemId)
+  local excl = getExclusions()
+  if excl[itemId] then
+    excl[itemId] = nil
+  else
+    excl[itemId] = true
+  end
+  saveExclusions(excl)
+end
+
+function isExcluded(itemId)
+  return getExclusions()[itemId] == true
 end
 
 function setCurrency(currency, decimal)
@@ -474,6 +515,29 @@ function refreshPlayerGoods()
     local canTrade = canTradeItem(item)
     itemWidget:setOn(canTrade)
     itemWidget:setEnabled(canTrade)
+
+    -- Visual indicator for protected items (sell tab only)
+    if currentTradeType == SELL then
+      local itemId = item.ptr:getId()
+      local protected = isExcluded(itemId)
+      if protected then
+        local text = item.name .. '\n'
+        if showWeight then
+          text = text .. string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT .. '\n'
+        end
+        text = text .. formatCurrency(item.price) .. '\n[protected]'
+        itemWidget:setText(text)
+        itemWidget:setColor('#66ccaa')
+      else
+        local text = item.name .. '\n'
+        if showWeight then
+          text = text .. string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT .. '\n'
+        end
+        text = text .. formatCurrency(item.price)
+        itemWidget:setText(text)
+        itemWidget:setColor('#ffffff')
+      end
+    end
 
     local searchCondition = (searchFilter == '') or (searchFilter ~= '' and string.find(item.name:lower(), searchFilter) ~= nil)
     local showAllItemsCondition = (currentTradeType == BUY) or (showAllItems:isChecked()) or (currentTradeType == SELL and not showAllItems:isChecked() and canTrade)
@@ -720,6 +784,13 @@ end
 
 function confirmSellAll(delayed, exceptions)
   exceptions = exceptions or {}
+  -- merge in persistent exclusions
+  local excl = getExclusions()
+  for id, _ in pairs(excl) do
+    if not table.find(exceptions, id) then
+      table.insert(exceptions, id)
+    end
+  end
 
   if confirmSellAllCheckbox and confirmSellAllCheckbox:isChecked() then
     sellAll(delayed, exceptions)
