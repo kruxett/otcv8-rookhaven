@@ -5,6 +5,7 @@ local rerollConfirmWindow = nil
 local slotWidgets = {}
 local slotData = {}
 local ui = {}
+local pendingRerollMaterial = nil
 local rerollItemIds = {
   [12805] = true,
   [12807] = true,
@@ -420,6 +421,31 @@ end
 
 local function onGameEnd()
   destroyWindow()
+  pendingRerollMaterial = nil
+end
+
+local function isValidPos(pos)
+  return type(pos) == 'table' and pos.x ~= nil and pos.y ~= nil and pos.z ~= nil
+end
+
+local function clearPendingRerollMaterial()
+  pendingRerollMaterial = nil
+end
+
+local function setPendingRerollMaterial(item)
+  if not item then
+    clearPendingRerollMaterial()
+    return
+  end
+
+  local pos = item:getPosition()
+  pendingRerollMaterial = {
+    id = item:getId(),
+    pos = copyPos(pos),
+    name = item:getName() or 'reroll material',
+  }
+
+  modules.game_textmessage.displayStatusMessage(string.format('Selected %s. Right-click the target item and choose Apply Reforge Material.', pendingRerollMaterial.name))
 end
 
 local function rerollMenuCondition(menuPosition, lookThing, useThing, creatureThing)
@@ -428,8 +454,57 @@ end
 
 local function rerollMenuCallback(menuPosition, lookThing, useThing, creatureThing)
   if useThing then
-    modules.game_interface.startUseWith(useThing)
+    setPendingRerollMaterial(useThing)
   end
+end
+
+local function rerollTargetMenuCondition(menuPosition, lookThing, useThing, creatureThing)
+  if not pendingRerollMaterial or not isValidPos(pendingRerollMaterial.pos) then
+    return false
+  end
+
+  if not useThing or not useThing:isItem() then
+    return false
+  end
+
+  local targetPos = copyPos(useThing:getPosition())
+  if not isValidPos(targetPos) then
+    return false
+  end
+
+  if useThing:getId() == pendingRerollMaterial.id and positionKey(targetPos) == positionKey(pendingRerollMaterial.pos) then
+    return false
+  end
+
+  return true
+end
+
+local function rerollTargetMenuCallback(menuPosition, lookThing, useThing, creatureThing)
+  if not pendingRerollMaterial or not useThing then
+    clearPendingRerollMaterial()
+    return
+  end
+
+  local targetPos = copyPos(useThing:getPosition())
+  if not isValidPos(targetPos) then
+    modules.game_textmessage.displayFailureMessage('Invalid reroll target.')
+    clearPendingRerollMaterial()
+    return
+  end
+
+  protocolSend({
+    action = 'reroll_begin',
+    material = {
+      id = pendingRerollMaterial.id,
+      pos = pendingRerollMaterial.pos,
+    },
+    target = {
+      id = useThing:getId(),
+      pos = targetPos,
+    },
+  })
+
+  clearPendingRerollMaterial()
 end
 
 function init()
@@ -437,7 +512,8 @@ function init()
     onGameEnd = onGameEnd,
   })
   ProtocolGame.registerExtendedOpcode(LAVA_SMELT_OPCODE, onLavaSmeltOpcode)
-  modules.game_interface.addMenuHook('lava_smelt', 'Reforge with...', rerollMenuCallback, rerollMenuCondition)
+  modules.game_interface.addMenuHook('lava_smelt', 'Select Reforge Material', rerollMenuCallback, rerollMenuCondition)
+  modules.game_interface.addMenuHook('lava_smelt', 'Apply Reforge Material', rerollTargetMenuCallback, rerollTargetMenuCondition)
 end
 
 function terminate()
@@ -445,7 +521,9 @@ function terminate()
     onGameEnd = onGameEnd,
   })
   ProtocolGame.unregisterExtendedOpcode(LAVA_SMELT_OPCODE)
-  modules.game_interface.removeMenuHook('lava_smelt', 'Reforge with...')
+  modules.game_interface.removeMenuHook('lava_smelt', 'Select Reforge Material')
+  modules.game_interface.removeMenuHook('lava_smelt', 'Apply Reforge Material')
+  clearPendingRerollMaterial()
   destroyWindow()
 end
 
