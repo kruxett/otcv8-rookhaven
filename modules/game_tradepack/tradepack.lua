@@ -129,13 +129,6 @@ local CATEGORY_LABELS = {
   red   = 'Red Crystals',
 }
 
-local CATEGORY_ICONS = {
-  green = 8636,
-  blue  = 8633,
-  azure = 8634,
-  red   = 8635,
-}
-
 local function displaySelectUI(data)
   destroyWindow()
   tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
@@ -177,7 +170,7 @@ local function displaySelectUI(data)
       local rowSub    = row:getChildById('rowSub')
 
       if crateIcon then
-        crateIcon:setItemId(CATEGORY_ICONS[t.category] or 7483)
+        crateIcon:setItemId(tonumber(t.icon_item) or 7483)
       end
       if rowTitle  then rowTitle:setText(t.label or t.id) end
 
