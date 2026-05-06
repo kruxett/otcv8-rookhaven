@@ -1,0 +1,10 @@
+Module
+  name: game_lava_smelt
+  description: Lava forge smelting and reroll interface
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ lava_smelt ]
+  @onLoad: init()
+  @onUnload: terminate()
