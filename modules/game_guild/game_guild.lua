@@ -326,17 +326,21 @@ local function renderGuildData(data)
         local rankName = row:recursiveGetChildById('rankName')
         if rankName then rankName:setText(rank.name .. '  (Tier ' .. rank.level .. ')') end
 
-        if isLeader and rank.level == 1 then
+        if isLeader then
           local rankId = rank.id
 
+          -- Only Tier 1 ranks can be deleted
           local deleteRankBtn = row:recursiveGetChildById('deleteRankBtn')
           if deleteRankBtn then
-            deleteRankBtn:setVisible(true)
-            deleteRankBtn.onClick = function()
-              sendAction('delete_rank', { rank_id = rankId })
+            deleteRankBtn:setVisible(rank.level == 1)
+            if rank.level == 1 then
+              deleteRankBtn.onClick = function()
+                sendAction('delete_rank', { rank_id = rankId })
+              end
             end
           end
 
+          -- All ranks can be renamed
           local renameRankBtn = row:recursiveGetChildById('renameRankBtn')
           if renameRankBtn then
             renameRankBtn:setVisible(true)
