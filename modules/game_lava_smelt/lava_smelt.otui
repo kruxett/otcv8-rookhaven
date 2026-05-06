@@ -30,7 +30,7 @@ LavaSmeltSlot < Panel
     margin-right: 8
     margin-top: 8
     height: 15
-    text: Drop a rarity item here
+    text: Place a rarity item here
 
   Label
     id: tierLabel
@@ -39,13 +39,13 @@ LavaSmeltSlot < Panel
     anchors.top: nameLabel.bottom
     margin-top: 4
     height: 14
-    text: Right-click to clear this slot
+    text: Right-click to remove this offering
     color: #9e9080
 
 MainWindow
   id: lavaSmeltWindow
   !text: tr('Lava Forge')
-  size: 460 480
+  size: 460 620
   @onEscape: modules.game_lava_smelt.close()
 
   Label
@@ -60,7 +60,7 @@ MainWindow
     text-wrap: true
     text-auto-resize: true
     color: #d7c28e
-    text: Drop up to 6 rare, epic, or legendary items into the forge. Smelting destroys them and returns reroll materials.
+    text: Place up to 6 rare, epic, or legendary items into the forge. The rite consumes them and returns tempering materials.
 
   HorizontalSeparator
     anchors.top: introLabel.bottom
@@ -77,7 +77,7 @@ MainWindow
     margin-top: 14
     margin-left: 12
     height: 14
-    text: Smelting Queue
+    text: Forge Offerings
     color: #e1d3a1
 
   Panel
@@ -121,7 +121,7 @@ MainWindow
     margin-top: 14
     margin-left: 12
     height: 14
-    text: Selected: 0 / 6
+    text: Offerings: 0 / 6
 
   Label
     id: goldCostLabel
@@ -129,7 +129,7 @@ MainWindow
     anchors.left: selectedCountLabel.left
     margin-top: 4
     height: 14
-    text: Gold Fee: 0
+    text: Forging Due: 0
     color: #d0b060
 
   Label
@@ -154,7 +154,7 @@ MainWindow
     text-wrap: true
     text-auto-resize: true
     color: #d9d2bf
-    text: The forge accepts only rarity gear.
+    text: The forge accepts only rare, epic, or legendary gear.
 
   Label
     id: resultLabel
@@ -176,7 +176,7 @@ MainWindow
     margin-left: 10
     margin-bottom: 10
     size: 100 24
-    text: Clear
+    text: Clear Offerings
 
   Button
     id: smeltButton

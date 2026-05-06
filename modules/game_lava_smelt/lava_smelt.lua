@@ -112,15 +112,15 @@ local function applySlotVisual(index)
 
   if not data then
     item:setItemId(0)
-    nameLabel:setText('Drop a rarity item here')
-    tierLabel:setText('Right-click to clear this slot')
+    nameLabel:setText('Place a rarity item here')
+    tierLabel:setText('Right-click to remove this offering')
     tierLabel:setColor('#9e9080')
     return
   end
 
   item:setItemId(data.clientId or data.itemId or 0)
-  nameLabel:setText(data.name or 'Selected item')
-  tierLabel:setText(string.format('%s item   Fee: %d gold', data.tierLabel or '-', tonumber(data.fee) or 0))
+  nameLabel:setText(data.name or 'Chosen item')
+  tierLabel:setText(string.format('%s offering   Due: %d gold', data.tierLabel or '-', tonumber(data.fee) or 0))
 
   local tier = (data.tier or ''):lower()
   if tier == 'legendary' then
@@ -204,10 +204,10 @@ local function applyPreview(preview)
   rebuildFromPreview(preview.entries or {})
 
   if ui.selectedCountLabel then
-    ui.selectedCountLabel:setText(string.format('Selected: %d / 6', tonumber(preview.totalCount) or 0))
+    ui.selectedCountLabel:setText(string.format('Offerings: %d / 6', tonumber(preview.totalCount) or 0))
   end
   if ui.goldCostLabel then
-    ui.goldCostLabel:setText(string.format('Gold Fee: %d', tonumber(preview.totalFee) or 0))
+    ui.goldCostLabel:setText(string.format('Forging Due: %d', tonumber(preview.totalFee) or 0))
   end
   if ui.rarityBreakdownLabel then
     local counts = preview.counts or {}
@@ -218,11 +218,11 @@ local function applyPreview(preview)
   end
 
   if tonumber(preview.ignored) and tonumber(preview.ignored) > 0 then
-    setStatus(string.format('%d invalid selection(s) were ignored. The forge only accepts rarity gear.', tonumber(preview.ignored) or 0), '#e05050')
+    setStatus(string.format('%d invalid offering(s) were ignored. The forge accepts only rare, epic, or legendary gear.', tonumber(preview.ignored) or 0), '#e05050')
   elseif (tonumber(preview.totalCount) or 0) > 0 then
-    setStatus('The forge is ready. Smelting destroys all listed items.', '#d9d2bf')
+    setStatus('The forge is prepared. Smelting will consume all listed offerings.', '#d9d2bf')
   else
-    setStatus('The forge accepts only rarity gear.', '#d9d2bf')
+    setStatus('The forge accepts only rare, epic, or legendary gear.', '#d9d2bf')
   end
 end
 
@@ -244,14 +244,14 @@ local function handleDrop(index, droppedWidget)
 
   for slotIndex = 1, 6 do
     if slotData[slotIndex] and positionKey(slotData[slotIndex].pos) == key then
-      setStatus('That item is already in the smelting queue.', '#e05050')
+      setStatus('That offering is already bound to the forge.', '#e05050')
       return
     end
   end
 
   local targetIndex = index or findFirstEmptySlot()
   if not targetIndex then
-    setStatus('The smelting queue is full.', '#e05050')
+    setStatus('The offering list is full.', '#e05050')
     return
   end
 
@@ -259,7 +259,7 @@ local function handleDrop(index, droppedWidget)
     pos = copyPos(pos),
     itemId = item:getId(),
     clientId = item:getId(),
-    name = 'Checking item...',
+    name = 'Inspecting offering...',
     tier = '',
     tierLabel = '-',
     fee = 0,
@@ -331,11 +331,11 @@ end
 local function showRerollPrompt(data)
   destroyRerollConfirm()
 
-  local message = string.format('Use %s to %s on %s (%s item)?', data.materialName or 'this material', data.modeText or 'reroll', data.targetName or 'the selected item', (data.tierLabel or 'Unknown'):lower())
+  local message = string.format('Invoke %s to %s on %s (%s item)?', data.materialName or 'this catalyst', data.modeText or 'reroll', data.targetName or 'the chosen item', (data.tierLabel or 'unknown'):lower())
 
-  rerollConfirmWindow = displayGeneralBox(tr('Confirm Reroll'), message, {
+  rerollConfirmWindow = displayGeneralBox(tr('Confirm Tempering'), message, {
     {
-      text = tr('Confirm'),
+      text = tr('Proceed'),
       callback = function()
         if rerollConfirmWindow then
           rerollConfirmWindow:ok()
@@ -365,7 +365,7 @@ local function formatYieldText(yields)
     local entry = yields[index]
     parts[#parts + 1] = string.format('%dx %s', tonumber(entry.count) or 0, entry.name or 'Material')
   end
-  return 'Latest yield: ' .. table.concat(parts, ', ')
+  return 'Forge yield: ' .. table.concat(parts, ', ')
 end
 
 local function onLavaSmeltOpcode(protocol, opcode, buffer)
@@ -382,9 +382,9 @@ local function onLavaSmeltOpcode(protocol, opcode, buffer)
   if data.action == 'reroll_result' then
     destroyRerollConfirm()
     if data.success then
-      modules.game_textmessage.displayStatusMessage(data.message or 'Reroll complete.')
+      modules.game_textmessage.displayStatusMessage(data.message or 'Tempering complete.')
     else
-      modules.game_textmessage.displayFailureMessage(data.message or 'Reroll failed.')
+      modules.game_textmessage.displayFailureMessage(data.message or 'Tempering failed.')
     end
     setStatus(data.message or '', data.success and '#7fd992' or '#e05050')
     return
@@ -416,9 +416,9 @@ local function onLavaSmeltOpcode(protocol, opcode, buffer)
     setStatus(data.message or '', data.success and '#7fd992' or '#e05050')
     setResult(formatYieldText(data.yields), data.success and '#cdbb91' or '#c47c7c')
     if data.success then
-      modules.game_textmessage.displayStatusMessage(data.message or 'Smelting complete.')
+      modules.game_textmessage.displayStatusMessage(data.message or 'Smelting rite complete.')
     else
-      modules.game_textmessage.displayFailureMessage(data.message or 'Smelting failed.')
+      modules.game_textmessage.displayFailureMessage(data.message or 'Smelting rite failed.')
     end
   end
 end
@@ -446,10 +446,10 @@ local function setPendingRerollMaterial(item)
   pendingRerollMaterial = {
     id = item:getId(),
     pos = copyPos(pos),
-    name = item:getName() or 'reroll material',
+    name = item:getName() or 'tempering catalyst',
   }
 
-  modules.game_textmessage.displayStatusMessage(string.format('Selected %s. Right-click the target item and choose Apply Reforge Material.', pendingRerollMaterial.name))
+  modules.game_textmessage.displayStatusMessage(string.format('Chosen %s. Right-click a target item and select Apply Tempering Catalyst.', pendingRerollMaterial.name))
 end
 
 local function rerollMenuCondition(menuPosition, lookThing, useThing, creatureThing)
@@ -491,7 +491,7 @@ local function rerollTargetMenuCallback(menuPosition, lookThing, useThing, creat
 
   local targetPos = copyPos(useThing:getPosition())
   if not isValidPos(targetPos) then
-    modules.game_textmessage.displayFailureMessage('Invalid reroll target.')
+    modules.game_textmessage.displayFailureMessage('Invalid tempering target.')
     clearPendingRerollMaterial()
     return
   end
@@ -516,8 +516,8 @@ function init()
     onGameEnd = onGameEnd,
   })
   ProtocolGame.registerExtendedOpcode(LAVA_SMELT_OPCODE, onLavaSmeltOpcode)
-  modules.game_interface.addMenuHook('lava_smelt', 'Select Reforge Material', rerollMenuCallback, rerollMenuCondition)
-  modules.game_interface.addMenuHook('lava_smelt', 'Apply Reforge Material', rerollTargetMenuCallback, rerollTargetMenuCondition)
+  modules.game_interface.addMenuHook('lava_smelt', 'Mark Tempering Catalyst', rerollMenuCallback, rerollMenuCondition)
+  modules.game_interface.addMenuHook('lava_smelt', 'Apply Tempering Catalyst', rerollTargetMenuCallback, rerollTargetMenuCondition)
 end
 
 function terminate()
@@ -525,8 +525,8 @@ function terminate()
     onGameEnd = onGameEnd,
   })
   ProtocolGame.unregisterExtendedOpcode(LAVA_SMELT_OPCODE)
-  modules.game_interface.removeMenuHook('lava_smelt', 'Select Reforge Material')
-  modules.game_interface.removeMenuHook('lava_smelt', 'Apply Reforge Material')
+  modules.game_interface.removeMenuHook('lava_smelt', 'Mark Tempering Catalyst')
+  modules.game_interface.removeMenuHook('lava_smelt', 'Apply Tempering Catalyst')
   clearPendingRerollMaterial()
   destroyWindow()
 end
