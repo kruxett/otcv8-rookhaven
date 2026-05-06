@@ -189,9 +189,24 @@ local function displaySelectUI(data)
 
       local weightOz = tonumber(t.weight_oz) or 0
       if rowSub then
-        if t.can_afford == false then
-          rowSub:setText('no materials')
-          rowSub:setColor('#555555')
+        if t.can_afford == false and t.materials and #t.materials > 0 then
+          -- show worst shortfall: the material furthest from completion
+          local worst, worstPct = nil, 1.0
+          for _, m in ipairs(t.materials) do
+            local pct = (tonumber(m.have) or 0) / (tonumber(m.need) or 1)
+            if pct < worstPct then worstPct = pct; worst = m end
+          end
+          if worst then
+            local have = tonumber(worst.have) or 0
+            local need = tonumber(worst.need) or 0
+            -- strip "crystal fragment" down to just the colour word for brevity
+            local shortName = (worst.name or ''):match('^(%a+)') or worst.name or ''
+            rowSub:setText(have .. ' / ' .. need .. ' ' .. shortName)
+            rowSub:setColor('#775555')
+          else
+            rowSub:setText('missing materials')
+            rowSub:setColor('#555555')
+          end
         else
           rowSub:setText(weightOz .. ' oz')
           rowSub:setColor('#b0b0b0')
