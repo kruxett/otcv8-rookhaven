@@ -316,36 +316,77 @@ local function isRarityRolledItem(item)
          article:find('legendary', 1, true) ~= nil
 end
 
-function getSellQuantity(item)
-  if not item then return 0 end
-  local itemId = item:getId()
+local function isRarityShopEntry(tradeItem)
+  if not tradeItem or not tradeItem.name then
+    return false
+  end
 
-  -- Count all matching items in the local inventory directly.
-  -- This bypasses playerItems (which may be 0 for rarity items due to server-side
-  -- NoRarity filtering) and also avoids the broken isRarityRolledItem check.
-  -- The server's onSell handler already validates rarity before removing anything.
-  local localPlayer = g_game.getLocalPlayer()
+  local name = tradeItem.name:lower()
+  return name:find('rare ', 1, true) == 1 or
+         name:find('epic ', 1, true) == 1 or
+         name:find('legendary ', 1, true) == 1
+end
+
+local function countContainerItemsRecursive(container, itemId)
   local total = 0
-  for i = 1, LAST_INVENTORY do
-    local inv = localPlayer:getInventoryItem(i)
-    if inv then
-      if inv:getId() == itemId then
-        if not ignoreEquipped:isChecked() then
-          total = total + inv:getCount()
-        end
-        -- when ignoreEquipped is on, skip items directly in equipment slots
+  for i = 0, container:getCapacity() - 1 do
+    local item = container:getItem(i)
+    if item then
+      if item:getId() == itemId then
+        total = total + item:getCount()
       end
-      local container = inv:getContainer()
-      if container then
-        for j = 0, container:getCapacity() - 1 do
-          local ci = container:getItem(j)
-          if ci and ci:getId() == itemId then
-            total = total + ci:getCount()
-          end
-        end
+
+      local nested = item:getContainer()
+      if nested then
+        total = total + countContainerItemsRecursive(nested, itemId)
       end
     end
   end
+  return total
+end
+
+function getSellQuantity(tradeItem)
+  if not tradeItem then return 0 end
+
+  local item = tradeItem.ptr or tradeItem
+  if not item then return 0 end
+
+  local itemId = item:getId()
+
+  -- Keep vanilla behavior for regular shops (server-provided playerItems).
+  -- Only rarity entries use local inventory scan because NoRarity filtering
+  -- can make server-provided counts appear as zero for those rows.
+  if not isRarityShopEntry(tradeItem) then
+    if not playerItems[itemId] then return 0 end
+    local removeAmount = 0
+    if ignoreEquipped:isChecked() then
+      local localPlayer = g_game.getLocalPlayer()
+      for i = 1, LAST_INVENTORY do
+        local inventoryItem = localPlayer:getInventoryItem(i)
+        if inventoryItem and inventoryItem:getId() == itemId and not isRarityRolledItem(inventoryItem) then
+          removeAmount = removeAmount + inventoryItem:getCount()
+        end
+      end
+    end
+    return math.max(0, playerItems[itemId] - removeAmount)
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  local total = 0
+  for i = 1, LAST_INVENTORY do
+    local inventoryItem = localPlayer:getInventoryItem(i)
+    if inventoryItem then
+      if inventoryItem:getId() == itemId and not ignoreEquipped:isChecked() then
+        total = total + inventoryItem:getCount()
+      end
+
+      local container = inventoryItem:getContainer()
+      if container then
+        total = total + countContainerItemsRecursive(container, itemId)
+      end
+    end
+  end
+
   return total
 end
 
@@ -353,7 +394,7 @@ function canTradeItem(item)
   if getCurrentTradeType() == BUY then
     return (ignoreCapacity:isChecked() or (not ignoreCapacity:isChecked() and playerFreeCapacity >= item.weight)) and playerMoney >= getItemPrice(item, true)
   else
-    return getSellQuantity(item.ptr) > 0
+    return getSellQuantity(item) > 0
   end
 end
 
@@ -374,7 +415,7 @@ function refreshItem(item)
     quantityScroll:setMaximum(finalCount)
   else
     quantityScroll:setMinimum(1)
-    quantityScroll:setMaximum(math.max(0, math.min(getMaxAmount(), getSellQuantity(item.ptr))))
+    quantityScroll:setMaximum(math.max(0, math.min(getMaxAmount(), getSellQuantity(item))))
   end
 
   setupPanel:enable()
@@ -558,21 +599,16 @@ function checkSellAllTooltip()
   local info = ''
   local first = true
 
-  for key, amount in pairs(playerItems) do
-    local data = getTradeItemData(key, SELL)
-    if data then
-      amount = getSellQuantity(data.ptr)
-      if amount > 0 then
-        if data and amount > 0 then
-          info = info..(not first and "\n" or "")..
-                 amount.." "..
-                 data.name.." ("..
-                 data.price*amount.." gold)"
+  for _, data in ipairs(tradeItems[SELL] or {}) do
+    local amount = getSellQuantity(data)
+    if amount > 0 then
+      info = info..(not first and "\n" or "")..
+             amount.." "..
+             data.name.." ("..
+             data.price*amount.." gold)"
 
-          total = total+(data.price*amount)
-          if first then first = false end
-        end
-      end
+      total = total+(data.price*amount)
+      if first then first = false end
     end
   end
   if info ~= '' then
@@ -612,7 +648,7 @@ function sellAll(delayed, exceptions)
   for _,entry in ipairs(tradeItems[SELL]) do
     local id = entry.ptr:getId()
     if not table.find(exceptions, id) then
-      local sellQuantity = getSellQuantity(entry.ptr)
+      local sellQuantity = getSellQuantity(entry)
       while sellQuantity > 0 do
         local maxAmount = math.min(sellQuantity, getMaxAmount())
         if delayed then
@@ -647,7 +683,7 @@ local function buildSellAllSummary(exceptions, maxLines)
   for _, tradeEntry in ipairs(tradeItems[SELL]) do
     local itemId = tradeEntry.ptr:getId()
     if not table.find(exceptions, itemId) then
-      local amount = getSellQuantity(tradeEntry.ptr)
+      local amount = getSellQuantity(tradeEntry)
       if amount > 0 then
         local itemName = normalizeItemName(tradeEntry.name)
         local lineTotal = tradeEntry.price * amount
