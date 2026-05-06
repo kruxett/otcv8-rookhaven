@@ -130,4 +130,3 @@ MainWindow
       anchors.left: parent.horizontalCenter
       margin-left: 5
       @onClick: modules.game_tradepack.cancel()
-  padding-left: 4
