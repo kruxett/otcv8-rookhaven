@@ -39,6 +39,7 @@ local investSyncLock = false
 local pendingStatusText = nil
 local pendingStatusColor = nil
 local detailsRequestPending = {}
+local statusLockedByResult = false
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -122,6 +123,18 @@ local function setStatus(text, color)
 
   ui.statusLabel:setText(text or '')
   ui.statusLabel:setColor(color or '#d9d2bf')
+end
+
+local function setAutoStatus(text, color)
+  if statusLockedByResult then
+    return
+  end
+
+  setStatus(text, color)
+end
+
+local function clearResultStatusLock()
+  statusLockedByResult = false
 end
 
 local function formatCount(amount)
@@ -693,7 +706,7 @@ updatePreview = function(path)
       ui.affixSelector:addOption('Loading item details...', 0)
     end
 
-    setStatus('Loading item details...')
+    setAutoStatus('Loading item details...')
     refreshOptionalWidgetState()
     refreshRiskPreview()
     requestEntryDetails(path)
@@ -739,6 +752,8 @@ local function resolveItemFromWidget(w)
 end
 
 local function trySelectItem(item)
+  clearResultStatusLock()
+
   if not item or not item.isItem or not item:isItem() then
     setStatus('Drop an inventory item here.', '#d26b6b')
     return false
@@ -976,16 +991,17 @@ local function populate(data)
       if ui.affixSelector and previousAffixId > 0 then
         ui.affixSelector:setCurrentOptionByData(previousAffixId, true)
       end
-      setStatus('Item selected. Press Upgrade to continue.')
+      setAutoStatus('Item selected. Press Upgrade to continue.')
     else
-      setStatus('Drop an item into the forge slot to begin.')
+      setAutoStatus('Drop an item into the forge slot to begin.')
     end
   else
-    setStatus('No eligible items found in inventory.', '#d26b6b')
+    setAutoStatus('No eligible items found in inventory.', '#d26b6b')
   end
 
   if pendingStatusText then
     setStatus(pendingStatusText, pendingStatusColor)
+    statusLockedByResult = true
     pendingStatusText = nil
     pendingStatusColor = nil
   end
@@ -1063,6 +1079,7 @@ local function onOpcode(protocol, opcode, buffer)
     detailsRequestPending[path] = nil
 
     if data.success == false then
+      clearResultStatusLock()
       setStatus(data.message or 'Failed to load item details.', '#d26b6b')
       return
     end
@@ -1084,7 +1101,7 @@ local function onOpcode(protocol, opcode, buffer)
 
     if selectedPath and entryByPath[selectedPath] and entryByPath[selectedPath].detailsLoaded == true then
       updatePreview(selectedPath)
-      setStatus('Item selected. Press Upgrade to continue.')
+      setAutoStatus('Item selected. Press Upgrade to continue.')
     end
     return
   end
@@ -1149,6 +1166,7 @@ function accept()
   end
 
   if not selectedPath then
+    clearResultStatusLock()
     setStatus('No item selected.', '#d26b6b')
     return
   end
@@ -1158,6 +1176,7 @@ function accept()
   local selectedAffixId = useCorrupted and getSelectedAffixId() or 0
 
   if invest > 0 and selectedAffixId <= 0 then
+    clearResultStatusLock()
     setStatus('Pick one affix when using Corrupted Fragments.', '#d26b6b')
     return
   end
