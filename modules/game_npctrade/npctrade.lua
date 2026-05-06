@@ -38,6 +38,7 @@ playerFreeCapacity = 0
 playerMoney = 0
 tradeItems = {}
 playerItems = {}
+rarityPlayerItems = {}
 selectedItem = nil
 
 cancelNextRelease = nil
@@ -90,7 +91,8 @@ function init()
   connect(g_game, { onGameEnd = hide,
                     onOpenNpcTrade = onOpenNpcTrade,
                     onCloseNpcTrade = onCloseNpcTrade,
-                    onPlayerGoods = onPlayerGoods } )
+                    onPlayerGoods = onPlayerGoods,
+                    onExtendedOpcode = onExtendedOpcode } )
 
   connect(LocalPlayer, { onFreeCapacityChange = onFreeCapacityChange,
                          onInventoryChange = onInventoryChange } )
@@ -106,7 +108,8 @@ function terminate()
   disconnect(g_game, {  onGameEnd = hide,
                         onOpenNpcTrade = onOpenNpcTrade,
                         onCloseNpcTrade = onCloseNpcTrade,
-                        onPlayerGoods = onPlayerGoods } )
+                        onPlayerGoods = onPlayerGoods,
+                        onExtendedOpcode = onExtendedOpcode } )
 
   disconnect(LocalPlayer, { onFreeCapacityChange = onFreeCapacityChange,
                             onInventoryChange = onInventoryChange } )
@@ -319,11 +322,14 @@ end
 function getSellQuantity(item)
   if not item or not playerItems[item:getId()] then return 0 end
   local removeAmount = 0
-  if ignoreEquipped:isChecked() then
+  -- Only apply ignoreEquipped for non-rarity items. Rarity items skip this because
+  -- item:getArticle() on a client inventory item returns the .dat default, not the
+  -- custom server-set article, so isRarityRolledItem() is unreliable client-side.
+  if ignoreEquipped:isChecked() and not rarityPlayerItems[item:getId()] then
     local localPlayer = g_game.getLocalPlayer()
     for i=1,LAST_INVENTORY do
       local inventoryItem = localPlayer:getInventoryItem(i)
-      if inventoryItem and inventoryItem:getId() == item:getId() and not isRarityRolledItem(inventoryItem) then
+      if inventoryItem and inventoryItem:getId() == item:getId() then
         removeAmount = removeAmount + inventoryItem:getCount()
       end
     end
@@ -476,7 +482,22 @@ function closeNpcTrade()
 end
 
 function onCloseNpcTrade()
+  rarityPlayerItems = {}
   addEvent(hide)
+end
+
+-- Opcode 99: server sends comma-separated client item IDs for "allowRarity" items.
+-- These bypass the ignoreEquipped subtraction in getSellQuantity because the client
+-- cannot read custom ARTICLE attributes from inventory items.
+local NPC_RARITY_GOODS_OPCODE = 99
+function onExtendedOpcode(opcode, buffer)
+  if opcode ~= NPC_RARITY_GOODS_OPCODE then return end
+  rarityPlayerItems = {}
+  if buffer and buffer ~= '' then
+    for id in buffer:gmatch('(%d+)') do
+      rarityPlayerItems[tonumber(id)] = true
+    end
+  end
 end
 
 function onPlayerGoods(money, items)
