@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Station')
-  size: 460 254
+  size: 460 241
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -32,7 +32,7 @@ MainWindow
     anchors.top: prev.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 4
+    margin-top: 2
     margin-left: 10
     margin-right: 10
     height: 80
@@ -276,7 +276,7 @@ MainWindow
     anchors.top: optionalPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 5
+    margin-top: 3
 
   Label
     id: statusLabel
@@ -305,8 +305,8 @@ MainWindow
     anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-bottom: 6
-    height: 34
+    margin-bottom: 3
+    height: 28
 
     Button
       id: acceptButton
