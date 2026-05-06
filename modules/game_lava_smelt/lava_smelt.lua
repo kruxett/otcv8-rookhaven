@@ -137,8 +137,11 @@ end
 local function collectPositions()
   local positions = {}
   for index = 1, 6 do
-    if slotData[index] and slotData[index].pos then
-      positions[#positions + 1] = copyPos(slotData[index].pos)
+    local slot = slotData[index]
+    if slot and slot.pos then
+      local entry = copyPos(slot.pos)
+      entry.itemId = slot.itemId or 0
+      positions[#positions + 1] = entry
     end
   end
   return positions
@@ -255,6 +258,7 @@ local function handleDrop(index, droppedWidget)
   slotData[targetIndex] = {
     pos = copyPos(pos),
     itemId = item:getId(),
+    clientId = item:getId(),
     name = 'Checking item...',
     tier = '',
     tierLabel = '-',
