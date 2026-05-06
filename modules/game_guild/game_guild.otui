@@ -259,7 +259,7 @@ MainWindow
       text: Ranks
       font: verdana-11px-rounded
       checkable: true
-
+        @onClick: modules.game_guild.switchTab('ranksTab')
   Panel
     id: infoPanel
     anchors.top: guildTabsRow.bottom
@@ -271,6 +271,7 @@ MainWindow
 
     Label
       anchors.top: parent.top
+      @onClick: modules.game_guild.switchTab('infoTab')
       anchors.left: parent.left
       margin-top: 2
       margin-left: 4
@@ -281,6 +282,7 @@ MainWindow
       text-auto-resize: true
 
     Label
+      @onClick: modules.game_guild.switchTab('membersTab')
       id: infoGuildName
       anchors.top: parent.top
       anchors.left: parent.left
@@ -291,6 +293,7 @@ MainWindow
       font: verdana-11px-rounded
       color: #dfdfdf
 
+      @onClick: modules.game_guild.switchTab('invitesTab')
     Label
       anchors.top: infoGuildName.bottom
       anchors.left: parent.left

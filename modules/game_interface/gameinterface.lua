@@ -772,6 +772,12 @@ function createThingMenu(menuPosition, lookThing, useThing, creatureThing)
             menu:addOption(tr('Invite to Party'), function() g_game.partyInvite(creatureThing:getId()) end)
           end
         end
+
+        if modules.game_guild and modules.game_guild.canInviteMembers and modules.game_guild.canInviteMembers() then
+          menu:addOption(tr('Invite to Guild'), function()
+            modules.game_guild.inviteByName(creatureName)
+          end)
+        end
       end
     end
 
