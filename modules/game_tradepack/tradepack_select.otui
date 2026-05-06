@@ -12,7 +12,7 @@ MainWindow
     anchors.bottom: bottomBar.top
     margin-bottom: 4
 
-    -- Left column: pack size list
+    // Left column: pack size list
     Panel
       id: listPanel
       anchors.left: parent.left
@@ -27,7 +27,7 @@ MainWindow
         type: verticalBox
         spacing: 0
 
-    -- Vertical divider
+    // Vertical divider
     VerticalSeparator
       id: divider
       anchors.left: listPanel.right
@@ -36,7 +36,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
 
-    -- Right column: details for selected tier
+    // Right column: details for selected tier
     FlatPanel
       id: detailPanel
       anchors.left: divider.right
@@ -98,7 +98,7 @@ MainWindow
         font: verdana-11px-rounded
         color: #aaaaaa
 
-    -- Destination row at the bottom of the FlatPanel
+    // Destination row at the bottom of the FlatPanel
     Panel
       id: destRow
       anchors.left: parent.left
