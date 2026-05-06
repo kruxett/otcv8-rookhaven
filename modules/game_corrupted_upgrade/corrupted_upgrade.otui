@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Station')
-  size: 460 210
+  size: 460 202
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
