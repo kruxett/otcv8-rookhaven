@@ -2,13 +2,16 @@
 -- game_tradepack UI
 -- ============================================================
 -- Server sends opcode 100 with JSON:
---   { mode="select", tiers=[{id,label,cost,slowdown}, ...], routes=[{id,label}, ...] }
---   { mode="confirm", tier_id, tier_label, dest_id, dest_label, cost, reward, slowdown }
+--   mode="select":
+--     tiers  = [{id, label, cost, slowdown, reward}, ...]
+--     routes = [{id, label, multiplier}, ...]
+--   mode="confirm":
+--     {tier_id, tier_label, dest_id, dest_label, cost, reward, slowdown}
 --
--- Client replies with opcode 100:
---   { action="pick",    tier=<id>, dest=<id> }   (from select stage)
---   { action="confirm"                        }   (from confirm stage)
---   { action="cancel"                         }   (from either stage)
+-- Client replies:
+--   { action="pick",    tier=<id>, dest=<id> }
+--   { action="confirm" }
+--   { action="cancel"  }
 -- ============================================================
 
 local TRADEPACK_OPCODE = 100
@@ -16,6 +19,8 @@ local TRADEPACK_OPCODE = 100
 local tradepackWindow = nil
 local selectedTierId = nil
 local selectedDestId = nil
+local tiersData = nil
+local routesData = nil
 
 local function destroyWindow()
   if tradepackWindow then
@@ -24,40 +29,80 @@ local function destroyWindow()
   end
   selectedTierId = nil
   selectedDestId = nil
+  tiersData = nil
+  routesData = nil
 end
 
 local function sendResponse(payload)
   local protocol = g_game.getProtocolGame()
-  if not protocol then
-    return
-  end
-
+  if not protocol then return end
   local ok, encoded = pcall(function() return json.encode(payload) end)
   if ok and type(encoded) == 'string' then
     protocol:sendExtendedOpcode(TRADEPACK_OPCODE, encoded)
   end
 end
 
-local function readComboSelection(combo)
-  if not combo then
-    return nil
+-- Update the right-hand detail panel based on currently selected tier + dest
+local function updateDetails()
+  if not tradepackWindow then return end
+  local detailPanel = tradepackWindow:recursiveGetChildById('detailPanel')
+  if not detailPanel then return end
+
+  local function lbl(id) return detailPanel:getChildById(id) end
+
+  -- find tier entry
+  local tierEntry = nil
+  if tiersData and selectedTierId then
+    for _, t in ipairs(tiersData) do
+      if t.id == selectedTierId then tierEntry = t; break end
+    end
   end
 
-  local option = combo:getCurrentOption()
-  if not option then
-    return nil
+  -- find route entry for multiplier
+  local routeEntry = nil
+  if routesData and selectedDestId then
+    for _, r in ipairs(routesData) do
+      if r.id == selectedDestId then routeEntry = r; break end
+    end
   end
 
-  if option.data ~= nil and option.data ~= '' then
-    return tostring(option.data)
+  if not tierEntry then
+    local w = lbl('detailTitle'); if w then w:setText('Select a pack size') end
+    local c = lbl('detailCost');  if c then c:setText('') end
+    local rw = lbl('detailReward'); if rw then rw:setText('') end
+    local sp = lbl('detailSpeed');  if sp then sp:setText('') end
+    return
   end
 
-  if option.text ~= nil and option.text ~= '' then
-    return tostring(option.text)
-  end
+  local w = lbl('detailTitle')
+  if w then w:setText(tierEntry.label or tierEntry.id) end
 
-  return nil
+  local c = lbl('detailCost')
+  if c then c:setText('Cost: ' .. (tierEntry.cost or '')) end
+
+  local baseReward = tonumber(tierEntry.reward) or 0
+  local mult = routeEntry and (tonumber(routeEntry.multiplier) or 1.0) or 1.0
+  local actualReward = math.floor(baseReward * mult)
+  local rw = lbl('detailReward')
+  if rw then rw:setText('Reward: ' .. actualReward .. ' gold') end
+
+  local sp = lbl('detailSpeed')
+  if sp then sp:setText('Speed penalty: -' .. tostring(tierEntry.slowdown or 0) .. '%') end
 end
+
+local function highlightTierRow(listPanel, selectedId)
+  for _, child in ipairs(listPanel:getChildren()) do
+    if child:getId() == selectedId then
+      child:setBackgroundColor('#ffffff22')
+      child:setBorderColor('#888888')
+    else
+      child:setBackgroundColor('#232323')
+      child:setBorderColor('#000000')
+    end
+  end
+end
+
+-- ---- public callbacks (referenced from .otui) ---------------
 
 function cancel()
   sendResponse({ action = "cancel" })
@@ -70,111 +115,96 @@ function confirm()
 end
 
 function requestPack()
-  if not tradepackWindow then
-    return
-  end
-
-  local tierSelector = tradepackWindow:getChildById('tierSelector')
-  local destSelector = tradepackWindow:getChildById('destSelector')
-
-  selectedTierId = selectedTierId or readComboSelection(tierSelector)
-  selectedDestId = selectedDestId or readComboSelection(destSelector)
-
-  if not selectedTierId or not selectedDestId then
-    return
-  end
-
+  if not tradepackWindow then return end
+  if not selectedTierId or not selectedDestId then return end
   sendResponse({ action = "pick", tier = selectedTierId, dest = selectedDestId })
+  -- window stays open; server replies with confirm payload
 end
+
+-- ---- opcode handler -----------------------------------------
 
 local function onTradepackOpcode(protocol, opcode, buffer)
   local ok, data = pcall(function() return json.decode(buffer) end)
-  if not ok or not data then
-    return
-  end
+  if not ok or not data then return end
 
   destroyWindow()
 
   if data.mode == "select" then
     tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
-    if not tradepackWindow then
-      return
-    end
+    if not tradepackWindow then return end
 
-    local tierSelector = tradepackWindow:getChildById('tierSelector')
-    local destSelector = tradepackWindow:getChildById('destSelector')
+    tiersData = data.tiers or {}
+    routesData = data.routes or {}
 
-    if tierSelector then
-      tierSelector:clearOptions()
-      if data.tiers then
-        for i, t in ipairs(data.tiers) do
-          local label = tostring(t.label or t.id)
-          if t.cost and t.cost ~= '' then
-            label = label .. ' - ' .. tostring(t.cost)
-          end
-          tierSelector:addOption(label, tostring(t.id))
-          if i == 1 then
-            selectedTierId = tostring(t.id)
-            tierSelector:setCurrentOption(label, false)
-          end
+    local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
+    local destSelector = tradepackWindow:recursiveGetChildById('destSelector')
+
+    -- Populate tier list rows
+    if listPanel then
+      for i, t in ipairs(tiersData) do
+        local row = g_ui.createWidget('TradepackTierRow', listPanel)
+        row:setId(t.id)
+        local rowTitle = row:getChildById('rowTitle')
+        local rowSub = row:getChildById('rowSub')
+        if rowTitle then rowTitle:setText(t.label or t.id) end
+        if rowSub then rowSub:setText('-' .. tostring(t.slowdown or 0) .. '% speed') end
+
+        if i == 1 then
+          selectedTierId = t.id
+          row:setBackgroundColor('#ffffff22')
+          row:setBorderColor('#888888')
+        end
+
+        row.onMousePress = function(widget)
+          selectedTierId = t.id
+          highlightTierRow(listPanel, t.id)
+          updateDetails()
+          return true
         end
       end
-
-      tierSelector.onOptionChange = function(widget, text, optionData)
-        if optionData ~= nil and optionData ~= '' then
-          selectedTierId = tostring(optionData)
-        else
-          local current = widget:getCurrentOption()
-          selectedTierId = current and tostring(current.data or current.text or '') or nil
-        end
-      end
     end
 
+    -- Populate destination ComboBox
     if destSelector then
       destSelector:clearOptions()
-      if data.routes then
-        for i, r in ipairs(data.routes) do
-          local label = tostring(r.label or r.id)
-          destSelector:addOption(label, tostring(r.id))
-          if i == 1 then
-            selectedDestId = tostring(r.id)
-            destSelector:setCurrentOption(label, false)
-          end
+      for i, r in ipairs(routesData) do
+        destSelector:addOption(tostring(r.label or r.id), tostring(r.id))
+        if i == 1 then
+          selectedDestId = tostring(r.id)
+          destSelector:setCurrentOption(tostring(r.label or r.id), false)
         end
       end
 
       destSelector.onOptionChange = function(widget, text, optionData)
-        if optionData ~= nil and optionData ~= '' then
-          selectedDestId = tostring(optionData)
-        else
-          local current = widget:getCurrentOption()
-          selectedDestId = current and tostring(current.data or current.text or '') or nil
-        end
+        selectedDestId = (optionData ~= nil and optionData ~= '') and tostring(optionData) or text
+        updateDetails()
       end
     end
+
+    -- Render initial detail panel
+    updateDetails()
 
   elseif data.mode == "confirm" then
     tradepackWindow = g_ui.displayUI('tradepack_confirm', rootWidget)
-    if not tradepackWindow then
-      return
-    end
+    if not tradepackWindow then return end
 
     local function setLabel(id, text)
       local w = tradepackWindow:getChildById(id)
-      if w then
-        w:setText(text)
-      end
+      if w then w:setText(text) end
     end
 
-    setLabel('sizeLabel', 'Size: ' .. (data.tier_label or ''))
-    setLabel('destLabel', 'Destination: ' .. (data.dest_label or ''))
-    setLabel('costLabel', 'Cost: ' .. (data.cost or '') .. ' (materials)')
-    setLabel('rewardLabel', 'Reward: ' .. (data.reward or '') .. ' gold on delivery')
-    setLabel('slowLabel', 'Speed penalty: ' .. (data.slowdown or '') .. '%')
+    setLabel('sizeLabel',   'Size: '          .. (data.tier_label or ''))
+    setLabel('destLabel',   'Destination: '   .. (data.dest_label or ''))
+    setLabel('costLabel',   'Cost: '          .. (data.cost       or '') .. ' (materials)')
+    setLabel('rewardLabel', 'Reward: '        .. tostring(data.reward or '') .. ' gold on delivery')
+    setLabel('slowLabel',   'Speed penalty: -' .. tostring(data.slowdown or '') .. '%')
   end
 end
 
+-- ---- module lifecycle ---------------------------------------
+
 function init()
+  g_ui.importStyle('tradepack_styles')
   connect(g_game, { onGameEnd = destroyWindow })
   ProtocolGame.registerExtendedOpcode(TRADEPACK_OPCODE, onTradepackOpcode)
 end
