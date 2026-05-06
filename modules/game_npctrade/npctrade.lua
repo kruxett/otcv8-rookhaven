@@ -340,7 +340,13 @@ local function countContainerItemsRecursive(container, itemId)
         total = total + item:getCount()
       end
 
-      local nested = item:getContainer()
+      local nested = nil
+      if item.isContainer and item:isContainer() then
+        local ok, resolved = pcall(function() return item:getContainer() end)
+        if ok then
+          nested = resolved
+        end
+      end
       if nested then
         total = total + countContainerItemsRecursive(nested, itemId)
       end
@@ -384,7 +390,13 @@ function getSellQuantity(tradeItem)
         total = total + inventoryItem:getCount()
       end
 
-      local container = inventoryItem:getContainer()
+      local container = nil
+      if inventoryItem.isContainer and inventoryItem:isContainer() then
+        local ok, resolved = pcall(function() return inventoryItem:getContainer() end)
+        if ok then
+          container = resolved
+        end
+      end
       if container then
         total = total + countContainerItemsRecursive(container, itemId)
       end
