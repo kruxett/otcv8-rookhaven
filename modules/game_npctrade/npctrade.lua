@@ -38,6 +38,7 @@ playerFreeCapacity = 0
 playerMoney = 0
 tradeItems = {}
 playerItems = {}
+rarityNameCounts = {}
 selectedItem = nil
 
 cancelNextRelease = nil
@@ -92,6 +93,16 @@ function init()
                     onCloseNpcTrade = onCloseNpcTrade,
                     onPlayerGoods = onPlayerGoods } )
 
+  ProtocolGame.registerExtendedOpcode(99, function(protocol, opcode, buffer)
+    rarityNameCounts = {}
+    for entry in buffer:gmatch("[^|]+") do
+      local name, count = entry:match("^(.+):(%d+)$")
+      if name and count then
+        rarityNameCounts[name:lower()] = tonumber(count)
+      end
+    end
+  end)
+
   connect(LocalPlayer, { onFreeCapacityChange = onFreeCapacityChange,
                          onInventoryChange = onInventoryChange } )
 
@@ -107,6 +118,8 @@ function terminate()
                         onOpenNpcTrade = onOpenNpcTrade,
                         onCloseNpcTrade = onCloseNpcTrade,
                         onPlayerGoods = onPlayerGoods } )
+
+  ProtocolGame.unregisterExtendedOpcode(99)
 
   disconnect(LocalPlayer, { onFreeCapacityChange = onFreeCapacityChange,
                             onInventoryChange = onInventoryChange } )
@@ -340,11 +353,14 @@ function getSellQuantity(tradeItem)
   local itemId = item:getId()
   if not playerItems[itemId] then return 0 end
 
-  -- For rarity shop entries: trust the server-provided count directly.
-  -- The server uses getItemTypeCount (countIncludesRarity=true) so playerItems
-  -- already contains the correct total. No client-side scan needed.
+  -- For rarity shop entries: use exact per-name count from opcode 99 data.
+  -- Falls back to total playerItems count if opcode data not yet received.
   if isRarityShopEntry(tradeItem) then
-    return playerItems[itemId]
+    local exactCount = rarityNameCounts[tradeItem.name:lower()]
+    if exactCount then
+      return exactCount
+    end
+    return playerItems[itemId] or 0
   end
 
   -- Vanilla logic for normal shops: subtract ignoreEquipped items.
@@ -521,6 +537,7 @@ function closeNpcTrade()
 end
 
 function onCloseNpcTrade()
+  rarityNameCounts = {}
   addEvent(hide)
 end
 
