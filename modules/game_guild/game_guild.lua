@@ -10,7 +10,12 @@ local permissions = {
 local function sendAction(action, params)
   local protocol = g_game.getProtocolGame()
   if not protocol then return end
-  local payload = table.merge({ action = action }, params or {})
+  local payload = { action = action }
+  if params then
+    for k, v in pairs(params) do
+      payload[k] = v
+    end
+  end
   protocol:sendExtendedOpcode(GUILD_OPCODE, json.encode(payload))
 end
 
