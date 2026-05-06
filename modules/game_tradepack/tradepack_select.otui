@@ -1,93 +1,114 @@
 -- ============================================================
+-- Tradepack list item style (mirrors TaskBoardListItem)
+-- ============================================================
+TradepackListItem < Panel
+  height: 38
+  margin-bottom: 3
+  border-width: 1
+  border-color: #000000
+  background-color: #232323
+  focusable: true
+
+  $hover:
+    border-color: #ffffff
+
+  Label
+    id: titleLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 8
+    margin-right: 8
+    margin-top: 6
+    height: 14
+    font: verdana-11px-rounded
+    phantom: true
+
+  Label
+    id: subtitleLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: titleLabel.bottom
+    margin-left: 8
+    margin-right: 8
+    margin-top: 1
+    height: 12
+    color: #b0b0b0
+    font: verdana-11px-rounded
+    phantom: true
+
+-- ============================================================
 -- Stage 1: size + destination picker
 -- ============================================================
 
 MainWindow
   id: tradepackSelectWindow
-  !text: tr('Tradepack')
-  size: 340 300
+  !text: tr('Tradepack Order')
+  size: 380 310
   @onEscape: modules.game_tradepack.cancel()
 
-  -- Title hint
+  -- Left column header: Pack Size
   Label
-    id: hintLabel
+    id: tierHeader
+    !text: tr('Pack Size')
     anchors.top: parent.top
     anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.right: parent.horizontalCenter
+    margin-top: 4
+    margin-left: 8
+    margin-right: 4
+    height: 16
     text-align: center
     font: verdana-11px-monochrome
     color: #c8a456
-    margin-top: 2
-    height: 18
-    !text: tr('Choose pack size and destination')
 
-  HorizontalSeparator
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: prev.bottom
-    margin-top: 4
-
-  -- Section: Size
+  -- Right column header: Destination
   Label
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    margin-top: 6
-    margin-left: 8
-    font: verdana-11px-monochrome
-    color: #aaaaaa
-    height: 14
-    !text: tr('Pack Size')
-
-  RadioButtonGroup
-    id: tierGroup
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 2
-    margin-left: 8
-    margin-right: 8
-    layout:
-      type: verticalBox
-      spacing: 2
-    -- buttons populated dynamically in tradepack.lua
-
-  HorizontalSeparator
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: prev.bottom
-    margin-top: 8
-
-  -- Section: Destination
-  Label
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    margin-top: 6
-    margin-left: 8
-    font: verdana-11px-monochrome
-    color: #aaaaaa
-    height: 14
+    id: destHeader
     !text: tr('Destination')
-
-  RadioButtonGroup
-    id: destGroup
-    anchors.top: prev.bottom
-    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.left: parent.horizontalCenter
     anchors.right: parent.right
-    margin-top: 2
-    margin-left: 8
+    margin-top: 4
+    margin-left: 4
     margin-right: 8
+    height: 16
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #c8a456
+
+  -- Left column: tier list (items added dynamically)
+  Panel
+    id: tierPanel
+    anchors.top: tierHeader.bottom
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+    anchors.bottom: buttonPanel.top
+    margin-top: 4
+    margin-left: 8
+    margin-right: 4
+    margin-bottom: 6
     layout:
       type: verticalBox
-      spacing: 2
-    -- buttons populated dynamically
+      spacing: 0
 
-  HorizontalSeparator
-    anchors.left: parent.left
+  -- Right column: destination list (items added dynamically)
+  Panel
+    id: destPanel
+    anchors.top: destHeader.bottom
+    anchors.left: parent.horizontalCenter
     anchors.right: parent.right
-    anchors.bottom: next.top
+    anchors.bottom: buttonPanel.top
+    margin-top: 4
+    margin-left: 4
+    margin-right: 8
     margin-bottom: 6
+    layout:
+      type: verticalBox
+      spacing: 0
 
   Panel
+    id: buttonPanel
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
@@ -95,7 +116,7 @@ MainWindow
     margin-bottom: 2
 
     Button
-      id: requestButton
+      id: nextButton
       !text: tr('Next')
       width: 72
       anchors.right: parent.horizontalCenter
@@ -109,13 +130,4 @@ MainWindow
       anchors.left: parent.horizontalCenter
       margin-left: 5
       @onClick: modules.game_tradepack.cancel()
-
--- ============================================================
--- Reusable radio button style for tradepack picker
--- ============================================================
-RadioButton < RadioButton
-  id: TradepackRadioButton
-  height: 28
-  font: verdana-11px-monochrome
-  text-align: left
   padding-left: 4

@@ -3,7 +3,7 @@
 -- ============================================================
 -- Server sends opcode 100 with JSON:
 --   { mode="select", tiers=[{id,label,cost,slowdown}, ...], routes=[{id,label}, ...] }
---   { mode="confirm", tier_id, tier_label, dest_id, dest_label, cost, reward }
+--   { mode="confirm", tier_id, tier_label, dest_id, dest_label, cost, reward, slowdown }
 --
 -- Client replies with opcode 100:
 --   { action="pick",    tier=<id>, dest=<id> }   (from select stage)
@@ -15,20 +15,37 @@ local TRADEPACK_OPCODE = 100
 
 local tradepackWindow = nil
 
+-- Selection state tracked manually (same pattern as game_taskcenter)
+local selectedTierId = nil
+local selectedDestId = nil
+
 -- ---- helpers ------------------------------------------------
 
 local function destroyWindow()
   if tradepackWindow then
-    tradepackWindow:ungrabMouse()
     tradepackWindow:destroy()
     tradepackWindow = nil
   end
+  selectedTierId = nil
+  selectedDestId = nil
 end
 
 local function sendResponse(payload)
   local protocol = g_game.getProtocolGame()
-  if protocol then
-    protocol:sendExtendedOpcode(TRADEPACK_OPCODE, json.encode(payload))
+  if not protocol then return end
+  local ok, encoded = pcall(function() return json.encode(payload) end)
+  if ok and type(encoded) == 'string' then
+    protocol:sendExtendedOpcode(TRADEPACK_OPCODE, encoded)
+  end
+end
+
+local function highlightSelected(panel, selectedId)
+  for _, child in ipairs(panel:getChildren()) do
+    if child:getId() == selectedId then
+      child:setBackgroundColor('#ffffff22')
+    else
+      child:setBackgroundColor('#232323')
+    end
   end
 end
 
@@ -44,31 +61,21 @@ function confirm()
   destroyWindow()
 end
 
--- Called when the player clicks "Request Pack" in the select view.
--- Reads the selected radio buttons and sends a pick action.
+-- Called when the player clicks "Next" in the select view.
 function requestPack()
   if not tradepackWindow then return end
-
-  local tierGroup = tradepackWindow:getChildById('tierGroup')
-  local destGroup = tradepackWindow:getChildById('destGroup')
-  if not tierGroup or not destGroup then return end
-
-  local selectedTier = tierGroup:getSelectedOption()
-  local selectedDest = destGroup:getSelectedOption()
-  if not selectedTier or not selectedDest then
-    -- nothing selected yet, ignore
-    return
+  if not selectedTierId or not selectedDestId then
+    return  -- nothing selected yet
   end
-
-  sendResponse({ action = "pick", tier = selectedTier, dest = selectedDest })
-  -- window stays open; server will reply with a confirm payload
+  sendResponse({ action = "pick", tier = selectedTierId, dest = selectedDestId })
+  -- window stays open; server replies with confirm payload
 end
 
 -- ---- opcode handler -----------------------------------------
 
 local function onTradepackOpcode(protocol, opcode, buffer)
-  local data = json.decode(buffer)
-  if not data then return end
+  local ok, data = pcall(function() return json.decode(buffer) end)
+  if not ok or not data then return end
 
   destroyWindow()
 
@@ -79,32 +86,46 @@ local function onTradepackOpcode(protocol, opcode, buffer)
     tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
     if not tradepackWindow then return end
 
-    local tierGroup = tradepackWindow:getChildById('tierGroup')
-    local destGroup = tradepackWindow:getChildById('destGroup')
+    local tierPanel = tradepackWindow:getChildById('tierPanel')
+    local destPanel = tradepackWindow:getChildById('destPanel')
 
-    -- Populate tier radio buttons
-    if tierGroup and data.tiers then
+    -- Populate tier list items
+    if tierPanel and data.tiers then
       for i, t in ipairs(data.tiers) do
-        local btn = g_ui.createWidget('TradepackRadioButton', tierGroup)
-        btn:setId('tier_' .. t.id)
-        btn:setText(t.label .. '\n' .. t.cost)
-        btn:setOption(t.id)
-        if i == 1 then btn:setChecked(true) end
+        local row = g_ui.createWidget('TradepackListItem', tierPanel)
+        row:setId(t.id)
+        row.titleLabel:setText(t.label or t.id)
+        row.subtitleLabel:setText((t.cost or '') .. '  |  ' .. (t.slowdown or '') .. '% speed')
+        if i == 1 then
+          selectedTierId = t.id
+          row:setBackgroundColor('#ffffff22')
+        end
+        row.onMousePress = function(widget)
+          selectedTierId = t.id
+          highlightSelected(tierPanel, t.id)
+          return true
+        end
       end
     end
 
-    -- Populate destination radio buttons
-    if destGroup and data.routes then
+    -- Populate destination list items
+    if destPanel and data.routes then
       for i, r in ipairs(data.routes) do
-        local btn = g_ui.createWidget('TradepackRadioButton', destGroup)
-        btn:setId('dest_' .. r.id)
-        btn:setText(r.label)
-        btn:setOption(r.id)
-        if i == 1 then btn:setChecked(true) end
+        local row = g_ui.createWidget('TradepackListItem', destPanel)
+        row:setId(r.id)
+        row.titleLabel:setText(r.label or r.id)
+        row.subtitleLabel:setText('')
+        if i == 1 then
+          selectedDestId = r.id
+          row:setBackgroundColor('#ffffff22')
+        end
+        row.onMousePress = function(widget)
+          selectedDestId = r.id
+          highlightSelected(destPanel, r.id)
+          return true
+        end
       end
     end
-
-    tradepackWindow:grabMouse()
 
   elseif data.mode == "confirm" then
     -- --------------------------------------------------------
@@ -118,13 +139,11 @@ local function onTradepackOpcode(protocol, opcode, buffer)
       if w then w:setText(text) end
     end
 
-    setLabel('sizeLabel',    'Size: '        .. (data.tier_label or ''))
-    setLabel('destLabel',    'Destination: ' .. (data.dest_label or ''))
-    setLabel('costLabel',    'Cost: '        .. (data.cost       or '') .. ' (materials)')
-    setLabel('rewardLabel',  'Reward: '      .. (data.reward     or '') .. ' gold on delivery')
-    setLabel('slowLabel',    'Speed penalty: ' .. (data.slowdown or '') .. '%')
-
-    tradepackWindow:grabMouse()
+    setLabel('sizeLabel',   'Size: '           .. (data.tier_label or ''))
+    setLabel('destLabel',   'Destination: '    .. (data.dest_label or ''))
+    setLabel('costLabel',   'Cost: '           .. (data.cost       or '') .. ' (materials)')
+    setLabel('rewardLabel', 'Reward: '         .. (data.reward     or '') .. ' gold on delivery')
+    setLabel('slowLabel',   'Speed penalty: '  .. (data.slowdown   or '') .. '%')
   end
 end
 
