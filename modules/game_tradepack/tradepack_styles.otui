@@ -1,4 +1,3 @@
--- Tradepack list row — mirrors TaskBoardListItem style from game_taskcenter
 TradepackTierRow < Panel
   height: 44
   margin-bottom: 3
