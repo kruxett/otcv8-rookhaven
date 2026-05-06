@@ -101,6 +101,10 @@ function init()
         rarityNameCounts[name:lower()] = tonumber(count)
       end
     end
+    -- Refresh the UI now that exact per-tier counts are known.
+    if initialized and npcWindow and npcWindow:isVisible() then
+      refreshPlayerGoods()
+    end
   end)
 
   connect(LocalPlayer, { onFreeCapacityChange = onFreeCapacityChange,
@@ -353,14 +357,10 @@ function getSellQuantity(tradeItem)
   local itemId = item:getId()
   if not playerItems[itemId] then return 0 end
 
-  -- For rarity shop entries: use exact per-name count from opcode 99 data.
-  -- Falls back to total playerItems count if opcode data not yet received.
+  -- No fallback to playerItems: opcode 99 is authoritative for rarity tiers.
+  -- Absence of a key means 0 of that tier (sold/not in inventory).
   if isRarityShopEntry(tradeItem) then
-    local exactCount = rarityNameCounts[tradeItem.name:lower()]
-    if exactCount then
-      return exactCount
-    end
-    return playerItems[itemId] or 0
+    return rarityNameCounts[tradeItem.name:lower()] or 0
   end
 
   -- Vanilla logic for normal shops: subtract ignoreEquipped items.
