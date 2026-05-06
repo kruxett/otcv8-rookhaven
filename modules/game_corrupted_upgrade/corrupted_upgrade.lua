@@ -34,6 +34,7 @@ local destroyWindow
 local truncateText
 
 local lastDraggedItem = nil
+local lastDraggedPos = nil
 local wasDragging = false
 local availableCorruptedFragments = 0
 local investSyncLock = false
@@ -749,25 +750,54 @@ end
 
 local function resolveItemFromWidget(w)
   if not w then
-    return nil
+    return nil, nil
+  end
+
+  local sourcePos = nil
+  if type(w.position) == 'table' then
+    sourcePos = {
+      x = tonumber(w.position.x) or 0,
+      y = tonumber(w.position.y) or 0,
+      z = tonumber(w.position.z) or 0,
+    }
   end
 
   if type(w.getItem) == 'function' then
     local ok, fromGetItem = pcall(function() return w:getItem() end)
     if ok and fromGetItem and fromGetItem.isItem and fromGetItem:isItem() then
-      return fromGetItem
+      if not sourcePos then
+        local itemPos = fromGetItem:getPosition()
+        if type(itemPos) == 'table' then
+          sourcePos = {
+            x = tonumber(itemPos.x) or 0,
+            y = tonumber(itemPos.y) or 0,
+            z = tonumber(itemPos.z) or 0,
+          }
+        end
+      end
+      return fromGetItem, sourcePos
     end
   end
 
   local dragThing = w.currentDragThing
   if dragThing and dragThing.isItem and dragThing:isItem() then
-    return dragThing
+    if not sourcePos then
+      local itemPos = dragThing:getPosition()
+      if type(itemPos) == 'table' then
+        sourcePos = {
+          x = tonumber(itemPos.x) or 0,
+          y = tonumber(itemPos.y) or 0,
+          z = tonumber(itemPos.z) or 0,
+        }
+      end
+    end
+    return dragThing, sourcePos
   end
 
-  return nil
+  return nil, sourcePos
 end
 
-local function trySelectItem(item)
+local function trySelectItem(item, sourcePos)
   clearResultStatusLock()
 
   if not item or not item.isItem or not item:isItem() then
@@ -775,41 +805,29 @@ local function trySelectItem(item)
     return false
   end
 
-  local draggedId = tonumber(item:getId() or 0) or 0
-  local candidates = nil
-
-  local posKey = makePositionKey(item:getPosition())
-  if posKey and pathsByPosition[posKey] and #pathsByPosition[posKey] > 0 then
-    candidates = pathsByPosition[posKey]
-  end
-
-  if not candidates or #candidates == 0 then
-    candidates = pathsByClientId[draggedId]
-    if not candidates or #candidates == 0 then
-      candidates = pathsByItemId[draggedId]
+  local pos = sourcePos
+  if type(pos) ~= 'table' then
+    local itemPos = item:getPosition()
+    if type(itemPos) == 'table' then
+      pos = {
+        x = tonumber(itemPos.x) or 0,
+        y = tonumber(itemPos.y) or 0,
+        z = tonumber(itemPos.z) or 0,
+      }
     end
   end
 
-  if not candidates or #candidates == 0 then
-    setStatus('That item is not eligible for forging upgrade.', '#d26b6b')
+  if type(pos) ~= 'table' then
+    setStatus('Could not resolve source position for this item.', '#d26b6b')
     return false
-  end
-
-  local chosenPath = candidates[1]
-  local chosenEntry = entryByPath[chosenPath]
-  if not chosenEntry then
-    setStatus('Failed to resolve selected item.', '#d26b6b')
-    return false
-  end
-
-  if #candidates > 1 then
-    setStatus('Multiple identical items found. Using first eligible match.')
-  else
-    setStatus('Item selected. Press Upgrade to continue.')
   end
 
   selectedItem = item
-  updatePreview(chosenPath)
+  setStatus('Resolving selected item...')
+  protocolSend({
+    action = 'resolve',
+    sourcePos = pos,
+  })
   return true
 end
 
@@ -820,6 +838,7 @@ stopDragMonitor = function()
   end
   wasDragging = false
   lastDraggedItem = nil
+  lastDraggedPos = nil
 end
 
 local function startDragMonitor()
@@ -837,17 +856,19 @@ local function startDragMonitor()
       local overSlot = (mousePos and ui.itemDropZone:containsPoint(mousePos)) and true or false
 
       if draggingWidget then
-        local item = resolveItemFromWidget(draggingWidget)
+        local item, sourcePos = resolveItemFromWidget(draggingWidget)
         if item then
           lastDraggedItem = item
+          lastDraggedPos = sourcePos
         end
         wasDragging = true
       elseif wasDragging then
         if lastDraggedItem and overSlot then
-          trySelectItem(lastDraggedItem)
+          trySelectItem(lastDraggedItem, lastDraggedPos)
         end
         wasDragging = false
         lastDraggedItem = nil
+        lastDraggedPos = nil
       end
     end)
 
@@ -887,15 +908,15 @@ local function setupDropHandlers()
     if self then
       self:setBorderWidth(0)
     end
-    local item = resolveItemFromWidget(droppedWidget)
-    return trySelectItem(item)
+    local item, sourcePos = resolveItemFromWidget(droppedWidget)
+    return trySelectItem(item, sourcePos)
   end
 
   if ui.previewPanel then
     ui.previewPanel.onDrop = function(self, droppedWidget, mousePos)
       if ui.itemDropZone then ui.itemDropZone:setBorderWidth(0) end
-      local item = resolveItemFromWidget(droppedWidget)
-      return trySelectItem(item)
+      local item, sourcePos = resolveItemFromWidget(droppedWidget)
+      return trySelectItem(item, sourcePos)
     end
   end
 
@@ -909,8 +930,8 @@ local function setupDropHandlers()
     if mouseButton == MouseLeftButton then
       local draggingWidget = g_ui.getDraggingWidget and g_ui.getDraggingWidget() or nil
       if draggingWidget then
-        local item = resolveItemFromWidget(draggingWidget)
-        if trySelectItem(item) then
+        local item, sourcePos = resolveItemFromWidget(draggingWidget)
+        if trySelectItem(item, sourcePos) then
           return true
         end
       end
@@ -1135,6 +1156,37 @@ local function onOpcode(protocol, opcode, buffer)
       updatePreview(selectedPath)
       setAutoStatus('Item selected. Press Upgrade to continue.')
     end
+    return
+  end
+
+  if data.action == 'resolve' then
+    if data.success == false then
+      setStatus(data.message or 'Failed to resolve selected item.', '#d26b6b')
+      return
+    end
+
+    local path = tostring(data.path or '')
+    local entry = data.entry
+    if type(entry) == 'table' and entry.path then
+      local merged = entryByPath[entry.path] or {}
+      for key, value in pairs(entry) do
+        merged[key] = value
+      end
+      entryByPath[entry.path] = merged
+    end
+
+    availableCorruptedFragments = tonumber(data.fragmentCount) or availableCorruptedFragments
+    if ui.resourceLabel then
+      ui.resourceLabel:setText(string.format('Your resources: %d Corrupted Fragment(s)  |  %d gold', availableCorruptedFragments, tonumber(data.gold) or 0))
+    end
+
+    if path == '' or not entryByPath[path] then
+      setStatus('Selected item is no longer available. Try again.', '#d26b6b')
+      return
+    end
+
+    updatePreview(path)
+    setStatus('Item selected. Press Upgrade to continue.')
     return
   end
 
