@@ -127,7 +127,9 @@ MainWindow
     id: goldCostLabel
     anchors.top: selectedCountLabel.bottom
     anchors.left: selectedCountLabel.left
+    anchors.right: parent.right
     margin-top: 4
+    margin-right: 12
     height: 14
     text: Forging Due: 0
     color: #d0b060
