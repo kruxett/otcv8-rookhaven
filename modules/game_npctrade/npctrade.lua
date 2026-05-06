@@ -519,23 +519,9 @@ function refreshPlayerGoods()
     -- Visual indicator for protected items (sell tab only)
     if currentTradeType == SELL then
       local itemId = item.ptr:getId()
-      local protected = isExcluded(itemId)
-      if protected then
-        local text = item.name .. '\n'
-        if showWeight then
-          text = text .. string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT .. '\n'
-        end
-        text = text .. formatCurrency(item.price) .. '\n[protected]'
-        itemWidget:setText(text)
-        itemWidget:setColor('#66ccaa')
-      else
-        local text = item.name .. '\n'
-        if showWeight then
-          text = text .. string.format('%.2f', item.weight) .. ' ' .. WEIGHT_UNIT .. '\n'
-        end
-        text = text .. formatCurrency(item.price)
-        itemWidget:setText(text)
-        itemWidget:setColor('#ffffff')
+      local badge = itemWidget:getChildById('protectedBadge')
+      if badge then
+        badge:setVisible(isExcluded(itemId))
       end
     end
 
