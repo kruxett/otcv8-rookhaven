@@ -1,4 +1,5 @@
 local GUILD_OPCODE = 101
+local GUILD_DEBUG = false
 
 local guildWindow = nil
 local myLevel = 0
@@ -20,9 +21,50 @@ local function clearChildren(panel)
   end
 end
 
+local function debugGuild(fmt, ...)
+  if not GUILD_DEBUG then return end
+  if select('#', ...) > 0 then
+    print(string.format('[GuildUI] ' .. fmt, ...))
+  else
+    print('[GuildUI] ' .. tostring(fmt))
+  end
+end
+
 local function W(id)
   if not guildWindow then return nil end
   return guildWindow:recursiveGetChildById(id)
+end
+
+local function showGuildError(message)
+  if displayErrorBox then
+    displayErrorBox('Guild', message or 'An error occurred.')
+    return
+  end
+
+  local localPlayer = g_game.getLocalPlayer()
+  if localPlayer and localPlayer.say then
+    localPlayer:say(message or 'Guild error.', SpeakDefault)
+  end
+end
+
+local function ensureWindow()
+  if guildWindow then
+    return true
+  end
+
+  guildWindow = g_ui.displayUI('game_guild', rootWidget)
+  if not guildWindow then
+    return false
+  end
+
+  local refreshBtn = W('refreshBtn')
+  if refreshBtn then
+    refreshBtn.onClick = function()
+      sendAction('open')
+    end
+  end
+
+  return true
 end
 
 local function makeInputWindow(title, onOk)
@@ -70,14 +112,6 @@ local function renderNoGuild(data)
   local tabContent = W('tabContent')
   if tabContent then
     clearChildren(tabContent)
-
-    local infoPanel = g_ui.createWidget('GuildNoGuildPanel', tabContent)
-    if infoPanel then
-      local messageLabel = infoPanel:recursiveGetChildById('messageLabel')
-      if messageLabel then
-        messageLabel:setText('You are not in a guild. Create one below or accept an invitation.')
-      end
-    end
 
     if data.invites and #data.invites > 0 then
       local section = g_ui.createWidget('GuildSectionLabel', tabContent)
@@ -328,27 +362,30 @@ end
 
 local function onGuildOpcode(protocol, opcode, buffer)
   local ok, data = pcall(json.decode, buffer)
-  if not ok or type(data) ~= 'table' then return end
+  if not ok or type(data) ~= 'table' then
+    debugGuild('Ignoring invalid payload: %s', tostring(buffer))
+    return
+  end
 
   if data.type == 'error' then
-    displayErrorBox('Guild', data.message or 'An error occurred.')
+    showGuildError(data.message or 'An error occurred.')
     return
   end
 
   if data.type == 'success' then
+    if data.refresh then
+      sendAction('open')
+    end
     return
   end
 
-  if not guildWindow then
-    guildWindow = g_ui.displayUI('game_guild', rootWidget)
-    if not guildWindow then return end
+  if data.type ~= 'no_guild' and data.type ~= 'guild_data' then
+    debugGuild('Ignoring unexpected payload type: %s', tostring(data.type))
+    return
+  end
 
-    local refreshBtn = W('refreshBtn')
-    if refreshBtn then
-      refreshBtn.onClick = function()
-        sendAction('open')
-      end
-    end
+  if not ensureWindow() then
+    return
   end
 
   if data.type == 'no_guild' then
@@ -356,6 +393,12 @@ local function onGuildOpcode(protocol, opcode, buffer)
     local noGuildWrapper = W('noGuildWrapper')
     if guildTabsRow then guildTabsRow:setVisible(false) end
     if noGuildWrapper then noGuildWrapper:setVisible(true) end
+    -- explicitly hide all tab panels to prevent overlap
+    local tabPanels = { 'infoPanel', 'membersPanelWrapper', 'invitesPanelWrapper', 'ranksPanelWrapper' }
+    for _, id in ipairs(tabPanels) do
+      local p = W(id)
+      if p then p:setVisible(false) end
+    end
 
     myLevel = 0
     permissions = { canInvite = false }
