@@ -708,7 +708,7 @@ function sellAll(delayed, exceptions)
         local maxAmount = math.min(sellQuantity, getMaxAmount())
         if delayed then
           g_game.sellItem(entry.ptr, maxAmount, ignoreEquipped:isChecked())
-          sellAllWithDelayEvent = scheduleEvent(function() sellAll(true) end, 1100)
+          sellAllWithDelayEvent = scheduleEvent(function() sellAll(true, exceptions) end, 1100)
           return
         end
         table.insert(queue, {entry.ptr, maxAmount, ignoreEquipped:isChecked()})
