@@ -1,0 +1,10 @@
+Module
+  name: game_tradepack
+  description: Tradepack selection and delivery confirmation dialog
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ tradepack ]
+  @onLoad: init()
+  @onUnload: terminate()

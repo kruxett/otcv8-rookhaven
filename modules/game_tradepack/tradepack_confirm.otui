@@ -1,0 +1,98 @@
+-- ============================================================
+-- Stage 2: confirm before committing materials
+-- ============================================================
+
+MainWindow
+  id: tradepackConfirmWindow
+  !text: tr('Confirm Tradepack')
+  size: 300 210
+  @onEscape: modules.game_tradepack.cancel()
+
+  Label
+    id: sizeLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #c8a456
+    margin-top: 6
+    height: 18
+
+  Label
+    id: destLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    margin-top: 4
+    height: 16
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 6
+
+  Label
+    id: costLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #e07070
+    margin-top: 6
+    height: 16
+
+  Label
+    id: rewardLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #70e070
+    margin-top: 4
+    height: 16
+
+  Label
+    id: slowLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #aaaaaa
+    margin-top: 4
+    height: 16
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: next.top
+    margin-bottom: 6
+
+  Panel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 28
+    margin-bottom: 2
+
+    Button
+      id: confirmButton
+      !text: tr('Confirm')
+      width: 72
+      anchors.right: parent.horizontalCenter
+      margin-right: 5
+      @onClick: modules.game_tradepack.confirm()
+
+    Button
+      id: cancelButton
+      !text: tr('Cancel')
+      width: 72
+      anchors.left: parent.horizontalCenter
+      margin-left: 5
+      @onClick: modules.game_tradepack.cancel()
