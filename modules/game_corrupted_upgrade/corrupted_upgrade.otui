@@ -273,29 +273,30 @@ MainWindow
     anchors.top: statusSep.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 4
+    margin-top: 0
     margin-left: 10
     margin-right: 10
-    height: 36
+    height: 0
     text-wrap: true
     color: #d9d2bf
     text: Drop an item into the forge slot to begin.
+    visible: false
 
   HorizontalSeparator
     id: controlsSep
     anchors.top: statusLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 2
+    margin-top: 0
+    visible: false
 
   Panel
     id: controlsPanel
-    anchors.top: controlsSep.bottom
+    anchors.bottom: parent.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 2
+    margin-bottom: 6
     height: 34
-    margin-bottom: 2
 
     Button
       id: acceptButton
