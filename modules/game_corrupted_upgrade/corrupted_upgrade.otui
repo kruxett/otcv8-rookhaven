@@ -1,7 +1,7 @@
 MainWindow
   id: corruptedUpgradeWindow
   !text: tr('Forging Station')
-  size: 460 492
+  size: 460 508
   @onEscape: modules.game_corrupted_upgrade.decline()
 
   Label
@@ -263,7 +263,7 @@ MainWindow
     margin-top: 4
     margin-left: 10
     margin-right: 10
-    height: 22
+    height: 36
     text-wrap: true
     color: #d9d2bf
     text: Drop an item into the forge slot to begin.
