@@ -79,7 +79,10 @@ local function updateDetails()
   if w then w:setText(tierEntry.label or tierEntry.id) end
 
   local c = lbl('detailCost')
-  if c then c:setText('Cost: ' .. (tierEntry.cost or '')) end
+  if c then
+    c:setText('Cost: ' .. (tierEntry.cost or ''))
+    c:setColor(tierEntry.can_afford == false and '#e07070' or '#d0d0d0')
+  end
 
   local baseReward = tonumber(tierEntry.reward) or 0
   local mult = routeEntry and (tonumber(routeEntry.multiplier) or 1.0) or 1.0
@@ -121,7 +124,7 @@ local function displaySelectUI(data)
       local crateIcon = row:getChildById('crateIcon')
       local rowTitle = row:getChildById('rowTitle')
       local rowSub = row:getChildById('rowSub')
-      if crateIcon then crateIcon:setItemId(7483) end
+      if crateIcon then crateIcon:setItemId(7483); crateIcon:setCount(1) end
       if rowTitle then rowTitle:setText(t.label or t.id) end
       if rowSub then rowSub:setText('-' .. tostring(t.slowdown or 0) .. '% speed') end
 

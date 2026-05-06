@@ -88,25 +88,27 @@ MainWindow
     margin-bottom: 2
 
     Button
-      id: cancelButton
-      !text: tr('Cancel')
-      width: 72
-      anchors.right: parent.right
-      margin-right: 10
-      @onClick: modules.game_tradepack.cancel()
-
-    Button
       id: confirmButton
       !text: tr('Confirm')
       width: 72
-      anchors.right: cancelButton.left
-      margin-right: 6
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.horizontalCenter: parent.horizontalCenter
       @onClick: modules.game_tradepack.confirm()
 
     Button
       id: prevButton
       !text: tr('Prev')
       width: 64
+      anchors.verticalCenter: parent.verticalCenter
       anchors.right: confirmButton.left
       margin-right: 6
       @onClick: modules.game_tradepack.prev()
+
+    Button
+      id: cancelButton
+      !text: tr('Cancel')
+      width: 72
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: confirmButton.right
+      margin-left: 6
+      @onClick: modules.game_tradepack.cancel()
