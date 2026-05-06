@@ -25,6 +25,8 @@ local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
+local REQUIREMENTS_SECTION_HEIGHT = 108
+local WINDOW_BASE_HEIGHT = 254  -- no requirements, no optional panel
 local REQ_CARD_WIDTH = 98
 local REQ_CARD_SPACING = 4
 
@@ -223,12 +225,25 @@ local function playResultFeedback(success)
   end, 1900)
 end
 
+local function resizeWindow()
+  if not window then return end
+  local h = WINDOW_BASE_HEIGHT
+  if ui.requirementsSectionPanel and ui.requirementsSectionPanel:isVisible() then
+    h = h + REQUIREMENTS_SECTION_HEIGHT
+  end
+  if ui.optionalPanel and ui.optionalPanel:isVisible() then
+    h = h + OPTIONAL_PANEL_HEIGHT
+  end
+  window:resize(window:getWidth(), h)
+end
+
 local function applySelectionLayout(hasSelection)
   hasSelection = hasSelection == true
   if ui.requirementsSectionPanel then
     ui.requirementsSectionPanel:setVisible(hasSelection)
-    ui.requirementsSectionPanel:setHeight(hasSelection and 108 or 0)
+    ui.requirementsSectionPanel:setHeight(hasSelection and REQUIREMENTS_SECTION_HEIGHT or 0)
   end
+  resizeWindow()
 end
 
 local function makePositionKey(pos)
@@ -294,13 +309,11 @@ local refreshOptionalWidgetState
 local function toggleAffixPanelInternal()
   if not ui.optionalPanel or not window then return end
   local isExpanded = ui.optionalPanel:isVisible()
-  local currentSize = window:getSize()
 
   if isExpanded then
     -- collapse
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
-    window:resize(currentSize.width, currentSize.height - OPTIONAL_PANEL_HEIGHT)
     if ui.toggleAffixBoostButton then
       ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
     end
@@ -308,7 +321,6 @@ local function toggleAffixPanelInternal()
     -- expand
     ui.optionalPanel:setHeight(OPTIONAL_PANEL_HEIGHT)
     ui.optionalPanel:setVisible(true)
-    window:resize(currentSize.width, currentSize.height + OPTIONAL_PANEL_HEIGHT)
     refreshCorruptedFragmentIcon()
     if ui.toggleAffixBoostButton then
       ui.toggleAffixBoostButton:setText('- Corrupted Imbuement')
@@ -317,6 +329,7 @@ local function toggleAffixPanelInternal()
     refreshOptionalWidgetState()
     refreshRiskPreview()
   end
+  resizeWindow()
 end
 
 local function clearRequirementWidgets()
