@@ -102,8 +102,10 @@ function init()
       end
     end
     -- Refresh the UI now that exact per-tier counts are known.
-    if initialized and npcWindow and npcWindow:isVisible() then
-      refreshPlayerGoods()
+    -- Use addEvent so this runs after any pending show() call from onOpenNpcTrade,
+    -- which also defers via addEvent. This guarantees the window is visible first.
+    if initialized then
+      addEvent(refreshPlayerGoods)
     end
   end)
 
