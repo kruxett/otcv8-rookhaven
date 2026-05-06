@@ -1,0 +1,10 @@
+Module
+  name: game_guild
+  description: Guild Management System
+  author: Rookhaven
+  website:
+  autoload: true
+  sandboxed: true
+  scripts: [ game_guild ]
+  @onLoad: init()
+  @onUnload: terminate()

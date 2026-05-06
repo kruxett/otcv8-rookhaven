@@ -1,0 +1,633 @@
+-- Reusable sub-widgets
+GuildSectionLabel < Label
+  height: 14
+  font: verdana-11px-rounded
+  color: #c0a060
+  margin-top: 4
+  margin-bottom: 2
+  margin-left: 4
+
+GuildMemberRow < Panel
+  height: 22
+  margin-bottom: 1
+  border-width: 1
+  border-color: #2a2a2a
+  background-color: #1e1e1e
+  focusable: true
+
+  $hover:
+    background-color: #2a2a2a
+
+  Panel
+    id: onlineIndicator
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 4
+    size: 8 8
+    background-color: #666666
+
+  Label
+    id: memberName
+    anchors.left: onlineIndicator.right
+    anchors.right: memberRank.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    margin-right: 4
+    font: verdana-11px-rounded
+    color: #dfdfdf
+    phantom: true
+
+  Label
+    id: memberRank
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 6
+    font: verdana-11px-rounded
+    color: #a0a0a0
+    text-auto-resize: true
+    phantom: true
+
+GuildRankRow < Panel
+  height: 24
+  margin-bottom: 2
+  border-width: 1
+  border-color: #2a2a2a
+  background-color: #1e1e1e
+
+  Label
+    id: rankName
+    anchors.left: parent.left
+    anchors.right: renameRankBtn.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 8
+    font: verdana-11px-rounded
+    color: #dfdfdf
+    phantom: true
+
+  Button
+    id: renameRankBtn
+    anchors.right: deleteRankBtn.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 2
+    size: 50 17
+    text: Rename
+    font: verdana-11px-rounded
+    visible: false
+
+  Button
+    id: deleteRankBtn
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 4
+    size: 44 17
+    text: Delete
+    font: verdana-11px-rounded
+    color: #cc6666
+    visible: false
+
+GuildInviteRow < Panel
+  height: 24
+  margin-bottom: 2
+  border-width: 1
+  border-color: #2a2a2a
+  background-color: #1e1e1e
+
+  Label
+    id: guildName
+    anchors.left: parent.left
+    anchors.right: acceptBtn.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 8
+    font: verdana-11px-rounded
+    color: #dfdfdf
+    phantom: true
+
+  Button
+    id: acceptBtn
+    anchors.right: declineBtn.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 2
+    size: 50 17
+    text: Accept
+    font: verdana-11px-rounded
+    color: #66cc66
+
+  Button
+    id: declineBtn
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 4
+    size: 50 17
+    text: Decline
+    font: verdana-11px-rounded
+    color: #cc6666
+
+GuildInvitedRow < Panel
+  height: 22
+  margin-bottom: 1
+  background-color: #1e1e1e
+
+  Label
+    id: inviteeName
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 8
+    font: verdana-11px-rounded
+    color: #b0b0b0
+    phantom: true
+
+GuildNoGuildPanel < Panel
+  height: 50
+  Label
+    id: messageLabel
+    anchors.fill: parent
+    margin: 8
+    font: verdana-11px-rounded
+    color: #a0a0a0
+    phantom: true
+
+GuildInputWindow < MainWindow
+  !text: tr('Guild')
+  size: 300 110
+  @onEscape: self:destroy()
+
+  Label
+    id: windowTitle
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    margin-bottom: 4
+    font: verdana-11px-rounded
+    color: #dfdfdf
+
+  TextEdit
+    id: inputField
+    anchors.top: windowTitle.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 4
+    height: 20
+    font: verdana-11px-rounded
+    max-length: 30
+
+  Button
+    id: okBtn
+    anchors.bottom: parent.bottom
+    anchors.right: cancelBtn.left
+    margin-right: 4
+    size: 60 20
+    text: OK
+
+  Button
+    id: cancelBtn
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    size: 60 20
+    text: Cancel
+
+-- Main Guild Window
+MainWindow
+  id: guildWindow
+  !text: tr('Guild')
+  size: 680 480
+  @onEscape: modules.game_guild.hide()
+
+  -- Title bar info row
+  Label
+    id: guildNameLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: refreshBtn.left
+    margin-top: 2
+    margin-right: 4
+    height: 16
+    font: verdana-11px-rounded
+    color: #c0a060
+
+  Button
+    id: refreshBtn
+    anchors.top: parent.top
+    anchors.right: parent.right
+    size: 60 16
+    text: Refresh
+    font: verdana-11px-rounded
+
+  -- Tab buttons row
+  Panel
+    id: guildTabsRow
+    anchors.top: guildNameLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 22
+    margin-top: 4
+    visible: true
+
+    Button
+      id: infoTab
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      size: 80 20
+      text: Info
+      font: verdana-11px-rounded
+      checkable: true
+      checked: true
+
+    Button
+      id: membersTab
+      anchors.left: infoTab.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 2
+      size: 80 20
+      text: Members
+      font: verdana-11px-rounded
+      checkable: true
+
+    Button
+      id: invitesTab
+      anchors.left: membersTab.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 2
+      size: 80 20
+      text: Invites
+      font: verdana-11px-rounded
+      checkable: true
+
+    Button
+      id: ranksTab
+      anchors.left: invitesTab.right
+      anchors.verticalCenter: parent.verticalCenter
+      margin-left: 2
+      size: 80 20
+      text: Ranks
+      font: verdana-11px-rounded
+      checkable: true
+
+  -- ──── INFO TAB ────
+  Panel
+    id: infoPanel
+    anchors.top: guildTabsRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: true
+
+    -- Row: Guild name
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 2
+      margin-left: 4
+      height: 14
+      text: Guild:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+      text-auto-resize: true
+
+    Label
+      id: infoGuildName
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 2
+      margin-left: 50
+      height: 14
+      font: verdana-11px-rounded
+      color: #dfdfdf
+
+    -- Row: Leader
+    Label
+      anchors.top: infoGuildName.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 4
+      height: 14
+      text: Leader:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+      text-auto-resize: true
+
+    Label
+      id: infoOwnerName
+      anchors.top: infoGuildName.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      margin-left: 60
+      height: 14
+      font: verdana-11px-rounded
+      color: #dfdfdf
+
+    -- Row: Members
+    Label
+      anchors.top: infoOwnerName.bottom
+      anchors.left: parent.left
+      margin-top: 4
+      margin-left: 4
+      height: 14
+      text: Members:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+      text-auto-resize: true
+
+    Label
+      id: infoMemberCount
+      anchors.top: infoOwnerName.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      margin-left: 72
+      height: 14
+      font: verdana-11px-rounded
+      color: #dfdfdf
+
+    -- MOTD
+    Label
+      id: motdTitleLabel
+      anchors.top: infoMemberCount.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 10
+      margin-left: 4
+      height: 14
+      text: Message of the Day:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+
+    MultilineTextEdit
+      id: motdEdit
+      anchors.top: motdTitleLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 80
+      margin-top: 2
+      font: verdana-11px-rounded
+      max-length: 255
+
+    Button
+      id: saveMotdBtn
+      anchors.top: motdEdit.bottom
+      anchors.right: parent.right
+      margin-top: 4
+      margin-right: 4
+      size: 80 20
+      text: Save MOTD
+      font: verdana-11px-rounded
+      visible: false
+
+    -- Bottom action buttons
+    Button
+      id: leaveGuildBtn
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      margin-bottom: 4
+      margin-left: 4
+      size: 100 22
+      text: Leave Guild
+      font: verdana-11px-rounded
+      color: #cc9944
+      visible: false
+
+    Button
+      id: disbandGuildBtn
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      margin-bottom: 4
+      margin-left: 4
+      size: 110 22
+      text: Disband Guild
+      font: verdana-11px-rounded
+      color: #cc4444
+      visible: false
+
+  -- ──── MEMBERS TAB ────
+  Panel
+    id: membersPanelWrapper
+    anchors.top: guildTabsRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    -- Invite row at top
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      margin-top: 2
+      margin-left: 4
+      height: 20
+      text: Invite:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+      text-auto-resize: true
+
+    TextEdit
+      id: inviteNameField
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: inviteBtn.left
+      margin-top: 2
+      margin-left: 50
+      margin-right: 4
+      height: 20
+      font: verdana-11px-rounded
+      max-length: 30
+
+    Button
+      id: inviteBtn
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 2
+      margin-right: 4
+      size: 60 20
+      text: Invite
+      font: verdana-11px-rounded
+      visible: false
+
+    -- Scrollable member list
+    VerticalScrollBar
+      id: membersScrollBar
+      anchors.top: inviteNameField.bottom
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 4
+      width: 10
+
+    Panel
+      id: membersListPanel
+      anchors.top: inviteNameField.bottom
+      anchors.left: parent.left
+      anchors.right: membersScrollBar.left
+      anchors.bottom: parent.bottom
+      margin-top: 4
+      layout:
+        type: verticalBox
+        spacing: 0
+      vertical-scrollbar: membersScrollBar
+
+  -- ──── INVITES TAB ────
+  Panel
+    id: invitesPanelWrapper
+    anchors.top: guildTabsRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 2
+      margin-left: 4
+      height: 14
+      text: Players with pending invitations to your guild:
+      font: verdana-11px-rounded
+      color: #a0a0a0
+
+    VerticalScrollBar
+      id: invitesScrollBar
+      anchors.top: parent.top
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 20
+      width: 10
+
+    Panel
+      id: invitesListPanel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: invitesScrollBar.left
+      anchors.bottom: parent.bottom
+      margin-top: 20
+      layout:
+        type: verticalBox
+        spacing: 0
+      vertical-scrollbar: invitesScrollBar
+
+  -- ──── RANKS TAB ────
+  Panel
+    id: ranksPanelWrapper
+    anchors.top: guildTabsRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 2
+      margin-left: 4
+      height: 14
+      text: Guild Ranks (right-click to rename/delete custom ranks):
+      font: verdana-11px-rounded
+      color: #a0a0a0
+
+    Button
+      id: addRankBtn
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 2
+      margin-right: 4
+      size: 90 18
+      text: + Add Rank
+      font: verdana-11px-rounded
+      visible: false
+
+    VerticalScrollBar
+      id: ranksScrollBar
+      anchors.top: parent.top
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 22
+      width: 10
+
+    Panel
+      id: ranksListPanel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: ranksScrollBar.left
+      anchors.bottom: parent.bottom
+      margin-top: 22
+      layout:
+        type: verticalBox
+        spacing: 2
+      vertical-scrollbar: ranksScrollBar
+
+  -- ──── NO GUILD (wrapper shown when player has no guild) ────
+  Panel
+    id: noGuildWrapper
+    anchors.top: guildTabsRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    Label
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 6
+      margin-left: 8
+      height: 30
+      text: You are not in a guild. Create one below or accept an invitation.
+      font: verdana-11px-rounded
+      color: #a0a0a0
+
+    -- Create-guild panel
+    Panel
+      id: createGuildPanel
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 40
+      height: 40
+
+      Label
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 8
+        text: Guild Name:
+        font: verdana-11px-rounded
+        color: #a0a0a0
+        text-auto-resize: true
+
+      TextEdit
+        id: guildNameField
+        anchors.left: parent.left
+        anchors.right: createGuildBtn.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 80
+        margin-right: 4
+        height: 20
+        font: verdana-11px-rounded
+        max-length: 30
+
+      Button
+        id: createGuildBtn
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 8
+        size: 100 22
+        text: Found Guild
+        font: verdana-11px-rounded
+
+    -- Pending invitations received panel
+    Panel
+      id: tabContent
+      anchors.top: createGuildPanel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 8
+      layout:
+        type: verticalBox
+        spacing: 0
