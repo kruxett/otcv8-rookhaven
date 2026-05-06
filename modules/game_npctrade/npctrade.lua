@@ -154,7 +154,11 @@ function onItemBoxChecked(widget)
     local item = widget.item
     selectedItem = item
     refreshItem(item)
-    tradeButton:enable()
+    if canTradeItem(item) then
+      tradeButton:enable()
+    else
+      tradeButton:disable()
+    end
 
     if getCurrentTradeType() == SELL then
       quantityScroll:setValue(quantityScroll:getMaximum())
@@ -474,6 +478,8 @@ function refreshPlayerGoods()
   local currentTradeType = getCurrentTradeType()
   local searchFilter = searchText:getText():lower()
   local foundSelectedItem = false
+  local selectedWidget = nil
+  local selectedCanTrade = false
 
   local items = itemsPanel:getChildCount()
   for i=1,items do
@@ -490,11 +496,24 @@ function refreshPlayerGoods()
 
     if selectedItem == item and itemWidget:isEnabled() and itemWidget:isVisible() then
       foundSelectedItem = true
+      selectedWidget = itemWidget
+      selectedCanTrade = canTrade
     end
   end
 
   if not foundSelectedItem then
     clearSelectedItem()
+  else
+    -- Keep radio-selection visuals consistent after periodic refreshes.
+    if selectedWidget then
+      radioItems:selectWidget(selectedWidget)
+      selectedWidget:setChecked(true)
+    end
+    if selectedCanTrade then
+      tradeButton:enable()
+    else
+      tradeButton:disable()
+    end
   end
 
   if selectedItem then
