@@ -1,3 +1,50 @@
+TradepackTierRow < Panel
+  height: 44
+  margin-bottom: 3
+  border-width: 1
+  border-color: #000000
+  background-color: #232323
+  focusable: true
+
+  $hover:
+    border-color: #555555
+
+  UIItem
+    id: crateIcon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 5
+    size: 32 32
+    virtual: true
+    selectable: false
+    draggable: false
+    phantom: true
+
+  Label
+    id: rowTitle
+    anchors.left: crateIcon.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 5
+    margin-right: 6
+    margin-top: 7
+    height: 14
+    font: verdana-11px-rounded
+    phantom: true
+
+  Label
+    id: rowSub
+    anchors.left: crateIcon.right
+    anchors.right: parent.right
+    anchors.top: rowTitle.bottom
+    margin-left: 5
+    margin-right: 6
+    margin-top: 2
+    height: 12
+    color: #b0b0b0
+    font: verdana-11px-rounded
+    phantom: true
+
 MainWindow
   id: tradepackSelectWindow
   !text: tr('Tradepack Order')
