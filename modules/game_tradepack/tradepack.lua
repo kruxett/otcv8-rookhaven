@@ -129,6 +129,13 @@ local CATEGORY_LABELS = {
   red   = 'Red Crystals',
 }
 
+local CATEGORY_ICONS = {
+  green = 8636,
+  blue  = 8633,
+  azure = 8634,
+  red   = 8635,
+}
+
 local function displaySelectUI(data)
   destroyWindow()
   tradepackWindow = g_ui.displayUI('tradepack_select', rootWidget)
@@ -160,7 +167,7 @@ local function displaySelectUI(data)
         lastCat = t.category
         local hdr = g_ui.createWidget('TradepackCategoryHeader', listPanel)
         hdr:setId('cat_' .. (t.category or 'unknown'))
-        hdr:setText('\xe2\x94\x80\xe2\x94\x80 ' .. (CATEGORY_LABELS[t.category] or t.category) .. ' \xe2\x94\x80\xe2\x94\x80')
+        hdr:setText('--- ' .. (CATEGORY_LABELS[t.category] or t.category) .. ' ---')
       end
 
       local row = g_ui.createWidget('TradepackTierRow', listPanel)
@@ -169,7 +176,9 @@ local function displaySelectUI(data)
       local rowTitle  = row:getChildById('rowTitle')
       local rowSub    = row:getChildById('rowSub')
 
-      if crateIcon then crateIcon:setItemId(7483); crateIcon:setCount(1) end
+      if crateIcon then
+        crateIcon:setItemId(CATEGORY_ICONS[t.category] or 7483)
+      end
       if rowTitle  then rowTitle:setText(t.label or t.id) end
 
       local weightOz = tonumber(t.weight_oz) or 0
