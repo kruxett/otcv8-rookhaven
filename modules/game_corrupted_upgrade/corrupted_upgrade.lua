@@ -230,8 +230,9 @@ local function applySelectionLayout(hasSelection)
   hasSelection = hasSelection == true
 
   if ui.reqSep then
-    ui.reqSep:setVisible(hasSelection)
-    ui.reqSep:setMarginTop(hasSelection and 4 or 0)
+    -- Keep one clean divider in empty state; full layout when an item is selected.
+    ui.reqSep:setVisible(true)
+    ui.reqSep:setMarginTop(4)
   end
 
   if ui.reqTitleLabel then
@@ -247,6 +248,7 @@ local function applySelectionLayout(hasSelection)
   end
 
   if ui.optSep then
+    ui.optSep:setVisible(hasSelection)
     ui.optSep:setMarginTop(hasSelection and 4 or 0)
   end
 end
