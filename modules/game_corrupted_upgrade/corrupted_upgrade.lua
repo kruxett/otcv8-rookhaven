@@ -230,9 +230,9 @@ local function applySelectionLayout(hasSelection)
   hasSelection = hasSelection == true
 
   if ui.reqSep then
-    -- Keep one clean divider in empty state; full layout when an item is selected.
-    ui.reqSep:setVisible(true)
-    ui.reqSep:setMarginTop(4)
+    ui.reqSep:setVisible(hasSelection)
+    ui.reqSep:setHeight(hasSelection and 4 or 0)
+    ui.reqSep:setMarginTop(hasSelection and 4 or 0)
   end
 
   if ui.reqTitleLabel then
@@ -249,6 +249,7 @@ local function applySelectionLayout(hasSelection)
 
   if ui.optSep then
     ui.optSep:setVisible(hasSelection)
+    ui.optSep:setHeight(hasSelection and 4 or 0)
     ui.optSep:setMarginTop(hasSelection and 4 or 0)
   end
 end
@@ -769,6 +770,15 @@ local function clearSelection()
   selectedPath = nil
   selectedItem = nil
   applySelectionLayout(false)
+
+  -- Collapse the optional/affix panel if it was left open
+  if ui.optionalPanel and ui.optionalPanel:isVisible() then
+    ui.optionalPanel:setVisible(false)
+    ui.optionalPanel:setHeight(0)
+    if ui.toggleAffixBoostButton then
+      ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
+    end
+  end
 
   if ui.itemPreview then
     ui.itemPreview:setImageSource('/images/ui/item')
