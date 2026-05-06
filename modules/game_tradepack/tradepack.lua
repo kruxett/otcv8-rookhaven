@@ -94,17 +94,40 @@ local function updateDetails()
   if sp then sp:setText('Speed penalty: -' .. tostring(tierEntry.slowdown or 0) .. '%') end
 end
 
+-- Returns tier data by id, or nil if not a tier row (e.g. a category header).
+local function getTierEntry(id)
+  if not tiersData then return nil end
+  for _, t in ipairs(tiersData) do
+    if t.id == id then return t end
+  end
+  return nil
+end
+
 local function highlightTierRow(listPanel, selectedId)
   for _, child in ipairs(listPanel:getChildren()) do
-    if child:getId() == selectedId then
-      child:setBackgroundColor('#ffffff22')
-      child:setBorderColor('#888888')
-    else
-      child:setBackgroundColor('#232323')
-      child:setBorderColor('#000000')
+    local id = child:getId()
+    local te = getTierEntry(id)
+    if te then  -- skip category headers
+      if id == selectedId then
+        child:setBackgroundColor('#ffffff22')
+        child:setBorderColor('#888888')
+      elseif te.can_afford == false then
+        child:setBackgroundColor('#141414')
+        child:setBorderColor('#1e1e1e')
+      else
+        child:setBackgroundColor('#232323')
+        child:setBorderColor('#000000')
+      end
     end
   end
 end
+
+local CATEGORY_LABELS = {
+  green = 'Green Crystals',
+  blue  = 'Blue Crystals',
+  azure = 'Azure Crystals',
+  red   = 'Red Crystals',
+}
 
 local function displaySelectUI(data)
   destroyWindow()
@@ -117,19 +140,57 @@ local function displaySelectUI(data)
   local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
   local destSelector = tradepackWindow:recursiveGetChildById('destSelector')
 
+  -- pick first affordable tier for initial selection (fall back to first tier)
+  selectedTierId = nil
+  for _, t in ipairs(tiersData) do
+    if t.can_afford ~= false then
+      selectedTierId = t.id
+      break
+    end
+  end
+  if not selectedTierId and tiersData[1] then
+    selectedTierId = tiersData[1].id
+  end
+
   if listPanel then
-    for i, t in ipairs(tiersData) do
+    local lastCat = nil
+    for _, t in ipairs(tiersData) do
+      -- insert category header when the crystal type changes
+      if t.category ~= lastCat then
+        lastCat = t.category
+        local hdr = g_ui.createWidget('TradepackCategoryHeader', listPanel)
+        hdr:setId('cat_' .. (t.category or 'unknown'))
+        hdr:setText('\xe2\x94\x80\xe2\x94\x80 ' .. (CATEGORY_LABELS[t.category] or t.category) .. ' \xe2\x94\x80\xe2\x94\x80')
+      end
+
       local row = g_ui.createWidget('TradepackTierRow', listPanel)
       row:setId(t.id)
       local crateIcon = row:getChildById('crateIcon')
-      local rowTitle = row:getChildById('rowTitle')
-      local rowSub = row:getChildById('rowSub')
-      if crateIcon then crateIcon:setItemId(7483); crateIcon:setCount(1) end
-      if rowTitle then rowTitle:setText(t.label or t.id) end
-      if rowSub then rowSub:setText('-' .. tostring(t.slowdown or 0) .. '% speed') end
+      local rowTitle  = row:getChildById('rowTitle')
+      local rowSub    = row:getChildById('rowSub')
 
-      if i == 1 then
-        selectedTierId = t.id
+      if crateIcon then crateIcon:setItemId(7483); crateIcon:setCount(1) end
+      if rowTitle  then rowTitle:setText(t.label or t.id) end
+
+      local weightOz = tonumber(t.weight_oz) or 0
+      if rowSub then
+        if t.can_afford == false then
+          rowSub:setText('no materials')
+          rowSub:setColor('#555555')
+        else
+          rowSub:setText(weightOz .. ' oz')
+          rowSub:setColor('#b0b0b0')
+        end
+      end
+
+      -- grey out unaffordable rows
+      if t.can_afford == false then
+        row:setBackgroundColor('#141414')
+        row:setBorderColor('#1e1e1e')
+        if rowTitle then rowTitle:setColor('#4a4a4a') end
+      end
+
+      if t.id == selectedTierId then
         row:setBackgroundColor('#ffffff22')
         row:setBorderColor('#888888')
       end

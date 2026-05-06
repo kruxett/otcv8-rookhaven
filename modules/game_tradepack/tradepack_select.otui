@@ -1,3 +1,14 @@
+TradepackCategoryHeader < Label
+  height: 16
+  margin-top: 6
+  margin-bottom: 0
+  padding-left: 4
+  font: verdana-11px-rounded
+  color: #9988bb
+  text-align: left
+  phantom: true
+  focusable: false
+
 TradepackTierRow < Panel
   height: 44
   margin-bottom: 3
@@ -47,7 +58,7 @@ TradepackTierRow < Panel
 MainWindow
   id: tradepackSelectWindow
   !text: tr('Tradepack Order')
-  size: 480 290
+  size: 540 340
   @onEscape: modules.game_tradepack.cancel()
 
   FlatPanel
@@ -58,25 +69,41 @@ MainWindow
     anchors.bottom: bottomBar.top
     margin-bottom: 4
 
-    // Left column: pack size list
+    // Left column: pack size list (scrollable)
     Panel
-      id: listPanel
+      id: listContainer
       anchors.left: parent.left
       anchors.top: parent.top
       anchors.bottom: destRow.top
-      width: 180
+      width: 204
       margin-left: 4
-      margin-right: 4
       margin-top: 4
       margin-bottom: 4
-      layout:
-        type: verticalBox
-        spacing: 0
+
+      ScrollablePanel
+        id: listPanel
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: listScrollbar.left
+        layout:
+          type: verticalBox
+          spacing: 0
+        vertical-scrollbar: listScrollbar
+
+      VerticalScrollBar
+        id: listScrollbar
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: 8
+        step: 47
+        pixels-scroll: true
 
     // Vertical divider
     VerticalSeparator
       id: divider
-      anchors.left: listPanel.right
+      anchors.left: listContainer.right
       anchors.top: parent.top
       anchors.bottom: destRow.top
       margin-left: 2
