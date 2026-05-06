@@ -519,9 +519,14 @@ function refreshPlayerGoods()
     -- Visual indicator for protected items (sell tab only)
     if currentTradeType == SELL then
       local itemId = item.ptr:getId()
-      local badge = itemWidget:getChildById('protectedBadge')
-      if badge then
-        badge:setVisible(isExcluded(itemId))
+      if isExcluded(itemId) then
+        itemWidget:setBorderColor('#66ccaa')
+        itemWidget:setBorderWidth(2)
+        itemWidget:setTooltip('Protected from Sell All\nRight-click to unprotect')
+      else
+        itemWidget:setBorderColor('#000000')
+        itemWidget:setBorderWidth(1)
+        itemWidget:setTooltip('')
       end
     end
 

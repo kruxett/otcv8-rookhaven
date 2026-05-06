@@ -20,18 +20,6 @@ NPCItemBox < UICheckBox
     image-color: #ffffffff
     margin-top: 3
 
-  Label
-    id: protectedBadge
-    text: protected
-    color: #66ccaa
-    font: verdana-11px-rounded
-    text-align: center
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-bottom: 2
-    visible: false
-
   $checked on:
     border-color: #ffffff
 
