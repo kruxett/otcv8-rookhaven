@@ -68,7 +68,8 @@ local function updateDetails()
   end
 
   if not tierEntry then
-    local w = lbl('detailTitle'); if w then w:setText('Select a pack size') end
+    local w = lbl('detailTitle'); if w then w:setText('Select a pack') end
+    local wt = lbl('detailWeight'); if wt then wt:setText('') end
     local c = lbl('detailCost');  if c then c:setText('') end
     local rw = lbl('detailReward'); if rw then rw:setText('') end
     local sp = lbl('detailSpeed');  if sp then sp:setText('') end
@@ -76,7 +77,13 @@ local function updateDetails()
   end
 
   local w = lbl('detailTitle')
-  if w then w:setText(tierEntry.label or tierEntry.id) end
+  if w then w:setText(tierEntry.display_label or tierEntry.label or tierEntry.id) end
+
+  local wt = lbl('detailWeight')
+  if wt then
+    local oz = tonumber(tierEntry.weight_oz) or 0
+    wt:setText('Weight: ' .. oz .. ' oz')
+  end
 
   local c = lbl('detailCost')
   if c then
@@ -92,6 +99,12 @@ local function updateDetails()
 
   local sp = lbl('detailSpeed')
   if sp then sp:setText('Speed penalty: -' .. tostring(tierEntry.slowdown or 0) .. '%') end
+
+  -- enable/disable Next button based on affordability
+  local nextBtn = tradepackWindow:recursiveGetChildById('nextButton')
+  if nextBtn then
+    nextBtn:setEnabled(tierEntry.can_afford ~= false)
+  end
 end
 
 -- Returns tier data by id, or nil if not a tier row (e.g. a category header).
@@ -160,7 +173,7 @@ local function displaySelectUI(data)
         lastCat = t.category
         local hdr = g_ui.createWidget('TradepackCategoryHeader', listPanel)
         hdr:setId('cat_' .. (t.category or 'unknown'))
-        hdr:setText('--- ' .. (CATEGORY_LABELS[t.category] or t.category) .. ' ---')
+        hdr:setText((CATEGORY_LABELS[t.category] or t.category))
       end
 
       local row = g_ui.createWidget('TradepackTierRow', listPanel)
@@ -198,6 +211,13 @@ local function displaySelectUI(data)
       end
 
       row.onMousePress = function(widget)
+        -- unaffordable rows can be browsed but not commissioned
+        if t.can_afford == false then
+          selectedTierId = t.id
+          highlightTierRow(listPanel, t.id)
+          updateDetails()
+          return true
+        end
         selectedTierId = t.id
         highlightTierRow(listPanel, t.id)
         updateDetails()

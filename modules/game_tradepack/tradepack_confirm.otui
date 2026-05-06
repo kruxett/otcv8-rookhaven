@@ -6,6 +6,7 @@ MainWindow
   id: tradepackConfirmWindow
   !text: tr('Confirm Tradepack')
   size: 300 230
+  movable: false
   @onEscape: modules.game_tradepack.cancel()
 
   Label

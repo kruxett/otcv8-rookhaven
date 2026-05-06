@@ -1,10 +1,10 @@
 TradepackCategoryHeader < Label
-  height: 16
-  margin-top: 6
-  margin-bottom: 0
-  padding-left: 4
+  height: 18
+  margin-top: 8
+  margin-bottom: 2
+  padding-left: 6
   font: verdana-11px-rounded
-  color: #9988bb
+  color: #aa99cc
   text-align: left
   phantom: true
   focusable: false
@@ -19,6 +19,12 @@ TradepackTierRow < Panel
 
   $hover:
     border-color: #555555
+
+  TradepackTierRow.unaffordable:
+    background-color: #141414
+    border-color: #1e1e1e
+    $hover:
+      border-color: #1e1e1e
 
   UIItem
     id: crateIcon
@@ -59,6 +65,7 @@ MainWindow
   id: tradepackSelectWindow
   !text: tr('Tradepack Order')
   size: 540 340
+  movable: false
   @onEscape: modules.game_tradepack.cancel()
 
   FlatPanel
@@ -126,7 +133,7 @@ MainWindow
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        margin-top: 6
+        margin-top: 8
         margin-left: 8
         margin-right: 8
         font: verdana-11px-monochrome
@@ -135,8 +142,21 @@ MainWindow
         text-auto-resize: true
 
       Label
-        id: detailCost
+        id: detailWeight
         anchors.top: detailTitle.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 3
+        margin-left: 8
+        margin-right: 8
+        font: verdana-11px-rounded
+        color: #888888
+        text-wrap: true
+        text-auto-resize: true
+
+      Label
+        id: detailCost
+        anchors.top: detailWeight.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         margin-top: 6
