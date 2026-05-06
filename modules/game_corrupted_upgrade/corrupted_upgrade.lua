@@ -26,7 +26,7 @@ local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
 local OPTIONAL_PANEL_HEIGHT = 146
 local REQUIREMENTS_SECTION_HEIGHT = 108
-local WINDOW_BASE_HEIGHT = 241  -- no requirements, no optional panel
+local WINDOW_BASE_HEIGHT = 164  -- no requirements, no optional panel
 local REQ_CARD_WIDTH = 98
 local REQ_CARD_SPACING = 4
 
