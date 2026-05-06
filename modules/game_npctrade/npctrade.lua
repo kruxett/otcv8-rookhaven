@@ -331,30 +331,6 @@ local function isRarityShopEntry(tradeItem)
          name:find('legendary ', 1, true) == 1
 end
 
-local function countContainerItemsRecursive(container, itemId)
-  local total = 0
-  for i = 0, container:getCapacity() - 1 do
-    local item = container:getItem(i)
-    if item then
-      if item:getId() == itemId then
-        total = total + item:getCount()
-      end
-
-      local nested = nil
-      if item.isContainer and item:isContainer() then
-        local ok, resolved = pcall(function() return item:getContainer() end)
-        if ok then
-          nested = resolved
-        end
-      end
-      if nested then
-        total = total + countContainerItemsRecursive(nested, itemId)
-      end
-    end
-  end
-  return total
-end
-
 function getSellQuantity(tradeItem)
   if not tradeItem then return 0 end
 
@@ -362,48 +338,27 @@ function getSellQuantity(tradeItem)
   if not item then return 0 end
 
   local itemId = item:getId()
+  if not playerItems[itemId] then return 0 end
 
-  -- Keep vanilla behavior for regular shops (server-provided playerItems).
-  -- Only rarity entries use local inventory scan because NoRarity filtering
-  -- can make server-provided counts appear as zero for those rows.
-  if not isRarityShopEntry(tradeItem) then
-    if not playerItems[itemId] then return 0 end
-    local removeAmount = 0
-    if ignoreEquipped:isChecked() then
-      local localPlayer = g_game.getLocalPlayer()
-      for i = 1, LAST_INVENTORY do
-        local inventoryItem = localPlayer:getInventoryItem(i)
-        if inventoryItem and inventoryItem:getId() == itemId and not isRarityRolledItem(inventoryItem) then
-          removeAmount = removeAmount + inventoryItem:getCount()
-        end
-      end
-    end
-    return math.max(0, playerItems[itemId] - removeAmount)
+  -- For rarity shop entries: trust the server-provided count directly.
+  -- The server uses getItemTypeCount (countIncludesRarity=true) so playerItems
+  -- already contains the correct total. No client-side scan needed.
+  if isRarityShopEntry(tradeItem) then
+    return playerItems[itemId]
   end
 
-  local localPlayer = g_game.getLocalPlayer()
-  local total = 0
-  for i = 1, LAST_INVENTORY do
-    local inventoryItem = localPlayer:getInventoryItem(i)
-    if inventoryItem then
-      if inventoryItem:getId() == itemId and not ignoreEquipped:isChecked() then
-        total = total + inventoryItem:getCount()
-      end
-
-      local container = nil
-      if inventoryItem.isContainer and inventoryItem:isContainer() then
-        local ok, resolved = pcall(function() return inventoryItem:getContainer() end)
-        if ok then
-          container = resolved
-        end
-      end
-      if container then
-        total = total + countContainerItemsRecursive(container, itemId)
+  -- Vanilla logic for normal shops: subtract ignoreEquipped items.
+  local removeAmount = 0
+  if ignoreEquipped:isChecked() then
+    local localPlayer = g_game.getLocalPlayer()
+    for i = 1, LAST_INVENTORY do
+      local inventoryItem = localPlayer:getInventoryItem(i)
+      if inventoryItem and inventoryItem:getId() == itemId and not isRarityRolledItem(inventoryItem) then
+        removeAmount = removeAmount + inventoryItem:getCount()
       end
     end
   end
-
-  return total
+  return math.max(0, playerItems[itemId] - removeAmount)
 end
 
 function canTradeItem(item)
