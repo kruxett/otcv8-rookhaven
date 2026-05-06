@@ -117,7 +117,7 @@ local function applySlotVisual(index)
     return
   end
 
-  item:setItemId(data.itemId or 0)
+  item:setItemId(data.clientId or data.itemId or 0)
   nameLabel:setText(data.name or 'Selected item')
   tierLabel:setText(string.format('%s item   Fee: %d gold', data.tierLabel or '-', tonumber(data.fee) or 0))
 
@@ -185,6 +185,7 @@ local function rebuildFromPreview(entries)
     slotData[index] = {
       pos = copyPos(entry.pos),
       itemId = entry.itemId,
+      clientId = entry.clientId,
       name = entry.name,
       tier = entry.tier,
       tierLabel = entry.tierLabel,
