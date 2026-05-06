@@ -42,6 +42,7 @@ local pendingStatusText = nil
 local pendingStatusColor = nil
 local detailsRequestPending = {}
 local statusLockedByResult = false
+local resultFxEvents = {}
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -77,6 +78,7 @@ local function bindWidgets()
   ui.itemPreview = findWidgetById(window, 'itemPreview')
 
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
+  ui.resultBanner = findWidgetById(window, 'resultBanner')
   ui.statusLabel = findWidgetById(window, 'statusLabel')
   ui.itemNameLabel = findWidgetById(window, 'itemNameLabel')
   ui.itemTypeLabel = findWidgetById(window, 'itemTypeLabel')
@@ -137,6 +139,88 @@ end
 
 local function clearResultStatusLock()
   statusLockedByResult = false
+end
+
+local function clearResultFxEvents()
+  for i = 1, #resultFxEvents do
+    removeEvent(resultFxEvents[i])
+  end
+  resultFxEvents = {}
+end
+
+local function resetResultFxVisuals()
+  if ui.resultBanner then
+    ui.resultBanner:setVisible(false)
+    ui.resultBanner:setOpacity(1.0)
+  end
+
+  if ui.previewPanel then
+    ui.previewPanel:setBorderWidth(0)
+  end
+
+  if ui.acceptButton then
+    ui.acceptButton:setText('Upgrade')
+    ui.acceptButton:setEnabled(true)
+  end
+end
+
+local function playResultFeedback(success)
+  clearResultFxEvents()
+  resetResultFxVisuals()
+
+  local accent = success and '#7fd992' or '#e05050'
+  local dim = success and '#4f8f62' or '#8f3d3d'
+  local bannerText = success and 'FORGE SUCCESS' or 'FORGE FAILED'
+  local buttonText = success and 'SUCCESS' or 'FAILED'
+
+  if ui.resultBanner then
+    ui.resultBanner:setText(bannerText)
+    ui.resultBanner:setColor(accent)
+    ui.resultBanner:setVisible(true)
+  end
+
+  if ui.previewPanel then
+    ui.previewPanel:setBorderWidth(2)
+    ui.previewPanel:setBorderColor(accent)
+  end
+
+  if ui.acceptButton then
+    ui.acceptButton:setText(buttonText)
+    ui.acceptButton:setEnabled(false)
+  end
+
+  local pulse = { accent, dim, accent, dim, accent }
+  for i = 1, #pulse do
+    resultFxEvents[#resultFxEvents + 1] = scheduleEvent(function()
+      if ui.previewPanel then
+        ui.previewPanel:setBorderColor(pulse[i])
+      end
+      if ui.statusLabel then
+        ui.statusLabel:setColor(pulse[i])
+      end
+      if ui.resultBanner then
+        ui.resultBanner:setColor(pulse[i])
+        ui.resultBanner:setOpacity((i % 2 == 0) and 0.85 or 1.0)
+      end
+    end, (i - 1) * 140)
+  end
+
+  resultFxEvents[#resultFxEvents + 1] = scheduleEvent(function()
+    if ui.acceptButton then
+      ui.acceptButton:setText('Upgrade')
+      ui.acceptButton:setEnabled(true)
+    end
+  end, 850)
+
+  resultFxEvents[#resultFxEvents + 1] = scheduleEvent(function()
+    if ui.resultBanner then
+      ui.resultBanner:setVisible(false)
+      ui.resultBanner:setOpacity(1.0)
+    end
+    if ui.previewPanel then
+      ui.previewPanel:setBorderWidth(0)
+    end
+  end, 1900)
 end
 
 local function makePositionKey(pos)
@@ -1191,6 +1275,8 @@ local function onOpcode(protocol, opcode, buffer)
   end
 
   if data.action == 'result' then
+    playResultFeedback(data.success == true)
+
     if data.success then
       pendingStatusText = data.message or 'Upgrade successful.'
       pendingStatusColor = '#7fd992'
@@ -1216,6 +1302,8 @@ function init()
   g_ui.importStyle('corrupted_upgrade_styles')
 
   destroyWindow = function()
+    clearResultFxEvents()
+
     if window then
       window:destroy()
       window = nil
@@ -1279,6 +1367,8 @@ function refresh()
 end
 
 function decline()
+  clearResultFxEvents()
+
   stopDragMonitor()
   if window then
     window:destroy()

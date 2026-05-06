@@ -14,6 +14,19 @@ MainWindow
     text: Item to Forge
     color: #e1d3a1
 
+  Label
+    id: resultBanner
+    anchors.top: parent.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    margin-top: 26
+    width: 300
+    height: 18
+    text-align: center
+    font: verdana-11px-rounded
+    color: #7fd992
+    text: FORGE SUCCESS
+    visible: false
+
   Panel
     id: previewPanel
     anchors.top: prev.bottom
