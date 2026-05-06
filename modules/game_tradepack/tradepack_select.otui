@@ -1,114 +1,82 @@
--- ============================================================
--- Tradepack list item style (mirrors TaskBoardListItem)
--- ============================================================
-TradepackListItem < Panel
-  height: 38
-  margin-bottom: 3
-  border-width: 1
-  border-color: #000000
-  background-color: #232323
-  focusable: true
-
-  $hover:
-    border-color: #ffffff
-
-  Label
-    id: titleLabel
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
-    margin-left: 8
-    margin-right: 8
-    margin-top: 6
-    height: 14
-    font: verdana-11px-rounded
-    phantom: true
-
-  Label
-    id: subtitleLabel
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: titleLabel.bottom
-    margin-left: 8
-    margin-right: 8
-    margin-top: 1
-    height: 12
-    color: #b0b0b0
-    font: verdana-11px-rounded
-    phantom: true
-
--- ============================================================
--- Stage 1: size + destination picker
--- ============================================================
-
 MainWindow
   id: tradepackSelectWindow
-  !text: tr('Tradepack Order')
-  size: 380 310
+  !text: tr('Tradepack')
+  size: 330 180
   @onEscape: modules.game_tradepack.cancel()
 
-  -- Left column header: Pack Size
   Label
-    id: tierHeader
+    id: hintLabel
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    text-align: center
+    font: verdana-11px-monochrome
+    color: #c8a456
+    margin-top: 4
+    height: 18
+    !text: tr('Select pack size and destination')
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: hintLabel.bottom
+    margin-top: 4
+
+  Label
+    id: sizeLabel
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 8
+    margin-left: 10
+    height: 14
+    font: verdana-11px-monochrome
+    color: #d0d0d0
     !text: tr('Pack Size')
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.horizontalCenter
-    margin-top: 4
-    margin-left: 8
-    margin-right: 4
-    height: 16
-    text-align: center
-    font: verdana-11px-monochrome
-    color: #c8a456
 
-  -- Right column header: Destination
+  ComboBox
+    id: tierSelector
+    anchors.top: sizeLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 10
+    margin-top: 2
+    text-offset: 5 2
+    menu-scroll: true
+    menu-height: 100
+
   Label
-    id: destHeader
-    !text: tr('Destination')
-    anchors.top: parent.top
-    anchors.left: parent.horizontalCenter
-    anchors.right: parent.right
-    margin-top: 4
-    margin-left: 4
-    margin-right: 8
-    height: 16
-    text-align: center
-    font: verdana-11px-monochrome
-    color: #c8a456
-
-  -- Left column: tier list (items added dynamically)
-  Panel
-    id: tierPanel
-    anchors.top: tierHeader.bottom
+    id: destinationLabel
+    anchors.top: tierSelector.bottom
     anchors.left: parent.left
-    anchors.right: parent.horizontalCenter
-    anchors.bottom: buttonPanel.top
-    margin-top: 4
-    margin-left: 8
-    margin-right: 4
-    margin-bottom: 6
-    layout:
-      type: verticalBox
-      spacing: 0
-
-  -- Right column: destination list (items added dynamically)
-  Panel
-    id: destPanel
-    anchors.top: destHeader.bottom
-    anchors.left: parent.horizontalCenter
     anchors.right: parent.right
-    anchors.bottom: buttonPanel.top
-    margin-top: 4
-    margin-left: 4
-    margin-right: 8
+    margin-top: 8
+    margin-left: 10
+    height: 14
+    font: verdana-11px-monochrome
+    color: #d0d0d0
+    !text: tr('Destination')
+
+  ComboBox
+    id: destSelector
+    anchors.top: destinationLabel.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 10
+    margin-top: 2
+    text-offset: 5 2
+    menu-scroll: true
+    menu-height: 100
+
+  HorizontalSeparator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: next.top
     margin-bottom: 6
-    layout:
-      type: verticalBox
-      spacing: 0
 
   Panel
-    id: buttonPanel
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
