@@ -76,6 +76,9 @@ local function bindWidgets()
   ui.previewPanel = findWidgetById(window, 'previewPanel')
   ui.itemDropZone = findWidgetById(window, 'itemDropZone')
   ui.itemPreview = findWidgetById(window, 'itemPreview')
+  ui.reqSep = findWidgetById(window, 'reqSep')
+  ui.reqTitleLabel = findWidgetById(window, 'reqTitleLabel')
+  ui.optSep = findWidgetById(window, 'optSep')
 
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
   ui.resultBanner = findWidgetById(window, 'resultBanner')
@@ -99,6 +102,7 @@ local function bindWidgets()
   ui.targetAffixChanceLabel = findWidgetById(window, 'targetAffixChanceLabel')
   ui.toggleAffixBoostButton = findWidgetById(window, 'toggleAffixBoostButton')
   ui.optionalPanel = findWidgetById(window, 'optionalPanel')
+  ui.acceptButton = findWidgetById(window, 'acceptButton')
 
   return ui.itemDropZone ~= nil and ui.itemPreview ~= nil and ui.statusLabel ~= nil
 end
@@ -154,8 +158,9 @@ local function resetResultFxVisuals()
     ui.resultBanner:setOpacity(1.0)
   end
 
-  if ui.previewPanel then
-    ui.previewPanel:setBorderWidth(0)
+  if ui.itemDropZone then
+    ui.itemDropZone:setBorderWidth(1)
+    ui.itemDropZone:setBorderColor('#5a5040')
   end
 
   if ui.acceptButton then
@@ -179,9 +184,9 @@ local function playResultFeedback(success)
     ui.resultBanner:setVisible(true)
   end
 
-  if ui.previewPanel then
-    ui.previewPanel:setBorderWidth(2)
-    ui.previewPanel:setBorderColor(accent)
+  if ui.itemDropZone then
+    ui.itemDropZone:setBorderWidth(2)
+    ui.itemDropZone:setBorderColor(accent)
   end
 
   if ui.acceptButton then
@@ -192,11 +197,8 @@ local function playResultFeedback(success)
   local pulse = { accent, dim, accent, dim, accent }
   for i = 1, #pulse do
     resultFxEvents[#resultFxEvents + 1] = scheduleEvent(function()
-      if ui.previewPanel then
-        ui.previewPanel:setBorderColor(pulse[i])
-      end
-      if ui.statusLabel then
-        ui.statusLabel:setColor(pulse[i])
+      if ui.itemDropZone then
+        ui.itemDropZone:setBorderColor(pulse[i])
       end
       if ui.resultBanner then
         ui.resultBanner:setColor(pulse[i])
@@ -217,10 +219,36 @@ local function playResultFeedback(success)
       ui.resultBanner:setVisible(false)
       ui.resultBanner:setOpacity(1.0)
     end
-    if ui.previewPanel then
-      ui.previewPanel:setBorderWidth(0)
+    if ui.itemDropZone then
+      ui.itemDropZone:setBorderWidth(1)
+      ui.itemDropZone:setBorderColor('#5a5040')
     end
   end, 1900)
+end
+
+local function applySelectionLayout(hasSelection)
+  hasSelection = hasSelection == true
+
+  if ui.reqSep then
+    ui.reqSep:setVisible(hasSelection)
+    ui.reqSep:setMarginTop(hasSelection and 4 or 0)
+  end
+
+  if ui.reqTitleLabel then
+    ui.reqTitleLabel:setVisible(hasSelection)
+    ui.reqTitleLabel:setHeight(hasSelection and 14 or 0)
+    ui.reqTitleLabel:setMarginTop(hasSelection and 4 or 0)
+  end
+
+  if ui.requirementsPanel then
+    ui.requirementsPanel:setVisible(hasSelection)
+    ui.requirementsPanel:setHeight(hasSelection and 82 or 0)
+    ui.requirementsPanel:setMarginTop(hasSelection and 4 or 0)
+  end
+
+  if ui.optSep then
+    ui.optSep:setMarginTop(hasSelection and 4 or 0)
+  end
 end
 
 local function makePositionKey(pos)
@@ -738,6 +766,7 @@ end
 local function clearSelection()
   selectedPath = nil
   selectedItem = nil
+  applySelectionLayout(false)
 
   if ui.itemPreview then
     ui.itemPreview:setImageSource('/images/ui/item')
@@ -764,6 +793,8 @@ updatePreview = function(path)
   if not entry then
     return
   end
+
+  applySelectionLayout(true)
 
   if ui.itemPreview then
     ui.itemPreview:setImageSource('/images/ui/item')

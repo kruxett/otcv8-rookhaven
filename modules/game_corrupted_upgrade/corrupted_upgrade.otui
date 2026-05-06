@@ -103,6 +103,7 @@ MainWindow
     margin-top: 4
 
   Label
+    id: reqTitleLabel
     anchors.top: reqSep.bottom
     anchors.left: parent.left
     anchors.right: parent.right
