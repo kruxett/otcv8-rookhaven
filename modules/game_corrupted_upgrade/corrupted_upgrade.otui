@@ -95,44 +95,53 @@ MainWindow
       text: New rolls: -
       color: #cdbb91
 
-  HorizontalSeparator
-    id: reqSep
+  Panel
+    id: requirementsSectionPanel
     anchors.top: previewPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    margin-top: 4
+    height: 108
+    visible: false
 
-  Label
-    id: reqTitleLabel
-    anchors.top: reqSep.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 4
-    margin-left: 10
-    height: 14
-    text: Upgrade Requirements
-    color: #e1d3a1
+    HorizontalSeparator
+      id: reqSep
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
 
-  Panel
-    id: requirementsPanel
-    anchors.top: prev.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 4
-    margin-left: 10
-    margin-right: 10
-    height: 82
+    Label
+      id: reqTitleLabel
+      anchors.top: reqSep.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      margin-left: 10
+      height: 14
+      text: Upgrade Requirements
+      color: #e1d3a1
+
+    Panel
+      id: requirementsPanel
+      anchors.top: prev.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      margin-left: 10
+      margin-right: 10
+      height: 82
 
   HorizontalSeparator
     id: optSep
-    anchors.top: requirementsPanel.bottom
+    anchors.top: requirementsSectionPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-top: 4
+    visible: false
 
   Button
     id: toggleAffixBoostButton
-    anchors.top: optSep.bottom
+    anchors.top: requirementsSectionPanel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     margin-top: 4

@@ -76,9 +76,8 @@ local function bindWidgets()
   ui.previewPanel = findWidgetById(window, 'previewPanel')
   ui.itemDropZone = findWidgetById(window, 'itemDropZone')
   ui.itemPreview = findWidgetById(window, 'itemPreview')
-  ui.reqSep = findWidgetById(window, 'reqSep')
-  ui.reqTitleLabel = findWidgetById(window, 'reqTitleLabel')
-  ui.optSep = findWidgetById(window, 'optSep')
+  ui.requirementsSectionPanel = findWidgetById(window, 'requirementsSectionPanel')
+  ui.requirementsPanel = findWidgetById(window, 'requirementsPanel')
 
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
   ui.resultBanner = findWidgetById(window, 'resultBanner')
@@ -88,8 +87,6 @@ local function bindWidgets()
 
   ui.tierLabel = findWidgetById(window, 'tierLabel')
   ui.rollsLabel = findWidgetById(window, 'rollsLabel')
-  ui.requirementsPanel = findWidgetById(window, 'requirementsPanel')
-
   ui.useCorruptedBox = nil -- removed: panel visibility is the toggle now
   ui.corruptedCountEdit = findWidgetById(window, 'corruptedCountEdit')
   ui.corruptedCountSlider = findWidgetById(window, 'corruptedCountSlider')
@@ -228,29 +225,9 @@ end
 
 local function applySelectionLayout(hasSelection)
   hasSelection = hasSelection == true
-
-  if ui.reqSep then
-    ui.reqSep:setVisible(hasSelection)
-    ui.reqSep:setHeight(hasSelection and 4 or 0)
-    ui.reqSep:setMarginTop(hasSelection and 4 or 0)
-  end
-
-  if ui.reqTitleLabel then
-    ui.reqTitleLabel:setVisible(hasSelection)
-    ui.reqTitleLabel:setHeight(hasSelection and 14 or 0)
-    ui.reqTitleLabel:setMarginTop(hasSelection and 4 or 0)
-  end
-
-  if ui.requirementsPanel then
-    ui.requirementsPanel:setVisible(hasSelection)
-    ui.requirementsPanel:setHeight(hasSelection and 82 or 0)
-    ui.requirementsPanel:setMarginTop(hasSelection and 4 or 0)
-  end
-
-  if ui.optSep then
-    ui.optSep:setVisible(hasSelection)
-    ui.optSep:setHeight(hasSelection and 4 or 0)
-    ui.optSep:setMarginTop(hasSelection and 4 or 0)
+  if ui.requirementsSectionPanel then
+    ui.requirementsSectionPanel:setVisible(hasSelection)
+    ui.requirementsSectionPanel:setHeight(hasSelection and 108 or 0)
   end
 end
 
@@ -1213,6 +1190,7 @@ local function ensureWindow()
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
   end
+  applySelectionLayout(false)
   refreshCorruptedFragmentIcon()
   if ui.toggleAffixBoostButton then
     ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
