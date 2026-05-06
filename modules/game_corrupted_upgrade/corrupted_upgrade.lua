@@ -7,6 +7,7 @@ local dragMonitorEvent = nil
 local selectedPath = nil
 local selectedItem = nil
 local entryByPath = {}
+local pathsByPosition = {}
 local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
@@ -135,6 +136,21 @@ end
 
 local function clearResultStatusLock()
   statusLockedByResult = false
+end
+
+local function makePositionKey(pos)
+  if type(pos) ~= 'table' then
+    return nil
+  end
+
+  local x = tonumber(pos.x)
+  local y = tonumber(pos.y)
+  local z = tonumber(pos.z)
+  if not x or not y or not z then
+    return nil
+  end
+
+  return string.format('%d:%d:%d', x, y, z)
 end
 
 local function formatCount(amount)
@@ -760,9 +776,18 @@ local function trySelectItem(item)
   end
 
   local draggedId = tonumber(item:getId() or 0) or 0
-  local candidates = pathsByClientId[draggedId]
+  local candidates = nil
+
+  local posKey = makePositionKey(item:getPosition())
+  if posKey and pathsByPosition[posKey] and #pathsByPosition[posKey] > 0 then
+    candidates = pathsByPosition[posKey]
+  end
+
   if not candidates or #candidates == 0 then
-    candidates = pathsByItemId[draggedId]
+    candidates = pathsByClientId[draggedId]
+    if not candidates or #candidates == 0 then
+      candidates = pathsByItemId[draggedId]
+    end
   end
 
   if not candidates or #candidates == 0 then
@@ -935,6 +960,7 @@ local function populate(data)
   local previousAffixId = getSelectedAffixId()
 
   entryByPath = {}
+  pathsByPosition = {}
   pathsByClientId = {}
   pathsByItemId = {}
   detailsRequestPending = {}
@@ -972,6 +998,12 @@ local function populate(data)
 
       local clientId = tonumber(entry.clientId or 0) or 0
       local itemId = tonumber(entry.itemId or 0) or 0
+      local posKey = makePositionKey(entry.sourcePos)
+
+      if posKey then
+        pathsByPosition[posKey] = pathsByPosition[posKey] or {}
+        table.insert(pathsByPosition[posKey], entry.path)
+      end
 
       if clientId > 0 then
         pathsByClientId[clientId] = pathsByClientId[clientId] or {}
@@ -1140,6 +1172,7 @@ function init()
     selectedPath = nil
     selectedItem = nil
     entryByPath = {}
+    pathsByPosition = {}
     pathsByClientId = {}
     pathsByItemId = {}
     detailsRequestPending = {}
@@ -1203,6 +1236,7 @@ function decline()
   selectedPath = nil
   selectedItem = nil
   entryByPath = {}
+  pathsByPosition = {}
   pathsByClientId = {}
   pathsByItemId = {}
 end
