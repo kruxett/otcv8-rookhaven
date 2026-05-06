@@ -20,6 +20,16 @@ NPCItemBox < UICheckBox
     image-color: #ffffffff
     margin-top: 3
 
+  Panel
+    id: protectedOverlay
+    border-width: 2
+    border-color: #66ccaa
+    background: none
+    anchors.fill: parent
+    phantom: true
+    focusable: false
+    visible: false
+
   $checked on:
     border-color: #ffffff
 

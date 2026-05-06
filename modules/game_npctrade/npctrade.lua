@@ -519,13 +519,14 @@ function refreshPlayerGoods()
     -- Visual indicator for protected items (sell tab only)
     if currentTradeType == SELL then
       local itemId = item.ptr:getId()
-      if isExcluded(itemId) then
-        itemWidget:setBorderColor('#66ccaa')
-        itemWidget:setBorderWidth(2)
+      local overlay = itemWidget:getChildById('protectedOverlay')
+      local protected = isExcluded(itemId)
+      if overlay then
+        overlay:setVisible(protected)
+      end
+      if protected then
         itemWidget:setTooltip('Protected from Sell All\nRight-click to unprotect')
       else
-        itemWidget:setBorderColor('#000000')
-        itemWidget:setBorderWidth(1)
         itemWidget:setTooltip('')
       end
     end
