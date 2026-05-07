@@ -437,7 +437,7 @@ local function renderGuildData(data)
 
         local memberRank = row:recursiveGetChildById('memberRank')
         if memberRank then
-          local suffix = member.online and ' • Online' or ''
+          local suffix = member.online and ' | Online' or ''
           memberRank:setText((member.rankName or '') .. suffix)
         end
 
@@ -677,7 +677,7 @@ local function renderGuildData(data)
       if emptyAct then emptyAct:setText('No recent activity.') end
     else
       for _, entry in ipairs(activity) do
-        local row = g_ui.createWidget('GuildSectionLabel', activityListPanel)
+        local row = g_ui.createWidget('GuildActivityRow', activityListPanel)
         if row then
           local timestamp = os.date('%Y-%m-%d %H:%M', tonumber(entry.createdAt) or os.time())
           row:setText(string.format('%s  -  %s', timestamp, formatActivityLine(entry)))

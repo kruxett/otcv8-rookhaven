@@ -1,66 +1,66 @@
 GuildSectionLabel < Label
-  height: 14
+  height: 16
   font: verdana-11px-rounded
-  color: #c0a060
-  margin-top: 4
+  color: #c8aa6e
+  margin-top: 6
   margin-bottom: 2
-  margin-left: 4
+  margin-left: 8
 
 GuildMemberRow < Panel
-  height: 22
-  margin-bottom: 1
+  height: 28
+  margin-bottom: 2
   border-width: 1
-  border-color: #2a2a2a
-  background-color: #1e1e1e
+  border-color: #303030
+  background-color: #1c1c1c
   focusable: true
 
   $hover:
-    background-color: #2a2a2a
+    background-color: #262e38
 
   Panel
     id: onlineIndicator
     anchors.left: parent.left
     anchors.verticalCenter: parent.verticalCenter
-    margin-left: 4
-    size: 8 8
-    background-color: #666666
+    margin-left: 7
+    size: 10 10
+    background-color: #555555
 
   Label
     id: memberName
     anchors.left: onlineIndicator.right
     anchors.right: memberRank.left
     anchors.verticalCenter: parent.verticalCenter
-    margin-left: 6
-    margin-right: 4
+    margin-left: 8
+    margin-right: 6
     font: verdana-11px-rounded
-    color: #dfdfdf
+    color: #eaeaea
     phantom: true
 
   Label
     id: memberRank
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    margin-right: 6
+    margin-right: 10
     font: verdana-11px-rounded
-    color: #a0a0a0
+    color: #8a9ab0
     text-auto-resize: true
     phantom: true
 
 GuildRankRow < Panel
-  height: 24
+  height: 28
   margin-bottom: 2
   border-width: 1
-  border-color: #2a2a2a
-  background-color: #1e1e1e
+  border-color: #303030
+  background-color: #1c1c1c
 
   Label
     id: rankName
     anchors.left: parent.left
     anchors.right: renameRankBtn.left
     anchors.verticalCenter: parent.verticalCenter
-    margin-left: 8
+    margin-left: 10
     font: verdana-11px-rounded
-    color: #dfdfdf
+    color: #ddd0a0
     phantom: true
 
   Button
@@ -68,7 +68,7 @@ GuildRankRow < Panel
     anchors.right: deleteRankBtn.left
     anchors.verticalCenter: parent.verticalCenter
     margin-right: 2
-    size: 50 17
+    size: 56 20
     text: Rename
     font: verdana-11px-rounded
     visible: false
@@ -77,26 +77,26 @@ GuildRankRow < Panel
     id: deleteRankBtn
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    margin-right: 4
-    size: 44 17
+    margin-right: 6
+    size: 50 20
     text: Delete
     font: verdana-11px-rounded
     color: #cc6666
     visible: false
 
 GuildInviteRow < Panel
-  height: 24
+  height: 28
   margin-bottom: 2
   border-width: 1
-  border-color: #2a2a2a
-  background-color: #1e1e1e
+  border-color: #303030
+  background-color: #1c1c1c
 
   Label
     id: guildName
     anchors.left: parent.left
     anchors.right: acceptBtn.left
     anchors.verticalCenter: parent.verticalCenter
-    margin-left: 8
+    margin-left: 10
     font: verdana-11px-rounded
     color: #dfdfdf
     phantom: true
@@ -106,7 +106,7 @@ GuildInviteRow < Panel
     anchors.right: declineBtn.left
     anchors.verticalCenter: parent.verticalCenter
     margin-right: 2
-    size: 50 17
+    size: 58 20
     text: Accept
     font: verdana-11px-rounded
     color: #66cc66
@@ -115,26 +115,36 @@ GuildInviteRow < Panel
     id: declineBtn
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    margin-right: 4
-    size: 50 17
+    margin-right: 6
+    size: 58 20
     text: Decline
     font: verdana-11px-rounded
     color: #cc6666
 
 GuildInvitedRow < Panel
-  height: 22
-  margin-bottom: 1
-  background-color: #1e1e1e
+  height: 24
+  margin-bottom: 2
+  border-width: 1
+  border-color: #2a2a2a
+  background-color: #1c1c1c
 
   Label
     id: inviteeName
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    margin-left: 8
+    margin-left: 10
     font: verdana-11px-rounded
-    color: #b0b0b0
+    color: #a8b8c8
     phantom: true
+
+GuildActivityRow < Label
+  height: 16
+  font: verdana-11px-rounded
+  color: #7aadca
+  margin-top: 2
+  margin-bottom: 1
+  margin-left: 8
 
 GuildNoGuildPanel < Panel
   height: 50
@@ -189,7 +199,7 @@ GuildInputWindow < MainWindow
 MainWindow
   id: guildWindow
   !text: tr('Guild')
-  size: 680 480
+  size: 720 500
   @onEscape: modules.game_guild.hide()
 
   Label
@@ -216,7 +226,7 @@ MainWindow
     anchors.top: guildNameLabel.bottom
     anchors.left: parent.left
     anchors.right: parent.right
-    height: 22
+    height: 24
     margin-top: 4
     visible: true
 
@@ -224,7 +234,7 @@ MainWindow
       id: infoTab
       anchors.left: parent.left
       anchors.verticalCenter: parent.verticalCenter
-      size: 74 20
+      size: 82 22
       text: Info
       font: verdana-11px-rounded
       checkable: true
@@ -236,7 +246,7 @@ MainWindow
       anchors.left: infoTab.right
       anchors.verticalCenter: parent.verticalCenter
       margin-left: 2
-      size: 74 20
+      size: 82 22
       text: Members
       font: verdana-11px-rounded
       checkable: true
@@ -247,7 +257,7 @@ MainWindow
       anchors.left: membersTab.right
       anchors.verticalCenter: parent.verticalCenter
       margin-left: 2
-      size: 74 20
+      size: 82 22
       text: Invites
       font: verdana-11px-rounded
       checkable: true
@@ -258,7 +268,7 @@ MainWindow
       anchors.left: invitesTab.right
       anchors.verticalCenter: parent.verticalCenter
       margin-left: 2
-      size: 74 20
+      size: 82 22
       text: Ranks
       font: verdana-11px-rounded
       checkable: true
@@ -269,7 +279,7 @@ MainWindow
       anchors.left: ranksTab.right
       anchors.verticalCenter: parent.verticalCenter
       margin-left: 2
-      size: 74 20
+      size: 82 22
       text: Activity
       font: verdana-11px-rounded
       checkable: true
@@ -558,7 +568,7 @@ MainWindow
       margin-top: 2
       margin-left: 4
       height: 14
-      text: Guild Ranks (right-click to rename/delete custom ranks):
+      text: Guild Ranks:
       font: verdana-11px-rounded
       color: #a0a0a0
 
@@ -610,7 +620,7 @@ MainWindow
       id: permInviteCheck
       anchors.top: rankPermTargetBox.bottom
       anchors.left: parent.left
-      margin-top: 8
+      margin-top: 3
       margin-left: 4
       size: 100 16
       text: Invite
