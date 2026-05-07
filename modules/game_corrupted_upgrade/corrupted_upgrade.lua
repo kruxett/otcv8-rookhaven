@@ -435,15 +435,22 @@ local function buildRequirementWidgets(entry)
   end
 
   local reqCount = #allReqs
-  local panelWidth = getRequirementPanelWidth()
-  local availableSpacing = math.max(reqCount - 1, 0) * REQ_CARD_SPACING
   local cardWidth = REQ_CARD_WIDTH
-  if reqCount > 0 then
-    cardWidth = math.floor((panelWidth - availableSpacing) / reqCount)
-    cardWidth = math.max(math.min(cardWidth, REQ_CARD_WIDTH), REQ_CARD_MIN_WIDTH)
-  end
+  local availableSpacing = math.max(reqCount - 1, 0) * REQ_CARD_SPACING
   local totalWidth = (reqCount * cardWidth) + availableSpacing
-  local x = math.max(math.floor((panelWidth - totalWidth) / 2), 0)
+
+  -- Create a centered inner container of exact total width.
+  -- Anchoring horizontalCenter to parent.horizontalCenter guarantees centering
+  -- regardless of panel width or number of cards.
+  local innerPanel = g_ui.createWidget('Panel', ui.requirementsPanel)
+  innerPanel:setPhantom(true)
+  innerPanel:setWidth(totalWidth)
+  innerPanel:setHeight(82)
+  innerPanel:addAnchor(AnchorHorizontalCenter, 'parent', AnchorHorizontalCenter)
+  innerPanel:addAnchor(AnchorTop, 'parent', AnchorTop)
+  innerPanel:setMarginTop(0)
+
+  local x = 0
   for _, req in ipairs(allReqs) do
     local have = tonumber(req.have) or 0
     local need = tonumber(req.required) or 0
@@ -461,12 +468,12 @@ local function buildRequirementWidgets(entry)
       end
     end
 
-    local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
+    local card = g_ui.createWidget('ForgingReqCard', innerPanel)
     card:addAnchor(AnchorLeft, 'parent', AnchorLeft)
     card:addAnchor(AnchorTop, 'parent', AnchorTop)
     card:setWidth(cardWidth)
     card:setMarginLeft(x)
-    card:setMarginTop(4)
+    card:setMarginTop(0)
 
     local prettyLabel = prettifyRequirementLabel(req.label)
     local hoverLabel = getRequirementTooltip(req)
