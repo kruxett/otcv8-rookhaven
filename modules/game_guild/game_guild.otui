@@ -214,9 +214,20 @@ MainWindow
     color: #c0a060
 
   Button
-    id: refreshBtn
+    id: closeBtn
     anchors.top: parent.top
     anchors.right: parent.right
+    size: 60 16
+    text: Close
+    font: verdana-11px-rounded
+    color: #cc7755
+    @onClick: modules.game_guild.hide()
+
+  Button
+    id: refreshBtn
+    anchors.top: parent.top
+    anchors.right: closeBtn.left
+    margin-right: 2
     size: 60 16
     text: Refresh
     font: verdana-11px-rounded
