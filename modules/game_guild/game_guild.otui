@@ -480,6 +480,7 @@ MainWindow
       size: 80 16
       text: Online
       font: verdana-11px-rounded
+      checked: false
 
     VerticalScrollBar
       id: membersScrollBar
@@ -609,7 +610,7 @@ MainWindow
       id: permInviteCheck
       anchors.top: rankPermTargetBox.bottom
       anchors.left: parent.left
-      margin-top: 3
+      margin-top: 8
       margin-left: 4
       size: 100 16
       text: Invite
@@ -660,7 +661,7 @@ MainWindow
       anchors.top: parent.top
       anchors.right: parent.right
       anchors.bottom: parent.bottom
-      margin-top: 62
+      margin-top: 84
       width: 10
 
     Panel
@@ -669,7 +670,7 @@ MainWindow
       anchors.left: parent.left
       anchors.right: ranksScrollBar.left
       anchors.bottom: parent.bottom
-      margin-top: 62
+      margin-top: 84
       layout:
         type: verticalBox
         spacing: 2

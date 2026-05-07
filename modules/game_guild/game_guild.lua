@@ -16,6 +16,13 @@ local permissions = {
 local memberSortMode = 'rank'
 local selectedRankPermissionId = nil
 
+local VOCATION_NAMES = {
+  [0] = 'Unawakened',
+  [1] = 'Awakened',
+  [2] = 'Ascendant',
+  [3] = 'Ascended',
+}
+
 local function sendAction(action, params)
   local protocol = g_game.getProtocolGame()
   if not protocol then return end
@@ -420,7 +427,8 @@ local function renderGuildData(data)
 
         local memberName = row:recursiveGetChildById('memberName')
         if memberName then
-          local displayName = string.format('%s [Lv %d]', member.name or '', member.level or 0)
+          local vocName = VOCATION_NAMES[tonumber(member.vocation)] or 'Unknown'
+          local displayName = string.format('%s [Lv %d, %s]', member.name or '', member.level or 0, vocName)
           if member.nick and member.nick ~= '' then
             displayName = displayName .. ' (' .. member.nick .. ')'
           end
