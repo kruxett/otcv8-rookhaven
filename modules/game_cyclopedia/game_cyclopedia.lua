@@ -1519,6 +1519,28 @@ local function purgeWidgetById(id)
     end
 end
 
+local function restoreMiniWindowState(window, defaultClosed)
+    if not window then
+        return
+    end
+
+    local miniWindows = g_settings.getNode('MiniWindows') or {}
+    local state = miniWindows[window:getId()]
+
+    if state and state.closed ~= nil then
+        if state.closed then
+            window:close(true)
+        else
+            window:open(true)
+        end
+        return
+    end
+
+    if defaultClosed then
+        window:close(true)
+    end
+end
+
 function toggle(defaultWindow)
     if not controllerCyclopedia.ui then
         return
@@ -1738,7 +1760,7 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindow:setup()
-            trackerMiniWindow:hide()
+            restoreMiniWindowState(trackerMiniWindow, true)
         end
 
         --[[===================================================
@@ -1792,7 +1814,7 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindowTask:setup()
-            trackerMiniWindowTask:hide()
+            restoreMiniWindowState(trackerMiniWindowTask, true)
         end
 
         --[[===================================================
@@ -1883,7 +1905,7 @@ function controllerCyclopedia:onGameStart()
             end
 
             trackerMiniWindowBosstiary:setup()
-            trackerMiniWindowBosstiary:hide()
+            restoreMiniWindowState(trackerMiniWindowBosstiary, true)
         end
         if trackerMiniWindow and trackerMiniWindow.setupOnStart then
             trackerMiniWindow:setupOnStart()

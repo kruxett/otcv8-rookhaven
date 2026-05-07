@@ -14,6 +14,22 @@ local LOGIN_TRACKER_SYNC_DELAY = 1200
 local TRACKER_REQUEST_STEP_DELAY = 120
 local updateHideCompletedButton = nil
 
+local function restoreTrackerWindowState()
+  if not trackerWindow then return end
+
+  local miniWindows = g_settings.getNode('MiniWindows') or {}
+  local state = miniWindows[trackerWindow:getId()]
+  if state and state.closed ~= nil then
+    if state.closed then
+      trackerWindow:close(true)
+    else
+      trackerWindow:open(true)
+    end
+  else
+    trackerWindow:close(true)
+  end
+end
+
 function init()
   g_ui.importStyle('questlogwindow')
 
@@ -21,7 +37,7 @@ function init()
   window:hide()
   trackerWindow = g_ui.createWidget('QuestTracker', modules.game_interface.getRightPanel())
   trackerWindow:setup()
-  trackerWindow:hide()
+  restoreTrackerWindowState()
   
   if not g_app.isMobile() then
     questLogButton = modules.client_topmenu.addLeftGameButton('questLogButton', tr('Quest Log'), '/images/topbuttons/questlog', function() g_game.requestQuestLog() end, false, 8)
@@ -52,9 +68,9 @@ end
 
 function toggle()
   if trackerWindow:isVisible() then
-    trackerWindow:hide()
+    trackerWindow:close()
   else
-    trackerWindow:show()
+    trackerWindow:open()
   end
 end
 
@@ -94,6 +110,7 @@ function online()
   end
 
   load()
+  restoreTrackerWindowState()
   refreshQuests()
   -- Delay initial tracker sync slightly to avoid request bursts while
   -- the login/map packet burst is still being processed.
