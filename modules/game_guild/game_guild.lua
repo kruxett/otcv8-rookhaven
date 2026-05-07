@@ -1,11 +1,20 @@
 local GUILD_OPCODE = 101
 local GUILD_DEBUG = false
+local GUILD_TOPMENU_ICON = '/layouts/retro/images/topbuttons/guildmanager'
 
 local guildWindow = nil
+local guildButton = nil
 local myLevel = 0
 local permissions = {
   canInvite = false,
+  canKick = false,
+  canSetMotd = false,
+  canManageRanks = false,
+  canSetTitle = false,
+  canCreate = false,
 }
+local memberSortMode = 'rank'
+local selectedRankPermissionId = nil
 
 local function sendAction(action, params)
   local protocol = g_game.getProtocolGame()
@@ -69,6 +78,10 @@ local function ensureWindow()
     end
   end
 
+  if guildButton then
+    guildButton:setOn(true)
+  end
+
   return true
 end
 
@@ -102,6 +115,7 @@ function switchTab(tabName)
     { tab = 'membersTab', panel = 'membersPanelWrapper' },
     { tab = 'invitesTab', panel = 'invitesPanelWrapper' },
     { tab = 'ranksTab', panel = 'ranksPanelWrapper' },
+    { tab = 'activityTab', panel = 'activityPanelWrapper' },
   }
 
   for _, entry in ipairs(tabs) do
@@ -113,10 +127,87 @@ function switchTab(tabName)
   end
 end
 
+local function formatTimeLeft(expiresAt)
+  local ts = tonumber(expiresAt) or 0
+  if ts <= 0 then return 'no expiry' end
+  local left = ts - os.time()
+  if left <= 0 then return 'expired' end
+  local days = math.floor(left / 86400)
+  local hours = math.floor((left % 86400) / 3600)
+  local minutes = math.floor((left % 3600) / 60)
+  if days > 0 then return string.format('%dd %dh', days, hours) end
+  if hours > 0 then return string.format('%dh %dm', hours, minutes) end
+  return string.format('%dm', minutes)
+end
+
+local function formatActivityLine(entry)
+  local event = entry.event or 'updated'
+  local actor = entry.actor or 'System'
+  local payload = entry.payload or {}
+
+  if event == 'guild_created' then
+    return string.format('%s founded the guild.', actor)
+  elseif event == 'member_invited' then
+    return string.format('%s invited %s.', actor, payload.targetName or 'a player')
+  elseif event == 'invite_accepted' then
+    return string.format('%s joined the guild.', payload.playerName or actor)
+  elseif event == 'invite_declined' then
+    return string.format('%s declined an invite.', actor)
+  elseif event == 'member_kicked' then
+    return string.format('%s kicked %s.', actor, payload.targetName or 'a member')
+  elseif event == 'member_rank_changed' then
+    return string.format('%s changed %s\'s rank.', actor, payload.targetName or 'a member')
+  elseif event == 'member_title_changed' then
+    return string.format('%s changed %s\'s title.', actor, payload.targetName or 'a member')
+  elseif event == 'motd_updated' then
+    return string.format('%s updated the MOTD.', actor)
+  elseif event == 'rank_created' then
+    return string.format('%s created rank %s.', actor, payload.rankName or '')
+  elseif event == 'rank_renamed' then
+    return string.format('%s renamed a rank to %s.', actor, payload.rankName or '')
+  elseif event == 'rank_deleted' then
+    return string.format('%s deleted a rank.', actor)
+  elseif event == 'rank_permissions_updated' then
+    return string.format('%s updated rank permissions.', actor)
+  elseif event == 'member_left' then
+    return string.format('%s left the guild.', payload.playerName or actor)
+  elseif event == 'leadership_transferred' then
+    return string.format('%s transferred leadership to %s.', actor, payload.newLeaderName or 'another member')
+  end
+
+  return string.format('%s performed %s.', actor, event)
+end
+
 local function renderNoGuild(data)
+  local canCreate = data.permissions and data.permissions.canCreate == true
+  local noGuildInfoLabel = W('noGuildInfoLabel')
+  local noGuildTipsLabel = W('noGuildTipsLabel')
+  local createPanel = W('createGuildPanel')
+
+  if noGuildInfoLabel then
+    if canCreate then
+      noGuildInfoLabel:setText('Guild Founding Mode is active for a short time. Create one below or accept an invitation.')
+    else
+      noGuildInfoLabel:setText('You are not in a guild. Founding is available only through a Guildmaster.')
+    end
+  end
+
+  if noGuildTipsLabel then
+    if canCreate then
+      noGuildTipsLabel:setText('Tip: This founding window expires soon. Guild management remains available in top menu > Guild Manager.')
+    else
+      noGuildTipsLabel:setText('Tip: Use top menu > Guild Manager for invites and member overview anywhere.\nSpeak to a Guildmaster and say "guild" to found a new guild.')
+    end
+  end
+
+  if createPanel then
+    createPanel:setVisible(canCreate)
+  end
+
   local tabContent = W('tabContent')
   if tabContent then
     clearChildren(tabContent)
+    tabContent:setMarginTop(canCreate and 48 or 8)
 
     if data.invites and #data.invites > 0 then
       local section = g_ui.createWidget('GuildSectionLabel', tabContent)
@@ -126,7 +217,10 @@ local function renderNoGuild(data)
         local row = g_ui.createWidget('GuildInviteRow', tabContent)
         if row then
           local nameLabel = row:recursiveGetChildById('guildName')
-          if nameLabel then nameLabel:setText(invite.guildName or '') end
+          if nameLabel then
+            local timeLeft = formatTimeLeft(invite.expiresAt)
+            nameLabel:setText(string.format('%s  [expires in %s]', invite.guildName or '', timeLeft))
+          end
 
           local guildId = invite.guildId
           local acceptBtn = row:recursiveGetChildById('acceptBtn')
@@ -150,10 +244,16 @@ local function renderNoGuild(data)
   local createBtn = W('createGuildBtn')
   local guildNameField = W('guildNameField')
   if createBtn and guildNameField then
-    createBtn.onClick = function()
-      local guildName = guildNameField:getText()
-      if guildName and #guildName >= 3 then
-        sendAction('create', { name = guildName })
+    createBtn:setEnabled(canCreate)
+    createBtn.onClick = nil
+    if canCreate then
+      createBtn.onClick = function()
+        local guildName = guildNameField:getText()
+        if guildName and #guildName >= 3 then
+          sendAction('create', { name = guildName })
+        else
+          showGuildError('Guild name must be at least 3 characters long.')
+        end
       end
     end
   end
@@ -164,13 +264,25 @@ local function renderGuildData(data)
   local members = data.members or {}
   local invites = data.invites or {}
   local ranks = data.ranks or {}
+  local activity = data.activity or {}
 
   myLevel = data.myLevel or 0
-  permissions = data.permissions or { canInvite = false }
+  permissions = data.permissions or {
+    canInvite = false,
+    canKick = false,
+    canSetMotd = false,
+    canManageRanks = false,
+    canSetTitle = false,
+    canCreate = false,
+  }
 
   local isLeader = myLevel >= 3
   local canInvite = permissions.canInvite == true
-  local canManageMembers = myLevel >= 2
+  local canKick = permissions.canKick == true
+  local canSetMotd = permissions.canSetMotd == true
+  local canManageRanks = permissions.canManageRanks == true
+  local canSetTitle = permissions.canSetTitle == true
+  local canManageMembers = canKick or canSetTitle or canManageRanks or isLeader
 
   local guildNameLabel = W('guildNameLabel')
   if guildNameLabel then guildNameLabel:setText(info.name or 'Guild') end
@@ -185,12 +297,12 @@ local function renderGuildData(data)
   local motdEdit = W('motdEdit')
   if motdEdit then
     motdEdit:setText(info.motd or '')
-    motdEdit:setEnabled(isLeader)
+    motdEdit:setEnabled(canSetMotd)
   end
 
   local saveMotdBtn = W('saveMotdBtn')
   if saveMotdBtn then
-    saveMotdBtn:setVisible(isLeader)
+    saveMotdBtn:setVisible(canSetMotd)
     saveMotdBtn.onClick = function()
       if motdEdit then
         sendAction('set_motd', { motd = motdEdit:getText() })
@@ -207,78 +319,27 @@ local function renderGuildData(data)
   local disbandGuildBtn = W('disbandGuildBtn')
   if disbandGuildBtn then
     disbandGuildBtn:setVisible(isLeader)
-    disbandGuildBtn.onClick = function() sendAction('disband') end
-  end
-
-  local membersListPanel = W('membersListPanel')
-  if membersListPanel then
-    clearChildren(membersListPanel)
-
-    for _, member in ipairs(members) do
-      local row = g_ui.createWidget('GuildMemberRow', membersListPanel)
-      if row then
-        local onlineIndicator = row:recursiveGetChildById('onlineIndicator')
-        if onlineIndicator then
-          onlineIndicator:setBackgroundColor(member.online and '#44cc44' or '#666666')
-        end
-
-        local memberName = row:recursiveGetChildById('memberName')
-        if memberName then
-          local displayName = member.name
-          if member.nick and member.nick ~= '' then
-            displayName = displayName .. ' (' .. member.nick .. ')'
+    disbandGuildBtn.onClick = nil
+    if isLeader then
+      disbandGuildBtn.onClick = function()
+        if displayGeneralBox then
+          local questionBox
+          local function onConfirm()
+            if questionBox then questionBox:destroy() end
+            sendAction('disband')
           end
-          memberName:setText(displayName)
-        end
-
-        local memberRank = row:recursiveGetChildById('memberRank')
-        if memberRank then memberRank:setText(member.rankName or '') end
-
-        if canManageMembers then
-          local memberCopy = member
-          local ranksCopy = ranks
-          local myLevelCopy = myLevel
-          row.onMouseRelease = function(widget, mousePos, mouseButton)
-            if mouseButton ~= MouseRightButton then return end
-
-            local menu = g_ui.createWidget('PopupMenu', rootWidget)
-            if not menu then return end
-
-            if isLeader and memberCopy.rankLevel and memberCopy.rankLevel < 3 then
-              menu:addOption('Set Rank', function()
-                local rankMenu = g_ui.createWidget('PopupMenu', rootWidget)
-                if rankMenu then
-                  for _, rank in ipairs(ranksCopy) do
-                    if rank.level < 3 then
-                      local rankId = rank.id
-                      rankMenu:addOption(rank.name, function()
-                        sendAction('set_rank', { name = memberCopy.name, rank_id = rankId })
-                      end)
-                    end
-                  end
-                  rankMenu:display(mousePos)
-                end
-              end)
-
-              menu:addOption('Set Title', function()
-                makeInputWindow('Set Title for ' .. memberCopy.name, function(value)
-                  sendAction('set_nick', { name = memberCopy.name, nick = value })
-                end)
-              end)
-
-              menu:addOption('Transfer Leadership', function()
-                sendAction('transfer_leadership', { name = memberCopy.name })
-              end)
-            end
-
-            if memberCopy.rankLevel and memberCopy.rankLevel < myLevelCopy then
-              menu:addOption('Kick', function()
-                sendAction('kick', { name = memberCopy.name })
-              end)
-            end
-
-            menu:display(mousePos)
+          local function onCancel()
+            if questionBox then questionBox:destroy() end
           end
+
+          questionBox = displayGeneralBox('Disband Guild',
+            'Are you sure you want to disband this guild? This cannot be undone.',
+            {
+              { text = 'Disband', callback = onConfirm },
+              { text = 'Cancel', callback = onCancel },
+            }, onConfirm, onCancel)
+        else
+          sendAction('disband')
         end
       end
     end
@@ -300,6 +361,155 @@ local function renderGuildData(data)
     end
   end
 
+  local membersListPanel = W('membersListPanel')
+  local memberSearchField = W('memberSearchField')
+  local memberSortBox = W('memberSortBox')
+  local memberOnlineOnlyCheck = W('memberOnlineOnlyCheck')
+
+  local function buildMembersList()
+    if not membersListPanel then return end
+    clearChildren(membersListPanel)
+
+    local search = ''
+    if memberSearchField then
+      search = string.lower(memberSearchField:getText() or '')
+    end
+    local onlineOnly = memberOnlineOnlyCheck and memberOnlineOnlyCheck:isChecked() or false
+
+    local filtered = {}
+    for _, member in ipairs(members) do
+      local nick = member.nick or ''
+      local hay = string.lower((member.name or '') .. ' ' .. nick .. ' ' .. (member.rankName or ''))
+      if (search == '' or string.find(hay, search, 1, true)) and (not onlineOnly or member.online) then
+        table.insert(filtered, member)
+      end
+    end
+
+    table.sort(filtered, function(a, b)
+      if memberSortMode == 'name' then
+        return (a.name or '') < (b.name or '')
+      elseif memberSortMode == 'level' then
+        if (a.level or 0) == (b.level or 0) then return (a.name or '') < (b.name or '') end
+        return (a.level or 0) > (b.level or 0)
+      elseif memberSortMode == 'lastseen' then
+        if a.online ~= b.online then return a.online end
+        if (a.lastSeen or 0) == (b.lastSeen or 0) then return (a.name or '') < (b.name or '') end
+        return (a.lastSeen or 0) > (b.lastSeen or 0)
+      elseif memberSortMode == 'online' then
+        if a.online ~= b.online then return a.online end
+        return (a.name or '') < (b.name or '')
+      end
+
+      if (a.rankLevel or 0) == (b.rankLevel or 0) then return (a.name or '') < (b.name or '') end
+      return (a.rankLevel or 0) > (b.rankLevel or 0)
+    end)
+
+    if #filtered == 0 then
+      local empty = g_ui.createWidget('GuildSectionLabel', membersListPanel)
+      if empty then empty:setText('No members match your filters.') end
+      return
+    end
+
+    for _, member in ipairs(filtered) do
+      local row = g_ui.createWidget('GuildMemberRow', membersListPanel)
+      if row then
+        local onlineIndicator = row:recursiveGetChildById('onlineIndicator')
+        if onlineIndicator then
+          onlineIndicator:setBackgroundColor(member.online and '#44cc44' or '#666666')
+        end
+
+        local memberName = row:recursiveGetChildById('memberName')
+        if memberName then
+          local displayName = string.format('%s [Lv %d]', member.name or '', member.level or 0)
+          if member.nick and member.nick ~= '' then
+            displayName = displayName .. ' (' .. member.nick .. ')'
+          end
+          memberName:setText(displayName)
+        end
+
+        local memberRank = row:recursiveGetChildById('memberRank')
+        if memberRank then
+          local suffix = member.online and ' • Online' or ''
+          memberRank:setText((member.rankName or '') .. suffix)
+        end
+
+        if canManageMembers then
+          local memberCopy = member
+          local ranksCopy = ranks
+          local myLevelCopy = myLevel
+          row.onMouseRelease = function(widget, mousePos, mouseButton)
+            if mouseButton ~= MouseRightButton then return end
+
+            local menu = g_ui.createWidget('PopupMenu', rootWidget)
+            if not menu then return end
+
+            if canManageRanks and memberCopy.rankLevel and memberCopy.rankLevel < myLevelCopy then
+              menu:addOption('Set Rank', function()
+                local rankMenu = g_ui.createWidget('PopupMenu', rootWidget)
+                if rankMenu then
+                  for _, rank in ipairs(ranksCopy) do
+                    if rank.level < myLevelCopy then
+                      local rankId = rank.id
+                      rankMenu:addOption(rank.name, function()
+                        sendAction('set_rank', { name = memberCopy.name, rank_id = rankId })
+                      end)
+                    end
+                  end
+                  rankMenu:display(mousePos)
+                end
+              end)
+            end
+
+            if canSetTitle and memberCopy.rankLevel and memberCopy.rankLevel < myLevelCopy then
+              menu:addOption('Set Title', function()
+                makeInputWindow('Set Title for ' .. memberCopy.name, function(value)
+                  sendAction('set_nick', { name = memberCopy.name, nick = value })
+                end)
+              end)
+            end
+
+            if isLeader and memberCopy.rankLevel and memberCopy.rankLevel < 3 then
+              menu:addOption('Transfer Leadership', function()
+                sendAction('transfer_leadership', { name = memberCopy.name })
+              end)
+            end
+
+            if canKick and memberCopy.rankLevel and memberCopy.rankLevel < myLevelCopy then
+              menu:addOption('Kick', function()
+                sendAction('kick', { name = memberCopy.name })
+              end)
+            end
+
+            menu:display(mousePos)
+          end
+        end
+      end
+    end
+  end
+
+  if memberSortBox then
+    if memberSortBox:getOptionsCount() == 0 then
+      memberSortBox:addOption('Rank', 'rank')
+      memberSortBox:addOption('Name', 'name')
+      memberSortBox:addOption('Level', 'level')
+      memberSortBox:addOption('Online', 'online')
+      memberSortBox:addOption('Last Seen', 'lastseen')
+    end
+    memberSortBox:setCurrentOptionByData(memberSortMode, true)
+    memberSortBox.onOptionChange = function(widget, option, dataValue)
+      memberSortMode = dataValue or 'rank'
+      buildMembersList()
+    end
+  end
+
+  if memberSearchField then
+    memberSearchField.onTextChange = function() buildMembersList() end
+  end
+  if memberOnlineOnlyCheck then
+    memberOnlineOnlyCheck.onCheckChange = function() buildMembersList() end
+  end
+  buildMembersList()
+
   local invitesListPanel = W('invitesListPanel')
   if invitesListPanel then
     clearChildren(invitesListPanel)
@@ -311,7 +521,9 @@ local function renderGuildData(data)
         local row = g_ui.createWidget('GuildInvitedRow', invitesListPanel)
         if row then
           local inviteeName = row:recursiveGetChildById('inviteeName')
-          if inviteeName then inviteeName:setText(invite.name or '') end
+          if inviteeName then
+            inviteeName:setText(string.format('%s  [expires in %s]', invite.name or '', formatTimeLeft(invite.expiresAt)))
+          end
         end
       end
     end
@@ -326,24 +538,23 @@ local function renderGuildData(data)
         local rankName = row:recursiveGetChildById('rankName')
         if rankName then rankName:setText(rank.name .. '  (Tier ' .. rank.level .. ')') end
 
-        if isLeader then
-          local rankId = rank.id
-
-          -- Only Tier 1 ranks can be deleted
-          local deleteRankBtn = row:recursiveGetChildById('deleteRankBtn')
-          if deleteRankBtn then
-            deleteRankBtn:setVisible(rank.level == 1)
-            if rank.level == 1 then
-              deleteRankBtn.onClick = function()
-                sendAction('delete_rank', { rank_id = rankId })
-              end
+        local rankId = rank.id
+        local deleteRankBtn = row:recursiveGetChildById('deleteRankBtn')
+        if deleteRankBtn then
+          deleteRankBtn:setVisible(canManageRanks and rank.level == 1)
+          deleteRankBtn.onClick = nil
+          if canManageRanks and rank.level == 1 then
+            deleteRankBtn.onClick = function()
+              sendAction('delete_rank', { rank_id = rankId })
             end
           end
+        end
 
-          -- All ranks can be renamed
-          local renameRankBtn = row:recursiveGetChildById('renameRankBtn')
-          if renameRankBtn then
-            renameRankBtn:setVisible(true)
+        local renameRankBtn = row:recursiveGetChildById('renameRankBtn')
+        if renameRankBtn then
+          renameRankBtn:setVisible(canManageRanks)
+          renameRankBtn.onClick = nil
+          if canManageRanks then
             renameRankBtn.onClick = function()
               makeInputWindow('Rename Rank', function(value)
                 sendAction('update_rank', { rank_id = rankId, rank_name = value })
@@ -357,13 +568,112 @@ local function renderGuildData(data)
 
   local addRankBtn = W('addRankBtn')
   if addRankBtn then
-    addRankBtn:setVisible(isLeader)
+    addRankBtn:setVisible(canManageRanks)
     addRankBtn.onClick = nil
-    if isLeader then
+    if canManageRanks then
       addRankBtn.onClick = function()
         makeInputWindow('New Rank Name', function(value)
           sendAction('create_rank', { rank_name = value })
         end)
+      end
+    end
+  end
+
+  local rankPermTitle = W('rankPermTitle')
+  local rankPermTargetBox = W('rankPermTargetBox')
+  local rankPermSaveBtn = W('rankPermSaveBtn')
+  local permInviteCheck = W('permInviteCheck')
+  local permKickCheck = W('permKickCheck')
+  local permMotdCheck = W('permMotdCheck')
+  local permRanksCheck = W('permRanksCheck')
+  local permTitleCheck = W('permTitleCheck')
+
+  if rankPermTitle then rankPermTitle:setVisible(canManageRanks) end
+  if rankPermTargetBox then rankPermTargetBox:setVisible(canManageRanks) end
+  if rankPermSaveBtn then rankPermSaveBtn:setVisible(canManageRanks) end
+  if permInviteCheck then permInviteCheck:setVisible(canManageRanks) end
+  if permKickCheck then permKickCheck:setVisible(canManageRanks) end
+  if permMotdCheck then permMotdCheck:setVisible(canManageRanks) end
+  if permRanksCheck then permRanksCheck:setVisible(canManageRanks) end
+  if permTitleCheck then permTitleCheck:setVisible(canManageRanks) end
+
+  if canManageRanks and rankPermTargetBox then
+    rankPermTargetBox:clearOptions()
+    for _, rank in ipairs(ranks) do
+      rankPermTargetBox:addOption(rank.name .. ' (Tier ' .. rank.level .. ')', rank.id)
+    end
+
+    local function getRankById(rankId)
+      for _, rank in ipairs(ranks) do
+        if rank.id == rankId then return rank end
+      end
+      return nil
+    end
+
+    local function applyRankPermissionSelection(rankId)
+      local rank = getRankById(rankId)
+      if not rank then return end
+      local rp = rank.permissions or {}
+
+      local locked = rank.level >= 3
+      if permInviteCheck then permInviteCheck:setChecked(rp.canInvite == true) permInviteCheck:setEnabled(not locked) end
+      if permKickCheck then permKickCheck:setChecked(rp.canKick == true) permKickCheck:setEnabled(not locked) end
+      if permMotdCheck then permMotdCheck:setChecked(rp.canSetMotd == true) permMotdCheck:setEnabled(not locked) end
+      if permRanksCheck then permRanksCheck:setChecked(rp.canManageRanks == true) permRanksCheck:setEnabled(not locked) end
+      if permTitleCheck then permTitleCheck:setChecked(rp.canSetTitle == true) permTitleCheck:setEnabled(not locked) end
+      if rankPermSaveBtn then rankPermSaveBtn:setEnabled(not locked) end
+    end
+
+    if not selectedRankPermissionId or not getRankById(selectedRankPermissionId) then
+      selectedRankPermissionId = ranks[1] and ranks[1].id or nil
+    end
+
+    rankPermTargetBox.onOptionChange = function(widget, option, dataValue)
+      selectedRankPermissionId = tonumber(dataValue)
+      applyRankPermissionSelection(selectedRankPermissionId)
+    end
+
+    if selectedRankPermissionId then
+      rankPermTargetBox:setCurrentOptionByData(selectedRankPermissionId, true)
+      applyRankPermissionSelection(selectedRankPermissionId)
+    end
+
+    if rankPermSaveBtn then
+      rankPermSaveBtn.onClick = function()
+        local rank = getRankById(selectedRankPermissionId)
+        if not rank then return end
+        if rank.level >= 3 then
+          showGuildError('Leader permissions are fixed.')
+          return
+        end
+
+        sendAction('set_rank_permissions', {
+          rank_id = selectedRankPermissionId,
+          permissions = {
+            canInvite = permInviteCheck and permInviteCheck:isChecked() or false,
+            canKick = permKickCheck and permKickCheck:isChecked() or false,
+            canSetMotd = permMotdCheck and permMotdCheck:isChecked() or false,
+            canManageRanks = permRanksCheck and permRanksCheck:isChecked() or false,
+            canSetTitle = permTitleCheck and permTitleCheck:isChecked() or false,
+          }
+        })
+      end
+    end
+  end
+
+  local activityListPanel = W('activityListPanel')
+  if activityListPanel then
+    clearChildren(activityListPanel)
+    if #activity == 0 then
+      local emptyAct = g_ui.createWidget('GuildSectionLabel', activityListPanel)
+      if emptyAct then emptyAct:setText('No recent activity.') end
+    else
+      for _, entry in ipairs(activity) do
+        local row = g_ui.createWidget('GuildSectionLabel', activityListPanel)
+        if row then
+          local timestamp = os.date('%Y-%m-%d %H:%M', tonumber(entry.createdAt) or os.time())
+          row:setText(string.format('%s  -  %s', timestamp, formatActivityLine(entry)))
+        end
       end
     end
   end
@@ -397,20 +707,25 @@ local function onGuildOpcode(protocol, opcode, buffer)
     return
   end
 
+  guildWindow:show()
+  guildWindow:raise()
+  guildWindow:focus()
+  if guildButton then guildButton:setOn(true) end
+
   if data.type == 'no_guild' then
     local guildTabsRow = W('guildTabsRow')
     local noGuildWrapper = W('noGuildWrapper')
     if guildTabsRow then guildTabsRow:setVisible(false) end
     if noGuildWrapper then noGuildWrapper:setVisible(true) end
     -- explicitly hide all tab panels to prevent overlap
-    local tabPanels = { 'infoPanel', 'membersPanelWrapper', 'invitesPanelWrapper', 'ranksPanelWrapper' }
+    local tabPanels = { 'infoPanel', 'membersPanelWrapper', 'invitesPanelWrapper', 'ranksPanelWrapper', 'activityPanelWrapper' }
     for _, id in ipairs(tabPanels) do
       local p = W(id)
       if p then p:setVisible(false) end
     end
 
     myLevel = 0
-    permissions = { canInvite = false }
+    permissions = data.permissions or { canInvite = false, canKick = false, canSetMotd = false, canManageRanks = false, canSetTitle = false, canCreate = false }
     renderNoGuild(data)
     return
   end
@@ -432,7 +747,10 @@ local function onGameEnd()
     guildWindow = nil
   end
   myLevel = 0
-  permissions = { canInvite = false }
+  permissions = { canInvite = false, canKick = false, canSetMotd = false, canManageRanks = false, canSetTitle = false, canCreate = false }
+  memberSortMode = 'rank'
+  selectedRankPermissionId = nil
+  if guildButton then guildButton:setOn(false) end
 end
 
 function hide()
@@ -440,6 +758,25 @@ function hide()
     guildWindow:destroy()
     guildWindow = nil
   end
+  if guildButton then guildButton:setOn(false) end
+  selectedRankPermissionId = nil
+end
+
+function toggle()
+  if guildWindow and guildWindow:isVisible() then
+    hide()
+    return
+  end
+
+  if not ensureWindow() then
+    return
+  end
+
+  guildWindow:show()
+  guildWindow:raise()
+  guildWindow:focus()
+  if guildButton then guildButton:setOn(true) end
+  sendAction('open')
 end
 
 function canInviteMembers()
@@ -454,9 +791,20 @@ end
 function init()
   connect(g_game, { onGameEnd = onGameEnd })
   ProtocolGame.registerExtendedOpcode(GUILD_OPCODE, onGuildOpcode)
+
+  if modules.client_topmenu and modules.client_topmenu.addRightGameToggleButton then
+    guildButton = modules.client_topmenu.addRightGameToggleButton('guildManagerButton', tr('Guild Manager'), GUILD_TOPMENU_ICON, toggle, false, 6)
+    if guildButton then
+      guildButton:setOn(false)
+    end
+  end
 end
 
 function terminate()
+  if guildButton then
+    guildButton:destroy()
+    guildButton = nil
+  end
   disconnect(g_game, { onGameEnd = onGameEnd })
   ProtocolGame.unregisterExtendedOpcode(GUILD_OPCODE)
   onGameEnd()
