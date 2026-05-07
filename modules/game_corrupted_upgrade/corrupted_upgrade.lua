@@ -462,11 +462,11 @@ local function buildRequirementWidgets(entry)
     end
 
     local card = g_ui.createWidget('ForgingReqCard', ui.requirementsPanel)
+    card:addAnchor(AnchorLeft, 'parent', AnchorLeft)
+    card:addAnchor(AnchorTop, 'parent', AnchorTop)
     card:setWidth(cardWidth)
-    card:setMarginTop(0)
-    card:setMarginLeft(0)
-    card:setMarginBottom(0)
-    card:setMarginRight(0)
+    card:setMarginLeft(x)
+    card:setMarginTop(4)
 
     local prettyLabel = prettifyRequirementLabel(req.label)
     local hoverLabel = getRequirementTooltip(req)

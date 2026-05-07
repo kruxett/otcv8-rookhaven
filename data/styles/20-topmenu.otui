@@ -93,6 +93,7 @@ TopMenu < TopMenuPanel
     anchors.top: parent.top
     anchors.left: fpsLabel.right
     margin-left: 8
+    visible: false
 
   Label
     id: onlineLabel
