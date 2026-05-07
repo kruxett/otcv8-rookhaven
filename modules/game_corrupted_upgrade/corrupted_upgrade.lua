@@ -435,8 +435,18 @@ local function buildRequirementWidgets(entry)
   end
 
   local reqCount = #allReqs
-  local cardWidth = REQ_CARD_WIDTH
   local availableSpacing = math.max(reqCount - 1, 0) * REQ_CARD_SPACING
+  -- Panel is window width minus 20px (10px margin each side).
+  local panelWidth = (window and window.getWidth) and (tonumber(window:getWidth()) - 20) or 440
+  panelWidth = math.max(panelWidth, 100)
+  -- Use ideal card width, but shrink if cards would overflow the panel.
+  local cardWidth = REQ_CARD_WIDTH
+  if reqCount > 0 then
+    local maxCardWidth = math.floor((panelWidth - availableSpacing) / reqCount)
+    if maxCardWidth < cardWidth then
+      cardWidth = math.max(maxCardWidth, REQ_CARD_MIN_WIDTH)
+    end
+  end
   local totalWidth = (reqCount * cardWidth) + availableSpacing
 
   -- Create a centered inner container of exact total width.

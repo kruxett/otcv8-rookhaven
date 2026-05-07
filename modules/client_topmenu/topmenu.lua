@@ -94,9 +94,9 @@ function init()
     scheduleEvent(online, 10)
   end
   
-  updateFps()  
-  updatePing()
+  updateFps()
   updateStatus()
+  setPingVisible(false)
 end
 
 function terminate()
@@ -127,6 +127,7 @@ function online()
   end
   setPingVisible(true)
   refreshPingLabel()
+  updatePing()
 end
 
 function offline()
@@ -139,7 +140,8 @@ function offline()
 
   hideGameButtons()
   setPingVisible(false)
-  refreshPingLabel()
+  removeEvent(pingUpdateEvent)
+  pingUpdateEvent = nil
   updateStatus()
 end
 
@@ -152,6 +154,7 @@ end
 
 function updatePing()
   if not topMenu or not topMenu.pingLabel then return end
+  if not g_game.isOnline() then return end
   pingUpdateEvent = scheduleEvent(updatePing, 500)
   refreshPingLabel()
 end
