@@ -398,22 +398,17 @@ local function getRequirementTooltip(req)
 end
 
 local function getRequirementPanelWidth()
-  local width = 0
-
-  if ui.requirementsPanel and ui.requirementsPanel.getWidth then
-    width = tonumber(ui.requirementsPanel:getWidth()) or 0
+  -- Use window width directly to avoid reading the panel width before the first
+  -- layout pass (which returns 0 and causes cards to jump horizontally).
+  -- requirementsPanel uses 10px margins on both sides.
+  if window and window.getWidth then
+    local w = tonumber(window:getWidth()) or 0
+    if w > 20 then
+      return math.floor(w - 20)
+    end
   end
 
-  if width <= 0 and window and window.getWidth then
-    -- requirementsPanel uses 10px margins on both sides.
-    width = (tonumber(window:getWidth()) or 460) - 20
-  end
-
-  if width <= 0 then
-    width = 430
-  end
-
-  return math.floor(width)
+  return 430
 end
 
 local function buildRequirementWidgets(entry)
