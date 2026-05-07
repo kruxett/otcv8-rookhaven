@@ -171,6 +171,8 @@ QuestLogWindow < MainWindow
 
 QuestTracker < MiniWindow
   id: questTracker
+  &save: true
+  &autoOpen: false
   !text: tr('Quest Tracker')
   height: 60
   icon: /images/topbuttons/quest_tracker
