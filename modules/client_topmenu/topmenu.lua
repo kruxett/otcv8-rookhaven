@@ -125,7 +125,6 @@ function online()
   if g_game.setPingDelay then
     g_game.setPingDelay(1000)
   end
-  setPingVisible(true)
   refreshPingLabel()
 end
 
@@ -138,7 +137,7 @@ function offline()
   end
 
   hideGameButtons()
-  setPingVisible(false)
+  refreshPingLabel()
   updateStatus()
 end
 
