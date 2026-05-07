@@ -1324,6 +1324,8 @@ TrackerButton < Panel
 
 BestiaryTracker < MiniWindow
   id: BestiaryTracker
+  &save: true
+  &autoOpen: false
   icon: /images/icons/icon-bestiarytracker-widget
   @onClose: modules.game_cyclopedia.Cyclopedia.onTrackerClose(self:getText())
 

@@ -1,4 +1,6 @@
 TradeWindow < MiniWindow
+  &save: true
+  &autoOpen: false
   !text: tr('Trade')
   height: 150
 

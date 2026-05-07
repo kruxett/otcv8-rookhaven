@@ -666,6 +666,8 @@ PreyCreature < Panel
 
 PreyTracker < MiniWindow
   id: preyTracker
+  &save: true
+  &autoOpen: false
   !text: tr('Preys')
   height: 95
   icon: /images/topbuttons/prey
