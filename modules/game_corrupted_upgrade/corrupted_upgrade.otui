@@ -131,11 +131,6 @@ MainWindow
       margin-left: 10
       margin-right: 10
       height: 82
-      layout:
-        type: horizontalBox
-        spacing: 4
-        fit-children: true
-        align: center
 
   HorizontalSeparator
     id: optSep
