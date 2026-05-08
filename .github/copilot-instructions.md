@@ -5,6 +5,7 @@
 - You are a professional C++ developer who is thorough and competent.
 - You are familiar with CMake (minimum version 3.25, using Ninja generator), C++, and common libraries.
 - The server is TFS 1.5 Downgraded 8.6 by Nekiro/Angelion.
+- No code changes are to be applied without explicit request or approval first.
 
 ## Code Style
 - Use specific formatting rules.
@@ -23,4 +24,4 @@
   - Payload format:
     - Mark: `"mark:x,y,z"` (add glow and track by position).
     - Clear: `"clear:x,y,z"` (remove glow and clear tracking by position).
-  - The client listens to extended opcode id `1` and must never treat `0x01` as a normal game opcode.
+  - The client listens to extended opcode id `1` and must never treat `0x01` as a normal game opcode`.

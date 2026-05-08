@@ -1,6 +1,6 @@
 local GUILD_OPCODE = 101
 local GUILD_DEBUG = false
-local GUILD_TOPMENU_ICON = '/layouts/retro/images/topbuttons/guildmanager'
+local GUILD_TOPMENU_ICON = '/images/topbuttons/guildmanager'
 
 local guildWindow = nil
 local guildButton = nil
