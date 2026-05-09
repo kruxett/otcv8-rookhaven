@@ -138,11 +138,17 @@ function Cyclopedia.resetSessionXp()
     _sessionLastXp    = nil
     _profileKills     = nil
     _profileDeaths    = nil
+    _cachedVocationName = nil
 end
 
 local function getPlayerVocationName(player)
     if not player then
         return "Unknown"
+    end
+
+    -- Return cached vocation if available (from server character data)
+    if _cachedVocationName then
+        return _cachedVocationName
     end
 
     if player.getVocationNameByClientId then
@@ -184,6 +190,7 @@ local function close(parent)
 end
 
 local function reset()
+    _cachedVocationName = nil  -- Clear vocation cache on reset
     characterPanel.InfoBase.inventoryPanel:setVisible(true)
     characterPanel.InfoBase.outfitPanel:setVisible(false)
 
@@ -1344,6 +1351,13 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
             "Session XP gained: %s\nSession duration: %d min",
             comma_value(sessionXp), math.floor(sessionSecs / 60)))
     end
+
+    -- Refresh vocation display with current player data
+    _cachedVocationName = nil  -- Clear cache to get fresh data
+    local currentVocationName = getPlayerVocationName(player)
+    if UI and UI.CharacterBase and UI.CharacterBase.InfoLabel then
+        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), currentVocationName))
+    end
 end
 
 function Cyclopedia.loadCharacterPlaytime(seconds)
@@ -1706,10 +1720,13 @@ function Cyclopedia.createCharacterDescription()
     UI.InfoBase.DetailsBase.List:destroyChildren()
 
     local player = g_game.getLocalPlayer()
+    -- Clear cached vocation to get fresh data
+    _cachedVocationName = nil
     local descriptions = {
         { Level = player:getLevel() },
         { Vocation = getPlayerVocationName(player) },
         { }
+    }
     }
 
     -- Total gold (carried + bank, both locally available)
