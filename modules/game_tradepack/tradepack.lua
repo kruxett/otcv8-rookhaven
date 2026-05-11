@@ -3,13 +3,13 @@
 -- ============================================================
 -- Server sends opcode 100 with JSON:
 --   mode="select":
---     tiers  = [{id, label, cost, slowdown, reward}, ...]
+--     tiers  = [{id, label, cost, slowdown, materials, can_afford}, ...]
 --     routes = [{id, label, multiplier}, ...]
 --   mode="confirm":
---     {tier_id, tier_label, dest_id, dest_label, cost, reward, slowdown}
+--     {tier_id, tier_label, cost, slowdown, routes, delivery_text}
 --
 -- Client replies:
---   { action="pick",    tier=<id>, dest=<id> }
+--   { action="pick",    tier=<id> }
 --   { action="confirm" }
 --   { action="cancel"  }
 -- ============================================================
@@ -18,7 +18,6 @@ local TRADEPACK_OPCODE = 100
 
 local tradepackWindow = nil
 local selectedTierId = nil
-local selectedDestId = nil
 local tiersData = nil
 local routesData = nil
 local lastSelectData = nil
@@ -29,7 +28,6 @@ local function destroyWindow()
     tradepackWindow = nil
   end
   selectedTierId = nil
-  selectedDestId = nil
   tiersData = nil
   routesData = nil
 end
@@ -43,7 +41,55 @@ local function sendResponse(payload)
   end
 end
 
--- Update the right-hand detail panel based on currently selected tier + dest
+local function getRouteText()
+  if not routesData or #routesData == 0 then
+    return 'any tradepack dropoff point'
+  end
+
+  local labels = {}
+  for _, route in ipairs(routesData) do
+    labels[#labels + 1] = route.label or route.id or '?'
+  end
+
+  if #labels == 1 then
+    return labels[1]
+  elseif #labels == 2 then
+    return labels[1] .. ' or ' .. labels[2]
+  end
+
+  local last = labels[#labels]
+  labels[#labels] = nil
+  return table.concat(labels, ', ') .. ', or ' .. last
+end
+
+local function updateDeliveryLabel()
+  if not tradepackWindow then return end
+  local label = tradepackWindow:recursiveGetChildById('deliveryLabel')
+  if not label then return end
+
+  local routeText = getRouteText()
+  if routesData and #routesData > 0 then
+    label:setText('Deliverable at: ' .. routeText)
+  else
+    label:setText('Deliverable at any tradepack dropoff point')
+  end
+end
+
+local function getTierReward(tierId)
+  if not lastSelectData or not lastSelectData.tiers then
+    return nil
+  end
+
+  for _, tier in ipairs(lastSelectData.tiers) do
+    if tier.id == tierId then
+      return tonumber(tier.reward) or 0
+    end
+  end
+
+  return nil
+end
+
+-- Update the right-hand detail panel based on currently selected tier.
 local function updateDetails()
   if not tradepackWindow then return end
   local detailPanel = tradepackWindow:recursiveGetChildById('detailPanel')
@@ -56,14 +102,6 @@ local function updateDetails()
   if tiersData and selectedTierId then
     for _, t in ipairs(tiersData) do
       if t.id == selectedTierId then tierEntry = t; break end
-    end
-  end
-
-  -- find route entry for multiplier
-  local routeEntry = nil
-  if routesData and selectedDestId then
-    for _, r in ipairs(routesData) do
-      if r.id == selectedDestId then routeEntry = r; break end
     end
   end
 
@@ -92,10 +130,19 @@ local function updateDetails()
   end
 
   local baseReward = tonumber(tierEntry.reward) or 0
-  local mult = routeEntry and (tonumber(routeEntry.multiplier) or 1.0) or 1.0
-  local actualReward = math.floor(baseReward * mult)
   local rw = lbl('detailReward')
-  if rw then rw:setText('Reward: ' .. actualReward .. ' gold') end
+  if rw then
+    if routesData and #routesData > 0 then
+      local rewardLines = {}
+      for _, route in ipairs(routesData) do
+        local mult = tonumber(route.multiplier) or 1.0
+        rewardLines[#rewardLines + 1] = string.format('%s: %d gold', route.label or route.id or '?', math.floor(baseReward * mult))
+      end
+      rw:setText('Reward on delivery:\n' .. table.concat(rewardLines, '\n'))
+    else
+      rw:setText('Reward on delivery: ' .. baseReward .. ' gold')
+    end
+  end
 
   local sp = lbl('detailSpeed')
   if sp then sp:setText('Speed penalty: -' .. tostring(tierEntry.slowdown or 0) .. '%') end
@@ -151,7 +198,6 @@ local function displaySelectUI(data)
   routesData = data.routes or {}
 
   local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
-  local destSelector = tradepackWindow:recursiveGetChildById('destSelector')
 
   -- pick first affordable tier for initial selection (fall back to first tier)
   selectedTierId = nil
@@ -241,22 +287,7 @@ local function displaySelectUI(data)
     end
   end
 
-  if destSelector then
-    destSelector:clearOptions()
-    for i, r in ipairs(routesData) do
-      destSelector:addOption(tostring(r.label or r.id), tostring(r.id))
-      if i == 1 then
-        selectedDestId = tostring(r.id)
-        destSelector:setCurrentOption(tostring(r.label or r.id), false)
-      end
-    end
-
-    destSelector.onOptionChange = function(widget, text, optionData)
-      selectedDestId = (optionData ~= nil and optionData ~= '') and tostring(optionData) or text
-      updateDetails()
-    end
-  end
-
+  updateDeliveryLabel()
   updateDetails()
 end
 
@@ -281,8 +312,8 @@ end
 
 function requestPack()
   if not tradepackWindow then return end
-  if not selectedTierId or not selectedDestId then return end
-  sendResponse({ action = "pick", tier = selectedTierId, dest = selectedDestId })
+  if not selectedTierId then return end
+  sendResponse({ action = "pick", tier = selectedTierId })
   -- window stays open; server replies with confirm payload
 end
 
@@ -306,10 +337,18 @@ local function onTradepackOpcode(protocol, opcode, buffer)
       if w then w:setText(text) end
     end
 
+    local baseReward = getTierReward(data.tier_id) or 0
+    local rewardLines = {}
+    local confirmRoutes = data.routes or {}
+    for _, route in ipairs(confirmRoutes) do
+      local multiplier = tonumber(route.multiplier) or 1.0
+      rewardLines[#rewardLines + 1] = string.format('%s: %d gold', route.label or route.id or '?', math.floor(baseReward * multiplier))
+    end
+
     setLabel('sizeLabel',   'Size: '           .. (data.tier_label or ''))
-    setLabel('destLabel',   'Destination: '    .. (data.dest_label or ''))
+    setLabel('destLabel',   'Delivery points:\n' .. (data.delivery_text or getRouteText()))
     setLabel('costLabel',   'Cost: '           .. (data.cost       or '') .. ' (materials)')
-    setLabel('rewardLabel', 'Reward: '         .. tostring(data.reward or '') .. ' gold on delivery')
+    setLabel('rewardLabel', 'Reward on delivery:\n' .. table.concat(rewardLines, '\n'))
     setLabel('slowLabel',   'Speed penalty: -' .. tostring(data.slowdown or '') .. '%')
 
     local costW = tradepackWindow:getChildById('costLabel')

@@ -192,35 +192,30 @@ MainWindow
         text-wrap: true
         text-auto-resize: true
 
-    // Destination row at the bottom of the FlatPanel
+    // Delivery info row at the bottom of the FlatPanel
     Panel
       id: destRow
       anchors.left: parent.left
       anchors.right: parent.right
       anchors.bottom: parent.bottom
-      height: 28
+      height: 44
       margin-bottom: 4
 
       Label
-        id: destLabel
+        id: deliveryLabel
         anchors.left: parent.left
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         margin-left: 8
+        margin-right: 8
+        margin-top: 4
+        margin-bottom: 4
         text-auto-resize: true
+        text-wrap: true
         font: verdana-11px-monochrome
         color: #d0d0d0
-        !text: tr('Destination:')
-
-      ComboBox
-        id: destSelector
-        anchors.left: destLabel.right
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
-        margin-left: 6
-        margin-right: 8
-        text-offset: 5 2
-        menu-scroll: true
-        menu-height: 100
+        !text: tr('Deliverable at any tradepack dropoff point')
 
   Panel
     id: bottomBar

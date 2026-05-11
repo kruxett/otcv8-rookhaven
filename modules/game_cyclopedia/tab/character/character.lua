@@ -1727,7 +1727,6 @@ function Cyclopedia.createCharacterDescription()
         { Vocation = getPlayerVocationName(player) },
         { }
     }
-    }
 
     -- Total gold (carried + bank, both locally available)
     local carried = player.getMoney and player:getMoney() or 0

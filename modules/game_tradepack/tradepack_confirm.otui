@@ -31,6 +31,7 @@ MainWindow
     margin-top: 4
     text-wrap: true
     text-auto-resize: true
+    !text: tr('Delivery points:')
 
   HorizontalSeparator
     anchors.left: parent.left
