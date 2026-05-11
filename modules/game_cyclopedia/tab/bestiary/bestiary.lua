@@ -1582,19 +1582,23 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
         end
         
         local raceData = g_things.getRaceData(raceId)
+        local raceName = raceData and tostring(raceData.name or "") or ""
+        local raceDataMissing = (not raceData) or raceName == "" or raceName == "Unknown"
         local cachedCreature = _CyclopediaCreatureDataCache and _CyclopediaCreatureDataCache[raceId] or nil
-        if (not raceData or not raceData.name or raceData.name == "") and cachedCreature then
+        if raceDataMissing and cachedCreature then
             raceData = cachedCreature
+            raceName = raceData and tostring(raceData.name or "") or ""
+            raceDataMissing = (not raceData) or raceName == "" or raceName == "Unknown"
         end
 
-        if fallbackName == "" and cachedCreature and cachedCreature.name and cachedCreature.name ~= "" then
+        if fallbackName == "" and cachedCreature and cachedCreature.name and cachedCreature.name ~= "" and cachedCreature.name ~= "Unknown" then
             fallbackName = tostring(cachedCreature.name)
             if cachedCreature.outfit and cachedCreature.outfit.type then
                 fallbackOutfitType = tonumber(cachedCreature.outfit.type) or fallbackOutfitType
             end
         end
 
-        if (not raceData or not raceData.name or raceData.name == "") and fallbackName ~= "" then
+        if raceDataMissing and fallbackName ~= "" then
             _CyclopediaCreatureDataCache = _CyclopediaCreatureDataCache or {}
             _CyclopediaCreatureDataCache[raceId] = _CyclopediaCreatureDataCache[raceId] or {
                 id = raceId,
@@ -1616,11 +1620,15 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
                 addons = 0,
             }
             raceData = g_things.getRaceData(raceId) or _CyclopediaCreatureDataCache[raceId]
-        elseif (not raceData or not raceData.name or raceData.name == "") and not isBoss then
+            raceName = raceData and tostring(raceData.name or "") or ""
+            raceDataMissing = (not raceData) or raceName == "" or raceName == "Unknown"
+        elseif raceDataMissing and not isBoss then
             requestMissingTrackerCreature(raceId)
         end
 
-        local name = (raceData and raceData.name) or (fallbackName ~= "" and fallbackName) or "Unknown"
+        local name = (fallbackName ~= "" and fallbackName)
+            or ((raceData and raceData.name and raceData.name ~= "Unknown") and raceData.name)
+            or "Unknown"
         local outfit = (raceData and raceData.outfit) or {
             type = fallbackOutfitType,
             head = 0,
