@@ -1,4 +1,4 @@
-local OPCODE = CriticalHitVisualOpcode or 99
+local OPCODE = CriticalHitVisualOpcode or 102
 local DEFAULT_SHADER = "outfit_critical_overdrive"
 local DEFAULT_DURATION_MS = 700
 local FLASH_INTERVAL_MS = 90

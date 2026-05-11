@@ -219,7 +219,7 @@ TaskBoardOpcode = 95
 TaskCenterOpcode = TaskBoardOpcode -- backward compatibility alias
 BulwarkVisualOpcode = 96
 ExcavationSkillOpcode = 97
-CriticalHitVisualOpcode = 99
+CriticalHitVisualOpcode = 102
 
 LastGameFeature = 130
         
