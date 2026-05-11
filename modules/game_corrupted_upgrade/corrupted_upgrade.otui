@@ -1,6 +1,6 @@
 MainWindow
   id: corruptedUpgradeWindow
-  !text: tr('Forging Station')
+  !text: tr('Upgrade Station')
   size: 460 202
   @onEscape: modules.game_corrupted_upgrade.decline()
 
@@ -12,7 +12,7 @@ MainWindow
     margin-top: 8
     margin-left: 10
     height: 14
-    text: Item to Forge
+    text: Item to Upgrade
     color: #e1d3a1
 
   Label
@@ -25,7 +25,7 @@ MainWindow
     text-align: center
     font: verdana-11px-rounded
     color: #7fd992
-    text: FORGE SUCCESS
+    text: UPGRADE SUCCESS
     visible: false
 
   Panel
@@ -149,8 +149,8 @@ MainWindow
     margin-left: 10
     margin-right: 10
     height: 20
-    text: + Corrupted Imbuement
-    tooltip: Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. Greater investment strengthens your influence, but invites ruin.
+    text: + Optional Imbuement
+    tooltip: Use Corrupted Fragments to influence outcomes at additional risk.
     @onClick: modules.game_corrupted_upgrade.toggleAffixPanel()
 
   Panel
@@ -256,7 +256,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 2
-      text: Forge success: 100.0%
+      text: Upgrade success: 100.0%
 
     Label
       id: weightLabel
@@ -290,7 +290,7 @@ MainWindow
     height: 0
     text-wrap: true
     color: #d9d2bf
-    text: Drop an item into the forge slot to begin.
+    text: Drop an item into the upgrade slot to begin.
     visible: false
 
   HorizontalSeparator

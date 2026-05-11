@@ -47,6 +47,67 @@ local detailsRequestPending = {}
 local statusLockedByResult = false
 local resultFxEvents = {}
 local stationModeHint = nil
+local currentOpenMode = 'all'
+
+local function getModeUiStrings()
+  if currentOpenMode == 'wand_only' then
+    return {
+      itemLabel = 'Focus for Arcane Ritual',
+      requirementsLabel = 'Arcane Ritual Requirements',
+      toggleCollapsed = '+ Arcane Imbuement',
+      toggleExpanded = '- Arcane Imbuement',
+      toggleTooltip = 'Bind Corrupted Fragments to your arcane ritual and steer the attunement toward a chosen affix. More fragments strengthen influence, but increase ritual collapse risk.',
+      successPrefix = 'Ritual success',
+      bannerSuccess = 'RITUAL SUCCESS',
+      bannerFailure = 'RITUAL FAILED',
+    }
+  end
+
+  if currentOpenMode == 'no_wand' then
+    return {
+      itemLabel = 'Item to Temper',
+      requirementsLabel = 'Tempering Requirements',
+      toggleCollapsed = '+ Corrupted Imbuement',
+      toggleExpanded = '- Corrupted Imbuement',
+      toggleTooltip = 'Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. Greater investment strengthens your influence, but invites ruin.',
+      successPrefix = 'Forge success',
+      bannerSuccess = 'FORGE SUCCESS',
+      bannerFailure = 'FORGE FAILED',
+    }
+  end
+
+  return {
+    itemLabel = 'Item to Upgrade',
+    requirementsLabel = 'Upgrade Requirements',
+    toggleCollapsed = '+ Optional Imbuement',
+    toggleExpanded = '- Optional Imbuement',
+    toggleTooltip = 'Use Corrupted Fragments to influence affix outcomes at additional risk.',
+    successPrefix = 'Upgrade success',
+    bannerSuccess = 'UPGRADE SUCCESS',
+    bannerFailure = 'UPGRADE FAILED',
+  }
+end
+
+local function applyModeUiStrings()
+  local modeText = getModeUiStrings()
+
+  if ui.itemToForgeLabel then
+    ui.itemToForgeLabel:setText(modeText.itemLabel)
+  end
+
+  if ui.reqTitleLabel then
+    ui.reqTitleLabel:setText(modeText.requirementsLabel)
+  end
+
+  if ui.toggleAffixBoostButton then
+    if ui.optionalPanel and ui.optionalPanel:isVisible() then
+      ui.toggleAffixBoostButton:setText(modeText.toggleExpanded)
+    else
+      ui.toggleAffixBoostButton:setText(modeText.toggleCollapsed)
+    end
+    ui.toggleAffixBoostButton:setTooltip(modeText.toggleTooltip)
+  end
+end
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -86,6 +147,8 @@ local function bindWidgets()
   ui.resourceLabel = findWidgetById(window, 'resourceLabel')
   ui.resultBanner = findWidgetById(window, 'resultBanner')
   ui.statusLabel = findWidgetById(window, 'statusLabel')
+  ui.itemToForgeLabel = findWidgetById(window, 'itemToForgeLabel')
+  ui.reqTitleLabel = findWidgetById(window, 'reqTitleLabel')
   ui.itemNameLabel = findWidgetById(window, 'itemNameLabel')
   ui.itemTypeLabel = findWidgetById(window, 'itemTypeLabel')
 
@@ -176,7 +239,8 @@ local function playResultFeedback(success)
 
   local accent = success and '#7fd992' or '#e05050'
   local dim = success and '#4f8f62' or '#8f3d3d'
-  local bannerText = success and 'FORGE SUCCESS' or 'FORGE FAILED'
+  local modeText = getModeUiStrings()
+  local bannerText = success and modeText.bannerSuccess or modeText.bannerFailure
   local buttonText = success and 'SUCCESS' or 'FAILED'
 
   if ui.resultBanner then
@@ -317,7 +381,7 @@ local function toggleAffixPanelInternal()
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
     if ui.toggleAffixBoostButton then
-      ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
+      ui.toggleAffixBoostButton:setText(getModeUiStrings().toggleCollapsed)
     end
   else
     -- expand
@@ -325,7 +389,7 @@ local function toggleAffixPanelInternal()
     ui.optionalPanel:setVisible(true)
     refreshCorruptedFragmentIcon()
     if ui.toggleAffixBoostButton then
-      ui.toggleAffixBoostButton:setText('- Corrupted Imbuement')
+      ui.toggleAffixBoostButton:setText(getModeUiStrings().toggleExpanded)
     end
     syncInvestLimitLabel()
     refreshOptionalWidgetState()
@@ -714,7 +778,7 @@ refreshRiskPreview = function()
   ui.failChanceLabel:setText(string.format('Ruin risk: %.1f%%', failChance * 100))
   ui.failChanceLabel:setColor(pickRiskColor(failChance))
   if ui.successChanceLabel then
-    ui.successChanceLabel:setText(string.format('Forge success: %.1f%%', (1 - failChance) * 100))
+    ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
     ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
   end
   ui.weightLabel:setText('Favored affix: -')
@@ -787,7 +851,7 @@ local function clearSelection()
     ui.optionalPanel:setVisible(false)
     ui.optionalPanel:setHeight(0)
     if ui.toggleAffixBoostButton then
-      ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
+      ui.toggleAffixBoostButton:setText(getModeUiStrings().toggleCollapsed)
     end
   end
 
@@ -1128,10 +1192,13 @@ local function populate(data)
     failConfig = data.failConfig
   end
 
+  currentOpenMode = tostring(data.openMode or 'all')
+
   if window then
     window:setText(tostring(data.stationTitle or 'Forging Station'))
   end
   stationModeHint = tostring(data.modeHint or '')
+  applyModeUiStrings()
 
   local fragmentClientId = tonumber(data.fragmentClientId)
     or tonumber(data.corruptedFragmentClientId)
@@ -1235,9 +1302,7 @@ local function ensureWindow()
   end
   applySelectionLayout(false)
   refreshCorruptedFragmentIcon()
-  if ui.toggleAffixBoostButton then
-    ui.toggleAffixBoostButton:setText('+ Corrupted Imbuement')
-  end
+  applyModeUiStrings()
   local initialSize = window:getSize()
   if initialSize and initialSize.height > OPTIONAL_PANEL_HEIGHT then
     window:resize(initialSize.width, initialSize.height - OPTIONAL_PANEL_HEIGHT)
