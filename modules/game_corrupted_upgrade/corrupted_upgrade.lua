@@ -46,6 +46,7 @@ local pendingStatusColor = nil
 local detailsRequestPending = {}
 local statusLockedByResult = false
 local resultFxEvents = {}
+local stationModeHint = nil
 
 local function findWidgetById(root, id)
   if not root or not id then
@@ -1127,6 +1128,11 @@ local function populate(data)
     failConfig = data.failConfig
   end
 
+  if window then
+    window:setText(tostring(data.stationTitle or 'Forging Station'))
+  end
+  stationModeHint = tostring(data.modeHint or '')
+
   local fragmentClientId = tonumber(data.fragmentClientId)
     or tonumber(data.corruptedFragmentClientId)
     or tonumber(data.fragmentItemId)
@@ -1183,10 +1189,14 @@ local function populate(data)
       end
       setAutoStatus('Item selected. Press Upgrade to continue.')
     else
-      setAutoStatus('Drop an item into the forge slot to begin.')
+      setAutoStatus(stationModeHint ~= '' and stationModeHint or 'Drop an item into the upgrade slot to begin.')
     end
   else
-    setAutoStatus('No eligible items found in inventory.', '#d26b6b')
+    local emptyMsg = 'No eligible items found in inventory.'
+    if stationModeHint and stationModeHint ~= '' then
+      emptyMsg = stationModeHint
+    end
+    setAutoStatus(emptyMsg, '#d26b6b')
   end
 
   if pendingStatusText then
