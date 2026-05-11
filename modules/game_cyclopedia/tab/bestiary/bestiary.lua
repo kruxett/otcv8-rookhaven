@@ -18,6 +18,7 @@ local animusMasteryPoints = 0
 local bestiaryTrackerLiveRefreshEvent = nil
 local BESTIARY_TRACKER_LIVE_REFRESH_MS = 1500
 Cyclopedia._trackerPendingCreatureLookups = Cyclopedia._trackerPendingCreatureLookups or {}
+local TRACKER_LOOKUP_RETRY_MS = 3000
 
 local function requestMissingTrackerCreature(raceId)
     local id = tonumber(raceId) or 0
@@ -25,13 +26,34 @@ local function requestMissingTrackerCreature(raceId)
         return
     end
 
-    if Cyclopedia._trackerPendingCreatureLookups[id] then
+    local now = (g_clock and g_clock.millis and g_clock.millis()) or (os.time() * 1000)
+    local lastAttempt = tonumber(Cyclopedia._trackerPendingCreatureLookups[id]) or 0
+    if lastAttempt > 0 and (now - lastAttempt) < TRACKER_LOOKUP_RETRY_MS then
         return
     end
 
     if g_game.requestBestiarySearch then
-        Cyclopedia._trackerPendingCreatureLookups[id] = true
+        Cyclopedia._trackerPendingCreatureLookups[id] = now
         g_game.requestBestiarySearch(id)
+    end
+end
+
+local function preloadMissingTrackerCreatures(entries)
+    if not entries then
+        return
+    end
+
+    for _, entry in ipairs(entries) do
+        local raceId = tonumber(entry[1]) or 0
+        if raceId > 0 then
+            local raceData = g_things.getRaceData(raceId)
+            local cachedCreature = _CyclopediaCreatureDataCache and _CyclopediaCreatureDataCache[raceId] or nil
+            local hasName = (raceData and raceData.name and raceData.name ~= "")
+                or (cachedCreature and cachedCreature.name and cachedCreature.name ~= "")
+            if not hasName then
+                requestMissingTrackerCreature(raceId)
+            end
+        end
     end
 end
 
@@ -1161,6 +1183,7 @@ function Cyclopedia.refreshBestiaryTracker()
     local cachedData = Cyclopedia.loadTrackerData("bestiary")
     if cachedData and #cachedData > 0 then
         Cyclopedia.storedTrackerData = cachedData
+        preloadMissingTrackerCreatures(Cyclopedia.storedTrackerData)
         -- Immediately populate if we have tracker window
         if trackerMiniWindow then
             Cyclopedia.onParseCyclopediaTracker(0, Cyclopedia.storedTrackerData)
