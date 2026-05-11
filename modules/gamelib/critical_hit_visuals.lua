@@ -1,6 +1,6 @@
 local OPCODE = CriticalHitVisualOpcode or 102
 local DEFAULT_SHADER = "outfit_critical_overdrive"
-local DEFAULT_DURATION_MS = 220
+local DEFAULT_DURATION_MS = 180
 
 local activeState = {}
 local removeTimers = {}

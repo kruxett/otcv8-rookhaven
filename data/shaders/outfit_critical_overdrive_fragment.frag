@@ -21,22 +21,21 @@ void main()
         discard;
     }
 
-    // Fast impact pulse with diagonal shock pattern.
-    float impact = sin(u_Time * 10.0) * 0.5 + 0.5;
-    float diagonal = sin((v_TexCoord.x - v_TexCoord.y) * 20.0 + u_Time * 18.0) * 0.5 + 0.5;
-    float radial = sin(length(v_TexCoord - vec2(0.5, 0.5)) * 34.0 - u_Time * 22.0) * 0.5 + 0.5;
+    // Clean premium crit flash: warm gold core + soft pearl sheen.
+    float pulse = sin(u_Time * 8.5) * 0.5 + 0.5;
+    float sheenWave = sin((v_TexCoord.x * 1.35 + v_TexCoord.y * 0.95) * 6.0 - u_Time * 5.5) * 0.5 + 0.5;
+    float sheen = smoothstep(0.60, 0.96, sheenWave);
 
-    float streak = smoothstep(0.58, 0.95, diagonal);
-    float burst = smoothstep(0.45, 0.92, radial);
-    float intensity = clamp(0.12 + impact * 0.30 + streak * 0.24 + burst * 0.24, 0.0, 0.78);
+    float edge = smoothstep(0.72, 0.18, distance(v_TexCoord, vec2(0.5, 0.5)));
+    float intensity = clamp(0.16 + pulse * 0.30 + sheen * 0.22 + edge * 0.16, 0.0, 0.72);
 
-    vec3 shadow = vec3(0.25, 0.05, 0.02);
-    vec3 core = vec3(1.00, 0.34, 0.08);
-    vec3 highlight = vec3(1.00, 0.85, 0.30);
+    vec3 shadow = vec3(0.20, 0.11, 0.03);
+    vec3 gold = vec3(1.00, 0.76, 0.24);
+    vec3 pearl = vec3(1.00, 0.96, 0.86);
 
-    vec3 darkened = max(base.rgb - (shadow * (0.35 + impact * 0.25)), vec3(0.0));
-    vec3 energized = mix(core, highlight, impact * 0.55 + streak * 0.45);
-    vec3 finalColor = mix(darkened, energized, intensity);
+    vec3 softened = max(base.rgb - (shadow * 0.18), vec3(0.0));
+    vec3 premium = mix(gold, pearl, pulse * 0.45 + sheen * 0.55);
+    vec3 finalColor = mix(softened, premium, intensity);
 
     gl_FragColor = vec4(finalColor, base.a);
 }
