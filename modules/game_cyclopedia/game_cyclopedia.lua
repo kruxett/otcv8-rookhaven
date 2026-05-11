@@ -1218,6 +1218,10 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
     local name       = f[2] or "Unknown"
     local outfitType = tonumber(f[3]) or 0
 
+    if Cyclopedia._trackerPendingCreatureLookups then
+        Cyclopedia._trackerPendingCreatureLookups[raceId] = nil
+    end
+
     _CyclopediaCreatureDataCache[raceId] = {
         name   = name,
         outfit = { type = outfitType, head = 0, body = 0, legs = 0, feet = 0, addons = 0 },
@@ -1286,6 +1290,15 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
     Cyclopedia.BestiaryCreatureCache = Cyclopedia.BestiaryCreatureCache or {}
     Cyclopedia.BestiaryCreatureCache[raceId] = payload
     Cyclopedia.loadBestiarySelectedCreature(payload)
+
+    if Cyclopedia.storedTrackerData and Cyclopedia.refreshTracker then
+        for _, entry in ipairs(Cyclopedia.storedTrackerData) do
+            if tonumber(entry[1]) == raceId then
+                Cyclopedia.refreshTracker("bestiary")
+                break
+            end
+        end
+    end
 end
 
 -- bestiary.tracker response

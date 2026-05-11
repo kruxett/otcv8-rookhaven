@@ -17,6 +17,23 @@ Cyclopedia.storedTaskTrackerData = Cyclopedia.storedTaskTrackerData or nil
 local animusMasteryPoints = 0
 local bestiaryTrackerLiveRefreshEvent = nil
 local BESTIARY_TRACKER_LIVE_REFRESH_MS = 1500
+Cyclopedia._trackerPendingCreatureLookups = Cyclopedia._trackerPendingCreatureLookups or {}
+
+local function requestMissingTrackerCreature(raceId)
+    local id = tonumber(raceId) or 0
+    if id <= 0 then
+        return
+    end
+
+    if Cyclopedia._trackerPendingCreatureLookups[id] then
+        return
+    end
+
+    if g_game.requestBestiarySearch then
+        Cyclopedia._trackerPendingCreatureLookups[id] = true
+        g_game.requestBestiarySearch(id)
+    end
+end
 
 local function cancelBestiaryTrackerLiveRefresh()
     if bestiaryTrackerLiveRefreshEvent then
@@ -1542,6 +1559,18 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
         end
         
         local raceData = g_things.getRaceData(raceId)
+        local cachedCreature = _CyclopediaCreatureDataCache and _CyclopediaCreatureDataCache[raceId] or nil
+        if (not raceData or not raceData.name or raceData.name == "") and cachedCreature then
+            raceData = cachedCreature
+        end
+
+        if fallbackName == "" and cachedCreature and cachedCreature.name and cachedCreature.name ~= "" then
+            fallbackName = tostring(cachedCreature.name)
+            if cachedCreature.outfit and cachedCreature.outfit.type then
+                fallbackOutfitType = tonumber(cachedCreature.outfit.type) or fallbackOutfitType
+            end
+        end
+
         if (not raceData or not raceData.name or raceData.name == "") and fallbackName ~= "" then
             _CyclopediaCreatureDataCache = _CyclopediaCreatureDataCache or {}
             _CyclopediaCreatureDataCache[raceId] = _CyclopediaCreatureDataCache[raceId] or {
@@ -1564,6 +1593,8 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
                 addons = 0,
             }
             raceData = g_things.getRaceData(raceId) or _CyclopediaCreatureDataCache[raceId]
+        elseif (not raceData or not raceData.name or raceData.name == "") and not isBoss then
+            requestMissingTrackerCreature(raceId)
         end
 
         local name = (raceData and raceData.name) or (fallbackName ~= "" and fallbackName) or "Unknown"
