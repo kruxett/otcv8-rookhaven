@@ -24,6 +24,9 @@ function init()
   -- bulwark shader (golden fortified aegis pulse)
   g_shaders.createOutfitShader("outfit_bulwark_aegis", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_bulwark_fragment")
 
+  -- critical hit shader (short amber-crimson burst pulse)
+  g_shaders.createOutfitShader("outfit_critical_overdrive", "/shaders/outfit_corrupted_pulse_vertex", "/shaders/outfit_critical_overdrive_fragment")
+
   -- you can use creature:setOutfitShader("outfit_rainbow") to set shader
 
   -- item rarity outline shaders

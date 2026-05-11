@@ -17,6 +17,7 @@ Module
     dofile 'corrupted_creatures'
     dofile 'furious_rage_visuals'
     dofile 'bulwark_visuals'
+    dofile 'critical_hit_visuals'
     dofile 'player'
     dofile 'market'
     dofile 'textmessages'
