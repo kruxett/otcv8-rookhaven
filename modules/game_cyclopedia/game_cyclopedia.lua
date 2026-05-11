@@ -1289,7 +1289,7 @@ function Cyclopedia.parseAndLoadBestiaryCreature(data)
 end
 
 -- bestiary.tracker response
--- Format: raceId,kills,firstUnlock,secondUnlock,thirdUnlock~...
+-- Format: raceId,kills,firstUnlock,secondUnlock,thirdUnlock,name,outfitType~...
 function Cyclopedia.parseAndLoadBestiaryTracker(data)
     if not Cyclopedia.onParseCyclopediaTracker then
         return
@@ -1306,6 +1306,8 @@ function Cyclopedia.parseAndLoadBestiaryTracker(data)
                     tonumber(f[3]) or 25,
                     tonumber(f[4]) or 100,
                     tonumber(f[5]) or 250,
+                    f[6] or "",
+                    tonumber(f[7]) or 0,
                 })
             end
         end

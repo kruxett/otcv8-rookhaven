@@ -1533,6 +1533,8 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
 
     for _, entry in ipairs(data) do
         local raceId, kills, uno, dos, maxKills = unpack(entry)
+        local fallbackName = tostring(entry[6] or "")
+        local fallbackOutfitType = tonumber(entry[7]) or 0
         
         -- Only add to storedRaceIDs for bestiary tracker
         if not isBoss then
@@ -1540,11 +1542,43 @@ function Cyclopedia.onParseCyclopediaTracker(trackerType, data)
         end
         
         local raceData = g_things.getRaceData(raceId)
-        local name = (raceData and raceData.name) or "Unknown"
+        if (not raceData or not raceData.name or raceData.name == "") and fallbackName ~= "" then
+            _CyclopediaCreatureDataCache = _CyclopediaCreatureDataCache or {}
+            _CyclopediaCreatureDataCache[raceId] = _CyclopediaCreatureDataCache[raceId] or {
+                id = raceId,
+                level = 0,
+                experience = 0,
+                speed = 0,
+                points = kills,
+                charm = 0,
+                difficulty = 1,
+                occurrence = 0,
+            }
+            _CyclopediaCreatureDataCache[raceId].name = fallbackName
+            _CyclopediaCreatureDataCache[raceId].outfit = {
+                type = fallbackOutfitType,
+                head = 0,
+                body = 0,
+                legs = 0,
+                feet = 0,
+                addons = 0,
+            }
+            raceData = g_things.getRaceData(raceId) or _CyclopediaCreatureDataCache[raceId]
+        end
+
+        local name = (raceData and raceData.name) or (fallbackName ~= "" and fallbackName) or "Unknown"
+        local outfit = (raceData and raceData.outfit) or {
+            type = fallbackOutfitType,
+            head = 0,
+            body = 0,
+            legs = 0,
+            feet = 0,
+            addons = 0,
+        }
 
         local widget = g_ui.createWidget("TrackerButton", window.contentsPanel)
         widget:setId(raceId)
-        widget.creature:setOutfit((raceData and raceData.outfit) or { type = 0 })
+        widget.creature:setOutfit(outfit)
         widget.label:setText(name:len() > 12 and name:sub(1, 9) .. "..." or name)
         widget.kills:setText(kills .. "/" .. maxKills)
         widget.onMouseRelease = onTrackerClick
