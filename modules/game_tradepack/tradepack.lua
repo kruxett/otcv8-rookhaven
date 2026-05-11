@@ -3,7 +3,7 @@
 -- ============================================================
 -- Server sends opcode 100 with JSON:
 --   mode="select":
---     tiers  = [{id, label, cost, slowdown, materials, can_afford}, ...]
+--     tiers  = [{id, label, cost, slowdown, materials, can_afford, can_carry}, ...]
 --     routes = [{id, label, multiplier}, ...]
 --   mode="confirm":
 --     {tier_id, tier_label, cost, slowdown, routes, delivery_text}
@@ -126,7 +126,7 @@ local function updateDetails()
   local c = lbl('detailCost')
   if c then
     c:setText('Cost: ' .. (tierEntry.cost or ''))
-    c:setColor(tierEntry.can_afford == false and '#e07070' or '#d0d0d0')
+    c:setColor((tierEntry.can_afford == false or tierEntry.can_carry == false) and '#e07070' or '#d0d0d0')
   end
 
   local baseReward = tonumber(tierEntry.reward) or 0
@@ -150,7 +150,7 @@ local function updateDetails()
   -- enable/disable Next button based on affordability
   local nextBtn = tradepackWindow:recursiveGetChildById('nextButton')
   if nextBtn then
-    nextBtn:setEnabled(tierEntry.can_afford ~= false)
+    nextBtn:setEnabled(tierEntry.can_afford ~= false and tierEntry.can_carry ~= false)
   end
 end
 
@@ -171,7 +171,7 @@ local function highlightTierRow(listPanel, selectedId)
       if id == selectedId then
         child:setBackgroundColor('#ffffff22')
         child:setBorderColor('#888888')
-      elseif te.can_afford == false then
+      elseif te.can_afford == false or te.can_carry == false then
         child:setBackgroundColor('#141414')
         child:setBorderColor('#1e1e1e')
       else
@@ -199,10 +199,10 @@ local function displaySelectUI(data)
 
   local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
 
-  -- pick first affordable tier for initial selection (fall back to first tier)
+  -- pick first tier the player can both afford and carry (fall back to first tier)
   selectedTierId = nil
   for _, t in ipairs(tiersData) do
-    if t.can_afford ~= false then
+    if t.can_afford ~= false and t.can_carry ~= false then
       selectedTierId = t.id
       break
     end
@@ -253,6 +253,9 @@ local function displaySelectUI(data)
             rowSub:setText('missing materials')
             rowSub:setColor('#555555')
           end
+        elseif t.can_carry == false then
+          rowSub:setText('not enough cap')
+          rowSub:setColor('#775555')
         else
           rowSub:setText(weightOz .. ' oz')
           rowSub:setColor('#b0b0b0')
@@ -260,7 +263,7 @@ local function displaySelectUI(data)
       end
 
       -- grey out unaffordable rows
-      if t.can_afford == false then
+      if t.can_afford == false or t.can_carry == false then
         row:setBackgroundColor('#141414')
         row:setBorderColor('#1e1e1e')
         if rowTitle then rowTitle:setColor('#4a4a4a') end
@@ -273,7 +276,7 @@ local function displaySelectUI(data)
 
       row.onMousePress = function(widget)
         -- unaffordable rows can be browsed but not commissioned
-        if t.can_afford == false then
+        if t.can_afford == false or t.can_carry == false then
           selectedTierId = t.id
           highlightTierRow(listPanel, t.id)
           updateDetails()
@@ -353,7 +356,12 @@ local function onTradepackOpcode(protocol, opcode, buffer)
 
     local costW = tradepackWindow:getChildById('costLabel')
     if costW then
-      costW:setColor(data.can_afford and '#70e070' or '#e07070')
+      costW:setColor((data.can_afford and data.can_carry) and '#70e070' or '#e07070')
+    end
+
+    local confirmButton = tradepackWindow:getChildById('confirmButton')
+    if confirmButton then
+      confirmButton:setEnabled(data.can_afford ~= false and data.can_carry ~= false)
     end
   end
 end
