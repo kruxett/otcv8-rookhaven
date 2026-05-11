@@ -76,6 +76,19 @@ local function getModeUiStrings()
     }
   end
 
+  if currentOpenMode == 'distance_only' then
+    return {
+      itemLabel = 'Ranged Weapon to Refine',
+      requirementsLabel = 'Precision Refinement Requirements',
+      toggleCollapsed = '+ Corrupted Fletching',
+      toggleExpanded = '- Corrupted Fletching',
+      toggleTooltip = 'Feed Corrupted Fragments into a precision fletching ritual to bias affix outcomes. More fragments improve control, but increase collapse risk.',
+      successPrefix = 'Refinement success',
+      bannerSuccess = 'REFINEMENT SUCCESS',
+      bannerFailure = 'REFINEMENT FAILED',
+    }
+  end
+
   return {
     itemLabel = 'Item to Upgrade',
     requirementsLabel = 'Upgrade Requirements',
