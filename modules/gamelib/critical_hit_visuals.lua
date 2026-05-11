@@ -1,11 +1,8 @@
 local OPCODE = CriticalHitVisualOpcode or 102
 local DEFAULT_SHADER = "outfit_critical_overdrive"
-local DEFAULT_DURATION_MS = 700
-local FLASH_INTERVAL_MS = 90
-local FLASH_TOGGLES = 6
+local DEFAULT_DURATION_MS = 220
 
 local activeState = {}
-local flashTimers = {}
 local removeTimers = {}
 local initialized = false
 
@@ -61,15 +58,10 @@ local function applyCurrentShaderState(creatureId)
     return
   end
 
-  if state.visible then
-    setCreatureShader(creature, state.shader or DEFAULT_SHADER)
-  else
-    setCreatureShader(creature, state.previousShader or "")
-  end
+  setCreatureShader(creature, state.shader or DEFAULT_SHADER)
 end
 
 local function removeVisual(creatureId)
-  clearTimer(flashTimers, creatureId)
   clearTimer(removeTimers, creatureId)
 
   local state = activeState[creatureId]
@@ -82,33 +74,6 @@ local function removeVisual(creatureId)
   if creature then
     setCreatureShader(creature, state.previousShader or "")
   end
-end
-
-local function scheduleFlashToggle(creatureId)
-  local state = activeState[creatureId]
-  if not state then
-    return
-  end
-
-  if state.togglesLeft <= 0 then
-    state.visible = true
-    applyCurrentShaderState(creatureId)
-    return
-  end
-
-  clearTimer(flashTimers, creatureId)
-  flashTimers[creatureId] = scheduleEvent(function()
-    local current = activeState[creatureId]
-    flashTimers[creatureId] = nil
-    if not current then
-      return
-    end
-
-    current.visible = not current.visible
-    current.togglesLeft = current.togglesLeft - 1
-    applyCurrentShaderState(creatureId)
-    scheduleFlashToggle(creatureId)
-  end, FLASH_INTERVAL_MS)
 end
 
 local function applyVisual(creatureId, durationMs, shader)
@@ -129,12 +94,9 @@ local function applyVisual(creatureId, durationMs, shader)
   activeState[creatureId] = {
     previousShader = previousShader,
     shader = shader,
-    visible = true,
-    togglesLeft = FLASH_TOGGLES,
   }
 
   applyCurrentShaderState(creatureId)
-  scheduleFlashToggle(creatureId)
 
   clearTimer(removeTimers, creatureId)
   local ttl = math.max(1, tonumber(durationMs) or DEFAULT_DURATION_MS)
@@ -187,7 +149,6 @@ local function clearAll()
   end
 
   activeState = {}
-  flashTimers = {}
   removeTimers = {}
 end
 
