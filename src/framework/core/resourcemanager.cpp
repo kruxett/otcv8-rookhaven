@@ -266,6 +266,13 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
             removeWithRetry(entry.path());
     }
 
+    // If the selected candidate is already identical to base binary, never
+    // treat it as an update candidate. Remove it and continue normal startup.
+    if (!newestCandidate.empty() && filesAreIdentical(newestCandidate, baseBinary)) {
+        removeWithRetry(newestCandidate);
+        newestCandidate.clear();
+    }
+
     if (!newestCandidate.empty()) {
 #if !defined(WIN32)
         bool promoted = false;
