@@ -119,61 +119,25 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     };
 
 #if defined(WIN32)
-    auto psEscape = [](std::string value) {
-        size_t pos = 0;
-        while ((pos = value.find('\'', pos)) != std::string::npos) {
-            value.replace(pos, 1, "''");
-            pos += 2;
-        }
-        return value;
-    };
-
     auto scheduleDeleteSelf = [&](const std::filesystem::path& target) {
         std::error_code existsEc;
         if (!std::filesystem::exists(target, existsEc) || existsEc)
             return;
 
-        const std::string targetEsc = psEscape(target.string());
-        std::string script =
-            "$p='" + targetEsc + "';"
-            "for($i=0;$i -lt 120;$i++){"
-              "if(-not (Test-Path -LiteralPath $p)){exit 0};"
-              "try{Remove-Item -LiteralPath $p -Force -ErrorAction Stop}catch{};"
-              "Start-Sleep -Milliseconds 500"
-            "}";
-
-        boost::process::v1::child deleter(
-            "powershell.exe",
-            "-NoProfile",
-            "-WindowStyle", "Hidden",
-            "-Command", script,
-            boost::process::v1::start_dir = dir.string());
+        // Delete the versioned executable shortly after this process exits.
+        // This avoids orphaned RookhavenClient-<timestamp>.exe files.
+        // Retry for a while because AV/indexing can keep a short-lived lock.
+        std::string cmd =
+            "for /L %i in (1,1,30) do ("
+            "if exist \"" + target.string() + "\" ("
+            "del /f /q \"" + target.string() + "\" >nul 2>&1"
+            ") else ("
+            "exit /b 0"
+            ") & "
+            "ping 127.0.0.1 -n 2 >nul"
+            ")";
+        boost::process::v1::child deleter("cmd.exe", "/C", cmd, boost::process::v1::start_dir = dir.string());
         deleter.detach();
-    };
-
-    auto scheduleCleanupSuffixes = [&]() {
-        const std::string dirEsc = psEscape(dir.string());
-        const std::string patternEsc = psEscape(baseStem + "-*" + m_binaryPath.extension().string());
-        const std::string keepEsc = psEscape(baseBinary.filename().string());
-
-        std::string script =
-            "$d='" + dirEsc + "';"
-            "$pattern='" + patternEsc + "';"
-            "$keep='" + keepEsc + "';"
-            "for($i=0;$i -lt 40;$i++){"
-              "Get-ChildItem -LiteralPath $d -Filter $pattern -File -ErrorAction SilentlyContinue | "
-              "Where-Object { $_.Name -ne $keep } | "
-              "ForEach-Object { try { Remove-Item -LiteralPath $_.FullName -Force -ErrorAction Stop } catch {} };"
-              "Start-Sleep -Milliseconds 500"
-            "}";
-
-        boost::process::v1::child cleaner(
-            "powershell.exe",
-            "-NoProfile",
-            "-WindowStyle", "Hidden",
-            "-Command", script,
-            boost::process::v1::start_dir = dir.string());
-        cleaner.detach();
     };
 #endif
 
@@ -340,11 +304,6 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     return launchAndDetach(newestCandidate);
 #endif
     }
-
-#if defined(WIN32)
-    // Defensive cleanup in normal base startup path to avoid lingering suffix exes.
-    scheduleCleanupSuffixes();
-#endif
 
     return false;
 #else
