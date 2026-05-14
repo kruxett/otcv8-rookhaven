@@ -115,6 +115,20 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         return true;
     };
 
+#if defined(WIN32)
+    auto scheduleDeleteSelf = [&](const std::filesystem::path& target) {
+        std::error_code existsEc;
+        if (!std::filesystem::exists(target, existsEc) || existsEc)
+            return;
+
+        // Delete the versioned executable shortly after this process exits.
+        // This avoids orphaned RookhavenClient-<timestamp>.exe files.
+        std::string cmd = "ping 127.0.0.1 -n 3 > nul && del /f /q \"" + target.string() + "\"";
+        boost::process::v1::child deleter("cmd.exe", "/C", cmd, boost::process::v1::start_dir = dir.string());
+        deleter.detach();
+    };
+#endif
+
     auto isManagedBinary = [&](const std::filesystem::path& p) {
         if (p.extension() != m_binaryPath.extension())
             return false;
@@ -144,8 +158,17 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
                 std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
 
-        if (promoted)
-            return launchAndDetach(baseBinary);
+        if (promoted) {
+            std::error_code tsEc;
+            std::filesystem::last_write_time(baseBinary, std::filesystem::file_time_type::clock::now(), tsEc);
+
+            bool launched = launchAndDetach(baseBinary);
+#if defined(WIN32)
+            if (launched)
+                scheduleDeleteSelf(m_binaryPath);
+#endif
+            return launched;
+        }
 
         return false;
     }
