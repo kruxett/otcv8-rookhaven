@@ -762,7 +762,31 @@ std::map<std::string, std::string> ResourceManager::filesChecksums()
         if (name.back() == '/' || file_stat.size == 0) // dir
             continue;
         stdext::replace_all(name, "\\", "/");
-        ret[name] = stdext::dec_to_hex(file_stat.crc);
+        zip_file_t* zf = zip_fopen_index(za, entry_idx, 0);
+        if (!zf) {
+            g_logger.warning(stdext::format("warning: skipping entry '%s' due to read error: %s", name, zip_strerror(za)));
+            continue;
+        }
+
+        std::string buffer;
+        buffer.resize(static_cast<size_t>(file_stat.size));
+
+        zip_int64_t totalRead = 0;
+        while (totalRead < static_cast<zip_int64_t>(file_stat.size)) {
+            auto chunk = zip_fread(zf, &buffer[static_cast<size_t>(totalRead)], static_cast<zip_uint64_t>(file_stat.size - totalRead));
+            if (chunk <= 0) {
+                break;
+            }
+            totalRead += chunk;
+        }
+        zip_fclose(zf);
+
+        if (totalRead != static_cast<zip_int64_t>(file_stat.size)) {
+            g_logger.warning(stdext::format("warning: skipping entry '%s' due to partial read", name));
+            continue;
+        }
+
+        ret[name] = g_crypt.sha256Encode(buffer, false);
     }
 
     if (zip_close(za) < 0)
@@ -787,7 +811,7 @@ std::string ResourceManager::selfChecksum() {
     std::string buffer(std::istreambuf_iterator<char>(file), {});
     file.close();
 
-    checksum = g_crypt.crc32(buffer, false);
+    checksum = g_crypt.sha256Encode(buffer, false);
     return checksum;
 #endif
 }

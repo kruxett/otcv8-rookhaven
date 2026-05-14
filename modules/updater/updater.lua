@@ -81,7 +81,9 @@ local function downloadFiles(url, files, index, retries, doneCallback)
   
   httpOperationId = HTTP.download(url .. file, file,
     function (file, checksum, err)
-      if not err and checksum ~= file_checksum then
+      local actualChecksum = checksum and checksum:lower() or ""
+      local expectedChecksum = file_checksum and file_checksum:lower() or ""
+      if not err and actualChecksum ~= expectedChecksum then
         err = "Invalid checksum of: " .. file .. ".\nShould be " .. file_checksum .. ", is: " .. checksum
       end
       if err then
@@ -139,7 +141,9 @@ local function updateFiles(data, keepCurrentFiles)
   local binary = nil
   if type(data["binary"]) == "table" and data["binary"]["file"]:len() > 1 then
     local selfChecksum = g_resources.selfChecksum()
-    if selfChecksum:len() > 0 and selfChecksum ~= data["binary"]["checksum"] then
+    local actualBinaryChecksum = selfChecksum and selfChecksum:lower() or ""
+    local expectedBinaryChecksum = data["binary"]["checksum"] and data["binary"]["checksum"]:lower() or ""
+    if selfChecksum:len() > 0 and actualBinaryChecksum ~= expectedBinaryChecksum then
       binary = data["binary"]["file"]
       table.insert(toUpdate, {binary, data["binary"]["checksum"]})
     end
@@ -236,7 +240,7 @@ function Updater.check(args)
     if elapsed >= Updater.checkTimeoutMs then
       return Updater.error(tr("Timeout"))
     end
-    if updateData and (elapsed > 3000 or (not g_app.isMobile() or not ALLOW_CUSTOM_SERVERS or not loadModulesFunc)) then -- gives 3s to set custom updater for mobile version
+    if updateData and (elapsed > 3000 or (not g_app.isMobile() or not ALLOW_CUSTOM_SERVERS or not loadModulesFunction)) then -- gives 3s to set custom updater for mobile version
       return updateFiles(updateData)
     end
     updaterWindow.mainProgress:setPercent(math.floor((elapsed / Updater.checkTimeoutMs) * 100))

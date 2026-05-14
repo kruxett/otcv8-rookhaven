@@ -127,7 +127,7 @@ int Http::download(const std::string& url, std::string path, int timeout) {
                 });
                 return;
             }
-            std::string checksum = g_crypt.crc32(std::string(result->response.begin(), result->response.end()), false);
+            std::string checksum = g_crypt.sha256Encode(std::string(result->response.begin(), result->response.end()), false);
             g_dispatcher.addEventEx("Http::onDownload", [&, result, path, checksum]() {
                 if (result->error.empty()) {
                     if (!path.empty() && path[0] == '/')
