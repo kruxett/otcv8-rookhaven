@@ -112,6 +112,12 @@ local function updateFiles(data, keepCurrentFiles)
   if type(data["error"]) == 'string' and data["error"]:len() > 0 then
     return Updater.error(data["error"])    
   end
+  if data["upToDate"] == true then
+    updaterWindow.status:setText(tr("Client is up to date"))
+    updaterWindow.mainProgress:setPercent(100)
+    scheduledEvent = scheduleEvent(Updater.abort, 20)
+    return
+  end
   if not data["files"] or type(data["url"]) ~= 'string' or data["url"]:len() < 4 then
     return Updater.error("Invalid data from updater api: " .. json.encode(data, 2))
   end
