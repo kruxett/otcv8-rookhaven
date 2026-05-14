@@ -75,19 +75,21 @@ void ResourceManager::terminate()
 
 bool ResourceManager::launchCorrect(const std::string& product, const std::string& app) { // curently works only on windows
 #if !(defined(ANDROID) || defined(FREE_VERSION))
+    (void)product;
+    (void)app;
+
     auto init_path = m_binaryPath.parent_path();
     init_path /= INIT_FILENAME;
     auto init_path_compiled = m_binaryPath.parent_path();
     init_path_compiled /= INIT_FILENAME_COMPILED;
-    // Check for either init.lua or init.luac (debug version)
+    // Debug/dev mode: local scripts present, never redirect binary.
     if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled))
         return false;
 
-    auto fileName2 = m_binaryPath.stem().string();
-    fileName2 = stdext::split(fileName2, "-")[0];
-    stdext::tolower(fileName2);
-
-    std::filesystem::path path = m_binaryPath.parent_path();
+    const auto dir = m_binaryPath.parent_path();
+    const auto currentStem = m_binaryPath.stem().string();
+    std::string baseStem = stdext::split(currentStem, "-")[0];
+    const auto baseBinary = dir / (baseStem + m_binaryPath.extension().string());
 
     auto removeWithRetry = [](const std::filesystem::path& target) {
         std::error_code rmEc;
@@ -103,61 +105,98 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         }
     };
 
-    std::error_code ec;
-    auto lastWrite = std::filesystem::last_write_time(m_binaryPath, ec);
-    std::filesystem::path binary = m_binaryPath;
-    for (auto& entry : std::filesystem::directory_iterator(path, ec)) {
-        if (ec)
-            break;
-        if (std::filesystem::is_directory(entry.path()))
-            continue;
+    auto launchAndDetach = [&](const std::filesystem::path& binaryPath) {
+        boost::process::v1::child c(binaryPath.string(), boost::process::v1::start_dir = dir.string());
+        std::error_code ec2;
+        if (c.wait_for(std::chrono::seconds(5), ec2)) {
+            return c.exit_code() == 0;
+        }
+        c.detach();
+        return true;
+    };
 
-        auto fileName1 = entry.path().stem().string();
-        fileName1 = stdext::split(fileName1, "-")[0];
-        stdext::tolower(fileName1);
-        if (fileName1 != fileName2)
-            continue;
+    auto isManagedBinary = [&](const std::filesystem::path& p) {
+        if (p.extension() != m_binaryPath.extension())
+            return false;
 
-        if (entry.path().extension() == m_binaryPath.extension()) {
+        auto stem = p.stem().string();
+        stem = stdext::split(stem, "-")[0];
+        std::string lowerStem = stem;
+        std::string lowerBase = baseStem;
+        stdext::tolower(lowerStem);
+        stdext::tolower(lowerBase);
+        return lowerStem == lowerBase;
+    };
+
+    // If currently running a versioned executable, promote it back to base name.
+    if (m_binaryPath.filename() != baseBinary.filename()) {
+        bool promoted = false;
+        for (int attempt = 0; attempt < 20 && !promoted; ++attempt) {
             std::error_code ec;
-            auto writeTime = std::filesystem::last_write_time(entry.path(), ec);
-            if (!ec && writeTime > lastWrite) {
-                lastWrite = writeTime;
-                binary = entry.path();
+            if (std::filesystem::exists(baseBinary, ec)) {
+                std::filesystem::remove(baseBinary, ec);
             }
+
+            ec.clear();
+            std::filesystem::copy_file(m_binaryPath, baseBinary, std::filesystem::copy_options::overwrite_existing, ec);
+            promoted = !ec && std::filesystem::exists(baseBinary, ec);
+            if (!promoted)
+                std::this_thread::sleep_for(std::chrono::milliseconds(150));
         }
+
+        if (promoted)
+            return launchAndDetach(baseBinary);
+
+        return false;
     }
 
-    for (auto& entry : std::filesystem::directory_iterator(path, ec)) { // remove old
+    std::error_code ec;
+    auto baseWrite = std::filesystem::last_write_time(baseBinary, ec);
+    if (ec)
+        baseWrite = std::filesystem::file_time_type::min();
+
+    std::filesystem::path newestCandidate;
+    auto newestWrite = baseWrite;
+
+    for (auto& entry : std::filesystem::directory_iterator(dir, ec)) {
         if (ec)
             break;
         if (std::filesystem::is_directory(entry.path()))
             continue;
-
-        auto fileName1 = entry.path().stem().string();
-        fileName1 = stdext::split(fileName1, "-")[0];
-        stdext::tolower(fileName1);
-        if (fileName1 != fileName2)
+        if (!isManagedBinary(entry.path()))
+            continue;
+        if (entry.path().filename() == baseBinary.filename())
             continue;
 
-        if (entry.path().extension() == m_binaryPath.extension()) {
-            if (binary == entry.path())
-                continue;
-            removeWithRetry(entry.path());
+        std::error_code tsEc;
+        auto writeTime = std::filesystem::last_write_time(entry.path(), tsEc);
+        if (!tsEc && writeTime > newestWrite) {
+            newestWrite = writeTime;
+            newestCandidate = entry.path();
         }
     }
 
-    if (binary == m_binaryPath)
-        return false;
+    // Cleanup stale candidates that are not newer than the current base binary.
+    for (auto& entry : std::filesystem::directory_iterator(dir, ec)) {
+        if (ec)
+            break;
+        if (std::filesystem::is_directory(entry.path()))
+            continue;
+        if (!isManagedBinary(entry.path()))
+            continue;
+        if (entry.path().filename() == baseBinary.filename())
+            continue;
 
-    boost::process::v1::child c(binary.string(), boost::process::v1::start_dir = path.string());
-    std::error_code ec2;
-    if (c.wait_for(std::chrono::seconds(5), ec2)) {
-        return c.exit_code() == 0;
+        std::error_code tsEc;
+        auto writeTime = std::filesystem::last_write_time(entry.path(), tsEc);
+        if (!tsEc && writeTime <= baseWrite)
+            removeWithRetry(entry.path());
     }
 
-    c.detach();
-    return true;
+    if (!newestCandidate.empty())
+        return launchAndDetach(newestCandidate);
+
+    return false;
 #else
     return false;
 #endif
