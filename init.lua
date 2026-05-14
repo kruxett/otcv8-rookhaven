@@ -2,12 +2,12 @@
 -- APP CONFIGURATION
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
-APP_VERSION = 1344       -- client version for updater and login to identify outdated client
+APP_VERSION = 1345       -- client version for updater and login to identify outdated client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
 local updaterDomain = "updater.rookhaven-ot.com"
-if APP_VERSION >= 10000 then
+if type(DEFAULT_UPDATER_CHANNEL) == "string" and DEFAULT_UPDATER_CHANNEL:lower() == "dev" then
   updaterDomain = "updater2.rookhaven-ot.com"
 end
 

@@ -7,7 +7,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DDEFAULT_SERVER_ENDPOINT=testserver2.rookhaven-ot.com:7173:860",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DDEFAULT_SERVER_ENDPOINT=testserver2.rookhaven-ot.com:7173:860 -DUPDATER_CHANNEL=dev",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     },
@@ -18,7 +18,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=OFF -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows -DOPENSSL_USE_STATIC_LIBS=FALSE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows -DZLIB_USE_STATIC_LIBS=OFF -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows -DDEFAULT_SERVER_ENDPOINT=testserver2.rookhaven-ot.com:7173:860",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=OFF -DVCPKG_TARGET_TRIPLET=x64-windows -DVCPKG_HOST_TRIPLET=x64-windows -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows -DOPENSSL_USE_STATIC_LIBS=FALSE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows -DZLIB_USE_STATIC_LIBS=OFF -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows -DDEFAULT_SERVER_ENDPOINT=testserver2.rookhaven-ot.com:7173:860 -DUPDATER_CHANNEL=dev",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     },
@@ -29,7 +29,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=release -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DUPDATER_CHANNEL=prod",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     },
@@ -40,7 +40,7 @@
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
-      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static",
+      "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=C:/vcpkg-client/scripts/buildsystems/vcpkg.cmake -DUSE_STATIC_LIBS=ON -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DVCPKG_INSTALLED_DIR=C:/vcpkg-client/installed -DVCPKG_BUILD_TYPE=debug -DOPENSSL_ROOT_DIR=C:/vcpkg-client/installed/x64-windows-static -DOPENSSL_USE_STATIC_LIBS=TRUE -DZLIB_ROOT=C:/vcpkg-client/installed/x64-windows-static -DZLIB_USE_STATIC_LIBS=ON -DBZIP2_ROOT=C:/vcpkg-client/installed/x64-windows-static -DUPDATER_CHANNEL=prod",
       "buildCommandArgs": "",
       "ctestCommandArgs": ""
     }

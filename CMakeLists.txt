@@ -159,8 +159,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "game.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
-set(CLIENT_VERSION "0.3.2" CACHE STRING "Client version string" FORCE)
+set(CLIENT_VERSION "0.3.2" CACHE STRING "Client version string (compile-time fallback; init.lua may override at runtime)" FORCE)
 set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
+set(UPDATER_CHANNEL "prod" CACHE STRING "Updater channel baked into client: dev or prod")
 
 # default build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -239,6 +240,7 @@ target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 # Bake the default server endpoint into the executable so it isn't present in Lua sources
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
     DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
+    DEFAULT_UPDATER_CHANNEL="${UPDATER_CHANNEL}"
     RUNTIME_DLL_RELATIVE="lib"
     BUILD_REVISION=${BUILD_REVISION}
     CLIENT_VERSION="${CLIENT_VERSION}")

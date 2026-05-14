@@ -132,6 +132,12 @@ int main(int argc, const char* argv[]) {
     g_lua.setGlobal("DEFAULT_SERVER_ENDPOINT");
 #endif
 
+#ifdef DEFAULT_UPDATER_CHANNEL
+    // Expose the baked-in updater channel (dev/prod) to Lua before init.lua runs
+    g_lua.pushCString(DEFAULT_UPDATER_CHANNEL);
+    g_lua.setGlobal("DEFAULT_UPDATER_CHANNEL");
+#endif
+
     g_http.init();
 
     bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
