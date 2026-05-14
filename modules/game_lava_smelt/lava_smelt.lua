@@ -336,21 +336,19 @@ local function showRerollPrompt(data)
   -- Lägg till affixdata om den finns
   if type(data.affixData) == 'table' and #data.affixData > 0 then
     if data.isRangeReroll then
-      -- For range rerolls, show total range based on how many times the affix rolled.
+      -- For range rerolls, show only current total and reroll range.
       message = message .. '\n\nCurrent affixes (total values):'
       for i = 1, #data.affixData do
         local entry = data.affixData[i]
         if entry.name and entry.minTotal and entry.maxTotal then
-          local rollCount = tonumber(entry.rollCount) or 1
-          message = message .. string.format('\n- %s: %d (rolled %dx, reroll range %d-%d)',
+          message = message .. string.format('\n- %s: %d (reroll range %d-%d)',
             entry.name,
             tonumber(entry.currentTotal) or 0,
-            rollCount,
             tonumber(entry.minTotal) or 0,
             tonumber(entry.maxTotal) or 0)
         end
       end
-      message = message .. '\n\n(One random affix total is rerolled using its rolled count)'
+      message = message .. '\n\n(One random affix total will be rerolled)'
     else
       -- För andra rerolls: visa affix-chanser
       message = message .. '\n\nAffix chances:'
