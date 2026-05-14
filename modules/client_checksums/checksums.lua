@@ -30,11 +30,20 @@ local function getFileChecksum(filepath)
     return checksumCache[filepath]
   end
   
+  local resolvedPath = filepath
   if not g_resources.fileExists(filepath) then
-    return "NOTFOUND"
+    -- In release builds, .lua files are compiled to .luac bytecode
+    -- Try to find the .luac variant if the .lua file doesn't exist
+    local luacPath = filepath:gsub("%.lua$", ".luac")
+    if luacPath ~= filepath and g_resources.fileExists(luacPath) then
+      resolvedPath = luacPath
+    else
+      checksumCache[filepath] = "NOTFOUND"
+      return "NOTFOUND"
+    end
   end
   
-  local checksum = g_resources.fileChecksum(filepath)
+  local checksum = g_resources.fileChecksum(resolvedPath)
   checksumCache[filepath] = checksum
   return checksum
 end
