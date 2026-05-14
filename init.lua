@@ -6,9 +6,14 @@ APP_VERSION = 1342       -- client version for updater and login to identify out
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
+local updaterDomain = "updater.rookhaven-ot.com"
+if APP_VERSION >= 10000 then
+  updaterDomain = "updater2.rookhaven-ot.com"
+end
+
 Services = {
   website = "", -- currently not used
-  updater = "https://updater.rookhaven-ot.com/api/updater",
+  updater = "http://" .. updaterDomain .. "/api/updater",
   stats = "",
   crash = "",
   feedback = "",
