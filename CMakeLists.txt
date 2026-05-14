@@ -159,8 +159,10 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "game.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
-set(CLIENT_VERSION "0.3.2" CACHE STRING "Client version string (compile-time fallback; init.lua may override at runtime)" FORCE)
-set(BUILD_REVISION 1 CACHE STRING "Build revision number" FORCE)
+if(NOT DEFINED CLIENT_VERSION)
+    set(CLIENT_VERSION "0.3.2" CACHE STRING "Client version string (compile-time fallback; init.lua may override at runtime)")
+endif()
+# BUILD_REVISION is provided by src/framework/CMakeLists.txt; don't force it here.
 set(UPDATER_CHANNEL "prod" CACHE STRING "Updater channel baked into client: dev or prod")
 
 # default build type
