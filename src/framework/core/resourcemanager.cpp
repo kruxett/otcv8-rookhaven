@@ -33,6 +33,8 @@
 #include <regex>
 #include <algorithm>
 #include <fstream>
+#include <thread>
+#include <chrono>
 
 #if !(defined(ANDROID) || defined(FREE_VERSION))
 #include <boost/process/v1.hpp>
@@ -81,19 +83,32 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled))
         return false;
 
-    const char* localDir = PHYSFS_getPrefDir(product.c_str(), app.c_str());
-    if (!localDir)
-        return false;
-
     auto fileName2 = m_binaryPath.stem().string();
     fileName2 = stdext::split(fileName2, "-")[0];
     stdext::tolower(fileName2);
 
-    std::filesystem::path path(std::filesystem::u8path(localDir));
+    std::filesystem::path path = m_binaryPath.parent_path();
+
+    auto removeWithRetry = [](const std::filesystem::path& target) {
+        std::error_code rmEc;
+        for (int attempt = 0; attempt < 20; ++attempt) {
+            if (!std::filesystem::exists(target, rmEc) || rmEc)
+                return;
+
+            std::filesystem::remove(target, rmEc);
+            if (!std::filesystem::exists(target, rmEc))
+                return;
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+    };
+
     std::error_code ec;
     auto lastWrite = std::filesystem::last_write_time(m_binaryPath, ec);
     std::filesystem::path binary = m_binaryPath;
-    for (auto& entry : std::filesystem::directory_iterator(path)) {
+    for (auto& entry : std::filesystem::directory_iterator(path, ec)) {
+        if (ec)
+            break;
         if (std::filesystem::is_directory(entry.path()))
             continue;
 
@@ -113,7 +128,9 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         }
     }
 
-    for (auto& entry : std::filesystem::directory_iterator(path)) { // remove old
+    for (auto& entry : std::filesystem::directory_iterator(path, ec)) { // remove old
+        if (ec)
+            break;
         if (std::filesystem::is_directory(entry.path()))
             continue;
 
@@ -126,15 +143,14 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         if (entry.path().extension() == m_binaryPath.extension()) {
             if (binary == entry.path())
                 continue;
-            std::error_code ec;
-            std::filesystem::remove(entry.path(), ec);
+            removeWithRetry(entry.path());
         }
     }
 
     if (binary == m_binaryPath)
         return false;
 
-    boost::process::v1::child c(binary.string(), boost::process::v1::start_dir = m_binaryPath.parent_path().string());
+    boost::process::v1::child c(binary.string(), boost::process::v1::start_dir = path.string());
     std::error_code ec2;
     if (c.wait_for(std::chrono::seconds(5), ec2)) {
         return c.exit_code() == 0;
@@ -714,6 +730,20 @@ std::string ResourceManager::fileChecksum(const std::string& path) {
 std::string ResourceManager::fileChecksumSha256(const std::string& path) {
     static std::map<std::string, std::string> cache;
 
+#ifndef ANDROID
+    // For updater full-archive checks, prefer the physical data.zip beside the running client.
+    if (path == "data.zip" || path == "/data.zip") {
+        auto currentDataPath = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir())) / "data.zip";
+        std::ifstream file(currentDataPath.string(), std::ios::binary);
+        if (file.is_open()) {
+            std::string buffer(std::istreambuf_iterator<char>(file), {});
+            file.close();
+            if (!buffer.empty())
+                return g_crypt.sha256Encode(buffer, false);
+        }
+    }
+#endif
+
     auto it = cache.find(path);
     if (it != cache.end())
         return it->second;
@@ -1013,15 +1043,29 @@ void ResourceManager::updateExecutable(std::string fileName)
     std::filesystem::path path(m_binaryPath);
     auto newBinary = path.stem().string() + "-" + std::to_string(time(nullptr)) + path.extension().string();
     g_logger.info(stdext::format("Updating binary file: %s", newBinary));
-    PHYSFS_file* file = PHYSFS_openWrite(newBinary.c_str());
-    if (!file)
-        return g_logger.fatal(stdext::format("can't open %s for writing: %s", newBinary, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
-    PHYSFS_writeBytes(file, dFile->response.data(), dFile->response.size());
-    PHYSFS_close(file);
+    std::filesystem::path currentDir = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir()));
+    std::filesystem::path newBinaryPath = currentDir / newBinary;
 
-    std::filesystem::path newBinaryPath(std::filesystem::u8path(PHYSFS_getWriteDir()));
+    bool written = false;
+    std::ofstream outFile(newBinaryPath, std::ios::binary | std::ios::trunc);
+    if (outFile.is_open()) {
+        outFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
+        outFile.flush();
+        written = outFile.good();
+        outFile.close();
+    }
+
+    if (!written) {
+        PHYSFS_file* file = PHYSFS_openWrite(newBinary.c_str());
+        if (!file)
+            return g_logger.fatal(stdext::format("can't open %s for writing: %s", newBinary, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
+        PHYSFS_writeBytes(file, dFile->response.data(), dFile->response.size());
+        PHYSFS_close(file);
+        newBinaryPath = std::filesystem::path(std::filesystem::u8path(PHYSFS_getWriteDir())) / newBinary;
+    }
+
 #if defined(WIN32) && !defined(FREE_VERSION)
-    installDlls(newBinaryPath);
+    installDlls(newBinaryPath.parent_path());
 #endif
 #endif
 }
