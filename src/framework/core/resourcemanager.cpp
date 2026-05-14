@@ -885,7 +885,7 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
             auto targetPath = m_binaryPath.parent_path() / "data.zip";
             std::ofstream outFile(targetPath, std::ios::binary | std::ios::trunc);
             if (outFile.is_open()) {
-                outFile.write(dFile->response.data(), static_cast<std::streamsize>(dFile->response.size()));
+                outFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
                 outFile.flush();
                 written = outFile.good();
                 outFile.close();
