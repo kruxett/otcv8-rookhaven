@@ -151,6 +151,46 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         return lowerStem == lowerBase;
     };
 
+    auto filesAreIdentical = [](const std::filesystem::path& a, const std::filesystem::path& b) {
+        std::error_code ec;
+        if (!std::filesystem::exists(a, ec) || ec)
+            return false;
+        ec.clear();
+        if (!std::filesystem::exists(b, ec) || ec)
+            return false;
+
+        ec.clear();
+        auto sizeA = std::filesystem::file_size(a, ec);
+        if (ec)
+            return false;
+        ec.clear();
+        auto sizeB = std::filesystem::file_size(b, ec);
+        if (ec || sizeA != sizeB)
+            return false;
+
+        std::ifstream fa(a, std::ios::binary);
+        std::ifstream fb(b, std::ios::binary);
+        if (!fa.is_open() || !fb.is_open())
+            return false;
+
+        static constexpr size_t CHUNK = 64 * 1024;
+        std::vector<char> ba(CHUNK), bb(CHUNK);
+        while (fa && fb) {
+            fa.read(ba.data(), ba.size());
+            fb.read(bb.data(), bb.size());
+
+            const auto ra = fa.gcount();
+            const auto rb = fb.gcount();
+            if (ra != rb)
+                return false;
+            if (ra <= 0)
+                break;
+            if (std::memcmp(ba.data(), bb.data(), static_cast<size_t>(ra)) != 0)
+                return false;
+        }
+        return true;
+    };
+
     // If currently running a versioned executable, promote it back to base name.
     if (m_binaryPath.filename() != baseBinary.filename()) {
         bool promoted = false;
@@ -208,7 +248,8 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         }
     }
 
-    // Cleanup stale candidates that are not newer than the current base binary.
+    // Cleanup stale candidates that are not newer than the current base binary
+    // or already identical to the base binary.
     for (auto& entry : std::filesystem::directory_iterator(dir, ec)) {
         if (ec)
             break;
@@ -221,7 +262,7 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
 
         std::error_code tsEc;
         auto writeTime = std::filesystem::last_write_time(entry.path(), tsEc);
-        if (!tsEc && writeTime <= baseWrite)
+    if ((!tsEc && writeTime <= baseWrite) || filesAreIdentical(entry.path(), baseBinary))
             removeWithRetry(entry.path());
     }
 
