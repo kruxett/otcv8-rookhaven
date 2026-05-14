@@ -32,6 +32,7 @@
 #include <queue>
 #include <regex>
 #include <algorithm>
+#include <fstream>
 
 #if !(defined(ANDROID) || defined(FREE_VERSION))
 #include <boost/process/v1.hpp>
@@ -76,8 +77,10 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     init_path /= INIT_FILENAME;
     auto init_path_compiled = m_binaryPath.parent_path();
     init_path_compiled /= INIT_FILENAME_COMPILED;
+    auto data_zip_path = m_binaryPath.parent_path();
+    data_zip_path /= "data.zip";
     // Check for either init.lua or init.luac (debug version)
-    if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled))
+    if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled) || std::filesystem::exists(data_zip_path))
         return false;
 
     const char* localDir = PHYSFS_getPrefDir(product.c_str(), app.c_str());
@@ -190,9 +193,6 @@ bool ResourceManager::setup(bool ignoreWriteDir)
     std::string localDir(PHYSFS_getWriteDir());
     std::vector<std::string> possiblePaths;
 
-    if (!ignoreWriteDir && !localDir.empty())
-        possiblePaths.push_back(localDir);
-
     possiblePaths.push_back(g_platform.getCurrentDir());
     const char* baseDir = PHYSFS_getBaseDir();
     if (baseDir)
@@ -221,6 +221,9 @@ bool ResourceManager::setup(bool ignoreWriteDir)
             depth++;
         }
     }
+
+    if (!ignoreWriteDir && !localDir.empty())
+        possiblePaths.push_back(localDir);
 
     auto ensureModulesMounted = [&](const std::vector<std::string>& paths) {
         if (PHYSFS_isDirectory("modules"))
@@ -710,6 +713,28 @@ std::string ResourceManager::fileChecksum(const std::string& path) {
     return checksum;
 }
 
+std::string ResourceManager::fileChecksumSha256(const std::string& path) {
+    static std::map<std::string, std::string> cache;
+
+    auto it = cache.find(path);
+    if (it != cache.end())
+        return it->second;
+
+    PHYSFS_File* file = PHYSFS_openRead(path.c_str());
+    if(!file)
+        return "";
+
+    int fileSize = PHYSFS_fileLength(file);
+    std::string buffer(fileSize, 0);
+    PHYSFS_readBytes(file, (void*)&buffer[0], fileSize);
+    PHYSFS_close(file);
+
+    auto checksum = g_crypt.sha256Encode(buffer, false);
+    cache[path] = checksum;
+
+    return checksum;
+}
+
 std::string ResourceManager::fileChecksumUncached(const std::string& path) {
     // Same as fileChecksum but bypasses cache - for security validation
     PHYSFS_File* file = PHYSFS_openRead(path.c_str());
@@ -839,7 +864,8 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
         PHYSFS_readBytes(file, data->data(), data->size());
         PHYSFS_close(file);
         if (!mountMemoryData(data)) {
-            g_logger.fatal("Error while mounting new data.zip");
+            g_logger.error("Failed to mount data.zip. Possible corruption or invalid format.");
+            return;
         }
     };
 
@@ -854,11 +880,25 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
             if (!dFile)
                 g_logger.fatal("Cannot find downloaded data.zip in cache");
 
-            PHYSFS_file* out = PHYSFS_openWrite("data.zip");
-            if (!out)
-                g_logger.fatal(stdext::format("can't open data.zip for writing: %s", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
-            PHYSFS_writeBytes(out, dFile->response.data(), dFile->response.size());
-            PHYSFS_close(out);
+            bool written = false;
+#ifndef ANDROID
+            auto targetPath = m_binaryPath.parent_path() / "data.zip";
+            std::ofstream outFile(targetPath, std::ios::binary | std::ios::trunc);
+            if (outFile.is_open()) {
+                outFile.write(dFile->response.data(), static_cast<std::streamsize>(dFile->response.size()));
+                outFile.flush();
+                written = outFile.good();
+                outFile.close();
+            }
+#endif
+
+            if (!written) {
+                PHYSFS_file* out = PHYSFS_openWrite("data.zip");
+                if (!out)
+                    g_logger.fatal(stdext::format("can't open data.zip for writing: %s", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
+                PHYSFS_writeBytes(out, dFile->response.data(), dFile->response.size());
+                PHYSFS_close(out);
+            }
 
             remountArchive();
             return;

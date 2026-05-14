@@ -137,8 +137,11 @@ local function updateFiles(data, keepCurrentFiles)
   if filesCount == 1 and dataZipChecksum then
     fullArchiveUpdate = true
     table.insert(finalFiles, "data.zip")
-    table.insert(toUpdate, {"data.zip", dataZipChecksum})
-    newFiles = true
+    local localDataZipChecksum = g_resources.fileChecksumSha256("data.zip")
+    if localDataZipChecksum:len() == 0 or localDataZipChecksum:lower() ~= dataZipChecksum:lower() then
+      table.insert(toUpdate, {"data.zip", dataZipChecksum})
+      newFiles = true
+    end
   end
 
   -- keep all files or files from data/things
@@ -224,15 +227,6 @@ local function updateFiles(data, keepCurrentFiles)
     end, 100)  
   end)
 end
-
--- Validate checksum for data.zip
-  if fullArchiveUpdate then
-    local downloadedChecksum = g_resources.calculateChecksum("data.zip")
-    if downloadedChecksum:lower() ~= dataZipChecksum:lower() then
-      g_logger.error("Checksum mismatch for data.zip. Expected: " .. dataZipChecksum .. ", Got: " .. downloadedChecksum)
-      return false
-    end
-  end
 
 -- public functions
 function Updater.init(loadModulesFunc)
