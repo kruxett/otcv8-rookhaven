@@ -267,6 +267,24 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     }
 
     if (!newestCandidate.empty()) {
+#if defined(WIN32)
+        // Base executable is currently running, so Windows won't let us overwrite it in-process.
+        // Use a detached helper that waits/retries after this process exits, then promotes
+        // newestCandidate to baseBinary and starts the base executable.
+        std::string cmd =
+            "for /L %i in (1,1,120) do ("
+            "copy /Y \"" + newestCandidate.string() + "\" \"" + baseBinary.string() + "\" >nul 2>&1 && ("
+            "start \"\" \"" + baseBinary.string() + "\" & "
+            "del /f /q \"" + newestCandidate.string() + "\" >nul 2>&1 & "
+            "exit /b 0"
+            ") & "
+            "ping 127.0.0.1 -n 2 >nul"
+            ")";
+
+        boost::process::v1::child promoter("cmd.exe", "/C", cmd, boost::process::v1::start_dir = dir.string());
+        promoter.detach();
+        return true;
+#else
         bool promoted = false;
         for (int attempt = 0; attempt < 20 && !promoted; ++attempt) {
             std::error_code copyEc;
@@ -295,6 +313,7 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
 
         // Fallback: run the downloaded executable when promotion fails.
         return launchAndDetach(newestCandidate);
+#endif
     }
 
     return false;
