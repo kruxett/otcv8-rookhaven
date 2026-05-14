@@ -2,7 +2,7 @@
 -- APP CONFIGURATION
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
-APP_VERSION = 1342       -- client version for updater and login to identify outdated client
+APP_VERSION = 1343       -- client version for updater and login to identify outdated client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
@@ -33,6 +33,7 @@ end
 ALLOW_CUSTOM_SERVERS = false -- if true it shows option ANOTHER on server list
 
 g_app.setName("Rookhaven Client")
+g_app.setVersion(tostring(APP_VERSION)) -- keep displayed client version in sync with APP_VERSION
 -- APP CONFIGURATION END
 
 -- ============================================================================
