@@ -1,6 +1,7 @@
 Updater = { }
 
 Updater.maxRetries = 5
+Updater.checkTimeoutMs = 30000
 
 --[[
 
@@ -228,18 +229,20 @@ function Updater.check(args)
   updaterWindow:raise()  
   
   local updateData = nil
-  local function progressUpdater(value)
+  local checkStartedAt = g_clock.millis()
+  local function progressUpdater()
     removeEvent(scheduledEvent)
-    if value == 100 then
+    local elapsed = g_clock.millis() - checkStartedAt
+    if elapsed >= Updater.checkTimeoutMs then
       return Updater.error(tr("Timeout"))
     end
-    if updateData and (value > 60 or (not g_app.isMobile() or not ALLOW_CUSTOM_SERVERS or not loadModulesFunc)) then -- gives 3s to set custom updater for mobile version
+    if updateData and (elapsed > 3000 or (not g_app.isMobile() or not ALLOW_CUSTOM_SERVERS or not loadModulesFunc)) then -- gives 3s to set custom updater for mobile version
       return updateFiles(updateData)
     end
-    scheduledEvent = scheduleEvent(function() progressUpdater(value + 1) end, 50)
-    updaterWindow.mainProgress:setPercent(value)
+    updaterWindow.mainProgress:setPercent(math.floor((elapsed / Updater.checkTimeoutMs) * 100))
+    scheduledEvent = scheduleEvent(progressUpdater, 50)
   end
-  progressUpdater(0)
+  progressUpdater()
 
   httpOperationId = HTTP.postJSON(Services.updater, {
     version = APP_VERSION,
