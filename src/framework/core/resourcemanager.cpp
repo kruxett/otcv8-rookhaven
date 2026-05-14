@@ -77,10 +77,8 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     init_path /= INIT_FILENAME;
     auto init_path_compiled = m_binaryPath.parent_path();
     init_path_compiled /= INIT_FILENAME_COMPILED;
-    auto data_zip_path = m_binaryPath.parent_path();
-    data_zip_path /= "data.zip";
     // Check for either init.lua or init.luac (debug version)
-    if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled) || std::filesystem::exists(data_zip_path))
+    if (std::filesystem::exists(init_path) || std::filesystem::exists(init_path_compiled))
         return false;
 
     const char* localDir = PHYSFS_getPrefDir(product.c_str(), app.c_str());
@@ -136,7 +134,7 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
     if (binary == m_binaryPath)
         return false;
 
-    boost::process::v1::child c(binary.string());
+    boost::process::v1::child c(binary.string(), boost::process::v1::start_dir = m_binaryPath.parent_path().string());
     std::error_code ec2;
     if (c.wait_for(std::chrono::seconds(5), ec2)) {
         return c.exit_code() == 0;
@@ -882,13 +880,24 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
 
             bool written = false;
 #ifndef ANDROID
-            auto targetPath = m_binaryPath.parent_path() / "data.zip";
+            auto targetPath = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir())) / "data.zip";
             std::ofstream outFile(targetPath, std::ios::binary | std::ios::trunc);
             if (outFile.is_open()) {
                 outFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
                 outFile.flush();
                 written = outFile.good();
                 outFile.close();
+            }
+
+            if (!written) {
+                targetPath = m_binaryPath.parent_path() / "data.zip";
+                std::ofstream fallbackFile(targetPath, std::ios::binary | std::ios::trunc);
+                if (fallbackFile.is_open()) {
+                    fallbackFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
+                    fallbackFile.flush();
+                    written = fallbackFile.good();
+                    fallbackFile.close();
+                }
             }
 #endif
 
