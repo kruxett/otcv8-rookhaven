@@ -823,6 +823,48 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
 
     g_logger.info(stdext::format("Updating client, %i files", files.size()));
 
+    auto remountArchive = [&]() {
+        if (!reMount)
+            return;
+        unmountMemoryData();
+        PHYSFS_file* file = PHYSFS_openRead("data.zip");
+        if (!file)
+            g_logger.fatal(stdext::format("Can't open new data.zip"));
+
+        int size = PHYSFS_fileLength(file);
+        if (size < 1024)
+            g_logger.fatal(stdext::format("New data.zip is invalid"));
+
+        auto data = std::make_shared<std::vector<uint8_t>>(size);
+        PHYSFS_readBytes(file, data->data(), data->size());
+        PHYSFS_close(file);
+        if (!mountMemoryData(data)) {
+            g_logger.fatal("Error while mounting new data.zip");
+        }
+    };
+
+    if (files.size() == 1) {
+        auto onlyFile = *files.begin();
+        if (onlyFile == "/data.zip")
+            onlyFile = "data.zip";
+        if (onlyFile == "data.zip") {
+            auto dFile = g_http.getFile("data.zip");
+            if (!dFile)
+                dFile = g_http.getFile("/data.zip");
+            if (!dFile)
+                g_logger.fatal("Cannot find downloaded data.zip in cache");
+
+            PHYSFS_file* out = PHYSFS_openWrite("data.zip");
+            if (!out)
+                g_logger.fatal(stdext::format("can't open data.zip for writing: %s", PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode())));
+            PHYSFS_writeBytes(out, dFile->response.data(), dFile->response.size());
+            PHYSFS_close(out);
+
+            remountArchive();
+            return;
+        }
+    }
+
     zip_source_t *src;
     zip_t *za;
     zip_error_t error;
@@ -897,23 +939,7 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
     zip_source_close(src);
     zip_source_free(src);
 
-    if (reMount) {
-        unmountMemoryData();
-        file = PHYSFS_openRead("data.zip");
-        if (!file)
-            g_logger.fatal(stdext::format("Can't open new data.zip"));
-
-        int size = PHYSFS_fileLength(file);
-        if (size < 1024)
-            g_logger.fatal(stdext::format("New data.zip is invalid"));
-
-        auto data = std::make_shared<std::vector<uint8_t>>(size);
-        PHYSFS_readBytes(file, data->data(), data->size());
-        PHYSFS_close(file);
-        if (!mountMemoryData(data)) {
-            g_logger.fatal("Error while mounting new data.zip");
-        }
-    }
+    remountArchive();
 #else
     g_logger.fatal("updateData is unsupported");
 #endif

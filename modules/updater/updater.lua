@@ -123,18 +123,38 @@ local function updateFiles(data, keepCurrentFiles)
   local finalFiles = {}
   local localFiles = g_resources.filesChecksums()
   local toUpdate = {}
-  -- keep all files or files from data/things
-  for file, checksum in pairs(localFiles) do
-    if keepCurrentFiles or string.find(file, "data/things") then
-      table.insert(finalFiles, file)
+  local fullArchiveUpdate = false
+
+  -- Full archive mode: server ships a complete replacement data.zip.
+  local filesCount = 0
+  local dataZipChecksum = nil
+  for file, checksum in pairs(data["files"]) do
+    filesCount = filesCount + 1
+    if file == "data.zip" or file == "/data.zip" then
+      dataZipChecksum = checksum
     end
   end
-  -- update files
-  for file, checksum in pairs(data["files"]) do
-    table.insert(finalFiles, file)
-    if not localFiles[file] or localFiles[file] ~= checksum then
-      table.insert(toUpdate, {file, checksum})
-      newFiles = true
+  if filesCount == 1 and dataZipChecksum then
+    fullArchiveUpdate = true
+    table.insert(finalFiles, "data.zip")
+    table.insert(toUpdate, {"data.zip", dataZipChecksum})
+    newFiles = true
+  end
+
+  -- keep all files or files from data/things
+  if not fullArchiveUpdate then
+    for file, checksum in pairs(localFiles) do
+      if keepCurrentFiles or string.find(file, "data/things") then
+        table.insert(finalFiles, file)
+      end
+    end
+    -- update files
+    for file, checksum in pairs(data["files"]) do
+      table.insert(finalFiles, file)
+      if not localFiles[file] or localFiles[file]:lower() ~= checksum:lower() then
+        table.insert(toUpdate, {file, checksum})
+        newFiles = true
+      end
     end
   end
   -- update binary
@@ -159,6 +179,10 @@ local function updateFiles(data, keepCurrentFiles)
   local forceRestart = false
   local reloadModules = false
   local forceRestartPattern = {"init.lua", "corelib", "updater", "otmod"}
+  if fullArchiveUpdate then
+    forceRestart = true
+    reloadModules = true
+  end
   for _, file in ipairs(toUpdate) do
     for __, pattern in ipairs(forceRestartPattern) do
       if string.find(file[1], pattern) then
