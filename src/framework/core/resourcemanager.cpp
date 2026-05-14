@@ -262,12 +262,40 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
 
         std::error_code tsEc;
         auto writeTime = std::filesystem::last_write_time(entry.path(), tsEc);
-    if ((!tsEc && writeTime <= baseWrite) || filesAreIdentical(entry.path(), baseBinary))
+        if ((!tsEc && writeTime <= baseWrite) || filesAreIdentical(entry.path(), baseBinary))
             removeWithRetry(entry.path());
     }
 
-    if (!newestCandidate.empty())
+    if (!newestCandidate.empty()) {
+        bool promoted = false;
+        for (int attempt = 0; attempt < 20 && !promoted; ++attempt) {
+            std::error_code copyEc;
+            if (std::filesystem::exists(baseBinary, copyEc)) {
+                std::filesystem::remove(baseBinary, copyEc);
+            }
+
+            copyEc.clear();
+            std::filesystem::copy_file(newestCandidate, baseBinary, std::filesystem::copy_options::overwrite_existing, copyEc);
+            promoted = !copyEc && std::filesystem::exists(baseBinary, copyEc);
+            if (!promoted)
+                std::this_thread::sleep_for(std::chrono::milliseconds(150));
+        }
+
+        if (promoted) {
+            std::error_code tsEc;
+            std::filesystem::last_write_time(baseBinary, std::filesystem::file_time_type::clock::now(), tsEc);
+
+            bool launched = launchAndDetach(baseBinary);
+#if defined(WIN32)
+            if (launched)
+                scheduleDeleteSelf(newestCandidate);
+#endif
+            return launched;
+        }
+
+        // Fallback: run the downloaded executable when promotion fails.
         return launchAndDetach(newestCandidate);
+    }
 
     return false;
 #else
