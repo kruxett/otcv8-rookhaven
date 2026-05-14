@@ -228,7 +228,7 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         baseWrite = std::filesystem::file_time_type::min();
 
     std::filesystem::path newestCandidate;
-    auto newestWrite = baseWrite;
+    auto newestWrite = std::filesystem::file_time_type::min();
 
     for (auto& entry : std::filesystem::directory_iterator(dir, ec)) {
         if (ec)
@@ -258,6 +258,8 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
         if (!isManagedBinary(entry.path()))
             continue;
         if (entry.path().filename() == baseBinary.filename())
+            continue;
+        if (!newestCandidate.empty() && entry.path() == newestCandidate)
             continue;
 
         std::error_code tsEc;
