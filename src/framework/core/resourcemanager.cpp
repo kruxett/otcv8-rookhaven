@@ -64,6 +64,9 @@ void ResourceManager::init(const char *argv0)
 #else
     m_binaryPath = std::filesystem::absolute(argv0);    
 #endif
+#ifndef ANDROID
+    m_restartBinaryPath.clear();
+#endif
     PHYSFS_init(argv0);
     PHYSFS_permitSymbolicLinks(1);
 }
@@ -1201,6 +1204,10 @@ void ResourceManager::updateExecutable(std::string fileName)
         PHYSFS_close(file);
         newBinaryPath = std::filesystem::path(std::filesystem::u8path(PHYSFS_getWriteDir())) / newBinary;
     }
+
+    // Ensure Application::restart() relaunches the freshly downloaded binary
+    // so promotion to base executable happens in the same update cycle.
+    m_restartBinaryPath = newBinaryPath;
 
 #if defined(WIN32) && !defined(FREE_VERSION)
     installDlls(newBinaryPath.parent_path());
