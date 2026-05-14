@@ -333,13 +333,25 @@ local function showRerollPrompt(data)
 
   local message = string.format('Invoke %s to %s on %s (%s item)?', data.materialName or 'this catalyst', data.modeText or 'reroll', data.targetName or 'the chosen item', (data.tierLabel or 'unknown'):lower())
 
-  -- Lägg till affix-chanslista om den finns
-  if type(data.affixChances) == 'table' and #data.affixChances > 0 then
-    message = message .. '\n\nAffix chances:'
-    for i = 1, #data.affixChances do
-      local entry = data.affixChances[i]
-      if entry.name and entry.chance then
-        message = message .. string.format('\n- %s: %.1f%%', entry.name, entry.chance)
+  -- Lägg till affixdata om den finns
+  if type(data.affixData) == 'table' and #data.affixData > 0 then
+    if data.isRangeReroll then
+      -- För range-rerolls: visa värdeintervall
+      message = message .. '\n\nPossible value ranges:'
+      for i = 1, #data.affixData do
+        local entry = data.affixData[i]
+        if entry.name and entry.minValue and entry.maxValue then
+          message = message .. string.format('\n- %s: %d - %d (currently %d)', entry.name, entry.minValue, entry.maxValue, entry.currentValue or 0)
+        end
+      end
+    else
+      -- För andra rerolls: visa affix-chanser
+      message = message .. '\n\nAffix chances:'
+      for i = 1, #data.affixData do
+        local entry = data.affixData[i]
+        if entry.name and entry.chance then
+          message = message .. string.format('\n- %s: %.1f%%', entry.name, entry.chance)
+        end
       end
     end
   end
