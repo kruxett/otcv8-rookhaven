@@ -225,6 +225,15 @@ local function updateFiles(data, keepCurrentFiles)
   end)
 end
 
+-- Validate checksum for data.zip
+  if fullArchiveUpdate then
+    local downloadedChecksum = g_resources.calculateChecksum("data.zip")
+    if downloadedChecksum:lower() ~= dataZipChecksum:lower() then
+      g_logger.error("Checksum mismatch for data.zip. Expected: " .. dataZipChecksum .. ", Got: " .. downloadedChecksum)
+      return false
+    end
+  end
+
 -- public functions
 function Updater.init(loadModulesFunc)
   g_logger.setOnLog(onLog)
