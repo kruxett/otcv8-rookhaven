@@ -336,14 +336,15 @@ local function showRerollPrompt(data)
   -- Lägg till affixdata om den finns
   if type(data.affixData) == 'table' and #data.affixData > 0 then
     if data.isRangeReroll then
-      -- För range-rerolls: visa värdeintervall
-      message = message .. '\n\nPossible value ranges:'
+      -- För range-rerolls: visa varje instans på separat rad
+      message = message .. '\n\nCurrent affixes:'
       for i = 1, #data.affixData do
         local entry = data.affixData[i]
         if entry.name and entry.minValue and entry.maxValue then
-          message = message .. string.format('\n- %s: %d - %d (currently %d)', entry.name, entry.minValue, entry.maxValue, entry.currentValue or 0)
+          message = message .. string.format('\n- %s: %d (can reroll to %d-%d)', entry.name, entry.currentValue or 0, entry.minValue, entry.maxValue)
         end
       end
+      message = message .. '\n\n(ONE random instance will be rerolled)'
     else
       -- För andra rerolls: visa affix-chanser
       message = message .. '\n\nAffix chances:'
