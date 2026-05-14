@@ -1,7 +1,7 @@
 Updater = { }
 
 Updater.maxRetries = 5
-Updater.checkTimeoutMs = 30000
+Updater.checkTimeoutMs = 120000
 
 --[[
 
