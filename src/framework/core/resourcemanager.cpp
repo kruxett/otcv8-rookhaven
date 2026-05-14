@@ -123,7 +123,16 @@ bool ResourceManager::launchCorrect(const std::string& product, const std::strin
 
         // Delete the versioned executable shortly after this process exits.
         // This avoids orphaned RookhavenClient-<timestamp>.exe files.
-        std::string cmd = "ping 127.0.0.1 -n 3 > nul && del /f /q \"" + target.string() + "\"";
+        // Retry for a while because AV/indexing can keep a short-lived lock.
+        std::string cmd =
+            "for /L %i in (1,1,30) do ("
+            "if exist \"" + target.string() + "\" ("
+            "del /f /q \"" + target.string() + "\" >nul 2>&1"
+            ") else ("
+            "exit /b 0"
+            ") & "
+            "ping 127.0.0.1 -n 2 >nul"
+            ")";
         boost::process::v1::child deleter("cmd.exe", "/C", cmd, boost::process::v1::start_dir = dir.string());
         deleter.detach();
     };
