@@ -244,12 +244,20 @@ function Updater.check(args)
   end
   progressUpdater()
 
+  local requestArgs = args or {}
+  if type(requestArgs) ~= "table" then
+    requestArgs = {}
+  end
+  if type(UPDATER_CHANNEL) == "string" and UPDATER_CHANNEL:lower() == "dev" then
+    requestArgs.dev = true
+  end
+
   httpOperationId = HTTP.postJSON(Services.updater, {
     version = APP_VERSION,
     build = g_app.getVersion(),
     os = g_app.getOs(),
     platform = g_window.getPlatformType(),
-    args = args or {}
+    args = requestArgs
   }, function(data, err)
     if err then      
       return Updater.error(err)

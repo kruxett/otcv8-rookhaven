@@ -10,6 +10,7 @@ local updaterDomain = "updater.rookhaven-ot.com"
 if type(DEFAULT_UPDATER_CHANNEL) == "string" and DEFAULT_UPDATER_CHANNEL:lower() == "dev" then
   updaterDomain = "updater2.rookhaven-ot.com"
 end
+_G.UPDATER_CHANNEL = (updaterDomain == "updater2.rookhaven-ot.com") and "dev" or "prod"
 
 Services = {
   website = "", -- currently not used
