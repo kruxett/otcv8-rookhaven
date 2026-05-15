@@ -279,7 +279,7 @@ MainWindow
       text-wrap: true
       height: 44
       color: #d8b56a
-      text: SAFE MODE (1-6 Fragments): failed upgrade consumes materials only. OVERROLL UNLOCKS at 7+ Fragments.
+      text: No break risk below 50% failure. Overroll unlocks at 50%+.
       visible: false
 
   HorizontalSeparator
