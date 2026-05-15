@@ -246,7 +246,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 6
-      text: Risk details are shown in the confirmation popup.
+      text: Failure Risk: 0.0%
 
     Label
       id: successChanceLabel
@@ -256,8 +256,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 2
-      text: 
-      visible: false
+      text: Forge success: 100.0%
 
     Label
       id: weightLabel
@@ -279,9 +278,9 @@ MainWindow
       margin-top: 2
       text-wrap: true
       height: 44
-      color: #d8b56a
-      text: No break risk below 50% failure. Overroll unlocks at 50%+.
-      visible: false
+      color: #d9d2bf
+      text: Add Corrupted Fragments to preview risk and reward scaling.
+      visible: true
 
   HorizontalSeparator
     id: statusSep

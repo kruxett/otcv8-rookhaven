@@ -853,16 +853,15 @@ refreshRiskPreview = function()
   end
 
   local hasInvest = isUsingCorrupted() and invest > 0
-  if hasInvest then
-    ui.failChanceLabel:setText('Risk details are shown in the confirmation popup.')
-    ui.failChanceLabel:setColor('#d8b56a')
-  else
-    ui.failChanceLabel:setText('Add Corrupted Fragments to enable risk confirmation.')
-    ui.failChanceLabel:setColor('#d9d2bf')
-  end
+  local successChance = 1 - failChance
+
+  ui.failChanceLabel:setText(string.format('Failure Risk: %.1f%%', failChance * 100))
+  ui.failChanceLabel:setColor(pickRiskColor(failChance))
 
   if ui.successChanceLabel then
-    ui.successChanceLabel:setVisible(false)
+    ui.successChanceLabel:setVisible(true)
+    ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, successChance * 100))
+    ui.successChanceLabel:setColor(pickChanceColor(successChance))
   end
 
   ui.weightLabel:setText('Favored affix chance: -')
@@ -870,8 +869,8 @@ refreshRiskPreview = function()
 
   local entry = selectedPath and entryByPath[selectedPath] or nil
   local affixId = getSelectedAffixId()
-  local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
-  if baseChance and weightedChance then
+  local _, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
+  if weightedChance then
     ui.weightLabel:setText(string.format('Favored Affix Chance: %.1f%%', weightedChance * 100))
     ui.weightLabel:setColor(pickChanceColor(weightedChance))
   else
@@ -879,7 +878,18 @@ refreshRiskPreview = function()
   end
 
   if ui.targetAffixChanceLabel then
-    ui.targetAffixChanceLabel:setVisible(false)
+    ui.targetAffixChanceLabel:setVisible(true)
+
+    if not hasInvest then
+      ui.targetAffixChanceLabel:setText('Add Corrupted Fragments to preview risk and reward scaling.')
+      ui.targetAffixChanceLabel:setColor('#d9d2bf')
+    elseif risk.highRiskActive then
+      ui.targetAffixChanceLabel:setText('High-Risk Active: item can break on failed craft. Confirmation popup shows full details.')
+      ui.targetAffixChanceLabel:setColor('#e05050')
+    else
+      ui.targetAffixChanceLabel:setText(string.format('Safe Zone: no item break risk below %.0f%% failure.', risk.destructionThreshold * 100))
+      ui.targetAffixChanceLabel:setColor('#7fd992')
+    end
   end
 end
 
