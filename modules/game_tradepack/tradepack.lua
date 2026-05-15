@@ -21,6 +21,7 @@ local selectedTierId = nil
 local tiersData = nil
 local routesData = nil
 local lastSelectData = nil
+local confirmWeightOz = 0
 
 local function destroyWindow()
   if tradepackWindow then
@@ -30,6 +31,17 @@ local function destroyWindow()
   selectedTierId = nil
   tiersData = nil
   routesData = nil
+  confirmWeightOz = 0
+end
+
+local function hasEnoughLocalCapacity(requiredOz)
+  local player = g_game.getLocalPlayer()
+  if not player then
+    return true
+  end
+
+  local freeCap = tonumber(player:getFreeCapacity()) or 0
+  return freeCap >= (tonumber(requiredOz) or 0)
 end
 
 local function sendResponse(payload)
@@ -303,8 +315,27 @@ function cancel()
 end
 
 function confirm()
+  if not tradepackWindow then return end
+
+  local confirmButton = tradepackWindow:getChildById('confirmButton')
+  if confirmButton and not confirmButton:isEnabled() then
+    displayErrorBox('Tradepack', 'You do not have enough free carrying capacity for this pack.')
+    return
+  end
+
+  if not hasEnoughLocalCapacity(confirmWeightOz) then
+    if confirmButton then
+      confirmButton:setEnabled(false)
+    end
+    displayErrorBox('Tradepack', 'You do not have enough free carrying capacity for this pack.')
+    return
+  end
+
+  if confirmButton then
+    confirmButton:setEnabled(false)
+  end
+
   sendResponse({ action = "confirm" })
-  destroyWindow()
 end
 
 function prev()
@@ -334,6 +365,7 @@ local function onTradepackOpcode(protocol, opcode, buffer)
     destroyWindow()
     tradepackWindow = g_ui.displayUI('tradepack_confirm', rootWidget)
     if not tradepackWindow then return end
+    confirmWeightOz = tonumber(data.weight_oz) or 0
 
     local function setLabel(id, text)
       local w = tradepackWindow:getChildById(id)
@@ -361,7 +393,25 @@ local function onTradepackOpcode(protocol, opcode, buffer)
 
     local confirmButton = tradepackWindow:getChildById('confirmButton')
     if confirmButton then
-      confirmButton:setEnabled(data.can_afford ~= false and data.can_carry ~= false)
+      local canCarryNow = hasEnoughLocalCapacity(confirmWeightOz)
+      confirmButton:setEnabled(data.can_afford ~= false and data.can_carry ~= false and canCarryNow)
+    end
+
+  elseif data.mode == "result" then
+    if data.ok == true then
+      destroyWindow()
+      return
+    end
+
+    local reason = data.reason or 'Could not create the pack.'
+    displayErrorBox('Tradepack', reason)
+
+    if tradepackWindow then
+      local confirmButton = tradepackWindow:getChildById('confirmButton')
+      if confirmButton then
+        local canCarryNow = hasEnoughLocalCapacity(confirmWeightOz)
+        confirmButton:setEnabled((data.can_afford ~= false) and (data.can_carry ~= false) and canCarryNow)
+      end
     end
   end
 end
