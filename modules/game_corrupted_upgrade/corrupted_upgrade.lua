@@ -946,6 +946,39 @@ local function formatRequirements(entry)
   return table.concat(lines, '\n')
 end
 
+local function canAttemptUpgrade(invest)
+  local entry = selectedPath and entryByPath[selectedPath] or nil
+  if not entry then
+    return false, 'No item selected.'
+  end
+
+  if entry.detailsLoaded ~= true then
+    requestEntryDetails(selectedPath)
+    return false, 'Loading item details...'
+  end
+
+  for _, req in ipairs(entry.requirements or {}) do
+    local have = tonumber(req.have) or 0
+    local need = tonumber(req.required) or 0
+    if have < need then
+      local label = tostring(req.label or 'material')
+      return false, string.format('Missing %s (%d/%d).', label, have, need)
+    end
+  end
+
+  local goldHave = tonumber(entry.goldHave) or 0
+  local goldNeed = tonumber(entry.goldRequired) or 0
+  if goldHave < goldNeed then
+    return false, string.format('Missing gold (%d/%d).', goldHave, goldNeed)
+  end
+
+  if invest > 0 and (tonumber(availableCorruptedFragments) or 0) < invest then
+    return false, string.format('Not enough Corrupted Fragments (%d/%d).', tonumber(availableCorruptedFragments) or 0, invest)
+  end
+
+  return true, nil
+end
+
 local function clearSelection()
   selectedPath = nil
   selectedItem = nil
@@ -1590,6 +1623,13 @@ function accept()
   if invest > 0 and selectedAffixId <= 0 then
     clearResultStatusLock()
     setStatus('Pick one affix when using Corrupted Fragments.', '#d26b6b')
+    return
+  end
+
+  local canAttempt, attemptMessage = canAttemptUpgrade(invest)
+  if not canAttempt then
+    clearResultStatusLock()
+    setStatus(attemptMessage or 'Missing requirements.', '#d26b6b')
     return
   end
 
