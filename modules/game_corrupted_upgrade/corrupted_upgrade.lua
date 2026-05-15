@@ -984,6 +984,9 @@ local function clearSelection()
     end
   end
 
+  -- Ensure window height matches collapsed layout after clearing selection.
+  resizeWindow()
+
   if ui.itemPreview then
     ui.itemPreview:setImageSource('/images/ui/item')
     ui.itemPreview:setItemId(0)
@@ -1432,10 +1435,7 @@ local function ensureWindow()
   applySelectionLayout(false)
   refreshCorruptedFragmentIcon()
   applyModeUiStrings()
-  local initialSize = window:getSize()
-  if initialSize and initialSize.height > OPTIONAL_PANEL_HEIGHT then
-    window:resize(initialSize.width, initialSize.height - OPTIONAL_PANEL_HEIGHT)
-  end
+  resizeWindow()
 
   if ui.corruptedCountEdit then
     ui.corruptedCountEdit:setEnabled(false)
