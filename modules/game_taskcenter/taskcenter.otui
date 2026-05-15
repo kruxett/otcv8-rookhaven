@@ -177,6 +177,7 @@ MainWindow
       margin-bottom: 2
       margin-left: 5
 
+
       Label
         id: playerRankLabel
         anchors.right: parent.right
@@ -192,8 +193,8 @@ MainWindow
         id: statusLabel
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: parent.top
-        margin-top: 4
+        anchors.top: playerRankLabel.bottom
+        margin-top: 2
         margin-left: 6
         margin-right: 6
         height: 28
