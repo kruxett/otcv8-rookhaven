@@ -180,8 +180,8 @@ MainWindow
       Label
         id: playerRankLabel
         anchors.right: parent.right
-        anchors.top: parent.top
-        margin-top: 4
+        anchors.top: playerRankLabel.bottom
+        margin-top: 2
         margin-right: 6
         height: 14
         color: #e0d08a
