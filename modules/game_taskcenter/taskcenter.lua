@@ -186,7 +186,16 @@ local function getEntriesForCurrentTab()
   end
 
   if currentTab == 'available' then
-    return snapshotData.available or {}
+    local entries = snapshotData.available or {}
+    local playerRank = tonumber(snapshotData.player and snapshotData.player.rank) or 0
+    local filtered = {}
+    for _, entry in ipairs(entries) do
+      local minRank = tonumber(entry.minRank) or 0
+      if minRank == playerRank then
+        filtered[#filtered + 1] = entry
+      end
+    end
+    return filtered
   elseif currentTab == 'active' then
     return snapshotData.active or {}
   else
