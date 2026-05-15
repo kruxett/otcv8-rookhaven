@@ -207,7 +207,7 @@ MainWindow
       anchors.left: corruptedCountEdit.right
       anchors.top: corruptedCountLabel.top
       margin-left: 8
-      text: / 20
+      text: / 10
 
     HorizontalScrollBar
       id: corruptedCountSlider
@@ -266,7 +266,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 2
-      text: Favored affix: -
+      text: Favored Affix Chance: -
 
     Label
       id: targetAffixChanceLabel
@@ -279,7 +279,7 @@ MainWindow
       text-wrap: true
       height: 44
       color: #d8b56a
-      text: Below 50% failure risk: a failed upgrade consumes materials, but does NOT destroy the item.
+      text: SAFE MODE (1-6 Fragments): failed upgrade consumes materials only. OVERROLL UNLOCKS at 7+ Fragments.
       visible: false
 
   HorizontalSeparator

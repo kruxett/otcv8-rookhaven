@@ -12,13 +12,19 @@ local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
   minChance = 0.02,
-  maxChance = 0.56, -- lower per-fragment ramp, but can pass 50% at high investment
-  failExponent = 0.07, -- slower growth per fragment than previous settings
+  maxChance = 0.67,
+  failExponent = 0.07,
+  failCurvePower = 0.85,
+  breakRiskThreshold = 0.50,
+  highRiskScalePower = 1.00,
   weightMaxBonus = 10.0, -- keeps favored affix chance high at high-risk investment
   weightExponent = 0.16,
-  maxInvest = 40,
-  over50OverrollChance = 0.08,
+  maxInvest = 10,
+  over50OverrollChance = 0.10,
+  over50OverrollChanceAtMax = 0.30,
   over50OverrollMultiplier = 1.20,
+  over50BreakOnFailChance = 0.08,
+  over50BreakOnFailChanceAtMax = 0.32,
 }
 
 local GOLD_COIN_ITEM_ID = 3031
@@ -58,7 +64,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Arcane Ritual Requirements',
       toggleCollapsed = '+ Arcane Imbuement',
       toggleExpanded = '- Arcane Imbuement',
-      toggleTooltip = 'Bind Corrupted Fragments to your arcane ritual and steer the attunement toward a chosen affix. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
+      toggleTooltip = 'Fragments 1-6: failed upgrade consumes materials only. Fragments 7-10: failure risk is above 50%, failed upgrade can destroy the item, and overroll chance increases with risk.',
       successPrefix = 'Ritual success',
       bannerSuccess = 'RITUAL SUCCESS',
       bannerFailure = 'RITUAL FAILED',
@@ -71,7 +77,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Tempering Requirements',
       toggleCollapsed = '+ Corrupted Imbuement',
       toggleExpanded = '- Corrupted Imbuement',
-      toggleTooltip = 'Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
+      toggleTooltip = 'Fragments 1-6: failed upgrade consumes materials only. Fragments 7-10: failure risk is above 50%, failed upgrade can destroy the item, and overroll chance increases with risk.',
       successPrefix = 'Forge success',
       bannerSuccess = 'FORGE SUCCESS',
       bannerFailure = 'FORGE FAILED',
@@ -84,7 +90,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Precision Refinement Requirements',
       toggleCollapsed = '+ Corrupted Fletching',
       toggleExpanded = '- Corrupted Fletching',
-      toggleTooltip = 'Feed Corrupted Fragments into a precision fletching ritual to bias affix outcomes. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
+      toggleTooltip = 'Fragments 1-6: failed upgrade consumes materials only. Fragments 7-10: failure risk is above 50%, failed upgrade can destroy the item, and overroll chance increases with risk.',
       successPrefix = 'Refinement success',
       bannerSuccess = 'REFINEMENT SUCCESS',
       bannerFailure = 'REFINEMENT FAILED',
@@ -96,7 +102,7 @@ local function getModeUiStrings()
     requirementsLabel = 'Upgrade Requirements',
     toggleCollapsed = '+ Optional Imbuement',
     toggleExpanded = '- Optional Imbuement',
-    toggleTooltip = 'Use Corrupted Fragments to influence affix outcomes at additional risk. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
+    toggleTooltip = 'Fragments 1-6: failed upgrade consumes materials only. Fragments 7-10: failure risk is above 50%, failed upgrade can destroy the item, and overroll chance increases with risk.',
     successPrefix = 'Upgrade success',
     bannerSuccess = 'UPGRADE SUCCESS',
     bannerFailure = 'UPGRADE FAILED',
@@ -762,13 +768,18 @@ refreshRiskPreview = function()
   local failChance = 0
   local weight = 1.0
   if invest > 0 then
+    local maxInvest = tonumber(failConfig.maxInvest) or 10
     local minC = tonumber(failConfig.minChance) or 0.01
-    local maxC = tonumber(failConfig.maxChance) or 0.28
-    local kFail = tonumber(failConfig.failExponent) or 0.075
+    local maxC = tonumber(failConfig.maxChance) or 0.67
+    local curvePower = tonumber(failConfig.failCurvePower) or 0.85
     local maxBonus = tonumber(failConfig.weightMaxBonus) or 3.2
     local kWeight = tonumber(failConfig.weightExponent) or 0.14
 
-    failChance = minC + (maxC - minC) * (1 - math.exp(-kFail * invest))
+    if curvePower < 1.0 then
+      curvePower = 1.0
+    end
+    local ratio = math.min(math.max(invest / math.max(maxInvest, 1), 0), 1)
+    failChance = minC + (maxC - minC) * math.pow(ratio, curvePower)
     weight = 1 + maxBonus * (1 - math.exp(-kWeight * invest))
   end
 
@@ -791,14 +802,39 @@ refreshRiskPreview = function()
   end
 
   local destructionThreshold = 0.5
-  local destructionRiskActive = failChance > destructionThreshold
-  local overrollChance = tonumber(failConfig.over50OverrollChance) or 0.08
+  local maxFailChance = tonumber(failConfig.maxChance) or 0.67
+  local scalePower = tonumber(failConfig.highRiskScalePower) or 1.00
+  if scalePower < 0.1 then
+    scalePower = 0.1
+  end
+  destructionThreshold = tonumber(failConfig.breakRiskThreshold) or destructionThreshold
+
+  local highRiskScale = 0.0
+  if failChance > destructionThreshold and maxFailChance > destructionThreshold then
+    local ratio = math.min(math.max((failChance - destructionThreshold) / (maxFailChance - destructionThreshold), 0), 1)
+    highRiskScale = math.pow(ratio, scalePower)
+  end
+
+  local destructionRiskActive = highRiskScale > 0
+  local overrollBaseChance = tonumber(failConfig.over50OverrollChance) or 0.10
+  local overrollMaxChance = tonumber(failConfig.over50OverrollChanceAtMax) or 0.30
+  if overrollMaxChance < overrollBaseChance then
+    overrollMaxChance = overrollBaseChance
+  end
+  local overrollChance = overrollBaseChance + (overrollMaxChance - overrollBaseChance) * highRiskScale
   local overrollMultiplier = tonumber(failConfig.over50OverrollMultiplier) or 1.20
+  local breakBaseChance = tonumber(failConfig.over50BreakOnFailChance) or 0.08
+  local breakMaxChance = tonumber(failConfig.over50BreakOnFailChanceAtMax) or 0.32
+  if breakMaxChance < breakBaseChance then
+    breakMaxChance = breakBaseChance
+  end
+  local breakOnFailChance = breakBaseChance + (breakMaxChance - breakBaseChance) * highRiskScale
   local overrollPct = math.floor(overrollChance * 100 + 0.5)
+  local breakOnFailPct = math.floor(breakOnFailChance * 100 + 0.5)
   local overrollBonusPct = math.floor((overrollMultiplier - 1.0) * 100 + 0.5)
 
   if destructionRiskActive then
-    ui.failChanceLabel:setText(string.format('FAILURE RISK: %.1f%%  |  ITEM DESTRUCTION RISK: ACTIVE', failChance * 100))
+    ui.failChanceLabel:setText(string.format('Failure Risk: %.1f%%  |  ITEM BREAK RISK: ACTIVE', failChance * 100))
     ui.failChanceLabel:setColor('#e05050')
     if ui.successChanceLabel then
       ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
@@ -819,10 +855,10 @@ refreshRiskPreview = function()
   local affixId = getSelectedAffixId()
   local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
   if baseChance and weightedChance then
-    ui.weightLabel:setText(string.format('Favored affix: %.1f%%', weightedChance * 100))
+    ui.weightLabel:setText(string.format('Favored Affix Chance: %.1f%%', weightedChance * 100))
     ui.weightLabel:setColor(pickChanceColor(weightedChance))
   else
-    ui.weightLabel:setText('Favored affix: choose one')
+    ui.weightLabel:setText('Favored Affix Chance: choose one')
   end
 
   if ui.targetAffixChanceLabel then
@@ -830,11 +866,11 @@ refreshRiskPreview = function()
     ui.targetAffixChanceLabel:setVisible(warningActive)
     if warningActive then
       if destructionRiskActive then
-        ui.targetAffixChanceLabel:setText(string.format('WARNING: FAILURE RISK IS ABOVE 50%% - A FAILED UPGRADE CAN DESTROY THE ITEM. BONUS ACTIVE: %d%% chance per new roll for up to +%d%% max roll range.', overrollPct, overrollBonusPct))
+        ui.targetAffixChanceLabel:setText(string.format('HIGH-RISK MODE (7-10 Fragments): on failed craft, item breaks with %d%% chance. OVERROLL: %d%% per new roll for up to +%d%% max value.', breakOnFailPct, overrollPct, overrollBonusPct))
         ui.targetAffixChanceLabel:setColor('#e05050')
       else
-        ui.targetAffixChanceLabel:setText(string.format('Below 50%% failure risk: a failed upgrade consumes materials, but does NOT destroy the item. BONUS LOCKED: requires risk above 50%% (%d%% per-roll chance for up to +%d%% when active).', overrollPct, overrollBonusPct))
-        ui.targetAffixChanceLabel:setColor('#d8b56a')
+        ui.targetAffixChanceLabel:setText(string.format('SAFE MODE (1-6 Fragments): failed upgrade consumes materials only (0%% break chance). OVERROLL UNLOCKS at 7+ Fragments (%d%% to %d%% for up to +%d%%).', math.floor(overrollBaseChance * 100 + 0.5), math.floor(overrollMaxChance * 100 + 0.5), overrollBonusPct))
+        ui.targetAffixChanceLabel:setColor('#7fd992')
       end
     end
   end
