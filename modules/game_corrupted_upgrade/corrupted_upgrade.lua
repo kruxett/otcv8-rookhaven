@@ -12,11 +12,13 @@ local pathsByClientId = {}
 local pathsByItemId = {}
 local failConfig = {
   minChance = 0.02,
-  maxChance = 0.45,
-  failExponent = 0.11,
-  weightMaxBonus = 6.0,
+  maxChance = 0.56, -- lower per-fragment ramp, but can pass 50% at high investment
+  failExponent = 0.07, -- slower growth per fragment than previous settings
+  weightMaxBonus = 10.0, -- keeps favored affix chance high at high-risk investment
   weightExponent = 0.16,
-  maxInvest = 20,
+  maxInvest = 40,
+  over50OverrollChance = 0.08,
+  over50OverrollMultiplier = 1.20,
 }
 
 local GOLD_COIN_ITEM_ID = 3031
@@ -24,7 +26,7 @@ local PLATINUM_COIN_ITEM_ID = 3035
 local CRYSTAL_COIN_ITEM_ID = 3043
 local CORRUPTED_FRAGMENT_ITEM_ID = 12787
 local corruptedFragmentClientId = CORRUPTED_FRAGMENT_ITEM_ID
-local OPTIONAL_PANEL_HEIGHT = 146
+local OPTIONAL_PANEL_HEIGHT = 194
 local REQUIREMENTS_SECTION_HEIGHT = 108
 local WINDOW_BASE_HEIGHT = 202  -- no requirements, no optional panel
 local REQ_CARD_WIDTH = 98
@@ -56,7 +58,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Arcane Ritual Requirements',
       toggleCollapsed = '+ Arcane Imbuement',
       toggleExpanded = '- Arcane Imbuement',
-      toggleTooltip = 'Bind Corrupted Fragments to your arcane ritual and steer the attunement toward a chosen affix. More fragments strengthen influence, but increase ritual collapse risk.',
+      toggleTooltip = 'Bind Corrupted Fragments to your arcane ritual and steer the attunement toward a chosen affix. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
       successPrefix = 'Ritual success',
       bannerSuccess = 'RITUAL SUCCESS',
       bannerFailure = 'RITUAL FAILED',
@@ -69,7 +71,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Tempering Requirements',
       toggleCollapsed = '+ Corrupted Imbuement',
       toggleExpanded = '- Corrupted Imbuement',
-      toggleTooltip = 'Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. Greater investment strengthens your influence, but invites ruin.',
+      toggleTooltip = 'Bind Corrupted Fragments to your forging ritual and bend fate toward a chosen affix. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
       successPrefix = 'Forge success',
       bannerSuccess = 'FORGE SUCCESS',
       bannerFailure = 'FORGE FAILED',
@@ -82,7 +84,7 @@ local function getModeUiStrings()
       requirementsLabel = 'Precision Refinement Requirements',
       toggleCollapsed = '+ Corrupted Fletching',
       toggleExpanded = '- Corrupted Fletching',
-      toggleTooltip = 'Feed Corrupted Fragments into a precision fletching ritual to bias affix outcomes. More fragments improve control, but increase collapse risk.',
+      toggleTooltip = 'Feed Corrupted Fragments into a precision fletching ritual to bias affix outcomes. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
       successPrefix = 'Refinement success',
       bannerSuccess = 'REFINEMENT SUCCESS',
       bannerFailure = 'REFINEMENT FAILED',
@@ -94,7 +96,7 @@ local function getModeUiStrings()
     requirementsLabel = 'Upgrade Requirements',
     toggleCollapsed = '+ Optional Imbuement',
     toggleExpanded = '- Optional Imbuement',
-    toggleTooltip = 'Use Corrupted Fragments to influence affix outcomes at additional risk.',
+    toggleTooltip = 'Use Corrupted Fragments to influence affix outcomes at additional risk. If failure risk goes above 50%, failed upgrades can destroy the item and unlock high-risk overroll bonus potential.',
     successPrefix = 'Upgrade success',
     bannerSuccess = 'UPGRADE SUCCESS',
     bannerFailure = 'UPGRADE FAILED',
@@ -788,24 +790,52 @@ refreshRiskPreview = function()
     return '#d9d2bf'
   end
 
-  ui.failChanceLabel:setText(string.format('Ruin risk: %.1f%%', failChance * 100))
-  ui.failChanceLabel:setColor(pickRiskColor(failChance))
-  if ui.successChanceLabel then
-    ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
-    ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
+  local destructionThreshold = 0.5
+  local destructionRiskActive = failChance > destructionThreshold
+  local overrollChance = tonumber(failConfig.over50OverrollChance) or 0.08
+  local overrollMultiplier = tonumber(failConfig.over50OverrollMultiplier) or 1.20
+  local overrollPct = math.floor(overrollChance * 100 + 0.5)
+  local overrollBonusPct = math.floor((overrollMultiplier - 1.0) * 100 + 0.5)
+
+  if destructionRiskActive then
+    ui.failChanceLabel:setText(string.format('FAILURE RISK: %.1f%%  |  ITEM DESTRUCTION RISK: ACTIVE', failChance * 100))
+    ui.failChanceLabel:setColor('#e05050')
+    if ui.successChanceLabel then
+      ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
+      ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
+    end
+  else
+    ui.failChanceLabel:setText(string.format('Failure risk: %.1f%%', failChance * 100))
+    ui.failChanceLabel:setColor(pickRiskColor(failChance))
+    if ui.successChanceLabel then
+      ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
+      ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
+    end
   end
   ui.weightLabel:setText('Favored affix: -')
   ui.weightLabel:setColor('#d9d2bf')
 
+  local entry = selectedPath and entryByPath[selectedPath] or nil
+  local affixId = getSelectedAffixId()
+  local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
+  if baseChance and weightedChance then
+    ui.weightLabel:setText(string.format('Favored affix: %.1f%%', weightedChance * 100))
+    ui.weightLabel:setColor(pickChanceColor(weightedChance))
+  else
+    ui.weightLabel:setText('Favored affix: choose one')
+  end
+
   if ui.targetAffixChanceLabel then
-    local entry = selectedPath and entryByPath[selectedPath] or nil
-    local affixId = getSelectedAffixId()
-    local baseChance, weightedChance = calculateTargetAffixChance(entry, affixId, weight)
-    if baseChance and weightedChance then
-      ui.weightLabel:setText(string.format('Favored affix: %.1f%%', weightedChance * 100))
-      ui.weightLabel:setColor(pickChanceColor(weightedChance))
-    else
-      ui.weightLabel:setText('Favored affix: choose one')
+    local warningActive = isUsingCorrupted() and invest > 0
+    ui.targetAffixChanceLabel:setVisible(warningActive)
+    if warningActive then
+      if destructionRiskActive then
+        ui.targetAffixChanceLabel:setText(string.format('WARNING: FAILURE RISK IS ABOVE 50%% - A FAILED UPGRADE CAN DESTROY THE ITEM. BONUS ACTIVE: %d%% chance per new roll for up to +%d%% max roll range.', overrollPct, overrollBonusPct))
+        ui.targetAffixChanceLabel:setColor('#e05050')
+      else
+        ui.targetAffixChanceLabel:setText(string.format('Below 50%% failure risk: a failed upgrade consumes materials, but does NOT destroy the item. BONUS LOCKED: requires risk above 50%% (%d%% per-roll chance for up to +%d%% when active).', overrollPct, overrollBonusPct))
+        ui.targetAffixChanceLabel:setColor('#d8b56a')
+      end
     end
   end
 end

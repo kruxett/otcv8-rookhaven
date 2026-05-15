@@ -161,7 +161,7 @@ MainWindow
     margin-left: 10
     margin-right: 10
     margin-top: 0
-    height: 146
+    height: 194
     visible: false
 
     Panel
@@ -246,7 +246,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 6
-      text: Ruin risk: 0.0%
+      text: Failure risk: 0.0%
 
     Label
       id: successChanceLabel
@@ -270,6 +270,16 @@ MainWindow
 
     Label
       id: targetAffixChanceLabel
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: weightLabel.bottom
+      margin-left: 2
+      margin-right: 2
+      margin-top: 2
+      text-wrap: true
+      height: 44
+      color: #d8b56a
+      text: Below 50% failure risk: a failed upgrade consumes materials, but does NOT destroy the item.
       visible: false
 
   HorizontalSeparator
