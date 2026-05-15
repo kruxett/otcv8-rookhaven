@@ -852,29 +852,20 @@ refreshRiskPreview = function()
     return '#d9d2bf'
   end
 
-  local destructionRiskActive = risk.highRiskActive
-  local overrollChance = risk.overrollChance
-  local breakOnFailChance = risk.breakOnFailChance
-  local overrollPct = math.floor(overrollChance * 100 + 0.5)
-  local breakOnFailPct = math.floor(breakOnFailChance * 100 + 0.5)
-  local overrollBonusPct = risk.overrollBonusPct
-
-  if destructionRiskActive then
-    ui.failChanceLabel:setText(string.format('Failure Risk: %.1f%%  |  ITEM BREAK RISK: ACTIVE', failChance * 100))
-    ui.failChanceLabel:setColor('#e05050')
-    if ui.successChanceLabel then
-      ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
-      ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
-    end
+  local hasInvest = isUsingCorrupted() and invest > 0
+  if hasInvest then
+    ui.failChanceLabel:setText('Risk details are shown in the confirmation popup.')
+    ui.failChanceLabel:setColor('#d8b56a')
   else
-    ui.failChanceLabel:setText(string.format('Failure risk: %.1f%%', failChance * 100))
-    ui.failChanceLabel:setColor(pickRiskColor(failChance))
-    if ui.successChanceLabel then
-      ui.successChanceLabel:setText(string.format('%s: %.1f%%', getModeUiStrings().successPrefix, (1 - failChance) * 100))
-      ui.successChanceLabel:setColor(pickChanceColor(1 - failChance))
-    end
+    ui.failChanceLabel:setText('Add Corrupted Fragments to enable risk confirmation.')
+    ui.failChanceLabel:setColor('#d9d2bf')
   end
-  ui.weightLabel:setText('Favored affix: -')
+
+  if ui.successChanceLabel then
+    ui.successChanceLabel:setVisible(false)
+  end
+
+  ui.weightLabel:setText('Favored affix chance: -')
   ui.weightLabel:setColor('#d9d2bf')
 
   local entry = selectedPath and entryByPath[selectedPath] or nil
@@ -888,17 +879,7 @@ refreshRiskPreview = function()
   end
 
   if ui.targetAffixChanceLabel then
-    local warningActive = isUsingCorrupted() and invest > 0
-    ui.targetAffixChanceLabel:setVisible(warningActive)
-    if warningActive then
-      if destructionRiskActive then
-        ui.targetAffixChanceLabel:setText(string.format('Break chance on failed craft: %d%%. Overroll chance: %d%% (+%d%% max value).', breakOnFailPct, overrollPct, overrollBonusPct))
-        ui.targetAffixChanceLabel:setColor('#e05050')
-      else
-        ui.targetAffixChanceLabel:setText(string.format('No break risk below 50%% failure. Overroll unlocks at 50%%+ (about %d%% to %d%%).', math.floor(risk.overrollBaseChance * 100 + 0.5), math.floor(risk.overrollMaxChance * 100 + 0.5)))
-        ui.targetAffixChanceLabel:setColor('#7fd992')
-      end
-    end
+    ui.targetAffixChanceLabel:setVisible(false)
   end
 end
 

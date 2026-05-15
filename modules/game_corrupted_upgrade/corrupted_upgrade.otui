@@ -246,7 +246,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 6
-      text: Failure risk: 0.0%
+      text: Risk details are shown in the confirmation popup.
 
     Label
       id: successChanceLabel
@@ -256,7 +256,8 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 2
-      text: Upgrade success: 100.0%
+      text: 
+      visible: false
 
     Label
       id: weightLabel
@@ -266,7 +267,7 @@ MainWindow
       margin-left: 2
       margin-right: 2
       margin-top: 2
-      text: Favored Affix Chance: -
+      text: Favored affix chance: -
 
     Label
       id: targetAffixChanceLabel
