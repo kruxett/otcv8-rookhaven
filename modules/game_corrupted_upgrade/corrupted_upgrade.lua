@@ -1647,7 +1647,7 @@ function accept()
       local overrollBonusPct = risk.overrollBonusPct
 
       local message = string.format(
-        'This upgrade can break the item on failure.\n\nFailure risk: %d%%\nIf it fails, item break chance: %d%%\nOverroll chance: %d%% (+%d%% max value)\n\nDo you want to proceed?',
+        'This upgrade can break the item on failure.\n\nFailure risk: %d%%\nIf it fails, item break chance: %d%%\nOn success: %d%% bonus roll chance (up to +%d%% affix value)\n\nDo you want to proceed?',
         failPct,
         breakPct,
         overrollPct,
