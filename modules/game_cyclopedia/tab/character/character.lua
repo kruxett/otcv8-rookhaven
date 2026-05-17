@@ -747,7 +747,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     perfectShotDamageRanges, combatsArray, concoctionsArray)
 
     -- Hide stats not applicable to Tibia 8.60
-    local sectionsToHide = {"concoction", "concoctionPanel", "blessings", "reduction", "reductionNone"}
+    local sectionsToHide = {"concoction", "concoctionPanel", "blessings"}
     for _, id in ipairs(sectionsToHide) do
         if UI.CombatStats[id] then
             UI.CombatStats[id]:setVisible(false)
@@ -1040,6 +1040,9 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
     if UI.CombatStats.reductionNone then
         UI.CombatStats.reductionNone:destroyChildren()
+        if UI.CombatStats.reduction then
+            UI.CombatStats.reduction:setVisible(false)
+        end
 
         local function decodeReductionPercent(encoded)
             if encoded < 32768 then
