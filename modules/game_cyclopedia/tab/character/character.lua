@@ -1083,13 +1083,15 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
                 if elementPath then
                     local icon = g_ui.createWidget("UIWidget", row)
+                    icon:addAnchor(AnchorLeft, "parent", AnchorLeft)
+                    icon:addAnchor(AnchorVerticalCenter, "parent", AnchorVerticalCenter)
                     icon:setImageSource(elementPath)
                     icon:setImageSize({width = 9, height = 9})
                     icon:setSize({width = 9, height = 9})
-                    icon:setMarginRight(2)
                 end
 
                 local nameLabel = g_ui.createWidget("SkillNameLabel", row)
+                nameLabel:setMarginLeft(elementPath and 12 or 0)
                 nameLabel:setText(elementName .. ":")
 
                 local valueLabel = g_ui.createWidget("SkillValueLabel", row)

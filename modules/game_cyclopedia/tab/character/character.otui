@@ -697,10 +697,11 @@ UIWidget
           image-clip: 12 0 12 12
     CharacterSkillBase
       id: reduction
-      anchors.top: blessings.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 1
+      anchors.top: defenseWindow.bottom
+      anchors.left: criticalHit.left
+      anchors.right: parent.right
+      margin-left: 0
+      margin-top: 6
       SkillNameLabel
         !text: tr('Element Resistances:')
         color: #C0C0C0
@@ -708,17 +709,16 @@ UIWidget
       id: reductionNone
       anchors.top: reduction.bottom
       anchors.left: reduction.left
-      anchors.right: separator.right
+      anchors.right: parent.right
       margin-left: 10
-      margin-top: 10
-      size: 232 233
+      margin-top: 2
       layout:
         type: verticalBox
         fit-children: true
     HorizontalSeparator
       anchors.top: prev.bottom
       anchors.left: reduction.left
-      anchors.right: separator.right
+      anchors.right: parent.right
       margin-right: 10
 
     CharacterSkillBase
