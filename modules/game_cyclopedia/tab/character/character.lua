@@ -1098,7 +1098,9 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 local sign = displayPct > 0 and "+" or ""
                 valueLabel:setText(string.format("%s%.0f%%", sign, displayPct))
 
-                if displayPct > 0 then
+                if displayPct == 50 then
+                    valueLabel:setColor("#ffd700") -- yellow for cap
+                elseif displayPct > 0 then
                     valueLabel:setColor("#44AD25")
                 elseif displayPct < 0 then
                     valueLabel:setColor("#CC2929")
