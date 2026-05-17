@@ -702,7 +702,7 @@ UIWidget
       anchors.right: separator.right
       margin-top: 1
       SkillNameLabel
-        !text: tr('Damage Reduction:')
+        !text: tr('Element Resistances:')
         color: #C0C0C0
     Panel
       id: reductionNone

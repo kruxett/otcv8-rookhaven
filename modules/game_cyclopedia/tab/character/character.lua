@@ -1040,7 +1040,70 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
     if UI.CombatStats.reductionNone then
         UI.CombatStats.reductionNone:destroyChildren()
-        UI.CombatStats.reductionNone:setVisible(false)
+
+        local function decodeReductionPercent(encoded)
+            if encoded < 32768 then
+                return encoded / 100
+            else
+                return -(65535 - encoded) / 100
+            end
+        end
+
+        -- Filter to elemental resistances only (skip element 0 = physical armor mitigation, already shown above)
+        local elementEntries = {}
+        if combatsArray then
+            for _, entry in ipairs(combatsArray) do
+                if entry[1] and entry[1] ~= 0 then
+                    table.insert(elementEntries, entry)
+                end
+            end
+        end
+
+        if #elementEntries > 0 then
+            if UI.CombatStats.reduction then
+                UI.CombatStats.reduction:setVisible(true)
+            end
+            UI.CombatStats.reductionNone:setVisible(true)
+
+            for _, entry in ipairs(elementEntries) do
+                local elementId = entry[1]
+                local encodedPercent = entry[2]
+                local pct = decodeReductionPercent(encodedPercent)
+                -- Cap positive resistance at 50% (server enforces it, client mirrors the cap)
+                local displayPct = (pct > 0) and math.min(50, pct) or pct
+
+                local elementInfo = Cyclopedia.clientCombat and Cyclopedia.clientCombat[elementId]
+                local elementName = elementInfo and elementInfo.id or ("Element " .. elementId)
+                local elementPath = elementInfo and elementInfo.path or nil
+
+                local row = g_ui.createWidget("CharacterSkillBase", UI.CombatStats.reductionNone)
+
+                if elementPath then
+                    local icon = g_ui.createWidget("UIWidget", row)
+                    icon:setImageSource(elementPath)
+                    icon:setImageSize({width = 9, height = 9})
+                    icon:setSize({width = 9, height = 9})
+                    icon:setMarginRight(2)
+                end
+
+                local nameLabel = g_ui.createWidget("SkillNameLabel", row)
+                nameLabel:setText(elementName .. ":")
+
+                local valueLabel = g_ui.createWidget("SkillValueLabel", row)
+                local sign = displayPct > 0 and "+" or ""
+                valueLabel:setText(string.format("%s%.0f%%", sign, displayPct))
+
+                if displayPct > 0 then
+                    valueLabel:setColor("#44AD25")
+                elseif displayPct < 0 then
+                    valueLabel:setColor("#CC2929")
+                else
+                    valueLabel:setColor("#C0C0C0")
+                end
+            end
+        else
+            UI.CombatStats.reductionNone:setVisible(false)
+        end
     end
 
     -- concoctions
