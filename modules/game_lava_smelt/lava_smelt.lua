@@ -207,7 +207,14 @@ local function applyPreview(preview)
     ui.selectedCountLabel:setText(string.format('Offerings: %d / 6', tonumber(preview.totalCount) or 0))
   end
   if ui.goldCostLabel then
-    ui.goldCostLabel:setText(string.format('Forging Due: %d', tonumber(preview.totalFee) or 0))
+    local fee = tonumber(preview.totalFee) or 0
+    local gold = tonumber(preview.playerGold) or 0
+    ui.goldCostLabel:setText(string.format('Forging fee: %d/%d', fee, gold))
+    if gold < fee then
+      ui.goldCostLabel:setColor('#e05050') -- röd
+    else
+      ui.goldCostLabel:setColor('#d0b060') -- standardfärg
+    end
   end
   if ui.rarityBreakdownLabel then
     local counts = preview.counts or {}
@@ -301,6 +308,17 @@ local function bindWindow()
   end
   if ui.smeltButton then
     ui.smeltButton.onClick = function()
+      local fee = 0
+      local gold = 0
+      if ui.goldCostLabel and ui.goldCostLabel:getText() then
+        local feeStr, goldStr = string.match(ui.goldCostLabel:getText(), '(%d+)%s*/%s*(%d+)')
+        fee = tonumber(feeStr) or 0
+        gold = tonumber(goldStr) or 0
+      end
+      if gold < fee then
+        setStatus('You cannot afford the forging fee.', '#e05050')
+        return
+      end
       protocolSend({ action = 'smelt', positions = collectPositions() })
     end
     ui.smeltButton:setEnabled(false)
