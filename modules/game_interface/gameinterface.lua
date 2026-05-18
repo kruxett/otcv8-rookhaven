@@ -180,6 +180,13 @@ function init()
   mouseGrabberWidget.onTouchRelease = mouseGrabberWidget.onMouseRelease
 
   bottomSplitter = gameRootPanel:getChildById('bottomSplitter')
+  local originalSplitterMouseRelease = bottomSplitter.onMouseRelease
+  bottomSplitter.onMouseRelease = function(self, mousePos, mouseButton)
+    if originalSplitterMouseRelease then
+      originalSplitterMouseRelease(self, mousePos, mouseButton)
+    end
+    save()
+  end
   gameMapPanel = gameRootPanel:getChildById('gameMapPanel')
   -- Restore default world-map behavior: allow normal floor rendering (holes/trapdoors/stairs).
   gameMapPanel:setMultifloor(true)
