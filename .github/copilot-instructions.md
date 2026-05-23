@@ -6,6 +6,7 @@
 - You are familiar with CMake (minimum version 3.25, using Ninja generator), C++, and common libraries.
 - The server is TFS 1.5 Downgraded 8.6 by Nekiro/Angelion.
 - No code changes are to be applied without explicit request or approval first.
+- When changing the client version, set it in `init.lua` (not `CMakeLists.txt`).
 
 ## Code Style
 - Use specific formatting rules.
