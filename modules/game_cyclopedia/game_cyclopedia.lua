@@ -755,9 +755,7 @@ function Cyclopedia.buildAndLoadCombatStats()
     end
 
     local reductions = {}
-    if mitigationPercent > 0 then
-        table.insert(reductions, { 0, encodeReductionPercent(mitigationPercent) })
-    end
+    table.insert(reductions, { 0, encodeReductionPercent(mitigationPercent) })
 
     for elementId = 1, 6 do
         local value = resistByElement[elementId] or 0

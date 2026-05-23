@@ -1064,11 +1064,11 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             end
         end
 
-        -- Filter to elemental resistances only (skip element 0 = physical armor mitigation, already shown above)
+        -- Show all resistances, including element 0 (Physical).
         local elementEntries = {}
         if combatsArray then
             for _, entry in ipairs(combatsArray) do
-                if entry[1] and entry[1] ~= 0 then
+                if entry[1] ~= nil then
                     table.insert(elementEntries, entry)
                 end
             end

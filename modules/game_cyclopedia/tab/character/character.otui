@@ -703,7 +703,7 @@ UIWidget
       margin-left: 0
       margin-top: 6
       SkillNameLabel
-        !text: tr('Element Resistances:')
+        !text: tr('Resistances:')
         color: #C0C0C0
     Panel
       id: reductionNone
