@@ -416,6 +416,10 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
             local online = (player and g_game.isOnline()) and 1 or 0
             Cyclopedia.loadCharacterBadges(true, online, premium, "", {})
         end
+    elseif action == "character.baseInfo" then
+        if Cyclopedia.setServerCharacterTitle then
+            Cyclopedia.setServerCharacterTitle(data)
+        end
     elseif action == "character.profileStats" then
         Cyclopedia.parseAndLoadProfileStats(data)
     elseif action == "bestiary.categories" then
@@ -904,6 +908,7 @@ g_game.requestCharacterInfo = function(characterId, infoType, ...)
     local T = CyclopediaCharacterInfoTypes
     if infoType == T.GeneralStats then
         Cyclopedia.buildAndLoadGeneralStats()
+        Cyclopedia.sendCyclopediaRequest("character.baseInfo", "")
         Cyclopedia.sendCyclopediaRequest("character.playtime", "")
         Cyclopedia.sendCyclopediaRequest("character.accountStatus", "")
         Cyclopedia.sendCyclopediaRequest("character.profileStats", "")

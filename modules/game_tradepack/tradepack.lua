@@ -88,22 +88,32 @@ local function getCurrentRiskFactor()
   return model.minFactor + (model.maxFactor - model.minFactor) * ratio
 end
 
+local function getRiskFlavor(factor)
+  local pct = math.floor((tonumber(factor) or getCurrentRiskFactor()) * 100 + 0.5)
+  if pct <= 65 then
+    return 'The roads are quiet. Coin will be lean.'
+  elseif pct <= 75 then
+    return 'Trade is stirring. The offer looks fair.'
+  elseif pct <= 90 then
+    return 'Merchants are moving. The offer looks strong.'
+  end
+
+  return 'The roads are alive. Buyers will pay well.'
+end
+
 local function buildRouteRiskText(baseReward, route)
   local model = resolveRiskModel(riskModelData)
   local multiplier = tonumber(route and route.multiplier) or 1.0
   local fullReward = math.floor((tonumber(baseReward) or 0) * multiplier)
   local fixedReward = math.floor(fullReward * model.fixedFactor)
-  local dynamicMaxReward = math.max(0, fullReward - fixedReward)
   local factorNow = getCurrentRiskFactor()
   local previewReward = math.floor(fullReward * factorNow)
   local routeName = (route and (route.label or route.id)) or '?'
   return string.format(
-    '%s: %d-%d gold (fixed %d + dynamic 0-%d)',
+    '%s: %d-%d gold',
     routeName,
     fixedReward,
-    fullReward,
-    fixedReward,
-    dynamicMaxReward
+    fullReward
   ), previewReward, fullReward
 end
 
@@ -154,12 +164,9 @@ local function updateDeliveryLabel()
 
   local routeText = getRouteText()
   if routesData and #routesData > 0 then
-    local model = resolveRiskModel(riskModelData)
     label:setText(string.format(
-      'Deliverable at: %s\nPayout model: %.0f%% fixed + up to %.0f%% risk bonus (based on online players). Final payout is set at delivery.',
-      routeText,
-      model.fixedFactor * 100,
-      model.dynamicFactor * 100
+      'Turn in at: %s\nBusy roads bring better offers. Final pay is decided on delivery.',
+      routeText
     ))
   else
     label:setText('Deliverable at any tradepack dropoff point')
@@ -231,11 +238,9 @@ local function updateDetails()
       end
 
       local model = resolveRiskModel(riskModelData)
-      local players = tonumber(onlinePlayersNow) or model.minPlayers
-      local factorPct = math.floor(getCurrentRiskFactor() * 100 + 0.5)
       rewardLines[#rewardLines + 1] = ''
-      rewardLines[#rewardLines + 1] = string.format('Preview now: %d players online -> %d%% payout', players, factorPct)
-      rewardLines[#rewardLines + 1] = 'Final value is locked when you deliver.'
+      rewardLines[#rewardLines + 1] = getRiskFlavor(getCurrentRiskFactor())
+      rewardLines[#rewardLines + 1] = 'The final offer is made when you arrive.'
 
       rw:setColor('#d6f5d6')
       rw:setText('Reward on delivery:\n' .. table.concat(rewardLines, '\n'))
@@ -249,15 +254,7 @@ local function updateDetails()
 
   local sp = lbl('detailSpeed')
   if sp then
-    local model = resolveRiskModel(riskModelData)
-    sp:setText(string.format(
-      'Speed penalty: -%s%%\nRisk scale: %d players => %.0f%% payout, %d+ players => %.0f%% payout',
-      tostring(tierEntry.slowdown or 0),
-      model.minPlayers,
-      model.minFactor * 100,
-      model.maxPlayers,
-      model.maxFactor * 100
-    ))
+    sp:setText(string.format('Speed penalty: -%s%%', tostring(tierEntry.slowdown or 0)))
   end
 
   -- enable/disable Next button based on affordability
@@ -273,10 +270,8 @@ local function getRiskSummaryLines(baseReward, routes, model, players, factor)
     lines[#lines + 1] = buildRouteRiskText(baseReward, route)
   end
   lines[#lines + 1] = ''
-  lines[#lines + 1] = string.format('Preview now: %d players online -> %d%% payout', players, math.floor(factor * 100 + 0.5))
-  lines[#lines + 1] = string.format('Model: %d players = %.0f%%, %d+ players = %.0f%% (linear in between)',
-    model.minPlayers, model.minFactor * 100, model.maxPlayers, model.maxFactor * 100)
-  lines[#lines + 1] = 'Final payout is determined when you deliver the tradepack.'
+  lines[#lines + 1] = getRiskFlavor(factor)
+  lines[#lines + 1] = 'The final offer is made on delivery.'
   return lines
 end
 

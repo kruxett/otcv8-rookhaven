@@ -6,6 +6,7 @@ local _sessionXpGained = 0       -- accumulated XP delta from onExperienceChange
 local _sessionLastXp  = nil      -- last known XP value for delta calculation
 local characterLiveRefreshEvent = nil
 local characterLiveSignalsConnected = false
+local _serverCharacterTitle = nil
 
 local function cancelCharacterLiveRefresh()
     if characterLiveRefreshEvent then
@@ -139,11 +140,16 @@ function Cyclopedia.resetSessionXp()
     _profileKills     = nil
     _profileDeaths    = nil
     _cachedVocationName = nil
+    _serverCharacterTitle = nil
 end
 
 local function getPlayerVocationName(player)
     if not player then
         return "Unknown"
+    end
+
+    if _serverCharacterTitle and _serverCharacterTitle ~= "" then
+        return _serverCharacterTitle
     end
 
     -- Return cached vocation if available (from server character data)
@@ -203,6 +209,7 @@ end
 
 local function reset()
     _cachedVocationName = nil  -- Clear vocation cache on reset
+    _serverCharacterTitle = nil
     characterPanel.InfoBase.inventoryPanel:setVisible(true)
     characterPanel.InfoBase.outfitPanel:setVisible(false)
 
@@ -1468,6 +1475,21 @@ function Cyclopedia.updateProfileStats(kills, deaths)
     _profileKills  = kills
     _profileDeaths = deaths
     -- Refresh the description list if it is currently visible
+    if UI and UI.InfoBase and UI.InfoBase:isVisible() then
+        Cyclopedia.createCharacterDescription()
+    end
+end
+
+function Cyclopedia.setServerCharacterTitle(title)
+    title = tostring(title or "")
+    _serverCharacterTitle = title ~= "" and title or nil
+    _cachedVocationName = nil
+
+    local player = g_game.getLocalPlayer()
+    if player and UI and UI.CharacterBase and UI.CharacterBase.InfoLabel then
+        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), getPlayerVocationName(player)))
+    end
+
     if UI and UI.InfoBase and UI.InfoBase:isVisible() then
         Cyclopedia.createCharacterDescription()
     end
