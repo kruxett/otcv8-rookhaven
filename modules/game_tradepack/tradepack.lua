@@ -22,6 +22,9 @@ local tiersData = nil
 local routesData = nil
 local lastSelectData = nil
 local confirmWeightOz = 0
+local riskModelData = nil
+local onlinePlayersNow = nil
+local currentRiskFactor = nil
 
 local function destroyWindow()
   if tradepackWindow then
@@ -32,6 +35,76 @@ local function destroyWindow()
   tiersData = nil
   routesData = nil
   confirmWeightOz = 0
+  riskModelData = nil
+  onlinePlayersNow = nil
+  currentRiskFactor = nil
+end
+
+local function resolveRiskModel(model)
+  local minPlayers = math.max(1, tonumber(model and model.min_players) or 1)
+  local maxPlayers = math.max(minPlayers + 1, tonumber(model and model.max_players) or 40)
+  local minFactor = tonumber(model and model.min_factor) or 0.60
+  local maxFactor = tonumber(model and model.max_factor) or 1.00
+  if maxFactor < minFactor then
+    maxFactor = minFactor
+  end
+
+  local fixedFactor = tonumber(model and model.fixed_factor) or minFactor
+  local dynamicFactor = tonumber(model and model.dynamic_factor)
+  if dynamicFactor == nil then
+    dynamicFactor = math.max(0, maxFactor - minFactor)
+  end
+
+  return {
+    minPlayers = minPlayers,
+    maxPlayers = maxPlayers,
+    minFactor = minFactor,
+    maxFactor = maxFactor,
+    fixedFactor = fixedFactor,
+    dynamicFactor = math.max(0, dynamicFactor),
+  }
+end
+
+local function clamp(value, minValue, maxValue)
+  return math.max(minValue, math.min(maxValue, value))
+end
+
+local function getCurrentRiskFactor()
+  local model = resolveRiskModel(riskModelData)
+  if type(currentRiskFactor) == 'number' then
+    return clamp(currentRiskFactor, model.minFactor, model.maxFactor)
+  end
+
+  local players = tonumber(onlinePlayersNow) or model.minPlayers
+  players = math.max(1, players)
+  if players <= model.minPlayers then
+    return model.minFactor
+  end
+  if players >= model.maxPlayers then
+    return model.maxFactor
+  end
+
+  local ratio = (players - model.minPlayers) / (model.maxPlayers - model.minPlayers)
+  return model.minFactor + (model.maxFactor - model.minFactor) * ratio
+end
+
+local function buildRouteRiskText(baseReward, route)
+  local model = resolveRiskModel(riskModelData)
+  local multiplier = tonumber(route and route.multiplier) or 1.0
+  local fullReward = math.floor((tonumber(baseReward) or 0) * multiplier)
+  local fixedReward = math.floor(fullReward * model.fixedFactor)
+  local dynamicMaxReward = math.max(0, fullReward - fixedReward)
+  local factorNow = getCurrentRiskFactor()
+  local previewReward = math.floor(fullReward * factorNow)
+  local routeName = (route and (route.label or route.id)) or '?'
+  return string.format(
+    '%s: %d-%d gold (fixed %d + dynamic 0-%d)',
+    routeName,
+    fixedReward,
+    fullReward,
+    fixedReward,
+    dynamicMaxReward
+  ), previewReward, fullReward
 end
 
 local function hasEnoughLocalCapacity(requiredOz)
@@ -81,7 +154,13 @@ local function updateDeliveryLabel()
 
   local routeText = getRouteText()
   if routesData and #routesData > 0 then
-    label:setText('Deliverable at: ' .. routeText)
+    local model = resolveRiskModel(riskModelData)
+    label:setText(string.format(
+      'Deliverable at: %s\nPayout model: %.0f%% fixed + up to %.0f%% risk bonus (based on online players). Final payout is set at delivery.',
+      routeText,
+      model.fixedFactor * 100,
+      model.dynamicFactor * 100
+    ))
   else
     label:setText('Deliverable at any tradepack dropoff point')
   end
@@ -147,23 +226,58 @@ local function updateDetails()
     if routesData and #routesData > 0 then
       local rewardLines = {}
       for _, route in ipairs(routesData) do
-        local mult = tonumber(route.multiplier) or 1.0
-        rewardLines[#rewardLines + 1] = string.format('%s: %d gold', route.label or route.id or '?', math.floor(baseReward * mult))
+        local line = buildRouteRiskText(baseReward, route)
+        rewardLines[#rewardLines + 1] = line
       end
+
+      local model = resolveRiskModel(riskModelData)
+      local players = tonumber(onlinePlayersNow) or model.minPlayers
+      local factorPct = math.floor(getCurrentRiskFactor() * 100 + 0.5)
+      rewardLines[#rewardLines + 1] = ''
+      rewardLines[#rewardLines + 1] = string.format('Preview now: %d players online -> %d%% payout', players, factorPct)
+      rewardLines[#rewardLines + 1] = 'Final value is locked when you deliver.'
+
+      rw:setColor('#d6f5d6')
       rw:setText('Reward on delivery:\n' .. table.concat(rewardLines, '\n'))
     else
-      rw:setText('Reward on delivery: ' .. baseReward .. ' gold')
+      local model = resolveRiskModel(riskModelData)
+      local fixedReward = math.floor(baseReward * model.fixedFactor)
+      rw:setColor('#d6f5d6')
+      rw:setText('Reward on delivery: ' .. fixedReward .. '-' .. baseReward .. ' gold')
     end
   end
 
   local sp = lbl('detailSpeed')
-  if sp then sp:setText('Speed penalty: -' .. tostring(tierEntry.slowdown or 0) .. '%') end
+  if sp then
+    local model = resolveRiskModel(riskModelData)
+    sp:setText(string.format(
+      'Speed penalty: -%s%%\nRisk scale: %d players => %.0f%% payout, %d+ players => %.0f%% payout',
+      tostring(tierEntry.slowdown or 0),
+      model.minPlayers,
+      model.minFactor * 100,
+      model.maxPlayers,
+      model.maxFactor * 100
+    ))
+  end
 
   -- enable/disable Next button based on affordability
   local nextBtn = tradepackWindow:recursiveGetChildById('nextButton')
   if nextBtn then
     nextBtn:setEnabled(tierEntry.can_afford ~= false and tierEntry.can_carry ~= false)
   end
+end
+
+local function getRiskSummaryLines(baseReward, routes, model, players, factor)
+  local lines = {}
+  for _, route in ipairs(routes or {}) do
+    lines[#lines + 1] = buildRouteRiskText(baseReward, route)
+  end
+  lines[#lines + 1] = ''
+  lines[#lines + 1] = string.format('Preview now: %d players online -> %d%% payout', players, math.floor(factor * 100 + 0.5))
+  lines[#lines + 1] = string.format('Model: %d players = %.0f%%, %d+ players = %.0f%% (linear in between)',
+    model.minPlayers, model.minFactor * 100, model.maxPlayers, model.maxFactor * 100)
+  lines[#lines + 1] = 'Final payout is determined when you deliver the tradepack.'
+  return lines
 end
 
 -- Returns tier data by id, or nil if not a tier row (e.g. a category header).
@@ -208,6 +322,9 @@ local function displaySelectUI(data)
 
   tiersData = data.tiers or {}
   routesData = data.routes or {}
+  riskModelData = data.risk_model
+  onlinePlayersNow = tonumber(data.online_players) or tonumber(data.risk_model and data.risk_model.current_players)
+  currentRiskFactor = tonumber(data.current_risk_factor) or tonumber(data.risk_model and data.risk_model.current_factor)
 
   local listPanel = tradepackWindow:recursiveGetChildById('listPanel')
 
@@ -366,6 +483,9 @@ local function onTradepackOpcode(protocol, opcode, buffer)
     tradepackWindow = g_ui.displayUI('tradepack_confirm', rootWidget)
     if not tradepackWindow then return end
     confirmWeightOz = tonumber(data.weight_oz) or 0
+    riskModelData = data.risk_model or riskModelData
+    onlinePlayersNow = tonumber(data.online_players) or tonumber(data.risk_model and data.risk_model.current_players) or onlinePlayersNow
+    currentRiskFactor = tonumber(data.current_risk_factor) or tonumber(data.risk_model and data.risk_model.current_factor) or currentRiskFactor
 
     local function setLabel(id, text)
       local w = tradepackWindow:getChildById(id)
@@ -375,10 +495,10 @@ local function onTradepackOpcode(protocol, opcode, buffer)
     local baseReward = getTierReward(data.tier_id) or 0
     local rewardLines = {}
     local confirmRoutes = data.routes or {}
-    for _, route in ipairs(confirmRoutes) do
-      local multiplier = tonumber(route.multiplier) or 1.0
-      rewardLines[#rewardLines + 1] = string.format('%s: %d gold', route.label or route.id or '?', math.floor(baseReward * multiplier))
-    end
+    local model = resolveRiskModel(riskModelData)
+    local players = tonumber(onlinePlayersNow) or model.minPlayers
+    local factor = getCurrentRiskFactor()
+    rewardLines = getRiskSummaryLines(baseReward, confirmRoutes, model, players, factor)
 
     setLabel('sizeLabel',   'Size: '           .. (data.tier_label or ''))
     setLabel('destLabel',   'Delivery points:\n' .. (data.delivery_text or getRouteText()))
