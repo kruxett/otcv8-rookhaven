@@ -151,16 +151,12 @@ local function getPlayerVocationName(player)
         return _cachedVocationName
     end
 
-    if player.getVocationNameByClientId then
-        return player:getVocationNameByClientId()
-    end
-
     local vocationId = player.getVocation and player:getVocation() or 0
     local vocationNames = _G.CyclopediaVocationFallbackNames or {
         [0] = "Unawakened",
         [1] = "Awakened",
-        [2] = "Ascended",
-        [3] = "Paladin",
+        [2] = "Ascendant",
+        [3] = "Ascended",
         [4] = "Knight",
         [5] = "Master Sorcerer",
         [6] = "Elder Druid",
@@ -168,7 +164,23 @@ local function getPlayerVocationName(player)
         [8] = "Elite Knight"
     }
 
-    return vocationNames[vocationId] or tostring(vocationId)
+    -- Some client builds can return an outdated client-id vocation name.
+    -- Prefer server vocation id mapping whenever it is available.
+    if vocationId > 0 then
+        _cachedVocationName = vocationNames[vocationId] or tostring(vocationId)
+        return _cachedVocationName
+    end
+
+    if player.getVocationNameByClientId then
+        local byClientId = player:getVocationNameByClientId()
+        if byClientId and byClientId ~= "" then
+            _cachedVocationName = byClientId
+            return _cachedVocationName
+        end
+    end
+
+    _cachedVocationName = vocationNames[vocationId] or tostring(vocationId)
+    return _cachedVocationName
 end
 
 local function close(parent)
