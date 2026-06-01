@@ -1,11 +1,11 @@
 Module
-	name: game_shop
-	description: Game shop
-	author: otclient.ovh
-	website: http://otclient.ovh
-	autoload: true
-	sandboxed: true
-	scripts: [ shop ]
-	dependencies: [ client_topmenu ]
-	@onLoad: init()
-	@onUnload: terminate()
+  name: game_shop
+  description: Game shop
+  author: otclient.ovh
+  website: http://otclient.ovh
+  autoload: true
+  sandboxed: true
+  scripts: [ shop ]
+  dependencies: [ client_topmenu ]
+  @onLoad: init()
+  @onUnload: terminate()

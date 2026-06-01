@@ -76,7 +76,7 @@ TopMenu < TopMenuPanel
   width: 800
   anchors.horizontalCenter: parent.horizontalCenter
   anchors.top: parent.top
-  &hideIngame: true
+  &hideIngame: false
   &reverseButtons: true
 
   UIWidget
