@@ -102,10 +102,7 @@ function show()
   if not shop or not shopButton then
     return
   end
-  if g_game.getFeature(GameIngameStore) then
-    g_game.openStore(0)
-  end
-  
+
   shop:show()
   shop:raise()
   shop:focus()
@@ -150,7 +147,6 @@ function createShop()
   shop = g_ui.displayUI('shop')
   shop:hide()
   shopButton = modules.client_topmenu.addRightGameToggleButton('shopButton', tr('Shop'), '/images/topbuttons/shop', toggle, false, 8)
-  shopButton:hide() -- Hide shop button
   connect(shop.categories, { onChildFocusChange = changeCategory })
 end
 
@@ -483,9 +479,6 @@ function showHistory(force)
     return
   end
 
-  if g_game.getFeature(GameIngameStore) and not otcv8shop then
-    g_game.openTransactionHistory(100)
-  end
   sendAction("history")
 
   browsingHistory = true
@@ -541,15 +534,7 @@ function changeCategory(widget, newCategory)
   if not newCategory then
     return
   end
-  
-  if g_game.getFeature(GameIngameStore) and widget ~= newCategory and not otcv8shop then
-    local serviceType = 0
-    if g_game.getFeature(GameTibia12Protocol) then
-      serviceType = 2
-    end
-    g_game.requestStoreOffers(newCategory.name:getText(), serviceType)
-  end
-  
+
   browsingHistory = false
   local id = tonumber(newCategory:getId():split("_")[2])
   clearOffers()
@@ -597,19 +582,6 @@ function buyConfirmed()
   msgWindow:destroy()
   msgWindow = nil
   sendAction("buy", selectedOffer)
-  if g_game.getFeature(GameIngameStore) and selectedOffer.id and not otcv8shop then
-    local offerName = selectedOffer.title:lower()
-    if string.find(offerName, "name") and string.find(offerName, "change") and modules.client_textedit then
-      modules.client_textedit.singlelineEditor("", function(newName)
-        if newName:len() == 0 then
-          return
-        end
-        g_game.buyStoreOffer(selectedOffer.id, 1, newName)        
-      end)
-    else
-      g_game.buyStoreOffer(selectedOffer.id, 0, "")
-    end
-  end
 end
 
 function buyCanceled()
