@@ -62,8 +62,28 @@ InventorySlotBlessedImages = {
   [InventorySlotAmmo] = "/images/game/slots/ammo-blessed"
 }
 
+local InventorySlotClassicIcons = {
+  [InventorySlotHead] = '/images/game/slots/inventory-head',
+  [InventorySlotNeck] = '/images/game/slots/inventory-neck',
+  [InventorySlotBack] = '/images/game/slots/inventory-back',
+  [InventorySlotBody] = '/images/game/slots/inventory-torso',
+  [InventorySlotRight] = '/images/game/slots/inventory-right-hand',
+  [InventorySlotLeft] = '/images/game/slots/inventory-left-hand',
+  [InventorySlotLeg] = '/images/game/slots/inventory-legs',
+  [InventorySlotFeet] = '/images/game/slots/inventory-feet',
+  [InventorySlotFinger] = '/images/game/slots/inventory-finger',
+  [InventorySlotAmmo] = '/images/game/slots/inventory-hip'
+}
+
 local function applyInventorySlotBackground(itemWidget, slot, hasAdventurerBlessing)
   if not itemWidget then
+    return
+  end
+
+  if g_resources.getLayout() == 'retro' then
+    -- Keep the classic texture separate from the transparent empty-slot icon.
+    itemWidget:setImageSource('/images/ui/item')
+    itemWidget:setIcon(InventorySlotClassicIcons[slot] or '')
     return
   end
 
@@ -82,13 +102,16 @@ local function applyInventoryOccupiedBackground(itemWidget, hasAdventurerBlessin
     return
   end
 
-  itemWidget:setImageSource(hasAdventurerBlessing and '/images/ui/item-blessed' or '/images/ui/item')
+  itemWidget:setImageSource(g_resources.getLayout() ~= 'retro' and hasAdventurerBlessing
+    and '/images/ui/item-blessed' or '/images/ui/item')
 end
 
 local function applyInventoryOccupiedAppearance(itemWidget, item, hasAdventurerBlessing)
   if not itemWidget then
     return
   end
+
+  itemWidget:setIcon('')
 
   local affixSystem = _G.affixSystem
   if affixSystem and item then

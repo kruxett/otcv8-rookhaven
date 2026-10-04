@@ -1,16 +1,9 @@
-unset(OPENSSL_ROOT_DIR CACHE)
-set(CMAKE_C_COMPILER   "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
-set(CMAKE_CXX_COMPILER "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe" CACHE STRING "" FORCE)
-set(CMAKE_RC_COMPILER  "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/rc.exe" CACHE FILEPATH "" FORCE)
-set(CMAKE_MT           "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/mt.exe" CACHE FILEPATH "" FORCE)
+cmake_minimum_required(VERSION 3.25)
 
-# Force linker to use x64 libraries
-set(_MSVC_LIB_X64 "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/lib/x64")
-set(_WINSDK_UCRT_X64 "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/ucrt/x64")
-set(_WINSDK_UM_X64   "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64")
-set(CMAKE_EXE_LINKER_FLAGS        "/machine:x64 /LIBPATH:\"${_MSVC_LIB_X64}\" /LIBPATH:\"${_WINSDK_UCRT_X64}\" /LIBPATH:\"${_WINSDK_UM_X64}\"" CACHE STRING "" FORCE)
-set(CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "" FORCE)
-set(CMAKE_MODULE_LINKER_FLAGS     "${CMAKE_EXE_LINKER_FLAGS}" CACHE STRING "" FORCE)
+# Use the compiler and Windows SDK selected by the generator or developer shell.
+# This also supplies the matching x64 linker paths without tying the project to
+# a particular Visual Studio edition or MSVC patch version.
+unset(OPENSSL_ROOT_DIR CACHE)
 
 # IMPORTANT: Set vcpkg paths BEFORE project() so toolchain file can use them
 # These are now handled by CMakePresets.json - don't override them here
@@ -31,7 +24,6 @@ list(APPEND CMAKE_IGNORE_PATH
     "C:/vcpkg/installed/x64-windows-static"
 )
 
-cmake_minimum_required(VERSION 3.25)
 project(otclient)
 
 # Prefer NEW behavior for _ROOT variables
@@ -186,15 +178,15 @@ option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_LUAC_RELEASE "Compile Lua scripts to bytecode in Release builds" ON)
 
-set(LUAC_EXECUTABLE "" CACHE FILEPATH "Path to the luac or luajit executable" FORCE)
+set(LUAC_EXECUTABLE "" CACHE FILEPATH "Path to the luac or luajit executable")
 
-# Clear cached value to force fresh search
+# Preserve an explicitly selected compiler; otherwise use the client vcpkg tool.
+if(NOT LUAC_EXECUTABLE)
 unset(LUAC_EXECUTABLE CACHE)
-
-# Search for LuaJIT first in common installation directories
 find_program(LUAC_EXECUTABLE 
     NAMES luajit.exe luajit luac51.exe luac.exe luac 
     PATHS 
+        "${_VCPKG_TRIPLET_DIR}/tools/luajit"
         "C:/Luac51/bin"
         "C:/Luac51"
         "C:/LuaJIT/bin"
@@ -204,6 +196,7 @@ find_program(LUAC_EXECUTABLE
 # If not found in explicit paths, search system PATH
 if(NOT LUAC_EXECUTABLE)
     find_program(LUAC_EXECUTABLE NAMES luajit.exe luajit luac51.exe luac.exe luac)
+endif()
 endif()
 
 # Report what was found
@@ -238,6 +231,22 @@ endif()
 # add client executable
 add_executable(${CLIENT_TARGET} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
 target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
+
+# Resource changes must also rerun the post-build copy and bytecode packaging.
+file(GLOB_RECURSE _client_resource_inputs CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/data/*"
+    "${CMAKE_SOURCE_DIR}/modules/*"
+    "${CMAKE_SOURCE_DIR}/layouts/*")
+set_property(TARGET ${CLIENT_TARGET} APPEND PROPERTY LINK_DEPENDS
+    "${CMAKE_SOURCE_DIR}/init.lua" ${_client_resource_inputs})
+
+if(MSVC AND UPDATER_CHANNEL STREQUAL "dev")
+    target_compile_options(${CLIENT_TARGET} PRIVATE $<$<CONFIG:Release>:/Zi>)
+    target_link_options(${CLIENT_TARGET} PRIVATE
+        $<$<CONFIG:Release>:/DEBUG>
+        $<$<CONFIG:Release>:/OPT:REF>
+        $<$<CONFIG:Release>:/OPT:ICF>)
+endif()
 
 # Bake the default server endpoint into the executable so it isn't present in Lua sources
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
@@ -569,21 +578,20 @@ endif()
     add_custom_command(TARGET ${TARGET} POST_BUILD
         COMMAND ${CMAKE_COMMAND}
             -DCRD_TARGET_FILE=$<TARGET_FILE:${TARGET}>
-            -DCRD_RUNTIME_DLLS=$<TARGET_RUNTIME_DLLS:${TARGET}>
+            "-DCRD_RUNTIME_DLLS=$<TARGET_RUNTIME_DLLS:${TARGET}>"
             "-DCRD_OUT_DIR=${OUT_DIR}"
             -DCRD_KEEP_DATA_DIR=$<IF:$<CONFIG:Debug>,1,0>
-            -DCRD_SYSTEM_DLLS=${_system_dlls}
-            -DCRD_ALLOWED_PREFIXES=${_allowed_prefixes}
-            -DCRD_RESOURCE_DIRS=${_resource_dirs}
-            -DCRD_EXTRA_FILES=${_extra_files}
-            -DCRD_DEBUG_COPY_DLLS=${_debug_copy_dlls}
-            -DCRD_HINT_DIRS=${_hint_dirs}
+            "-DCRD_SYSTEM_DLLS=${_system_dlls}"
+            "-DCRD_ALLOWED_PREFIXES=${_allowed_prefixes}"
+            "-DCRD_RESOURCE_DIRS=${_resource_dirs}"
+            "-DCRD_EXTRA_FILES=${_extra_files}"
+            "-DCRD_DEBUG_COPY_DLLS=${_debug_copy_dlls}"
+            "-DCRD_HINT_DIRS=${_hint_dirs}"
             -DCRD_DATA_DIR=${_data_dir}
             -DCRD_LAYOUTS_DIR=${CMAKE_SOURCE_DIR}/layouts
             -DCRD_VCPKG_BIN_DIR=${VCPKG_INSTALLED_DIR}/x64-windows/bin
             -DCRD_ZIP_PASSWORD=${CRD_ZIP_PASSWORD}
             -P "${_collect_script}"
-        COMMAND_EXPAND_LISTS
         COMMENT "Collecting runtime dependencies for ${TARGET}"
         VERBATIM)
 

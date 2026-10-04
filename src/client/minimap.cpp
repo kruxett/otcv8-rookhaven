@@ -444,9 +444,9 @@ void Minimap::saveOtmm(const std::string& fileName)
         std::filesystem::path filePath(g_resources.getWriteDir()), tmpFilePath(g_resources.getWriteDir());
         filePath += fileName;
         tmpFilePath += tmpFileName;
-        if(std::filesystem::file_size(tmpFilePath) > 1024) {
-            std::filesystem::rename(tmpFilePath, filePath);
-        }
+        // A newly explored map can compress to less than 1 KiB. It still has
+        // a complete header and terminator and must be published for relog.
+        std::filesystem::rename(tmpFilePath, filePath);
 #endif
     } catch (stdext::exception& e) {
         g_logger.error(stdext::format("failed to save OTMM minimap: %s", e.what()));

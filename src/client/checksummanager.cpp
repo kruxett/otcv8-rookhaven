@@ -96,7 +96,6 @@ std::string ChecksumManager::generateChecksumResponse(const std::string& challen
 
 bool ChecksumManager::verifyDataZipExists()
 {
-    // Check if data.zip exists in current directory
-    // This prevents cache bypass - must have actual file on disk
-    return std::filesystem::exists("data.zip");
+    // Validate the installed archive beside the executable, independent of cwd.
+    return g_resources.dataArchiveExists();
 }

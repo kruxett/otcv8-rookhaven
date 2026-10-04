@@ -64,17 +64,24 @@ Get-ChildItem -Path "./data/styles", "./data/locales" -Recurse -Filter "*.lua" |
 2. Try to login
 3. **Check server logs for checksum:**
    - If hash provided: `[Checksum] Hash mismatch. Client=XXXXX Server=YYYYY`
-   - Copy the `Client=` value
+   - A mismatch means the expected per-file CRC32 values must be regenerated
+     from the final client package. The combined `Client=` hash is diagnostic.
 
 ### Step 7: Create checksum_expected.txt
 Create file: `Rookhaven/data/checksum_expected.txt`
 
 Content:
 ```
-expectedHash=XXXXX
+/modules/corelib/corelib.otmod=<crc32>
+/modules/corelib/util.lua=<crc32>
+...
 ```
 
-Replace `XXXXX` with the hash from Step 6.
+Use one `path=crc32` entry for each critical client file. `.lua` keys may refer
+to the corresponding packaged `.luac` bytes. Generate values after compilation
+and encryption; an `expectedHash=...` entry is not supported by the server's
+current validator. See `UPDATER_IMPLEMENTATION_GUIDE.md`, Step 6, for the
+verified DEV 10083 checksum file and deployment location.
 
 ### Step 8: Test Tampering Detection
 1. Modify a `.luac` file (break it intentionally)
@@ -86,7 +93,7 @@ Replace `XXXXX` with the hash from Step 6.
 ### Step 9: Deploy to Production
 1. Upload new client to players
 2. Update `checksum_expected.txt` on server
-3. Restart server with `enforceClientChecksums = true`
+3. Keep `enforceClientChecksums = true`; the checksum file is read at each login
 4. Test with players
 
 ## Troubleshooting

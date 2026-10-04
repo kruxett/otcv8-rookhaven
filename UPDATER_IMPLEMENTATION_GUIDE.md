@@ -479,13 +479,24 @@ If manifest.json is part of the API repo, `git push` → `git pull` on VPS. pm2 
 
 ### Step 6 — Update server checksum_expected.txt
 
-The OTC post-build already runs `update_server_checksums.lua` which regenerates `checksum_expected.txt`. Copy the updated file to the server:
+Generate the expected CRC32 values from the final packaged client resources,
+after bytecode compilation and resource encryption. The post-build
+`update_server_checksums.lua` runs before install-time encryption; its output
+must not be assumed to match the final encrypted `data.zip`.
+
+For the locally verified DEV 10083 package, copy
+`out/RookhavenClient-DEV-checksum_expected.txt` to the game server as:
 
 ```
 Rookhaven/data/checksum_expected.txt
 ```
 
-Rebuild and redeploy the game server (or copy the file without rebuild — checksum_expected.txt is read at runtime from disk).
+The file is read from the game server's working directory at each login.
+Updating this file alone requires neither a server rebuild nor a restart.
+Keep the file paired with the exact client package. The client computes its
+checksums itself; do not distribute this expected-values file to players.
+Updater `manifest.json` SHA256 values for the executable and full `data.zip`
+are a separate check, as described in Step 5.
 
 ---
 

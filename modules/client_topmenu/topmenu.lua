@@ -253,15 +253,16 @@ end
 
 function hide()
   topMenu:hide()
-  if not topMenu.hideIngame then
-    modules.game_interface.getRootPanel():addAnchor(AnchorTop, 'parent', AnchorTop)
-  end
+  modules.game_interface.getRootPanel():addAnchor(AnchorTop, 'parent', AnchorTop)
   if modules.game_stats then
     modules.game_stats.show()
   end
 end
 
 function show()
+  if topMenu.hideIngame and g_game.isOnline() then
+    return hide()
+  end
   topMenu:show()
   if not topMenu.hideIngame then
     modules.game_interface.getRootPanel():addAnchor(AnchorTop, 'topMenu', AnchorBottom)

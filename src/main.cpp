@@ -96,9 +96,9 @@ int main(int argc, const char* argv[]) {
 
     // initialize resources
     g_resources.init(argv[0]);
-    // Keep compact name stable across all build modes so user data (minimap,
-    // settings, cache) always lands in the same AppData profile.
-    std::string compactName = "Rookhaven";
+    // Native integration tests need real file IO in a disposable profile.
+    bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
+    std::string compactName = testMode ? "Rookhaven-LocalItemTest" : "Rookhaven";
     g_logger.setLogFile(compactName + ".log");
 
     // setup application name and version
@@ -140,7 +140,6 @@ int main(int argc, const char* argv[]) {
 
     g_http.init();
 
-    bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
     if (testMode) {
         g_logger.setTestingMode();    
     }

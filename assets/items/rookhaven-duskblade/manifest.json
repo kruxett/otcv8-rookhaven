@@ -1,0 +1,32 @@
+{
+  "name": "rookhaven duskblade",
+  "server_id": 12829,
+  "client_id": 11866,
+  "sprite_id": 36659,
+  "prototype_server_id": 2400,
+  "prototype_dat_server_id": 2376,
+  "validated_existing_sprites": 36658,
+  "validated_existing_dat_records": 12251,
+  "validated_existing_otb_records": 12729,
+  "files": {
+    "client/data/things/860/Tibia.dat": "2acc4d066839fa385aef9387fbea5cfd8438ee47468e9a0921433e32409ac54f",
+    "client/data/things/860/Tibia.spr": "8d9c0364f85f54f3810c3ce1bad31432118a31bf768c5ae2e49f46e3f246c113",
+    "server/data/items/items.otb": "e69c0a6209697bacee9af30763024e8e959efd064e5f3abf3e6967c403d141a9",
+    "server/data/items/items.xml": "890b19008edb53b92774611d151c88b45abd5d8d94ff8758328a6735b48d1dee",
+    "server/data/checksum_expected.txt": "64574856b42ef84426717e74b347ca57334a3c872449eb36596b2509672f59fe"
+  },
+  "client_version": 10083,
+  "native_tests": [
+    "server ItemType SID/CID/name/stats/type and Game.createItem",
+    "real login protocol on 127.0.0.1:7174",
+    "game protocol on 7175 with enforceClientChecksums=true",
+    "native OpenGL sprite rendering",
+    "look",
+    "inventory to ground and back to hand",
+    "logout/relogin persistence",
+    "database player_items itemtype=12829",
+    "Lua/C++ error recovery",
+    "297-byte minimap save and reload",
+    "classic inventory empty/occupied/blessing and relogin"
+  ]
+}

@@ -682,20 +682,25 @@ int LuaInterface::luaErrorHandler(lua_State* L)
 
 int LuaInterface::luaCppFunctionCallback(lua_State* L)
 {
+    // LuaJIT can run finalizers on its internal VM thread. Bindings must use
+    // the callback's stack rather than the main state while they execute.
+    lua_State* previousState = g_lua.L;
+    g_lua.L = L;
+
     // retrieves function pointer from userdata
     auto funcPtr = static_cast<LuaCppFunctionPtr*>(g_lua.popUpvalueUserdata());
     VALIDATE(funcPtr);
 
     int numRets = 0;
+    bool failed = false;
 
     // enable only for tests, it has high cpu usage
     // AutoStat s(STATS_LUACALLBACK, g_lua.getSource(1));
 
     // do the call
+    g_lua.m_cppCallbackDepth++;
     try {
-        g_lua.m_cppCallbackDepth++;
         numRets = (*(funcPtr->get()))(&g_lua);
-        g_lua.m_cppCallbackDepth--;
 #ifndef NDEBUG
         if (numRets != g_lua.stackSize()) {
             throw stdext::exception(stdext::format("LuaInterface::luaCppFunctionCallback, numRets != g_lua.stackSize() (%i != %i)", numRets, g_lua.stackSize()));
@@ -707,18 +712,26 @@ int LuaInterface::luaCppFunctionCallback(lua_State* L)
             g_lua.pop();
         numRets = 0;
         g_lua.pushString(stdext::format("C++ call failed: %s", g_lua.traceback(e.what())));
-        g_lua.error();
+        failed = true;
     }
     catch (...) {
-        g_logger.fatal(stdext::format("Critical lua error!\nC++ call failed:\n%s|%s", g_lua.getCurrentFunction(), g_lua.traceback("fatal error")));
+        const auto message = stdext::format("Critical lua error!\nC++ call failed:\n%s|%s", g_lua.getCurrentFunction(), g_lua.traceback("fatal error"));
+        g_lua.L = previousState;
+        g_logger.fatal(message);
     } 
 
+    g_lua.m_cppCallbackDepth--;
+    g_lua.L = previousState;
+    // LuaJIT unwinds Windows SEH frames. Raising its error while a C++ catch
+    // is active can run the catch frame's string destructors twice.
+    if (failed)
+        return lua_error(L);
     return numRets;
 }
 
 int LuaInterface::luaCollectCppFunction(lua_State* L)
 {
-    auto funcPtr = static_cast<LuaCppFunctionPtr*>(g_lua.popUserdata());
+    auto funcPtr = static_cast<LuaCppFunctionPtr*>(lua_touserdata(L, 1));
     VALIDATE(funcPtr);
     funcPtr->reset();
     g_lua.m_totalFuncRefs--;

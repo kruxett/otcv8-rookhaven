@@ -412,7 +412,26 @@ bool ResourceManager::setup(bool ignoreWriteDir)
 
     bool mounted = false;
 
+    // An installed client must use its own archive even when launched from
+    // the source tree. Loose scripts beside the executable still support
+    // development builds and the build-time checksum generator.
+    const auto executableDir = m_binaryPath.parent_path();
+    if (!std::filesystem::exists(executableDir / INIT_FILENAME) &&
+        !std::filesystem::exists(executableDir / INIT_FILENAME_COMPILED)) {
+        std::ifstream archive(executableDir / "data.zip", std::ios::binary);
+        if (archive.is_open()) {
+            auto archiveData = std::make_shared<std::vector<uint8_t>>(
+                std::istreambuf_iterator<char>(archive), std::istreambuf_iterator<char>());
+            if (mountMemoryData(archiveData)) {
+                g_logger.info(stdext::format("Found work dir in archive beside '%s'", m_binaryPath.string()));
+                mounted = true;
+            }
+        }
+    }
+
     for (const std::string& dir : possiblePaths) {
+        if (mounted)
+            break;
         if (dir == localDir || !PHYSFS_mount(dir.c_str(), NULL, 0))
             continue;
 
@@ -881,7 +900,7 @@ std::string ResourceManager::fileChecksumSha256(const std::string& path) {
 #ifndef ANDROID
     // For updater full-archive checks, prefer the physical data.zip beside the running client.
     if (path == "data.zip" || path == "/data.zip") {
-        auto currentDataPath = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir())) / "data.zip";
+        auto currentDataPath = m_binaryPath.parent_path() / "data.zip";
         std::ifstream file(currentDataPath.string(), std::ios::binary);
         if (file.is_open()) {
             std::string buffer(std::istreambuf_iterator<char>(file), {});
@@ -913,7 +932,12 @@ std::string ResourceManager::fileChecksumSha256(const std::string& path) {
 
 std::string ResourceManager::fileChecksumUncached(const std::string& path) {
     // Same as fileChecksum but bypasses cache - for security validation
-    PHYSFS_File* file = PHYSFS_openRead(path.c_str());
+    std::string resolvedPath = path;
+    if (!PHYSFS_exists(resolvedPath.c_str()) && resolvedPath.size() > 4 &&
+        resolvedPath.compare(resolvedPath.size() - 4, 4, ".lua") == 0) {
+        resolvedPath += "c";
+    }
+    PHYSFS_File* file = PHYSFS_openRead(resolvedPath.c_str());
     if(!file)
         return "";
 
@@ -1058,7 +1082,7 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
 
             bool written = false;
 #ifndef ANDROID
-            auto targetPath = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir())) / "data.zip";
+            auto targetPath = m_binaryPath.parent_path() / "data.zip";
             std::ofstream outFile(targetPath, std::ios::binary | std::ios::trunc);
             if (outFile.is_open()) {
                 outFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
@@ -1067,16 +1091,6 @@ void ResourceManager::updateData(const std::set<std::string>& files, bool reMoun
                 outFile.close();
             }
 
-            if (!written) {
-                targetPath = m_binaryPath.parent_path() / "data.zip";
-                std::ofstream fallbackFile(targetPath, std::ios::binary | std::ios::trunc);
-                if (fallbackFile.is_open()) {
-                    fallbackFile.write(reinterpret_cast<const char*>(dFile->response.data()), static_cast<std::streamsize>(dFile->response.size()));
-                    fallbackFile.flush();
-                    written = fallbackFile.good();
-                    fallbackFile.close();
-                }
-            }
 #endif
 
             if (!written) {
@@ -1191,8 +1205,7 @@ void ResourceManager::updateExecutable(std::string fileName)
     std::filesystem::path path(m_binaryPath);
     auto newBinary = path.stem().string() + "-" + std::to_string(time(nullptr)) + path.extension().string();
     g_logger.info(stdext::format("Updating binary file: %s", newBinary));
-    std::filesystem::path currentDir = std::filesystem::path(std::filesystem::u8path(g_platform.getCurrentDir()));
-    std::filesystem::path newBinaryPath = currentDir / newBinary;
+    std::filesystem::path newBinaryPath = m_binaryPath.parent_path() / newBinary;
 
     bool written = false;
     std::ofstream outFile(newBinaryPath, std::ios::binary | std::ios::trunc);

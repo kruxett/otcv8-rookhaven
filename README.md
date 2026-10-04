@@ -1,5 +1,87 @@
 # OTCv8 Developer Editon (sources)
 
+## Local item proof (2026-10-04)
+
+An original 32x32 sword sprite is installed as **rookhaven duskblade**:
+server ID `12829`, client ID `11866`, sprite ID `36659`.
+The source artwork and validation manifest are in `assets/items/rookhaven-duskblade`.
+`tools/item_assets.py` reads/writes this project's legacy 8.60 DAT, SPR and OTB
+formats without an external item editor. It rejects ID collisions and verifies
+that existing DAT/OTB records and compressed SPR payloads are unchanged.
+This proof has attack 52, defense 32+3 and weight 42 oz; no loot table was changed.
+Chase-item balance, rarity and acquisition still need a separate design decision.
+
+The sibling server checkout is `C:\GitRepos\kruxett\Rookhaven`.
+Client dependencies use `C:\vcpkg-client` (`x64-windows-static`); server dependencies
+use `C:\vcpkg-server` (`x64-windows`, Release). Both are pinned to vcpkg
+`62159a45e18f3a9ac0548628dcaf74fcb60c6ff9`. The server needs Boost Asio,
+date-time, filesystem, iostreams, system, variant, lockfree and range; Crypto++,
+fmt, MariaDB Connector/C, PugiXML and LuaJIT. The Crypto++ overlay in
+`tools/server-vcpkg-overlay` replaces two stdext iterator helpers removed by
+MSVC 14.51. The server source also now has its missing PCH include guard,
+MariaDB header fallbacks and the imported Crypto++ CMake target.
+
+A portable MariaDB 11.4.9 installation and dedicated database are under
+`out/local-server`; no Windows service or firewall rule was installed.
+The server's ignored local `config.lua` binds to `127.0.0.1`: login `7174`,
+game `7175`, database `33307`. Database `rookhaven_item_test` is independent
+of live data. Account `itemtest` / password `itemtest` has character `Item Tester`.
+Three tables absent from `schema.sql` are provided for this local fixture in
+`tools/item-proof/local-custom-tables.sql`; review the complete live schema
+before provisioning a new production database.
+
+```powershell
+.\tools\build-dev.ps1
+.\tools\build-server-local.ps1
+.\tools\start-local-item-test.ps1
+.\tools\test-item-local.ps1              # automatic native integration test
+.\tools\test-item-local.ps1 -Interactive # opens the local client with the test character
+.\tools\start-local-item-test.ps1 -Stop
+```
+
+`--test` uses a separate `Rookhaven-LocalItemTest` AppData profile with real file IO.
+The automatic test verifies actual login and game protocols, a native OpenGL
+render of the new sprite, server look text/stats, movement to the ground and
+back to equipment, and persistence after logout and relog. It passed with
+`enforceClientChecksums = true`. Logs and screenshot are under `out/item-proof`.
+It also covers C++ exception recovery through LuaJIT and saving a 297-byte
+minimap. The test uncovered and fixed a double unwind inside the Lua C++ catch
+handler, a 1 KiB minimap save threshold, the data.zip cwd assumption, and missing
+`.lua` to `.luac` fallback in uncached checksums. No combat or loot/drop-rate
+test is claimed for this proof.
+
+### Installing on the DEV server
+
+Use `out/RookhavenClient-DEV-x64.zip` (DEV version `10083`) together with
+`out/Rookhaven-Duskblade-server-files.zip`. The server archive contains
+`data/items/items.otb`, `data/items/items.xml`, `data/checksum_expected.txt`
+and a validation manifest. Back up the corresponding live files and compare
+the live items.xml/OTB with this checkout before replacing the complete files.
+They must be installed as a matched set with the new client resources.
+Restart the DEV server and publish the matching client/data.zip on its updater;
+these files have only been tested locally and have not been deployed remotely.
+The updater reported DEV `10080` during the local test; the prepared build is `10083`.
+The upload must include the new version and existing updater manifest fields
+(URLs, hashes, sizes) for that package. No new server executable is needed just
+to load the new item. Use `/i 12829` or `/i rookhaven duskblade` as an access
+character to create it. Adding a production loot entry is intentionally pending.
+
+### Classic inventory (DEV 10083)
+
+Retro inventory slots use the existing classic stone texture with transparent
+slot icons, including the adventurer blessing state. Occupied slots clear the
+empty-slot icon and retain the existing rarity frames. This was verified in the
+native client against the local server through item movement and relogin.
+The screenshot is `out/classic-inventory.png`; the test log is
+`out/classic-inventory-test.log`.
+
+LuaJIT compilation now uses deterministic bytecode (`-b -d`) so unchanged Lua
+files retain their checksums between builds. When installing this DEV package,
+also install `out/RookhavenClient-DEV-checksum_expected.txt` as
+`data/checksum_expected.txt` on the DEV server. No server code change is required
+for the inventory appearance. The item proof still requires its matched OTB/XML
+files as described above.
+
 Ready to use binaries are available in [OTCv8/otclientv8](https://github.com/OTCv8/otclientv8) repository.
 
 OTCv8 sources. You can add whatever you want and create pull request with your changes.

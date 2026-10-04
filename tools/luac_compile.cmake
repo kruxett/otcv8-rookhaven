@@ -22,7 +22,7 @@ if(_luac_name_lower MATCHES "luajit")
   # Set up LUA_PATH for LuaJIT to find jit.* modules
   get_filename_component(_luajit_dir "${LUAC_EXECUTABLE}" DIRECTORY)
   get_filename_component(_luajit_root "${_luajit_dir}" DIRECTORY)
-  set(_luajit_lua_path "${_luajit_root}/lua/?.lua;${_luajit_root}/lua/?/init.lua;;")
+  set(_luajit_lua_path "${_luajit_dir}/lua/?.lua;${_luajit_dir}/lua/?/init.lua;${_luajit_root}/lua/?.lua;${_luajit_root}/lua/?/init.lua;;")
 else()
   message(STATUS "Using standard Lua bytecode compiler")
 endif()
@@ -51,7 +51,8 @@ foreach(_lua_file IN LISTS _lua_files)
     # Set LUA_PATH environment variable for LuaJIT
     set(ENV{LUA_PATH} "${_luajit_lua_path}")
     execute_process(
-      COMMAND "${LUAC_EXECUTABLE}" -b "${_lua_file}" "${_luac_file}"
+      # Stable table constants keep server checksums unchanged across identical builds.
+      COMMAND "${LUAC_EXECUTABLE}" -b -d "${_lua_file}" "${_luac_file}"
       RESULT_VARIABLE _luac_result
       OUTPUT_VARIABLE _luac_out
       ERROR_VARIABLE _luac_err)

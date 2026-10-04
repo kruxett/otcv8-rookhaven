@@ -142,3 +142,6 @@ _ReSharper*/
 
 # Local workspace docs
 UPDATER_VPS_IMPLEMENTATION.md
+
+# Python asset compiler caches
+__pycache__/

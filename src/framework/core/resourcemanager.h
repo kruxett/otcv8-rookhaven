@@ -81,6 +81,7 @@ public:
     bool isFileType(const std::string& filename, const std::string& type);
 
     bool isLoadedFromArchive() { return m_loadedFromArchive; }
+    bool dataArchiveExists() const { return std::filesystem::exists(m_binaryPath.parent_path() / "data.zip"); }
     bool isLoadedFromMemory() { return m_loadedFromMemory; }
 
     std::string fileChecksum(const std::string& path);

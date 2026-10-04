@@ -1,0 +1,16 @@
+diff --git a/integer.cpp b/integer.cpp
+--- a/integer.cpp
++++ b/integer.cpp
+@@ -3059,3 +3059,3 @@
+ 		std::reverse_copy(encodedInteger, encodedInteger+byteCount,
+-			stdext::make_checked_array_iterator(block.begin(), block.size()));
++			block.begin());
+ #else
+diff --git a/zdeflate.cpp b/zdeflate.cpp
+--- a/zdeflate.cpp
++++ b/zdeflate.cpp
+@@ -421,3 +421,3 @@
+ #if CRYPTOPP_MSC_VERSION >= 1600
+-				(stdext::make_unchecked_array_iterator(scan)+3, stdext::make_unchecked_array_iterator(scanEnd), stdext::make_unchecked_array_iterator(match)+3).first - stdext::make_unchecked_array_iterator(scan));
++				(scan+3, scanEnd, match+3).first - scan);
+ #else

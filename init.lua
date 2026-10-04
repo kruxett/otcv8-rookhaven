@@ -3,12 +3,14 @@
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
 APP_VERSION = 1008      -- client version for updater and login to identify outdated client
+local DEV_APP_VERSION = 10083 -- increment when packaging a new DEV client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
 local updaterDomain = "updater.rookhaven-ot.com"
 if type(DEFAULT_UPDATER_CHANNEL) == "string" and DEFAULT_UPDATER_CHANNEL:lower() == "dev" then
   updaterDomain = "updater2.rookhaven-ot.com"
+  APP_VERSION = DEV_APP_VERSION
 end
 _G.UPDATER_CHANNEL = (updaterDomain == "updater2.rookhaven-ot.com") and "dev" or "prod"
 

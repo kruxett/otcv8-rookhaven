@@ -1,0 +1,21 @@
+{
+  "name": "rookhaven duskblade",
+  "server_id": 12829,
+  "client_id": 11866,
+  "sprite_id": 36659,
+  "native_size": [
+    32,
+    32
+  ],
+  "generated_with": "image_gen.imagegen",
+  "transparent_background": true,
+  "style_references": "Six actual swords extracted from this client: SID 2376, 2392, 2400, 2407, 2412, 2393.",
+  "compilation": "Nearest-neighbour resize to 32x32; binary alpha threshold 128; clear RGB of fully transparent pixels; RGB SPR RLE. No hand-painted replacement artwork.",
+  "role": "Proof item only. No production loot entry. Attack 52, defense 32+3, weight 42 oz. Balance and rarity are provisional.",
+  "sources": [
+    "generated-master.png",
+    "sprite.png",
+    "preview.png"
+  ],
+  "generator_prompt": "Create ONE original fantasy RPG inventory sword sprite named Rookhaven Duskblade. Use the attached actual game sword sprites as the strict visual reference. Match classic Tibia 8.60 low resolution pixel art: a 32 by 32 logical pixel grid, hard pixel edges, dark one-pixel outline, restrained 12-18 color palette, simple upper-left lighting. This is a tiny gameplay sprite, not concept art or an illustration. Sword diagonally from lower left pommel to upper right blade tip, occupies almost full tile leaving 2 logical pixels margin. Silver and muted violet twilight steel blade with a single pale lavender highlight edge, small golden crossguard, dark plum leather grip, tiny amethyst pommel. Same apparent sword proportions, thickness and amount of detail as the attached swords. Recognizable and readable at native 32px. No aura, glow cloud, sparkles, background, floor, shadow outside the sword, lettering, border, UI, or multiple weapons. Transparent background. Render as pixel-perfect enlarged nearest-neighbor 32x32 artwork so it can be compiled to a 32x32 transparent sprite without losing its silhouette."
+}
