@@ -501,6 +501,8 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<Creature>("getId", &Creature::getId);
     g_lua.bindClassMemberFunction<Creature>("getName", &Creature::getName);
     g_lua.bindClassMemberFunction<Creature>("setName", &Creature::setName);
+    g_lua.bindClassMemberFunction<Creature>("setGuildName", &Creature::setGuildName);
+    g_lua.bindClassMemberFunction<Creature>("getGuildName", &Creature::getGuildName);
     g_lua.bindClassMemberFunction<Creature>("setManaPercent", &LocalPlayer::setManaPercent);
     g_lua.bindClassMemberFunction<Creature>("getManaPercent", &LocalPlayer::getManaPercent);
     g_lua.bindClassMemberFunction<Creature>("setPersonalStore", &Creature::setPersonalStore);
@@ -907,6 +909,8 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<UIMap>("setDrawFlags", &UIMap::setDrawFlags);
     g_lua.bindClassMemberFunction<UIMap>("setDrawTexts", &UIMap::setDrawTexts);
     g_lua.bindClassMemberFunction<UIMap>("setDrawNames", &UIMap::setDrawNames);
+    g_lua.bindClassMemberFunction<UIMap>("setDrawGuildNames", &UIMap::setDrawGuildNames);
+    g_lua.bindClassMemberFunction<UIMap>("isDrawingGuildNames", &UIMap::isDrawingGuildNames);
     g_lua.bindClassMemberFunction<UIMap>("setDrawHealthBars", &UIMap::setDrawHealthBars);
     g_lua.bindClassMemberFunction<UIMap>("setDrawHealthBarsOnTop", &UIMap::setDrawHealthBarsOnTop);
     g_lua.bindClassMemberFunction<UIMap>("setDrawLights", &UIMap::setDrawLights);

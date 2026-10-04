@@ -30,6 +30,7 @@ floorFading = 500,
 crosshair = 1,
 optimizationLevel = 1,
   displayNames = true,
+  showGuildNames = false,
   displayHealth = false,
   displayMana = false,
   displayHealthOnTop = false,
@@ -339,6 +340,11 @@ function setOption(key, value, force)
     g_adaptiveRenderer.setLevel(value - 2)
   elseif key == 'displayNames' then
     gameMapPanel:setDrawNames(value)
+  elseif key == 'showGuildNames' then
+    gameMapPanel:setDrawGuildNames(value)
+    if modules.game_guild and modules.game_guild.setWorldNamesEnabled then
+      modules.game_guild.setWorldNamesEnabled(value)
+    end
   elseif key == 'displayHealth' then
     gameMapPanel:setDrawHealthBars(value)
   elseif key == 'displayMana' then
@@ -447,7 +453,7 @@ function online()
   g_app.setSmooth(g_settings.getBoolean("antialiasing"))
 
   -- Re-apply map drawing related options now that the game interface is ready
-  local mapKeys = { 'displayNames', 'displayHealth', 'displayMana', 'displayHealthOnTop', 'hidePlayerBars', 'displayText' }
+  local mapKeys = { 'displayNames', 'showGuildNames', 'displayHealth', 'displayMana', 'displayHealthOnTop', 'hidePlayerBars', 'displayText' }
   for _, k in ipairs(mapKeys) do
     if options[k] ~= nil then
       setOption(k, options[k], true)

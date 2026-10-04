@@ -90,6 +90,8 @@ public:
 
     void setDrawNames(bool enable) { m_drawNames = enable; }
     bool isDrawingNames() { return m_drawNames; }
+    void setDrawGuildNames(bool enable) { m_drawGuildNames = enable; }
+    bool isDrawingGuildNames() { return m_drawGuildNames; }
 
     void setDrawHealthBars(bool enable) { m_drawHealthBars = enable; }
     bool isDrawingHealthBars() { return m_drawHealthBars; }
@@ -150,6 +152,7 @@ private:
     stdext::boolean<true> m_animated;
     stdext::boolean<true> m_drawTexts;
     stdext::boolean<true> m_drawNames;
+    stdext::boolean<false> m_drawGuildNames;
     stdext::boolean<true> m_drawHealthBars;
     stdext::boolean<false> m_drawHealthBarsOnTop;
     stdext::boolean<true> m_drawManaBar;

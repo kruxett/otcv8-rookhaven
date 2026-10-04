@@ -66,6 +66,8 @@ Creature::Creature() : Thing()
     m_footLastStep = 0;
     m_nameCache.setFont(g_fonts.getFont("verdana-11px-rounded"));
     m_nameCache.setAlign(Fw::AlignTopCenter);
+    m_guildNameCache.setFont(g_fonts.getFont("verdana-11px-rounded"));
+    m_guildNameCache.setAlign(Fw::AlignTopCenter);
     m_psNameCache.setFont(g_fonts.getFont("verdana-11px-rounded"));
     m_psIconTexture = g_textures.getTexture("/images/game/ps_icon");
     m_footStep = 0;
@@ -178,12 +180,19 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
                                            (int)(g_clock.millis() - m_footLastStep), (int)footDelay, (int)footAnimPhases, (int)m_walkAnimationPhase, (int)stdext::millis()));
     }
 
+    const bool drawGuildName = (drawFlags & Otc::DrawNames) && (drawFlags & Otc::DrawGuildNames)
+        && isPlayer() && m_guildNameCache.hasText();
+    const Size guildSize = drawGuildName ? m_guildNameCache.getTextSize() : Size();
+    const int guildHeight = drawGuildName ? guildSize.height() + 1 : 0;
     Size nameSize = m_nameCache.getTextSize();
-    Rect textRect = Rect(point.x + m_informationOffset.x - nameSize.width() / 2.0, point.y + m_informationOffset.y - 12, nameSize);
-    textRect.bind(parentRect);
+    Size labelSize(std::max(nameSize.width(), guildSize.width()), nameSize.height() + guildHeight);
+    Rect labelRect(point.x + m_informationOffset.x - labelSize.width() / 2.0,
+                   point.y + m_informationOffset.y - 12 - guildHeight, labelSize);
+    labelRect.bind(parentRect);
+    Rect textRect(labelRect.center().x - nameSize.width() / 2.0, labelRect.top(), nameSize);
 
     // distance them
-    uint32 offset = 12;
+    uint32 offset = 12 + guildHeight;
     if (isLocalPlayer()) {
         offset *= 2;
     }
@@ -280,6 +289,10 @@ void Creature::drawInformation(const Point& point, bool useGray, const Rect& par
 
     if (drawFlags & Otc::DrawNames) {
         m_nameCache.draw(textRect, fillColor);
+        if (drawGuildName) {
+            Rect guildRect(textRect.center().x - guildSize.width() / 2.0, textRect.bottom() + 2, guildSize);
+            m_guildNameCache.draw(guildRect, useGray ? Color(96, 96, 96) : Color(180, 180, 220));
+        }
 
         // Show store icon if personal store is active
         if (m_psMode > 0 && m_psIconTexture) {

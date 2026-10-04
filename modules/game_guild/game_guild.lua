@@ -15,6 +15,25 @@ local permissions = {
 }
 local memberSortMode = 'rank'
 local selectedRankPermissionId = nil
+local worldNamesEvent = nil
+local worldNamesEnabled = false
+
+local function cancelWorldNamesEvent()
+  if worldNamesEvent then
+    removeEvent(worldNamesEvent)
+    worldNamesEvent = nil
+  end
+end
+
+local function clearWorldNames()
+  local localPlayer = g_game.getLocalPlayer()
+  if not localPlayer then return end
+  local position = localPlayer:getPosition()
+  if not position then return end
+  for _, creature in ipairs(g_map.getSpectators(position, true)) do
+    if creature:isPlayer() then creature:setGuildName('') end
+  end
+end
 
 local VOCATION_NAMES = {
   [0] = 'Unawakened',
@@ -33,6 +52,25 @@ local function sendAction(action, params)
     end
   end
   protocol:sendExtendedOpcode(GUILD_OPCODE, json.encode(payload))
+end
+
+local function requestWorldNames()
+  worldNamesEvent = nil
+  if not worldNamesEnabled or not g_game.isOnline() then return end
+  sendAction('world_names')
+  -- Also refresh stationary players after a join, kick or guild disband.
+  worldNamesEvent = scheduleEvent(requestWorldNames, 2000)
+end
+
+function setWorldNamesEnabled(enabled)
+  worldNamesEnabled = enabled == true
+  cancelWorldNamesEvent()
+  clearWorldNames()
+  if worldNamesEnabled and g_game.isOnline() then requestWorldNames() end
+end
+
+local function onGameStart()
+  setWorldNamesEnabled(modules.client_options.getOption('showGuildNames'))
 end
 
 local function clearChildren(panel)
@@ -694,6 +732,18 @@ local function onGuildOpcode(protocol, opcode, buffer)
     return
   end
 
+  if data.type == 'world_names' then
+    if not worldNamesEnabled then return end
+    clearWorldNames()
+    for _, entry in ipairs(data.players or {}) do
+      local creature = g_map.getCreatureById(tonumber(entry.id) or 0)
+      if creature and creature:isPlayer() and type(entry.name) == 'string' then
+        creature:setGuildName(entry.name)
+      end
+    end
+    return
+  end
+
   if data.type == 'error' then
     showGuildError(data.message or 'An error occurred.')
     return
@@ -750,6 +800,8 @@ local function onGuildOpcode(protocol, opcode, buffer)
 end
 
 local function onGameEnd()
+  cancelWorldNamesEvent()
+  clearWorldNames()
   if guildWindow then
     guildWindow:destroy()
     guildWindow = nil
@@ -797,8 +849,9 @@ function inviteByName(name)
 end
 
 function init()
-  connect(g_game, { onGameEnd = onGameEnd })
+  connect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
   ProtocolGame.registerExtendedOpcode(GUILD_OPCODE, onGuildOpcode)
+  if g_game.isOnline() then onGameStart() end
 
   if modules.client_topmenu and modules.client_topmenu.addRightGameToggleButton then
     guildButton = modules.client_topmenu.addRightGameToggleButton('guildManagerButton', tr('Guild Manager'), GUILD_TOPMENU_ICON, toggle, false, 6)
@@ -813,7 +866,7 @@ function terminate()
     guildButton:destroy()
     guildButton = nil
   end
-  disconnect(g_game, { onGameEnd = onGameEnd })
+  disconnect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
   ProtocolGame.unregisterExtendedOpcode(GUILD_OPCODE)
   onGameEnd()
 end

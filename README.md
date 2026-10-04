@@ -1,5 +1,10 @@
 # OTCv8 Developer Editon (sources)
 
+## DEV 10084: ascension, Sure Shot and guild labels
+
+See [feature changes and test/deploy instructions](docs/ascension-combat-guild.md).
+Build with `tools/build-dev.ps1`; verify locally with `tools/test-client-features.ps1`.
+
 ## Reusable item skill
 
 Use `$rookhaven-items` for adding an item to both client and server or replacing
@@ -61,8 +66,9 @@ test is claimed for this proof.
 
 ### Installing on the DEV server
 
-Use `out/RookhavenClient-DEV-x64.zip` (DEV version `10083`) together with
-`out/Rookhaven-Duskblade-server-files.zip`. The server archive contains
+For the current DEV 10084 package, follow the [feature deployment instructions](docs/ascension-combat-guild.md).
+The following records the original DEV 10083 item proof and its
+`out/Rookhaven-Duskblade-server-files.zip`. That historical server archive contains
 `data/items/items.otb`, `data/items/items.xml`, `data/checksum_expected.txt`
 and a validation manifest. Back up the corresponding live files and compare
 the live items.xml/OTB with this checkout before replacing the complete files.

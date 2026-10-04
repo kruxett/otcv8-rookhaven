@@ -58,6 +58,18 @@ $configureArgs = @(
 if ($LASTEXITCODE -ne 0) { throw 'DEV configure failed.' }
 & $cmake --build $buildDir --parallel $Jobs
 if ($LASTEXITCODE -ne 0) { throw 'DEV build failed.' }
+# POST_BUILD does not run when only Lua/UI resources changed. Refresh the staging
+# resources and bytecode explicitly so every DEV package contains current sources.
+foreach ($resourceDir in @('data', 'modules', 'layouts')) {
+    & $cmake -E copy_directory (Join-Path $projectRoot $resourceDir) (Join-Path $buildDir $resourceDir)
+    if ($LASTEXITCODE -ne 0) { throw "DEV resource copy failed: $resourceDir" }
+}
+Copy-Item -LiteralPath (Join-Path $projectRoot 'init.lua') -Destination (Join-Path $buildDir 'init.lua') -Force
+$compilerEntry = Select-String -LiteralPath (Join-Path $buildDir 'CMakeCache.txt') -Pattern '^LUAC_EXECUTABLE:FILEPATH=(.+)$'
+if (-not $compilerEntry) { throw 'DEV Lua bytecode compiler is missing from CMake cache.' }
+$luaCompiler = $compilerEntry.Matches[0].Groups[1].Value
+& $cmake "-DROOT_DIR=$buildDir" "-DLUAC_EXECUTABLE=$luaCompiler" -P (Join-Path $PSScriptRoot 'luac_compile.cmake')
+if ($LASTEXITCODE -ne 0) { throw 'DEV bytecode compilation failed.' }
 & $cmake --install $buildDir
 if ($LASTEXITCODE -ne 0) { throw 'DEV install failed.' }
 Write-Host "DEV client: $(Join-Path $installDir 'RookhavenClient.exe')"

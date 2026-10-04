@@ -70,6 +70,7 @@ namespace Otc
         DrawManaBar = 32768,
         DontDrawLocalPlayer = 65536,
         DrawIcons = 131072,
+        DrawGuildNames = 262144,
         DrawWalls = DrawOnBottom | DrawOnTop,
         DrawEverything = DrawGround | DrawGroundBorders | DrawWalls | DrawItems |
                          DrawCreatures | DrawEffects | DrawMissiles | DrawCreaturesInformation |

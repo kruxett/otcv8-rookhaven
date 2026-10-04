@@ -55,6 +55,8 @@ public:
 
     void setId(uint32 id) { m_id = id; }
     void setName(const std::string& name);
+    void setGuildName(const std::string& name) { m_guildNameCache.setText(name); }
+    std::string getGuildName() { return m_guildNameCache.getText(); }
     void setManaPercent(int8 value) { m_manaPercent = value; }
     void setPersonalStore(uint8_t psMode, const std::string psName);
     void setHealthPercent(uint8 healthPercent);
@@ -244,6 +246,7 @@ protected:
     stdext::boolean<false> m_showStaticSquare;
     stdext::boolean<true> m_removed;
     CachedText m_nameCache;
+    CachedText m_guildNameCache;
     CachedText m_psNameCache;
     Color m_informationColor;
     bool m_useCustomInformationColor = false;

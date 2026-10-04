@@ -250,6 +250,7 @@ void MapView::drawMapForeground(const Rect& rect)
     for (auto& c : creatures) {
         int flags = Otc::DrawIcons;
         if (m_drawNames) { flags |= Otc::DrawNames; }
+        if (m_drawGuildNames) { flags |= Otc::DrawGuildNames; }
         if ((!c.first->isLocalPlayer() || m_drawPlayerBars) && !m_drawHealthBarsOnTop) {
             if (m_drawHealthBars) { flags |= Otc::DrawBars; }
             if (m_drawManaBar) { flags |= Otc::DrawManaBar; }

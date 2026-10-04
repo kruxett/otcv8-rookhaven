@@ -55,6 +55,8 @@ public:
     void setDrawFlags(Otc::DrawFlags drawFlags) { m_mapView->setDrawFlags(drawFlags); }
     void setDrawTexts(bool enable) { m_mapView->setDrawTexts(enable); }
     void setDrawNames(bool enable) { m_mapView->setDrawNames(enable); }
+    void setDrawGuildNames(bool enable) { m_mapView->setDrawGuildNames(enable); }
+    bool isDrawingGuildNames() { return m_mapView->isDrawingGuildNames(); }
     void setDrawHealthBars(bool enable) { m_mapView->setDrawHealthBars(enable); }
     void setDrawHealthBarsOnTop(bool enable) { m_mapView->setDrawHealthBarsOnTop(enable); }
     void setDrawLights(bool enable) { m_mapView->setDrawLights(enable); }

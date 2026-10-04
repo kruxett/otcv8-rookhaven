@@ -1,4 +1,4 @@
-assert(APP_VERSION == 10083)
+assert(APP_VERSION == 10084)
 g_configs.loadSettings('/dev-startup-test-config.otml')
 local ready=false
 for _,op in pairs(HTTP.operations) do

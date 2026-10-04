@@ -19,6 +19,10 @@ OptionPanel
     !text: tr('Display creature names')
 
   OptionCheckBox
+    id: showGuildNames
+    !text: tr('Display guild names below player names')
+
+  OptionCheckBox
     id: showPing
     !text: tr('Show ping')
 
