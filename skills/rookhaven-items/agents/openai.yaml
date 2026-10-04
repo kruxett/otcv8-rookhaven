@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rookhaven items"
+  short_description: "Lägg in egna itembilder i klient och server"
+  default_prompt: "Använd $rookhaven-items för att lägga in ett item i Rookhaven-klienten och servern med min bild som grafik."

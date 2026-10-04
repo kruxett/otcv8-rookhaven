@@ -1,5 +1,14 @@
 # OTCv8 Developer Editon (sources)
 
+## Reusable item skill
+
+Use `$rookhaven-items` for adding an item to both client and server or replacing
+its artwork with a supplied image. The versioned skill is
+[skills/rookhaven-items/SKILL.md](skills/rookhaven-items/SKILL.md); its references
+preserve the exact Duskblade import and the verified build/test/checksum workflow.
+The original generated Duskblade artwork was rejected visually. Future artwork
+comes from user-supplied repo images or chat attachments.
+
 ## Local item proof (2026-10-04)
 
 An original 32x32 sword sprite is installed as **rookhaven duskblade**:
