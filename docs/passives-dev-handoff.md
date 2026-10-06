@@ -52,6 +52,12 @@ the second disables administrative test overlays. Preserve every other live
 setting and the existing checksum enforcement. These flags take effect during
 the user's subsequent server restart through the existing deployment workflow.
 
+The user explicitly requires **no other main-config changes**. The prepared
+edit checks that reversing only these two flag edits recovers every original
+byte, then verifies the written file against the proposed hash. A private
+backup retains the original file and access permissions. Neither the edit nor
+the backup has been performed on the guest while access remains unavailable.
+
 The central tuning files are already versioned in the server commit:
 
 - `data/lib/passives/config.lua`
@@ -84,6 +90,44 @@ Use **Git for current server source**. The optional source/binary ZIPs in the
 earlier local export are auxiliary artifacts. The source ZIP predates small
 server comment/whitespace and local fixture-default housekeeping changes in
 the final server commit; it is not an exact archive of that commit.
+
+### Client publication and updater restart are now authorized
+
+The user has also authorized placing the matching client release on DEV and
+restarting its updater. The game-server deployment/restart still belongs to
+the user's existing Discord workflow.
+
+A new live DEV API probe with version0 returned:
+
+- Current advertised DEV version **10083**.
+- Download base **`http://updater2.rookhaven-ot.com/files/dev/`**.
+- Exactly one resource entry, **`data.zip`**.
+- Separate binary entry, **`RookhavenClient.exe`**.
+
+The existing DEV10083 archive/EXE hashes differ from the prepared10085 release.
+The prepared publication plan verifies all seven release-file hashes and
+contains an expected10085 API-response preview preserving the live URL/schema.
+This preview is **not** a guessed updater service configuration file.
+
+The client updater's `files` map must continue containing **only `data.zip`**.
+Adding DLLs to that map disables complete encrypted-archive replacement and
+does not install DLLs beside the executable. Publish the complete seven-file
+client ZIP for fresh installs, including the nested Discord DLL. The matching
+EXE belongs in the API's separate `binary` object.
+
+Historical proxy metadata routes both DEV and PROD updater hostnames to the
+guest's Node backend at192.168.1.44:3000. Preserve PROD artifacts and metadata.
+Live inspection still must identify the actual serving directory, DEV metadata
+storage, updater service/task/process and established restart method. Neither
+these locations nor a restart command can be inferred from the public API.
+
+Stage the release before the user's Discord deployment. Activate the matched
+DEV10085 files/metadata and restart the identified updater once the new game
+server runtime and matching CRC manifest are ready; publishing the new client
+against the old server can cause checksum rejection. Inspect API and download
+hashes after the updater restart, then perform the real client update/login
+checks. Guest access remains the blocker: **no client files have been uploaded
+and no updater restart has occurred**.
 
 ## Existing workflow and outstanding live checks
 
