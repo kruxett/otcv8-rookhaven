@@ -1,0 +1,465 @@
+PassiveDetailTab < Button
+  $on:
+    image-clip: 0 46 22 23
+    color: #e4c98e
+    text-offset: 1 1
+
+PassiveNode < UIButton
+  size: 44 44
+  image-source: /images/ui/item
+  image-border: 3
+  image-smooth: false
+  image-color: #dfdfdf
+  border-width: 1
+  border-color: #655e51
+  focusable: true
+
+  $hover:
+    image-color: #ffffff
+
+  $focus:
+    image-color: #ffffff
+    border-color: #b8c6ca
+
+  $pressed:
+    image-color: #b5b0a5
+
+  UIWidget
+    id: glyph
+    size: 32 32
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    image-size: 32 32
+    image-smooth: false
+    phantom: true
+
+  Label
+    id: rank
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 1
+    margin-left: 1
+    margin-bottom: 0
+    font: verdana-11px-rounded
+    color: #e9dcc0
+    text-align: center
+    height: 12
+    phantom: true
+
+  UIWidget
+    id: nodeDraft
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 0
+    margin-top: 2
+    size: 6 6
+    border-width: 1
+    border-color: #9bb6c0
+    background-color: #41575d
+    visible: false
+    phantom: true
+
+  UIWidget
+    id: nodeLock
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-right: 2
+    margin-top: 2
+    size: 6 10
+    visible: false
+    phantom: true
+
+    UIWidget
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      size: 4 5
+      border-width: 1
+      border-color: #b1aa97
+      phantom: true
+
+    UIWidget
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      size: 6 5
+      background-color: #b1aa97
+      phantom: true
+
+PassiveCapstone < PassiveNode
+  size: 64 64
+  border-width: 2
+  border-color: #b39255
+
+  UIWidget
+    id: tierFrame
+    anchors.fill: parent
+    margin: 4
+    border-width: 2
+    border-color: #817660
+    phantom: true
+
+  UIWidget
+    id: majorInset
+    anchors.fill: parent
+    margin: 7
+    border-width: 1
+    border-color: #51412b
+    phantom: true
+
+  UIWidget
+    id: majorTopLeft
+    size: 4 4
+    anchors.left: tierFrame.left
+    anchors.top: tierFrame.top
+    background-color: #8c8471
+    phantom: true
+
+  UIWidget
+    id: majorTopRight
+    size: 4 4
+    anchors.right: tierFrame.right
+    anchors.top: tierFrame.top
+    background-color: #8c8471
+    phantom: true
+
+  UIWidget
+    id: majorBottomLeft
+    size: 4 4
+    anchors.left: tierFrame.left
+    anchors.bottom: tierFrame.bottom
+    background-color: #8c8471
+    phantom: true
+
+  UIWidget
+    id: majorBottomRight
+    size: 4 4
+    anchors.right: tierFrame.right
+    anchors.bottom: tierFrame.bottom
+    background-color: #8c8471
+    phantom: true
+
+PassiveMajor < PassiveNode
+  size: 104 52
+  border-width: 2
+  border-color: #817660
+
+  UIWidget
+    id: tierFrame
+    anchors.fill: parent
+    margin: 3
+    border-width: 1
+    border-color: #817660
+    phantom: true
+
+PassiveBranch < UIWidget
+  size: 120 118
+  border-width: 1
+  border-color: #49463f
+  background-color: #302f2b50
+  phantom: true
+
+PassiveLegendFrame < UIWidget
+  border-width: 1
+  border-color: #9a927e
+  phantom: true
+
+PassiveRequirement < Label
+  font: verdana-11px-rounded
+  text-wrap: true
+  text-align: topleft
+  phantom: true
+
+PassiveCaption < Label
+  width: 100
+  height: 28
+  font: verdana-11px-rounded
+  text-align: top
+  text-wrap: true
+  color: #c5bea9
+  phantom: true
+
+PassiveTalentName < Label
+  height: 30
+  font: verdana-11px-rounded
+  text-align: center
+  text-wrap: false
+  color: #c5bea9
+  image-source: /images/ui/panel_flat
+  image-border: 1
+  image-smooth: false
+  image-color: #c4c0b5
+  border-width: 1
+  border-color: #655e51
+  focusable: false
+  phantom: false
+
+PassiveConnector < UIWidget
+  background-color: #655e51
+  phantom: true
+
+MainWindow
+  id: passivesWindow
+  text: Reaver - LOCAL TEST
+  size: 800 616
+  @onEscape: modules.game_passives.hide()
+
+  Label
+    id: testLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 17
+    font: verdana-11px-rounded
+    color: #d8c08b
+    text: TEMPORARY TEST TREE - your class and progression are unchanged
+
+  Label
+    id: pointsLabel
+    anchors.left: parent.left
+    anchors.right: statusToggle.left
+    anchors.top: testLabel.bottom
+    margin-top: 3
+    height: 18
+    font: verdana-11px-rounded
+    text: Loading talents...
+
+  CheckBox
+    id: statusToggle
+    anchors.right: parent.right
+    anchors.top: testLabel.bottom
+    margin-top: 3
+    width: 150
+    height: 18
+    text: Show combat status
+
+  FlatPanel
+    id: treeFrame
+    anchors.left: parent.left
+    anchors.right: details.left
+    anchors.top: pointsLabel.bottom
+    anchors.bottom: statusLabel.top
+    margin-top: 5
+    margin-right: 8
+    margin-bottom: 4
+
+    VerticalScrollBar
+      id: treeVertical
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-bottom: 12
+      width: 12
+      step: 30
+      pixels-scroll: true
+
+    HorizontalScrollBar
+      id: treeHorizontal
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-right: 12
+      height: 12
+      step: 30
+      pixels-scroll: true
+
+    ScrollablePanel
+      id: treeScroll
+      anchors.left: parent.left
+      anchors.right: treeVertical.left
+      anchors.top: parent.top
+      anchors.bottom: treeHorizontal.top
+      padding: 2
+      vertical-scrollbar: treeVertical
+      horizontal-scrollbar: treeHorizontal
+
+      Panel
+        id: canvas
+        size: 480 450
+        anchors.left: parent.left
+        anchors.top: parent.top
+
+  FlatPanel
+    id: details
+    anchors.right: parent.right
+    anchors.top: pointsLabel.bottom
+    anchors.bottom: statusLabel.top
+    margin-top: 5
+    margin-bottom: 4
+    width: 220
+    padding: 8
+
+    Label
+      id: nodeName
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 24
+      font: verdana-11px-rounded
+      color: #e1d3a1
+      text-wrap: true
+      text: Choose a node
+
+    Label
+      id: nodeRank
+      anchors.top: nodeName.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 20
+      font: verdana-11px-rounded
+      text-wrap: true
+
+    Label
+      id: nodeAvailability
+      anchors.top: nodeRank.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      height: 30
+      font: verdana-11px-rounded
+      color: #c7c1b2
+      text-align: topleft
+      text-wrap: true
+      text: Select a talent to see its status.
+
+    Panel
+      id: detailTabs
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: nodeAvailability.bottom
+      margin-top: 4
+      height: 23
+
+      PassiveDetailTab
+        id: talentTab
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: 85
+        text: Talent
+
+      PassiveDetailTab
+        id: requirementsTab
+        anchors.left: talentTab.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-left: 4
+        text: Requirements
+
+    VerticalScrollBar
+      id: detailVertical
+      anchors.right: parent.right
+      anchors.top: detailTabs.bottom
+      anchors.bottom: controls.top
+      margin-top: 6
+      margin-bottom: 6
+      width: 12
+      step: 24
+      pixels-scroll: true
+
+    ScrollablePanel
+      id: detailScroll
+      anchors.left: parent.left
+      anchors.right: detailVertical.left
+      anchors.top: detailTabs.bottom
+      anchors.bottom: controls.top
+      margin-top: 6
+      margin-bottom: 6
+      margin-right: 3
+      vertical-scrollbar: detailVertical
+
+      Label
+        id: nodeDescription
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        font: verdana-11px-rounded
+        color: #c7c1b2
+        text-wrap: true
+        text-auto-resize: true
+        text: Select a talent to inspect its effects.
+
+      UIWidget
+        id: nodeRequirements
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-top: 0
+        height: 1
+        phantom: true
+
+    Panel
+      id: controls
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      height: 27
+
+      Button
+        id: removeRank
+        anchors.left: parent.left
+        anchors.top: parent.top
+        width: 93
+        text: Remove rank
+
+      Button
+        id: addRank
+        anchors.right: parent.right
+        anchors.top: parent.top
+        width: 93
+        text: Add rank
+
+  Label
+    id: statusLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buttonPanel.top
+    margin-bottom: 3
+    height: 24
+    font: verdana-11px-rounded
+    text-wrap: true
+    color: #c7c1b2
+    text: Select a node to inspect its ranks and requirements.
+
+  Panel
+    id: buttonPanel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 24
+
+    Button
+      id: applyButton
+      anchors.left: parent.left
+      anchors.top: parent.top
+      width: 88
+      text: Apply
+
+    Button
+      id: discardButton
+      anchors.left: applyButton.right
+      anchors.top: parent.top
+      margin-left: 5
+      width: 88
+      text: Undo draft
+
+    Button
+      id: resetButton
+      anchors.left: discardButton.right
+      anchors.top: parent.top
+      margin-left: 5
+      width: 100
+      text: Reset (free)
+
+    Button
+      id: endButton
+      anchors.right: closeButton.left
+      anchors.top: parent.top
+      margin-right: 5
+      width: 100
+      text: End test
+
+    Button
+      id: closeButton
+      anchors.right: parent.right
+      anchors.top: parent.top
+      width: 70
+      text: Close

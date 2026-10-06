@@ -1,0 +1,1552 @@
+{
+  "version": 2,
+  "art_direction": "Original native 32x32 pixel primitives; no downsampling or antialiasing.",
+  "reference": "Existing default spell atlas and classic equipment panels inspected for style only; no copied pixels.",
+  "palette": {
+    ".": "#00000000",
+    "o": "#17161bff",
+    "s": "#30353eff",
+    "g": "#616c75ff",
+    "i": "#a5b2b3ff",
+    "h": "#e2e0caff",
+    "w": "#523725ff",
+    "b": "#967045ff",
+    "y": "#d5b974ff",
+    "r": "#4f202cff",
+    "R": "#a53d43ff",
+    "f": "#e77855ff",
+    "n": "#293f59ff",
+    "c": "#568aafff",
+    "l": "#a0ced4ff",
+    "v": "#78916aff"
+  },
+  "icon_count": 108,
+  "trees": {
+    "reaver": [
+      "minor_precision",
+      "minor_critical",
+      "minor_power",
+      "minor_efficiency",
+      "minor_vitality",
+      "minor_resilience",
+      "minor_recovery",
+      "minor_focus",
+      "major_precision",
+      "major_pressure",
+      "major_guard",
+      "major_recovery",
+      "major_tactical",
+      "major_steady",
+      "cap_berserker",
+      "cap_bloodletting",
+      "cap_bloodguard",
+      "reaver"
+    ],
+    "blademaster": [
+      "blademaster_minor_precision",
+      "blademaster_minor_critical",
+      "blademaster_minor_power",
+      "blademaster_minor_efficiency",
+      "blademaster_minor_vitality",
+      "blademaster_minor_resilience",
+      "blademaster_minor_recovery",
+      "blademaster_minor_focus",
+      "blademaster_major_precision",
+      "blademaster_major_pressure",
+      "blademaster_major_guard",
+      "blademaster_major_recovery",
+      "blademaster_major_tactical",
+      "blademaster_major_steady",
+      "cap_duelist",
+      "cap_riposte",
+      "cap_bladestorm",
+      "blademaster"
+    ],
+    "earthshaker": [
+      "earthshaker_minor_precision",
+      "earthshaker_minor_critical",
+      "earthshaker_minor_power",
+      "earthshaker_minor_efficiency",
+      "earthshaker_minor_vitality",
+      "earthshaker_minor_resilience",
+      "earthshaker_minor_recovery",
+      "earthshaker_minor_focus",
+      "earthshaker_major_precision",
+      "earthshaker_major_pressure",
+      "earthshaker_major_guard",
+      "earthshaker_major_recovery",
+      "earthshaker_major_tactical",
+      "earthshaker_major_steady",
+      "cap_aftershock",
+      "cap_stoneguard",
+      "cap_stonebond",
+      "earthshaker"
+    ],
+    "marksman": [
+      "marksman_minor_precision",
+      "marksman_minor_critical",
+      "marksman_minor_power",
+      "marksman_minor_efficiency",
+      "marksman_minor_vitality",
+      "marksman_minor_resilience",
+      "marksman_minor_recovery",
+      "marksman_minor_focus",
+      "marksman_major_precision",
+      "marksman_major_pressure",
+      "marksman_major_guard",
+      "marksman_major_recovery",
+      "marksman_major_tactical",
+      "marksman_major_steady",
+      "cap_deadeye",
+      "cap_skirmisher",
+      "cap_quarry",
+      "marksman"
+    ],
+    "arcanist": [
+      "arcanist_minor_precision",
+      "arcanist_minor_critical",
+      "arcanist_minor_power",
+      "arcanist_minor_efficiency",
+      "arcanist_minor_vitality",
+      "arcanist_minor_resilience",
+      "arcanist_minor_recovery",
+      "arcanist_minor_focus",
+      "arcanist_major_precision",
+      "arcanist_major_pressure",
+      "arcanist_major_guard",
+      "arcanist_major_recovery",
+      "arcanist_major_tactical",
+      "arcanist_major_steady",
+      "cap_conduit",
+      "cap_resonance",
+      "cap_spellweaver",
+      "arcanist"
+    ],
+    "lifekeeper": [
+      "lifekeeper_minor_precision",
+      "lifekeeper_minor_critical",
+      "lifekeeper_minor_power",
+      "lifekeeper_minor_efficiency",
+      "lifekeeper_minor_vitality",
+      "lifekeeper_minor_resilience",
+      "lifekeeper_minor_recovery",
+      "lifekeeper_minor_focus",
+      "lifekeeper_major_precision",
+      "lifekeeper_major_pressure",
+      "lifekeeper_major_guard",
+      "lifekeeper_major_recovery",
+      "lifekeeper_major_tactical",
+      "lifekeeper_major_steady",
+      "cap_renewal",
+      "cap_aegis",
+      "cap_concord",
+      "lifekeeper"
+    ]
+  },
+  "icons": [
+    {
+      "id": "minor_precision",
+      "runtime": "data/images/game/passives/minor_precision.png",
+      "source": "assets/passives/pixel-sources/minor_precision.json",
+      "purpose": "Axe with target reticle: ordinary axe critical chance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 10,
+      "source_sha256": "b080ab319a413ce1ea4b901fa839d8d9f8114b3ef5c3da72249c852f3c5aaab0",
+      "sha256": "2081b42e3019ee6586cc772fe8e3e3d8f76507ea996943ec1f95aceaf855d801"
+    },
+    {
+      "id": "minor_critical",
+      "runtime": "data/images/game/passives/minor_critical.png",
+      "source": "assets/passives/pixel-sources/minor_critical.json",
+      "purpose": "Bright steel edge and sparks: critical bonus damage.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "b1b75b977ef660cb7f19bb4835d318b3236f2cef7837252fd0db032ce83ff157",
+      "sha256": "4d5541d882bbb38350bcce26026c13663b7eb139e2a9cdbd538afb938d478f50"
+    },
+    {
+      "id": "minor_power",
+      "runtime": "data/images/game/passives/minor_power.png",
+      "source": "assets/passives/pixel-sources/minor_power.json",
+      "purpose": "Clenched leather gauntlet: direct axe power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "c6ef7fbcbb0b10eae447391d09e5abef707cef07e22d46e7ce6518611b09d2ea",
+      "sha256": "61d2e1e9efb447f4d65ba5eb7e63fbe108e0fc61fd88df87378776fa2076f883"
+    },
+    {
+      "id": "minor_efficiency",
+      "runtime": "data/images/game/passives/minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/minor_efficiency.json",
+      "purpose": "Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "11198f5f895e91e7c23ab123e4d13a33dc24fb94775d703b4a63163f1a791512",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "minor_vitality",
+      "runtime": "data/images/game/passives/minor_vitality.png",
+      "source": "assets/passives/pixel-sources/minor_vitality.json",
+      "purpose": "Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "a86fdcddf067afd8b5a94e504a0ed7b1904281f3dfb09e1a25bd535f2e1687bb",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "minor_resilience",
+      "runtime": "data/images/game/passives/minor_resilience.png",
+      "source": "assets/passives/pixel-sources/minor_resilience.json",
+      "purpose": "Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "b0d1ab6cc6a4aaac0f8f0fa7ade0c87234ddc923450ba3e6a971e22c34812f9c",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "minor_recovery",
+      "runtime": "data/images/game/passives/minor_recovery.png",
+      "source": "assets/passives/pixel-sources/minor_recovery.json",
+      "purpose": "Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "95139c13f393e2dbe0c4bbd55dfc1131888e451f314802cfcb05a6202496e834",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "minor_focus",
+      "runtime": "data/images/game/passives/minor_focus.png",
+      "source": "assets/passives/pixel-sources/minor_focus.json",
+      "purpose": "Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "a55000d023a36239589e720534131d6f68ca5fc4915ece098019764f4af37a32",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "major_precision",
+      "runtime": "data/images/game/passives/major_precision.png",
+      "source": "assets/passives/pixel-sources/major_precision.json",
+      "purpose": "Watchful eye above axe edge: critical readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "578c64a7f2ff244888630acc69f1af17dfb2018fb1bfed95842f3840435ebd42",
+      "sha256": "09030868620a17cfc96ba402f0f30fb69d9d9c70195d5fdbae75aea6a4a071bd"
+    },
+    {
+      "id": "major_pressure",
+      "runtime": "data/images/game/passives/major_pressure.png",
+      "source": "assets/passives/pixel-sources/major_pressure.json",
+      "purpose": "Axe breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "1d76888a76180f281330b907c8a919f9d1ea81237806b509c9cb11028fa4ec0f",
+      "sha256": "85391db3909d1c6c33255964c46d4fe1cc8665040755174648797d3090b499ea"
+    },
+    {
+      "id": "major_guard",
+      "runtime": "data/images/game/passives/major_guard.png",
+      "source": "assets/passives/pixel-sources/major_guard.json",
+      "purpose": "Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "dd31288fb0d636c0fc4d4840948c37853868b3064c1312dd5b90f21688a48069",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "major_recovery",
+      "runtime": "data/images/game/passives/major_recovery.png",
+      "source": "assets/passives/pixel-sources/major_recovery.json",
+      "purpose": "Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "38eca7ccf4dc2d4101cfbbf1d8c1172be36acffcd29d387ddd53447255b721b1",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "major_tactical",
+      "runtime": "data/images/game/passives/major_tactical.png",
+      "source": "assets/passives/pixel-sources/major_tactical.json",
+      "purpose": "Crossed axe and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 11,
+      "source_sha256": "38a2baaca26987bac5b2b2834e9149b25100316ca0978dbe65a0a1ea0b2ff0ca",
+      "sha256": "64c5f7b4b84f6e52329b2e5f647855caa8768a0dd5e8b3e4fbdf671c93cd0c72"
+    },
+    {
+      "id": "major_steady",
+      "runtime": "data/images/game/passives/major_steady.png",
+      "source": "assets/passives/pixel-sources/major_steady.json",
+      "purpose": "Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "ddfc31ac7c707efaa8cc4964c6f96e753bab1c22be647a29d88cfe987e1da982",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_berserker",
+      "runtime": "data/images/game/passives/cap_berserker.png",
+      "source": "assets/passives/pixel-sources/cap_berserker.json",
+      "purpose": "Horned battle mask and paired axes: rage phase.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "8690e32cda3309981de1a16275a45020c8f96ec12c8c1b643dd4adb6e2d08b0f",
+      "sha256": "abb24c958c2391827eb9944b584f74bc5904d9a383c0670ee02c164283ebd989"
+    },
+    {
+      "id": "cap_bloodletting",
+      "runtime": "data/images/game/passives/cap_bloodletting.png",
+      "source": "assets/passives/pixel-sources/cap_bloodletting.json",
+      "purpose": "Three bleeding cuts on steel: three owned wound stacks.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "5b9e6b15f26b006a93059272a8af96b546e9bbdff0ebd90101bb407a14562d43",
+      "sha256": "59f0ec62cfee04895f6ccb13c71a21eef05d5b08d017b942fb2cbb8b70ef6b70"
+    },
+    {
+      "id": "cap_bloodguard",
+      "runtime": "data/images/game/passives/cap_bloodguard.png",
+      "source": "assets/passives/pixel-sources/cap_bloodguard.json",
+      "purpose": "Steel shield with blood-red heart: damage-built ward.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "c6855561006f9ae98410233d94374528e674367cd5cb015f8b7dd762bc9c4478",
+      "sha256": "d1f03ec933720c2d38c665ad45f046099485ac18455db0d5cbc3099caf01180d"
+    },
+    {
+      "id": "reaver",
+      "runtime": "data/images/game/passives/reaver.png",
+      "source": "assets/passives/pixel-sources/reaver.json",
+      "purpose": "Single axe with bronze binding: standalone test-tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "42c71a1290c7140462044931e58659964aa191b84f50038ffdbd91096ab5609a",
+      "sha256": "d1134e12e139652cd62e90ea4c3b1b0b18e7fffcadae3f36de18e07cc3f98efd"
+    },
+    {
+      "id": "blademaster_minor_precision",
+      "runtime": "data/images/game/passives/blademaster_minor_precision.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_precision.json",
+      "purpose": "Blademaster: Sword with target reticle: ordinary sword critical chance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "4f8622c92acd5667714abec05e11ed2e9eb5b68946b49de3a355e3e4dde881c0",
+      "sha256": "b6302bb97b101b59e1ee4982976da13170f366a5dd45f3311b01dd4bfd64166c"
+    },
+    {
+      "id": "blademaster_minor_critical",
+      "runtime": "data/images/game/passives/blademaster_minor_critical.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_critical.json",
+      "purpose": "Blademaster: Bright steel edge and sparks: critical bonus damage.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "7faa1ef459b045cc55785fb0077c26fa34e38ebd65dc28011b9984641052c624",
+      "sha256": "faa361643a9c8790d7e92a51881a93ce6c74e026f1ffbfbeb934412877c38a6b"
+    },
+    {
+      "id": "blademaster_minor_power",
+      "runtime": "data/images/game/passives/blademaster_minor_power.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_power.json",
+      "purpose": "Blademaster: Clenched leather gauntlet: direct sword power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "cb9181b4db7df074b9d885404f75c3991b6d90a737160176dc4a8b60b138c3a6",
+      "sha256": "a08290fc58e2408dacb8f5c10aa0b425b00f44596ceb6cee848d0d2e6ad76efe"
+    },
+    {
+      "id": "blademaster_minor_efficiency",
+      "runtime": "data/images/game/passives/blademaster_minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_efficiency.json",
+      "purpose": "Blademaster: Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "eec5a2bf6d6df957626f7b3f150179eef3e4be64abbd1d5252b33ef0e5c69a31",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "blademaster_minor_vitality",
+      "runtime": "data/images/game/passives/blademaster_minor_vitality.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_vitality.json",
+      "purpose": "Blademaster: Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "c2a3e495f81203aa290cb0bc69d2df61a5a4fbecf823abeb79dfc5bcd4652172",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "blademaster_minor_resilience",
+      "runtime": "data/images/game/passives/blademaster_minor_resilience.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_resilience.json",
+      "purpose": "Blademaster: Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "b24f23cb730a178a1154c176f63b6859d1974ffe0280e7073632e01952012da5",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "blademaster_minor_recovery",
+      "runtime": "data/images/game/passives/blademaster_minor_recovery.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_recovery.json",
+      "purpose": "Blademaster: Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "4028f9052fb6858a993a02eda692eb7289ec9fcba4da20e0d22cd4815465b329",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "blademaster_minor_focus",
+      "runtime": "data/images/game/passives/blademaster_minor_focus.png",
+      "source": "assets/passives/pixel-sources/blademaster_minor_focus.json",
+      "purpose": "Blademaster: Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "0bb4c4d1a2677803a81e56e50bb20c4aecd6af5ef0c564cc0eb4cc287cd60dab",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "blademaster_major_precision",
+      "runtime": "data/images/game/passives/blademaster_major_precision.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_precision.json",
+      "purpose": "Blademaster: Watchful eye above sword edge: critical readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "c66ca5b273e2287d691089643ec1bf0bf3fa9b0d4bf16022bc1e0e378b1ed650",
+      "sha256": "1fc2dc73797a89de3256c4d6f7b033a4800bd7c3568ba9bd2e6718b6e960495b"
+    },
+    {
+      "id": "blademaster_major_pressure",
+      "runtime": "data/images/game/passives/blademaster_major_pressure.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_pressure.json",
+      "purpose": "Blademaster: Sword breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "c84a44867834932c1b597777278a86ef4aed0139fa3a596432e86157f3673a51",
+      "sha256": "6d5cc22a6c42a2d3b8cc35d1b255f46018ca2fc8026d4c6f9446dad1e52e96df"
+    },
+    {
+      "id": "blademaster_major_guard",
+      "runtime": "data/images/game/passives/blademaster_major_guard.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_guard.json",
+      "purpose": "Blademaster: Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "d3d773d41f3950c24bd8552602b8315652c7dca48891adec5c7d5d2ab2897dff",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "blademaster_major_recovery",
+      "runtime": "data/images/game/passives/blademaster_major_recovery.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_recovery.json",
+      "purpose": "Blademaster: Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "21b75841152bfce4ee14d83a0440807fa0db98e10e0a8b37e93e23e57b84fcea",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "blademaster_major_tactical",
+      "runtime": "data/images/game/passives/blademaster_major_tactical.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_tactical.json",
+      "purpose": "Blademaster: Crossed sword and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "ec1ad397674d44df498eda2541caf467ccd526cc7b4e09674720ec70a867e674",
+      "sha256": "653865c12a692134275784479e4966f0b4d29aaf5eb25547d98cf115c6d67b3d"
+    },
+    {
+      "id": "blademaster_major_steady",
+      "runtime": "data/images/game/passives/blademaster_major_steady.png",
+      "source": "assets/passives/pixel-sources/blademaster_major_steady.json",
+      "purpose": "Blademaster: Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "1c01d230cd3694e8de6ab0c44f6bfa939ca2960ad7ab2af14aca32b3fa571842",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_duelist",
+      "runtime": "data/images/game/passives/cap_duelist.png",
+      "source": "assets/passives/pixel-sources/cap_duelist.json",
+      "purpose": "Sword and finishing target: a prepared single-target finisher.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "fa1ccf1727795d7a11d067662fada107e1059d6a4323c7fc4e01c5c3331f8254",
+      "sha256": "a02f0a19cfea90a14667d9098c8c49b81ed60d7a78c62c84a422c11a364f0a2f"
+    },
+    {
+      "id": "cap_riposte",
+      "runtime": "data/images/game/passives/cap_riposte.png",
+      "source": "assets/passives/pixel-sources/cap_riposte.json",
+      "purpose": "Shield and returning blade: a prepared counterattack.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "7cdccb30e9d0dfea9f69f459b2e5f839deb26f6acb6eade9e5db2ccf0e61835d",
+      "sha256": "f4d870c85c85179721254c3fd144ac149e7c139d4f78648aecd291af500fd3bc"
+    },
+    {
+      "id": "cap_bladestorm",
+      "runtime": "data/images/game/passives/cap_bladestorm.png",
+      "source": "assets/passives/pixel-sources/cap_bladestorm.json",
+      "purpose": "Crossed blades inside an angular sweep: an area sword attack.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "a80cc50394b316f836f95d2f0351ee8c607e77dcc8a077ecbced28bcae801c3a",
+      "sha256": "b260d9158e1ea1fcb845ff490cfed121137f301b49cdf44c03fe15b4180d6cea"
+    },
+    {
+      "id": "blademaster",
+      "runtime": "data/images/game/passives/blademaster.png",
+      "source": "assets/passives/pixel-sources/blademaster.json",
+      "purpose": "Single sword with its native material accents: blademaster tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "28325effedc9ae7ce2b8e7f77649611cd0ca95be368b8c153f49865392383042",
+      "sha256": "3cbc7a6166b876ed60564c3380f9e2e85286ece9e6ee4b5711b9b89a8918919d"
+    },
+    {
+      "id": "earthshaker_minor_precision",
+      "runtime": "data/images/game/passives/earthshaker_minor_precision.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_precision.json",
+      "purpose": "Earthshaker: Club with target reticle: ordinary club critical chance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 10,
+      "source_sha256": "c5c0e646e6c458d99c1a06dbd62b0da17c2a531522dcabafd0036da992382757",
+      "sha256": "cbf76c86dc667a937d9b44ef70b952bf4209fbe6a78d6d19a4b840bea4bc20d1"
+    },
+    {
+      "id": "earthshaker_minor_critical",
+      "runtime": "data/images/game/passives/earthshaker_minor_critical.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_critical.json",
+      "purpose": "Earthshaker: Bright steel edge and sparks: critical bonus damage.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "3578e3a61f96d92763ca240560cb46fd662ab0b414f45e489cff0b280fad62bf",
+      "sha256": "9f97e42e2debd987c9a53156b8b81a03cd5767053305c48facb5d83eb79511e7"
+    },
+    {
+      "id": "earthshaker_minor_power",
+      "runtime": "data/images/game/passives/earthshaker_minor_power.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_power.json",
+      "purpose": "Earthshaker: Clenched leather gauntlet: direct club power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "330fe71b3efb85b46e5963b3bd36e3dc1a858b99ca49266e6c1ed73fd23b2cec",
+      "sha256": "494e68a73a0394af54a78c803ef5b337057ac3ce25c1f652d58c6d6c2eda15b8"
+    },
+    {
+      "id": "earthshaker_minor_efficiency",
+      "runtime": "data/images/game/passives/earthshaker_minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_efficiency.json",
+      "purpose": "Earthshaker: Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "0d57807b6fd77b65cd61dd39d41e4ab0ea0c734a3b3d32d0ad73d2f3452593a0",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "earthshaker_minor_vitality",
+      "runtime": "data/images/game/passives/earthshaker_minor_vitality.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_vitality.json",
+      "purpose": "Earthshaker: Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "4a6c86c2967f147ce07ead079f2f8db4b0ac47d450157172528e3113d8e330c9",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "earthshaker_minor_resilience",
+      "runtime": "data/images/game/passives/earthshaker_minor_resilience.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_resilience.json",
+      "purpose": "Earthshaker: Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "4fc86be1f2e0dbe487334ff0e542a918787759b8a17d767b536580ad31aafe54",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "earthshaker_minor_recovery",
+      "runtime": "data/images/game/passives/earthshaker_minor_recovery.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_recovery.json",
+      "purpose": "Earthshaker: Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "62ec1d94ea939773b13eb828fea7ee139cd59314b25e83bbae72eab48094acb0",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "earthshaker_minor_focus",
+      "runtime": "data/images/game/passives/earthshaker_minor_focus.png",
+      "source": "assets/passives/pixel-sources/earthshaker_minor_focus.json",
+      "purpose": "Earthshaker: Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "269f8f104394cce1dfceae22fb549e2d2b12d226118cfd9d89451b7d9b5e2e50",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "earthshaker_major_precision",
+      "runtime": "data/images/game/passives/earthshaker_major_precision.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_precision.json",
+      "purpose": "Earthshaker: Watchful eye above club edge: critical readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "357aaa76f6b8e3bd01e857441789efa1a65058e1c10c699b482de0c5df0477d9",
+      "sha256": "0cfd987b4cf0b59319d658c533df9a42bbff3dc6e05be1ce72c98db19cd19f5c"
+    },
+    {
+      "id": "earthshaker_major_pressure",
+      "runtime": "data/images/game/passives/earthshaker_major_pressure.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_pressure.json",
+      "purpose": "Earthshaker: Club breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "4a5c7b554e89309d9feb9b9b2c95320275fecd1a0104319628d8f938a0405f29",
+      "sha256": "7aa806b76c4c5c4a9b75b2cdf041cf9476f47866103044b876f0369f52ea0e38"
+    },
+    {
+      "id": "earthshaker_major_guard",
+      "runtime": "data/images/game/passives/earthshaker_major_guard.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_guard.json",
+      "purpose": "Earthshaker: Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "b8ca63c460dbc59c50dc2a32eb7474ea3736d96d0f23070f99fde9c69ae4857a",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "earthshaker_major_recovery",
+      "runtime": "data/images/game/passives/earthshaker_major_recovery.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_recovery.json",
+      "purpose": "Earthshaker: Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "68eb32889dc72235e14c60edb975f5236add685f60efe9d6597fb15e0fd64015",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "earthshaker_major_tactical",
+      "runtime": "data/images/game/passives/earthshaker_major_tactical.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_tactical.json",
+      "purpose": "Earthshaker: Crossed club and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "e681b96a0a9cae9891941dbad3a37cecf08f377e979470cc46dc41684c76d7ab",
+      "sha256": "04c7a0d00aa9d008b1f542ad5f9dfc6c821b6bf979f6efdd94a371310f6c27d5"
+    },
+    {
+      "id": "earthshaker_major_steady",
+      "runtime": "data/images/game/passives/earthshaker_major_steady.png",
+      "source": "assets/passives/pixel-sources/earthshaker_major_steady.json",
+      "purpose": "Earthshaker: Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "7e3744d0093882e2886cd198922144b36cd1c68b5a54425e95a398df9c52f0a6",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_aftershock",
+      "runtime": "data/images/game/passives/cap_aftershock.png",
+      "source": "assets/passives/pixel-sources/cap_aftershock.json",
+      "purpose": "Heavy club impact and spreading stone rings: an aftershock.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "05e99223bf49e2b797d9bc961dd128eb9aa77f3f24105e0eb03e75c6a0b31ad6",
+      "sha256": "065023b2884fe039fba608acd51533527121d1c35799606a25d75683f6c57fd0"
+    },
+    {
+      "id": "cap_stoneguard",
+      "runtime": "data/images/game/passives/cap_stoneguard.png",
+      "source": "assets/passives/pixel-sources/cap_stoneguard.json",
+      "purpose": "Layered stone wall and steel boss: a protective guard.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "8585b12cb879863f258135750cd7c8eb0cde7c2b20c27658efdc0648c50847cd",
+      "sha256": "c4a63381a963406ff018df6b6ddf98c145655db201a7c3321ede8c3dd4ca8686"
+    },
+    {
+      "id": "cap_stonebond",
+      "runtime": "data/images/game/passives/cap_stonebond.png",
+      "source": "assets/passives/pixel-sources/cap_stonebond.json",
+      "purpose": "Three linked shields: damage sharing with a nearby party member.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "26616c19538ca2815ece6eca11b1476ff108da3815d878cad6ff753f35758f4f",
+      "sha256": "017a0b76550959cdcc2ec1798dadbb22b0ff623e5bb3a3737728e8f8aadf76c1"
+    },
+    {
+      "id": "earthshaker",
+      "runtime": "data/images/game/passives/earthshaker.png",
+      "source": "assets/passives/pixel-sources/earthshaker.json",
+      "purpose": "Single club with its native material accents: earthshaker tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "aa9a422a1315c1abfdbaf465cfbf71ea72aeda11dd9f7a505322bd3a73f10705",
+      "sha256": "43dfa4bcb1b3f8b934cbe644cb94060bedd8c6d560658b3426e3e9f729c5597f"
+    },
+    {
+      "id": "marksman_minor_precision",
+      "runtime": "data/images/game/passives/marksman_minor_precision.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_precision.json",
+      "purpose": "Marksman: Bow with target reticle: ordinary bow critical chance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "fe1c906ff3ceeb29f13786faaa62fe6903009230c4c77a645561f441680ee7a7",
+      "sha256": "08461c3dc6a5b88d182cff0628dfde80ba0bba6acb37efe446fcfdea9c54f8e4"
+    },
+    {
+      "id": "marksman_minor_critical",
+      "runtime": "data/images/game/passives/marksman_minor_critical.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_critical.json",
+      "purpose": "Marksman: Bright steel edge and sparks: critical bonus damage.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "3159351838f0c771543860f75a1185d35b5abd7cdb393cebfaa948cc510cc1b2",
+      "sha256": "fa84f56dd1e2d505c68ed5cd6d128e053f1e6bc90b232b02ddf9f84e5243a750"
+    },
+    {
+      "id": "marksman_minor_power",
+      "runtime": "data/images/game/passives/marksman_minor_power.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_power.json",
+      "purpose": "Marksman: Clenched leather gauntlet: direct bow power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "4b63723bb94669828d2bc07a6b35439cbeb971f7673b3d083a02d724a67f50c5",
+      "sha256": "a3aff126a15f01ed618443fb5bd72ee9f4afdf626ef18527041a025fcef18eb9"
+    },
+    {
+      "id": "marksman_minor_efficiency",
+      "runtime": "data/images/game/passives/marksman_minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_efficiency.json",
+      "purpose": "Marksman: Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "31cd1e6e1063f65f20e952c5dd16d349c1956f1b7ea5aa5322776b8e6ecd00c6",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "marksman_minor_vitality",
+      "runtime": "data/images/game/passives/marksman_minor_vitality.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_vitality.json",
+      "purpose": "Marksman: Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "d06e686af9fdd778563409108da6c7ff8ba34f324c0e3303d29a6c9e780b17ca",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "marksman_minor_resilience",
+      "runtime": "data/images/game/passives/marksman_minor_resilience.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_resilience.json",
+      "purpose": "Marksman: Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "dd0f8531f30dcd3a86f05faea147e784351a8753acaa3ed6e7fbab5ebe4192eb",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "marksman_minor_recovery",
+      "runtime": "data/images/game/passives/marksman_minor_recovery.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_recovery.json",
+      "purpose": "Marksman: Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "5beb563834c63288b72f88105f7972dfff33295cabb3377d91e443c8b74efcff",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "marksman_minor_focus",
+      "runtime": "data/images/game/passives/marksman_minor_focus.png",
+      "source": "assets/passives/pixel-sources/marksman_minor_focus.json",
+      "purpose": "Marksman: Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "bc6b2c8e8028eb943f02dfa605f6803de5ff1d37e08a5b1d8f46c04f32066f14",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "marksman_major_precision",
+      "runtime": "data/images/game/passives/marksman_major_precision.png",
+      "source": "assets/passives/pixel-sources/marksman_major_precision.json",
+      "purpose": "Marksman: Watchful eye above bow edge: critical readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "79a355399c28d8770437c59d4bbd7499991d6a4e08a87ff894d0c3d6a65c2689",
+      "sha256": "2a021d6e04e41ccf37f8696ea9077137c6b7177fe5b8f8075813bea4248be943"
+    },
+    {
+      "id": "marksman_major_pressure",
+      "runtime": "data/images/game/passives/marksman_major_pressure.png",
+      "source": "assets/passives/pixel-sources/marksman_major_pressure.json",
+      "purpose": "Marksman: Bow breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "8a999760cec3a44eee817f94358ed7ef6529117cfd496d73f204ff77787e9376",
+      "sha256": "6a0689dbcb3fce0e5b23b08760ce48ad35991f027c4050f44ce5b042baf0deba"
+    },
+    {
+      "id": "marksman_major_guard",
+      "runtime": "data/images/game/passives/marksman_major_guard.png",
+      "source": "assets/passives/pixel-sources/marksman_major_guard.json",
+      "purpose": "Marksman: Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "7daacb2e5ba4b256f2b272319b592f2575627b7614d2fe6dadd798ebd959c065",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "marksman_major_recovery",
+      "runtime": "data/images/game/passives/marksman_major_recovery.png",
+      "source": "assets/passives/pixel-sources/marksman_major_recovery.json",
+      "purpose": "Marksman: Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "1f50cb8fc28f820f6972700e4382d7d82d321a05bfa7148682887d17b22ac76d",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "marksman_major_tactical",
+      "runtime": "data/images/game/passives/marksman_major_tactical.png",
+      "source": "assets/passives/pixel-sources/marksman_major_tactical.json",
+      "purpose": "Marksman: Crossed bow and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "ec5146dd4afc411c88e9c801cf0912dd789dec8b8e2ff23cfac5fe33132dfb62",
+      "sha256": "002b685535bc39a78085b31394fdf6b730f724ef7f870768fc0ff7f41a581034"
+    },
+    {
+      "id": "marksman_major_steady",
+      "runtime": "data/images/game/passives/marksman_major_steady.png",
+      "source": "assets/passives/pixel-sources/marksman_major_steady.json",
+      "purpose": "Marksman: Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "c0da64262a0e8201b83fb97d8e1700264d7e277756f228d8a2077446e96a983c",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_deadeye",
+      "runtime": "data/images/game/passives/cap_deadeye.png",
+      "source": "assets/passives/pixel-sources/cap_deadeye.json",
+      "purpose": "Watchful eye and a focused arrow: a prepared accurate shot.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "bbd48ba485682844b435a90322d3679e9a84c842e9643e33034741c39eff910f",
+      "sha256": "2eceed4df937a053d18958a3cfaddc8c8582fea91229da438360a12e18a7fb96"
+    },
+    {
+      "id": "cap_skirmisher",
+      "runtime": "data/images/game/passives/cap_skirmisher.png",
+      "source": "assets/passives/pixel-sources/cap_skirmisher.json",
+      "purpose": "Arrow bouncing between three targets: nearby-target bounces.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "66cdacd00df9f1318ef1d61bdee24822a6a5a4731a63c3b735e25615ec1ba0fa",
+      "sha256": "d7805e45d06ba4d46a89890f1142b7b17e76d203e9680991a84f0bff5507b5c6"
+    },
+    {
+      "id": "cap_quarry",
+      "runtime": "data/images/game/passives/cap_quarry.png",
+      "source": "assets/passives/pixel-sources/cap_quarry.json",
+      "purpose": "Marked beast and converging signs: a marked party-hunt target.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "42d40d80830962b5d9fc0316305fd25ac84742f65d676be17722c6d069dc540b",
+      "sha256": "acca242c011e96e5cd6c6ae855fa996c0eafbcb50b0d48cb9b53611522ea6503"
+    },
+    {
+      "id": "marksman",
+      "runtime": "data/images/game/passives/marksman.png",
+      "source": "assets/passives/pixel-sources/marksman.json",
+      "purpose": "Single bow with its native material accents: marksman tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "02b0db0935e5d17225d1f6bdb566293f967c5d8e4fae9048fc28b67ed08a5ab6",
+      "sha256": "034265baf17006a3daae4e8e1858b65db32c0f5e8bf5b69d9ecf8ecdc50c8ca4"
+    },
+    {
+      "id": "arcanist_minor_precision",
+      "runtime": "data/images/game/passives/arcanist_minor_precision.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_precision.json",
+      "purpose": "Arcanist: Wand with target reticle: ordinary wand critical chance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 11,
+      "source_sha256": "119b13b0f097b657414383cfcc34ba2c0a04a4c48e4ad2c05d1b3fb6ad5b9c42",
+      "sha256": "1b638f07e147242a8cf46c3e8126d8c73fdc2312cc2c32212845788e285d3d1d"
+    },
+    {
+      "id": "arcanist_minor_critical",
+      "runtime": "data/images/game/passives/arcanist_minor_critical.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_critical.json",
+      "purpose": "Arcanist: Bright steel edge and sparks: critical bonus damage.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "0d3ab409ced657989e0d26b3e78a44b738ca6aa39d55a8f512b60cc3a8bf9e49",
+      "sha256": "10ad2ca7a03739a9e65df3262a68cfeb1c742d0831a7fd0755e9e58c3f3ec3de"
+    },
+    {
+      "id": "arcanist_minor_power",
+      "runtime": "data/images/game/passives/arcanist_minor_power.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_power.json",
+      "purpose": "Arcanist: Clenched leather gauntlet: direct wand power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "ee64dda030d5b4f92d25ca68676bbd098604ce7312f9cbb9c0eca9383ac58f49",
+      "sha256": "62393af458abd9335690f243586c23398aabeead54d8bae0a3faab3a79516402"
+    },
+    {
+      "id": "arcanist_minor_efficiency",
+      "runtime": "data/images/game/passives/arcanist_minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_efficiency.json",
+      "purpose": "Arcanist: Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "6b2434eaa9486286b0f1067e8a3514e876abb28a6c44a7ddec98c61647155f13",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "arcanist_minor_vitality",
+      "runtime": "data/images/game/passives/arcanist_minor_vitality.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_vitality.json",
+      "purpose": "Arcanist: Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "3d9416234f282a8c39b5bbc8f4bc8b708a79d1b744732d06a580ca6c7a1f15ec",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "arcanist_minor_resilience",
+      "runtime": "data/images/game/passives/arcanist_minor_resilience.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_resilience.json",
+      "purpose": "Arcanist: Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "288807499b34a96ee44f4a9976a0569dd6e9bb90e3037f997a5ab973135a60ac",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "arcanist_minor_recovery",
+      "runtime": "data/images/game/passives/arcanist_minor_recovery.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_recovery.json",
+      "purpose": "Arcanist: Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "3a2f9c93abacb527b3a6985bfdeaf71960073543ea76284a32a131d41ff1e05c",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "arcanist_minor_focus",
+      "runtime": "data/images/game/passives/arcanist_minor_focus.png",
+      "source": "assets/passives/pixel-sources/arcanist_minor_focus.json",
+      "purpose": "Arcanist: Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "662e86729e79bbe90eec4b951c9233d87a2a25745ce16bb4d9ef2f4af5def7f6",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "arcanist_major_precision",
+      "runtime": "data/images/game/passives/arcanist_major_precision.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_precision.json",
+      "purpose": "Arcanist: Watchful eye above wand edge: critical readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "cf0eed8268c7b7d3dc9b7a34a24c0d3a9880bad8fd8caba30d34ba7452ed7156",
+      "sha256": "a8bbfcbde825fbf23e9778e107debe737342f44018108253182cbeb0de313c7e"
+    },
+    {
+      "id": "arcanist_major_pressure",
+      "runtime": "data/images/game/passives/arcanist_major_pressure.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_pressure.json",
+      "purpose": "Arcanist: Wand breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 10,
+      "source_sha256": "5b3810ca89262dd689c23ee3dbff1a782346547aef0c06c1a3862ad3e7de439a",
+      "sha256": "0913cb162dedd3249709aa3c025cba873cac0f90193222c910b716d801736712"
+    },
+    {
+      "id": "arcanist_major_guard",
+      "runtime": "data/images/game/passives/arcanist_major_guard.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_guard.json",
+      "purpose": "Arcanist: Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "3613abd5434e47c5f453f92e6ed574cd8e00183b9174cfdbb7da3555bba21450",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "arcanist_major_recovery",
+      "runtime": "data/images/game/passives/arcanist_major_recovery.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_recovery.json",
+      "purpose": "Arcanist: Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "f97b71802c45aff7b4adbcef538b58c3e607d1414c5c1e9586e745bd3cf41cbb",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "arcanist_major_tactical",
+      "runtime": "data/images/game/passives/arcanist_major_tactical.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_tactical.json",
+      "purpose": "Arcanist: Crossed wand and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "ed48a84da6769d8ca56180fdae86e13fecf55ca732dad9061a1171fba82a6dc5",
+      "sha256": "9c409fbb73d29b29b77769dafc4bbde686cf78b7a995a89198d15d4283470994"
+    },
+    {
+      "id": "arcanist_major_steady",
+      "runtime": "data/images/game/passives/arcanist_major_steady.png",
+      "source": "assets/passives/pixel-sources/arcanist_major_steady.json",
+      "purpose": "Arcanist: Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "cbc581a47e4b8c942bc81f3dff544eabbd8e59801076d6cee2b2b60199c0ef7a",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_conduit",
+      "runtime": "data/images/game/passives/cap_conduit.png",
+      "source": "assets/passives/pixel-sources/cap_conduit.json",
+      "purpose": "Blue lightning joining three orbs: a bounded lightning chain.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "cd803fc8a47f4b5198bcd0b765cfd91941d9c780d3fefc9603f25a606ff1137d",
+      "sha256": "27061d6a8d6589cc8754f0c7eddbfd7bb3b325a603107a045d269d0fb5b4e7b2"
+    },
+    {
+      "id": "cap_resonance",
+      "runtime": "data/images/game/passives/cap_resonance.png",
+      "source": "assets/passives/pixel-sources/cap_resonance.json",
+      "purpose": "Blue central rune and echoing arcs: spell resonance.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "1f22911b40d00242a5fa885485114543fe48885cc7e5295f7e1609652c727c1f",
+      "sha256": "7fb34a4fe92816bf3176b4f7b9f2fe0877d972aac3b77ae0753ed969f2966567"
+    },
+    {
+      "id": "cap_spellweaver",
+      "runtime": "data/images/game/passives/cap_spellweaver.png",
+      "source": "assets/passives/pixel-sources/cap_spellweaver.json",
+      "purpose": "Three elemental threads tied at a gold rune: spell weaving.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "e1d85dcb35e9dcf14b54e15813dcbb38ecce0c9bc47eb6eb23c6f659f35a24f9",
+      "sha256": "f5bccfceeac1a080df5b5916e495ebb5dc95161dc35a2b3c053c29dbe0b2b95b"
+    },
+    {
+      "id": "arcanist",
+      "runtime": "data/images/game/passives/arcanist.png",
+      "source": "assets/passives/pixel-sources/arcanist.json",
+      "purpose": "Single wand with its native material accents: arcanist tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "7c4af0232f81796abb91f9a8ddb383bc6c8a09412bbb5642c3100f3361a69fbc",
+      "sha256": "daf092991a73d308d54e0ec61698b30df9529a3d8148a9b14fe977ac6873861e"
+    },
+    {
+      "id": "lifekeeper_minor_precision",
+      "runtime": "data/images/game/passives/lifekeeper_minor_precision.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_precision.json",
+      "purpose": "Open mending hands and a living heart: additional direct healing.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "4446ce81a43a31e1793300bd83163c7f2a308ddc34d0ceb3a5c8fefe0632e1ca",
+      "sha256": "7ccee0cf8bc48482f50331d95540779fd5ae3be5224692099f89eb006881bc16"
+    },
+    {
+      "id": "lifekeeper_minor_critical",
+      "runtime": "data/images/game/passives/lifekeeper_minor_critical.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_critical.json",
+      "purpose": "A pale flower and green leaves: stronger direct healing.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "3831f1ae71ec9a03cbcb0b65659dd74c142a3d02912a6d2134c287286a1c00e6",
+      "sha256": "a75669f0603ffb49cd67d04887e85c3ffa12bfab3054adedda4e0c6fe9ede922"
+    },
+    {
+      "id": "lifekeeper_minor_power",
+      "runtime": "data/images/game/passives/lifekeeper_minor_power.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_power.json",
+      "purpose": "Lifekeeper: Clenched leather gauntlet: direct rod power.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "94475c92cd19758797abbce1f120a0132d442646f47e794dca6810ddbf695236",
+      "sha256": "007182e91d626797b80047fa2f83b4adf42dc287c501f100937a43110e604d84"
+    },
+    {
+      "id": "lifekeeper_minor_efficiency",
+      "runtime": "data/images/game/passives/lifekeeper_minor_efficiency.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_efficiency.json",
+      "purpose": "Lifekeeper: Mana vessel and returning gold arrow: mana efficiency.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "a7e69a1ea1d64f47bf13f247de9ee6d878a4c800e2ebb20abd620ef22c8f4a33",
+      "sha256": "e97b71696947614708bb9999b983991822e9665ffe358a8de91c8888adc6ce47"
+    },
+    {
+      "id": "lifekeeper_minor_vitality",
+      "runtime": "data/images/game/passives/lifekeeper_minor_vitality.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_vitality.json",
+      "purpose": "Lifekeeper: Living red heart: maximum health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 4,
+      "source_sha256": "e05b3e4840a894899f6066e8d2d0665273574c93c92b4439042b3898c241dc9a",
+      "sha256": "9260f808c675e1b53215c8e163aeacf4c5e6e868998540ecb19af62160c8fd23"
+    },
+    {
+      "id": "lifekeeper_minor_resilience",
+      "runtime": "data/images/game/passives/lifekeeper_minor_resilience.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_resilience.json",
+      "purpose": "Lifekeeper: Riveted steel shield and impact: physical resilience.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "3bee4055d42d8440328dd66619841dd16bd08fad6774210161f7227a04b9616c",
+      "sha256": "f817879f28e99ceb2812cfa8ac0e42a1ff7a315ec7720f3cb3fb895c2b9e25ed"
+    },
+    {
+      "id": "lifekeeper_minor_recovery",
+      "runtime": "data/images/game/passives/lifekeeper_minor_recovery.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_recovery.json",
+      "purpose": "Lifekeeper: Blood droplet with green shoots: life recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "60449b5667deddc59967a172e0a0922a97ec9fada7d68fde846cb0d6e80b49d6",
+      "sha256": "8f8f5b1bc5a7f440ab0797f571faea34f07d8e05a33df1e4ae6da541a982b0fd"
+    },
+    {
+      "id": "lifekeeper_minor_focus",
+      "runtime": "data/images/game/passives/lifekeeper_minor_focus.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_minor_focus.json",
+      "purpose": "Lifekeeper: Blue mana crystal with restrained shimmer: mana recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 5,
+      "source_sha256": "d799ea159091458526c0a67623d3b1dc0bd9f612f416598c37c9253ebad196a1",
+      "sha256": "7446caf3767c5528a15e71326102dbc212c398f98d4833148e37d22342852813"
+    },
+    {
+      "id": "lifekeeper_major_precision",
+      "runtime": "data/images/game/passives/lifekeeper_major_precision.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_precision.json",
+      "purpose": "A mending hand and a rod: healing readiness.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 9,
+      "source_sha256": "20d4a9dd88159f47ed7d8c4530920ede9e123b192688f758e6fbf9db9449b8f1",
+      "sha256": "9a80ea933a1b78e3e0a6456d148db4c4222a605591d8682a809c61ab45702bff"
+    },
+    {
+      "id": "lifekeeper_major_pressure",
+      "runtime": "data/images/game/passives/lifekeeper_major_pressure.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_pressure.json",
+      "purpose": "Lifekeeper: Rod breaking stone: pressure and adjacent impact.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "91f677fe0c889d18436115c8a19e73db794a2c59b722abb573053bb4d069460b",
+      "sha256": "33c79200e413755a8047d583405f498b919052ca7f0a98bb97464b3ed35aece0"
+    },
+    {
+      "id": "lifekeeper_major_guard",
+      "runtime": "data/images/game/passives/lifekeeper_major_guard.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_guard.json",
+      "purpose": "Lifekeeper: Tall shield with warm central boss: guard and vitality.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "f6e21b5d014d4617ce77fe4061f1a0b573bf703275b25713bf48821f2e7b0f15",
+      "sha256": "6d78c7e8018e40f9026d7bd0c104c666841989bf1a56489be325011b8e7db27b"
+    },
+    {
+      "id": "lifekeeper_major_recovery",
+      "runtime": "data/images/game/passives/lifekeeper_major_recovery.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_recovery.json",
+      "purpose": "Lifekeeper: Blood vessel with living leaves: leech and recovery.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "7ed3e37cae3aa5c600ff3b84eeb23be15175205c7dfd989284d25e3d3b4e0af6",
+      "sha256": "d3ae55f3a67a8a5a3cc44e254500505ebc880dc45f49f70cc1a668816c61e7ff"
+    },
+    {
+      "id": "lifekeeper_major_tactical",
+      "runtime": "data/images/game/passives/lifekeeper_major_tactical.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_tactical.json",
+      "purpose": "Lifekeeper: Crossed rod and blue rune: alternating attack and spell.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "a1a0014efc50d1c40649f19e88ed72cd617c9abbce83712fa6f1fee3971caf8e",
+      "sha256": "ffe8eafa8490df4d7ada8dee3c3996d920f985cd670e322248d83c43fd2391b1"
+    },
+    {
+      "id": "lifekeeper_major_steady",
+      "runtime": "data/images/game/passives/lifekeeper_major_steady.png",
+      "source": "assets/passives/pixel-sources/lifekeeper_major_steady.json",
+      "purpose": "Lifekeeper: Steadfast helm in green wreath: endurance at low health.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "be2336a85e0a32da2a2437623b3bd08fa690b979514fdbbfd8361e89a57ad50d",
+      "sha256": "7e9600c2d70ab40b11aaa64f112e84481da3e3b0666a7954dd1b7b6a073af376"
+    },
+    {
+      "id": "cap_renewal",
+      "runtime": "data/images/game/passives/cap_renewal.png",
+      "source": "assets/passives/pixel-sources/cap_renewal.json",
+      "purpose": "Living leaves, warm heart and a returning arc: healing over time.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "3045776d72f6f166a0d5caec544e286db7a320f49e04d37517bec8c71430b244",
+      "sha256": "6e18110c2b885c1a76d10717d9327cb0da54a489c26f8ec0ce9e6a4ff258df81"
+    },
+    {
+      "id": "cap_aegis",
+      "runtime": "data/images/game/passives/cap_aegis.png",
+      "source": "assets/passives/pixel-sources/cap_aegis.json",
+      "purpose": "Blue steel shield and healing cross: a healing-created shield.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 7,
+      "source_sha256": "0a4b66ca24f3818e382c6f849dde7e82e62863dcbdd823511d45d0f4afd00084",
+      "sha256": "871e622a7b218072e7be9e84b163a82b6b5ed3f34a6ef5b2ef4c21a2557f5532"
+    },
+    {
+      "id": "cap_concord",
+      "runtime": "data/images/game/passives/cap_concord.png",
+      "source": "assets/passives/pixel-sources/cap_concord.json",
+      "purpose": "Three linked party hands around a living heart: party support.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 8,
+      "source_sha256": "ba478b0af4f16d6056f586f333ccc22bdd52c15815f74a9eee1a19cfcafb4e60",
+      "sha256": "0f79004e8924e3f51ee29d198f2787e445b882c3c08deb98bcc230b4e7c13288"
+    },
+    {
+      "id": "lifekeeper",
+      "runtime": "data/images/game/passives/lifekeeper.png",
+      "source": "assets/passives/pixel-sources/lifekeeper.json",
+      "purpose": "Single rod with its native material accents: lifekeeper tree emblem.",
+      "size": [
+        32,
+        32
+      ],
+      "opaque_colors": 6,
+      "source_sha256": "cec30e81dc54988c35928f5bd750214a7e2f0a9ae539940a87ec094116870b02",
+      "sha256": "d588e2ce27a249d1f0e105f0190070ae4c3edd5a741283ddcfcb8888513a66f6"
+    }
+  ]
+}

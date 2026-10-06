@@ -1,8 +1,9 @@
-param([string]$VcpkgRoot = 'C:/vcpkg-server', [int]$Jobs = 8)
+param([string]$VcpkgRoot = 'C:/vcpkg-server', [int]$Jobs = 8, [string]$BuildDirectory = '')
 $ErrorActionPreference = 'Stop'
 $clientRoot = Split-Path $PSScriptRoot -Parent
 $serverRoot = Join-Path (Split-Path $clientRoot -Parent) 'Rookhaven'
 $buildDir = Join-Path $serverRoot 'build/local-item-test'
+if ($BuildDirectory) { $buildDir = [IO.Path]::GetFullPath($BuildDirectory) }
 $include = Join-Path $VcpkgRoot 'installed/x64-windows/include'
 Import-Module C:/BuildTools/Common7/Tools/Microsoft.VisualStudio.DevShell.dll
 Enter-VsDevShell -VsInstallPath C:/BuildTools -DevCmdArguments '-arch=x64 -host_arch=x64' -SkipAutomaticLocation

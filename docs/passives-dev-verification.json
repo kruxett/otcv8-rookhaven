@@ -1,0 +1,370 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-06T20:22:18.624670+00:00",
+  "status": "LOCAL_PREPARATION_VERIFIED",
+  "preparedOnly": true,
+  "gitCommitOrPushPerformed": false,
+  "remoteDeploymentPerformed": false,
+  "liveDevServerOrDatabaseTested": false,
+  "realUpdaterDownloadTested": false,
+  "build": {
+    "clientProfile": "Normal DEV release10085, retro",
+    "releaseEndpoint": "testserver2.rookhaven-ot.com:7173:860",
+    "releaseUpdater": "http://updater2.rookhaven-ot.com/api/updater",
+    "artifacts": {
+      "clientExe": {
+        "path": "out\\install\\x64-DevRelease\\RookhavenClient.exe",
+        "sha256": "a269ac41adf17dafe2982181df1b5b769149dec6d226f08ab72a2a3073588afc"
+      },
+      "clientArchive": {
+        "path": "out\\install\\x64-DevRelease\\data.zip",
+        "sha256": "243149c39452ffce2ce8e83814d3aa5c4e9de216dad8d8a3466f620721154a3a"
+      },
+      "serverExe": {
+        "path": "../Rookhaven/build\\local-passives\\tfs.exe",
+        "sha256": "66d5178d1c3e5db4cca311683f73f7493ba9383ada8626735558d5dd40bef0c5"
+      }
+    },
+    "logs": [
+      {
+        "path": "out/passives-dev-client-build.log",
+        "sha256": "51d767727e6ca01bef3a937f187f7d3f889dda4f4fd22a43149f94a30b9a6b49"
+      },
+      {
+        "path": "out/passives-dev-server-build.log",
+        "sha256": "e2c841149733814c5dff09f95aa7b91a7a82c5ff6352a3596deb42a4c3f44781"
+      }
+    ]
+  },
+  "mainConfigAdditionalRowsRequired": true,
+  "mainConfig": {
+    "file": "DEV server main config.lua (private/ignored)",
+    "requiredRows": [
+      "passivesEnabled = true",
+      "passiveTestEnabled = false"
+    ],
+    "restartRequired": true
+  },
+  "gates": [
+    {
+      "name": "Normal DEV module and request contract",
+      "log": "out/passives-dev-client-native.log",
+      "sha256": "93a49f9a1b5fe254f794674c79b2665d4aca6094593e8ee4e7c70102419ffbf7",
+      "successMarker": "PASSIVES_DEV_CLIENT_OK cases=50",
+      "scope": "Actual packaged modules; 50 scripted protocol/UI-boundary cases. DEV10085 request identity checked; updater response scripted, no real download."
+    },
+    {
+      "name": "Normal DEV ordinary online allocation and respec",
+      "log": "out/passives-dev-online-enabled.log",
+      "sha256": "cd5c99461ff067a2a29f6324b99848b154f0ab3276da9f63f54dd75ef7141d62",
+      "successMarker": "PASSIVES_DEV_ONLINE_OK phase=enabled normalDev=true testOverlays=false",
+      "scope": "Final normal DEV package, disposable login redirected to new local native server. Permanent enabled, admin test disabled. Real Apply/orphan rejection/relogin/free and 1000-gold paid bank respec/two starter entitlements. Scripted updater response."
+    },
+    {
+      "name": "Normal DEV administrative denial",
+      "log": "out/passives-dev-online-admin.log",
+      "sha256": "f33603eea01ea58c5fa44ea58217619e5d5f07db887c19824c83efa7f07fa384",
+      "successMarker": "PASSIVES_DEV_ONLINE_OK phase=admin normalDev=true testOverlays=false",
+      "scope": "New local native server, normal DEV package; local GOD cannot start overlay with test flag false. Scripted updater response."
+    },
+    {
+      "name": "Normal DEV disabled feature",
+      "log": "out/passives-dev-online-disabled.log",
+      "sha256": "179163baf868d94ff3a11c58d12eb4c6a6dcc4ade7ecd7d8c49f03687d2b9b6c",
+      "successMarker": "PASSIVES_DEV_ONLINE_OK phase=disabled normalDev=true testOverlays=false",
+      "scope": "New local native server, normal DEV package; disabled capability suppresses passive/class/spell UI. Scripted updater response."
+    },
+    {
+      "name": "Capability handlers",
+      "log": "out/passives-dev-gate-handler-proof.log",
+      "sha256": "e0361f5d3313344715e0cf7a710468b11b5ad92cb9700168e0c5a01445242777",
+      "successMarker": "PASSIVES_DEV_GATE_HANDLER_OK cases=14 checks=149",
+      "scope": "Actual server Lua handler flow; native callbacks mocked. No DB/network/combat."
+    },
+    {
+      "name": "29-node catalog and allocation contract",
+      "log": "out/passives-dev-catalog.log",
+      "sha256": "5688728772c9d9cdd58982ac6b1aad0d5994f9bb7b02b6221bd7fd340f213d85",
+      "successMarker": "PASSIVES_SERVER_CATALOG29_OK classes=6 checks=2546",
+      "scope": "Server catalog/config/assets/transport/allocation and admin handlers. Native startup/callbacks mocked; no DB or combat."
+    },
+    {
+      "name": "All six connected catalog paths",
+      "log": "out/passives-dev-catalog-paths.log",
+      "sha256": "82e0d3ba4969f5bb4f5cf13d218a476c793e641fb61ccbb665cc8dc9fb38b445",
+      "successMarker": "PASSIVES_CATALOG_METADATA_OK trees=6 nodes=174 logicalEdges=216 cases=6978 purchasePrefixes=2880 rejections=564",
+      "scope": "Standalone metadata and literal purchase-path contract. Not a native combat test."
+    },
+    {
+      "name": "Third ascension injected failures",
+      "log": "out/passives-ascension-failure-root.log",
+      "sha256": "0122b8304839297a4c2ece4f37987fe4771be66a7294784c0942858e6ff0e87e",
+      "successMarker": "PASSIVES_ASCENSION_FAILURE_OK cases=29 checks=2391",
+      "scope": "Actual NPC Lua flow; item/save/SQL native callbacks mocked. Checks rejected saves, owned item transfer and transactional failure behavior; not native DB failure injection."
+    },
+    {
+      "name": "Third ascension and surrounding persistence",
+      "log": "out/passives-permanent-tests/third-ascension.log",
+      "sha256": "1268d886b90ad5c23708d233d55b624badae1d988640d6220b22f84d910f2351",
+      "successMarker": "PASSIVES_PERMANENT_OK",
+      "scope": "Final DEV EXE/resources with isolated local profile against new local native server. Actual ordinary Nameless third ascension/checked save/two own starters/legacy Light Healing, free+paid respec, legal16-point capstone, relog, death, derived HP save, TCP detach, earned points and permanent UI lifetime."
+    },
+    {
+      "name": "Sword starter cost and rejection regression",
+      "log": "out/class-spells-tests/blademaster.log",
+      "sha256": "f8faf8dec7766432da55aedc6e2ec700dc06c04e2fea7b74a4eb5ca60d532631",
+      "successMarker": "CLASS_SPELLS_OK blademaster",
+      "scope": "Final DEV EXE/resources with isolated local profile; actual native Focused Thrust24 and Flurry18 mana, learning persistence, wrong class/weapon/insufficient mana/unlearned/cooldown rejections."
+    },
+    {
+      "name": "Ordinary rod purchase insufficient cash",
+      "log": "out/passives-dev-shop-insufficient.log",
+      "sha256": "abbfd10b7510f3e2eb9681928f35d37c8ac327290bd8843fcbdb51a4a35b3090",
+      "successMarker": "PASSIVES_DEV_ACCESS_OK",
+      "scope": "Actual local Plipus NPC/trade handlers, ordinary GUID9004, bank0/cash49. UI affordability false and forged buy packet rejected; cash49/no rod retained. Actual client-ID mapping; no OS input automation."
+    },
+    {
+      "name": "Ordinary rod purchase and equip",
+      "log": "out/passives-dev-shop-purchase.log",
+      "sha256": "2417f7dfb227c97e4bda1dc048ef5c09f083641b17e36a3fdab9417ee7df3f16",
+      "successMarker": "PASSIVES_DEV_ACCESS_OK",
+      "scope": "Actual local Plipus purchase, ordinary GUID9004, bank0/cash50. Cash50 to0/item0 to1/equipped slot5; SID2182 maps CID3066. No admin rod grant."
+    },
+    {
+      "name": "Purchased rod native combat and starter",
+      "log": "out/passives-dev-rod-combat.log",
+      "sha256": "f850568d52d2d0289f27bbfbdc327e58853ca8896ab274cb5ad8784ff69d7c33",
+      "successMarker": "PASSIVES_DEV_ROD_OK",
+      "scope": "Same saved purchased2182, zero talent ranks, actual unmitigated local monster. Observed auto2 actual HP/exact2 mana; insufficient1 mana no damage or payment; learned Essence Lash actual damage/separate12 mana. One sampled auto, not a random damage distribution test."
+    },
+    {
+      "name": "Existing gameplay with permanent support enabled",
+      "log": "out/passives-dev-baseline-enabled.log",
+      "sha256": "6d4438e88faae4847a00c3f2d40b81e956947e6111994ef851adbdb0308eca7f",
+      "successMarker": "PASSIVES_BASELINE_OK enabled=true",
+      "scope": "Final DEV EXE/resources with isolated local profile; new native server permanent enabled/test false, no active overlay. Fixed37 damage/17 healing/three area recipients, mana shield, standard bleed/poison/cure isolation, scheduler, right-only Head Splitter20/cooldown rejection, Light Healing20."
+    },
+    {
+      "name": "Existing gameplay with permanent support disabled",
+      "log": "out/passives-dev-baseline-disabled.log",
+      "sha256": "78020f72b236c0eb81ee3b2ea9151bea1be3d73450c26d17a860e57d86a3eeb9",
+      "successMarker": "PASSIVES_BASELINE_OK enabled=false",
+      "scope": "Same final artifacts, new native local server permanent/test false. Same surrounding baseline checks, no active overlay."
+    },
+    {
+      "name": "Full automatic database upgrade and restore",
+      "log": "out/passives-dev-database-final-root.log",
+      "sha256": "a57273b651a53aaec3e2c2406f84871b5d984785985b3f9a6b7531fb1f3517dc",
+      "successMarker": "PASSIVES_DEV_DATABASE_OK ordinaryTables=37 restoreTables=38",
+      "scope": "Actual native startup30-to31, idempotent restart and full pre30 dump/restore against disposable DB33308 clones. No live DEV database accessed."
+    }
+  ],
+  "database": {
+    "report": "out/passives-dev-database-final/report.json",
+    "sha256": "b901ea22ff7396bd61ce0467cdf9ddefe3d2271ae3c58fa2f6c40ead037717c9",
+    "status": "PASS",
+    "upgradedVersion": 31,
+    "restoredVersion": 30,
+    "tableCounts": {
+      "source": 39,
+      "preUpgrade": 38,
+      "afterFirstStartup": 39,
+      "afterSecondStartup": 39,
+      "restored": 38,
+      "ordinaryCompared": 37
+    },
+    "measured": [
+      "Real automatic startup30-to31 migration",
+      "Ordinary base-table checksums unchanged",
+      "29-rank default and player FK cascade",
+      "Complete second-startup checksum idempotence",
+      "Full pre30 dump restored to a separate disposable database",
+      "Every restored base-table checksum and version30/no-ledger match",
+      "Original fixture checksums/version unchanged"
+    ],
+    "preUpgradeDumpSha256": "13353b0c8f23fd56b9c0ba8a9d303a45f3430c7fd1e712f61652f97d71639718",
+    "backupContentsIncludedInRelease": false,
+    "manualExistingDatabaseSchemaImportRequired": false
+  },
+  "balance": {
+    "report": "docs/passives-dev-balance.md",
+    "analyticalLog": "out/passives-dev-balance-root.log",
+    "sha256": "d5b7d13207ee661ecc9917bdb1941ae43448e8463183b7a5de64eb47d33d9faa",
+    "activeNpcCount": 66,
+    "activeMonsterCount": 83,
+    "assertions": {
+      "baselineArmor": 8,
+      "formulaProfiles": 72,
+      "legalFirstCap16Builds": 18,
+      "legalPurchasePrefixes": 288,
+      "newRodVendorAndNativeStats": true,
+      "rareRodUnchanged": true,
+      "starterSpells": 12
+    },
+    "limits": [
+      "Authored source access and formula estimates do not prove completed quest navigation or ordinary hunt balance.",
+      "Rare gear/affixes, proc uptime and high retained skills materially affect comparisons.",
+      "Inherited learnable Soul Drain pulses overlap; full-class balance remains provisional."
+    ]
+  },
+  "sourceFiles": [
+    {
+      "repository": "client",
+      "path": "init.lua",
+      "sha256": "72b24650f2a503eef474dc02c44adccd39f19abf243953cd3c1452d4b3f01afd"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passives.lua",
+      "sha256": "0d9938dc031a76a91717dea0ef5b6e334aa515e84feff4a5e0bc73f58351ba35"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classchoice.lua",
+      "sha256": "b768a359d945a7172086581756ddce1e6f677707e5a9844e929ab30d13b466cf"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classspells.lua",
+      "sha256": "3d292273c0247f663a23005e0a715f8d61f10792dae39068506ced0d0e1613a8"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passivetree.lua",
+      "sha256": "9dec82bf8360f57f6a81dd082b97a34009c14f4739fd373df63fb2a0186819cb"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_actionbar/actionbar.lua",
+      "sha256": "e3b7a6007100b3a5167624f2f9a81aa3d1be6895c7c7684835484b0bcf699e2f"
+    },
+    {
+      "repository": "client",
+      "path": "src/main.cpp",
+      "sha256": "9e351fe30aa708ed66f75d947b53a3339294bd69bc23075b4829fbd211b429e4"
+    },
+    {
+      "repository": "client",
+      "path": "src/framework/core/resourcemanager.cpp",
+      "sha256": "6e2f5c2e57885c96d8e8aae7578e43cf4a0b9877abec4e9e117469b60d794304"
+    },
+    {
+      "repository": "client",
+      "path": "src/framework/core/resourcemanager.h",
+      "sha256": "4b5578cf6d9691b15b394cfc649546efafc528d07673daa8a99a35530457dcdd"
+    },
+    {
+      "repository": "server",
+      "path": "src/passives.cpp",
+      "sha256": "36c88947b464fe6d86166a9654532b10844c816e318aac61d087b83dfd9181ab"
+    },
+    {
+      "repository": "server",
+      "path": "src/passives.h",
+      "sha256": "3bcd5a8541164820f30d912c988ae4111e0b049ac9105eaf916305936f9404f8"
+    },
+    {
+      "repository": "server",
+      "path": "src/configmanager.cpp",
+      "sha256": "7f3bb454a70cb47a6f3cc5c57261a5e92f6653b5c706aaabcd7b3a9bd85b3112"
+    },
+    {
+      "repository": "server",
+      "path": "src/configmanager.h",
+      "sha256": "558c7e63712b81ca82820da0ac34e812a665328ce23babb46b7bb3fead6297a9"
+    },
+    {
+      "repository": "server",
+      "path": "src/luascript.cpp",
+      "sha256": "2a3cf5468d258b1f539e8084d8d9080b4bc84ce4e5afef7ac5e0daf05411fc21"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/config.lua",
+      "sha256": "0da5a55139518af22ec9dd9dc2fe5b2b4e04f8c36088f4f2092858fa466d8a3d"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/routes.lua",
+      "sha256": "c82f59e0e7e7cc88e71d6aafdfdd8d7af6e8ea6b0025f3127a92094b653c3688"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/test.lua",
+      "sha256": "7208de130fb1db41372fd2a0b57e1518da75911af3016dabfec27a75c44119ea"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/class_choice.lua",
+      "sha256": "9253b18d193f16d1debba4f3f4932afdd730b62d0a0e73a7448c78732bfd9ea5"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/class_spells/config.lua",
+      "sha256": "84aa028923b2276fe18ab8a8661c403eceaa0544bc8208bd20494cde3383f7b7"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/class_spells/class_spells.lua",
+      "sha256": "87434b737574f0e1ed67dce043ccda981610c3df429a64aa4198176b59d583f3"
+    },
+    {
+      "repository": "server",
+      "path": "data/npc/scripts/The Nameless.lua",
+      "sha256": "cf1fcd2a61a1d3f77dcdd2c4b4e4889ded5697a00d6ef9af9890e15d180deb61"
+    },
+    {
+      "repository": "server",
+      "path": "data/npc/Plipus.xml",
+      "sha256": "ae6dd9bc80fb726312e6868c3d286afbf499fa4f0ffc7b4c538cd8a2383023b5"
+    },
+    {
+      "repository": "server",
+      "path": "data/weapons/weapons.xml",
+      "sha256": "3c0dba127d8ff6524b31a37d3b9ef8686ccc6bbf8fba61759aff614737c0c66a"
+    },
+    {
+      "repository": "server",
+      "path": "data/migrations/30.lua",
+      "sha256": "2afcedfcadd6f0c0aa24fb4dc8370080bbbefca6c1143d9c5dc69c32522cf29b"
+    },
+    {
+      "repository": "server",
+      "path": "data/migrations/31.lua",
+      "sha256": "55fb88a662af8fa21ef3a9a0785214204dc31e5032ac2f6ecaaa0668d6540afd"
+    },
+    {
+      "repository": "server",
+      "path": "schema.sql",
+      "sha256": "43e44b837578372e9d7a1ba835294767a5a165448f6f589927fd76aecf09819b"
+    },
+    {
+      "repository": "server",
+      "path": "data/checksum_expected.txt",
+      "sha256": "5437fbc73db39ee1f117bef2a66039f281eeb5889f75cdab7b4e292e6d597981"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/images/passives-dev/ordinary-lifekeeper.png",
+      "sha256": "920ab6415c111aafaf8eaaf1b21ea85cc37e9863b1c540513783c7cf9debe45b",
+      "scope": "Actual normal DEV package on local server, ordinary Lifekeeper, permanent mode/test false, retro1280x800. Native framebuffer, not OS input automation."
+    }
+  ],
+  "previousConnectedEvidence": {
+    "path": "docs/passives-connected-verification.json",
+    "sha256": "6ecf5daef8d4a4a037974ee374c2caa1d2056a77f85a3b2e5b19a875479ae2b8",
+    "scope": "Historical earlier local stage reports31 gates and36 screenshots for routes/capstones/UI/persistence/regressions. Not all suites rerun on these final native artifacts; use current gates above for final executed tests."
+  },
+  "remainingUnmeasured": [
+    "Live DEV server/login/automatic migration and real updater download/restart.",
+    "Existing remote deploy.ps1 actual switches and working directory; established user pipeline remains authoritative.",
+    "Ordinary player hunts/full-class balance, long-term choices and maximum-population load.",
+    "Operating-system mouse-input automation."
+  ],
+  "releaseExport": {
+    "plannedDirectory": "out/passives-dev-release10085-final",
+    "finalArtifactAndSourceEqualityEvidence": "release-manifest.json in that directory, generated after this record.",
+    "pipeline": "Existing server Git update/recompile/restart and existing client patch upload; no replacement deployment pipeline."
+  }
+}

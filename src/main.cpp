@@ -98,7 +98,12 @@ int main(int argc, const char* argv[]) {
     g_resources.init(argv[0]);
     // Native integration tests need real file IO in a disposable profile.
     bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
-    std::string compactName = testMode ? "Rookhaven-LocalItemTest" : "Rookhaven";
+    bool localPassives = std::find(args.begin(), args.end(), "--local-passives") != args.end();
+    bool localPeer = localPassives && std::find(args.begin(), args.end(), "--local-passives-peer") != args.end();
+    std::string compactName = localPassives
+        ? (testMode ? (localPeer ? "Rookhaven-LocalPassives-Probe-Peer" : "Rookhaven-LocalPassives-Probe")
+                    : (localPeer ? "Rookhaven-LocalPassives-Peer" : "Rookhaven-LocalPassives"))
+        : (testMode ? "Rookhaven-LocalItemTest" : "Rookhaven");
     g_logger.setLogFile(compactName + ".log");
 
     // setup application name and version
@@ -106,7 +111,7 @@ int main(int argc, const char* argv[]) {
     g_app.setCompactName(compactName);
     g_app.setVersion(CLIENT_VERSION);
 
-    if (g_resources.launchCorrect(g_app.getName(), g_app.getCompactName())) {
+    if (!localPassives && g_resources.launchCorrect(g_app.getName(), g_app.getCompactName())) {
         return 0; // started other executable
     }
 
@@ -140,13 +145,21 @@ int main(int argc, const char* argv[]) {
 
     g_http.init();
 
+    g_lua.pushBoolean(localPassives);
+    g_lua.setGlobal("LOCAL_PASSIVES_TEST");
+
     if (testMode) {
         g_logger.setTestingMode();    
     }
 
     // find script init.lua and run it
     g_resources.setupWriteDir(g_app.getName(), g_app.getCompactName());
-    g_resources.setup();
+    if (localPassives) {
+        if (!g_resources.setupLocalArchive())
+            g_logger.fatal("Can't load local passive test data.zip. Rebuild the local test package.");
+    } else {
+        g_resources.setup();
+    }
 
     if(!runScriptPath.empty()) {
         if(!g_lua.safeRunScript(runScriptPath)) {
@@ -166,7 +179,7 @@ int main(int argc, const char* argv[]) {
 
     bool initOk = runInit();
 
-    if (!initOk) {
+    if (!initOk && !localPassives) {
         g_logger.warning("Unable to run script init.lua, retrying without user data overrides.");
         if (g_resources.setup(true)) {
             initOk = runInit();
@@ -174,6 +187,8 @@ int main(int argc, const char* argv[]) {
     }
 
     if (!initOk) {
+        if (localPassives)
+            g_logger.fatal("Can't run init.lua from the local passive test archive.");
         if (g_resources.isLoadedFromArchive() && !g_resources.isLoadedFromMemory() &&
             g_resources.loadDataFromSelf(true)) {
             g_logger.error("Unable to run script init.lua! Trying to run version from memory.");

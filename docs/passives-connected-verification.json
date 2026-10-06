@@ -1,0 +1,568 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-06T19:10:08.697428+00:00",
+  "localOnly": true,
+  "noCommitPushOrRemoteDeployment": true,
+  "mainConfigAdditionalRowsRequired": false,
+  "clientArchiveSha256": "3c0b1f5abe1a5ffb3cc3fae36cb67bbffd577ad9ccaca49264c0704e39f212ee",
+  "clientExeSha256": "9640976b805c6ee01188d8f55cdb9cb35cedaf652d446b22c0144a96e234661a",
+  "loginChecksum": "CS1:d08bec84",
+  "serverExeSha256": "b7efafbf4053383aee870183ec2e620d2c2babf427443d7568d6d9106634fca0",
+  "runtimeTuningMatchesSource": true,
+  "sourceFiles": [
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classchoice.lua",
+      "sha256": "7d586320ba3ff47cbdd91fa91883ac0acbc5e42d878792b4a51c11061188a90c"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classspells.lua",
+      "sha256": "7f1215885855214fdc867bd71cb48fa398d2a846584796e3695971c656c57ff4"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passives.lua",
+      "sha256": "c19a3b3d99b8e3e5717a37faf10aa832b576d79cab24f5dd29ce81d3b392dc43"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passivetree.lua",
+      "sha256": "9dec82bf8360f57f6a81dd082b97a34009c14f4739fd373df63fb2a0186819cb"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classchoice.otui",
+      "sha256": "84b1242cfa4201ce1db83fb5daa6310c5ea0b577e5e2bde6bc597593aca17faa"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/classspells.otui",
+      "sha256": "2a90adbd3067676acc16d74892494d2d4305b1525e13cb147d60ff753f38c894"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passives.otui",
+      "sha256": "eca23834380a3611e2233ccf6292ed99e8b7ec3a308e75a96b2a8abfb647bf1c"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_passives/passives_status.otui",
+      "sha256": "efcb1475da575cfcd547587eb8430e15d690c3ddaf5fc5fcafbc1f5d159657f3"
+    },
+    {
+      "repository": "client",
+      "path": "modules/game_actionbar/actionbar.lua",
+      "sha256": "e3b7a6007100b3a5167624f2f9a81aa3d1be6895c7c7684835484b0bcf699e2f"
+    },
+    {
+      "repository": "server",
+      "path": "src/passives.cpp",
+      "sha256": "57b389237765bc95097654c5823fda92cba8a3c2a21a8a52ad56c909fa98e078"
+    },
+    {
+      "repository": "server",
+      "path": "src/passives.h",
+      "sha256": "1e18ef2cfbc8d22b00b36345f90e30699f7ce1b2dee4bb7931b9405941966de4"
+    },
+    {
+      "repository": "server",
+      "path": "src/player.cpp",
+      "sha256": "8f4901456b7de64c671a1a6aa755fc01d9b60f20817dfa87542934282adc5dbe"
+    },
+    {
+      "repository": "server",
+      "path": "src/combat.cpp",
+      "sha256": "0317afc1e690a733bbfc4b2a00aadd83ba8b76138ff9da83defff51f494c37f3"
+    },
+    {
+      "repository": "server",
+      "path": "src/condition.cpp",
+      "sha256": "a55923780bcb01577cd8663b226b6ad1ff4f7fb4937018e9a5c29f93ee9a3898"
+    },
+    {
+      "repository": "server",
+      "path": "src/game.cpp",
+      "sha256": "65a905eb7b72087a229880ec7d723c9d91d292607fa7fa7d59931e8194f89cd9"
+    },
+    {
+      "repository": "server",
+      "path": "src/weapons.cpp",
+      "sha256": "85f9ff5645fef416f68803b82ed5d97f839e454b60d98eba2104d63f5fefef6c"
+    },
+    {
+      "repository": "server",
+      "path": "src/spells.cpp",
+      "sha256": "8546646ed3da3ab24af4c85db0543946b5ab71dbd35bd0cf3df7a28b7dcedb7d"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/config.lua",
+      "sha256": "73827ee8b3fec8be46894b04bbeb499c7a61e819374f1e2c21a0d03d5edea1d9"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/routes.lua",
+      "sha256": "c82f59e0e7e7cc88e71d6aafdfdd8d7af6e8ea6b0025f3127a92094b653c3688"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/test.lua",
+      "sha256": "50704fd1e22fe8153b91980e77af8445cf7917c9d32794cb886a77b00f4394a1"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/class_choice.lua",
+      "sha256": "9253b18d193f16d1debba4f3f4932afdd730b62d0a0e73a7448c78732bfd9ea5"
+    },
+    {
+      "repository": "server",
+      "path": "data/lib/passives/definitions.lua",
+      "sha256": "928f77e97d08f91e1761ee869189e487eb7c88237ee1ef6e2c0ef0f9d1d507da"
+    }
+  ],
+  "gates": [
+    {
+      "name": "New effects: reaver",
+      "log": "out/passives-route-effects-tests/reaver.log",
+      "sha256": "b478a9899b1829e28dd3198a79171f5af3bb8ffe76eac7605ddf6a54c663e12f",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK reaver",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "New effects: blademaster",
+      "log": "out/passives-route-effects-tests/blademaster.log",
+      "sha256": "4dffc6c4105f6e8d219a4b6a3948d926b55da3c3fbcd4d50591ac2e312815492",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK blademaster",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "New effects: earthshaker",
+      "log": "out/passives-route-effects-tests/earthshaker.log",
+      "sha256": "871b711bb18fb75b87ccb85ffef9007262e1c38bc391c239d8d658a9831f5bab",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK earthshaker",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "New effects: marksman",
+      "log": "out/passives-route-effects-tests/marksman.log",
+      "sha256": "9f9d78c7a93508a270415ecaf499e0e4de45dd341d91f9b52670bd206577ad32",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK marksman",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "New effects: arcanist",
+      "log": "out/passives-route-effects-tests/arcanist.log",
+      "sha256": "ce024352ca3ebcef6b8daf80bc066fe9635f3eaf6a28f8812d21a16438655918",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK arcanist",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "New effects: lifekeeper",
+      "log": "out/passives-route-effects-tests/lifekeeper.log",
+      "sha256": "620345b0a7abddcb006b41e108b06ea69aa4a90bcecdf3a36ff1dabdc2ae8642",
+      "successMarker": "PASSIVES_ROUTE_EFFECTS_OK lifekeeper",
+      "scope": "Actual native HP/healing/mana/max-HP; twelve added nodes and six route families, shipped tuning."
+    },
+    {
+      "name": "Catalog",
+      "log": "out/passives-connected/catalog-proof.log",
+      "sha256": "82e0d3ba4969f5bb4f5cf13d218a476c793e641fb61ccbb665cc8dc9fb38b445",
+      "successMarker": "PASSIVES_CATALOG_METADATA_OK",
+      "scope": "6978 standalone rule checks, 2880 purchase prefixes, 564 rejection cases."
+    },
+    {
+      "name": "Native routes",
+      "log": "out/passives-connected/native-routes.log",
+      "sha256": "1e99899a44900c9a7e7bea99a95fd432d47be948184a51bc3b0b6adc048e5ffe",
+      "successMarker": "PASSIVES_CAPSTONE_ROUTES_OK accepted=36 rejected=468",
+      "scope": "Real native purchase contract, ordinary16-point routes and invalid requests."
+    },
+    {
+      "name": "All-tree contract",
+      "log": "out/passives-connected/native-alltrees-final.log",
+      "sha256": "3449bbd3dd0304b00eb5b7f4f5a0f89f372a00fc14168ae1afff19af3156806b",
+      "successMarker": "PASSIVES_ALL_TREES_CONTRACT_OK",
+      "scope": "Six trees, actual allocation handlers, foundation thresholds, weapon and HP behavior."
+    },
+    {
+      "name": "Capstones",
+      "log": "out/passives-connected/native-capstones.log",
+      "sha256": "2a85450ef409180b958c38ef4a5f5d861467f279a0633449f3d9918b68e8dccc",
+      "successMarker": "PASSIVES_CAPSTONE_SMOKE_SUITE_OK cases=18",
+      "scope": "All18 natural combat/movement/healing activations."
+    },
+    {
+      "name": "Starter spells",
+      "log": "out/passives-connected/native-starters.log",
+      "sha256": "a84c4ced97d7e15cd75ce9d4bb341cfebb812d42cc130af474356e915e08fcb4",
+      "successMarker": "Local starter-spell suite complete",
+      "scope": "Six ordinary classes, two actual learned and cast spells each; acquisition and requirement gates."
+    },
+    {
+      "name": "Migration",
+      "log": "out/passives-connected/native-migration.log",
+      "sha256": "0a04e8e628173efa1e1c8ccd69704d0760d2f22a5291df687198aae4df2ac11d",
+      "successMarker": "PASSIVES_ROUTE_REFUND_SUITE_OK",
+      "scope": "Six save-migration cases, preservation and repeated reconnect."
+    },
+    {
+      "name": "Permanent classes",
+      "log": "out/passives-connected/native-permanent.log",
+      "sha256": "4d736de0bcbbbce3e1f976af0bd81a73c2a63ffd040ac2aaa337f4e05ca38dce",
+      "successMarker": "Permanent slice verified locally",
+      "scope": "Actual third ascension, three legacy variants, progression/respec/persistence."
+    },
+    {
+      "name": "Cold restart",
+      "log": "out/passives-connected/native-cold.log",
+      "sha256": "52e67f203378c75d6f97b7b9baae640b421b75b290941c3225a4cf519b4fdc46",
+      "successMarker": "PASS cold configured",
+      "scope": "Actual offline-store reconnect and failed-reconnect preservation."
+    },
+    {
+      "name": "Corrupt save",
+      "log": "out/passives-connected/native-fault.log",
+      "sha256": "f11914df8fffce86a65b0c2e148a430c07f398bc4c0bb7952ec7b4da79f14f89",
+      "successMarker": "PASS permanent invalid-row",
+      "scope": "Actual login rejection and recovery."
+    },
+    {
+      "name": "Draft preservation",
+      "log": "out/passives-connected/native-draft-final.log",
+      "sha256": "dcde1989eaa560baf3358ba75f1f5739b8ead58ccedb90b3474f0c99619935b8",
+      "successMarker": "PASSIVES_DRAFT_PRESERVE_OK",
+      "scope": "Combat Apply rejection retains draft; later retry."
+    },
+    {
+      "name": "Bleeding",
+      "log": "out/passives-connected/native-bleed.log",
+      "sha256": "f29c4715b1a9171af0510fe45c8a98e71c2ff2280d9719a97b08b24ac7384155",
+      "successMarker": "PASSIVES_BLEED_FIX_OK",
+      "scope": "Actual36 damage budgets, immunity, replacement and natural trigger."
+    },
+    {
+      "name": "Volley",
+      "log": "out/passives-connected/native-volley.log",
+      "sha256": "9a14a30538b6ccc0bd02535e02a3269c4142cab0cd18972c23537ec46cc10658",
+      "successMarker": "PASSIVES_VOLLEY_FIX_OK",
+      "scope": "Actual ammo/weapon/mana/range/cooldown gates."
+    },
+    {
+      "name": "Delayed action",
+      "log": "out/passives-connected/native-delayed.log",
+      "sha256": "d2914383b72c2075c345af1882268ea2dad58d7335b790404f3bdc4dbc76f471",
+      "successMarker": "PASSIVES_DELAYED_OK",
+      "scope": "Actual retained action and disconnect cancellation."
+    },
+    {
+      "name": "Party wards",
+      "log": "out/passives-connected/native-wards.log",
+      "sha256": "cef20bb640dcb7bfed637f0d1eab9500627b6f96bd92c6792f83aa60453cf165",
+      "successMarker": "PASSIVES_WARD_PARTY_RUNNER_OK",
+      "scope": "Actual shared Aegis/Stonebond party test."
+    },
+    {
+      "name": "Healer spell synergy",
+      "log": "out/passives-connected/native-healer-synergy.log",
+      "sha256": "53138236c0ab04af61146efbb0b8e84f35c750ae946f0289baff22e3b81969c2",
+      "successMarker": "Local party synergy suite complete",
+      "scope": "Actual party Renewal/Aegis/Concord."
+    },
+    {
+      "name": "Arcanist spell synergy",
+      "log": "out/passives-connected/native-arcanist-synergy.log",
+      "sha256": "5a330aff1e4521b0492f8fe5e7ec2fddf67fea9aeb5f65aabac9b39688c9d5e5",
+      "successMarker": "CLASS_SPELLS_ARCANIST_OK",
+      "scope": "Actual delayed pulses, Resonance and pending TCP detach."
+    },
+    {
+      "name": "Rend synergy",
+      "log": "out/passives-connected/native-rend-synergy.log",
+      "sha256": "7ed98715315c02e1e3af7f61548e9dcf198dba150b5b6f984d79b7f600c03e83",
+      "successMarker": "CLASS_SPELLS_REND_BLEED_OK",
+      "scope": "Actual normal/immune/owned-wound/completed-generator cases."
+    },
+    {
+      "name": "New critical callback",
+      "log": "out/passives-connected/native-middle-crit.log",
+      "sha256": "595198c8b535af95a1f0dd8e53bad726344c66b34b008b30ff63a06806d70fee",
+      "successMarker": "PASSIVES_MIDDLE_CRIT_SUITE_OK",
+      "scope": "Temporary100% chance callback/removal proof; shipped20bps restored, no probability/balance claim."
+    },
+    {
+      "name": "Actionbar",
+      "log": "out/passives-connected/native-actionbar.log",
+      "sha256": "c5b3e3abc5df22769d17dd9978257f51d2108b50617b6c7113be70fd36394b2a",
+      "successMarker": "PASSIVES_ACTIONBAR_RELOGIN_OK",
+      "scope": "Actual two relogs, six drag handlers, three canceled drags and one unload destruction; no OS mouse-input claim."
+    },
+    {
+      "name": "Packaged visual UI",
+      "log": "out/passives-connected/native-visual-release.log",
+      "sha256": "92b38186d30e3b8ef7272ac17bef7a39b55186d166e6ac05fed5701187db16ac",
+      "successMarker": "PASSIVES_CONNECTED_VISUAL_OK",
+      "scope": "Final archive, six classes/two sizes/24screenshots/60handlers/246selection checks, zero emitted stroke intersections or overlaps."
+    },
+    {
+      "name": "HUD transition",
+      "log": "out/passives-connected/native-status-hud.log",
+      "sha256": "72dee01bddb96b22978f7d0fa751a977ef9daede7ed2b9ac597aa2d3d786b12b",
+      "successMarker": "PASSIVES_STATUS_HUD_OK",
+      "scope": "Final archive, six classes,30real widget cases: empty/preset/reset, reactive and charging controls."
+    },
+    {
+      "name": "Final normal module guard",
+      "log": "out/passives-connected/native-normal-guard-release.log",
+      "sha256": "12f75be864a4f57c3ca0d5f44cb847b808579e7ea3fff208afb8dc7844aca0e8",
+      "successMarker": "PASSIVES_NORMAL_GUARD_OK",
+      "scope": "Final packaged module loaded with local flagfalse; no passive handlers/events/widgets."
+    },
+    {
+      "name": "Final client lifecycle",
+      "log": "out/passives-connected/native-lifecycle-release.log",
+      "sha256": "34eb958b7280da0a8e76a67c17cb1be3f6c5445ea69f9b6932ac3e5e95a59110",
+      "successMarker": "PASSIVES_LIFECYCLE_OK",
+      "scope": "Final packaged client, actual HP conditions, save/relogin, store, TCP detach, death and cleanup."
+    },
+    {
+      "name": "Existing baseline enabled",
+      "log": "out/passives-regressions/baseline-enabled.log",
+      "sha256": "be5d32179af04929d28961a9584e0c134dc6d9ef24afa7a70bcd10e376ef4c8a",
+      "successMarker": "PASSIVES_BASELINE_OK",
+      "scope": "Actual existing combat/healing/conditions/timer/requirements with flag enabled."
+    },
+    {
+      "name": "Existing baseline disabled",
+      "log": "out/passives-regressions/baseline-disabled.log",
+      "sha256": "ff3d2f66222e237eb2371df39bda68c6f00074a3ece93f53bb898c23d9194b47",
+      "successMarker": "PASSIVES_BASELINE_OK",
+      "scope": "Actual existing combat/healing/conditions/timer/requirements with flag disabled."
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/images/passives-connected/passives-connected-reaver-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "1653ed65490539aacf7632b655d8dc5d3f534e8c933816eefe4f4e450d1c8a95"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-reaver-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "3018c9f80f914b1d92795dd4278b2794a2fb092713b820359496cc24c3fd97e9"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-reaver-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "dbc32e05ce5c9690491a7720297cf0c1e394b2c29b3306d73fe934379146c552"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-reaver-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "18d7c4c96826490e65dc3cfb2f0cd83f7a23737154303a578c39e389897fa1e8"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-reaver-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "c91f6fc1f886392cb3e0fbe47d9eb2b01fca488abc394ead24487a632e214393"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-reaver-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "55b2252eb5113a7c68092b5c25e347a782d0fa687ea418efead13fe4d55cae1a"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-blademaster-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "460664011d6a3641105e81497fbbf3761c7c8bd70dcfd27b957559c547bebe6b"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-blademaster-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "868866b8a29d8e97f7eae0eae5c583fc7c8b216993d6473cd57c198d0a60f07a"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-blademaster-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "7c65273d853904063a6690178e885ab21c600f5da6f826f312765403ec040e31"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-blademaster-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "5ca91d35494fc47a27ba7f5893088f818e7c5ee4c8966cdc3a3c2fc2d6aaa748"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-blademaster-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "d566ad57fab73b4925e304e6e31cde57a9160f7ec9ebb1718322708efc4018f4"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-blademaster-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "72c59991b9dea794e3af08ebbdf504295c5cfa2885d065e91494f0f5bdd95b92"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-earthshaker-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "542cd558fe12c9378918659e27de17135e4ecac634b19cdbb3392f1eb6120148"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-earthshaker-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "74c8a6e05ee1d258fa4d350c1b4f50af7de686a99bdc3095053c56125cec1275"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-earthshaker-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "e1e3fe8697c199ee2752c45f77dd99360015fe1f3ab865c38d27e4e920e4a6c9"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-earthshaker-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "691ff5428adaeefca5755632741101be96df4964f91bfd2ec525072bc488a1a7"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-earthshaker-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "fe37ed2d25b7f82cb5fea6d75b62efc699fe7893c29322a66ff5505750346f45"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-earthshaker-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "f3b58c3d8a4d1844bda705d63d31d9bef3d53fb48cbfa8dc67db96d81080780d"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-marksman-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "f7d0728a33cb3f2388892e309c46b55f055a04982ae6083558c63221ac37a738"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-marksman-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "0c42a38d4b3006cacbd32a57cd5d9f6e046a78b8fdd159ea0b9d6891d93893cf"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-marksman-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "41108c7b3e01e8005aaeb66a5130aab1e26dd0cc44f785abcc5a6c6d34e3039b"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-marksman-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "47ce87c984305cb841245d2772b9689a517f7ab09eba40a76fd057180c9b1dcc"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-marksman-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "d23b68ba09342e9c0222e2a6241d83908b21514759b6f18b0fb8d593fc75de57"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-marksman-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "46a5376c3e43a8ab12c4555da118c3267a295951ef16a67038a6623d219ed5f2"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-arcanist-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "57a641f8d44bcb7b9a0bc3dab8a5b489525bae4898dcadd3287ad8f0acc0cfea"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-arcanist-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "29f25edbd8302eee62a7d36047038ac0fa8988e2a3e592b76ec15d6433dbba60"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-arcanist-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "303259b147bc436c4190cb40519ecb8b829eebc858ea61ae4045e0a34082967a"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-arcanist-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "772ba78e604ba258402e7814e0dc9fcc900c9a59a5ede62fdfe5a1dafa9a1017"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-arcanist-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "1810d912c09525d5b76f6d79cf11c9ecb72a56c9f79654b06a00ecde96f79926"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-arcanist-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "dc95ec49371af757434a8b73e9a291d0af18d785ac405f5bd2824c43e8150b30"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-lifekeeper-1280x800.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "250893eb3aa709c50eb037f3f04ca48472fd55bff6094962d01c289580d07e23"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-lifekeeper-800x600.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "ac3c97c836ae64b4a2cbcdea17fbd11d35de91f68a97166960dd9001895ac187"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-lifekeeper-800x600-requirements.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "08fda9f214685db57514ef23988d0ae51b9902cf3a8999c36a72ec613cbb7aca"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-connected-lifekeeper-800x600-foundation.png",
+      "width": 800,
+      "height": 600,
+      "sha256": "a2cb22d95d18f611706979577558a51d6a4d8a9f724c6b7d4fa27354c4707d23"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-lifekeeper-no-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "8b19baca5ddb9395902dd21ce003b69471d122fdf4c86bb3708c1eedb9dfc544"
+    },
+    {
+      "path": "docs/images/passives-connected/passives-status-hud-lifekeeper-cap.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "4a12ef22aba5ac56048ca0975560a96c4c22601275ca47eaa524ddb2abd81884"
+    }
+  ],
+  "unmeasured": [
+    "Ordinary hunt balance and long-term desirability",
+    "Maximum-population load",
+    "Global128retained-action saturation policy",
+    "Operating-system mouse-input automation"
+  ],
+  "rollback": "Old17-node server cannot read normalized29-rank saves; coordinated database backup/rollback required."
+}

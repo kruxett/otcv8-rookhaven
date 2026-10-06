@@ -1,0 +1,268 @@
+ClassChoiceCard < UIWidget
+  size: 229 146
+  image-source: /images/ui/panel_flat
+  image-border: 1
+  border-width: 1
+  border-color: #5c5850
+  padding: 8
+  focusable: false
+
+  $hover !disabled:
+    border-color: #b5a577
+
+  $checked:
+    border-color: #d4ba75
+
+  $disabled:
+    opacity: 0.55
+
+  Label
+    id: name
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    text-align: center
+    font: verdana-11px-rounded
+    color: #e1d3a1
+    phantom: true
+
+  UICreature
+    id: portrait
+    anchors.left: parent.left
+    anchors.top: name.bottom
+    margin-top: 7
+    size: 64 64
+    fixed-creature-size: true
+    old-scaling: false
+    outfit-center: true
+    animate: false
+    phantom: true
+
+  Label
+    id: weapon
+    anchors.left: portrait.right
+    anchors.right: parent.right
+    anchors.top: portrait.top
+    margin-left: 6
+    height: 18
+    font: verdana-11px-rounded
+    color: #c7c1b2
+    phantom: true
+
+  Label
+    id: tagline
+    anchors.left: weapon.left
+    anchors.right: parent.right
+    anchors.top: weapon.bottom
+    height: 46
+    text-wrap: true
+    font: verdana-11px-rounded
+    color: #dfdfdf
+    phantom: true
+
+  Label
+    id: availability
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 32
+    text-wrap: true
+    text-align: center
+    font: verdana-11px-rounded
+    color: #9b987f
+    phantom: true
+
+ClassChoiceConfirm < MainWindow
+  id: classChoiceConfirmation
+  size: 464 296
+  text: Confirm your class
+
+  Label
+    id: className
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 24
+    font: verdana-11px-rounded
+    color: #e1d3a1
+
+  Label
+    id: lockReminder
+    anchors.top: className.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 34
+    text-wrap: true
+    font: verdana-11px-rounded
+    text: This class choice is permanent. Its talent points can still be reset.
+
+  Button
+    id: backButton
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    width: 104
+    text: Go back
+    focusable: true
+
+    $focus:
+      border-width: 1
+      border-color: #d4ba75
+
+  Button
+    id: confirmButton
+    anchors.bottom: parent.bottom
+    anchors.right: backButton.left
+    margin-right: 8
+    width: 138
+    text: Confirm class
+    focusable: true
+
+    $focus:
+      border-width: 1
+      border-color: #d4ba75
+
+  VerticalScrollBar
+    id: consequenceBar
+    anchors.top: lockReminder.bottom
+    anchors.bottom: status.top
+    anchors.right: parent.right
+    margin-top: 8
+    margin-bottom: 6
+    width: 12
+    step: 18
+    pixels-scroll: true
+
+  ScrollablePanel
+    id: consequenceScroll
+    anchors.top: consequenceBar.top
+    anchors.bottom: consequenceBar.bottom
+    anchors.left: parent.left
+    anchors.right: consequenceBar.left
+    margin-right: 4
+    vertical-scrollbar: consequenceBar
+
+    Label
+      id: consequences
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      text-wrap: true
+      text-auto-resize: true
+      font: verdana-11px-rounded
+      color: #c7c1b2
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: confirmButton.top
+    margin-bottom: 8
+    height: 36
+    text-wrap: true
+    font: verdana-11px-rounded
+    color: #c7c1b2
+
+MainWindow
+  id: classChoiceWindow
+  text: The Nameless - Choose your path
+  size: 736 576
+
+  Label
+    id: introduction
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 36
+    text-wrap: true
+    font: verdana-11px-rounded
+    color: #c7c1b2
+    text: Read about the paths open to you, then choose the one you wish to become.
+
+  UIWidget
+    id: cards
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: introduction.bottom
+    margin-top: 8
+    height: 300
+
+  UIWidget
+    id: footer
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 40
+
+    Button
+      id: cancelButton
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      width: 104
+      text: Close
+
+    Button
+      id: chooseButton
+      anchors.right: cancelButton.left
+      anchors.bottom: parent.bottom
+      margin-right: 8
+      width: 110
+      text: Choose class
+
+    Label
+      id: status
+      anchors.left: parent.left
+      anchors.right: chooseButton.left
+      anchors.bottom: parent.bottom
+      margin-right: 8
+      height: 36
+      text-wrap: true
+      font: verdana-11px-rounded
+      color: #c7c1b2
+
+  FlatPanel
+    id: details
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: cards.bottom
+    anchors.bottom: footer.top
+    margin-top: 8
+    margin-bottom: 8
+    padding: 8
+
+    Label
+      id: title
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      height: 20
+      font: verdana-11px-rounded
+      color: #e1d3a1
+
+    VerticalScrollBar
+      id: detailBar
+      anchors.top: title.bottom
+      anchors.bottom: parent.bottom
+      anchors.right: parent.right
+      width: 12
+      step: 18
+      pixels-scroll: true
+
+    ScrollablePanel
+      id: descriptionScroll
+      anchors.top: title.bottom
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: detailBar.left
+      margin-right: 4
+      vertical-scrollbar: detailBar
+
+      Label
+        id: description
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        text-wrap: true
+        text-auto-resize: true
+        font: verdana-11px-rounded
+        color: #c7c1b2

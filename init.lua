@@ -3,7 +3,7 @@
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
 APP_VERSION = 1008      -- client version for updater and login to identify outdated client
-local DEV_APP_VERSION = 10084 -- increment when packaging a new DEV client
+local DEV_APP_VERSION = 10085 -- increment when packaging a new DEV client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
@@ -23,6 +23,14 @@ Services = {
   status = ""
 }
 
+-- A native flag selects a separate settings directory before Lua starts.
+-- This profile is deliberately loopback-only and never invokes the updater.
+if LOCAL_PASSIVES_TEST then
+  Services.updater = ""
+  _G.UPDATER_CHANNEL = "local-passives"
+  DEFAULT_SERVER_ENDPOINT = "127.0.0.1:7174:860"
+end
+
 -- Servers accept http login url, websocket login url or ip:port:version
 -- The default is baked into the executable via DEFAULT_SERVER_ENDPOINT (see CMake DEFAULT_SERVER_ENDPOINT)
 Servers = {}
@@ -35,7 +43,7 @@ end
 --USE_NEW_ENERGAME = true -- uses entergamev2 based on websockets instead of entergame
 ALLOW_CUSTOM_SERVERS = false -- if true it shows option ANOTHER on server list
 
-g_app.setName("Rookhaven Client")
+g_app.setName(LOCAL_PASSIVES_TEST and "Rookhaven Local Passives" or "Rookhaven Client")
 g_app.setVersion(tostring(APP_VERSION)) -- keep displayed client version in sync with APP_VERSION
 -- APP CONFIGURATION END
 
@@ -161,7 +169,7 @@ end
 
 -- set layout (forced to retro)
 local layout = "retro"
-if g_app.isMobile() then
+if g_app.isMobile() and not LOCAL_PASSIVES_TEST then
   layout = "mobile"
 end
 g_resources.setLayout(layout)
@@ -170,6 +178,12 @@ g_resources.setLayout(layout)
 g_modules.discoverModules()
 g_modules.ensureModuleLoaded("corelib")
 g_modules.ensureModuleLoaded("modulelib")
+if LOCAL_PASSIVES_TEST then
+  g_resources.makeDir('/settings')
+  g_settings.set('server', 'Default')
+  g_settings.set('host', Servers.Default)
+  g_settings.set('autoReconnect', false)
+end
   
 local function loadModules()
   -- libraries modules 0-99
@@ -217,3 +231,6 @@ if type(Services.updater) == 'string' and Services.updater:len() > 4
   return Updater.init(loadModules)
 end
 loadModules()
+if LOCAL_PASSIVES_TEST then
+  g_window.setTitle("Rookhaven - LOCAL PASSIVES - Retro")
+end

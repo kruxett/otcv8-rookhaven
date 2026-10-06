@@ -1,0 +1,166 @@
+ClassSpellCard < FlatPanel
+  height: 174
+  padding: 8
+
+  UIWidget
+    id: icon
+    size: 32 32
+    anchors.left: parent.left
+    anchors.top: parent.top
+    image-size: 32 32
+    image-smooth: false
+    phantom: true
+
+  Label
+    id: name
+    anchors.left: icon.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 8
+    height: 18
+    font: verdana-11px-rounded
+    color: #e1d3a1
+
+  Label
+    id: words
+    anchors.left: name.left
+    anchors.right: parent.right
+    anchors.top: name.bottom
+    height: 17
+    font: verdana-11px-rounded
+
+  Label
+    id: cost
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: icon.bottom
+    margin-top: 5
+    height: 30
+    font: verdana-11px-rounded
+    text-wrap: true
+    color: #c7c1b2
+
+  Button
+    id: cast
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 104
+    text: Cast
+
+  Label
+    id: cooldown
+    anchors.left: parent.left
+    anchors.right: cast.left
+    anchors.bottom: parent.bottom
+    margin-right: 8
+    height: 30
+    font: verdana-11px-rounded
+    text-wrap: true
+
+  Label
+    id: gear
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: cost.bottom
+    height: 20
+    font: verdana-11px-rounded
+    color: #c7c1b2
+
+  VerticalScrollBar
+    id: descriptionBar
+    anchors.right: parent.right
+    anchors.top: gear.bottom
+    anchors.bottom: cooldown.top
+    margin-top: 2
+    margin-bottom: 5
+    width: 12
+    step: 18
+    pixels-scroll: true
+
+  ScrollablePanel
+    id: descriptionScroll
+    anchors.left: parent.left
+    anchors.right: descriptionBar.left
+    anchors.top: gear.bottom
+    anchors.bottom: cooldown.top
+    margin-top: 2
+    margin-bottom: 5
+    margin-right: 3
+    vertical-scrollbar: descriptionBar
+
+    Label
+      id: description
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.top: parent.top
+      text-wrap: true
+      text-auto-resize: true
+      font: verdana-11px-rounded
+      color: #c7c1b2
+
+MainWindow
+  id: classSpellsWindow
+  text: Class spells
+  size: 580 530
+  @onEscape: modules.game_passives.ClassSpells.hide()
+
+  Label
+    id: classLabel
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    height: 22
+    font: verdana-11px-rounded
+    color: #e1d3a1
+
+  ClassSpellCard
+    id: spellOne
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: classLabel.bottom
+    margin-top: 4
+
+  ClassSpellCard
+    id: spellTwo
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: spellOne.bottom
+    margin-top: 8
+
+  Label
+    id: targetLabel
+    anchors.left: parent.left
+    anchors.top: spellTwo.bottom
+    margin-top: 8
+    height: 22
+    width: 166
+    font: verdana-11px-rounded
+    text: Heal target (empty = self):
+
+  TextEdit
+    id: targetName
+    anchors.left: targetLabel.right
+    anchors.right: parent.right
+    anchors.top: targetLabel.top
+    height: 22
+    max-length: 30
+
+  Button
+    id: closeButton
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 104
+    text: Close
+    @onClick: modules.game_passives.ClassSpells.hide()
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: closeButton.top
+    margin-bottom: 5
+    height: 32
+    font: verdana-11px-rounded
+    text-wrap: true
+    color: #c7c1b2
+    text: Equip your class weapon and make sure you have enough mana.

@@ -37,6 +37,8 @@ public:
     bool launchCorrect(const std::string& product, const std::string& app);
     bool setupWriteDir(const std::string& product, const std::string& app);
     bool setup(bool ignoreWriteDir = false);
+    // @dontbind
+    bool setupLocalArchive();
 
     std::string getCompactName();
     bool loadDataFromSelf(bool unmountIfMounted = false);

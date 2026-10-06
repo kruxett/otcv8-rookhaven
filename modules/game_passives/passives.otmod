@@ -1,0 +1,9 @@
+Module
+  name: game_passives
+  description: Server-supported retro passive trees and learned class spells
+  autoload: true
+  autoload-priority: 900
+  sandboxed: true
+  scripts: [ classspells, classchoice, passivetree, passives ]
+  @onLoad: init()
+  @onUnload: terminate()

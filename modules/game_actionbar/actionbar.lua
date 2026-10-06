@@ -5,6 +5,18 @@ local cachedSettings = nil
 local window = nil
 local mouseGrabberWidget = nil
 
+local function cancelActionDrag()
+  if cachedSettings then
+    local widget = cachedSettings.widget
+    if widget and not widget:isDestroyed() then
+      widget.item:setBorderColor('#00000000')
+    end
+    cachedSettings = nil
+    g_mouse.popCursor('target')
+  end
+  if mouseGrabberWidget then mouseGrabberWidget:ungrabMouse() end
+end
+
 local TYPE = {
   BLANK = 0,
   TEXT = 1,
@@ -100,6 +112,11 @@ function terminate()
     onSpellGroupCooldown = onSpellGroupCooldown,
     onSpellCooldown = onSpellCooldown
   })
+  if #actionBars > 0 then offline() else cancelActionDrag() end
+  if mouseGrabberWidget then
+    mouseGrabberWidget:destroy()
+    mouseGrabberWidget = nil
+  end
 end
 
 function createActionBars()
@@ -142,12 +159,18 @@ function offline()
 
   -- destroy windows
   destroyAssignWindows()
-  mouseGrabberWidget:destroy()
+  -- The grabber belongs to the module, not one game session. Cancel the drag
+  -- before destroying its source buttons, and keep it valid for the next login.
+  cancelActionDrag()
 
   -- remove binds
   for index, actionbar in ipairs(actionBars) do
     if actionbar.tabBar then
       for i, actionButton in ipairs(actionbar.tabBar:getChildren()) do
+        if actionButton.cooldownEvent then
+          removeEvent(actionButton.cooldownEvent)
+          actionButton.cooldownEvent = nil
+        end
         local callback = actionButton.callback
         local hotkey = actionButton.hotkey and actionButton.hotkey:len() > 0 and actionButton.hotkey or false
 
@@ -163,6 +186,7 @@ function offline()
   for i, panel in ipairs(actionBars) do
     panel:destroy()
   end
+  actionBars = {}
 end
 
 function online()
@@ -294,6 +318,7 @@ end
 
 function onDropActionButton(self, mousePosition, mouseButton)
   if not g_ui.isMouseGrabbed() then return end
+  if not cachedSettings then self:ungrabMouse(); return end
 
   local clickedWidget = modules.game_interface.getRootPanel():recursiveGetChildByPos(mousePosition, false)
   if clickedWidget and clickedWidget:getParent() and clickedWidget:getParent():getStyleName():find('ActionButton') then
@@ -330,10 +355,7 @@ function onDropActionButton(self, mousePosition, mouseButton)
     end
   end
 
-  cachedSettings.widget.item:setBorderColor('#00000000')
-  cachedSettings = nil
-  g_mouse.popCursor('target')
-  self:ungrabMouse()
+  cancelActionDrag()
 end
 
 function setupActionBar(n)

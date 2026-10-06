@@ -2,7 +2,10 @@ param(
     [string]$VcpkgRoot = 'C:\vcpkg-client',
     [string]$VisualStudioPath = '',
     [ValidateRange(1, 64)]
-    [int]$Jobs = 8
+    [int]$Jobs = 8,
+    [string]$BuildDirectory = '',
+    [string]$InstallDirectory = '',
+    [string]$DefaultServerEndpoint = 'testserver2.rookhaven-ot.com:7173:860'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -30,6 +33,8 @@ $cmake = (Get-Command cmake -ErrorAction Stop).Source
 Get-Command ninja -ErrorAction Stop | Out-Null
 $buildDir = Join-Path $projectRoot 'out\build\x64-DevRelease'
 $installDir = Join-Path $projectRoot 'out\install\x64-DevRelease'
+if ($BuildDirectory) { $buildDir = [IO.Path]::GetFullPath($BuildDirectory) }
+if ($InstallDirectory) { $installDir = [IO.Path]::GetFullPath($InstallDirectory) }
 $tripletDir = Join-Path $projectRoot 'out\vcpkg-triplets'
 New-Item -ItemType Directory -Path $tripletDir -Force | Out-Null
 @'
@@ -50,7 +55,7 @@ $configureArgs = @(
     "-DVCPKG_INSTALLED_DIR=$(Join-Path $VcpkgRoot 'installed')",
     "-DVCPKG_OVERLAY_TRIPLETS=$tripletDir",
     '-DVCPKG_BUILD_TYPE=release',
-    '-DDEFAULT_SERVER_ENDPOINT=testserver2.rookhaven-ot.com:7173:860',
+    "-DDEFAULT_SERVER_ENDPOINT=$DefaultServerEndpoint",
     '-DUPDATER_CHANNEL=dev',
     "-DCMAKE_INSTALL_PREFIX=$installDir"
 )

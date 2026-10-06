@@ -339,6 +339,34 @@ bool ResourceManager::setupWriteDir(const std::string& product, const std::strin
     return true;
 }
 
+bool ResourceManager::setupLocalArchive()
+{
+#ifdef ANDROID
+    return false;
+#else
+    // The disposable local client must never fall back to a repository, an
+    // updater download, or an archive found through the current directory.
+    const auto archivePath = m_binaryPath.parent_path() / "data.zip";
+    std::ifstream archive(archivePath, std::ios::binary);
+    if (!archive.is_open()) {
+        g_logger.error("Local passive test requires data.zip beside the executable.");
+        return false;
+    }
+    auto bytes = std::make_shared<std::vector<uint8_t>>(
+        std::istreambuf_iterator<char>(archive), std::istreambuf_iterator<char>());
+    if (!mountMemoryData(bytes))
+        return false;
+    if ((!PHYSFS_exists(INIT_FILENAME.c_str()) && !PHYSFS_exists(INIT_FILENAME_COMPILED.c_str())) ||
+        !PHYSFS_isDirectory("modules") || !PHYSFS_isDirectory("layouts/retro")) {
+        unmountMemoryData();
+        g_logger.error("Local passive test archive is incomplete.");
+        return false;
+    }
+    g_logger.info("LOCAL PASSIVES: loaded the archive beside the executable; updater disabled.");
+    return true;
+#endif
+}
+
 bool ResourceManager::setup(bool ignoreWriteDir)
 {
     std::shared_ptr<std::vector<uint8_t>> data = nullptr;
