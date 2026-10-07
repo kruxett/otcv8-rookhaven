@@ -9,7 +9,8 @@ param(
     [switch]$Peer,
     [switch]$PrepareOnly,
     [string]$PackageDirectory = '',
-    [switch]$NormalDev
+    [switch]$NormalDev,
+    [string]$ExitReceiptPath = ''
 )
 $ErrorActionPreference = 'Stop'
 $clientRoot = Split-Path $PSScriptRoot -Parent
@@ -76,6 +77,10 @@ $process = Start-Process (Join-Path $probe 'RookhavenClient.exe') -ArgumentList 
 $null = $process.Handle
 if (-not $process.WaitForExit($TimeoutSeconds * 1000)) { Stop-Process -Id $process.Id; throw "Native probe timed out: $name" }
 $process.Refresh()
+if ($ExitReceiptPath) {
+    $exitReceipt = @{ clientExit = $process.ExitCode; processId = $process.Id } | ConvertTo-Json
+    [IO.File]::WriteAllText([IO.Path]::GetFullPath($ExitReceiptPath), $exitReceipt, [Text.UTF8Encoding]::new($false))
+}
 $log = [IO.File]::ReadAllText((Join-Path $probe 'stdout.txt')) + [IO.File]::ReadAllText((Join-Path $probe 'stderr.txt'))
 Write-Output $log
 if ($process.ExitCode -ne 0 -or $log -notmatch [regex]::Escape($Success) -or $log -match '(?m)^(ERROR|FATAL)|PASSIVES_\w+_FAILED') {

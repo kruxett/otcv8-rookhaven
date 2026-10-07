@@ -180,3 +180,18 @@ applied rank descriptions, armor/defense/interval/critical/mana data and the rea
 client parser. Native presentation and shaped-critical-roll math checks passed.
 Full executed evidence, release/access status and practical limits are in
 [passives-dev10086-results.md](passives-dev10086-results.md).
+
+The deployment exposed a late passive timer release during orderly server
+shutdown. After its native lifetime fix, rerun the five gates and then
+`tools/run-passives-shutdown-tests.ps1`. The shutdown runner requires the owned
+loopback database/config and the empty ordinary Earthshaker fixture prepared by
+the starter suite. It tests a real delayed cast, `stopEvent` reference release
+and shutdown with a real pending managed timer, requires actual native/client
+ExitCode0 with no new dump, then restores the disposable fixture/runtime. The
+optional `ExitReceiptPath` in the native probe records the client process result.
+The fixed server also passed an actual orderly DEV restart without a new dump.
+
+DEV10087 additionally passed real native updater download/promotion/restart and
+temporary-executable cleanup, followed by two ordinary readonly DEV logins and
+native Cyclopedia/toolbar assertions. Final artifacts, earlier failures, profile
+restoration and unmeasured cases are recorded in the linked results document.

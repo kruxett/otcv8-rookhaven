@@ -5,8 +5,8 @@ Rookhaven map, source-linked acquisition and native formulas. It makes five
 focused numerical reductions and preserves existing gear, old spells, tree
 topology, point milestones, class eligibility and the one-capstone rule.
 Source calculations are balance evidence, not measured hunt performance or a
-claim that every class is equally strong. Native test results must be recorded
-separately after rebuilding.
+claim that every class is equally strong. Native results are recorded below and
+in the linked execution report.
 
 ## Actual acquisition and comparison scope
 
@@ -192,7 +192,7 @@ of equal utility at every damage/armour breakpoint.
 Completed source/model checks: map acquisition linking, all174 node descriptions
 and prerequisites, native resolution ordering, full before/after values,
 72 baseline starter profiles,18 cap witnesses,432 cumulative purchase prefixes,
-gear-equivalent sensitivities and native Lua test preparation. Whitespace/source
+gear-equivalent sensitivities and targeted native regression execution. Whitespace/source
 checks and Lua syntax compilation are recorded with execution evidence.
 
 The current server Lua was exported offline again after the five reductions.
@@ -211,19 +211,24 @@ The actual Lua/client catalog validator also passed after the export: six trees,
 expected rejection cases. Evidence is in
 `out/passives-balance-pass-20261007/catalog-after-proof.json`.
 
-Prepared native regression `tools/tests/passives-balance.lua` uses the separate
+Executed native regression `tools/tests/passives-balance.lua` uses the separate
 server fixture `tools/passives-fixture/passive_balance_qa.lua`, registered only
 in the owned loopback runtime. It tests actual ordinary kills at240HP and the
 real bought-baseline2–5 rod path, fractional accounting, no forced minimum,
 full-HP no banking and wrong-weapon cleanup. It does not inject proc counters,
 RNG, native damage or cooldown completion. Configured player/monster HP is
-disposable setup, not evidence of normal post-Ascension experience. Root must
-run this after rebuilding and record actual markers/logs.
+disposable setup, not evidence of normal post-Ascension experience. The fresh
+native run passed:0.48-HP kill budgets yielded [0,0,1]; twelve ordinary rod hits
+caused45 damage and6 healing. Full HP did not bank fractions and wrong weapons
+cleared them. Actual markers are in
+`out/passives-balance-pass-20261007/native-balance-evidence.json`.
 
-Targeted existing regressions remain necessary: Reaver Bloodguard actual
-absorption, Earth Stoneguard real block/consumption and Stonebond party wards,
-Life Concord recipient selection/caps, Renewal/Aegis combined pools, all-six
-catalog/config equality, resources and cleanup. Human baseline/rare hunts,
+Fresh targeted regressions also passed: Reaver Bloodguard actual absorption,
+Earth Stoneguard real block/consumption and Stonebond wards, real-party
+Concord/Renewal/Aegis healing and ward caps, all-six class starters and
+catalog/config equality, resources and cleanup. See
+[passives-dev10086-results.md](passives-dev10086-results.md) for the actual logs,
+corrected fixture timing and limits. Human baseline/rare hunts,
 all-spawn navigation, affix distributions, exact party uptime, death-loss and
 whole learned-spell rotations remain unmeasured by this analytical pass. No
 blanket "all classes balanced" or "no regressions" conclusion follows.
