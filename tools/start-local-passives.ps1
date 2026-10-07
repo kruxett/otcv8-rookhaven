@@ -133,7 +133,7 @@ classicEquipmentSlots = true
     [IO.File]::WriteAllText($groupPath, $groups, [Text.UTF8Encoding]::new($false))
     # Runtime-only combat fixtures are never registered in the source game data.
     $fixture = Join-Path $serverRoot 'tools/passives-fixture'
-    foreach ($name in @('passiveqa.lua','passive_baseline.lua','passive_lifecycle.lua','passive_permanent.lua','class_spells_qa.lua','passive_routes_qa.lua','passive_character_stats.lua','passive_admin_qa.lua','passive_balance_qa.lua','passive_guard_balance_qa.lua','passive_shutdown_qa.lua')) {
+    foreach ($name in @('passiveqa.lua','passive_baseline.lua','passive_lifecycle.lua','passive_permanent.lua','class_spells_qa.lua','passive_routes_qa.lua','passive_character_stats.lua','passive_admin_qa.lua','passive_balance_qa.lua','passive_guard_balance_qa.lua','passive_shutdown_qa.lua','passive_pvp_qa.lua')) {
         Copy-Item -LiteralPath (Join-Path $fixture $name) -Destination (Join-Path $runtime ('data/talkactions/scripts/' + $name)) -Force
     }
     Copy-Item -LiteralPath (Join-Path $fixture 'passive_admin_dead_qa.lua') -Destination (Join-Path $runtime 'data/creaturescripts/scripts/passive_admin_dead_qa.lua') -Force
@@ -155,6 +155,7 @@ classicEquipmentSlots = true
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passivebalanceqa" separator=" " script="passive_balance_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiveguardbalanceqa" separator=" " script="passive_guard_balance_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiveshutdownqa" separator=" " script="passive_shutdown_qa.lua" />'},
+        @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passivepvpqa" separator=" " script="passive_pvp_qa.lua" />'},
         @{Path='data/creaturescripts/creaturescripts.xml'; End='</creaturescripts>'; Value='<event type="death" name="PassiveAdminDeadQA" script="passive_admin_dead_qa.lua" />'},
         @{Path='data/monster/monsters.xml'; End='</monsters>'; Value='<monster name="Passive Test Dummy" file="monsters/passive_test_dummy.xml" />'},
         @{Path='data/monster/monsters.xml'; End='</monsters>'; Value='<monster name="Passive Bleed Budget Dummy" file="monsters/passive_bleed_budget_dummy.xml" />'},

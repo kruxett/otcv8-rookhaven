@@ -221,3 +221,28 @@ learning, Apply/Respec/persistence and detach/death/store paths. These targeted
 checks passed for the login-choice increment. Unchanged combat formulas/client
 assets reuse the preceding regression evidence rather than claiming a fresh
 full combat/updater run. Execution/release details are in the results document.
+
+## Talent text and narrow Bloodletting/Rend PvP increment
+
+The 2026-10-07 increment passed native build, all five existing gates, twelve
+ordinary starter spells, existing PvE Rend/wound behavior, real finite/legacy
+MagicField behavior and six-tree retro UI at 1280×800 and 800×600. The copy audit
+covered 174 talents and 6,978 catalog contract cases with preserved gameplay
+numbers and metadata.
+
+Run `tools/run-passives-pvp-tests.ps1 -PrepareClasses` serially in the owned
+loopback environment for the new ordinary GUID9006/9007 suite. It checks genuine
+axe Bloodletting and Rend rolls with normal PvP reduction, own-wound/legacy
+exclusion, synthetic finite budgets/caps, cure, secure/PZ/no-PvP/self rejection,
+normal party policy, owner/recipient logout and real death followed by normal
+relogin. Final PASS requires both native exits 0 plus exact disposable config and
+owned server restoration; all 21 main and three required peer markers passed.
+Foreign active Reaver stack isolation and same-object arena wound-state cleanup
+remain unmeasured. Full evidence, five corrected harness failures and practical
+limits are in [passives-talent-copy-pvp.md](passives-talent-copy-pvp.md).
+The rebuilt DEV server and its independent runtime/source/artifact identity
+checks passed with preserved DEV10087/PROD1006 client bytes and control files.
+Two readonly normal DEV10087 logins then passed current Reaver catalog/detail,
+quiet login/manual opening, actual self-look/opcode31/Cyclopedia identity and
+ordinary admin denial, followed by normal logout and profile/artifact restoration.
+PvP combat evidence is from the local suite; no live DEV PvP combat was performed.
