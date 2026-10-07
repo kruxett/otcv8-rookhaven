@@ -420,6 +420,16 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
         if Cyclopedia.setServerCharacterTitle then
             Cyclopedia.setServerCharacterTitle(data)
         end
+    elseif action == "character.identity" then
+        local ok, identity = pcall(json.decode, data)
+        if ok and type(identity) == "table" and Cyclopedia.setCharacterIdentity then
+            Cyclopedia.setCharacterIdentity(identity)
+        end
+    elseif action == "character.passives" then
+        local ok, passive = pcall(json.decode, data)
+        if ok and type(passive) == "table" and Cyclopedia.loadCharacterPassives then
+            Cyclopedia.loadCharacterPassives(passive)
+        end
     elseif action == "character.profileStats" then
         Cyclopedia.parseAndLoadProfileStats(data)
     elseif action == "bestiary.categories" then
@@ -857,6 +867,7 @@ function Cyclopedia.parseAndLoadCombatStats(data)
         weaponSkillId = toNumber(fields[14], 0),
         attackSpeed = toNumber(fields[15], 2000),
         weaponSkillLevel = toNumber(fields[18], 0),
+        passiveStats = Cyclopedia.characterPassiveStats,
     }
 
     local mitigation = toNumber(fields[8], 0)

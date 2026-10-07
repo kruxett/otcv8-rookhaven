@@ -148,7 +148,7 @@ local function concord()
     local actual,hits=0,0
     for _,t in ipairs(after.targets)do local loss=assert(hp[t.id])-t.hp;if loss>0 then actual=actual+loss;hits=hits+1 end end
     assert(hits==1 and actual>0,'Essence Lash did not cause one real monster hit')
-    local heal=math.min(math.floor(actual*.40),math.floor(before.peer.maxHP*.02))
+    local heal=math.min(math.floor(actual*.15),math.floor(before.peer.maxHP*.02))
     assert(heal>0 and after.peer.hp-before.peer.hp==heal,'Concord party heal does not match actual spell damage/cap')
     assert(entry('essence_lash').mana==12 and before.mana-after.mana==12,'Concord attack did not pay its independent12-mana cost')
     assert(after.runtime.capstoneProcCount==proc+1 and after.runtime.lastCapstoneProc=='Concord','Essence Lash generated duplicate or missing Concord proc')

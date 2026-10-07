@@ -152,3 +152,31 @@ Revised starter/legacy cooldown replay, real-party Renewal/Aegis/Concord and
 startup rejection cases also passed. These tests verify eligibility, accounting
 and preservation of affected systems. They do not establish sustainable hunt
 balance or ordinary acquisition of a spell explicitly learned by a fixture.
+
+## DEV10086 login, identity, administration and sustain follow-up
+
+The2026-10-07 increment passed all five gates, the real permanent first-choice
+scenario and native draft/result feedback. It explicitly verifies a saved-rank
+decrease is rejected with both current revision and forged revision0 before the
+first respec, while unsaved draft undo has no HP/database effect. Login/status/
+snapshot synchronization stays closed; explicit toolbar opens still work.
+
+Nine native admin cases verify default-off and each role, all stages/classes,
+stale/session/bounds/combat/death gates, real SQL rollback and reconnect, plus
+flag-off point behavior. The fixture is registered only in the owned runtime.
+
+Run fresh `tools/run-class-spells-tests.ps1` before the changed-budget guard and
+real-party suites. `tools/run-passives-guard-balance-tests.ps1` checks Bloodguard
+absorption, real Stonebond blocks and Stoneguard charge damage/consumption. Its
+spell proc baseline is taken at cast entry, because selecting a target can
+cause an intervening ordinary autoattack. `passives-balance.lua` checks actual
+low-budget kills and baseline rod Concord with fractional/no-banking/weapon
+cleanup. All passed on the final native binary, followed by the existing
+Renewal/Aegis/Concord real-party suite.
+
+Readonly native Cyclopedia checks passed the nonzero-rank Reaver fixture and all
+six ordinary starter classes. They verify actual look, Class/Ascension, HP,
+applied rank descriptions, armor/defense/interval/critical/mana data and the real
+client parser. Native presentation and shaped-critical-roll math checks passed.
+Full executed evidence, release/access status and practical limits are in
+[passives-dev10086-results.md](passives-dev10086-results.md).

@@ -37,6 +37,8 @@ try {
     if ($NormalDev) {
         # Only the disposable probe scripts the updater response. The unchanged
         # release endpoint/version/channel are asserted before modules load.
+        $devVersion = [regex]::Match([IO.File]::ReadAllText((Join-Path $clientRoot 'init.lua')), 'local\s+DEV_APP_VERSION\s*=\s*(\d+)')
+        if (-not $devVersion.Success) { throw 'Source DEV version is missing.' }
         $entries['init.lua'] = @'
 function T() assert(loadstring(g_resources.readFileContents('/passives-probe.txt')))() end
 local ensureModuleLoaded = g_modules.ensureModuleLoaded
@@ -47,7 +49,7 @@ g_modules.ensureModuleLoaded = function(name)
     HTTP.postJSON = function(url, request, callback)
       HTTP.postJSON = postJSON
       assert(url == 'http://updater2.rookhaven-ot.com/api/updater', 'Normal DEV updater URL changed')
-      assert(request.args.dev == true and request.version == 10085, 'Normal DEV updater channel/version changed')
+      assert(request.args.dev == true and request.version == @@DEV_VERSION@@, 'Normal DEV updater channel/version changed')
       print('PASSIVES_DEV_UPDATER_REQUEST_OK version=' .. request.version .. ' dev=true response=scripted')
       scheduleEvent(function() callback({upToDate=true}, nil) end, 10)
       return 0
@@ -56,6 +58,7 @@ g_modules.ensureModuleLoaded = function(name)
 end
 return dofile('/startup_original.lua')
 '@
+        $entries['init.lua'] = $entries['init.lua'].Replace('@@DEV_VERSION@@', $devVersion.Groups[1].Value)
     }
     foreach ($entry in $entries.GetEnumerator()) {
         $old = $zip.GetEntry($entry.Key); if ($old) { $old.Delete() }

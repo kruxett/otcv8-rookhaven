@@ -146,6 +146,8 @@ end
 local function checkPermanent(expectedPoints)
  assert(s().active and s().mode=='permanent'and s().tree.id==tree,'Wrong permanent class/profile')
  assert(s().points==expectedPoints,'Wrong earned budget: '..tostring(s().points))
+ -- Each login is checked separately before this explicit inspection opens UI.
+ assert(mod.show(),'Permanent tree cannot be explicitly opened')
  assert(mod.getWindow()and not mod.getWindow():getText():find('TEST',1,true),'Permanent window still labelled TEST')
  assert(not mod.getWindow():recursiveGetChildById('endButton'):isVisible(),'Permanent class exposes End Test')
  assert(s().classLocked and mod.getReopenButton()and mod.getReopenButton():isVisible(),'Permanent class lacks ordinary retro reopen button')
@@ -284,7 +286,7 @@ local function invalids()
  fixture('calm',function()
  local rev=s().revision
  packet('apply',{},function(r)
-  assert(not r.ok and r.error:find('respec',1,true) and s().revision==rev and s().ranks.cap_bloodguard==1 and s().ranks.minor_vitality==3,'Rank-removal bypass accepted/wrong saved-rank guard')
+  assert(not r.ok and r.error:lower():find('respec',1,true) and s().revision==rev and s().ranks.cap_bloodguard==1 and s().ranks.minor_vitality==3,'Rank-removal bypass accepted/wrong saved-rank guard')
   local excess=copy(s().ranks);excess.minor_vitality=4
   packet('apply',excess,function(r)
    assert(not r.ok and r.error:find('budget',1,true) and s().revision==rev,'Overspend accepted/wrong guard')
@@ -322,15 +324,34 @@ local function firstBuild()
   checkLearning(m,true,'third-ascension')
   print('PASSIVES_PERMANENT_THIRD_ASCENSION_OK')
   fixture('equip',function()
+   local firstRevision=s().revision
+   local baseHP=player:getMaxHealth()
+   assert(s().respecCount==0 and s().respecCost==0 and spent(s().ranks)==0,'First allocation fixture already consumed its free respec')
+   assert(mod.changeRank(1,'minor_vitality') and mod.changeRank(-1,'minor_vitality'),'Unsaved first rank cannot be freely undone')
+   assert(spent(s().draft)==0 and spent(s().ranks)==0 and s().revision==firstRevision and player:getMaxHealth()==baseHP,'First draft changed active ranks/HP/revision')
    for _=1,3 do assert(mod.changeRank(1,'minor_vitality'))end
-   uiApply(function()fixture('save',function(m)
+   assert(player:getMaxHealth()==baseHP and spent(s().ranks)==0,'Unapplied first draft activates effects')
+   uiApply(function()
+    local savedRevision=s().revision
+    assert(s().ranks.minor_vitality==3 and s().respecCount==0 and s().respecCost==0,'First Apply did not save ranks or consumed free respec')
+    assert(not mod.changeRank(-1,'minor_vitality'),'First saved rank could be removed through UI without Respec')
+    packet('apply',{minor_vitality=2},function(rejected)
+     assert(not rejected.ok and rejected.error:lower():find('respec',1,true) and s().revision==savedRevision and s().ranks.minor_vitality==3,'First saved rank bypassed native Respec guard')
+     packet('apply',{minor_vitality=2},function(stale)
+      assert(not stale.ok and stale.error:find('Stale',1,true) and s().revision==savedRevision and s().ranks.minor_vitality==3,'Revision0 bypassed first-allocation guard')
+      fixture('save',function(m)
     assert(m.saved.classId==tree and m.saved.maxHP==150 and m.saved.points==3,'First build/baseHP not persisted')
+    assert(m.saved.respecCount==0,'Rejected first-rank changes consumed the free Respec')
+    print('PASSIVES_PERMANENT_FIRST_APPLY_LOCK_OK draftUndoFree=true savedDecreaseRejected=true staleRevision0Rejected=true respecCount=0')
     checkLearning(m,true,'ordinary-save')
     relog(function()
      checkPermanent(3);assert(s().ranks.minor_vitality==3 and player:getMaxHealth()==154,'First build failed login restore')
      fixture('state',function(m)checkLearning(m,true,'third-ascension-relogin');capstone()end)
     end)
-   end)end)
+      end)
+     end,0)
+    end)
+   end)
   end)
  end)
 end
@@ -412,7 +433,14 @@ later(200,function()
    local raw=text:match('^PASSIVE_PERMANENT_STATE (.+)$');if raw then metrics=json.decode(raw);seq=seq+1 end
   end,
   onGameStart=function()print('PASSIVES_PERMANENT_GAME_START');EnterGame.hide();player=assert(g_game.getLocalPlayer());intentional=false;local fn=nextOnline;nextOnline=nil
-   wait('handshake',function()return s().ready end,function()later(400,fn)end,12000)
+   wait('handshake',function()return s().ready and(not s().classId or s().classId==''or s().active)end,function()later(400,function()
+    assert(not mod.getWindow()or not mod.getWindow():isVisible(),'Login automatically opened the full passive tree')
+    if s().active then
+     assert(mod.getReopenButton()and mod.getReopenButton():isVisible(),'Silent login did not restore the ordinary passive reopen button')
+     print('PASSIVES_PERMANENT_LOGIN_CLOSED_OK class='..s().tree.id)
+    end
+    fn()
+   end)end,12000)
   end,
   onLoginError=function(e)fail('World login rejected: '..tostring(e))end,
   onConnectionError=function(e)if not intentional then fail(e)end end})

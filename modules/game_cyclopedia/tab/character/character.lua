@@ -7,6 +7,16 @@ local _sessionLastXp  = nil      -- last known XP value for delta calculation
 local characterLiveRefreshEvent = nil
 local characterLiveSignalsConnected = false
 local _serverCharacterTitle = nil
+local _serverAscension = nil
+local _serverClassName = nil
+local characterLivePollEvent = nil
+
+local function cancelCharacterLivePoll()
+    if characterLivePollEvent then
+        removeEvent(characterLivePollEvent)
+        characterLivePollEvent = nil
+    end
+end
 
 local function cancelCharacterLiveRefresh()
     if characterLiveRefreshEvent then
@@ -16,12 +26,14 @@ local function cancelCharacterLiveRefresh()
 end
 
 local function shouldRefreshCharacterStatsLive()
-    if not UI or not g_game.isOnline() then
+    if not UI or not UI:isVisible() or not g_game.isOnline() then
         return false
     end
 
     local selected = UI.selectedOption
-    return selected == "CharacterStats"
+    return selected == "InfoBase"
+        or selected == "PassiveStats"
+        or selected == "CharacterStats"
         or selected == "CombatStats"
         or selected == "OffenceStats"
         or selected == "DeffenceStats"
@@ -34,7 +46,11 @@ local function refreshSelectedCharacterStatsNow()
     end
 
     local selected = UI.selectedOption
-    if selected == "CharacterStats" then
+    if selected == "InfoBase" then
+        Cyclopedia.sendCyclopediaRequest("character.baseInfo", "")
+    elseif selected == "PassiveStats" then
+        Cyclopedia.sendCyclopediaRequest("character.combatStats", "")
+    elseif selected == "CharacterStats" then
         if Cyclopedia.buildAndLoadGeneralStats then
             Cyclopedia.buildAndLoadGeneralStats()
         end
@@ -54,6 +70,16 @@ local function refreshSelectedCharacterStatsNow()
             g_game.requestCharacterInfo(0, infoType)
         end
     end
+end
+
+local function pollCharacterStats()
+    cancelCharacterLivePoll()
+    if not UI or not g_game.isOnline() then return end
+    characterLivePollEvent = scheduleEvent(function()
+        characterLivePollEvent = nil
+        refreshSelectedCharacterStatsNow()
+        pollCharacterStats()
+    end, 1000)
 end
 
 local function queueCharacterLiveRefresh()
@@ -91,6 +117,8 @@ local function disconnectCharacterLiveSignals()
 
     disconnect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
+        onHealthChange = onCharacterLiveStatsChanged,
+        onManaChange = onCharacterLiveStatsChanged,
         onExperienceChange = onCharacterXpChanged,
         onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
@@ -114,6 +142,8 @@ local function connectCharacterLiveSignals()
 
     connect(LocalPlayer, {
         onInventoryChange = onCharacterLiveStatsChanged,
+        onHealthChange = onCharacterLiveStatsChanged,
+        onManaChange = onCharacterLiveStatsChanged,
         onExperienceChange = onCharacterXpChanged,
         onLevelChange = onCharacterLiveStatsChanged,
         onSpeedChange = onCharacterLiveStatsChanged,
@@ -141,6 +171,10 @@ function Cyclopedia.resetSessionXp()
     _profileDeaths    = nil
     _cachedVocationName = nil
     _serverCharacterTitle = nil
+    _serverAscension = nil
+    _serverClassName = nil
+    Cyclopedia.characterPassiveStats = nil
+    cancelCharacterLivePoll()
 end
 
 local function getPlayerVocationName(player)
@@ -294,6 +328,18 @@ function showCharacter()
     end
 
     reset()
+    local thisPanel = characterPanel
+    thisPanel.onDestroy = function()
+        if UI == thisPanel then
+            cancelCharacterLivePoll()
+            cancelCharacterLiveRefresh()
+            disconnectCharacterLiveSignals()
+            UI = nil
+            characterPanel = nil
+        end
+    end
+    Cyclopedia.sendCyclopediaRequest("character.baseInfo", "")
+    pollCharacterStats()
     controllerCyclopedia.ui.CharmsBase:setVisible(false)  -- charms not used in 8.60
     controllerCyclopedia.ui.GoldBase:setVisible(true)
     controllerCyclopedia.ui.BestiaryTrackerButton:setVisible(false)
@@ -866,10 +912,14 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
 
             local maxPhy  = calcMax(attack)
             local maxElem = calcMax(elemAttack)
-            local estMaxHit  = maxPhy + maxElem
+            local passiveStats = data.passiveStats or {}
+            local estMaxHit  = tonumber(passiveStats.ordinaryMaxHit) or (maxPhy + maxElem)
             local avgHit     = math.floor(estMaxHit / 2)
             local atkSpeedMs = data.attackSpeed or 2000
-            local dpsVal     = (atkSpeedMs > 0) and (avgHit * 1000 / atkSpeedMs) or 0
+            local critChance = tonumber(passiveStats.criticalChance) or 0
+            local critMultiplier = tonumber(passiveStats.criticalMultiplier) or 200
+            local expectedCritFactor = 1 + (critChance / 100) * (critMultiplier / 100 - 1)
+            local dpsVal     = (atkSpeedMs > 0) and (avgHit * expectedCritFactor * 1000 / atkSpeedMs) or 0
 
             local modeNames = { [FightOffensive] = "Full Attack", [FightBalanced] = "Balanced", [FightDefensive] = "Defensive" }
             local modeName  = modeNames[fightMode] or "Full Attack"
@@ -886,6 +936,11 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                     tip = tip .. string.format("\nElement attack %d -> Element: %d", elemAttack, maxElem)
                     tip = tip .. string.format("\nTotal: %d + %d = %d", maxPhy, maxElem, estMaxHit)
                 end
+                if passiveStats.ordinaryMaxHit ~= nil then
+                    tip = string.format("Server weapon max: %.0f\nCurrent ordinary PvE talent bonus: +%.2f%%\nPrepared primary bonus: +%.2f%%\nBefore critical, target armor, defense and hit checks.\nConditions and secondary passive procs are excluded.",
+                        (passiveStats.baseMaxHit or 0) + (passiveStats.baseElementMaxHit or 0),
+                        passiveStats.ordinaryDamagePercent or 0, passiveStats.ordinaryPrimaryExtraPercent or 0)
+                end
                 UI.CombatStats.estDps:setTooltip(tip)
             end
 
@@ -893,7 +948,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             if UI.CombatStats.avgHit then
                 UI.CombatStats.avgHit.value:setText(tostring(avgHit))
                 UI.CombatStats.avgHit:setTooltip(string.format(
-                    "Average hit is half of estimated max hit.\nActual hit roll: random(0, %d).", estMaxHit))
+                    "Rough average: half of current non-critical max hit %d.\nWeapon minimum damage, hit chance and target reductions can change the actual average.", estMaxHit))
             end
 
             -- Attack Speed
@@ -905,7 +960,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             if UI.CombatStats.dps then
                 UI.CombatStats.dps.value:setText(string.format("%.1f", dpsVal))
                 UI.CombatStats.dps:setTooltip(string.format(
-                    "Estimated DPS = Average Hit %.0f / Attack Speed %.1fs\nShown before armor and defense reductions.",
+                    "Rough DPS = average estimate %.0f / attack interval %.1fs\nCurrent ordinary critical chance and multiplier are included.\nBefore hit chance, target armor and defense. Conditions and secondary procs are excluded.",
                     avgHit, atkSpeedMs / 1000))
             end
 
@@ -1042,19 +1097,24 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     if UI.CombatStats.defence then
         UI.CombatStats.defence.value:setText(string.format("%.2f%%", critChance))
         UI.CombatStats.defence:setTooltip(
-            "Chance that your attack becomes a critical hit.")
+            "Approximate ordinary PvE critical probability from the server's actual roll formulas.\nGear uses a shaped normal roll; its displayed gear threshold is not a uniform percentage. Passive critical chance is a separate uniform roll after a non-critical gear roll. Class spells retain their own rules.")
     end
 
     if UI.CombatStats.armor then
         UI.CombatStats.armor.value:setText(string.format("+%.2f%%", critExtra))
         UI.CombatStats.armor:setTooltip(
-            "Extra damage added when a critical hit triggers.")
+            "Extra damage on an ordinary PvE critical, including active Critical Force ranks. Spell and condition critical rules remain separate.")
     end
 
     if UI.CombatStats.mitigation then
         UI.CombatStats.mitigation.value:setText(string.format("%.2f%%", critTotal))
         UI.CombatStats.mitigation:setTooltip(
             "Total critical hit multiplier.\nFormula: 100% base + critical extra damage.")
+    end
+    if UI.CombatStats.passiveReduction then
+        local passive = data.passiveStats or {}
+        UI.CombatStats.passiveReduction.value:setText(string.format("%.2f%%", passive.physicalReductionPercent or 0))
+        UI.CombatStats.passiveReduction:setTooltip("Current direct physical monster damage reduction from active talents, applied after armor and defense. Includes low-HP and prepared protection; excludes conditions and PvP. See Passive Talents for individual effects.")
     end
 
     if UI.CombatStats.reductionNone then
@@ -1495,6 +1555,63 @@ function Cyclopedia.setServerCharacterTitle(title)
     end
 end
 
+function Cyclopedia.setCharacterIdentity(identity)
+    _serverAscension = identity.ascension
+    _serverClassName = identity.className ~= "" and identity.className or nil
+    if UI and UI.InfoBase and UI.InfoBase:isVisible() then
+        Cyclopedia.createCharacterDescription()
+    end
+end
+
+function Cyclopedia.loadCharacterPassives(data)
+    local stats = type(data.stats) == "table" and data.stats or {}
+    Cyclopedia.characterPassiveStats = stats
+    if not UI or not UI.PassiveStats then return end
+    local list = UI.PassiveStats.List
+    list:destroyChildren()
+    local function addRow(name, value, tooltip)
+        local widget = g_ui.createWidget("CharacterSkillBase", list)
+        local label = g_ui.createWidget("SkillNameLabel", widget)
+        local valueLabel = g_ui.createWidget("SkillValueLabel", widget)
+        label:setText(name .. ":")
+        valueLabel:setText(tostring(value))
+        if tooltip then widget:setTooltip(tooltip) end
+    end
+    local function percent(key)
+        return string.format("%.2f%%", tonumber(stats[key]) or 0)
+    end
+    addRow("Class", stats.className ~= "" and stats.className or "Not chosen")
+    addRow("Talent points", string.format("%d / %d applied", stats.spent or 0, stats.points or 0))
+    addRow("Talents", stats.weaponActive and "Active" or "Inactive",
+        stats.active and ("Requires an equipped " .. (stats.weaponName or "class weapon") .. ". Applied ranks are preserved when the weapon is removed.")
+        or stats.permanent and "Talent effects are currently unavailable. Your chosen class and applied ranks are preserved."
+        or "Choose your permanent class at the third Ascension.")
+    addRow("Max HP from talents", string.format("+%d (%s)", stats.maxHealthBonus or 0, percent("maxHealthPercent")), "Added to base max HP. Current HP is not healed; ordinary HP conditions remain separate.")
+    addRow("Ordinary direct damage", "+" .. percent("ordinaryDamagePercent"), "Current bonus against monsters. Includes an active Berserk or prepared Deadeye and the current target's party mark. Conditions, passive procs and PvP are excluded.")
+    addRow("Party Quarry bonus", "+" .. percent("partyQuarryDamagePercent"), "Current party mark on your selected monster. Included multiplicatively in ordinary direct damage above, even without an active personal talent tree or compatible class weapon.")
+    addRow("Gear critical threshold", stats.legacyCriticalThreshold or 0, "Equipment's threshold in the legacy normal_random(1,100) roll. This is not a uniform percent chance; the combat summary converts the actual shaped roll to approximate probability.")
+    addRow("Gear critical probability", percent("legacyCriticalChance"), "Approximate probability from the native normal roll, including its outlier values 50/51. Does not include the additional passive critical roll.")
+    addRow("Passive critical chance", percent("passiveCriticalChance"), "Uniform extra critical roll after an ordinary PvE hit did not critical from gear. Requires your compatible class weapon. The combined probability is shown in Combat Stats.")
+    addRow("Next primary hit bonus", "+" .. percent("ordinaryPrimaryExtraPercent"), "Prepared ordinary-hit bonus against the current target, applied after the direct damage bonus. Fractional budgets are retained.")
+    addRow("Eligible spell damage", "+" .. percent("eligibleSpellDamagePercent"), "Current direct damage bonus for eligible class spells against monsters. Includes active combat readiness, not secondary procs or conditions.")
+    addRow("Spell primary bonus", "+" .. percent("spellPrimaryExtraPercent"), "Additional primary-hit bonus applied after the direct spell bonus. Prepared routes require the current target. Rend's own-wound and delayed/proc effects are listed under applied talents.")
+    addRow("Spell secondary bonus", "+" .. percent("spellSecondaryExtraPercent"), "Additional secondary-target bonus on eligible class spells. For Reaver this applies to Cleaving Arc. Conditions and passive procs are excluded.")
+    addRow("Eligible spell mana saving", percent("manaDiscountPercent"), "Current discount, including prepared discounts. Charged by the server with its cap and fractional billing; a successful spell still costs at least one mana.")
+    addRow("Mana regeneration", string.format("+%.3f / second", stats.manaPerSecond or 0), "Passive mana per second in addition to ordinary regeneration. Fractional mana accumulates; requires your class weapon.")
+    addRow("Damage recovery", percent("damageRecoveryPercent"), "Healing from actual primary monster HP damage. Missing HP only; fractional healing accumulates.")
+    addRow("Kill recovery", percent("killRecoveryPercent"), "Percent of max HP on an eligible primary monster kill. The talent cooldown applies.")
+    addRow("Direct friendly healing", "+" .. percent("outgoingHealingPercent"), "Current direct healing bonus to yourself or eligible party members. Prepared healing routes are included. HoT, passive healing and overhealing are excluded.")
+    addRow("Direct healing received", "+" .. percent("incomingHealingPercent"), "Current passive bonus to direct healing received. HoT and passive healing are excluded.")
+    addRow("Physical monster reduction", percent("physicalReductionPercent"), "Current direct physical monster damage reduction, including low-HP and prepared protection. Applied after armor and defense. Sequential reductions combine multiplicatively; conditions and PvP are excluded.")
+    addRow("Current absorbing ward", math.floor(stats.ward or 0), "Remaining protection from valid combat and healing wards. A temporary pool, not armor or a permanent resistance.")
+    addRow("Prepared recovery", percent("preparedRecoveryPercent"), "Extra healing from the next ordinary hit's actual primary monster HP damage while the sustain route is ready.")
+    addRow("Prepared return healing", string.format("%.2f HP (%.1fs)", stats.routeReturnBudget or 0, (stats.routeReturnMs or 0)/1000), "Remaining healing budget earned from incoming direct monster damage. The next successful ordinary hit consumes it before expiry, limited by missing HP. Fractional healing is retained; this is a conditional budget, not regeneration.")
+    for _, talent in ipairs(data.talents or {}) do
+        addRow(talent.name, "Rank " .. talent.rank,
+            (talent.benefit or "") .. "\n\n" .. (talent.description or ""))
+    end
+end
+
 function Cyclopedia.updateFoodRegen(regenSecs)
     if not UI or not UI.CharacterStats then return end
     local text
@@ -1658,6 +1775,11 @@ function Cyclopedia.configureCharacterCategories()
                     })
                 end
                 
+                table.insert(categories, {
+                    text = "Passive Talents",
+                    icon = "/game_cyclopedia/images/character_icons/icon-character-generalstats-overview",
+                    open = "PassiveStats"
+                })
                 return categories
             end
         },
@@ -1735,6 +1857,8 @@ function Cyclopedia.configureCharacterCategories()
                         g_game.requestCharacterInfo(0, CyclopediaCharacterInfoTypes.Badges)
                     elseif subWidget.open == "CombatStats" then
                         g_game.requestCharacterInfo(0, CyclopediaCharacterInfoTypes.CombatStats)
+                    elseif subWidget.open == "PassiveStats" then
+                        Cyclopedia.sendCyclopediaRequest("character.combatStats", "")
                     elseif subWidget.open == "OffenceStats" then
                         g_game.requestCharacterInfo(0, CyclopediaCharacterInfoTypes.Offencestats)
                     elseif subWidget.open == "DeffenceStats" then
@@ -1828,7 +1952,8 @@ function Cyclopedia.createCharacterDescription()
     _cachedVocationName = nil
     local descriptions = {
         { Level = player:getLevel() },
-        { Vocation = getPlayerVocationName(player) },
+        { Class = _serverClassName or "Not chosen" },
+        { Ascension = _serverAscension or getPlayerVocationName(player) },
         { }
     }
 

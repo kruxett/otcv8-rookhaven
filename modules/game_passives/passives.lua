@@ -578,11 +578,13 @@ local function updateDetails()
   local node=state.nodes[state.selected];local rank=node and(state.draft[node.id]or 0)or 0;local saved=node and(state.ranks[node.id]or 0)or 0
   ui.nodeName:setText(node and node.name or'Choose a talent')
   local tier=node and(node.type=='capstone'and'Capstone'or node.type=='major'and'Major'or'Minor')or''
-  ui.nodeRank:setText(node and(tier..' | Rank '..rank..'/'..node.maxRank..(rank~=saved and(' | '..(isPermanent()and'Saved'or'Applied')..': '..saved)or''))or'')
+  ui.nodeRank:setText(node and(tier..' | '..(rank~=saved and'Draft'or isPermanent()and'Saved'or'Applied')..' '..rank..'/'..node.maxRank..(rank~=saved and(' | '..(isPermanent()and'Saved'or'Applied')..': '..saved)or''))or'')
   local text='Add ranks, then Apply to activate them. Undo draft returns unsaved ranks.'
   if node then
     local effects=node.benefits or node.ranks or{}
-    text=(rank>0 and('Current rank ('..rank..'/'..node.maxRank..')\n'..(effects[rank]or''))or'Current\nNot trained.')
+    text=(rank>0 and((rank~=saved and'Draft rank'or'Current rank')..' ('..rank..'/'..node.maxRank..')\n'..(effects[rank]or''))or'Current\nNot trained.')
+    if rank~=saved then text=text..'\n\nPreview only. Apply to save and activate. Undo draft returns unsaved points for free.'
+    elseif isPermanent()and saved>0 then text=text..'\n\nSaved ranks are locked. Use Respec to return these points.'end
     if effects[rank+1]then text=text..'\n\n'..(rank==0 and'First rank'or'Next rank ('..(rank+1)..'/'..node.maxRank..')')..'\n'..effects[rank+1]
     end
     if node.role=='advancedMajor'then
@@ -683,6 +685,7 @@ local function updateView()
   refreshConnectors()
   local errorText = validationError(state.draft)
   ui.applyButton:setEnabled(state.active and state.tree ~= nil and not state.pending and draftChanged() and not errorText)
+  ui.applyButton:setTooltip(isPermanent()and'Save and activate the draft. Saved ranks can only be removed with Respec.'or'Apply this temporary draft.')
   ui.discardButton:setEnabled(not state.pending and draftChanged())
   ui.resetButton:setWidth(isPermanent() and 148 or 100)
   ui.resetButton:setText(isPermanent() and (state.respecCost == 0 and 'Respec (free)' or
@@ -1466,7 +1469,7 @@ local function handleMessage(data)
     -- Its snapshot needs a matching catalog before it can be accepted.
     if not state.ready or not g_game.isOnline() or type(data.session) ~= 'string' or
       #data.session == 0 or #data.session > 128 or retiredSessions[data.session] then return false end
-    return send({action = 'open'})
+    return send({action = 'snapshot'})
   end
   if data.action == 'catalog' then
     clearTransfer()

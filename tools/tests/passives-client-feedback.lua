@@ -31,7 +31,8 @@ local function packet(data)
 end
 local function snapshot(values)
   local s={v=1,action='snapshot',session=state.session,revision=state.revision,
-    ranks=copy(state.ranks),points=24,active=true,mode='test'}
+    ranks=copy(state.ranks),points=24,active=true,mode='test',
+    schemaVersion=state.tree.schemaVersion or 1,catalogVersion=state.tree.catalogVersion or 1,nodeCount=#state.tree.nodes}
   for key,value in pairs(values or {})do s[key]=value end
   return s
 end
@@ -60,6 +61,33 @@ local function visible(widget,viewport,label)
     r.y+r.height<=viewport.y+viewport.height+1,label..' clipped')
 end
 local verifySpells,verifyChoice,verifyScroll,verifyDraft
+local function verifyFirstPermanent()
+  local token='feedback-first-permanent'
+  catalogPacket('reaver',token)
+  assert(not state.active and not mod.changeRank(1,'minor_vitality'),'Catalog without authoritative mode permits first allocation')
+  packet(snapshot({revision=1,ranks={},mode='permanent',respecCost=0,respecCount=0,classLocked=true}))
+  assert(not mod.getWindow()or not mod.getWindow():isVisible(),'Passive restoration opened the full tree without explicit Open')
+  assert(mod.show()and mod.selectNode('minor_vitality'))
+  assert(mod.changeRank(1,'minor_vitality')and mod.changeRank(-1,'minor_vitality'),'Unapplied first rank cannot be undone')
+  assert(state.respecCount==0 and not next(state.ranks),'Draft undo changes saved state or consumes Respec')
+  assert(mod.changeRank(1,'minor_vitality'))
+  local rank=mod.getWindow():recursiveGetChildById('nodeRank'):getText()
+  local description=mod.getWindow():recursiveGetChildById('nodeDescription'):getText()
+  assert(rank:find('Draft',1,true)and rank:find('Saved: 0',1,true)and description:find('Preview only',1,true),'First draft falsely presented as active talent')
+  assert(mod.apply());local id=state.pending
+  packet(snapshot({mode='permanent',respecCost=0,respecCount=0,classLocked=true}))
+  assert(state.pending==id and state.draft.minor_vitality==1 and not next(state.ranks),'Unchanged first snapshot lost pending draft')
+  result(id,true,snapshot({revision=2,ranks={minor_vitality=1},mode='permanent',respecCost=0,respecCount=0,classLocked=true}))
+  assert(state.ranks.minor_vitality==1 and not mod.changeRank(-1,'minor_vitality'),'First Apply reply allows saved-rank undo before free Respec')
+  assert(state.respecCount==0 and state.respecCost==0,'First Apply consumes free Respec')
+  local reset=mod.getWindow():recursiveGetChildById('resetButton')
+  assert(reset:isEnabled()and reset:getText()=='Respec (free)','First saved tree does not offer explicit free Respec')
+  local before=#sent;mod.hide()
+  packet({action='refresh',session='feedback-after-death'})
+  assert(#sent==before+1 and sent[#sent].action=='snapshot','Automatic restoration requests Open instead of silent synchronization')
+  assert(not mod.getWindow():isVisible(),'Automatic refresh opened the full tree')
+  print('PASSIVES_CLIENT_FIRST_APPLY_LOCK_OK permanentMode=true pendingSnapshot=true firstFreeRespec=true automaticRefreshSilent=true')
+end
 verifySpells=function()
   local mana,right,left,ammo=0,nil,nil,nil
   local player={getMana=function()return mana end,
@@ -183,6 +211,7 @@ verifyScroll=function()
   tree(1)
 end
 verifyDraft=function()
+  verifyFirstPermanent()
   fresh('reaver')
   assert(mod.changeRank(1,'minor_vitality') and mod.changeRank(1,'minor_vitality'))
   local draft=copy(state.draft)

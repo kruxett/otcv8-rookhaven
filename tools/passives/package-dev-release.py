@@ -21,6 +21,11 @@ MASK = 0xFFFFFFFF
 DELTA = 0x9E3779B9
 CLIENT_EXE = "RookhavenClient.exe"
 RESOURCE_ROOTS = ("modules/game_passives/", "data/images/game/passives/")
+# Changed character presentation must match the final archive without changing
+# the native critical-eight login checksum contract.
+CYCLOPEDIA_SOURCES = ("modules/game_cyclopedia/game_cyclopedia.lua",
+                      "modules/game_cyclopedia/tab/character/character.lua",
+                      "modules/game_cyclopedia/tab/character/character.otui")
 
 
 def sha256(path: Path) -> str:
@@ -132,18 +137,19 @@ def default_sources(client: Path, server: Path) -> dict[str, list[str]]:
     # Reviewable complete files for the changed feature, not a replacement Git checkout.
     client_files = ["init.lua", "modules/game_actionbar/actionbar.lua", "src/main.cpp",
                     "src/framework/core/resourcemanager.cpp", "src/framework/core/resourcemanager.h", "tools/build-dev.ps1"]
+    client_files += list(CYCLOPEDIA_SOURCES)
     for directory in RESOURCE_ROOTS:
         client_files += [p.relative_to(client).as_posix() for p in sorted((client / directory).rglob("*")) if p.is_file()]
     server_files = ["schema.sql", "data/checksum_expected.txt", "data/migrations/30.lua", "data/migrations/31.lua", "src/CMakeLists.txt",
-                    "data/global.lua", "data/lib/lib.lua", "data/creaturescripts/scripts/login.lua",
+                    "data/global.lua", "data/lib/lib.lua", "data/lib/core/storages.lua", "data/creaturescripts/scripts/login.lua",
                     "data/creaturescripts/scripts/extendedopcode.lua", "data/npc/Plipus.xml", "data/npc/scripts/The Nameless.lua",
                     "data/spells/spells.xml", "data/weapons/weapons.xml", "data/talkactions/talkactions.xml",
                     "data/talkactions/scripts/oracle_stone.lua", "data/talkactions/scripts/passives.lua",
-                    "data/talkactions/scripts/passive_test.lua"]
+                    "data/talkactions/scripts/passive_test.lua", "data/talkactions/scripts/passiveadmin.lua"]
     for directory, suffixes in (("src", {".cpp", ".h"}), ("data/lib/class_spells", {".lua"}),
                                 ("data/spells/scripts/class_spells", {".lua"}), ("data/spells/scripts/attack", {".lua"})):
         server_files += [p.relative_to(server).as_posix() for p in sorted((server / directory).rglob("*")) if p.is_file() and p.suffix in suffixes]
-    server_files += ["data/lib/passives/" + name + ".lua" for name in ("config", "definitions", "routes", "test", "class_choice")]
+    server_files += ["data/lib/passives/" + name + ".lua" for name in ("config", "definitions", "routes", "test", "class_choice", "admin")]
     return {"client": sorted(set(client_files)), "server": sorted(set(server_files))}
 
 
@@ -182,7 +188,7 @@ def prepare(args: argparse.Namespace) -> dict:
             raise ValueError(f"Nonempty explicit source list required for {label}")
         source_files[label] = {relative(name): checked_source(root, name) for name in selected[label]}
     compare = {"init.lua": client / "init.lua"}
-    for logical in critical + existing:
+    for logical in critical + existing + list(CYCLOPEDIA_SOURCES):
         name = relative(logical)
         source_name = name[:-1] if name.endswith(".luac") else name
         source = client / source_name
