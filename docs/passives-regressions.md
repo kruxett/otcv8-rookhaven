@@ -195,3 +195,29 @@ DEV10087 additionally passed real native updater download/promotion/restart and
 temporary-executable cleanup, followed by two ordinary readonly DEV logins and
 native Cyclopedia/toolbar assertions. Final artifacts, earlier failures, profile
 restoration and unmeasured cases are recorded in the linked results document.
+
+## Already Ascended login class choice
+
+An ordinary capable login offers class selection anywhere only for vocation3
+with no permanent class. Background status/snapshot refresh remains silent;
+cancelled or expired choice can be reopened with `!passives`. Existing discipline
+limits remain, and selection uses the existing native permanent transaction.
+It preserves current position/progression/resources/possessions and learns the
+two starters without performing a new Ascension reset. Chosen-class logins remain
+quiet. The ordinary third-Ascension NPC offer retains its original proximity,
+line-of-sight, island, quest, focus and reserved-dispatch checks.
+
+Run `tools/run-class-choice-login-tests.ps1` for the owned loopback fixtures only.
+Its ordinary/magic/sword/unfocused cases require actual native login UI and
+permanent transaction evidence, preserved XP/mastery progress/ordered inventory,
+cancel/refresh/reopen/reconnect, combat and forged/stale/double-confirm guards,
+two unique starter rows, chosen-login silence and fresh client ExitCode0.
+Use `-PackageDirectory out/install/x64-DevRelease10087` to test the existing DEV
+client bytes. The runtime-only fixture reports actual state; it grants no class.
+
+Also rerun `tools/run-class-choice-tests.ps1` for the three existing NPC scenarios
+and `tools/run-passives-permanent-tests.ps1 -MainOnly` for the real third reset,
+learning, Apply/Respec/persistence and detach/death/store paths. These targeted
+checks passed for the login-choice increment. Unchanged combat formulas/client
+assets reuse the preceding regression evidence rather than claiming a fresh
+full combat/updater run. Execution/release details are in the results document.

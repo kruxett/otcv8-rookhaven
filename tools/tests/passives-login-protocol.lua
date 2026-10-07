@@ -4,6 +4,8 @@ Game={configurePassiveClasses=function()return true end}
 dofile('data/lib/core/json.lua')
 dofile('data/lib/passives/test.lua')
 ClassChoice.hello=function()end
+-- Choice eligibility/persistence is exercised by the native login-choice suite.
+ClassChoice.offerAscended=function()return false end
 local packets,cancels={},{}
 local state={v=1,action='snapshot',schemaVersion=2,catalogVersion=2,nodeCount=29,
  session='first-login',revision=1,treeId='reaver',points=3,ranks={},
