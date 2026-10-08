@@ -238,7 +238,7 @@ and store behavior were not rerun for this UI-only increment; their gameplay
 implementations are unchanged. No new balance claim, direct live bank reading
 or database-GUID measurement is made.
 
-## Attainable-stat and clarity follow-up (local, not published)
+## Attainable-stat and clarity follow-up (local validation)
 
 The default retro layout is retained. Stats describe present equipment, learned
 talents or active effects; unrelated unlearned zero bonuses are omitted. Learned
@@ -303,7 +303,46 @@ Evidence: `out/stats-ui-review-20261008/attainable-server-build.log`,
 `attainable-equipment-native-final.log`, `attainable-presentation-verified.log`,
 `attainable-six-classes-verified.log`, and `attainable-allocated.log`.
 The Qwen supplied-text job exhausted its60-second budget without a deliverable;
-the audit and implementation were completed here. DEV10089/PROD were not changed.
-Publishing requires a rebuilt server and a new DEV client release; a TFS restart
-alone cannot supply the new native metadata. Ordinary hunts, all item acquisition
-routes, and a live DEV deploy/updater cycle for this follow-up remain unmeasured.
+the audit and implementation were completed here. At this local checkpoint,
+DEV10089/PROD were unchanged. The native metadata requires server recompilation;
+the subsequent DEV deployment and updater checks are recorded below. Ordinary
+hunts and all item acquisition routes remain outside this targeted verification.
+
+## DEV10090 publication and live verification
+
+Published on2026-10-08 after compiling server commit
+`463c7efeb31892ba471cfc6dcd8d1d00e19f4c8a` on OMBSRV020. The existing supervisor
+performed the orderly shutdown/restart; MSBuild exited0 with independent
+success/error checks. The fresh runtime PID6980 owns7173/7174. Its EXE SHA256 is
+`84dbe65d190e45fa60a01a0ab7e167727266fdd293bbe9058e78eeeeb4d09135`.
+Configuration, control scripts, DLLs, updater process and PROD1006 release tree
+were preserved; no new crash dumps appeared. The equipment fixture is present
+only as a Git test source and is not registered on live DEV.
+
+Client commit `0431305` provides DEV10090. The package verified141 source/resource
+equalities,117 passive resources and the eight critical files (`CS1:d08bec84`).
+It retains the verified10089 native client and dependencies. Published data.zip
+SHA256: `23baf34dcf06e59657d86d70fd23a52b027989b29d2e6c03bf0f8bd66685352e`.
+The genuine native updater downloaded10090 from the public DEV endpoint,
+restarted into the ordinary retro client, and passed its stable-child checks.
+
+Two ordinary live DEV logins of `Dev Login Qa hecafa` passed the actual protocol,
+equipped CSV/native values, enabled-equipment metadata, practical source details,
+irrelevant-row removal, refresh/reopen and1280x800/800x640 layout checks.
+Class and `Ascension: Ascended` appeared separately. Login stayed quiet, manual
+tree opening worked, talent descriptions were current, and ordinary admin access
+was denied. This QA character has zero allocated ranks and no class weapon;
+the six filled trees and combat assertions remain the local evidence above.
+No live class, allocation, equipment, movement or combat changes were made.
+Both profiles were restored, including recursive DACL verification for live QA.
+
+The first live probe failed an added test assertion: unarmed native snapshots
+omit weapon fields, while the CSV carries zero. The established local contract
+already uses zero for that absent value. Only the task-local probe was corrected;
+its failed receipt was retained and both logins passed in a fresh stage.
+
+Evidence under `out/stats-dev10090-20261008/`: `server-preflight.json`,
+`server-deploy-stdout.txt`, `server-postdeploy.json`, `publish-preflight.json`,
+`publish-actual.json`, `server-final.json`,
+`native-updater-7c74e6095bac4a42a7e5f6db70a4f279/result.json`,
+and `live-stats10090-retry1/result.json` / `cyclopedia-stdout.log` /16 captures.
