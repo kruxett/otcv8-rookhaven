@@ -82,3 +82,16 @@ point bounds, paid respec preservation, combat/death denial, reconnect and actua
 database rollback also passed. The owned runtime was restored to admin-disabled
 and its GUID9001 ledger cleaned afterward. Live user characters and account roles
 were not used or changed by these tests.
+
+The same server commit was deployed to DEV on October 8 at 17:40 UTC. The
+previous runtime exited cleanly with code0; the fresh native build succeeded.
+Independent readback verified the new runtime PID5560 under the existing
+supervisor4708, owning both7173/7174, with native SHA256
+`2e14f625148ebf1b8d78a8eeba61d099ab2bd0c8a3c93b6b6c407ab400736804`.
+Source pins, config, groups, DLLs, prior dumps, updater processes and published
+DEV10088/PROD1006 releases matched the captured baseline. No deploy requests or
+new dumps remained. Evidence is in
+`out/passive-admin-access-20261008/actual-deployment-result.json`,
+`actual-postruntime.json`, and `root-independent-runtime.json` in that directory.
+Kruxet's command was not run through the live user session; the command behavior
+was verified with the real local native build and low-account Admin/God roles.
