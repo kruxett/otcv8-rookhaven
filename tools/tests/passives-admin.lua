@@ -1,6 +1,7 @@
 -- Actual native client/server admin API probe, disposable loopback GUID9001 only.
 local mode=PASSIVES_PROBE_CAP or 'off'
 local login,failed,finished,finishing,registeredStatus,deathIssued=false,false,false,false,false,false
+local characterRole,characterHelp,characterStatus,characterRoleCases=nil,false,false,0
 local function fail(reason)
  if failed or finished then return end;failed=true;print('PASSIVES_ADMIN_FAILED '..tostring(reason))
  if g_game.isOnline()then g_game.safeLogout()end
@@ -29,10 +30,21 @@ later(200,function()
    end)
   end)
  end,onTextMessage=function(_,text)
+  local beginning=text:match('^PASSIVE_ADMIN_CHARACTER_ROLE_BEGIN group=(%d+) account=1$')
+  if beginning then characterRole=beginning;characterHelp=false;characterStatus=false end
+  if characterRole and text:find('^DEV QA: /passiveadmin status')then characterHelp=true end
+  if characterRole and text:find('^QA status:')then characterStatus=true end
+  local ending=text:match('^PASSIVE_ADMIN_CHARACTER_ROLE_END group=(%d+) account=1$')
+  if ending then
+   if ending~=characterRole or not characterHelp or not characterStatus then fail('Character-role help/status denied');return end
+   characterRoleCases=characterRoleCases+1;print('PASSIVES_ADMIN_CHARACTER_CHAT_OK group='..ending..' account=1 actualHelp=true actualStatus=true')
+   characterRole=nil
+  end
   if text:find('^QA status:')then registeredStatus=true;print('PASSIVES_ADMIN_REGISTERED_TALKACTION_OK')end
   if text:find('^PASSIVE_ADMIN_')then print(text)end
   if text:find('PASSIVE_ADMIN_QA_FAILED',1,true)then fail(text);return end
   if text=='PASSIVE_ADMIN_QA_OK '..mode then
+   if mode=='exercise'and characterRoleCases~=2 then fail('Admin and God character-role chat checks missing');return end
    if mode=='death'then print('PASSIVES_ADMIN_DEATH_CONNECTION_ENDED serverMessageReceived=true')end
    print('PASSIVES_ADMIN_CASE_OK '..mode);finishing=true;g_game.safeLogout()
    wait('clean logout',function()return not g_game.isOnline()end,function()

@@ -5,9 +5,13 @@ only in DEV's server config and restart/recompile for the native addition.
 Keep `passiveTestEnabled = false` on DEV: the existing loopback overlays and
 runtime-only test fixtures are separate. PROD retains the default-off admin flag.
 
-The issuer must have group access, group ID >=5, and account type >=5
-(Community Manager/Admin or God6). Players, tutors and GM4 are rejected. The
-native API repeats these checks for every write; opcode103 exposes no admin API.
+The issuer's character must have group access and the standard Admin group5
+(Community Manager) or God group6. These character roles do not require a higher
+account type, matching the character-group checks in `/i`, `/addskill`, `/up`,
+`/down` and `/tp`. Custom groups above6 retain their previous account-type>=5
+requirement, including the isolated loopback QA fixture. Players, tutors and GM4
+are rejected. Lua delegates permission to the native API, which repeats these
+checks for every status/write; opcode103 exposes no admin API.
 Targets must be online, alive and out of combat, including queued effects.
 
 | Command | Result |
@@ -51,3 +55,30 @@ point bounds, stale/combat/death gates, real DB rollback and reconnect, verifies
 both low and high saved budgets when the flag is disabled, cleans GUID9001's
 chosen ledger, and restores the default-off runtime. Source game data never
 register the runtime-only audit fixture.
+
+## Character-role regression, October 8
+
+The former Lua and native checks required account type>=5 even for the standard
+God character group6. The original native build reproduced the refusal on group6
+with account type1 (`out/passives-admin-tests/20261008-192343/02-exercise.log`).
+Self-look says God using the character group, so that extra account requirement
+could disagree with both self-look and the existing character-based commands.
+
+Server fix `7b70fcf45f3e810b079002e6c640eb0de1e37545` removes that extra
+requirement for the standard character groups5/6. The enabled-DEV, connected
+actor, target, combat, current quote and transaction checks stay intact. The
+isolated local overlay administrator is a separate API and is unchanged.
+
+All nine native admin audit cases passed on the corrected build:
+`out/passives-admin-tests/20261008-193133/` and
+`out/passive-admin-god-20261008/after-fix-final.log`. The thirteen-role matrix
+includes Admin5/account1 and God6/account1, while players/tutors/GM4 on account6
+and custom7/account1 stay denied, including reuse of a formerly valid quote.
+The low-account role phases invoke the actual Lua command handler for help/status
+and verify their real network replies and unchanged resources/durable state.
+The registered talkaction path is checked separately by sending
+`/passiveadmin status` from the real client. Native writes, all six class switches,
+point bounds, paid respec preservation, combat/death denial, reconnect and actual
+database rollback also passed. The owned runtime was restored to admin-disabled
+and its GUID9001 ledger cleaned afterward. Live user characters and account roles
+were not used or changed by these tests.
