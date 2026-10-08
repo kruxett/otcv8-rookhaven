@@ -32,37 +32,51 @@ local function request(fn)
  g_game.getProtocolGame():sendExtendedOpcode(31,'cp|1|req|character.combatStats|')
  wait('fresh authoritative stats',function()return packets['character.passives']~=nil end,function()fn(json.decode(packets['character.passives']))end)
 end
-local function assertVisible(row,list)
+local function assertVisible(row,list,overview)
  local r,v=row:getRect(),list:getPaddingRect()
  assert(r.y>=v.y-1 and r.y+r.height<=v.y+v.height+1,'Selected row outside scroll viewport '..row:getId())
- assert(row:isOn(),'Selected row lacks selection highlight')
+ if not overview then assert(row:isOn(),'Selected row lacks selection highlight')end
+end
+local function sourceWindow(panel,view)
+ return view=='overview'and modules.game_cyclopedia.Cyclopedia.getCombatSourceWindow()or panel.SourceDetails
+end
+local function sourceRow(panel,view,entry)
+ if view=='overview'then return modules.game_cyclopedia.Cyclopedia.getCombatStatRow(entry.id)end
+ return panel.List:getChildById('talent_'..entry.id)
 end
 local function clickEntries(panel,view,entries,index,fn)
  local entry=entries[index];if not entry then fn();return end
- local prefix=view=='overview'and'overview_'or'talent_'
- local row=assert(panel.List:getChildById(prefix..entry.id),'Actual row absent '..entry.id)
+ local row=sourceRow(panel,view,entry)
+ if view=='overview'and(entry.id=='maxHealth'or not row)then
+  assert(entry.id=='maxHealth'or tonumber(entry.value)==0,'Nonzero actual row absent '..entry.id)
+  clickEntries(panel,view,entries,index+1,fn);return
+ end
+ assert(row,'Actual row absent '..entry.id)
  signalcall(row.onClick,row)
  later(90,function()
-  assertVisible(row,panel.List)
-  assert(panel.SourceDetails.Content.Title:getText()==entry.label,'Source title did not follow actual row click')
+  assertVisible(row,view=='overview'and panel or panel.List,view=='overview')
+  local detail=sourceWindow(panel,view)
+  assert(detail:isVisible()and detail.Content.Title:getText()==entry.label,'Source title did not follow actual row click')
   if view=='talents'then
-   assert(panel.SourceDetails.Content.Rank.Value:getText()==tostring(entry.rank),'Applied rank detail differs')
+   assert(detail.Content.Rank.Value:getText()==tostring(entry.rank),'Applied rank detail differs')
    effects=effects+1
   end
   clickEntries(panel,view,entries,index+1,fn)
  end)
 end
 local function stableRefresh(panel,view,entry,fn)
- local row=assert(panel.List:getChildById((view=='overview'and'overview_'or'talent_')..entry.id))
+ local row=assert(sourceRow(panel,view,entry))
+ local list=view=='overview'and panel or panel.List
+ local detail=sourceWindow(panel,view)
  signalcall(row.onClick,row)
  later(110,function()
-  assertVisible(row,panel.List)
-  local title,offset=panel.SourceDetails.Content.Title:getText(),panel.List:getVirtualOffset().y
+  assertVisible(row,list,view=='overview')
+  local title,offset=detail.Content.Title:getText(),list:getVirtualOffset().y
   request(function()
    later(110,function()
-    assert(panel.SourceDetails.Content.Title:getText()==title,'Real refresh reset source selection')
-    assert(panel.List:getVirtualOffset().y==offset,'Real refresh reset scroll position')
-    assertVisible(assert(panel.List:getChildById(row:getId())),panel.List);fn()
+    assert(detail.Content.Title:getText()==title,'Real refresh reset source selection')
+    assert(list:getVirtualOffset().y==offset,'Real refresh reset scroll position')
+    assertVisible(assert(sourceRow(panel,view,entry)),list,view=='overview');fn()
    end)
   end)
  end)
@@ -103,12 +117,17 @@ local function inspectSize(id,report,p,entries,size,index,nextStep)
   local panel=assert(module.contentContainer:getChildById('Cat6'))
   selectPage(panel,'CombatStats')
   later(220,function()
-   local a=panel.CombatStats.CurrentOverview;assert(a:isVisible()and a.List:getHeight()>60,'A view collapsed')
+   local a=panel.CombatStats.Viewport;assert(a:isVisible()and a:getHeight()>300,'Original view collapsed')
+   assert(a.Content.attack:getHeight()==20,'Retro row height changed')
    clickEntries(a,'overview',p.overview,1,function()
-    local health;for _,entry in ipairs(p.overview)do if entry.id=='maxHealth'then health=entry end end
-    assert(health,'Actual health row missing')
-    stableRefresh(a,'overview',health,function()
+    local selected;for _,entry in ipairs(p.overview)do if entry.id=='manaRegen'and modules.game_cyclopedia.Cyclopedia.getCombatStatRow(entry.id)then selected=entry end end
+    if not selected then for _,entry in ipairs(p.overview)do if entry.id=='normalMaxHit'then selected=entry end end end
+    stableRefresh(a,'overview',assert(selected),function()
+     signalcall(panel.CombatSources.Close.onClick,panel.CombatSources.Close)
+     a:setVirtualOffset({x=0,y=0})
+     later(120,function()
      g_app.doScreenshot('/cyclopedia-allocated-'..id..'-stats-'..size.width..'x'..size.height..'.png')
+     later(120,function()
      selectPage(panel,'PassiveStats')
      later(220,function()
       local b=panel.PassiveStats;assert(b.List:getHeight()>60,'B view collapsed')
@@ -120,6 +139,8 @@ local function inspectSize(id,report,p,entries,size,index,nextStep)
         cases=cases+1;nextStep()
        end)
       end)
+     end)
+     end)
      end)
     end)
    end)

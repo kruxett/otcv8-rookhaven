@@ -1,21 +1,30 @@
 # Passive statistics in Cyclopedia
 
-The approved presentation combines the current combat statistics with a compact
-overview of applied talents. The retro layout, talent balance and allocation
-rules remain unchanged.
+Combat Stats keeps the original compact two-column retro layout and adds relevant
+passive totals. Talent balance and allocation rules remain unchanged.
 
 ## Player navigation
 
-Open Cyclopedia → Character → General Stats → Combat Stats. The current view
-groups values into Offence, Defence and Recovery. Selecting a row explains its
-sources and the conditions that apply. Totals come from the server's native
-character statistics; the client does not reconstruct combat formulas.
+Open Cyclopedia → Character → General Stats → Combat Stats. The original
+equipment values, elemental icons, resistance list and damage estimates appear
+directly. Relevant passive totals use the same 20-pixel rows. Recovery follows
+offensive values; actual armor, defense and an active ward sit in the right column.
+Both columns share one scroll area when needed. Unlearned zero bonuses are omitted;
+learned bonuses remain visible when their weapon requirement disables them.
 
-Detailed stats opens the existing equipment, resistance, blessing, concoction
-and damage-estimate view. Current stats returns to the new view. The existing
-view also remains the fallback when an older server does not supply the new
-presentation. The client-version 1410+ equipment pages retain their existing
-behavior.
+Hover a sourced value for its components or click its row or small information
+button to open a separate closable Stat sources window. Maximum-health sources
+are available on Character Stats alongside the existing current/maximum health
+row. Source details take no space in the default combat view. Current totals come
+from the native server snapshot; estimates retain their explicit labels and
+tooltips. Element Attack is an attack amount, not a percentage.
+
+The character portrait shows level, chosen class and a separate
+`Ascension: Ascended` line. The progression name comes from `character.identity`,
+and is also retained in the character profile. An ascended character with no class
+shows Class not chosen; the client never infers progression from a class or role.
+Older servers keep the existing combat values without inventing source amounts.
+The client-version 1410+ equipment pages retain their existing behavior.
 
 Passive Talents groups applied ranks into Stat bonuses, Conditional effects and
 Special effects. The class, required weapon and applied points appear above the
@@ -45,8 +54,9 @@ unchanged. This avoids the native server's 8192-byte string limit without
 changing the general packet parser.
 
 Rows are reconciled by stable widget IDs. Source selection and scrolling survive
-refreshes; source selection also survives closing and reopening Cyclopedia in
-the same game session. They reset on logout.
+refreshes. Combat source windows close when switching away from stats; explicitly
+closed windows stay closed. Source selection survives closing and reopening
+Cyclopedia in the same game session. Session state resets on logout.
 
 ## Verification for DEV10088
 
@@ -159,3 +169,71 @@ native suites. No live allocation, respec, class change or combat was performed.
 The client has no bank-balance binding, and its protocol does not expose database
 GUIDs; neither a live bank measurement nor a direct GUID/SQL-state proof is
 claimed. The live character was selected by its previously verified exact name.
+
+## Original layout extension — DEV10089
+
+Three independent history, information and retro-design reviews compared
+`29d299b8` with parent `d9c6f6ddc5bb33636d5825414acf77d4c8663b8e`. The user
+selected Originalet utbyggt: restore the compact two columns, separator and
+elemental icons; extend the same rows with relevant passive totals and optional
+sources. CurrentOverview and its navigation buttons are removed. The native
+statistics, passive effects and transport remain unchanged.
+
+Actual checks for this increment:
+
+- Fresh-source native UI: six class/progression headers, unchosen class, separate
+  Ascension, legacy critical/DPS/reduction values, elemental attack units,
+  fractional regeneration, HP sources on Character Stats, source close/page
+  changes, refresh selection, learned inactive effects and older-server fallback.
+  Actual viewports1280×800/800×600.
+- Six ordinary saved local classes: actual identity/self/other look, native source
+  composition, ranks, critical semantics, CSV fields, bank/read-only invariants,
+  source refresh and reopen.
+- Six allocated local overlays in both sizes:12 cases,108 talent-detail clicks,
+  90 chunked reports and24 captures. Row visibility and refresh/scroll stability
+  passed. Stop restored baseHP735; logout cleared the overlay; config unchanged.
+- Unchanged Cyclopedia transport contract:20 checks, including connection,
+  ordering, budgets and lifecycle cleanup.
+- Final normal DEV package: source equality for141 resources, unchanged native
+  critical-eight checksum `CS1:d08bec84`, and a connected ordinary Reaver probe
+  using the exact final executable/archive pair.
+- Actual HTTP updater10088→10089: archive replacement, original exit0, native
+  restart into10089 and eight-second stable identity. Existing executable/DLLs
+  reused. Both profiles and original installations restored.
+- Published10089: two ordinary live logins on Dev Login Qa hecafa, previously
+  mapped toGUID48. Quiet login/manual tree, admin rejection, default Combat Stats,
+  separate Ascension, actual HP/stat sources, refresh/reopen, Passive Talents and
+  viewports1280×800/800×640 passed. Inventory, position, ranks, points/respec,
+  level, XP and maximum resources stayed unchanged. Health1288 and mana760
+  matched both initial readings. Safe logout/native exit0;16 captures retained.
+  Private profiles restored with byte and recursive-DACL verification.
+
+The initial updater probe stopped before native startup because its backup
+fingerprint differed. Both trees were preserved. Reconciliation identified one
+missing session minimap file; recovering its exact preserved bytes restored
+**both initial profile fingerprints exactly**. A move diagnostic preserved all29
+entries. A fresh updater run and subsequent live test passed full restoration.
+This was a failed harness/profile attempt, not a passed product test. The cause
+of that initial file movement remains unmeasured.
+
+DEV10089 data.zip SHA256:
+`4ec35e95dfaad5d15c3c1bf2d828592ffb271fe34d4959124ba87b484e2271d6`.
+The executable remains verified10088
+`cb4fcbdd104ef92562e9880e9e8be3f1e426d7526946e0f55d933b4b5b9cc8c2`.
+Publication retained serverHEAD`7b70fcf45f3e810b079002e6c640eb0de1e37545`,
+runtimePID5560, config/checksums, supervisor and updater identities. PROD1006
+metadata, public API hashes and full release tree stayed unchanged. No server
+restart, native deployment, database change or live allocation occurred.
+
+Evidence under `out/stats-ui-review-20261008/`: `package10089-final.log`,
+`publish10089-actual.json`, `public10089-readback.json`, `native-retro.log`,
+`allocated-retro.log`, `transport-retro.log`, `final-package-native-reaver.log`,
+`native-updater-aa3b3d19434e46bbb66b0bf22112cfe6/result.json`,
+`native-updater-236c65a5d73945dfbc77ef0d5d360cb0/root-recovery-final.json`,
+and `live-stats10089/result.json` / `cyclopedia-stdout.log`.
+
+Limits: live QA has no applied talents or class weapon. Filled trees, all six
+classes and long responses were tested locally. Combat, death, spell payment
+and store behavior were not rerun for this UI-only increment; their gameplay
+implementations are unchanged. No new balance claim, direct live bank reading
+or database-GUID measurement is made.

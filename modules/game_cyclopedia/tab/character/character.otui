@@ -1,3 +1,40 @@
+CharacterStatsInfoButton < UIButton
+  id: Details
+  anchors.right: parent.right
+  anchors.verticalCenter: parent.verticalCenter
+  size: 11 16
+  font: verdana-11px-monochrome
+  text: i
+  color: #929292
+  $hover:
+    color: #C0C0C0
+
+CharacterStatsCompactRow < CharacterSkillBase
+  margin-top: 0
+  focusable: true
+  SkillNameLabel
+    id: Name
+    anchors.right: Value.left
+    margin-right: 5
+    text-auto-resize: false
+    color: #C0C0C0
+  SkillValueLabel
+    id: Value
+    anchors.left: none
+    anchors.right: Details.left
+    margin-right: 4
+    text-auto-resize: true
+    color: #C0C0C0
+  CharacterStatsInfoButton
+    id: Details
+
+CharacterStatsCompactSection < CharacterSkillBase
+  margin-top: 5
+  height: 23
+  SkillNameLabel
+    id: Name
+    color: #C0C0C0
+
 CharacterStatsSection < Label
   height: 22
   margin-top: 5
@@ -627,373 +664,361 @@ UIWidget
     margin-left: 10
     visible: false
 
-    VerticalSeparator
-      id: separator
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      margin-top: 5
-      margin-bottom: 5
-    CharacterSkillBase
-      id: offensiveHit
-      anchors.top: parent.top
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 1
-      margin-left: 5
-      SkillNameLabel
-        !text: tr('Offensive Stats:')
-        color: #C0C0C0
-    CharacterSkillBase
-      id: attack
-      anchors.top: offensiveHit.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      margin-left: 5
-      SkillNameLabel
-        !text: tr('Attack Value:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        anchors.right: next.left
-        margin-right: 8
-        !text: ('100')
-      SkillCharacterIcon
-        margin-top: 2
-        anchors.right: parent.right
-    CharacterSkillBase
-      id: estDps
-      anchors.top: attack.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Estimated Max Hit:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #E8A040
-        margin-right: 2
-    CharacterSkillBase
-      id: avgHit
-      anchors.top: estDps.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Average Hit:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #D0A050
-        margin-right: 2
-    CharacterSkillBase
-      id: atkSpeed
-      anchors.top: avgHit.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Attack Speed:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: dps
-      anchors.top: atkSpeed.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Estimated DPS:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #E06020
-        margin-right: 2
-    CharacterSkillBase
-      id: converted
-      anchors.top: dps.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Element Conversion:')
-        color: #C0C0C0
-      SkillValueLabel
-        id: none
-        color: #C0C0C0
-        !text: tr('None')
-        margin-right: 2
-        visible: false
-      SkillValueLabel
-        color: #C0C0C0
-        anchors.right: next.left
-        margin-right: 8
-        !text: ('100')
-      SkillCharacterIcon
-        margin-top: 2
-        anchors.right: parent.right
-    CharacterSkillBase
-      id: defence
-      anchors.top: converted.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Critical Chance:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: armor
-      anchors.top: defence.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 1
-      SkillNameLabel
-        !text: tr('Critical Extra Damage:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: mitigation
-      anchors.top: armor.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Critical Total Multiplier:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: blessings
-      anchors.top: mitigation.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 1
-      SkillNameLabel
-        !text: tr('Blessings:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 20
-      UIButton
-        id: blessButton
-        size: 12 12
-        anchors.top: parent.top
-        anchors.right: parent.right
-        margin-top: 1
-        margin-right: 3
-        image-clip: 0 0 12 12
-        image-source: /images/inventory/button_blessings_grey
-        @onClick: modules.game_blessing.toggle()
-        $pressed:
-          image-source: /images/inventory/button_blessings_grey
-          image-clip: 12 0 12 12
-        $on:
-          image-source: /images/inventory/button_blessings_grey
-          image-clip: 12 0 12 12
-        $on pressed:
-          image-source: /images/inventory/button_blessings_grey
-          image-clip: 12 0 12 12
-    CharacterSkillBase
-      id: reduction
-      anchors.top: passiveReduction.bottom
-      anchors.left: criticalHit.left
-      anchors.right: parent.right
-      margin-left: 0
-      margin-top: 6
-      SkillNameLabel
-        !text: tr('Resistances:')
-        color: #C0C0C0
-    Panel
-      id: reductionNone
-      anchors.top: reduction.bottom
-      anchors.left: reduction.left
-      anchors.right: parent.right
-      margin-left: 10
-      margin-top: 2
-      layout:
-        type: verticalBox
-        fit-children: true
-    HorizontalSeparator
-      anchors.top: prev.bottom
-      anchors.left: reduction.left
-      anchors.right: parent.right
-      margin-right: 10
-
-    CharacterSkillBase
-      id: concoction
-      anchors.top: prev.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-      margin-top: 1
-      SkillNameLabel
-        !text: tr('Concoctions:')
-        color: #C0C0C0  
-    CharacterSkillBase
-      id: concoctionPanel
-      anchors.top: prev.bottom
-      anchors.left: parent.left
-      anchors.right: separator.right
-
-      layout:
-        type: grid
-        cell-size: 32 32
-        flow: true
-
-    CharacterSkillBase
-      id: criticalHit
-      anchors.top: offensiveHit.top
-      anchors.left: separator.left
-      anchors.right: parent.right
-      margin-top: 1
-      SkillNameLabel
-        !text: tr('Defensive Stats:')
-        color: #C0C0C0
-    CharacterSkillBase
-      id: criticalChance
-      anchors.top: criticalHit.bottom
-      anchors.left: separator.left
-      anchors.right: parent.right
-      margin-left: 15
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Armor Mitigation:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: criticalDamage
-      anchors.top: criticalChance.bottom
-      anchors.left: prev.left
-      anchors.right: parent.right
-      margin-left: 0
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Armor Reduction (Average):')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: lifeLeech
-      anchors.top: criticalDamage.bottom
-      anchors.left: criticalHit.left
-      anchors.right: parent.right
-      margin-left: 0
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Defense Reduction (Average):')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: manaLeech
-      anchors.top: lifeLeech.bottom
-      anchors.left: criticalHit.left
-      anchors.right: parent.right
-      margin-left: 0
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Total Reduction (Average):')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: defenseWindow
-      anchors.top: manaLeech.bottom
-      anchors.left: criticalHit.left
-      anchors.right: parent.right
-      margin-left: 0
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Reduction Window (Min-Max):')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    CharacterSkillBase
-      id: passiveReduction
-      anchors.top: defenseWindow.bottom
-      anchors.left: criticalHit.left
-      anchors.right: parent.right
-      margin-top: 0
-      SkillNameLabel
-        !text: tr('Passive Physical Reduction:')
-        color: #C0C0C0
-      SkillValueLabel
-        color: #C0C0C0
-        margin-right: 2
-    Button
-      id: ReturnToOverviewButton
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      margin: 6
-      width: 114
-      height: 20
-      !text: tr('Current stats')
-      visible: false
-    Panel
-      id: CurrentOverview
+    UIScrollArea
+      id: Viewport
       anchors.fill: parent
-      background-color: #363636
-      visible: false
-      Label
-        id: Header
+      margin: 5
+      margin-right: 16
+      vertical-scrollbar: Scrollbar
+      Panel
+        id: Content
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        margin: 9
-        height: 42
-        text-wrap: true
-        text-auto-resize: false
-        text-vertical-auto-resize: true
-        text-align: topLeft
-        color: #C0C0C0
-      UIScrollArea
-        id: List
-        anchors.top: Header.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: SourceDetails.top
-        margin-left: 9
-        margin-right: 20
-        margin-bottom: 7
-        vertical-scrollbar: ListScrollbar
-        layout:
-          type: verticalBox
-      VerticalScrollBar
-        id: ListScrollbar
-        anchors.top: List.top
-        anchors.right: parent.right
-        anchors.bottom: List.bottom
-        margin-right: 5
-        step: 38
-        pixel-scroll: true
-      CharacterStatsSources
-        id: SourceDetails
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: LegacyDetailsButton.top
-        margin-right: 8
-        margin-left: 9
-        margin-bottom: 7
-      Button
-        id: LegacyDetailsButton
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        margin: 6
-        width: 114
-        height: 20
-        !text: tr('Detailed stats')
+        height: 420
+        VerticalSeparator
+          id: separator
+          anchors.horizontalCenter: parent.horizontalCenter
+          anchors.top: parent.top
+          anchors.bottom: parent.bottom
+          margin-top: 5
+          margin-bottom: 5
+        CharacterSkillBase
+          id: offensiveHit
+          anchors.top: parent.top
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 1
+          margin-left: 5
+          SkillNameLabel
+            !text: tr('Offensive Stats:')
+            color: #C0C0C0
+        CharacterSkillBase
+          id: attack
+          anchors.top: offensiveHit.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          margin-left: 5
+          SkillNameLabel
+            !text: tr('Attack Value:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            anchors.right: next.left
+            margin-right: 8
+            !text: ('100')
+          SkillCharacterIcon
+            margin-top: 2
+            anchors.right: parent.right
+        CharacterSkillBase
+          id: estDps
+          anchors.top: attack.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Estimated Max Hit:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #E8A040
+            margin-right: 2
+        CharacterSkillBase
+          id: avgHit
+          anchors.top: estDps.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Est. Average Hit:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #D0A050
+            margin-right: 2
+        CharacterSkillBase
+          id: atkSpeed
+          anchors.top: avgHit.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Attack Speed:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: dps
+          anchors.top: atkSpeed.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Estimated DPS:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #E06020
+            margin-right: 2
+        CharacterSkillBase
+          id: converted
+          anchors.top: dps.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Element Attack:')
+            color: #C0C0C0
+          SkillValueLabel
+            id: none
+            color: #C0C0C0
+            !text: tr('None')
+            margin-right: 2
+            visible: false
+          SkillValueLabel
+            color: #C0C0C0
+            anchors.right: next.left
+            margin-right: 8
+            !text: ('100')
+          SkillCharacterIcon
+            margin-top: 2
+            anchors.right: parent.right
+        CharacterSkillBase
+          id: defence
+          anchors.top: converted.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Critical Chance:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: armor
+          anchors.top: defence.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 1
+          SkillNameLabel
+            !text: tr('Critical Extra Damage:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: mitigation
+          anchors.top: armor.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Critical Total Multiplier:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: blessings
+          anchors.top: mitigation.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 1
+          SkillNameLabel
+            !text: tr('Blessings:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 20
+          UIButton
+            id: blessButton
+            size: 12 12
+            anchors.top: parent.top
+            anchors.right: parent.right
+            margin-top: 1
+            margin-right: 3
+            image-clip: 0 0 12 12
+            image-source: /images/inventory/button_blessings_grey
+            @onClick: modules.game_blessing.toggle()
+            $pressed:
+              image-source: /images/inventory/button_blessings_grey
+              image-clip: 12 0 12 12
+            $on:
+              image-source: /images/inventory/button_blessings_grey
+              image-clip: 12 0 12 12
+            $on pressed:
+              image-source: /images/inventory/button_blessings_grey
+              image-clip: 12 0 12 12
+        CharacterSkillBase
+          id: reduction
+          anchors.top: DefenceExtras.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          margin-left: 0
+          margin-top: 6
+          SkillNameLabel
+            !text: tr('Resistances:')
+            color: #C0C0C0
+        Panel
+          id: reductionNone
+          anchors.top: reduction.bottom
+          anchors.left: reduction.left
+          anchors.right: parent.right
+          margin-left: 10
+          margin-top: 2
+          layout:
+            type: verticalBox
+            fit-children: true
+        HorizontalSeparator
+          anchors.top: prev.bottom
+          anchors.left: reduction.left
+          anchors.right: parent.right
+          margin-right: 10
+
+        CharacterSkillBase
+          id: concoction
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 1
+          SkillNameLabel
+            !text: tr('Concoctions:')
+            color: #C0C0C0
+        CharacterSkillBase
+          id: concoctionPanel
+          anchors.top: prev.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+
+          layout:
+            type: grid
+            cell-size: 32 32
+            flow: true
+
+        CharacterSkillBase
+          id: criticalHit
+          anchors.top: offensiveHit.top
+          anchors.left: separator.left
+          anchors.right: parent.right
+          margin-top: 1
+          SkillNameLabel
+            !text: tr('Defensive Stats:')
+            color: #C0C0C0
+        CharacterSkillBase
+          id: criticalChance
+          anchors.top: criticalHit.bottom
+          anchors.left: separator.left
+          anchors.right: parent.right
+          margin-left: 15
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Est. Armor Mitigation:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: criticalDamage
+          anchors.top: criticalChance.bottom
+          anchors.left: prev.left
+          anchors.right: parent.right
+          margin-left: 0
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Armor Reduction (Avg.):')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: lifeLeech
+          anchors.top: criticalDamage.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          margin-left: 0
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Defense Reduction (Avg.):')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: manaLeech
+          anchors.top: lifeLeech.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          margin-left: 0
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Total Reduction (Avg.):')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: defenseWindow
+          anchors.top: manaLeech.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          margin-left: 0
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Reduction Window:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        CharacterSkillBase
+          id: passiveReduction
+          anchors.top: defenseWindow.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          margin-top: 0
+          SkillNameLabel
+            !text: tr('Talent Phys. Reduction:')
+            color: #C0C0C0
+          SkillValueLabel
+            color: #C0C0C0
+            margin-right: 2
+        Panel
+          id: OffenceExtras
+          anchors.top: mitigation.bottom
+          anchors.left: parent.left
+          anchors.right: separator.right
+          margin-top: 3
+          height: 0
+          layout:
+            type: verticalBox
+        Panel
+          id: DefenceExtras
+          anchors.top: passiveReduction.bottom
+          anchors.left: criticalHit.left
+          anchors.right: parent.right
+          height: 0
+          layout:
+            type: verticalBox
+        Label
+          id: WeaponStatus
+          anchors.top: OffenceExtras.bottom
+          anchors.left: parent.left
+          anchors.right: parent.right
+          margin-top: 6
+          margin-left: 5
+          height: 28
+          text-wrap: true
+          text-align: topLeft
+          font: verdana-11px-monochrome
+          color: #D0A050
+          visible: false
+    VerticalScrollBar
+      id: Scrollbar
+      anchors.top: Viewport.top
+      anchors.bottom: Viewport.bottom
+      anchors.right: parent.right
+      margin-right: 3
+      step: 20
+      pixel-scroll: true
   BorderBox
     id: PassiveStats
     anchors.top: CharacterBase.top
@@ -2119,3 +2144,34 @@ UIWidget
       layout:
         type: verticalBox
         spacing: 2
+
+  MainWindow
+    id: CombatSources
+    size: 390 300
+    anchors.centerIn: parent
+    !text: tr('Stat sources')
+    visible: false
+    UIScrollArea
+      id: Content
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: Close.top
+      margin-right: 16
+      margin-bottom: 8
+      vertical-scrollbar: Scrollbar
+      layout:
+        type: verticalBox
+    VerticalScrollBar
+      id: Scrollbar
+      anchors.top: Content.top
+      anchors.bottom: Content.bottom
+      anchors.right: parent.right
+      step: 20
+      pixel-scroll: true
+    Button
+      id: Close
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      width: 60
+      !text: tr('Close')

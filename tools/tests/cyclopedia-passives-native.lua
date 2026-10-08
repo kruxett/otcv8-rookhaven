@@ -83,10 +83,17 @@ local function verifyNativeUI(p,onComplete)
  local panel=assert(module.contentContainer:getChildById('Cat6'),'Actual Cyclopedia character UI missing')
  local function checkOverview()
   selectPage(panel,'CombatStats')
-  local a=panel.CombatStats.CurrentOverview;assert(a:isVisible(),'New server stats did not select grouped current view')
-  local row=assert(a.List:getChildById('overview_maxHealth'));signalcall(row.onClick,row)
-  assert(widgetText(a.SourceDetails.Content):find('Maximum',1,true),'Actual source click failed')
-  for _,item in ipairs(p.overview)do assert(a.List:getChildById('overview_'..item.id),'Native stat row not rendered '..item.id)end
+  local a=panel.CombatStats.Viewport;assert(a:isVisible()and a.Content.attack:getHeight()==20,'Original compact view missing')
+  assert(panel.CharacterBase.InfoLabel:getText():find('Ascension: Ascended',1,true),'Native progression missing under class')
+  for _,item in ipairs(p.overview)do
+   local row=module.Cyclopedia.getCombatStatRow(item.id)
+   if item.id~='ward' or tonumber(item.value)>0 then
+    assert(row or tonumber(item.value)==0,'Relevant native stat not rendered '..item.id)
+   end
+   if row and item.id=='criticalMultiplier'then assert(math.abs(tonumber(row.value:getText():match('[%d.]+'))-item.value)<.005,'Combined multiplier display wrong')end
+  end
+  local row=assert(module.Cyclopedia.getCombatStatRow('normalMaxHit'));signalcall(row.onClick,row)
+  assert(panel.CombatSources.Content.Title:getText()=='Maximum normal hit','Actual source click failed')
   return a
  end
  -- Test-only stress viewport; keep the product's800x640 minimum unchanged.
@@ -94,14 +101,19 @@ local function verifyNativeUI(p,onComplete)
  g_window.resize({width=1280,height=800})
  local a=checkOverview()
  later(250,function()
+  local title=panel.CombatSources.Content.Title:getText()
+  signalcall(panel.CombatSources.Close.onClick,panel.CombatSources.Close)
+  later(120,function()
   g_app.doScreenshot('/cyclopedia-native-'..tree..'-stats-1280x800.png')
-  local title=a.SourceDetails.Content.Title:getText()
+  later(120,function()
+  signalcall(module.Cyclopedia.getCombatStatRow('normalMaxHit').onClick,module.Cyclopedia.getCombatStatRow('normalMaxHit'))
   -- Exercise the real response handler again; do not call a renderer with a mock.
   local old=packets['character.passives'];packets['character.passives']=nil
   g_game.getProtocolGame():sendExtendedOpcode(31,'cp|1|req|character.combatStats|')
   wait('real presentation refresh',function()return packets['character.passives']~=nil end,function()
-   assert(a.SourceDetails.Content.Title:getText()==title,'Real refresh reset selected stat')
+   assert(panel.CombatSources.Content.Title:getText()==title,'Real refresh reset selected stat')
    selectPage(panel,'PassiveStats')
+   assert(not panel.CombatSources:isVisible(),'Source dialog leaked onto talent page')
    assert(widgetText(panel.PassiveStats.Header):find(classes[tree],1,true),'Talent page lost class')
    for _,group in ipairs({'statBonuses','conditionalEffects','specialEffects'})do for _,item in ipairs(p.talents[group])do
     local row=assert(panel.PassiveStats.List:getChildById('talent_'..item.id),'Native talent effect missing '..item.id)
@@ -115,20 +127,28 @@ local function verifyNativeUI(p,onComplete)
      assert(root.width==800 and root.height==600,'Native small viewport was not applied')
      assert(r.x>=0 and r.y>=0 and r.x+r.width<=800 and r.y+r.height<=600,'Native retro Cyclopedia clipped at800x600')
      g_app.doScreenshot('/cyclopedia-native-'..tree..'-talents-800x600.png');a=checkOverview()
-     assert(a.List:getHeight()>60,'Native small stat list collapsed')
+     assert(a:getHeight()>300,'Native small stat viewport collapsed')
      later(200,function()
+      signalcall(panel.CombatSources.Close.onClick,panel.CombatSources.Close)
+      later(120,function()
       g_app.doScreenshot('/cyclopedia-native-'..tree..'-stats-800x600.png')
+      later(120,function()
       module.hide();module.show('character');panel=assert(module.contentContainer:getChildById('Cat6'))
       later(300,function()
-       selectPage(panel,'CombatStats');a=panel.CombatStats.CurrentOverview
-       assert(a.SourceDetails.Content.Title:getText()==title,'Reopen lost selected source before any click')
+       selectPage(panel,'CombatStats');a=panel.CombatStats.Viewport
+       local row=assert(module.Cyclopedia.getCombatStatRow('normalMaxHit'));signalcall(row.onClick,row)
+       assert(panel.CombatSources.Content.Title:getText()==title,'Reopen source failed')
        print('CYCLOPEDIA_PASSIVES_NATIVE_UI_OK class='..tree..' sources=true refresh=true reopen=true sizes=1280x800,800x600 testMinimumHeight=600')
        print('CYCLOPEDIA_PASSIVES_NATIVE_SCREENSHOT_DIRECTORY '..g_resources.getWriteDir())
        onComplete()
       end)
+      end)
+      end)
      end)
     end)
    end)
+  end)
+  end)
   end)
  end)
 end

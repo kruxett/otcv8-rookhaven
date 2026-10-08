@@ -62,20 +62,34 @@ local presentation={version=1,header={className='Reaver',weaponName='Axe',weapon
     specialEffects={{id='bloodletting_special',label='Bloodletting',rank=1,status='Active',detail='Normal axe attacks can cause bleeding.'}}}}
 local function payload(p,s,t)return{stats=s or stats,talents=t or talents,presentation=p}end
 local function checkGrouped()
-  local a=panel.CombatStats.CurrentOverview
-  for _,group in ipairs({'offence','defence','recovery'})do assert(a.List:getChildById('section_'..group),'Missing stat group '..group)end
-  assert(not text(a.List):find('threshold',1,true),'Engine threshold leaked into main stats')
-  click(a.List,'overview_maxHealth')
-  local source=text(a.SourceDetails.Content)
-  assert(source:find('1,335',1,true)or source:find('1335',1,true),'Actual HP base absent')
-  assert(source:find('66',1,true)and source:find('Talents',1,true),'Actual HP talent contribution absent')
-  local row=click(a.List,'overview_criticalChance')
-  assert(row.Value:getText():find('5.45',1,true),'Combined crit was rounded to a whole number or summed')
-  assert(text(a.SourceDetails.Content):find('not their sum',1,true),'Independent critical rolls explanation absent')
+  local a=panel.CombatStats.Viewport.Content
+  assert(a.offensiveHit and a.criticalHit and a.separator,'Original two-column structure missing')
+  assert(a.attack:getHeight()==20 and a.atkSpeed:getHeight()==20,'Original compact rows changed')
+  assert(not panel.CombatStats:getChildById('CurrentOverview'),'Replacement overview still covers original stats')
+  assert(not panel.CombatSources:isVisible(),'Source window consumes space before a click')
+  local function source(id)
+    local row=assert(cyclopedia.getCombatStatRow(id),'Missing relevant stat '..id)
+    signalcall(row.onClick,row)
+    assert(panel.CombatSources:isVisible(),'Source click did not open native window')
+    return row
+  end
+  source('maxHealth')
+  local hp=text(panel.CombatSources.Content)
+  assert(hp:find('1335',1,true)and hp:find('66',1,true),'Actual HP sources lost')
+  local row=source('criticalChance')
+  assert(row.value:getText():find('5.45',1,true),'Combined critical rolls were summed or rounded')
+  assert(text(panel.CombatSources.Content):find('not their sum',1,true),'Critical roll explanation absent')
   cyclopedia.loadCharacterPassives(payload(presentation))
-  assert(text(a.SourceDetails.Content):find('not their sum',1,true),'Live refresh lost selected source')
-  click(a.List,'overview_manaRegen')
-  assert(text(a.SourceDetails.Content):find('0.075',1,true),'Fractional mana regeneration lost precision')
+  assert(text(panel.CombatSources.Content):find('not their sum',1,true),'Refresh lost selected source')
+  source('manaRegen')
+  assert(text(panel.CombatSources.Content):find('0.075',1,true),'Fractional regeneration lost precision')
+  selectPage('PassiveStats')
+  assert(not panel.CombatSources:isVisible(),'Sources leaked onto a different page')
+  selectPage('CharacterStats')
+  source('maxHealth')
+  assert(panel.CharacterStats:isVisible(),'Health sources not available in General Stats')
+  signalcall(panel.CombatSources.Close.onClick,panel.CombatSources.Close)
+  assert(not panel.CombatSources:isVisible(),'Optional sources cannot be closed')
   selectPage('PassiveStats')
   local b=panel.PassiveStats
   for _,group in ipairs({'statBonuses','conditionalEffects','specialEffects'})do assert(b.List:getChildById('section_'..group),'Missing talent group '..group)end
@@ -92,11 +106,13 @@ end
 local function checksFallback()
   local inactive={active=true,permanent=true,weaponActive=false,className='Reaver',weaponName='Axe',spent=5,points=24,
     maxHealth=1335,baseMaxHealth=1335,baseMaxHit=20,ordinaryMaxHit=21,criticalChance=0,criticalMultiplier=200,
-    partyQuarryDamagePercent=5,ordinaryDamagePercent=5}
+    partyQuarryDamagePercent=5,ordinaryDamagePercent=5,rankManaPerSecond=.075}
   local p={version=1,header={className='Reaver',weaponName='Axe',weaponActive=false,
-    reason='Equip an axe to activate talent bonuses.',spent=5,points=24},overview={},
+    reason='Equip an axe to activate talent bonuses.',spent=5,points=24},overview={{id='manaRegen',group='recovery',label='Mana regeneration',value=0,unit='mana / s',sources={}}},
     talents={statBonuses={{id='vitality_stat',label='Vitality',rank=3,value=0,unit='HP',status='Inactive',detail='Requires an axe.'}},conditionalEffects={},specialEffects={}}}
   cyclopedia.loadCharacterPassives(payload(p,inactive))
+  local mana=assert(cyclopedia.getCombatStatRow('manaRegen'),'Learned inactive regeneration was hidden')
+  assert(mana.Value:getText():find('0',1,true),'Wrong weapon retained regeneration')
   assert(text(panel.PassiveStats.Header):find('Equip an axe',1,true),'Missing weapon activation reason')
   local row=assert(panel.PassiveStats.List:getChildById('talent_vitality_stat'))
   assert(row.Hint:getText():find('Inactive',1,true),'Weapon-off status retained bonuses')
@@ -105,11 +121,26 @@ local function checksFallback()
   cyclopedia.loadCharacterPassives({stats=inactive,talents=talents})
   local fallback=text(panel.PassiveStats)
   assert(fallback:find('Vitality',1,true)and fallback:find('Steady Nerves',1,true),'Old server fallback lost saved catalog benefits')
-  assert(not panel.CombatStats.CurrentOverview:isVisible(),'Old server fallback invented stat sources')
+  assert(#panel.CombatStats.Viewport.Content.OffenceExtras:getChildren()==0 and not panel.CombatSources:isVisible(),'Old server fallback retained unsupported source amounts')
   cyclopedia.loadCharacterPassives({stats={active=false,permanent=false,weaponActive=false,spent=0,points=0},talents={}})
   assert(#panel.PassiveStats.List:getChildren()<8,'Unclassed empty profile retained stale talents/zero dump')
   assert(not text(panel.PassiveStats.List):find('Vitality',1,true),'Logout/unclassed snapshot retained another character talents')
   print('CYCLOPEDIA_PASSIVES_COMPATIBILITY_OK incompatibleWeapon=true savedRanks=true oldServer=true unclassed=true')
+end
+local function checkIdentity()
+  for _,class in ipairs({'Reaver','Blademaster','Earthshaker','Marksman','Arcanist','Lifekeeper'})do
+    cyclopedia.setCharacterIdentity({className=class,ascension='Ascended'})
+    local header=panel.CharacterBase.InfoLabel:getText()
+    assert(header:find('\n'..class..'\nAscension: Ascended',1,true),'Class and progression mixed '..class)
+  end
+  cyclopedia.setCharacterIdentity({className='',ascension='Ascended'})
+  assert(panel.CharacterBase.InfoLabel:getText():find('Class not chosen\nAscension: Ascended',1,true),'Unchosen class treated as chosen')
+  for _,stage in ipairs({'None','Apprentice','Adept','God'})do
+    cyclopedia.setCharacterIdentity({className='',ascension=stage})
+    assert(panel.CharacterBase.InfoLabel:getText():find('Ascension: '..stage,1,true),'Progression stage lost '..stage)
+  end
+  cyclopedia.setCharacterIdentity({className='Reaver',ascension='Ascended'})
+  print('CYCLOPEDIA_IDENTITY_HEADER_OK classes=6 unchosen=true authoritativeStages=true')
 end
 later(100,function()
   realUI.importStyle('/modules/game_cyclopedia/cyclopedia_widgets.otui')
@@ -131,22 +162,22 @@ later(100,function()
   local chunk=assert(loadstring(g_resources.readFileContents('/cyclopedia-character-source.txt'),'@fresh-character.lua'))
   setfenv(chunk,env);chunk();env.showCharacter();panel=assert(host:getChildById('Cat6'))
   cyclopedia.setServerCharacterTitle('Reaver');cyclopedia.setCharacterIdentity({className='Reaver',ascension='Ascended'})
+  checkIdentity()
   local profile=text(panel.InfoBase.DetailsBase.List)
   assert(profile:find('Class: Reaver',1,true)and profile:find('Ascension: Ascended',1,true),'Class/progression identity mixed')
   cyclopedia.loadCharacterPassives(payload(presentation))
-  cyclopedia.loadCharacterCombatStats({weaponElement=0,weaponMaxHitChance=21,weaponElementDamage=0,weaponSkillId=3,
+  cyclopedia.loadCharacterCombatStats({weaponElement=0,weaponMaxHitChance=21,weaponElementDamage=4,weaponSkillId=3,
     armor=9,defense=10,attackSpeed=2000,passiveStats=stats},0,
     {{Skill.CriticalChance,stats.criticalChance},{Skill.CriticalDamage,stats.criticalMultiplier}},{},{},{},{})
-  assert(panel.CombatStats.defence.value:getText()=='5.45%'and panel.CombatStats.dps.value:getText()=='5.3','Legacy critical/DPS estimate regressed')
-  assert(panel.CombatStats.passiveReduction.value:getText()=='1.50%','Legacy passive reduction disappeared')
-  selectPage('CombatStats');assert(panel.CombatStats.CurrentOverview:isVisible(),'Approved grouped overview not primary')
-  local detail=panel.CombatStats.CurrentOverview.LegacyDetailsButton
-  signalcall(detail.onClick,detail);assert(not panel.CombatStats.CurrentOverview:isVisible(),'Detailed stats unavailable')
-  local back=panel.CombatStats.ReturnToOverviewButton;signalcall(back.onClick,back)
-  assert(panel.CombatStats.CurrentOverview:isVisible(),'Cannot return to grouped stats')
+  local original=panel.CombatStats.Viewport.Content
+  assert(original.defence.value:getText()=='5.45%'and original.dps.value:getText()=='5.3','Legacy critical/DPS estimate regressed')
+  assert(original.passiveReduction.value:getText()=='1.50%','Legacy passive reduction disappeared')
+  assert(original.converted.value:getText()=='4','Element attack damage mislabeled as percent')
+  selectPage('CombatStats');assert(panel.CombatStats.Viewport:isVisible(),'Original combat view not primary')
+  assert(panel.CharacterBase.InfoLabel:getText():find('Ascension: Ascended',1,true),'Ascension is not visible under class')
   checkGrouped()
   later(350,function()
-    screenshot('cyclopedia-talents-1280x800');selectPage('CombatStats');click(panel.CombatStats.CurrentOverview.List,'overview_maxHealth')
+    screenshot('cyclopedia-talents-1280x800');selectPage('CombatStats')
     later(250,function()
       screenshot('cyclopedia-stats-1280x800');g_window.resize({width=800,height=600})
       later(350,function()
@@ -155,12 +186,12 @@ later(100,function()
         screenshot('cyclopedia-stats-800x600')
         assert(r.x>=0 and r.y>=0 and r.x+r.width<=viewport.width and r.y+r.height<=viewport.height,'Character UI exceeds small viewport')
         assert(viewport.width==800 and viewport.height==600,'Requested small viewport was not applied')
-        assert(panel.CombatStats.CurrentOverview.List:getHeight()>60,'Small viewport has no useful stat list')
+        assert(panel.CombatStats.Viewport:getHeight()>300,'Compact viewport has no useful combat area')
         screenshot('cyclopedia-stats-800x600');selectPage('PassiveStats')
         later(250,function()
           screenshot('cyclopedia-talents-800x600');checksFallback()
           host:destroy();host=nil;controls:destroy();controls=nil;finished=true
-          print('CYCLOPEDIA_PASSIVES_PRESENTATION_OK offline=true network=false sizes=1280x800,800x600 testMinimumHeight=600 legacyDetails=true')
+          print('CYCLOPEDIA_PASSIVES_PRESENTATION_OK offline=true network=false sizes=1280x800,800x600 testMinimumHeight=600 compactOriginal=true ascensionHeader=true')
           print('CYCLOPEDIA_PASSIVES_SCREENSHOT_DIRECTORY '..g_resources.getWriteDir())
           scheduleEvent(function()g_app.exit()end,150)
         end)

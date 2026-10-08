@@ -12,7 +12,9 @@ local _serverClassName = nil
 local characterLivePollEvent = nil
 local characterPresentationModel = nil
 local characterSourceSelection = { overview = nil, talents = nil }
-local showLegacyCombatDetails = false
+local combatSourceOpen = false
+local combatRows = {}
+local combatLayoutEvent = nil
 
 local function cancelCharacterLivePoll()
     if characterLivePollEvent then
@@ -179,7 +181,9 @@ function Cyclopedia.resetSessionXp()
     Cyclopedia.characterPassiveStats = nil
     characterPresentationModel = nil
     characterSourceSelection = { overview = nil, talents = nil }
-    showLegacyCombatDetails = false
+    combatSourceOpen = false
+    combatRows = {}
+    if combatLayoutEvent then removeEvent(combatLayoutEvent); combatLayoutEvent = nil end
     cancelCharacterLivePoll()
 end
 
@@ -227,6 +231,13 @@ local function getPlayerVocationName(player)
 
     _cachedVocationName = vocationNames[vocationId] or tostring(vocationId)
     return _cachedVocationName
+end
+
+local function updateCharacterIdentityHeader()
+    local player = g_game.getLocalPlayer()
+    if not player or not UI or not UI.CharacterBase then return end
+    local class = _serverClassName or (_serverAscension and "Class not chosen" or getPlayerVocationName(player))
+    UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s\nAscension: %s", player:getLevel(), class, _serverAscension or "—"))
 end
 
 local function close(parent)
@@ -297,7 +308,7 @@ function showCharacter()
     if g_game.isOnline() then
         local player = g_game.getLocalPlayer()
         UI.CharacterBase:setText(player:getName())
-        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), getPlayerVocationName(player)))
+        updateCharacterIdentityHeader()
         UI.CharacterBase.Outfit:setOutfit(player:getOutfit())
 
         UI.InfoBase.outfitPanel.Sprite:setOutfit(player:getOutfit())
@@ -338,6 +349,8 @@ function showCharacter()
     local thisPanel = characterPanel
     thisPanel.onDestroy = function()
         if UI == thisPanel then
+            if combatLayoutEvent then removeEvent(combatLayoutEvent); combatLayoutEvent = nil end
+            combatRows = {}
             cancelCharacterLivePoll()
             cancelCharacterLiveRefresh()
             disconnectCharacterLiveSignals()
@@ -818,11 +831,13 @@ end
 function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsArray, forgeSkillsArray,
     perfectShotDamageRanges, combatsArray, concoctionsArray)
 
+    local combat = UI.CombatStats.Viewport.Content
+
     -- Hide stats not applicable to Tibia 8.60
     local sectionsToHide = {"concoction", "concoctionPanel", "blessings"}
     for _, id in ipairs(sectionsToHide) do
-        if UI.CombatStats[id] then
-            UI.CombatStats[id]:setVisible(false)
+        if combat[id] then
+            combat[id]:setVisible(false)
         end
     end
 
@@ -835,8 +850,8 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         end
     end
 
-    setElementIcon(UI.CombatStats.attack.icon, data.weaponElement)
-    UI.CombatStats.attack.value:setText(data.weaponMaxHitChance)
+    setElementIcon(combat.attack.icon, data.weaponElement)
+    combat.attack.value:setText(data.weaponMaxHitChance)
 
     -- Weapon name tooltip on Attack Value
     do
@@ -851,9 +866,9 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             end
             local weaponName = getWeaponName(InventorySlotRight) or getWeaponName(InventorySlotLeft)
             if weaponName then
-                UI.CombatStats.attack:setTooltip("Equipped: " .. weaponName)
+                combat.attack:setTooltip("Equipped: " .. weaponName)
             else
-                UI.CombatStats.attack:removeTooltip()
+                combat.attack:removeTooltip()
             end
         end
     end
@@ -861,7 +876,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     -- Estimated max hit using real TFS formula:
     -- MaxDamage = round((level/5) + (((skill/4+1) * (attack/3)) * 1.03) / attackFactor)
     -- attackFactor: Full=1.0, Balanced=1.2, Defensive=2.0
-    if UI.CombatStats.estDps then
+    if combat.estDps then
         local player = g_game.getLocalPlayer()
         local skillLevel = player and player:getSkillLevel(data.weaponSkillId or 0) or 0
         local level = player and player:getLevel() or 0
@@ -885,7 +900,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         local maxElem = calcMax(elemAttack)
         local estMaxHit = maxPhy + maxElem
 
-        UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
+        combat.estDps.value:setText(tostring(estMaxHit))
 
         local modeNames = { [FightOffensive] = "Full Attack", [FightBalanced] = "Balanced", [FightDefensive] = "Defensive" }
         local modeName = modeNames[fightMode] or "Full Attack"
@@ -898,7 +913,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             tip = tip .. string.format("\nElement attack %d  -> Elem: %d", elemAttack, maxElem)
             tip = tip .. string.format("\nTotal: %d + %d = %d", maxPhy, maxElem, estMaxHit)
         end
-        UI.CombatStats.estDps:setTooltip(tip)
+        combat.estDps:setTooltip(tip)
     end
         -- All combat calculations in one scoped block so locals are shared between rows:
         -- MaxDamage = round((level/5) + (((skill/4+1) * (attack/3)) * 1.03) / attackFactor)
@@ -934,8 +949,8 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             local skillName  = skillNames[data.weaponSkillId or 0] or "Fist"
 
             -- Max Hit
-            if UI.CombatStats.estDps then
-                UI.CombatStats.estDps.value:setText(tostring(estMaxHit))
+            if combat.estDps then
+                combat.estDps.value:setText(tostring(estMaxHit))
                 local tip = string.format(
                     "Estimated max hit (%s mode)\n%s skill %d x Attack %d -> Physical: %d",
                     modeName, skillName, skillLevel, attack, maxPhy)
@@ -948,25 +963,25 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                         (passiveStats.baseMaxHit or 0) + (passiveStats.baseElementMaxHit or 0),
                         passiveStats.ordinaryDamagePercent or 0, passiveStats.ordinaryPrimaryExtraPercent or 0)
                 end
-                UI.CombatStats.estDps:setTooltip(tip)
+                combat.estDps:setTooltip(tip)
             end
 
             -- Avg Hit
-            if UI.CombatStats.avgHit then
-                UI.CombatStats.avgHit.value:setText(tostring(avgHit))
-                UI.CombatStats.avgHit:setTooltip(string.format(
+            if combat.avgHit then
+                combat.avgHit.value:setText(tostring(avgHit))
+                combat.avgHit:setTooltip(string.format(
                     "Rough average: half of current non-critical max hit %d.\nWeapon minimum damage, hit chance and target reductions can change the actual average.", estMaxHit))
             end
 
             -- Attack Speed
-            if UI.CombatStats.atkSpeed then
-                UI.CombatStats.atkSpeed.value:setText(string.format("%.1fs", atkSpeedMs / 1000))
+            if combat.atkSpeed then
+                combat.atkSpeed.value:setText(string.format("%.1fs", atkSpeedMs / 1000))
             end
 
             -- Est. DPS
-            if UI.CombatStats.dps then
-                UI.CombatStats.dps.value:setText(string.format("%.1f", dpsVal))
-                UI.CombatStats.dps:setTooltip(string.format(
+            if combat.dps then
+                combat.dps.value:setText(string.format("%.1f", dpsVal))
+                combat.dps:setTooltip(string.format(
                     "Rough DPS = average estimate %.0f / attack interval %.1fs\nCurrent ordinary critical chance and multiplier are included.\nBefore hit chance, target armor and defense. Conditions and secondary procs are excluded.",
                     avgHit, atkSpeedMs / 1000))
             end
@@ -1025,58 +1040,58 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             local minTotalReduction = minArmorReduction + minDefenseReduction
             local maxTotalReduction = maxArmorReduction + maxDefenseReduction
 
-            if UI.CombatStats.criticalChance then
-                UI.CombatStats.criticalChance.value:setText(string.format("%.1f%%", totalMitigationPct))
-                UI.CombatStats.criticalChance.value:setColor(totalMitigationPct >= 15 and "#44AD25" or "#C0C0C0")
-                UI.CombatStats.criticalChance:setTooltip(string.format(
-                    "Estimated mitigation from your defensive setup.\nBased on armor formula output.\nAverage flat armor reduction: %.1f per hit.",
+            if combat.criticalChance then
+                combat.criticalChance.value:setText(string.format("%.1f%%", totalMitigationPct))
+                combat.criticalChance.value:setColor(totalMitigationPct >= 15 and "#44AD25" or "#C0C0C0")
+                combat.criticalChance:setTooltip(string.format(
+                    "Estimate against a 100-damage reference hit.\nNot universal physical resistance.\nAverage flat armor reduction: %.1f per hit.",
                     avgArmor))
             end
 
-            if UI.CombatStats.criticalDamage then
-                UI.CombatStats.criticalDamage.value:setText(string.format("%.1f", avgArmor))
-                UI.CombatStats.criticalDamage.value:setColor("#C0C0C0")
-                UI.CombatStats.criticalDamage:setTooltip(string.format(
+            if combat.criticalDamage then
+                combat.criticalDamage.value:setText(string.format("%.1f", avgArmor))
+                combat.criticalDamage.value:setColor("#C0C0C0")
+                combat.criticalDamage:setTooltip(string.format(
                     "Armor reduction from the combat formula.\nArmor value: %d\nAverage reduction: %.1f per hit.", armorVal, avgArmor))
             end
 
-            if UI.CombatStats.lifeLeech then
-                UI.CombatStats.lifeLeech.value:setText(string.format("%.1f", avgDefenseReduction))
-                UI.CombatStats.lifeLeech.value:setColor("#C0C0C0")
-                UI.CombatStats.lifeLeech:setTooltip(string.format(
+            if combat.lifeLeech then
+                combat.lifeLeech.value:setText(string.format("%.1f", avgDefenseReduction))
+                combat.lifeLeech.value:setColor("#C0C0C0")
+                combat.lifeLeech:setTooltip(string.format(
                     "Defense roll reduction from the combat formula.\nDefense value: %d\nRoll range: %d to %d\nAverage reduction: %.1f when a defense check triggers.",
                     defenseVal, minDefenseReduction, maxDefenseReduction, avgDefenseReduction))
             end
 
-            if UI.CombatStats.manaLeech then
-                UI.CombatStats.manaLeech:setVisible(true)
-                UI.CombatStats.manaLeech.value:setText(string.format("%.1f", avgTotalReduction))
-                UI.CombatStats.manaLeech.value:setColor("#44AD25")
-                UI.CombatStats.manaLeech:setTooltip(string.format(
+            if combat.manaLeech then
+                combat.manaLeech:setVisible(true)
+                combat.manaLeech.value:setText(string.format("%.1f", avgTotalReduction))
+                combat.manaLeech.value:setColor("#44AD25")
+                combat.manaLeech:setTooltip(string.format(
                     "Combined average flat reduction from armor and defense formulas.\nArmor average: %.1f\nDefense average: %.1f\nTotal average: %.1f\nApplies when both checks are active.",
                     avgArmor, avgDefenseReduction, avgTotalReduction))
             end
 
-            if UI.CombatStats.defenseWindow then
-                UI.CombatStats.defenseWindow:setVisible(true)
-                UI.CombatStats.defenseWindow.value:setText(string.format("%d - %d", minTotalReduction, maxTotalReduction))
-                UI.CombatStats.defenseWindow.value:setColor("#C0C0C0")
-                UI.CombatStats.defenseWindow:setTooltip(string.format(
+            if combat.defenseWindow then
+                combat.defenseWindow:setVisible(true)
+                combat.defenseWindow.value:setText(string.format("%d - %d", minTotalReduction, maxTotalReduction))
+                combat.defenseWindow.value:setColor("#C0C0C0")
+                combat.defenseWindow:setTooltip(string.format(
                     "Theoretical total reduction interval from server formulas.\nArmor range: %d to %d\nDefense range: %d to %d\nCombined range: %d to %d\nThe defense component requires a defense check.",
                     minArmorReduction, maxArmorReduction, minDefenseReduction, maxDefenseReduction, minTotalReduction, maxTotalReduction))
             end
         end
 
     if data.weaponElementDamage > 0 then
-        UI.CombatStats.converted.none:setVisible(false)
-        UI.CombatStats.converted.value:setVisible(true)
-        UI.CombatStats.converted.icon:setVisible(true)
-        setElementIcon(UI.CombatStats.converted.icon, data.weaponElementType)
-        UI.CombatStats.converted.value:setText(data.weaponElementDamage .. "%")
+        combat.converted.none:setVisible(false)
+        combat.converted.value:setVisible(true)
+        combat.converted.icon:setVisible(true)
+        setElementIcon(combat.converted.icon, data.weaponElementType)
+        combat.converted.value:setText(tostring(data.weaponElementDamage))
     else
-        UI.CombatStats.converted.none:setVisible(true)
-        UI.CombatStats.converted.value:setVisible(false)
-        UI.CombatStats.converted.icon:setVisible(false)
+        combat.converted.none:setVisible(true)
+        combat.converted.value:setVisible(false)
+        combat.converted.icon:setVisible(false)
     end
 
     local function getAdditionalSkillValue(skillId)
@@ -1101,33 +1116,33 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     end
     local critExtra = math.max(0, critTotal - 100)
 
-    if UI.CombatStats.defence then
-        UI.CombatStats.defence.value:setText(string.format("%.2f%%", critChance))
-        UI.CombatStats.defence:setTooltip(
+    if combat.defence then
+        combat.defence.value:setText(string.format("%.2f%%", critChance))
+        combat.defence:setTooltip(
             "Approximate ordinary PvE critical probability from the server's actual roll formulas.\nGear uses a shaped normal roll; its displayed gear threshold is not a uniform percentage. Passive critical chance is a separate uniform roll after a non-critical gear roll. Class spells retain their own rules.")
     end
 
-    if UI.CombatStats.armor then
-        UI.CombatStats.armor.value:setText(string.format("+%.2f%%", critExtra))
-        UI.CombatStats.armor:setTooltip(
+    if combat.armor then
+        combat.armor.value:setText(string.format("+%.2f%%", critExtra))
+        combat.armor:setTooltip(
             "Extra damage on an ordinary PvE critical, including active Critical Force ranks. Spell and condition critical rules remain separate.")
     end
 
-    if UI.CombatStats.mitigation then
-        UI.CombatStats.mitigation.value:setText(string.format("%.2f%%", critTotal))
-        UI.CombatStats.mitigation:setTooltip(
+    if combat.mitigation then
+        combat.mitigation.value:setText(string.format("%.2f%%", critTotal))
+        combat.mitigation:setTooltip(
             "Total critical hit multiplier.\nFormula: 100% base + critical extra damage.")
     end
-    if UI.CombatStats.passiveReduction then
+    if combat.passiveReduction then
         local passive = data.passiveStats or {}
-        UI.CombatStats.passiveReduction.value:setText(string.format("%.2f%%", passive.physicalReductionPercent or 0))
-        UI.CombatStats.passiveReduction:setTooltip("Current direct physical monster damage reduction from active talents, applied after armor and defense. Includes low-HP and prepared protection; excludes conditions and PvP. See Passive Talents for individual effects.")
+        combat.passiveReduction.value:setText(string.format("%.2f%%", passive.physicalReductionPercent or 0))
+        combat.passiveReduction:setTooltip("Current direct physical monster damage reduction from active talents, applied after armor and defense. Includes low-HP and prepared protection; excludes conditions and PvP. See Passive Talents for individual effects.")
     end
 
-    if UI.CombatStats.reductionNone then
-        UI.CombatStats.reductionNone:destroyChildren()
-        if UI.CombatStats.reduction then
-            UI.CombatStats.reduction:setVisible(false)
+    if combat.reductionNone then
+        combat.reductionNone:destroyChildren()
+        if combat.reduction then
+            combat.reduction:setVisible(false)
         end
 
         local function decodeReductionPercent(encoded)
@@ -1149,10 +1164,10 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         end
 
         if #elementEntries > 0 then
-            if UI.CombatStats.reduction then
-                UI.CombatStats.reduction:setVisible(true)
+            if combat.reduction then
+                combat.reduction:setVisible(true)
             end
-            UI.CombatStats.reductionNone:setVisible(true)
+            combat.reductionNone:setVisible(true)
 
             for _, entry in ipairs(elementEntries) do
                 local elementId = entry[1]
@@ -1165,7 +1180,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 local elementName = elementInfo and elementInfo.id or ("Element " .. elementId)
                 local elementPath = elementInfo and elementInfo.path or nil
 
-                local row = g_ui.createWidget("CharacterSkillBase", UI.CombatStats.reductionNone)
+                local row = g_ui.createWidget("CharacterSkillBase", combat.reductionNone)
 
                 if elementPath then
                     local icon = g_ui.createWidget("UIWidget", row)
@@ -1195,15 +1210,15 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
                 end
             end
         else
-            UI.CombatStats.reductionNone:setVisible(false)
+            combat.reductionNone:setVisible(false)
         end
     end
 
     -- concoctions
-    UI.CombatStats.concoctionPanel:destroyChildren()
+    combat.concoctionPanel:destroyChildren()
     if concoctionsArray and next(concoctionsArray) ~= nil then
         for i = 1, #concoctionsArray do
-            local widget = g_ui.createWidget("CharacterGridItem", UI.CombatStats.concoctionPanel)
+            local widget = g_ui.createWidget("CharacterGridItem", combat.concoctionPanel)
             local itemId = concoctionsArray[i][1]
             widget:setId("concoction_" .. itemId)
             widget.item:setItemId(itemId)
@@ -1225,8 +1240,8 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
     for i = 1, #forgeSkillsArray do
         local skillId = forgeSkillsArray[i][1]
         local id = "special_" .. skillId
-        if UI.CombatStats[id] then
-            UI.CombatStats[id]:destroy()
+        if combat[id] then
+            combat[id]:destroy()
         end
     end
 
@@ -1237,7 +1252,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
         local percent = forgeSkillsArray[i][2]
 
         if percent > 0 then
-            local widget = g_ui.createWidget("CharacterSkillBase", UI.CombatStats)
+            local widget = g_ui.createWidget("CharacterSkillBase", combat)
             widget:setId("special_" .. skillId)
 
             local specialName = {
@@ -1273,6 +1288,7 @@ function Cyclopedia.loadCharacterCombatStats(data, mitigation, additionalSkillsA
             firstSpecial = firstSpecial and false
         end
     end
+    Cyclopedia.renderCharacterPresentation()
 end
 
 function Cyclopedia.loadCharacterGeneralStats(data, skills)
@@ -1512,8 +1528,9 @@ function Cyclopedia.loadCharacterGeneralStats(data, skills)
     _cachedVocationName = nil  -- Clear cache to get fresh data
     local currentVocationName = getPlayerVocationName(player)
     if UI and UI.CharacterBase and UI.CharacterBase.InfoLabel then
-        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), currentVocationName))
+        updateCharacterIdentityHeader()
     end
+    Cyclopedia.renderCharacterPresentation()
 end
 
 function Cyclopedia.loadCharacterPlaytime(seconds)
@@ -1554,7 +1571,7 @@ function Cyclopedia.setServerCharacterTitle(title)
 
     local player = g_game.getLocalPlayer()
     if player and UI and UI.CharacterBase and UI.CharacterBase.InfoLabel then
-        UI.CharacterBase.InfoLabel:setText(string.format("Level: %d\n%s", player:getLevel(), getPlayerVocationName(player)))
+        updateCharacterIdentityHeader()
     end
 
     if UI and UI.InfoBase and UI.InfoBase:isVisible() then
@@ -1565,6 +1582,7 @@ end
 function Cyclopedia.setCharacterIdentity(identity)
     _serverAscension = identity.ascension
     _serverClassName = identity.className ~= "" and identity.className or nil
+    updateCharacterIdentityHeader()
     if UI and UI.InfoBase and UI.InfoBase:isVisible() then
         Cyclopedia.createCharacterDescription()
     end
@@ -1761,22 +1779,176 @@ local function presentationHeader(model, talents)
     return text
 end
 
+local function combatSourceTooltip(entry)
+    local lines = { entry.label .. ": " .. formatPresentationValue(entry.value, entry.unit) }
+    for _, source in ipairs(entry.sources) do
+        lines[#lines + 1] = source.label .. ": " .. formatPresentationValue(source.value, source.unit)
+    end
+    local description = entry.description ~= "" and entry.description or entry.hint
+    if description ~= "" then lines[#lines + 1] = description end
+    return table.concat(lines, "\n")
+end
+
+function Cyclopedia.getCombatStatRow(id)
+    return combatRows[id]
+end
+
+function Cyclopedia.getCombatSourceWindow()
+    return UI and UI.CombatSources
+end
+
+local function updateCombatLayout()
+    if combatLayoutEvent then removeEvent(combatLayoutEvent) end
+    local owner = UI
+    combatLayoutEvent = scheduleEvent(function()
+        combatLayoutEvent = nil
+        if not UI or UI ~= owner then return end
+        local content = UI.CombatStats.Viewport.Content
+        local top, bottom = content:getY(), 0
+        for _, child in ipairs(content:getChildren()) do
+            if child:isVisible() and child:getId() ~= "separator" then
+                bottom = math.max(bottom, child:getY() - top + child:getHeight() + child:getMarginBottom())
+            end
+        end
+        content:setHeight(math.max(bottom + 8, UI.CombatStats.Viewport:getHeight()))
+    end, 30)
+end
+
+local function bindCombatSource(row, entry, secondary)
+    if not row then return end
+    combatRows[entry.id .. (secondary and "_extra" or "")] = row
+    local tip = combatSourceTooltip(entry)
+    if row:getTooltip() ~= row._combatSourceTooltip then row._combatFallbackTooltip = row:getTooltip() end
+    row._combatSourceTooltip = tip
+    row:setTooltip(tip)
+    row.onClick = function()
+        characterSourceSelection.overview = entry.id
+        combatSourceOpen = true
+        if entry.id ~= "maxHealth" then UI.CombatStats.Viewport:ensureChildVisible(row) end
+        renderPresentationSources(UI.CombatSources, entry, "overview")
+        UI.CombatSources:setVisible(true)
+        UI.CombatSources:raise()
+        UI.CombatSources:focus()
+    end
+    local value = row.Value or row.value
+    local details = row.Details
+    if not details then details = g_ui.createWidget("CharacterStatsInfoButton", row) end
+    details.onClick = row.onClick
+    details:setTooltip(tip)
+    if value then
+        value:removeAnchor(AnchorLeft)
+        value:addAnchor(AnchorRight, "Details", AnchorLeft)
+        value:setMarginRight(4)
+        value:setTextAutoResize(true)
+    end
+end
+
+local compactCombatRows = {
+    { id = "ordinaryDamage", label = "Normal Attack Bonus:", rank = "rankPowerPercent" },
+    { id = "spellDamage", label = "Class Spell Bonus:", rank = "rankPowerPercent" },
+    { id = "spellPrimary", label = "Spell Primary Bonus:", rank = "rankSpellPrimaryExtraPercent" },
+    { id = "spellSecondary", label = "Spell Secondary Bonus:", rank = "rankSpellSecondaryExtraPercent" },
+    { id = "manaDiscount", label = "Spell Mana Saving:", rank = "rankManaDiscountPercent" },
+    { id = "manaRegen", label = "Mana Regeneration:", rank = "rankManaPerSecond", recovery = true },
+    { id = "healthRegen", label = "Health Regeneration:", recovery = true },
+    { id = "damageRecovery", label = "Damage Recovery:", rank = "rankDamageRecoveryPercent", recovery = true },
+    { id = "killRecovery", label = "Kill Recovery:", rank = "rankKillRecoveryPercent", recovery = true },
+    { id = "incomingHealing", label = "Received Healing Bonus:", rank = "rankIncomingHealingPercent", recovery = true },
+    { id = "outgoingHealing", label = "Direct Healing Bonus:", rank = "rankOutgoingHealingPercent", recovery = true },
+}
+
+local function renderCompactCombat(model)
+    local content = UI.CombatStats.Viewport.Content
+    for _, row in pairs(combatRows) do
+        if not row:isDestroyed() then
+            row.onClick = nil
+            if row:getTooltip() == row._combatSourceTooltip then row:setTooltip(row._combatFallbackTooltip or "") end
+            if row.Details then row.Details.onClick = nil; row.Details:setVisible(false) end
+        end
+    end
+    combatRows = {}
+    local available = model and model.version == 1 and g_game.getClientVersion() < 1410
+    local byId = {}
+    if available then for _, entry in ipairs(model.overview) do byId[entry.id] = entry end end
+    local stats = Cyclopedia.characterPassiveStats or {}
+    local core = { normalMaxHit = "estDps", attackInterval = "atkSpeed", criticalChance = "defence",
+        criticalMultiplier = "mitigation", physicalReduction = "passiveReduction" }
+    for id, widgetId in pairs(core) do
+        local entry, row = byId[id], content[widgetId]
+        if entry and row then
+            bindCombatSource(row, entry)
+            row.Details:setVisible(true)
+            if id == "normalMaxHit" then row.value:setText(formatPresentationValue(entry.value))
+            elseif id == "attackInterval" then row.value:setText(string.format("%.1fs", (tonumber(entry.value) or 0) / 1000))
+            else row.value:setText(string.format("%.2f%%", tonumber(entry.value) or 0)) end
+        end
+    end
+    if byId.criticalMultiplier then bindCombatSource(content.armor, byId.criticalMultiplier, true); content.armor.Details:setVisible(true) end
+    if byId.maxHealth then
+        local health = UI.CharacterStats:recursiveGetChildById("health")
+        bindCombatSource(health, byId.maxHealth)
+        if health and health.Details then health.Details:setVisible(true) end
+    end
+    local function relevant(entry, spec)
+        return entry and (tonumber(entry.value) ~= nil and tonumber(entry.value) ~= 0
+            or spec.rank and (tonumber(stats[spec.rank]) or 0) > 0)
+    end
+    local offence, defence, recoveryAdded = {}, {}, false
+    for _, spec in ipairs(compactCombatRows) do
+        local entry = byId[spec.id]
+        if relevant(entry, spec) then
+            if spec.recovery and not recoveryAdded then
+                offence[#offence + 1] = { id = "section_recovery", style = "CharacterStatsCompactSection", label = "Recovery:" }
+                recoveryAdded = true
+            end
+            offence[#offence + 1] = { id = "overview_" .. spec.id, style = "CharacterStatsCompactRow", label = spec.label, entry = entry }
+        end
+    end
+    for _, spec in ipairs({ { id = "ward", label = "Active Ward:" }, { id = "armor", label = "Armor:" }, { id = "defense", label = "Defense:" } }) do
+        local entry = byId[spec.id]
+        if entry and (spec.id ~= "ward" or (tonumber(entry.value) or 0) > 0) then
+            defence[#defence + 1] = { id = "overview_" .. spec.id, style = "CharacterStatsCompactRow", label = spec.label, entry = entry }
+        end
+    end
+    local function renderColumn(panel, records)
+        reconcilePresentationWidgets(panel, records, function(widget, record)
+            widget.Name:setText(record.label)
+            if record.entry then
+                widget.Value:setText(formatPresentationValue(record.entry.value, record.entry.unit))
+                bindCombatSource(widget, record.entry)
+                widget.Details:setVisible(true)
+                widget.Value:setColor((tonumber(record.entry.value) == 0 and not model.header.weaponActive) and "#929292" or "#C0C0C0")
+            end
+        end)
+        local height = 0
+        for _, widget in ipairs(panel:getChildren()) do height = height + widget:getHeight() + widget:getMarginTop() + widget:getMarginBottom() end
+        panel:setHeight(height)
+    end
+    renderColumn(content.OffenceExtras, offence)
+    renderColumn(content.DefenceExtras, defence)
+    local warning = available and stats.permanent and model.header.spent and model.header.spent > 0 and not model.header.weaponActive
+    content.WeaponStatus:setVisible(warning or false)
+    if warning then content.WeaponStatus:setText(model.header.reason) end
+    UI.CombatSources.Close.onClick = function() combatSourceOpen = false; UI.CombatSources:hide() end
+    UI.CombatSources.onEscape = UI.CombatSources.Close.onClick
+    UI.CombatSources.onClose = UI.CombatSources.Close.onClick
+    local selected = byId[characterSourceSelection.overview]
+    local showingStats = UI.selectedOption == "CombatStats" or UI.selectedOption == "CharacterStats"
+    if combatSourceOpen and selected and showingStats then
+        renderPresentationSources(UI.CombatSources, selected, "overview")
+        UI.CombatSources:show()
+    else
+        UI.CombatSources:hide()
+        if not selected then combatSourceOpen = false end
+    end
+    updateCombatLayout()
+end
+
 function Cyclopedia.renderCharacterPresentation()
     if not UI then return end
     local model = Cyclopedia.getPresentationModel()
-    local current = UI.CombatStats.CurrentOverview
-    local available = model and model.version == 1 and #model.overview > 0 and g_game.getClientVersion() < 1410
-    current:setVisible(available and not showLegacyCombatDetails or false)
-    UI.CombatStats.ReturnToOverviewButton:setVisible(available and showLegacyCombatDetails or false)
-    current.LegacyDetailsButton.onClick = function() showLegacyCombatDetails = true; Cyclopedia.renderCharacterPresentation() end
-    UI.CombatStats.ReturnToOverviewButton.onClick = function() showLegacyCombatDetails = false; Cyclopedia.renderCharacterPresentation() end
+    renderCompactCombat(model)
     if not model then return end
-    if available then
-        current.Header:setText(presentationHeader(model, false))
-        local groups = { { id = "offence", label = "Offence", entries = {} }, { id = "defence", label = "Defence", entries = {} }, { id = "recovery", label = "Recovery", entries = {} } }
-        for _, entry in ipairs(model.overview) do for _, group in ipairs(groups) do if entry.group == group.id then group.entries[#group.entries + 1] = entry; break end end end
-        renderPresentationList(current, "overview", groups)
-    end
     UI.PassiveStats.Header:setText(presentationHeader(model, true))
     local groups
     if model.version == 1 then
@@ -1891,6 +2063,7 @@ function Cyclopedia.selectCharacterPage()
     end
 
     UI.selectedOption = "InfoBase"
+    Cyclopedia.renderCharacterPresentation()
 end
 
 function Cyclopedia.closeCharacterButtons()
@@ -2054,6 +2227,7 @@ function Cyclopedia.configureCharacterCategories()
                     end
 
                     UI.selectedOption = subWidget.open
+                    Cyclopedia.renderCharacterPresentation()
                 end
 
                 if subId == 1 then
@@ -2121,6 +2295,7 @@ function Cyclopedia.configureCharacterCategories()
                 UI[selectedOption]:setVisible(false)
                 UI[parent.open]:setVisible(true)
                 UI.selectedOption = parent.open
+                Cyclopedia.renderCharacterPresentation()
             end
         end
     end
@@ -2135,7 +2310,7 @@ function Cyclopedia.createCharacterDescription()
     local descriptions = {
         { Level = player:getLevel() },
         { Class = _serverClassName or "Not chosen" },
-        { Ascension = _serverAscension or getPlayerVocationName(player) },
+        { Ascension = _serverAscension or "—" },
         { }
     }
 
