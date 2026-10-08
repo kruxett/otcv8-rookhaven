@@ -141,6 +141,63 @@ Cyclopedia.CapabilitiesRequested = false
 
 local encodeCyclopediaPayload
 local decodeCyclopediaPayload
+local characterChunkProtocol, characterChunkTransfer
+local CHARACTER_PASSIVES_RESPONSE_PREFIX = "cp|1|res|character.passives|ok|"
+
+local function clearCharacterChunks()
+    if characterChunkTransfer and characterChunkTransfer.event then
+        removeEvent(characterChunkTransfer.event)
+    end
+    characterChunkTransfer = nil
+end
+
+local function receiveCharacterChunk(protocol, buffer)
+    -- LuaObject equality compares the underlying native protocol, including
+    -- separate Lua wrappers. A departed connection cannot finish a new login's reply.
+    if not protocol or protocol ~= g_game.getProtocolGame() then
+        clearCharacterChunks()
+        return nil
+    end
+    if characterChunkProtocol ~= protocol then
+        clearCharacterChunks()
+        characterChunkProtocol = protocol
+    end
+    if type(buffer) ~= "string" then clearCharacterChunks(); return nil end
+    if characterChunkTransfer and g_clock.millis() >= characterChunkTransfer.deadline then clearCharacterChunks() end
+    if not buffer:match("^cp|[^|]*|chunk|") then
+        if buffer:sub(1, #CHARACTER_PASSIVES_RESPONSE_PREFIX) == CHARACTER_PASSIVES_RESPONSE_PREFIX then clearCharacterChunks() end
+        return buffer
+    end
+    local id, index, total, segment = buffer:match("^cp|1|chunk|(%d+)|(%d+)|(%d+)|(.*)$")
+    local numericId = tonumber(id)
+    index, total = tonumber(index), tonumber(total)
+    if not numericId or #id > 10 or numericId < 1 or numericId > 2147483647
+        or not index or not total or index < 1 or total < 1 or total > 8 or index > total
+        or not segment or #segment < 1 or #segment > 7900 then
+        clearCharacterChunks(); return nil
+    end
+    if index == 1 then
+        if characterChunkTransfer and characterChunkTransfer.id == id then clearCharacterChunks(); return nil end
+        clearCharacterChunks()
+        local transfer = { id = id, protocol = protocol, next = 1, total = total,
+            size = 0, segments = {}, deadline = g_clock.millis() + 10000 }
+        characterChunkTransfer = transfer
+        transfer.event = scheduleEvent(function()
+            if characterChunkTransfer == transfer then clearCharacterChunks() end
+        end, 10000)
+    end
+    local transfer = characterChunkTransfer
+    if not transfer or transfer.protocol ~= protocol or transfer.id ~= id or transfer.total ~= total
+        or transfer.next ~= index or transfer.size + #segment > 32768 then
+        clearCharacterChunks(); return nil
+    end
+    transfer.segments[index], transfer.size, transfer.next = segment, transfer.size + #segment, index + 1
+    if index ~= total then return nil end
+    local complete = table.concat(transfer.segments)
+    clearCharacterChunks()
+    if complete:sub(1, #CHARACTER_PASSIVES_RESPONSE_PREFIX) ~= CHARACTER_PASSIVES_RESPONSE_PREFIX then return nil end
+    return complete
+end
 
 local function getPendingRequestKey(action, payload)
     return string.format("%s\31%s", tostring(action or ""), tostring(payload or ""))
@@ -363,6 +420,9 @@ function Cyclopedia.onExtendedOpcode(protocol, opcode, buffer)
     if opcode ~= CYCLOPEDIA_EXT_OPCODE then
         return
     end
+
+    buffer = receiveCharacterChunk(protocol, buffer)
+    if not buffer then return end
 
     if CYCLOPEDIA_DEBUG then
         print(string.format("[Cyclopedia] raw response opcode=%d len=%d buffer=%s", opcode, #(buffer or ""), tostring(buffer or "")))
@@ -1587,6 +1647,8 @@ function controllerCyclopedia:onInit()
 end
 
 function controllerCyclopedia:onGameStart()
+    clearCharacterChunks()
+    characterChunkProtocol = nil
     do
         if not controllerCyclopedia.ui then
             return
@@ -2036,6 +2098,8 @@ end
 
 
 function controllerCyclopedia:onGameEnd()
+    clearCharacterChunks()
+    characterChunkProtocol = nil
     safeUnregisterCyclopediaOpcode()
     -- Stop the live refresh polling loop before tearing down state
     if Cyclopedia.cancelTrackerLiveRefresh then
@@ -2100,6 +2164,8 @@ function controllerCyclopedia:onGameEnd()
 end
 
 function controllerCyclopedia:onTerminate()
+    clearCharacterChunks()
+    characterChunkProtocol = nil
     safeUnregisterCyclopediaOpcode()
     Cyclopedia.TransportReady = false
     Cyclopedia.PendingRequests = {}

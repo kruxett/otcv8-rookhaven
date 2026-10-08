@@ -39,7 +39,8 @@ if ($process.ExitCode -ne 0 -or $log -notmatch 'CYCLOPEDIA_PASSIVES_PRESENTATION
 }
 if (-not $NoScreenshots -and $log -match '(?m)^CYCLOPEDIA_PASSIVES_SCREENSHOT_DIRECTORY (.+)$') {
     $imageRoot = $Matches[1].Trim()
-    foreach ($name in @('cyclopedia-passives-1280x800.png','cyclopedia-passives-800x640.png')) {
+    foreach ($name in @('cyclopedia-stats-1280x800.png','cyclopedia-stats-800x600.png',
+                       'cyclopedia-talents-1280x800.png','cyclopedia-talents-800x600.png')) {
         Copy-Item -LiteralPath (Join-Path $imageRoot $name) -Destination (Join-Path $probe $name) -Force
     }
 }

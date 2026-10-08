@@ -1,3 +1,108 @@
+CharacterStatsSection < Label
+  height: 22
+  margin-top: 5
+  color: #D0C8AF
+  text-align: left
+  text-auto-resize: false
+
+CharacterStatsSummaryRow < UIWidget
+  height: 38
+  margin-top: 2
+  focusable: true
+  phantom: false
+  background-color: #363636
+  $hover:
+    background-color: #414141
+  $on:
+    background-color: #4B4B4B
+  Label
+    id: Name
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: Value.left
+    height: 16
+    margin-top: 3
+    margin-left: 5
+    margin-right: 8
+    color: #D3D3D3
+    text-align: left
+    phantom: true
+    text-auto-resize: false
+  Label
+    id: Value
+    anchors.top: parent.top
+    anchors.right: parent.right
+    width: 112
+    height: 16
+    margin-top: 3
+    margin-right: 5
+    text-align: right
+    color: #D3D3D3
+    phantom: true
+    text-auto-resize: false
+  Label
+    id: Hint
+    anchors.top: Name.bottom
+    anchors.left: Name.left
+    anchors.right: parent.right
+    height: 15
+    margin-right: 5
+    color: #AFAFAF
+    phantom: true
+    text-auto-resize: false
+
+CharacterStatsSourceRow < UIWidget
+  height: 20
+  Label
+    id: Name
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.right: Value.left
+    margin-right: 8
+    height: 18
+    color: #C0C0C0
+    text-align: left
+    phantom: true
+  Label
+    id: Value
+    anchors.right: parent.right
+    anchors.top: parent.top
+    width: 112
+    height: 18
+    color: #D3D3D3
+    text-align: right
+    phantom: true
+
+CharacterStatsSourceNote < Label
+  height: 64
+  margin-top: 5
+  text-wrap: true
+  text-auto-resize: false
+  text-vertical-auto-resize: true
+  text-align: topLeft
+  color: #B5B5B5
+  phantom: true
+
+CharacterStatsSources < BorderBox
+  height: 132
+  background-color: #303030
+  UIScrollArea
+    id: Content
+    anchors.fill: parent
+    margin: 7
+    margin-right: 18
+    vertical-scrollbar: Scrollbar
+    layout:
+      type: verticalBox
+  VerticalScrollBar
+    id: Scrollbar
+    anchors.top: Content.top
+    anchors.right: parent.right
+    anchors.bottom: Content.bottom
+    margin-right: 3
+    step: 20
+    pixel-scroll: true
+
 UIWidget
   id: Cat6
   anchors.fill: parent
@@ -827,6 +932,68 @@ UIWidget
       SkillValueLabel
         color: #C0C0C0
         margin-right: 2
+    Button
+      id: ReturnToOverviewButton
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin: 6
+      width: 114
+      height: 20
+      !text: tr('Current stats')
+      visible: false
+    Panel
+      id: CurrentOverview
+      anchors.fill: parent
+      background-color: #363636
+      visible: false
+      Label
+        id: Header
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin: 9
+        height: 42
+        text-wrap: true
+        text-auto-resize: false
+        text-vertical-auto-resize: true
+        text-align: topLeft
+        color: #C0C0C0
+      UIScrollArea
+        id: List
+        anchors.top: Header.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: SourceDetails.top
+        margin-left: 9
+        margin-right: 20
+        margin-bottom: 7
+        vertical-scrollbar: ListScrollbar
+        layout:
+          type: verticalBox
+      VerticalScrollBar
+        id: ListScrollbar
+        anchors.top: List.top
+        anchors.right: parent.right
+        anchors.bottom: List.bottom
+        margin-right: 5
+        step: 38
+        pixel-scroll: true
+      CharacterStatsSources
+        id: SourceDetails
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: LegacyDetailsButton.top
+        margin-right: 8
+        margin-left: 9
+        margin-bottom: 7
+      Button
+        id: LegacyDetailsButton
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin: 6
+        width: 114
+        height: 20
+        !text: tr('Detailed stats')
   BorderBox
     id: PassiveStats
     anchors.top: CharacterBase.top
@@ -836,12 +1003,28 @@ UIWidget
     margin-left: 10
     background-color: #363636
     visible: false
+    Label
+      id: Header
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin: 9
+      height: 52
+      text-wrap: true
+      text-auto-resize: false
+      text-vertical-auto-resize: true
+      text-align: topLeft
+      color: #C0C0C0
     UIScrollArea
       id: List
       vertical-scrollbar: ListScrollbar
-      anchors.fill: parent
-      margin: 8
+      anchors.top: Header.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: SourceDetails.top
+      margin-left: 9
       margin-right: 20
+      margin-bottom: 7
       layout:
         type: verticalBox
     VerticalScrollBar
@@ -852,6 +1035,14 @@ UIWidget
       margin-right: 5
       step: 40
       pixel-scroll: true
+    CharacterStatsSources
+      id: SourceDetails
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-right: 8
+      margin-left: 9
+      margin-bottom: 8
   UIWidget
     id: RecentDeaths
     anchors.top: CharacterBase.top

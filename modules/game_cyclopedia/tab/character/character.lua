@@ -10,6 +10,9 @@ local _serverCharacterTitle = nil
 local _serverAscension = nil
 local _serverClassName = nil
 local characterLivePollEvent = nil
+local characterPresentationModel = nil
+local characterSourceSelection = { overview = nil, talents = nil }
+local showLegacyCombatDetails = false
 
 local function cancelCharacterLivePoll()
     if characterLivePollEvent then
@@ -174,6 +177,9 @@ function Cyclopedia.resetSessionXp()
     _serverAscension = nil
     _serverClassName = nil
     Cyclopedia.characterPassiveStats = nil
+    characterPresentationModel = nil
+    characterSourceSelection = { overview = nil, talents = nil }
+    showLegacyCombatDetails = false
     cancelCharacterLivePoll()
 end
 
@@ -328,6 +334,7 @@ function showCharacter()
     end
 
     reset()
+    Cyclopedia.renderCharacterPresentation()
     local thisPanel = characterPanel
     thisPanel.onDestroy = function()
         if UI == thisPanel then
@@ -1563,53 +1570,228 @@ function Cyclopedia.setCharacterIdentity(identity)
     end
 end
 
-function Cyclopedia.loadCharacterPassives(data)
+local function presentationText(value, limit)
+    return type(value) == "string" and value:sub(1, limit or 1600) or ""
+end
+
+local function presentationValue(value)
+    if type(value) == "string" then return value:sub(1, 120) end
+    if type(value) == "number" and value == value and math.abs(value) < math.huge then return value end
+end
+
+local function formatPresentationValue(value, unit)
+    value = presentationValue(value)
+    if value == nil then return "" end
+    local text = type(value) == "number" and string.format("%.3f", value):gsub("0+$", ""):gsub("%.$", "") or value
+    unit = presentationText(unit, 32)
+    if unit == "" then return text end
+    return text .. (unit == "%" and "" or " ") .. unit
+end
+
+local function normalizePresentationEntries(entries, overview)
+    local result, seen = {}, {}
+    if type(entries) ~= "table" then return result end
+    for _, entry in ipairs(entries) do
+        if #result >= 96 then break end
+        if type(entry) == "table" and type(entry.id) == "string" and entry.id:match("^[%w_-]+$")
+            and #entry.id <= 96 and not seen[entry.id] and type(entry.label) == "string" then
+            if not overview or entry.group == "offence" or entry.group == "defence" or entry.group == "recovery" then
+                local copy = {
+                    id = entry.id, group = entry.group, label = presentationText(entry.label, 120),
+                    value = presentationValue(entry.value), unit = presentationText(entry.unit, 32),
+                    rank = presentationValue(entry.rank), status = presentationText(entry.status, 120),
+                    hint = presentationText(entry.hint, 240),
+                    description = presentationText(entry.description), detail = presentationText(entry.detail), sources = {}
+                }
+                if type(entry.sources) == "table" then
+                    for index, source in ipairs(entry.sources) do
+                        if index > 24 then break end
+                        if type(source) == "table" and type(source.label) == "string" then
+                            copy.sources[#copy.sources + 1] = {
+                                label = presentationText(source.label, 120), value = presentationValue(source.value),
+                                unit = presentationText(source.unit, 32)
+                            }
+                        end
+                    end
+                end
+                result[#result + 1], seen[entry.id] = copy, true
+            end
+        end
+    end
+    return result
+end
+
+local function buildCharacterPresentationModel(data)
     local stats = type(data.stats) == "table" and data.stats or {}
-    Cyclopedia.characterPassiveStats = stats
-    if not UI or not UI.PassiveStats then return end
-    local list = UI.PassiveStats.List
-    list:destroyChildren()
-    local function addRow(name, value, tooltip)
-        local widget = g_ui.createWidget("CharacterSkillBase", list)
-        local label = g_ui.createWidget("SkillNameLabel", widget)
-        local valueLabel = g_ui.createWidget("SkillValueLabel", widget)
-        label:setText(name .. ":")
-        valueLabel:setText(tostring(value))
-        if tooltip then widget:setTooltip(tooltip) end
+    local presentation = type(data.presentation) == "table" and data.presentation or nil
+    if presentation and presentation.version == 1 and type(presentation.header) == "table" then
+        local header = presentation.header
+        local talents = type(presentation.talents) == "table" and presentation.talents or {}
+        return {
+            version = 1,
+            header = { className = presentationText(header.className, 120), weaponName = presentationText(header.weaponName, 80),
+                weaponActive = header.weaponActive == true, reason = presentationText(header.reason, 420),
+                spent = presentationValue(header.spent), points = presentationValue(header.points) },
+            overview = normalizePresentationEntries(presentation.overview, true),
+            talents = { statBonuses = normalizePresentationEntries(talents.statBonuses),
+                conditionalEffects = normalizePresentationEntries(talents.conditionalEffects),
+                specialEffects = normalizePresentationEntries(talents.specialEffects) }
+        }
     end
-    local function percent(key)
-        return string.format("%.2f%%", tonumber(stats[key]) or 0)
+    -- Older servers retain the existing combat view and their actual catalog
+    -- benefits. Never infer current sources or fill unknown amounts with zero.
+    local applied = {}
+    for index, talent in ipairs(type(data.talents) == "table" and data.talents or {}) do
+        if index > 96 then break end
+        if type(talent) == "table" then
+            applied[#applied + 1] = { id = "applied_" .. index, label = presentationText(talent.name, 120),
+                rank = presentationValue(talent.rank), hint = presentationText(talent.benefit, 240),
+                detail = presentationText(talent.benefit) .. "\n\n" .. presentationText(talent.description), sources = {} }
+        end
     end
-    addRow("Class", stats.className ~= "" and stats.className or "Not chosen")
-    addRow("Talent points", string.format("%d / %d applied", stats.spent or 0, stats.points or 0))
-    addRow("Talents", stats.weaponActive and "Active" or "Inactive",
-        stats.active and ("Requires an equipped " .. (stats.weaponName or "class weapon") .. ". Applied ranks are preserved when the weapon is removed.")
-        or stats.permanent and "Talent effects are currently unavailable. Your chosen class and applied ranks are preserved."
-        or "Choose your permanent class at the third Ascension.")
-    addRow("Max HP from talents", string.format("+%d (%s)", stats.maxHealthBonus or 0, percent("maxHealthPercent")), "Added to base max HP. Current HP is not healed; ordinary HP conditions remain separate.")
-    addRow("Ordinary direct damage", "+" .. percent("ordinaryDamagePercent"), "Current bonus against monsters. Includes an active Berserk or prepared Deadeye and the current target's party mark. Conditions, passive procs and PvP are excluded.")
-    addRow("Party Quarry bonus", "+" .. percent("partyQuarryDamagePercent"), "Current party mark on your selected monster. Included multiplicatively in ordinary direct damage above, even without an active personal talent tree or compatible class weapon.")
-    addRow("Gear critical threshold", stats.legacyCriticalThreshold or 0, "Equipment's threshold in the legacy normal_random(1,100) roll. This is not a uniform percent chance; the combat summary converts the actual shaped roll to approximate probability.")
-    addRow("Gear critical probability", percent("legacyCriticalChance"), "Approximate probability from the native normal roll, including its outlier values 50/51. Does not include the additional passive critical roll.")
-    addRow("Passive critical chance", percent("passiveCriticalChance"), "Uniform extra critical roll after an ordinary PvE hit did not critical from gear. Requires your compatible class weapon. The combined probability is shown in Combat Stats.")
-    addRow("Next primary hit bonus", "+" .. percent("ordinaryPrimaryExtraPercent"), "Prepared ordinary-hit bonus against the current target, applied after the direct damage bonus. Fractional budgets are retained.")
-    addRow("Eligible spell damage", "+" .. percent("eligibleSpellDamagePercent"), "Current direct damage bonus for eligible class spells against monsters. Includes active combat readiness, not secondary procs or conditions.")
-    addRow("Spell primary bonus", "+" .. percent("spellPrimaryExtraPercent"), "Additional primary-hit bonus applied after the direct spell bonus. Prepared routes require the current target. Rend's own-wound and delayed/proc effects are listed under applied talents.")
-    addRow("Spell secondary bonus", "+" .. percent("spellSecondaryExtraPercent"), "Additional secondary-target bonus on eligible class spells. For Reaver this applies to Cleaving Arc. Conditions and passive procs are excluded.")
-    addRow("Eligible spell mana saving", percent("manaDiscountPercent"), "Current discount, including prepared discounts. Charged by the server with its cap and fractional billing; a successful spell still costs at least one mana.")
-    addRow("Mana regeneration", string.format("+%.3f / second", stats.manaPerSecond or 0), "Passive mana per second in addition to ordinary regeneration. Fractional mana accumulates; requires your class weapon.")
-    addRow("Damage recovery", percent("damageRecoveryPercent"), "Healing from actual primary monster HP damage. Missing HP only; fractional healing accumulates.")
-    addRow("Kill recovery", percent("killRecoveryPercent"), "Percent of max HP on an eligible primary monster kill. The talent cooldown applies.")
-    addRow("Direct friendly healing", "+" .. percent("outgoingHealingPercent"), "Current direct healing bonus to yourself or eligible party members. Prepared healing routes are included. HoT, passive healing and overhealing are excluded.")
-    addRow("Direct healing received", "+" .. percent("incomingHealingPercent"), "Current passive bonus to direct healing received. HoT and passive healing are excluded.")
-    addRow("Physical monster reduction", percent("physicalReductionPercent"), "Current direct physical monster damage reduction, including low-HP and prepared protection. Applied after armor and defense. Sequential reductions combine multiplicatively; conditions and PvP are excluded.")
-    addRow("Current absorbing ward", math.floor(stats.ward or 0), "Remaining protection from valid combat and healing wards. A temporary pool, not armor or a permanent resistance.")
-    addRow("Prepared recovery", percent("preparedRecoveryPercent"), "Extra healing from the next ordinary hit's actual primary monster HP damage while the sustain route is ready.")
-    addRow("Prepared return healing", string.format("%.2f HP (%.1fs)", stats.routeReturnBudget or 0, (stats.routeReturnMs or 0)/1000), "Remaining healing budget earned from incoming direct monster damage. The next successful ordinary hit consumes it before expiry, limited by missing HP. Fractional healing is retained; this is a conditional budget, not regeneration.")
-    for _, talent in ipairs(data.talents or {}) do
-        addRow(talent.name, "Rank " .. talent.rank,
-            (talent.benefit or "") .. "\n\n" .. (talent.description or ""))
+    local weapon = presentationText(stats.weaponName, 80)
+    local reason = ""
+    if stats.active and not stats.weaponActive and weapon ~= "" then
+        reason = "Equip your " .. weapon .. " to activate your talents."
+    elseif not stats.active and stats.permanent then
+        reason = "Talent effects are currently unavailable. Your chosen class and applied ranks are preserved."
+    elseif not stats.active and not stats.permanent then
+        reason = "Choose your permanent class at the third Ascension."
     end
+    return { version = 0, header = { className = presentationText(stats.className, 120), weaponName = weapon,
+        weaponActive = stats.weaponActive == true, reason = reason, spent = presentationValue(stats.spent),
+        points = presentationValue(stats.points) }, overview = {}, appliedTalents = applied,
+        talents = { statBonuses = {}, conditionalEffects = {}, specialEffects = {} } }
+end
+
+Cyclopedia.CharacterPresentation = { formatValue = formatPresentationValue, buildModel = buildCharacterPresentationModel }
+
+function Cyclopedia.getPresentationModel()
+    return characterPresentationModel
+end
+
+local function reconcilePresentationWidgets(parent, records, update)
+    local kept = {}
+    for index, record in ipairs(records) do
+        local widget = parent:getChildById(record.id)
+        if not widget then widget = g_ui.createWidget(record.style, parent); widget:setId(record.id) end
+        update(widget, record)
+        local current = parent:getChildByIndex(index)
+        if not current or current:getId() ~= record.id then parent:moveChildToIndex(widget, index) end
+        kept[record.id] = true
+    end
+    for _, widget in ipairs(parent:getChildren()) do if not kept[widget:getId()] then widget:destroy() end end
+end
+
+local function renderPresentationSources(panel, entry, view)
+    local records = { { id = "Title", style = "CharacterStatsSection", text = entry and entry.label or "Talent effects" } }
+    if entry then
+        if view == "talents" and entry.rank ~= nil then
+            records[#records + 1] = { id = "Rank", style = "CharacterStatsSourceRow", label = "Applied rank", value = entry.rank }
+        end
+        for index, source in ipairs(entry.sources) do
+            records[#records + 1] = { id = "source_" .. index, style = "CharacterStatsSourceRow",
+                label = source.label, value = source.value, unit = source.unit }
+        end
+        local description = entry.detail ~= "" and entry.detail or entry.description
+        if not description or description == "" then description = entry.hint end
+        if entry.status and entry.status ~= "" then description = entry.status .. (description ~= "" and (". " .. description) or "") end
+        if description and description ~= "" then records[#records + 1] = { id = "Description", style = "CharacterStatsSourceNote", text = description } end
+    else
+        records[#records + 1] = { id = "Description", style = "CharacterStatsSourceNote", text = "No talents applied. Choose talents in your passive tree." }
+    end
+    reconcilePresentationWidgets(panel.Content, records, function(widget, record)
+        if record.label then
+            widget.Name:setText(record.label); widget.Value:setText(formatPresentationValue(record.value, record.unit))
+            widget:setTooltip(record.label .. ": " .. formatPresentationValue(record.value, record.unit))
+        else
+            widget:setText(record.text)
+        end
+    end)
+end
+
+local function renderPresentationList(panel, view, groups)
+    local records, entries = {}, {}
+    for _, group in ipairs(groups) do
+        if #group.entries > 0 then
+            records[#records + 1] = { id = "section_" .. group.id, style = "CharacterStatsSection", text = group.label }
+            for _, entry in ipairs(group.entries) do
+                entries[#entries + 1] = entry
+                records[#records + 1] = { id = (view == "overview" and "overview_" or "talent_") .. entry.id,
+                    style = "CharacterStatsSummaryRow", entry = entry }
+            end
+        end
+    end
+    local selected
+    for _, entry in ipairs(entries) do if entry.id == characterSourceSelection[view] then selected = entry; break end end
+    if not selected then
+        selected = entries[1]
+        characterSourceSelection[view] = selected and selected.id or nil
+    end
+    reconcilePresentationWidgets(panel.List, records, function(widget, record)
+        if not record.entry then widget:setText(record.text); return end
+        local entry = record.entry
+        widget.Name:setText(entry.label)
+        local value = formatPresentationValue(entry.value, entry.unit)
+        if value == "" and entry.rank ~= nil then value = "Rank " .. formatPresentationValue(entry.rank) end
+        widget.Value:setText(value)
+        local hint = entry.hint
+        if entry.status and entry.status ~= "" then hint = entry.status .. (hint ~= "" and (" | " .. hint) or "") end
+        widget.Hint:setText(hint); widget.Hint:setVisible(hint ~= ""); widget:setHeight(hint ~= "" and 38 or 24)
+        widget:setOn(selected == entry)
+        widget:setTooltip(entry.detail ~= "" and entry.detail or entry.description)
+        widget.onClick = function()
+            characterSourceSelection[view] = entry.id
+            for _, child in ipairs(panel.List:getChildren()) do if child.Hint then child:setOn(child:getId() == widget:getId()) end end
+            panel.List:ensureChildVisible(widget)
+            renderPresentationSources(panel.SourceDetails, entry, view)
+            panel.SourceDetails.Scrollbar:setValue(0)
+        end
+    end)
+    renderPresentationSources(panel.SourceDetails, selected, view)
+end
+
+local function presentationHeader(model, talents)
+    local header = model.header
+    local class = header.className ~= "" and header.className or "Class not chosen"
+    local weapon = header.weaponName ~= "" and (header.weaponName .. (header.weaponActive and " equipped" or " required")) or ""
+    local text = class .. (weapon ~= "" and (" | " .. weapon) or "")
+    if talents and header.spent ~= nil and header.points ~= nil then text = text .. string.format("\n%s / %s talent points applied", formatPresentationValue(header.spent), formatPresentationValue(header.points)) end
+    if header.reason ~= "" then text = text .. "\n" .. header.reason end
+    return text
+end
+
+function Cyclopedia.renderCharacterPresentation()
+    if not UI then return end
+    local model = Cyclopedia.getPresentationModel()
+    local current = UI.CombatStats.CurrentOverview
+    local available = model and model.version == 1 and #model.overview > 0 and g_game.getClientVersion() < 1410
+    current:setVisible(available and not showLegacyCombatDetails or false)
+    UI.CombatStats.ReturnToOverviewButton:setVisible(available and showLegacyCombatDetails or false)
+    current.LegacyDetailsButton.onClick = function() showLegacyCombatDetails = true; Cyclopedia.renderCharacterPresentation() end
+    UI.CombatStats.ReturnToOverviewButton.onClick = function() showLegacyCombatDetails = false; Cyclopedia.renderCharacterPresentation() end
+    if not model then return end
+    if available then
+        current.Header:setText(presentationHeader(model, false))
+        local groups = { { id = "offence", label = "Offence", entries = {} }, { id = "defence", label = "Defence", entries = {} }, { id = "recovery", label = "Recovery", entries = {} } }
+        for _, entry in ipairs(model.overview) do for _, group in ipairs(groups) do if entry.group == group.id then group.entries[#group.entries + 1] = entry; break end end end
+        renderPresentationList(current, "overview", groups)
+    end
+    UI.PassiveStats.Header:setText(presentationHeader(model, true))
+    local groups
+    if model.version == 1 then
+        groups = { { id = "statBonuses", label = "Stat bonuses", entries = model.talents.statBonuses },
+            { id = "conditionalEffects", label = "Conditional effects", entries = model.talents.conditionalEffects },
+            { id = "specialEffects", label = "Special effects", entries = model.talents.specialEffects } }
+    else groups = { { id = "applied", label = "Applied talents", entries = model.appliedTalents } } end
+    renderPresentationList(UI.PassiveStats, "talents", groups)
+end
+
+function Cyclopedia.loadCharacterPassives(data)
+    if type(data) ~= "table" then return end
+    Cyclopedia.characterPassiveStats = type(data.stats) == "table" and data.stats or {}
+    characterPresentationModel = buildCharacterPresentationModel(data)
+    Cyclopedia.renderCharacterPresentation()
 end
 
 function Cyclopedia.updateFoodRegen(regenSecs)
