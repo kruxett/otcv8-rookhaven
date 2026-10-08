@@ -52,7 +52,7 @@ local function verifyPresentation(passive,native)
  local fields={maxHealth='maxHealth',armor='armor',defense='defense',attackInterval='attackSpeed',
   normalMaxHit='ordinaryMaxHit',ordinaryDamage='ordinaryDamagePercent',spellDamage='eligibleSpellDamagePercent',
   criticalChance='criticalChance',physicalReduction='physicalReductionPercent',manaDiscount='manaDiscountPercent',
-  manaRegen='currentManaPerSecond',healthRegen='currentHealthPerSecond',incomingHealing='incomingHealingPercent',
+  manaRegen='currentManaPerSecond',healthRegen='currentHealthPerSecond',healingRemaining='healingOverTimeRemaining',incomingHealing='incomingHealingPercent',
   outgoingHealing='outgoingHealingPercent',ward='ward',spellPrimary='spellPrimaryExtraPercent',
   spellSecondary='spellSecondaryExtraPercent',criticalMultiplier='criticalMultiplier',
   damageRecovery='damageRecoveryPercent',killRecovery='killRecoveryPercent'}
@@ -64,9 +64,10 @@ local function verifyPresentation(passive,native)
   local key=assert(fields[row.id],'Unverified presentation stat '..row.id)
   approx(row.value,native[key]or 0,'Authoritative presentation '..row.id)
  end
- for _,id in ipairs({'maxHealth','armor','defense','attackInterval','normalMaxHit'})do
+ for _,id in ipairs({'maxHealth','armor','defense','normalMaxHit'})do
   assert(overview[id],'Core stat omitted '..id)
  end
+ assert((native.attackSpeed~=2000)==(overview.attackInterval~=nil),'Fixed attack interval must not occupy a stat row')
  local chosen={};for _,t in ipairs(passive.talents)do chosen[t.name]=t.rank end
  local seen={}
  for _,group in ipairs({'statBonuses','conditionalEffects','specialEffects'})do
@@ -83,7 +84,7 @@ local function verifyNativeUI(p,onComplete)
  local panel=assert(module.contentContainer:getChildById('Cat6'),'Actual Cyclopedia character UI missing')
  local function checkOverview()
   selectPage(panel,'CombatStats')
-  local a=panel.CombatStats.Viewport;assert(a:isVisible()and a.Content.attack:getHeight()==20,'Original compact view missing')
+  local a=panel.CombatStats.Viewport;assert(a:isVisible()and a.Content.estDps:getHeight()==20,'Original compact view missing')
   assert(panel.CharacterBase.InfoLabel:getText():find('Ascension: Ascended',1,true),'Native progression missing under class')
   for _,item in ipairs(p.overview)do
    local row=module.Cyclopedia.getCombatStatRow(item.id)
@@ -199,6 +200,7 @@ local function verify()
   approx(native.ordinaryDamagePercent or 0,native.partyQuarryDamagePercent or 0,'Inactive own tree retains external party mark only')
  end
  local csv=string.split(packets['character.combatStats'],',')
+ approx(tonumber(csv[1]),native.weaponAttack or 0,'Actual rolled weapon attack in existing stats')
  approx(tonumber(csv[5]),native.armor,'Native armor in existing stats')
  approx(tonumber(csv[6]),native.defense,'Native defense in existing stats')
  assert(math.abs(tonumber(csv[9])-native.criticalChance)<=.005,'Fractional critical chance lost in CSV')

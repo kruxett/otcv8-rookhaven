@@ -118,7 +118,7 @@ local function inspectSize(id,report,p,entries,size,index,nextStep)
   selectPage(panel,'CombatStats')
   later(220,function()
    local a=panel.CombatStats.Viewport;assert(a:isVisible()and a:getHeight()>300,'Original view collapsed')
-   assert(a.Content.attack:getHeight()==20,'Retro row height changed')
+   assert(a.Content.estDps:getHeight()==20,'Retro row height changed')
    clickEntries(a,'overview',p.overview,1,function()
     local selected;for _,entry in ipairs(p.overview)do if entry.id=='manaRegen'and modules.game_cyclopedia.Cyclopedia.getCombatStatRow(entry.id)then selected=entry end end
     if not selected then for _,entry in ipairs(p.overview)do if entry.id=='normalMaxHit'then selected=entry end end end

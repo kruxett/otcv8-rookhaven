@@ -12,8 +12,8 @@ offensive values; actual armor, defense and an active ward sit in the right colu
 Both columns share one scroll area when needed. Unlearned zero bonuses are omitted;
 learned bonuses remain visible when their weapon requirement disables them.
 
-Hover a sourced value for its components or click its row or small information
-button to open a separate closable Stat sources window. Maximum-health sources
+Hover a sourced value for its practical effect or click its row or small information
+button to open a separate closable Stat sources window with components and conditions. Maximum-health sources
 are available on Character Stats alongside the existing current/maximum health
 row. Source details take no space in the default combat view. Current totals come
 from the native server snapshot; estimates retain their explicit labels and
@@ -237,3 +237,73 @@ classes and long responses were tested locally. Combat, death, spell payment
 and store behavior were not rerun for this UI-only increment; their gameplay
 implementations are unchanged. No new balance claim, direct live bank reading
 or database-GUID measurement is made.
+
+## Attainable-stat and clarity follow-up (local, not published)
+
+The default retro layout is retained. Stats describe present equipment, learned
+talents or active effects; unrelated unlearned zero bonuses are omitted. Learned
+bonuses disabled by the class weapon remain visible at zero with the activation
+warning. Food regeneration paused in a protection zone remains inspectable.
+Finite Renewal healing has its own `Healing Remaining` HP total, rather than a
+zero continuous-regeneration row. Hover explains the practical effect first;
+the optional source window puts that explanation before the calculations.
+
+Source acquisition was traced through the existing class-choice/catalog and
+starter-spell paths, food's `player:feed`, and ordinary equipment/rarity paths.
+For example Troll loot includes helmet2461 and shield2512; Blind Orc sells axe2388
+and armor2467. The active map spawn XML includes Troll and Blind Orc. Supported
+equipment slots have enabled rarity pools for elemental damage, critical chance,
+critical extra damage, HP/skills and selected resistances; ordinary corpse loot
+calls `rollRarity`. This establishes working acquisition paths for these stat
+families, not ordinary availability of every item in `items.xml`. Unrolled or
+unavailable affixes are not listed as empty future bonuses. The available talent choices stay in the
+tree, not the character's applied-stat summary.
+
+The ordinary content has no variable attack interval: all active vocations use
+2000ms, with no item/rarity/talent source for another interval. Its fixed row is
+hidden, while the actual interval remains in the estimated-DPS explanation.
+Empty elemental attack, absent critical/talent protection and zero resistances
+are hidden. The duplicated critical-extra row, 100-damage armor-percent reference,
+combined theoretical reduction rows and unavailable modern Forge stats are
+omitted. Damage ceilings, average-hit and DPS estimates remain explicitly marked
+as estimates affected by real weapon/skill/level/stance/bonus values.
+
+Two existing response errors were corrected. Static ItemType values missed
+rolled weapon/element attributes. Flat armor reduction was also mislabeled as
+physical resistance, and native ability lookup used combat bit flags as array
+indices. Read-only native fields now use the actual equipped weapon and the same
+enabled equipment/absorption indices as `Player::blockHit`. Native absorptions
+multiply; rarity resistance uses the actual health-change slots and parser,
+with its own50% cap. The displayed combination excludes flat armor and talent
+protection and preserves vulnerabilities and fractional percentages. Per-hit
+rounding and the attack's defense/armor/resistance checks still matter.
+
+The five existing regression gates passed on the rebuilt native server. The
+actual response-builder contract passed15 cases, including rolled attributes,
+stacking, ignored backpack/ammo rarity, vulnerabilities, no armor-derived percent,
+CSV positions and finite healing. An actual native100-damage probe with2/5/3%
+equipment absorption and20% rarity resistance delivered72 damage; the continuous
+combined percentage is27.7544%. Original QA equipment, native stats and HP were
+restored. This deliberately uses test equipment, not an acquisition playtest.
+Native UI checks passed1280x800 and800x600, including zero-row removal, preserved
+learned/paused bonuses, unsupported Forge rejection, source refresh, fractional
+values, finite-healing expiration, class/Ascension and old-server fallback.
+The six ordinary saved classes and all six filled16-point test trees passed in
+both sizes. Sources, refresh and reopen survived; the allocated suite also
+checked108 talent-detail selections and Stop/logout cleanup.
+
+The first connected run caught a CSV regression: omitting the entire resistance
+field shifted later fields in the existing splitter. A genuine physical-zero
+transport placeholder now preserves all18 positions and stays hidden in the UI.
+A stale test assumption that every class has a visible weapon-ATK row was also
+updated for empty/wand equipment; the compact damage rows remain20 pixels high.
+
+Evidence: `out/stats-ui-review-20261008/attainable-server-build.log`,
+`attainable-regressions.log`, `attainable-equipment-contract-final.log`,
+`attainable-equipment-native-final.log`, `attainable-presentation-verified.log`,
+`attainable-six-classes-verified.log`, and `attainable-allocated.log`.
+The Qwen supplied-text job exhausted its60-second budget without a deliverable;
+the audit and implementation were completed here. DEV10089/PROD were not changed.
+Publishing requires a rebuilt server and a new DEV client release; a TFS restart
+alone cannot supply the new native metadata. Ordinary hunts, all item acquisition
+routes, and a live DEV deploy/updater cycle for this follow-up remain unmeasured.

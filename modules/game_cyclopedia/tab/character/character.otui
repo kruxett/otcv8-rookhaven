@@ -742,7 +742,7 @@ UIWidget
           anchors.right: separator.right
           margin-top: 0
           SkillNameLabel
-            !text: tr('Attack Speed:')
+            !text: tr('Attack Interval:')
             color: #C0C0C0
           SkillValueLabel
             color: #C0C0C0

@@ -3,7 +3,7 @@
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
 APP_VERSION = 1008      -- client version for updater and login to identify outdated client
-local DEV_APP_VERSION = 10089 -- increment when packaging a new DEV client
+local DEV_APP_VERSION = 10090 -- increment when packaging a new DEV client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""

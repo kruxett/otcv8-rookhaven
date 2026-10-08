@@ -52,6 +52,8 @@ local presentation={version=1,header={className='Reaver',weaponName='Axe',weapon
   overview={
     {id='normalMaxHit',group='offence',label='Maximum normal hit',value=21,unit='HP',hint='Before target protection',sources={{label='Base',value=20,unit='HP'},{label='Talents',value=1,unit='HP'}}},
     {id='criticalChance',group='offence',label='Critical hit chance',value=stats.criticalChance,unit='%',hint='Against monsters',sources={{label='Equipment',value=stats.legacyCriticalChance,unit='%'},{label='Extra talent roll',value=2.5,unit='%'}},description='Equipment and talent rolls are separate; the total is not their sum.'},
+    {id='criticalMultiplier',group='offence',label='Critical hit damage',value=210,unit='%',hint='200% means twice the normal damage.',sources={},description='Separate critical rolls.'},
+    {id='physicalReduction',group='defence',label='Physical damage reduction',value=1.5,unit='%',hint='Reduces direct physical monster damage after armor; not PvP or damage over time.',sources={}},
     {id='maxHealth',group='defence',label='Maximum HP',value=1401,unit='HP',sources={{label='Base',value=1335,unit='HP'},{label='Talents',value=66,unit='HP'},{label='Other effects',value=0,unit='HP'}}},
     {id='manaRegen',group='recovery',label='Mana regeneration',value=.075,unit='mana / s',sources={{label='Talents',value=.075,unit='mana / s'}}},
     {id='incomingHealing',group='recovery',label='Healing received',value=2,unit='%',sources={{label='Steady Nerves',value=2,unit='%'}}}
@@ -64,7 +66,11 @@ local function payload(p,s,t)return{stats=s or stats,talents=t or talents,presen
 local function checkGrouped()
   local a=panel.CombatStats.Viewport.Content
   assert(a.offensiveHit and a.criticalHit and a.separator,'Original two-column structure missing')
-  assert(a.attack:getHeight()==20 and a.atkSpeed:getHeight()==20,'Original compact rows changed')
+  assert(a.attack:getHeight()==20 and a.estDps:getHeight()==20,'Original compact rows changed')
+  assert(not a.atkSpeed:isVisible()and a.atkSpeed:getHeight()==0,'Fixed unmodifiable attack interval consumes a row')
+  for _,id in ipairs({'criticalChance','armor','manaLeech','defenseWindow'})do
+    assert(not a[id]:isVisible()and a[id]:getHeight()==0,'Duplicated or theoretical row retained '..id)
+  end
   assert(not panel.CombatStats:getChildById('CurrentOverview'),'Replacement overview still covers original stats')
   assert(not panel.CombatSources:isVisible(),'Source window consumes space before a click')
   local function source(id)
@@ -78,6 +84,9 @@ local function checkGrouped()
   assert(hp:find('1335',1,true)and hp:find('66',1,true),'Actual HP sources lost')
   local row=source('criticalChance')
   assert(row.value:getText():find('5.45',1,true),'Combined critical rolls were summed or rounded')
+  local tooltip=row:getTooltip()
+  assert(tooltip:find('Against monsters',1,true)and not tooltip:find('not their sum',1,true),'Hover did not prioritize gameplay over calculations')
+  assert(panel.CombatSources.Content.Effect:getText()=='Against monsters','Detail window lost practical effect')
   assert(text(panel.CombatSources.Content):find('not their sum',1,true),'Critical roll explanation absent')
   cyclopedia.loadCharacterPassives(payload(presentation))
   assert(text(panel.CombatSources.Content):find('not their sum',1,true),'Refresh lost selected source')
@@ -111,6 +120,8 @@ local function checksFallback()
     reason='Equip an axe to activate talent bonuses.',spent=5,points=24},overview={{id='manaRegen',group='recovery',label='Mana regeneration',value=0,unit='mana / s',sources={}}},
     talents={statBonuses={{id='vitality_stat',label='Vitality',rank=3,value=0,unit='HP',status='Inactive',detail='Requires an axe.'}},conditionalEffects={},specialEffects={}}}
   cyclopedia.loadCharacterPassives(payload(p,inactive))
+  local a=panel.CombatStats.Viewport.Content
+  assert(not a.defence:isVisible()and not a.mitigation:isVisible()and not a.passiveReduction:isVisible(),'Irrelevant zero bonuses retained')
   local mana=assert(cyclopedia.getCombatStatRow('manaRegen'),'Learned inactive regeneration was hidden')
   assert(mana.Value:getText():find('0',1,true),'Wrong weapon retained regeneration')
   assert(text(panel.PassiveStats.Header):find('Equip an axe',1,true),'Missing weapon activation reason')
@@ -125,6 +136,18 @@ local function checksFallback()
   cyclopedia.loadCharacterPassives({stats={active=false,permanent=false,weaponActive=false,spent=0,points=0},talents={}})
   assert(#panel.PassiveStats.List:getChildren()<8,'Unclassed empty profile retained stale talents/zero dump')
   assert(not text(panel.PassiveStats.List):find('Vitality',1,true),'Logout/unclassed snapshot retained another character talents')
+  local paused={active=false,permanent=false,weaponActive=false,effectHealthPerSecond=.2,effectManaPerSecond=.3,regenerationPaused=1}
+  local pausedModel={version=1,header={className='',weaponName='',weaponActive=false,reason='',spent=0,points=0},
+    overview={{id='healthRegen',group='recovery',label='Health regeneration',value=0,unit='HP / s',hint='Paused in protection zones',sources={}},
+      {id='manaRegen',group='recovery',label='Mana regeneration',value=0,unit='mana / s',hint='Paused in protection zones',sources={}}},talents={}}
+  cyclopedia.loadCharacterPassives(payload(pausedModel,paused,{}))
+  assert(cyclopedia.getCombatStatRow('healthRegen')and cyclopedia.getCombatStatRow('manaRegen'),'PZ pause hid owned regeneration')
+  local renewal={version=1,header=pausedModel.header,overview={{id='healingRemaining',group='recovery',label='Healing remaining',value=24,unit='HP',hint='Remaining total, not HP per second',sources={}}},talents={}}
+  cyclopedia.loadCharacterPassives(payload(renewal,{healingOverTimeRemaining=24},{}))
+  local remaining=assert(cyclopedia.getCombatStatRow('healingRemaining'),'Active finite healing total omitted')
+  assert(remaining.Value:getText()=='24 HP'and not cyclopedia.getCombatStatRow('healthRegen'),'Finite healing shown as a regeneration rate')
+  renewal.overview={};cyclopedia.loadCharacterPassives(payload(renewal,{healingOverTimeRemaining=0},{}))
+  assert(not cyclopedia.getCombatStatRow('healingRemaining'),'Expired healing retained')
   print('CYCLOPEDIA_PASSIVES_COMPATIBILITY_OK incompatibleWeapon=true savedRanks=true oldServer=true unclassed=true')
 end
 local function checkIdentity()
@@ -168,11 +191,14 @@ later(100,function()
   cyclopedia.loadCharacterPassives(payload(presentation))
   cyclopedia.loadCharacterCombatStats({weaponElement=0,weaponMaxHitChance=21,weaponElementDamage=4,weaponSkillId=3,
     armor=9,defense=10,attackSpeed=2000,passiveStats=stats},0,
-    {{Skill.CriticalChance,stats.criticalChance},{Skill.CriticalDamage,stats.criticalMultiplier}},{},{},{},{})
+    {{Skill.CriticalChance,stats.criticalChance},{Skill.CriticalDamage,stats.criticalMultiplier}},{{13,1000}},{},{{0,0},{1,2500},{2,7000},{4,65535-800}},{})
   local original=panel.CombatStats.Viewport.Content
   assert(original.defence.value:getText()=='5.45%'and original.dps.value:getText()=='5.3','Legacy critical/DPS estimate regressed')
   assert(original.passiveReduction.value:getText()=='1.50%','Legacy passive reduction disappeared')
   assert(original.converted.value:getText()=='4','Element attack damage mislabeled as percent')
+  local resist=text(original.reductionNone)
+  assert(not resist:find('Physical',1,true)and resist:find('70%',1,true)and resist:find('-8%',1,true),'Resistance zeros/cap/vulnerability misrepresented')
+  assert(not original:getChildById('special_13'),'Unavailable forge stat shown for860')
   selectPage('CombatStats');assert(panel.CombatStats.Viewport:isVisible(),'Original combat view not primary')
   assert(panel.CharacterBase.InfoLabel:getText():find('Ascension: Ascended',1,true),'Ascension is not visible under class')
   checkGrouped()

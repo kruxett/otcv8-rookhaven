@@ -137,6 +137,7 @@ classicEquipmentSlots = true
         Copy-Item -LiteralPath (Join-Path $fixture $name) -Destination (Join-Path $runtime ('data/talkactions/scripts/' + $name)) -Force
     }
     Copy-Item -LiteralPath (Join-Path $fixture 'passive_admin_dead_qa.lua') -Destination (Join-Path $runtime 'data/creaturescripts/scripts/passive_admin_dead_qa.lua') -Force
+    Copy-Item -LiteralPath (Join-Path $fixture 'passive_equipment_stats.lua') -Destination (Join-Path $runtime 'data/talkactions/scripts/passive_equipment_stats.lua') -Force
     Copy-Item -LiteralPath (Join-Path $fixture 'passive_test_dummy.xml') -Destination (Join-Path $runtime 'data/monster/monsters/passive_test_dummy.xml') -Force
     Copy-Item -LiteralPath (Join-Path $fixture 'class_spell_dummy.xml') -Destination (Join-Path $runtime 'data/monster/monsters/class_spell_dummy.xml') -Force
     Copy-Item -LiteralPath (Join-Path $fixture 'passive_guard_dummy.xml') -Destination (Join-Path $runtime 'data/monster/monsters/passive_guard_dummy.xml') -Force
@@ -151,6 +152,7 @@ classicEquipmentSlots = true
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/classspellqa" separator=" " script="class_spells_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiverouteqa" separator=" " script="passive_routes_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passivecharacterstats" separator=" " script="passive_character_stats.lua" />'},
+        @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiveequipmentstats" separator=" " script="passive_equipment_stats.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiveadminqa" separator=" " script="passive_admin_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passivebalanceqa" separator=" " script="passive_balance_qa.lua" />'},
         @{Path='data/talkactions/talkactions.xml'; End='</talkactions>'; Value='<talkaction words="/passiveguardbalanceqa" separator=" " script="passive_guard_balance_qa.lua" />'},
