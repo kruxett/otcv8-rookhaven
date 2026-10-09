@@ -108,7 +108,9 @@ local ammo={getId=function()return ammoId end,getType=function()return {
   getAmmoType=function()return ammoType end,getShootType=function()return 4 end} end,
   remove=function(_,n)removed=removed+n end}
 slots[CONST_SLOT_RIGHT]=bow slots[CONST_SLOT_AMMO]=ammo
+local selectedAmmunition=ammo
 local player={getSlotItem=function(_,slot)return slots[slot] end,getSkull=function()return skull end,
+  getAmmunition=function()return selectedAmmunition end,
   sendCancelMessage=function()end,getPosition=function()return {
     sendDistanceEffect=function()projectiles=projectiles+1 end,sendMagicEffect=function()end} end}
 local caster={getPlayer=function()return player end}
@@ -127,4 +129,12 @@ check(not onCastSpell(caster,variant) and removed==before,'incompatible ammo is 
 ammoType=1 ammoId=2546 skull=SKULL_BLACK
 before=projectiles
 check(not onCastSpell(caster,variant) and projectiles==before,'black skull rejected before projectile')
+skull=0
+slots[CONST_SLOT_AMMO]={remove=function()error('Quiver itself must never be consumed')end}
+before=removed
+check(onCastSpell(caster,variant)and usedCombat==combats[2]and removed==before+1,
+  'quiver-loaded burst uses the selected round metadata and consumes that round')
+selectedAmmunition=nil
+before=removed
+check(not onCastSpell(caster,variant)and removed==before,'empty quiver resolver rejects without charging ammunition')
 print('SERVER_FEATURE_CONTRACTS_OK checks='..checks)

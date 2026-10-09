@@ -6,6 +6,22 @@ function terminate()
   disconnect(g_game, { onClientVersionChange = updateFeatures })
 end
 
+function validateRookhavenAssets(version)
+  if version ~= 860 or (UPDATER_CHANNEL ~= 'dev' and not LOCAL_PASSIVES_TEST) then
+    return true
+  end
+  -- DEV's ammo container requires the matching item table before login.
+  local items = g_things.getThingTypes(ThingCategoryItem)
+  if #items > 11867 then
+    local quiver = g_things.getThingType(11867, ThingCategoryItem)
+    if quiver:getId() == 11867 and quiver:isContainer() and quiver:isPickupable()
+        and not quiver:isStackable() then
+      return true
+    end
+  end
+  return false, tr('Game data needs updating. Close and restart the client to download the latest version.')
+end
+
 function updateFeatures(version)
 g_game.resetFeatures()
 if version <= 0 then

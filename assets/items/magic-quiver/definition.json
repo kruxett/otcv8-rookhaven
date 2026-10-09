@@ -1,0 +1,15 @@
+{
+  "server_id": 12830,
+  "client_id": 11867,
+  "prototype_dat_server_id": 1987,
+  "prototype_otb_server_id": 1987,
+  "article": "a",
+  "name": "magic quiver",
+  "attributes": {
+    "weight": "1800",
+    "containerSize": "20",
+    "slotType": "ammo",
+    "ammoContainer": "true",
+    "description": "Holds arrows and bolts. Equip it in your ammo slot to use compatible ammunition automatically."
+  }
+}

@@ -42,6 +42,11 @@ function load()
     errorMessage = errorMessage .. tr("Unable to load spr file, please place a valid spr in '%s'", sprPath)
   end
 
+  if errorMessage:len() == 0 then
+    local compatible, message = modules.game_features.validateRookhavenAssets(version)
+    if not compatible then errorMessage = message end
+  end
+
   loaded = (errorMessage:len() == 0)
 
   if errorMessage:len() > 0 then
