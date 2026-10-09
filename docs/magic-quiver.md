@@ -16,6 +16,7 @@ definition are under `assets/items/magic-quiver/`.
 The current shop uses character TEST points. Utility → Magic Quiver costs 150
 points and grants one empty quiver. An unsuccessful inventory delivery neither
 charges points nor adds history. The new offer cannot fall back to floor delivery.
+The 20-stack capacity and 150-point price are confirmed for this item.
 
 Admin/God character groups 5/6 with access can use:
 
@@ -57,17 +58,26 @@ the old 10090 resources must update before entering the game.
 
 ## Verification status
 
+The [final DEV10091 evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/final-dev10091-verification.json)
+links the local, publication, updater and focused live results with their exact scope.
+
 - Asset mapping, semantic DAT/OTB container and nonstack flags, lossless sprite
   decode and preservation of unrelated records passed.
 - Server native build passed. DEV10091 client package preflight verifies final
   encrypted DAT/SPR, shop/inventory and existing monitored resource equality.
-  The prepared compatibility package advances the critical-eight login checksum
+  The published compatibility package advances the critical-eight login checksum
   from `CS1:d08bec84` to `CS1:5e69735b` while reusing the existing native EXE.
   Its `data.zip` SHA-256 is
   `07a53011c712ec10e1f825f34e3b30933135a29806e492f136f13fc8fc3f47d9`.
   The generated server checksum file retains all 133 monitored paths, including
   108 `/data/` paths. The checksum exporter was corrected to preserve prior
   non-module paths as well as `/modules/` entries.
+- The focused native asset guard passed with the matching package and with only
+  the older 10090 DAT substituted. Matching assets loaded with versions 860;
+  older DAT produced one visible update message, `isLoaded=false` and versions
+  0. Both native DAT/SPR parsers succeeded, so rejection came from the intended
+  guard. Original profiles were restored with byte and recursive DACL checks.
+  See the [native compatibility receipt](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/native-compatibility-verified.log).
 - 47 isolated checks execute the actual shop configuration, handler and admin
   command. 27 server-feature contracts passed. These use API doubles.
 - All five existing native passive regression gates passed. Ordinary Marksman
@@ -89,15 +99,35 @@ the old 10090 resources must update before entering the game.
 - Visual review used actual 1280×800 and 800×640 native screenshots. All 443
   opaque inventory pixels match the imported 32×32 PNG. The provisional sprite
   has simpler shading and more compact proportions than the concept image.
+  See the [inventory crop](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/quiver-native-inventory-crop.png)
+  and full [1280×800](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/quiver-native-equipped-1280x800.png)
+  and [800×640](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/quiver-native-equipped-800x640.png) frames.
 - These phases passed in focused runs; fixture failures were corrected without
   replaying the successful 101-shot phase. Restoration now handles dynamic
   defense/idempotence, client container counts use the 8.60 item list, spell
   measurement waits for the first actual shot, and each account handshake uses
   a fresh ProtocolLogin. Logs are under `out/quiver-dev10091-20261009/` and
   `out/quiver-shop-only-native.log`.
-- DEV publication and live verification are pending. Full-inventory shop
-  failure is covered by the actual handler with API doubles; live PvP/combat
-  and purchases by normal DEV players have not yet been run.
-  Actual native updater and old-client compatibility rejection remain pending.
-
-Final run receipts and any remaining limits will replace this pending status.
+- DEV10091 was [published](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/actual-publication-result.json)
+  with server commit `2189321d8ec1bc6601cf727402b3caa69f0b42ab`. The
+  [reconciled deployment](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/actual-reconciled-deploy-result.json)
+  enabled DEV client checksum enforcement. The
+  [final runtime readback](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/actual-runtime-final.json)
+  confirmed the same native server throughout live QA on ports 7173/7174, no
+  new crash dumps and unchanged PROD1006.
+- The [actual native updater](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/native-updater-c4f13316bf104cb1bd4e38bb0bc0aa69/result.json)
+  upgraded a complete 10090 client to 10091 through the real DEV HTTP endpoint,
+  downloaded the new archive and restarted the native child. The EXE was
+  unchanged. Original profiles were restored with byte and recursive DACL checks.
+- The [focused live DEV probe](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/live-quiver10091/result.json)
+  passed two normal logins/safe logouts, native quiver flags/sprite, the actual
+  Utility offer 4001 at 150 points, ordinary `/quiver status` denial and native
+  inventory. Level, XP, position, inventory slots and shop points stayed
+  unchanged. Shop/inventory frames were captured at 1280×800 and 800×640; the
+  live shop icon fits the retro UI without clipping. Original profiles were
+  restored with byte and recursive DACL checks, and both installs were unchanged.
+  See the live [1280×800 shop](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/live-quiver10091/live-qa-qv91a9fc-cycle2-shop.png)
+  and [800×640 shop](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/live-quiver10091/live-qa-qv91a9fc-cycle2-minimum-shop.png).
+- A direct old-10090 login rejection, live Admin/God item grants, live PvP/combat
+  and purchases by normal DEV players have not been verified. Full-inventory
+  shop failure is covered by the actual handler with API doubles.
