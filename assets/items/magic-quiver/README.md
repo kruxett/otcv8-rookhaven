@@ -1,7 +1,7 @@
 # Magic Quiver artwork
 
 `sprite.png` is a provisional sprite drawn directly on a 32×32 RGBA canvas with
-16 colors including transparency. Alpha is binary 0/255. The reproducible source
+17 colors including transparency. Alpha is binary 0/255. The reproducible source
 is `tools/quiver-tests/draw-native-sprite.py`; `preview.png` uses nearest-neighbour
 enlargement for review only. The imported tile is always the original 32×32 PNG.
 
@@ -17,22 +17,27 @@ dark opening, indigo leather, aged gold rim and heel, two leather cross-bindings
 a cyan gem and connected cyan rune, and a loop strap on the right. Its upper/left
 details leave the lower-right area available for the inventory ammunition count.
 
-The current DEV10093 tile moves these same pixels one pixel left and three
+The DEV10093 tile moves those same pixels one pixel left and three
 pixels up. Its alpha bounds are `[4,4,28,28)` (exclusive maximum), with four
 transparent pixels on every side. All 359 opaque pixels and the 16-color palette
 are preserved; the sprite is not resized or redrawn.
 
-The new `source/imagegen-empty-magic-reference.png` is a 1254×1254 generated
-reference for color and form only. The current tile is drawn directly with
-native integer geometry; none of the generated images is downsampled into the
-game sprite. This remains a provisional 32×32 interpretation. The native PNG
-SHA-256 is `7639464fd8f6ca61ca2f01b7e5f22254e8c64274ae1a7fce27f975d0fc5bd78b`.
+`source/imagegen-empty-magic-reference.png` is a 1254×1254 generated reference.
+The earlier native interpretation differed visibly from it, especially its blue
+strap and broad body. DEV10094 repairs that interpretation directly at 32×32:
+a distinct brown leather loop, slim indigo tube, gold rim and heel, framed cyan
+gem and thin cyan S-rune. The opening remains empty. Its 354 opaque pixels occupy
+`[4,4,28,28)`, with four transparent pixels on every side. None of the generated
+images is downsampled into the game sprite. Reference illustrations must not be
+presented as screenshots of the imported artwork. The current native PNG SHA-256
+is `27500c5a667ce6c16abb3aa0cb0088bdce03e8d16b27a4ff2f4cc2543d462114`.
 
 The drawing script writes only `sprite.png` and `preview.png`; it does not rewrite
 the item definition or any imported DAT/SPR/OTB files.
 
 `definition.json` is the input for the existing rookhaven-items staging script.
-The current DEV10093 mapping is SID 12830 → CID 11867 → sprite 36662. DEV10092
+The prepared DEV10094 mapping is SID 12830 → CID 11867 → sprite 36663. DEV10093
+used sprite 36662. DEV10092
 used sprite 36661; DEV10091 used 36660. The
 [centering stage manifest](C:/GitRepos/kruxett/otcv8-rookhaven/out/item-work/magic-quiver-centred-20261010/staged/manifest.json)
 records this artwork replacement. Bag 1987 supplies static container/pickupable DAT

@@ -7,12 +7,12 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The published DEV10093 centering uses SID 12830 → CID 11867 → SPR 36662;
-DEV10092 used SPR 36661 and DEV10091 used SPR 36660. The container flags
+unchanged. The prepared DEV10094 artwork uses SID 12830 → CID 11867 → SPR 36663;
+DEV10093 used SPR 36662, DEV10092 used SPR 36661 and DEV10091 used SPR 36660. The container flags
 remain those from bag 1987. The provisional
-artwork is drawn directly at 32×32 with 16 colors including transparency: an
-empty dark opening, indigo leather, aged gold metal, a cyan gem and connected
-cyan rune. The generated 1254×1254 empty-quiver reference supplies color and form
+artwork is drawn directly at 32×32 with 17 colors including transparency: an
+empty dark opening, slim indigo tube, distinct brown leather strap, gold metal,
+a framed cyan gem and thin cyan S-rune. The generated 1254×1254 empty-quiver reference supplies color and form
 only; it is never downsampled into the game sprite. Source, definition and
 artwork provenance are under `assets/items/magic-quiver/`.
 
@@ -42,7 +42,8 @@ icon. With a bow, it shows the arrows available; with a crossbow, the bolts
 available. Without either launcher, it shows the total ammunition. Hovering
 shows the total, arrows and bolts separately, plus how much is usable with the
 equipped launcher. A filled quiver with incompatible ammo shows zero usable
-rounds; it is described as empty only when its total is zero.
+rounds; it is described as empty only when its total is zero. DEV10094 hides the
+number when the quiver is completely empty, so its artwork remains visible.
 
 ## Implementation and affected systems
 
@@ -77,6 +78,26 @@ it does not poll or derive contents from its container cache. A separate
 non-interactive label preserves the item's native stack count and inventory
 interactions. Quiver replacement, weapon change, logout and module unload clear
 old state before accepting a fresh snapshot.
+
+## DEV10094 artwork and empty-quiver verification
+
+The earlier generated reference and native sprite differed visibly in strap
+color, body shape and small details. DEV10094 redraws these details directly in
+the editable 32×32 source and preserves the centered `[4,4,28,28)` bounds.
+The sprite is empty; ammunition is never painted into its artwork.
+
+The new native visual probe passed eight inventory/container/shop captures at
+1280×800 and 800×640. An empty quiver has a hidden count and an empty tooltip;
+101 and 2000 arrows have the exact visible counts. Every one of the 354 opaque
+pixels matches the imported PNG in both empty inventory screenshots. The
+[actual empty inventory and enlarged slot](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-art-match-20261010/actual-empty-review/empty-quiver-1280x800-review.png)
+shows real framebuffer pixels; only the enlargement uses nearest-neighbour.
+The guarded loopback fixture restored equipment, resources and stable stats;
+the native client exited normally and normal profiles/recursive DACLs were
+restored. No combat, purchases or passive-tree test suite was run for this fix.
+The source contract passed 65 checks, including filled-but-incompatible zero.
+
+DEV10094 is prepared; actual publication and updater/live readback are pending.
 
 ## DEV10093 centering verification
 

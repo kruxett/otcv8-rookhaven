@@ -67,7 +67,7 @@ local function verify(step,receipt,fn)
   if wanted.equipped then
    assert(item:getId()==11867 and item:isContainer()and item:getCount()==1,'Quiver native identity/subtype changed')
    local amount=wanted.launcherReady and wanted.compatible or wanted.total
-   assert(badge and badge:isVisible()and badge:getText()==tostring(amount),'Actual rendered badge differs from accepted snapshot')
+   assert(badge and badge:isVisible()==(wanted.total>0)and badge:getText()==tostring(amount),'Actual rendered badge differs from accepted snapshot')
    assert(receipt.arrows==wanted.arrows and receipt.bolts==wanted.bolts and receipt.total==wanted.total,'Actual server contents differ from wire counts')
    local tooltip=assert(widget:getTooltip())
    assert(tooltip:find('Total ammunition: '..wanted.total,1,true)and tooltip:find('Arrows: '..wanted.arrows,1,true)and tooltip:find('Bolts: '..wanted.bolts,1,true),'Actual item tooltip breakdown incomplete')

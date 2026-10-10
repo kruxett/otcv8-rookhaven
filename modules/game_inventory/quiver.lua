@@ -101,7 +101,9 @@ local function render()
   end
   local badge = badgeFor(widget)
   badge:setText(tostring(displayedCount(state)))
-  badge:show()
+  -- Keep empty artwork visible; a filled quiver with incompatible ammunition
+  -- still shows zero usable shots for the equipped launcher.
+  if state.total == 0 then badge:hide() else badge:show() end
   lastTooltip = tooltipFor(state)
   widget:setTooltip(lastTooltip)
   refreshHoveredTooltip(widget, lastTooltip)

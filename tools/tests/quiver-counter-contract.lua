@@ -106,7 +106,7 @@ check(badge().phantom and not badge().focusable,'Badge intercepts item interacti
 check(badge().font=='verdana-11px-rounded' and badge().marginRight==3,'Badge diverged from ordinary count style')
 
 receive(snapshot(0,0))
-check(shownCount()=='0' and contains(widget.tooltip,'The quiver is empty.'),'Authoritative empty quiver did not show zero')
+check(shownCount()==nil and contains(widget.tooltip,'The quiver is empty.'),'Empty quiver artwork is obscured or lacks its tooltip')
 receive(snapshot(100,12,'bolt'))
 check(shownCount()=='12' and contains(widget.tooltip,'Usable with your crossbow: 12 bolts'),'Crossbow usable count did not switch type')
 receive(snapshot(100,12,'none'))
