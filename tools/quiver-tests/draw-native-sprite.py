@@ -76,6 +76,16 @@ d.polygon([(8, 29), (11, 30), (12, 29), (12, 30), (9, 30)], fill=gold_dark)
 d.line([(6, 26), (6, 28), (9, 29)], fill=gold_light, width=1)
 d.point((6, 27), fill="#f0ece0")
 
+# Centre the visible 24x24 artwork inside its native tile. Keep every opaque
+# pixel unchanged: inventory, container and shop render this same tile origin.
+assert im.getbbox() == (5, 7, 29, 31)
+before = im.crop(im.getbbox()).tobytes()
+centred = Image.new("RGBA", (32, 32), (0, 0, 0, 0))
+centred.alpha_composite(im, (-1, -3))
+im = centred
+assert im.getbbox() == (4, 4, 28, 28)
+assert im.crop(im.getbbox()).tobytes() == before
+
 assert im.size == (32, 32)
 assert {value for _, value in im.getchannel("A").getcolors(256)} == {0,255}
 im.save(asset / "sprite.png")

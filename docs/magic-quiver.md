@@ -7,8 +7,9 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The current DEV10092 item uses SID 12830 → CID 11867 → SPR 36661 and the
-container flags from bag 1987. DEV10091 used SPR 36660. The updated provisional
+unchanged. The prepared DEV10093 centering uses SID 12830 → CID 11867 → SPR 36662;
+published DEV10092 uses SPR 36661 and DEV10091 used SPR 36660. The container flags
+remain those from bag 1987. The provisional
 artwork is drawn directly at 32×32 with 16 colors including transparency: an
 empty dark opening, indigo leather, aged gold metal, a cyan gem and connected
 cyan rune. The generated 1254×1254 empty-quiver reference supplies color and form
@@ -77,11 +78,28 @@ non-interactive label preserves the item's native stack count and inventory
 interactions. Quiver replacement, weapon change, logout and module unload clear
 old state before accepting a fresh snapshot.
 
-## DEV10092 verification
+## DEV10093 centering: verification pending
+
+The prepared sprite moves the DEV10092 artwork one pixel left and three pixels
+up. Its 24×24 visible alpha bounds change from `[5,7,29,31)` to `[4,4,28,28)`
+(exclusive maximum), leaving four transparent pixels on all sides of the 32×32
+canvas. All 359 opaque pixels, the 16-color palette and binary alpha are preserved.
+The current native PNG SHA-256 is
+`7639464fd8f6ca61ca2f01b7e5f22254e8c64274ae1a7fce27f975d0fc5bd78b`.
+
+The [centering stage manifest](C:/GitRepos/kruxett/otcv8-rookhaven/out/item-work/magic-quiver-centred-20261010/staged/manifest.json)
+records SPR36662 while retaining SID12830/CID11867. The narrow artwork change
+centers the shared sprite in inventory, shop and container views without changing
+their layout or the ammunition counter. Item behavior, 20-stack capacity and
+150-point price remain unchanged. DEV10093 native rendering, publication, updater
+and live verification are pending; the verified DEV10092 results below remain
+release history.
+
+## DEV10092 verification history
 
 DEV10092 is published. The updated sprite and inventory counter passed the
 focused local native test, the real DEV updater and the read-only live probe.
-The current native PNG SHA-256 is
+The DEV10092 native PNG SHA-256 is
 `2bb347cbd3b5b00c4792da84f4a36cc236b28c9a3c176b1402022daa20941e0d`.
 
 The focused source test executes the actual client counter and JSON decoder
