@@ -45,4 +45,8 @@ DEV10092 is published. Focused local native verification, the real DEV updater
 and the read-only live probe passed. Equipped-counter gameplay was verified in
 the disposable loopback runtime; the live probe checked the ordinary character's
 unequipped counter state, inventory and actual shop icon.
-DEV10093 centering native verification and publication are pending.
+DEV10093 centering is published and verified in the actual native inventory,
+container and shop at both window sizes. The real DEV10092→10093 updater and
+two read-only live logins passed; equipped count images remain loopback evidence.
+See the [actual before/after crops](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/visual-analysis/centering-before-after.png)
+and [final evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/final-dev10093-verification.json).

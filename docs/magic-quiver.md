@@ -7,8 +7,8 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The prepared DEV10093 centering uses SID 12830 → CID 11867 → SPR 36662;
-published DEV10092 uses SPR 36661 and DEV10091 used SPR 36660. The container flags
+unchanged. The published DEV10093 centering uses SID 12830 → CID 11867 → SPR 36662;
+DEV10092 used SPR 36661 and DEV10091 used SPR 36660. The container flags
 remain those from bag 1987. The provisional
 artwork is drawn directly at 32×32 with 16 colors including transparency: an
 empty dark opening, indigo leather, aged gold metal, a cyan gem and connected
@@ -78,9 +78,9 @@ non-interactive label preserves the item's native stack count and inventory
 interactions. Quiver replacement, weapon change, logout and module unload clear
 old state before accepting a fresh snapshot.
 
-## DEV10093 centering: verification pending
+## DEV10093 centering verification
 
-The prepared sprite moves the DEV10092 artwork one pixel left and three pixels
+The sprite moves the DEV10092 artwork one pixel left and three pixels
 up. Its 24×24 visible alpha bounds change from `[5,7,29,31)` to `[4,4,28,28)`
 (exclusive maximum), leaving four transparent pixels on all sides of the 32×32
 canvas. All 359 opaque pixels, the 16-color palette and binary alpha are preserved.
@@ -91,9 +91,28 @@ The [centering stage manifest](C:/GitRepos/kruxett/otcv8-rookhaven/out/item-work
 records SPR36662 while retaining SID12830/CID11867. The narrow artwork change
 centers the shared sprite in inventory, shop and container views without changing
 their layout or the ammunition counter. Item behavior, 20-stack capacity and
-150-point price remain unchanged. DEV10093 native rendering, publication, updater
-and live verification are pending; the verified DEV10092 results below remain
-release history.
+150-point price remain unchanged. DEV10093 is published and verified; the
+DEV10092 results below remain release history.
+
+The [final evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/final-dev10093-verification.json)
+records the native inventory/container/shop frames at 1280×800 and 800×640,
+with 0, 101 and 2,000 arrows. Fixture equipment/resources and normal profile
+bytes/recursive DACL were restored. [Actual before/after client crops](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/visual-analysis/centering-before-after.png)
+and [pixel measurements](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/visual-analysis/pixel-bounds-evidence.json)
+confirm the exact translation without resampling.
+
+The [real native updater](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/native-updater-dd47f20bb2fa4a469259af400d8ef31e/result.json)
+downloaded DEV10093 from DEV10092 and restarted successfully.
+The [read-only live probe](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/live-quiver10093/result.json)
+passed two normal logins, SPR36662, the actual 150-point shop offer and the
+unequipped counter's hidden badge. Equipped count images use the disposable
+loopback runtime; purchases, grants and combat were not repeated for this
+artwork-only change. [Final server readback](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/actual-runtime-final.json)
+confirmed stable PID2784 on7173/7174, no new crash dumps and unchanged PROD1006
+and config/control/DLL bytes. Existing server/client native binaries were reused.
+All134 monitored CRC values and `CS1:5e69735b` remain unchanged; only the checksum
+file's version comment changed. The final encrypted `data.zip` SHA-256 is
+`b22dde5f62575a601edd355ee06e10e004caa2239f1aa5b2174b95538c5195bf`.
 
 ## DEV10092 verification history
 
