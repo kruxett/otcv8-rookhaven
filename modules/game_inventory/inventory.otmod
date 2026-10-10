@@ -4,6 +4,6 @@ Module
   author: baxnie, edubart, BeniS, otclientv8
   website: https://github.com/edubart/otclient
   sandboxed: true
-  scripts: [ inventory ]
+  scripts: [ quiver, inventory ]
   @onLoad: init()
   @onUnload: terminate()

@@ -7,9 +7,13 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The new item uses SID 12830 → CID 11867 → SPR 36660 and the container flags
-from bag 1987. Artwork is a provisional native 32×32 sprite; the source and
-definition are under `assets/items/magic-quiver/`.
+unchanged. The pending DEV10092 item uses SID 12830 → CID 11867 → SPR 36661 and the
+container flags from bag 1987. DEV10091 used SPR 36660. The updated provisional
+artwork is drawn directly at 32×32 with 16 colors including transparency: an
+empty dark opening, indigo leather, aged gold metal, a cyan gem and connected
+cyan rune. The generated 1254×1254 empty-quiver reference supplies color and form
+only; it is never downsampled into the game sprite. Source, definition and
+artwork provenance are under `assets/items/magic-quiver/`.
 
 ## Obtain and test
 
@@ -31,6 +35,13 @@ Named characters must be online; an omitted name means yourself. Account type
 is not an additional permission requirement. Equip the quiver in the ammo slot,
 open it and place arrows or bolts inside. Shoot with a matching bow/crossbow;
 the next compatible stack is used when the current stack runs out.
+
+The pending DEV10092 update adds a number to the equipped quiver's inventory
+icon. With a bow, it shows the arrows available; with a crossbow, the bolts
+available. Without either launcher, it shows the total ammunition. Hovering
+shows the total, arrows and bolts separately, plus how much is usable with the
+equipped launcher. A filled quiver with incompatible ammo shows zero usable
+rounds; it is described as empty only when its total is zero.
 
 ## Implementation and affected systems
 
@@ -56,7 +67,57 @@ the eight native critical login resources. Updating this resource changes the
 server compatibility checksum; after coordinated publication, clients using
 the old 10090 resources must update before entering the game.
 
-## Verification status
+The inventory counter receives a server-authoritative opcode 104 JSON snapshot
+(`schema=1`, `equipped`, `quiverCid`, `total`, `arrows`, `bolts`, `compatible`,
+`requiredAmmo`, `launcherReady`). The server pushes final state on login,
+equipped-quiver content changes and ammo/hand-slot changes, even when the
+container is closed. The client can request one coalesced `status` recovery;
+it does not poll or derive contents from its container cache. A separate
+non-interactive label preserves the item's native stack count and inventory
+interactions. Quiver replacement, weapon change, logout and module unload clear
+old state before accepting a fresh snapshot.
+
+## DEV10092 iteration: local verification
+
+The updated sprite and inventory counter passed the focused local native test.
+DEV publication, the real DEV updater and live verification remain pending.
+The current native PNG SHA-256 is
+`2bb347cbd3b5b00c4792da84f4a36cc236b28c9a3c176b1402022daa20941e0d`.
+
+The focused source test executes the actual client counter and JSON decoder
+with UI/transport doubles. All 65 checks passed, including 0/1/100/101/2,000
+rounds, compatible/total display policy, malformed snapshots, closed-container
+pushes, same-CID replacement, weapon changes, stale callbacks, logout/relogin and
+unchanged ordinary ammunition counts. This does not verify native readability
+or actual server/client event delivery. Run it with LuaJIT:
+
+```text
+luajit tools/tests/quiver-counter-contract.lua modules/game_inventory/quiver.lua modules/corelib/json.lua
+```
+
+The [actual native counter receipt](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/counter-native-1a16dd5bcadb40849c276adf6e37b2ac/native-result.json)
+passed with native exit 0 and original profile bytes and recursive DACL restored.
+The closed-quiver cases verified 0/1/100/101/2,000 rounds, mixed arrows/bolts,
+bow/crossbow switching, total-count fallback without a launcher, content moves
+and stack changes, same-CID quiver replacement, unequip and ordinary arrows at
+99. Normal safe logout/fresh login retained 101 arrows/nine bolts and refreshed
+the counter. One real ordinary shot at the normal 2,000ms interval consumed one
+arrow and updated the counter; original equipment and resources were restored.
+
+Actual 1280×800 and 800×640 frames show 101 and 2000 without clipped digits.
+The empty opening, cyan details and count remain visible in the existing retro
+inventory frame. See the [lossless inventory crop](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/native-visual-review/quiver-counter-inventory-crop.png),
+the [2000-count minimum-resolution crop](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/native-visual-review/quiver-counter-2000-minimum-inventory-crop.png)
+and the [4× nearest-neighbour comparison](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/native-visual-review/quiver-counter-inventory-montage.png).
+The [crop receipt](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/native-visual-review/crop-result.json)
+confirms that each crop preserves the exact source framebuffer pixels.
+
+The first harness run wrongly rejected the normal logout EOF and captured a
+late class dialog over the smaller frame. Test-only handling was corrected;
+the passing rerun uses unobstructed frames. No production change was needed
+for either harness issue.
+
+## DEV10091 verification history
 
 The [final DEV10091 evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10091-20261009/final-dev10091-verification.json)
 links the local, publication, updater and focused live results with their exact scope.

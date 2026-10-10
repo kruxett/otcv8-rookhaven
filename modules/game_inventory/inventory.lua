@@ -232,6 +232,7 @@ local function requestWaterOfferingsExpBuffStatus()
 end
 
 local function onInventoryGameStart()
+  QuiverAmmo.start()
   refresh()
 
   -- Fallback: the server already pushes the status on login, but keep one delayed
@@ -244,6 +245,7 @@ local function onInventoryGameStart()
 end
 
 function init()
+  QuiverAmmo.init()
   ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
 
   connect(LocalPlayer, {
@@ -329,11 +331,13 @@ function init()
                          onFreeCapacityChange = onFreeCapacityChange })
 -- status end
   
+  if g_game.isOnline() then QuiverAmmo.start() end
   refresh()
   inventoryWindow:setup()
 end
 
 function terminate()
+  QuiverAmmo.terminate()
   cancelWaterOfferingsExpBuffTimer()
   ProtocolGame.unregisterExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE)
 
@@ -478,6 +482,7 @@ function onInventoryChange(player, slot, item, oldItem)
     itemWidget:setColor("#FFFFFF")  -- Reset to white
     itemWidget:setItem(nil)
   end
+  QuiverAmmo.onInventoryChange(slot)
 end
 
 function onBlessingsChange(player, blessings, oldBlessings)
@@ -556,6 +561,7 @@ function online()
 end
 
 function offline()
+  QuiverAmmo.reset()
   cancelWaterOfferingsExpBuffTimer()
   waterOfferingsExpBuffState.active = false
 
