@@ -1,57 +1,15 @@
 # Magic Quiver artwork
 
-`sprite.png` is a provisional sprite drawn directly on a 32×32 RGBA canvas with
-17 colors including transparency. Alpha is binary 0/255. The reproducible source
-is `tools/quiver-tests/draw-native-sprite.py`; `preview.png` uses nearest-neighbour
-enlargement for review only. The imported tile is always the original 32×32 PNG.
+The user-approved sprite is PixelLab candidate **#60** (provider index 59), generated natively at **32×32** through PixelLab MCP. Its original PNG is `source/pixellab-frame-59.png`; `sprite.png` contains identical file bytes.
+SHA-256: `8b72631bffe15acea1358e7918d6ec845429f5e9225763279bbe86ae21eac198`.
 
-One built-in imagegen attempt requested a native 32×32 Tibia8.60 leather quiver,
-gold rim, arrows and a small turquoise clasp on transparent background,
-with crisp pixel clusters and no antialiasing, blur or downsampling. The tool
-returned a large concept instead (the saved PNG is 1254×1254). It is retained at
-`source/imagegen-concept.png` as a reference; its pixels were not resized or used
-in the SPR. One bounded imagegen edit returned a clearer pixel-style reference,
-retained at `source/imagegen-native-reference.png`. The earlier DEV10091 tile
-used brown leather and visible arrows. The DEV10092 tile has an empty
-dark opening, indigo leather, aged gold rim and heel, two leather cross-bindings,
-a cyan gem and connected cyan rune, and a loop strap on the right. Its upper/left
-details leave the lower-right area available for the inventory ammunition count.
+It has binary alpha, 439 opaque pixels and 49 colors including transparency. Visible bounds are `[4,1,29,31)` (exclusive maximum). No pixels were resized, redrawn or recentered. `preview.png` is enlarged with nearest-neighbor sampling for review only; the importer always uses the original 32×32 sprite.
 
-The DEV10093 tile moves those same pixels one pixel left and three
-pixels up. Its alpha bounds are `[4,4,28,28)` (exclusive maximum), with four
-transparent pixels on every side. All 359 opaque pixels and the 16-color palette
-are preserved; the sprite is not resized or redrawn.
+PixelLab object: `67f3d67b-cea2-4837-9241-f6a2d52d5312`.
+Generation prompt:
 
-`source/imagegen-empty-magic-reference.png` is a 1254×1254 generated reference.
-The earlier native interpretation differed visibly from it, especially its blue
-strap and broad body. DEV10094 repairs that interpretation directly at 32×32:
-a distinct brown leather loop, slim indigo tube, gold rim and heel, framed cyan
-gem and thin cyan S-rune. The opening remains empty. Its 354 opaque pixels occupy
-`[4,4,28,28)`, with four transparent pixels on every side. None of the generated
-images is downsampled into the game sprite. Reference illustrations must not be
-presented as screenshots of the imported artwork. The current native PNG SHA-256
-is `27500c5a667ce6c16abb3aa0cb0088bdce03e8d16b27a4ff2f4cc2543d462114`.
+> Empty magic quiver in Tibia art style. Diagonally tilted from bottom-left to top-right, long broad tapered indigo leather body, small dark hollow opening, aged gold rim and base, bright cyan enchanted gem and a small cyan rune, thin brown shoulder strap behind the body. Crisp pixel shading and a clear dark outline. No arrows or ammunition.
 
-The drawing script writes only `sprite.png` and `preview.png`; it does not rewrite
-the item definition or any imported DAT/SPR/OTB files.
+The DAT/SPR/OTB import maps **SID 12830 → CID 11867 → SPR 36664**. The replacement appends a new sprite and preserves unrelated records. Bag 1987 supplies the static container/pickupable DAT attributes and container/nonstackable OTB flags. `definition.json` retains the 20-place ammunition container, ammo slot and normal ammunition consumption. Shop price remains 150 points. Existing hunter's quiver SID 12425 remains an unrelated, stackable Garrick quest item.
 
-`definition.json` is the input for the existing rookhaven-items staging script.
-The prepared DEV10094 mapping is SID 12830 → CID 11867 → sprite 36663. DEV10093
-used sprite 36662. DEV10092
-used sprite 36661; DEV10091 used 36660. The
-[centering stage manifest](C:/GitRepos/kruxett/otcv8-rookhaven/out/item-work/magic-quiver-centred-20261010/staged/manifest.json)
-records this artwork replacement. Bag 1987 supplies static container/pickupable DAT
-attributes and container/nonstackable OTB flags. The existing hunter's quiver
-SID 12425 remains an unrelated, stackable Garrick quest item.
-
-For runtime, shop, release evidence and test commands, see
-`docs/magic-quiver.md`. DEV10091's verification history is retained there;
-DEV10092 is published. Focused local native verification, the real DEV updater
-and the read-only live probe passed. Equipped-counter gameplay was verified in
-the disposable loopback runtime; the live probe checked the ordinary character's
-unequipped counter state, inventory and actual shop icon.
-DEV10093 centering is published and verified in the actual native inventory,
-container and shop at both window sizes. The real DEV10092→10093 updater and
-two read-only live logins passed; equipped count images remain loopback evidence.
-See the [actual before/after crops](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/visual-analysis/centering-before-after.png)
-and [final evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/final-dev10093-verification.json).
+Earlier imagegen concepts and `tools/quiver-tests/draw-native-sprite.py` are historical references. They do not reproduce this approved sprite and must not overwrite it. A source preview is not evidence of its actual game appearance. For native screenshots, release status and test commands, see [Magic Quiver documentation](../../../docs/magic-quiver.md).

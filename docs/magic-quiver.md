@@ -7,14 +7,15 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The prepared DEV10094 artwork uses SID 12830 → CID 11867 → SPR 36663;
-DEV10093 used SPR 36662, DEV10092 used SPR 36661 and DEV10091 used SPR 36660. The container flags
-remain those from bag 1987. The provisional
-artwork is drawn directly at 32×32 with 17 colors including transparency: an
-empty dark opening, slim indigo tube, distinct brown leather strap, gold metal,
-a framed cyan gem and thin cyan S-rune. The generated 1254×1254 empty-quiver reference supplies color and form
-only; it is never downsampled into the game sprite. Source, definition and
-artwork provenance are under `assets/items/magic-quiver/`.
+unchanged. The approved DEV10094 artwork uses SID 12830 → CID 11867 → SPR 36664.
+It is PixelLab candidate #60 (provider index59), generated natively at 32×32:
+an empty diagonal indigo quiver, brown shoulder strap, gold rim and heel, cyan
+gem and rune. All439 opaque pixels are imported unchanged. The source PNG is
+byte-identical to `sprite.png`; neither is resized, redrawn or recentered.
+`preview.png` is enlarged only for review. Container flags remain those from
+bag1987. Source, definition and provenance are under `assets/items/magic-quiver/`.
+Earlier manual artwork used SPR36663 in the unpublished10094 preparation,
+SPR36662 in DEV10093, SPR36661 in DEV10092 and SPR36660 in DEV10091.
 
 ## Obtain and test
 
@@ -81,23 +82,25 @@ old state before accepting a fresh snapshot.
 
 ## DEV10094 artwork and empty-quiver verification
 
-The earlier generated reference and native sprite differed visibly in strap
-color, body shape and small details. DEV10094 redraws these details directly in
-the editable 32×32 source and preserves the centered `[4,4,28,28)` bounds.
-The sprite is empty; ammunition is never painted into its artwork.
+The user selected PixelLab #60 after the earlier reference and manually drawn
+sprite differed visibly. Its original32×32 pixels replace that interpretation
+without resizing or redrawing. Bounds are `[4,1,29,31)`. The sprite is empty;
+ammunition is never painted into its artwork.
 
 The new native visual probe passed eight inventory/container/shop captures at
 1280×800 and 800×640. An empty quiver has a hidden count and an empty tooltip;
-101 and 2000 arrows have the exact visible counts. Every one of the 354 opaque
+101 and 2000 arrows have the exact visible counts. Every one of the 439 opaque
 pixels matches the imported PNG in both empty inventory screenshots. The
-[actual empty inventory and enlarged slot](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-art-match-20261010/actual-empty-review/empty-quiver-1280x800-review.png)
+[actual empty inventory and enlarged slot](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-pixellab60-20261010/actual-empty-review/empty-quiver-1280x800-review.png)
 shows real framebuffer pixels; only the enlargement uses nearest-neighbour.
 The guarded loopback fixture restored equipment, resources and stable stats;
 the native client exited normally and normal profiles/recursive DACLs were
 restored. No combat, purchases or passive-tree test suite was run for this fix.
 The source contract passed 65 checks, including filled-but-incompatible zero.
 
-DEV10094 is prepared; actual publication and updater/live readback are pending.
+These local checks establish rendering and counters. Publication, the actual
+updater and live readback are recorded separately in the
+[final evidence index](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-pixellab60-20261010/final-dev10094-verification.json).
 
 ## DEV10093 centering verification
 
