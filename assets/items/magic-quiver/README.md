@@ -17,7 +17,7 @@ dark opening, indigo leather, aged gold rim and heel, two leather cross-bindings
 a cyan gem and connected cyan rune, and a loop strap on the right. Its upper/left
 details leave the lower-right area available for the inventory ammunition count.
 
-The prepared DEV10093 tile moves these same pixels one pixel left and three
+The current DEV10093 tile moves these same pixels one pixel left and three
 pixels up. Its alpha bounds are `[4,4,28,28)` (exclusive maximum), with four
 transparent pixels on every side. All 359 opaque pixels and the 16-color palette
 are preserved; the sprite is not resized or redrawn.
@@ -32,7 +32,7 @@ The drawing script writes only `sprite.png` and `preview.png`; it does not rewri
 the item definition or any imported DAT/SPR/OTB files.
 
 `definition.json` is the input for the existing rookhaven-items staging script.
-The prepared DEV10093 mapping is SID 12830 → CID 11867 → sprite 36662. DEV10092
+The current DEV10093 mapping is SID 12830 → CID 11867 → sprite 36662. DEV10092
 used sprite 36661; DEV10091 used 36660. The
 [centering stage manifest](C:/GitRepos/kruxett/otcv8-rookhaven/out/item-work/magic-quiver-centred-20261010/staged/manifest.json)
 records this artwork replacement. Bag 1987 supplies static container/pickupable DAT

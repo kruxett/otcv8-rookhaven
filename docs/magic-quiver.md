@@ -108,9 +108,9 @@ passed two normal logins, SPR36662, the actual 150-point shop offer and the
 unequipped counter's hidden badge. Equipped count images use the disposable
 loopback runtime; purchases, grants and combat were not repeated for this
 artwork-only change. [Final server readback](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-centering-20261010/actual-runtime-final.json)
-confirmed stable PID2784 on7173/7174, no new crash dumps and unchanged PROD1006
+confirmed stable PID2784 on ports 7173/7174, no new crash dumps and unchanged PROD1006
 and config/control/DLL bytes. Existing server/client native binaries were reused.
-All134 monitored CRC values and `CS1:5e69735b` remain unchanged; only the checksum
+All 134 monitored CRC values and `CS1:5e69735b` remain unchanged; only the checksum
 file's version comment changed. The final encrypted `data.zip` SHA-256 is
 `b22dde5f62575a601edd355ee06e10e004caa2239f1aa5b2174b95538c5195bf`.
 
