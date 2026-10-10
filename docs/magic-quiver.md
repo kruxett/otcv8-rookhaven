@@ -7,7 +7,7 @@ It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
-unchanged. The pending DEV10092 item uses SID 12830 → CID 11867 → SPR 36661 and the
+unchanged. The current DEV10092 item uses SID 12830 → CID 11867 → SPR 36661 and the
 container flags from bag 1987. DEV10091 used SPR 36660. The updated provisional
 artwork is drawn directly at 32×32 with 16 colors including transparency: an
 empty dark opening, indigo leather, aged gold metal, a cyan gem and connected
@@ -36,7 +36,7 @@ is not an additional permission requirement. Equip the quiver in the ammo slot,
 open it and place arrows or bolts inside. Shoot with a matching bow/crossbow;
 the next compatible stack is used when the current stack runs out.
 
-The pending DEV10092 update adds a number to the equipped quiver's inventory
+The DEV10092 update adds a number to the equipped quiver's inventory
 icon. With a bow, it shows the arrows available; with a crossbow, the bolts
 available. Without either launcher, it shows the total ammunition. Hovering
 shows the total, arrows and bolts separately, plus how much is usable with the
@@ -77,10 +77,10 @@ non-interactive label preserves the item's native stack count and inventory
 interactions. Quiver replacement, weapon change, logout and module unload clear
 old state before accepting a fresh snapshot.
 
-## DEV10092 iteration: local verification
+## DEV10092 verification
 
-The updated sprite and inventory counter passed the focused local native test.
-DEV publication, the real DEV updater and live verification remain pending.
+DEV10092 is published. The updated sprite and inventory counter passed the
+focused local native test, the real DEV updater and the read-only live probe.
 The current native PNG SHA-256 is
 `2bb347cbd3b5b00c4792da84f4a36cc236b28c9a3c176b1402022daa20941e0d`.
 
@@ -116,6 +116,35 @@ The first harness run wrongly rejected the normal logout EOF and captured a
 late class dialog over the smaller frame. Test-only handling was corrected;
 the passing rerun uses unobstructed frames. No production change was needed
 for either harness issue.
+
+The [DEV10092 publication](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/actual-publication-result.json)
+and [server deployment](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/actual-deployment-result.json)
+passed. The client EXE is unchanged; the new `data.zip` SHA-256 is
+`108b1cd0cb7dadbc8d85ae4d1db30b233690bd5e37662b8c769c5bb979b71150`.
+The eight-file login contract remains `CS1:5e69735b`; the generated server
+checksum export covers 134 monitored paths.
+
+The [actual native updater](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/native-updater-df1fbc3fa18c4156a10e7b97c81787e0/result.json)
+upgraded a complete DEV10091 client to DEV10092 through the real DEV HTTP endpoint,
+downloaded the archive and restarted the native child. Original profile bytes
+and recursive DACL were restored, and the original install was unchanged.
+
+The [focused live DEV probe](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/live-quiver10092/result.json)
+passed two normal logins/safe logouts, native quiver flags/SPR36661, the actual
+Utility offer 4001 at 150 points, ordinary `/quiver status` denial and inventory.
+Each login verified the ordinary character's own canonical opcode 104 clear
+snapshot and hidden quiver badge. Level, XP, position, inventory and shop points
+stayed unchanged. Original profile bytes and recursive DACL were restored, and
+both DEV10091/10092 installs were unchanged. The actual shop icon was reviewed
+at [1280×800](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/live-quiver10092/live-qa-qv92c10f-cycle2-shop.png)
+and [800×640](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/live-quiver10092/live-qa-qv92c10f-cycle2-minimum-shop.png).
+
+The [final runtime readback](C:/GitRepos/kruxett/otcv8-rookhaven/out/quiver-dev10092-20261010/actual-runtime-final.json)
+confirmed the same native server throughout live QA on ports 7173/7174, no new
+crash dumps, unchanged config/control/DLL files and unchanged PROD1006.
+Equipped-counter gameplay and the real shot above were tested in the disposable
+loopback runtime. Live equipped-counter updates/shots, Admin/God grants, PvP and
+shop purchases were not tested in this read-only live run.
 
 ## DEV10091 verification history
 

@@ -12,7 +12,7 @@ returned a large concept instead (the saved PNG is 1254×1254). It is retained a
 `source/imagegen-concept.png` as a reference; its pixels were not resized or used
 in the SPR. One bounded imagegen edit returned a clearer pixel-style reference,
 retained at `source/imagegen-native-reference.png`. The earlier DEV10091 tile
-used brown leather and visible arrows. The pending DEV10092 tile has an empty
+used brown leather and visible arrows. The current DEV10092 tile has an empty
 dark opening, indigo leather, aged gold rim and heel, two leather cross-bindings,
 a cyan gem and connected cyan rune, and a loop strap on the right. Its upper/left
 details leave the lower-right area available for the inventory ammunition count.
@@ -27,12 +27,14 @@ The drawing script writes only `sprite.png` and `preview.png`; it does not rewri
 the item definition or any imported DAT/SPR/OTB files.
 
 `definition.json` is the input for the existing rookhaven-items staging script.
-The pending DEV10092 mapping is SID 12830 → CID 11867 → sprite 36661; DEV10091 used
+The current DEV10092 mapping is SID 12830 → CID 11867 → sprite 36661; DEV10091 used
 sprite 36660. Bag 1987 supplies static container/pickupable DAT
 attributes and container/nonstackable OTB flags. The existing hunter's quiver
 SID 12425 remains an unrelated, stackable Garrick quest item.
 
 For runtime, shop, release evidence and test commands, see
 `docs/magic-quiver.md`. DEV10091's verification history is retained there;
-DEV10092's focused local native verification passed; DEV publication and live
-verification are pending.
+DEV10092 is published. Focused local native verification, the real DEV updater
+and the read-only live probe passed. Equipped-counter gameplay was verified in
+the disposable loopback runtime; the live probe checked the ordinary character's
+unequipped counter state, inventory and actual shop icon.
