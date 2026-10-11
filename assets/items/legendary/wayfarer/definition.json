@@ -1,0 +1,19 @@
+{
+  "server_id": 12837,
+  "client_id": 11874,
+  "name": "Wayfarer",
+  "article": "a",
+  "prototype_server_id": 7438,
+  "attributes": {
+    "description": "The bow remembers roads no living traveller has walked.\n\nWindstride: 12% chance on a successful normal weapon attack to gain 40 movement speed points for 3 seconds. Adds to haste without curing paralysis. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply.",
+    "weight": "3900",
+    "slotType": "two-handed",
+    "weaponType": "distance",
+    "ammoType": "arrow",
+    "range": "6",
+    "hitChance": "5",
+    "attack": 1
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

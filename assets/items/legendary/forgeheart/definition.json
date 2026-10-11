@@ -1,0 +1,17 @@
+{
+  "server_id": 12835,
+  "client_id": 11872,
+  "name": "Forgeheart",
+  "article": "a",
+  "prototype_server_id": 2423,
+  "attributes": {
+    "weight": "5800",
+    "defense": 16,
+    "attack": 30,
+    "weaponType": "club",
+    "extradef": "1",
+    "description": "The mountain remembers the hands that shaped it.\n\nStone Mend: 12% chance on a successful normal weapon attack to heal 20% of the HP damage dealt to your main target, up to 8 health. Cooldown: 8 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply."
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

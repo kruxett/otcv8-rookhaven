@@ -5,6 +5,6 @@ Module
   website:
   autoload: true
   sandboxed: true
-  scripts: [ lava_smelt ]
+  scripts: [ forgotten_works, lava_smelt ]
   @onLoad: init()
   @onUnload: terminate()

@@ -1,0 +1,12 @@
+{
+  "server_id": 12842,
+  "client_id": 11879,
+  "name": "Warbrand",
+  "article": "a",
+  "prototype_server_id": 2147,
+  "attributes": {
+    "weight": 100,
+    "description": "A scarred shard bearing the mark of the northern warbands."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

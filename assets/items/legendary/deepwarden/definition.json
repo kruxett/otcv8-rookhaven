@@ -1,0 +1,17 @@
+{
+  "server_id": 12831,
+  "client_id": 11868,
+  "name": "Deepwarden",
+  "article": "a",
+  "prototype_server_id": 3963,
+  "attributes": {
+    "weight": "2900",
+    "defense": 16,
+    "attack": 25,
+    "weaponType": "sword",
+    "extradef": "1",
+    "description": "The old wardens set their oath into its steel.\n\nSwordguard: 12% chance on a successful normal weapon attack to ready a guard for 4 seconds. The next ordinary melee physical hit taken is reduced by 50%, up to 16 HP against creatures or 8 against players. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply."
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

@@ -1,0 +1,16 @@
+{
+  "server_id": 12840,
+  "client_id": 11877,
+  "name": "Ashen Requiem",
+  "article": "a",
+  "prototype_server_id": 2185,
+  "attributes": {
+    "description": "Its pale crescent gathers the last whispers of the deep.\n\nSoul Draw: 12% chance on a successful normal weapon attack to deal 30% of the normal death attack as extra death damage, up to 12, and heal 30% of that extra HP damage, up to 3 health. Damage absorbed by mana shield does not heal you. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply.",
+    "weight": "2300",
+    "weaponType": "wand",
+    "shootType": "death",
+    "range": "3"
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

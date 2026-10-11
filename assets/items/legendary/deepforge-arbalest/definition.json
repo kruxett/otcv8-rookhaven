@@ -1,0 +1,19 @@
+{
+  "server_id": 12838,
+  "client_id": 11875,
+  "name": "Deepforge Arbalest",
+  "article": "a",
+  "prototype_server_id": 2455,
+  "attributes": {
+    "weight": "4000",
+    "weaponType": "distance",
+    "slotType": "two-handed",
+    "ammoType": "bolt",
+    "range": "5",
+    "description": "The deep forge gave its limbs a second voice.\n\nRicochet: 12% chance on a successful normal weapon attack to strike one enemy beside your target for 65% physical attack damage, up to 36. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply.",
+    "attack": 1,
+    "hitChance": 1
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

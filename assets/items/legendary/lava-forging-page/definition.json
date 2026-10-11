@@ -1,0 +1,12 @@
+{
+  "server_id": 12849,
+  "client_id": 11886,
+  "name": "Lava Forging Page",
+  "article": "a",
+  "prototype_server_id": 1954,
+  "attributes": {
+    "weight": 100,
+    "description": "A darkened page traced with the signs of bound stone and ash."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

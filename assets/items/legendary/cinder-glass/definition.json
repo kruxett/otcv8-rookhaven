@@ -1,0 +1,12 @@
+{
+  "server_id": 12844,
+  "client_id": 11881,
+  "name": "Cinder Glass",
+  "article": "a",
+  "prototype_server_id": 2150,
+  "attributes": {
+    "weight": 100,
+    "description": "Black glass with an ember caught in its heart."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

@@ -71,7 +71,8 @@ local function destroyRerollConfirm()
   end
 end
 
-local function destroyWindow()
+local function destroyWindow(clearPending)
+  ForgottenWorks.destroy(clearPending)
   destroyRerollConfirm()
   if window then
     window:destroy()
@@ -92,6 +93,7 @@ end
 local function setResult(text, color)
   if ui.resultLabel then
     ui.resultLabel:setText(text or '')
+    ui.resultLabel:setTooltip(text or '')
     ui.resultLabel:setColor(color or '#cdbb91')
   end
 end
@@ -330,6 +332,7 @@ local function bindWindow()
   end
 
   refreshSlots()
+  ForgottenWorks.init(window, protocolSend)
 end
 
 local function ensureWindow()
@@ -384,7 +387,9 @@ local function showRerollPrompt(data)
       text = tr('Proceed'),
       callback = function()
         if rerollConfirmWindow then
-          rerollConfirmWindow:ok()
+          local closed = rerollConfirmWindow
+          rerollConfirmWindow = nil
+          closed:ok()
         end
         protocolSend({ action = 'reroll_confirm' })
       end
@@ -393,7 +398,9 @@ local function showRerollPrompt(data)
       text = tr('Cancel'),
       callback = function()
         if rerollConfirmWindow then
-          rerollConfirmWindow:cancel()
+          local closed = rerollConfirmWindow
+          rerollConfirmWindow = nil
+          closed:cancel()
         end
         protocolSend({ action = 'reroll_cancel' })
       end
@@ -415,8 +422,9 @@ local function formatYieldText(yields)
 end
 
 local function onLavaSmeltOpcode(protocol, opcode, buffer)
-  local data = json.decode(buffer)
-  if not data then
+  if not protocol or protocol ~= g_game.getProtocolGame() or type(buffer) ~= 'string' or #buffer > 7900 then return end
+  local decoded, data = pcall(json.decode, buffer)
+  if not decoded or type(data) ~= 'table' or type(data.action) ~= 'string' then
     return
   end
 
@@ -436,19 +444,31 @@ local function onLavaSmeltOpcode(protocol, opcode, buffer)
     return
   end
 
-  if not ensureWindow() then
+  if ForgottenWorks.handles(data.action) then
+    ForgottenWorks.handle(data)
     return
   end
-
-  window:show()
-  window:raise()
-  window:focus()
 
   if data.action == 'open' then
+    -- Opening is a response to using the forge. Each deliberate opening gets
+    -- a new request context; late responses from an older window stay inert.
+    if window then destroyWindow() end
+    if not ensureWindow() then return end
+    window:show(); window:raise(); window:focus()
     applyPreview(data.preview or {})
     setResult('')
+    if type(data.forgotten) == 'table' then ForgottenWorks.handle(data.forgotten, true) end
     return
   end
+
+  if data.action == 'result' and not window then
+    if data.success then modules.game_textmessage.displayStatusMessage(data.message or 'Smelting rite complete.')
+    else modules.game_textmessage.displayFailureMessage(data.message or 'Smelting rite failed.') end
+    return
+  end
+
+  -- Updates may refresh an existing window, but never reopen it or take focus.
+  if not window then return end
 
   if data.action == 'preview' then
     applyPreview(data)
@@ -470,7 +490,7 @@ local function onLavaSmeltOpcode(protocol, opcode, buffer)
 end
 
 local function onGameEnd()
-  destroyWindow()
+  destroyWindow(true)
   pendingRerollMaterial = nil
 end
 
@@ -574,7 +594,7 @@ function terminate()
   modules.game_interface.removeMenuHook('lava_smelt', 'Mark Tempering Catalyst')
   modules.game_interface.removeMenuHook('lava_smelt', 'Apply Tempering Catalyst')
   clearPendingRerollMaterial()
-  destroyWindow()
+  destroyWindow(true)
 end
 
 function close()

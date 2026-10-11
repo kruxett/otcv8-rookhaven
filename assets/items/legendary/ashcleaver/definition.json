@@ -1,0 +1,17 @@
+{
+  "server_id": 12833,
+  "client_id": 11870,
+  "name": "Ashcleaver",
+  "article": "a",
+  "prototype_server_id": 12731,
+  "attributes": {
+    "weight": "4800",
+    "slotType": "hand",
+    "weaponType": "axe",
+    "attack": 27,
+    "defense": 15,
+    "description": "An ember sleeps beneath its dark edge.\n\nGround Ember: 12% chance on a successful normal weapon attack to kindle an ember under a nearby enemy. Fire pulses after 0.45 and 0.90 seconds share 40% physical attack damage, up to 20 total. Leaving its tile avoids the pulses; your main target is excluded. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply."
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

@@ -1,0 +1,12 @@
+{
+  "server_id": 12848,
+  "client_id": 11885,
+  "name": "Dragon Forging Page",
+  "article": "a",
+  "prototype_server_id": 1954,
+  "attributes": {
+    "weight": 100,
+    "description": "A scorched page bearing the shape of bow limbs."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

@@ -1,0 +1,12 @@
+{
+  "server_id": 12846,
+  "client_id": 11883,
+  "name": "Dwarf Forging Page",
+  "article": "a",
+  "prototype_server_id": 1954,
+  "attributes": {
+    "weight": 100,
+    "description": "A torn page scored with blade and axe designs."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

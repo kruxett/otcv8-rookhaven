@@ -1,0 +1,16 @@
+{
+  "server_id": 12839,
+  "client_id": 11876,
+  "name": "Stonewake",
+  "article": "a",
+  "prototype_server_id": 12758,
+  "attributes": {
+    "description": "A living stone rests at the heart of this wand.\n\nLiving Bark: 12% chance on a successful normal weapon attack to ready a ward for 4 seconds. Your next direct hit loses up to 6 HP damage against creatures or 3 against players, within the shared ward limit. Damage over time and hits fully absorbed by mana shield do not consume it. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply.",
+    "weight": "1900",
+    "weaponType": "wand",
+    "shootType": "smallearth",
+    "range": "3"
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

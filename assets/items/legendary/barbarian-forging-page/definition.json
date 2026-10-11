@@ -1,0 +1,12 @@
+{
+  "server_id": 12847,
+  "client_id": 11884,
+  "name": "Barbarian Forging Page",
+  "article": "a",
+  "prototype_server_id": 1954,
+  "attributes": {
+    "weight": 100,
+    "description": "A weathered page marked with heavy iron heads."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

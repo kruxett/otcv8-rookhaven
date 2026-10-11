@@ -1,0 +1,12 @@
+{
+  "server_id": 12845,
+  "client_id": 11882,
+  "name": "Old Forging Mould",
+  "article": "an",
+  "prototype_server_id": 2557,
+  "attributes": {
+    "weight": 1200,
+    "description": "A worn mould bearing Bolgrim's forgotten mark."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

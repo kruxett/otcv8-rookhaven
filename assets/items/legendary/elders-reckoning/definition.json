@@ -1,0 +1,17 @@
+{
+  "server_id": 12834,
+  "client_id": 11871,
+  "name": "Elder's Reckoning",
+  "article": "a",
+  "prototype_server_id": 2381,
+  "attributes": {
+    "weight": "9000",
+    "defense": 15,
+    "attack": 37,
+    "weaponType": "axe",
+    "slotType": "two-handed",
+    "description": "The long edge bears the reckoning of forgotten halls.\n\nFrontal Sweep: 12% chance on a successful normal weapon attack to sweep the three tiles in front of you, striking up to two additional enemies for 50% physical attack damage each, up to 24 each. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply."
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

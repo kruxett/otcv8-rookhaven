@@ -57,6 +57,7 @@ $configureArgs = @(
     '-DVCPKG_BUILD_TYPE=release',
     "-DDEFAULT_SERVER_ENDPOINT=$DefaultServerEndpoint",
     '-DUPDATER_CHANNEL=dev',
+    '-DGENERATE_LEGACY_BUILD_CHECKSUMS=OFF',
     "-DCMAKE_INSTALL_PREFIX=$installDir"
 )
 & $cmake @configureArgs

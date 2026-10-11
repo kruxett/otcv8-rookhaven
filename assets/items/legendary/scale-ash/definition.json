@@ -1,0 +1,12 @@
+{
+  "server_id": 12843,
+  "client_id": 11880,
+  "name": "Scale Ash",
+  "article": "a",
+  "prototype_server_id": 2149,
+  "attributes": {
+    "weight": 100,
+    "description": "The darkened edge of an ancient scale."
+  },
+  "art_source": "Native32 exactpixel supporting forge item"
+}

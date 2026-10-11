@@ -712,7 +712,7 @@ if(USE_STATIC_LIBS)
                 if(EXISTS \"\${_encrypt_exe}\")
                     message(STATUS \"Encrypting client resources before packaging...\")
                     execute_process(
-                        COMMAND \"\${_encrypt_exe}\" --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
+                        COMMAND \"\${_encrypt_exe}\" --local-passives --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
                         WORKING_DIRECTORY \"\${_temp_dir}\"
                         RESULT_VARIABLE _enc_result
                         ERROR_VARIABLE _enc_error
@@ -806,7 +806,7 @@ if(USE_STATIC_LIBS)
                 if(EXISTS \"\${_encrypt_exe}\")
                     message(STATUS \"Encrypting client resources before packaging...\")
                     execute_process(
-                        COMMAND \"\${_encrypt_exe}\" --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
+                        COMMAND \"\${_encrypt_exe}\" --local-passives --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
                         WORKING_DIRECTORY \"\${_temp_dir}\"
                         RESULT_VARIABLE _enc_result
                         ERROR_VARIABLE _enc_error
@@ -881,6 +881,8 @@ endif()
 
 collect_runtime_deps(${CLIENT_TARGET} "${_deploy_root}" ZIP_DATA_PASSWORD "${RUNTIME_DATA_ZIP_PASSWORD}")
 
+option(GENERATE_LEGACY_BUILD_CHECKSUMS "Run the legacy native checksum utility using a client profile; release checksums are exported from the final archive" OFF)
+
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
     if(ENABLE_LUAC_RELEASE AND LUAC_EXECUTABLE)
         add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
@@ -889,24 +891,13 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
                 -DROOT_DIR=$<TARGET_FILE_DIR:${CLIENT_TARGET}>
                 -DLUAC_EXECUTABLE=${LUAC_EXECUTABLE}
                 -P "${CMAKE_SOURCE_DIR}/tools/luac_compile.cmake"
-            COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
-            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${CLIENT_TARGET}>/tools
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${CMAKE_SOURCE_DIR}/tools/update_server_checksums.lua
-                $<TARGET_FILE_DIR:${CLIENT_TARGET}>/tools/update_server_checksums.lua
-            COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
             WORKING_DIRECTORY $<TARGET_FILE_DIR:${CLIENT_TARGET}>)
     elseif(ENABLE_LUAC_RELEASE)
         message(WARNING "ENABLE_LUAC_RELEASE is ON but LUAC_EXECUTABLE was not found; skipping bytecode compilation.")
-        add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
-            COMMAND ${CMAKE_COMMAND} -E make_directory ${_deploy_root}/tools
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${CMAKE_SOURCE_DIR}/tools/update_server_checksums.lua
-                ${_deploy_root}/tools/update_server_checksums.lua
-            COMMAND $<TARGET_FILE:${CLIENT_TARGET}> --run-script tools/update_server_checksums.lua
-            WORKING_DIRECTORY ${_deploy_root})
-    else()
+    endif()
+    # The native legacy utility opens a settings profile and measures unencrypted
+    # staging bytes. It is deliberately opt-in; release exports measure data.zip.
+    if(GENERATE_LEGACY_BUILD_CHECKSUMS)
         add_custom_command(TARGET ${CLIENT_TARGET} POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E echo "Running update_server_checksums.lua"
             COMMAND ${CMAKE_COMMAND} -E make_directory ${_deploy_root}/tools

@@ -1,0 +1,17 @@
+{
+  "server_id": 12836,
+  "client_id": 11873,
+  "name": "Mountain's Verdict",
+  "article": "a",
+  "prototype_server_id": 7379,
+  "attributes": {
+    "weight": "3800",
+    "defense": 16,
+    "attack": 37,
+    "weaponType": "club",
+    "slotType": "two-handed",
+    "description": "A storm lies bound within its iron heart.\n\nStormcall: 12% chance on a successful normal weapon attack to discharge energy into your target for 30% physical attack damage, up to 18, and into one nearby enemy for 15%, up to 10. Cooldown: 12 seconds.\nLegendary weapon cooldowns are shared by your character. Extra damage is based on the original attack before critical bonuses and mitigation; armor, resistance and player damage rules still apply."
+  },
+  "minimum_level": 35,
+  "art_source": "PixelLab Pixen edit of original native32 donor; no rescaling"
+}

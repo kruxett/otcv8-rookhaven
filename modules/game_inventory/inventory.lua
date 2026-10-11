@@ -245,6 +245,7 @@ local function onInventoryGameStart()
 end
 
 function init()
+  LegendaryInventoryOverlay.init()
   QuiverAmmo.init()
   ProtocolGame.registerExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE, onWaterOfferingsExpBuffOpcode)
 
@@ -337,6 +338,7 @@ function init()
 end
 
 function terminate()
+  LegendaryInventoryOverlay.terminate()
   QuiverAmmo.terminate()
   cancelWaterOfferingsExpBuffTimer()
   ProtocolGame.unregisterExtendedOpcode(WATER_OFFERINGS_EXP_BUFF_OPCODE)
@@ -483,6 +485,7 @@ function onInventoryChange(player, slot, item, oldItem)
     itemWidget:setItem(nil)
   end
   QuiverAmmo.onInventoryChange(slot)
+  LegendaryInventoryOverlay.update(slot, itemWidget, item)
 end
 
 function onBlessingsChange(player, blessings, oldBlessings)
@@ -561,6 +564,7 @@ function online()
 end
 
 function offline()
+  LegendaryInventoryOverlay.clear()
   QuiverAmmo.reset()
   cancelWaterOfferingsExpBuffTimer()
   waterOfferingsExpBuffState.active = false
