@@ -1,39 +1,52 @@
 # Legendary: Forgotten Works
 
-Published to the ordinary DEV server on 2026-10-11 as **DEV10095**, with server
-commit `26e362de`, client code commit `b0127f19` and login checksum
-`CS1:14287d12`. Restart the DEV client and let its updater finish before testing;
-the previous 10094 client is refused before entering the world.
+Published to the ordinary DEV server on 2026-10-11 as **DEV10096**, with server
+commit `44ca5901`, client code commit `5e6c062` and login checksum
+`CS1:14287d12`. Restart the DEV client and let its updater finish before testing.
+The native binaries and protocol are unchanged from DEV10095.
 
 Bolgrim opens the Forgotten Works for an Ascended character who retrieves his
 personal old mould from an eligible dwarven world spawn. Four scattered recipe
 pages unlock dwarven, barbarian, dragon and lava designs separately. The original
 Smelting tab and its tempering flow remain available.
 
-The working-tree UI revision separates the discovered design list from the
+The DEV10096 UI revision separates the discovered design list from the
 selected weapon. Only the active row is tinted and marked **Selected**; clicking
 it again keeps the donor. The full signature effect is visible in the detail
 pane. **Weapon details**, **Signature details** and **Forge activity** open
 read-only explanations. Costs and activity share one scroll area, while status,
 Forge, Refresh and Close stay visible. **Unlock designs** also explains the
-ordinary quest and page sources in the client. This UI revision is not part of
-the published DEV10095 package described above.
+ordinary quest and page sources in the client.
 
-The working-tree Look/Trade revision shortens all ten signature descriptions,
+The DEV10096 Look/Trade revision shortens all ten signature descriptions,
 retaining lore, proc chance, the main effect, caps and cooldown. Shared cooldown
 and damage-calculation rules are available through **Signature details** instead
 of repeating them in every item description. Existing generated items show the
 current catalog copy through a presentation-only adapter; their stored affix
 text, structured rolls and stats are not rewritten. Custom descriptions are
-left intact. This server revision is also not yet published to DEV.
+left intact. Iron Echo, Warbrand, Scale Ash and Cinder Glass also gain a brief
+in-world hint about their value to smiths; established crystal/shard copy remains.
 
-Validation: the complete XML differs only in those ten description values.
+Validation: XML changes are limited to ten weapon and four material descriptions.
 The focused Lua contract runs the real Look/Trade callers with native API mocks
 and the independent previous catalog: 1,084 parameterized cases passed,
 including affix preservation, old/current/custom descriptions, distances,
-callback composition and admin metadata. No live server or combat/passive
+callback composition and admin metadata. No live gameplay or combat/passive
 suite was run for this presentation change. Evidence is in
 `out/legendary-look-copy-20261011/`.
+
+Release verification: encrypted archive/source equality, server startup and
+listeners, preserved config/DLLs/PROD, and the real native DEV10095-to-10096 HTTP
+update/restart passed. The successful updater probe verified profile bytes and
+recursive DACL restoration against independent fresh safety copies. An initial
+probe stopped before any native launch on conflicting profile fingerprints;
+its copies and journal were retained without overwriting the current profile.
+An atomic-file replacement error during publication was reconciled while the
+supervisor held the server stopped, corrected with an explicit backup filename,
+and verified before completing publication. The earlier 18 native UI test groups
+were reused after checking their source hashes; the focused Look/Trade contract
+was rerun. No live character crafting/Look test or passive suite was run for this
+release. Evidence: `out/forgotten-dev-release-20261011/release-result.json`.
 
 To unlock designs through ordinary play:
 
@@ -189,8 +202,7 @@ signature cooldown, pending force, temporary effects and diagnostic counters.
 It does not restore quest progress, pages, cores, materials, gold or items.
 Generic `/i` cannot create an incomplete catalog weapon.
 
-For a quick crafting/UI test on DEV (the new detail buttons require the UI
-revision above to be published first):
+For a quick crafting/UI test on DEV10096:
 
 First restart/update the ordinary DEV client to 10095. The resulting weapons
 require level 35 to equip/use; admin preparation does not raise character level.
@@ -280,7 +292,7 @@ only in an owned loopback runtime. Never copy them into DEV/PROD data.
 The change requires a recompiled server, matching DAT/SPR/OTB/XML, final encrypted
 client resources and freshly exported login checksums. The following local
 package 10094 and `CS1:5e69735b` results are historical evidence, superseded by
-the DEV10095 publication above. Preserve checksum enforcement.
+the original DEV10095 publication. Preserve checksum enforcement.
 
 Historically verified locally on 2026-10-10:
 
