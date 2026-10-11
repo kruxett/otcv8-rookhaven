@@ -1,5 +1,11 @@
 # Körbar procedur: egna itembilder i klient och server
 
+Använd projektets `docs/development-testing.md` för testval. Nedan beskriver
+import- och paketstegen; välj funktionstest efter faktisk ändring. Ett rent
+grafikbyte kräver asset-/records-kontroll och native rendering, medan ett nytt
+eller funktionellt ändrat item även kräver berörda server-/användningsfall.
+Passivsviter följer inte automatiskt av itemimport eller klientpaketering.
+
 ## 1. Förbered projekt och bild
 
 Kör från klientrepot. Nedan används PowerShell och Python med Pillow. Använd
@@ -89,7 +95,9 @@ Den skapar:
 Importern kontrollerar OTB byte-exakt round trip, sprite encode/decode,
 oförändrade gamla SPR-payloads och DAT/OTB-records, SID/CID-mapping, XML och
 ID-kollisioner. Den sparar input- och output-SHA256 i manifestet. Dessa kontroller
-bevisar filintegritet; den riktiga klienten och servern måste fortfarande testas.
+bevisar filintegritet. Verifiera grafik i native klient. För ett nytt eller
+funktionellt ändrat item krävs dessutom riktiga server-/användningsprov för
+berörda beteenden; ett rent grafikbyte kräver inte oförändrad server-gameplay.
 
 ## 4. Byta grafik på ett befintligt item
 
@@ -147,8 +155,10 @@ nyckel `/modules/...file.lua` kan därför ha CRC32 för `file.luac` i paketet.
 Exportskriptet jämför C++-listorna i klient/server och stoppar vid olik ordning.
 Det skriver dessutom en JSON med SHA256 för exakt EXE och data.zip.
 
-Det gamla CMake POST_BUILD-steget kör `update_server_checksums.lua` före
-install-time-kryptering. Dess AppData-fil ska inte förväxlas med exporten ovan.
+Den gamla valfria CMake POST_BUILD-generatorn (`GENERATE_LEGACY_BUILD_CHECKSUMS`)
+är avstängd som standard och ska inte aktiveras i detta flöde. Den körde
+`update_server_checksums.lua` före install-time-kryptering och kunde skriva till
+normal AppData-profil. Dess fil ska inte förväxlas med exporten ovan.
 Kopiera inte SHA256 för hela data.zip till serverns per-modul-CRC32-fil.
 
 ## 7. Testa lokalt med riktig server och klient
@@ -198,7 +208,13 @@ värden är Duskblade-specifika. Starta sedan:
 ./tools/test-item-local.ps1 -Interactive
 ```
 
-Det automatiska testet ska bevisa:
+För ett nytt/funktionellt ändrat item, välj verklig use/equip/container-väg och
+relevanta regressioner enligt den gemensamma testpolicyn. Duskblade-provens
+hårdkodade vapenflytt och relog nedan är exempel för motsvarande beteende, inte
+krav för ett grafikbyte eller alla itemtyper. Oförändrad save-/combat-/passivkod
+behöver inte provas på nytt bara för att DAT/SPR eller en paketversion ändras.
+
+Det ursprungliga vapenprovet täcker:
 
 1. Serverns ItemType läser rätt SID/CID, namn, stats och typ; Game.createItem fungerar.
 2. Riktig ProtocolLogin på 7174 och game-inloggning på 7175 med checksumkontroll på.

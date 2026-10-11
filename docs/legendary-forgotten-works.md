@@ -10,6 +10,56 @@ personal old mould from an eligible dwarven world spawn. Four scattered recipe
 pages unlock dwarven, barbarian, dragon and lava designs separately. The original
 Smelting tab and its tempering flow remain available.
 
+The working-tree UI revision separates the discovered design list from the
+selected weapon. Only the active row is tinted and marked **Selected**; clicking
+it again keeps the donor. The full signature effect is visible in the detail
+pane. **Weapon details**, **Signature details** and **Forge activity** open
+read-only explanations. Costs and activity share one scroll area, while status,
+Forge, Refresh and Close stay visible. **Unlock designs** also explains the
+ordinary quest and page sources in the client. This UI revision is not part of
+the published DEV10095 package described above.
+
+The working-tree Look/Trade revision shortens all ten signature descriptions,
+retaining lore, proc chance, the main effect, caps and cooldown. Shared cooldown
+and damage-calculation rules are available through **Signature details** instead
+of repeating them in every item description. Existing generated items show the
+current catalog copy through a presentation-only adapter; their stored affix
+text, structured rolls and stats are not rewritten. Custom descriptions are
+left intact. This server revision is also not yet published to DEV.
+
+Validation: the complete XML differs only in those ten description values.
+The focused Lua contract runs the real Look/Trade callers with native API mocks
+and the independent previous catalog: 1,084 parameterized cases passed,
+including affix preservation, old/current/custom descriptions, distances,
+callback composition and admin metadata. No live server or combat/passive
+suite was run for this presentation change. Evidence is in
+`out/legendary-look-copy-20261011/`.
+
+To unlock designs through ordinary play:
+
+1. Complete The Ascent. Say `hi`, then `forgotten works` to Bolgrim at
+   `32124,32023,14`.
+2. Participate in a genuine world-spawn Dwarf Guard or Dwarf Geomancer kill
+   with more than 14 hours of stamina remaining. While this quest step is
+   active, an eligible kill places your own **Old Forging Mould** in the corpse
+   if you are not already carrying it. Loot it, return to Bolgrim and say `forgotten works` or
+   `mould`. Another character's mould does not count.
+3. **Use** a Forging Page to learn that family's designs permanently. Each page
+   has a 2% chance per eligible kill in its authored hunting region:
+
+| Page | Eligible monsters | Designs learned |
+| --- | --- | --- |
+| Dwarf | Dwarf Guard, Dwarf Geomancer | Deepwarden, Oath of the Deep, Ashcleaver, Elder's Reckoning |
+| Barbarian | Barbarian Bloodwalker, Brutetamer, Headsplitter, Skullhunter | Forgeheart, Mountain's Verdict |
+| Dragon | Dragon, Dragon Hatchling | Wayfarer, Deepforge Arbalest |
+| Lava | Fire Devil, Fire Elemental | Stonewake, Ashen Requiem |
+
+Learning a new family consumes one page. An already learned page or a page used
+before the quest unlock is retained. Spawn location and combat participation
+matter; an artificially spawned monster of the same name is insufficient.
+Pages can be traded. Materials, tempering and forge activity are separate
+crafting requirements and do not unlock designs.
+
 Each recipe consumes its exact Epic donor and preserves its two enchantment
 instances/totals. The resulting Legendary has a fixed signature. Ordinary
 upgrading and natural/forced loot stop at Epic; only explicit recipes produce
@@ -94,7 +144,7 @@ have a positive native damage receipt no older than 60 seconds; shared-XP
 members use native recent damage/healing eligibility. Only unlocked, online,
 alive ordinary participants within range and above 14 hours stamina divide
 personal activity. Offline time, long idle gaps, region changes, artificial
-spawns and excluded quest areas do not accrue it. UI hover explains these rules;
+spawns and excluded quest areas do not accrue it. **Forge activity** explains these rules;
 Bolgrim explains tempering in-world. Eligible accepted party members receive
 their own named mould, including healers whose damage dealer owns the corpse.
 
@@ -139,7 +189,8 @@ signature cooldown, pending force, temporary effects and diagnostic counters.
 It does not restore quest progress, pages, cores, materials, gold or items.
 Generic `/i` cannot create an incomplete catalog weapon.
 
-For a quick crafting/UI test on DEV:
+For a quick crafting/UI test on DEV (the new detail buttons require the UI
+revision above to be published first):
 
 First restart/update the ordinary DEV client to 10095. The resulting weapons
 require level 35 to equip/use; admin preparation does not raise character level.
@@ -152,7 +203,9 @@ require level 35 to equip/use; admin preparation does not raise character level.
    supported: `/goto {x = 32117, y = 32024, z = 14}`.
 3. Use the forge, open **Forgotten Works**, choose **Deepwarden**, and drag the
    Epic weapon from the supplied backpack into the donor slot. Check its two
-   inherited rolls, resulting stats, signature hover and listed costs.
+   inherited rolls, resulting stats, visible signature effect and listed costs.
+   Open the three detail buttons, change designs, then click the active design
+   again: only one row should remain selected and the donor should be retained.
 4. Try Refresh, clearing the donor, Close/reopen and Forge/Cancel. Cancel must
    retain the donor and all costs. Confirming Forge replaces the exact donor in
    its bag, retains both rolls and consumes the listed materials, gold and

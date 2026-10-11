@@ -320,4 +320,10 @@ These are disposable diagnostic transitions; ordinary allocation/reset/switch
 commands continue to enforce combat gates. They do not force passive counters.
 ## Regression checks
 
-For substantial passive/client/server changes, run the affected existing-system gates as well as new-feature tests. See [passives-regressions.md](passives-regressions.md) and `./tools/run-passives-regressions.ps1`.
+Select new-feature tests and affected existing paths using
+[development-testing.md](development-testing.md). This runtime's name does not
+require passive tests for unrelated client/server work. For actual passive or
+shared-path changes, select relevant probes from
+[passives-regressions.md](passives-regressions.md). The
+`./tools/run-passives-regressions.ps1` command runs the complete five-gate suite;
+use it only when that broader coverage is justified.

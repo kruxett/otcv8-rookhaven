@@ -11,6 +11,11 @@ byggsteg, lokalt test och leverans. Läs
 [references/duskblade-history.md](references/duskblade-history.md) när du behöver
 exakt hur det första itemet lades in, inklusive originalfiler, ID:n och testbevis.
 
+Följ projektets grundskill `rookhaven-development` och den gemensamma policyn i
+klientrepots `docs/development-testing.md` för testval. Den här specialiseringen
+beskriver assetintegritet och itemets faktiska funktion; den tillför ingen
+generell combat-, lifecycle- eller passivsvit.
+
 ## Projekt och grafik
 
 - Klient: `C:/GitRepos/kruxett/otcv8-rookhaven`, GitHub `kruxett/otcv8-rookhaven`.
@@ -48,10 +53,14 @@ exakt hur det första itemet lades in, inklusive originalfiler, ID:n och testbev
    och ett läge för grafikbyte. Det äldre `tools/item_assets.py stage` är
    hårdkodat för det första proof-itemet och får inte köras direkt på dagens
    filer som om det vore en generell importer.
-5. Bygg DEV, exportera CRC32 från **det slutliga krypterade `data.zip`**, och
-   testa den riktiga klienten mot den lokala servern med checksumkontroll på.
-6. Anpassa de befintliga testskriptens hårdkodade version, SID, CID, itemnamn och
-   stats för aktuellt item. Ett godkänt Duskblade-test bevisar inte nästa item.
+5. Verifiera assetimport och native rendering. Vid nytt/funktionellt ändrat item,
+   testa även verklig serverdefinition och berörd användning. Vid paketering:
+   bygg/installera berörda resurser, exportera CRC32 från **det slutliga krypterade
+   `data.zip`** och kontrollera matchande klient/server med checksumkontroll på.
+   Ett rent grafikbyte kräver inte oförändrade strids-, save- eller passivflöden.
+6. Välj relevanta befintliga testfall efter funktionen och anpassa deras version,
+   SID, CID, itemnamn och stats. Duskblades vapen-/relogtest är ett exempel för
+   sådant beteende, inte en obligatorisk testlista för varje import eller itemtyp.
 7. Leverera matchande klient- och serverfiler. Förklara vilka filer som ska
    installeras var och om en serveromstart behövs. Rapportera faktisk commit,
    push och driftsättning var för sig; använd befintlig användarauktorisering.

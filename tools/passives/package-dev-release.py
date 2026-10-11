@@ -149,6 +149,8 @@ def default_sources(client: Path, server: Path) -> dict[str, list[str]]:
         client_files += [p.relative_to(client).as_posix() for p in sorted((client / directory).rglob("*")) if p.is_file()]
     server_files = ["schema.sql", "data/checksum_expected.txt", "data/items/items.otb", "data/items/items.xml",
                     "data/lib/core/forgotten_works.lua", "data/lib/core/forgotten_works_config.lua",
+                    "data/lib/core/forgotten_works_look.lua", "data/events/scripts/player.lua",
+                    "data/scripts/eventcallbacks/player/default_onLook.lua",
                     "data/talkactions/scripts/legendaryadmin.lua", "data/migrations/30.lua", "data/migrations/31.lua", "src/CMakeLists.txt",
                     "data/global.lua", "data/lib/lib.lua", "data/lib/core/storages.lua", "data/creaturescripts/scripts/login.lua",
                     "data/creaturescripts/scripts/extendedopcode.lua", "data/npc/Plipus.xml", "data/npc/scripts/The Nameless.lua",

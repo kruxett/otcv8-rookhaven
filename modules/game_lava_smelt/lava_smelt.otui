@@ -47,7 +47,8 @@ ForgottenRecipeButton < UIButton
   image-source: /images/ui/panel_content
   image-border: 3
   color: #c0c0c0
-  $hover:
+  image-color: #b4b4b4
+  $hover !on:
     image-color: #d0d0d0
   $on:
     image-color: #e1d3a1
@@ -80,6 +81,11 @@ ForgottenRecipeButton < UIButton
     color: #9e9080
     phantom: true
 
+ForgottenScrollBar < VerticalScrollBar
+  visible: true
+  $!on:
+    visible: false
+
 ForgottenMaterialRow < Panel
   height: 22
   UIItem
@@ -111,7 +117,7 @@ ForgottenMaterialRow < Panel
 MainWindow
   id: lavaSmeltWindow
   !text: tr('Lava Forge')
-  size: 460 620
+  size: 640 600
   @onEscape: modules.game_lava_smelt.close()
 
   Panel
@@ -303,122 +309,201 @@ MainWindow
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
-      margin: 10
-      height: 28
-      text-wrap: true
-      text: Forge the legendary works you have discovered. Each design must be unlocked by this character.
+      margin-top: 10
+      margin-left: 10
+      margin-right: 10
+      height: 16
+      text: Choose a discovered design, then add its Epic base weapon.
       color: #d7c28e
+    Label
+      id: forgottenDesignsLabel
+      anchors.top: forgottenIntro.bottom
+      anchors.left: forgottenIntro.left
+      width: 206
+      margin-top: 10
+      height: 16
+      text: Designs
+      color: #e1d3a1
     UIScrollArea
       id: forgottenRecipes
-      anchors.top: forgottenIntro.bottom
-      anchors.left: parent.left
-      anchors.right: parent.right
-      margin-left: 10
-      margin-right: 24
-      margin-top: 5
-      height: 120
+      anchors.top: forgottenDesignsLabel.bottom
+      anchors.left: forgottenIntro.left
+      anchors.bottom: forgottenUnlockButton.top
+      width: 206
+      margin-top: 4
+      margin-bottom: 8
       vertical-scrollbar: forgottenRecipesScrollbar
       layout:
         type: verticalBox
         spacing: 2
-    VerticalScrollBar
+    ForgottenScrollBar
       id: forgottenRecipesScrollbar
       anchors.top: forgottenRecipes.top
       anchors.bottom: forgottenRecipes.bottom
-      anchors.right: parent.right
-      margin-right: 10
+      anchors.left: forgottenRecipes.right
+      margin-left: 2
       step: 38
       pixel-scroll: true
-    Label
-      id: forgottenName
-      anchors.top: forgottenRecipes.bottom
-      anchors.left: forgottenDonor.right
-      anchors.right: forgottenIntro.right
-      margin-left: 8
-      margin-top: 9
-      height: 18
-      color: #e1d3a1
-      text: No discovered designs
-    UIItem
-      id: forgottenDonor
-      anchors.top: forgottenRecipes.bottom
+    Button
+      id: forgottenUnlockButton
       anchors.left: forgottenIntro.left
-      margin-top: 9
-      size: 42 42
-      image-source: /images/ui/item.png
-      border-width: 1
-      border-color: #5a5040
-      virtual: true
-      draggable: false
-      tooltip: Epic base weapon. Drop the matching weapon here. Right-click to remove it.
-    Label
-      id: forgottenDescription
-      anchors.top: forgottenName.bottom
-      anchors.left: forgottenName.left
-      anchors.right: forgottenName.right
-      height: 28
-      text-wrap: true
-      color: #b8a7ff
-    Label
-      id: forgottenStats
-      anchors.top: forgottenDescription.bottom
-      anchors.left: forgottenIntro.left
-      anchors.right: forgottenName.right
-      margin-top: 3
-      height: 44
-      text-wrap: true
-      color: #c0c0c0
-    Label
-      id: forgottenSignature
-      anchors.top: forgottenStats.bottom
-      anchors.left: forgottenIntro.left
-      anchors.right: forgottenName.right
-      margin-top: 3
-      height: 16
-      text-wrap: true
-      color: #d7c28e
-    Label
-      id: forgottenRule
-      anchors.top: forgottenSignature.bottom
-      anchors.left: forgottenIntro.left
-      anchors.right: forgottenName.right
-      height: 28
-      text-wrap: true
-      color: #9e9080
-    Label
-      id: forgottenMaterialsLabel
-      anchors.top: forgottenRule.bottom
-      anchors.left: forgottenIntro.left
-      height: 16
-      margin-top: 5
-      text: Materials (owned / required)
-      color: #c0c0c0
+      anchors.bottom: forgottenStatus.top
+      margin-bottom: 10
+      size: 206 24
+      text: Unlock designs
     UIScrollArea
-      id: forgottenMaterials
-      anchors.top: forgottenMaterialsLabel.bottom
-      anchors.left: forgottenIntro.left
-      anchors.right: forgottenRecipes.right
-      margin-top: 3
-      height: 94
-      vertical-scrollbar: forgottenMaterialsScrollbar
-      layout:
-        type: verticalBox
-        spacing: 1
-    VerticalScrollBar
-      id: forgottenMaterialsScrollbar
-      anchors.top: forgottenMaterials.top
-      anchors.bottom: forgottenMaterials.bottom
-      anchors.right: forgottenRecipesScrollbar.right
-      step: 22
+      id: forgottenDetails
+      anchors.top: forgottenDesignsLabel.top
+      anchors.left: forgottenRecipesScrollbar.right
+      anchors.right: parent.right
+      anchors.bottom: forgottenStatus.top
+      margin-left: 12
+      margin-right: 24
+      margin-bottom: 10
+      vertical-scrollbar: forgottenDetailsScrollbar
+      UIItem
+        id: forgottenDonor
+        anchors.top: parent.top
+        anchors.left: parent.left
+        size: 42 42
+        image-source: /images/ui/item.png
+        border-width: 1
+        border-color: #5a5040
+        virtual: true
+        draggable: false
+        tooltip: Drop the matching Epic weapon here. Right-click to remove it.
+      Label
+        id: forgottenName
+        anchors.top: parent.top
+        anchors.left: forgottenDonor.right
+        anchors.right: parent.right
+        margin-left: 8
+        height: 18
+        color: #e1d3a1
+        text: No discovered designs
+      Label
+        id: forgottenDescription
+        anchors.top: forgottenName.bottom
+        anchors.left: forgottenName.left
+        anchors.right: parent.right
+        height: 28
+        text-wrap: true
+        text-auto-resize: true
+        color: #b8a7ff
+      Label
+        id: forgottenStats
+        anchors.top: forgottenDescription.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 12
+        height: 44
+        text-wrap: true
+        text-auto-resize: true
+        phantom: false
+        color: #c0c0c0
+      Button
+        id: forgottenWeaponDetailsButton
+        anchors.top: forgottenStats.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        size: 120 22
+        text: Weapon details
+        enabled: false
+      HorizontalSeparator
+        id: forgottenWeaponSeparator
+        anchors.top: forgottenWeaponDetailsButton.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 10
+      Label
+        id: forgottenSignature
+        anchors.top: forgottenWeaponDetailsButton.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 18
+        height: 16
+        phantom: false
+        color: #d7c28e
+      Label
+        id: forgottenEffect
+        anchors.top: forgottenSignature.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 4
+        height: 70
+        text-wrap: true
+        text-auto-resize: true
+        color: #c0c0c0
+      Button
+        id: forgottenEffectDetailsButton
+        anchors.top: forgottenEffect.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        size: 120 22
+        text: Signature details
+        enabled: false
+      Label
+        id: forgottenMaterialsLabel
+        anchors.top: forgottenEffectDetailsButton.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 18
+        height: 16
+        text: Costs (owned / required)
+        phantom: false
+        color: #e1d3a1
+      Panel
+        id: forgottenMaterials
+        anchors.top: forgottenMaterialsLabel.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 4
+        height: 0
+        layout:
+          type: verticalBox
+          spacing: 1
+      Label
+        id: forgottenRule
+        anchors.top: forgottenMaterials.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 14
+        height: 58
+        text-wrap: true
+        text-auto-resize: true
+        phantom: false
+        color: #9e9080
+      Button
+        id: forgottenActivityDetailsButton
+        anchors.top: forgottenRule.bottom
+        anchors.left: parent.left
+        margin-top: 5
+        margin-bottom: 8
+        size: 120 22
+        text: Forge activity
+        enabled: false
+    ForgottenScrollBar
+      id: forgottenDetailsScrollbar
+      anchors.top: forgottenDetails.top
+      anchors.bottom: forgottenDetails.bottom
+      anchors.right: parent.right
+      margin-right: 10
+      step: 40
       pixel-scroll: true
+    HorizontalSeparator
+      anchors.bottom: forgottenStatus.top
+      anchors.left: forgottenIntro.left
+      anchors.right: forgottenIntro.right
+      margin-bottom: 4
     Label
       id: forgottenStatus
-      anchors.top: forgottenMaterials.bottom
+      anchors.bottom: forgottenRefreshButton.top
       anchors.left: forgottenIntro.left
-      anchors.right: forgottenName.right
-      margin-top: 5
-      height: 72
+      anchors.right: forgottenIntro.right
+      margin-bottom: 8
+      height: 28
       text-wrap: true
+      phantom: false
       color: #9e9080
       text: Discover a design to begin.
     Button

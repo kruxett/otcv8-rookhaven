@@ -1,17 +1,31 @@
 # Passive-system regression gates
 
-For substantial system changes, identify affected existing paths as well as the
-new feature. Run focused regressions for those paths before reporting completion.
-A successful capstone proc or screenshot alone does not establish baseline safety.
-This is the user's requested working rule for future client/server system work.
+This document describes passive-specific probes and historical evidence. Use
+[development-testing.md](development-testing.md) to select tests for general
+Rookhaven work. Read this document when a change affects passive behavior or a
+traced shared path; select the probes that establish those affected behaviors.
+A successful capstone proc or screenshot alone does not establish their safety.
+Historical complete runs below do not require repeating them for every change.
 
-## Re-run locally
+## Select probes or run the complete passive suite
 
-From the client repository:
+`tools/run-passives-regressions.ps1` runs all five gates. It accepts `-Build`,
+but has no per-gate selector. Use it for justified broad passive coverage or an
+explicit complete-suite request, not merely because client/server code changed.
+
+For focused coverage, inspect the relevant scripts under `tools/tests/` and use
+`tools/run-passives-probe.ps1 -Script <file> -Success <marker>` in the prepared
+owned loopback runtime. Match that probe's fixture, flags, package and cleanup
+requirements; the single-probe runner does not provision or restore all the
+state transitions performed by the complete suite. A script can itself cover
+several behaviors: choose a narrower existing probe or focused fixture when
+needed, rather than claiming the full runner is selective.
+
+From the client repository, when the complete suite is justified:
 
 ```powershell
 ./tools/run-passives-regressions.ps1
-# When native/client source has changed and the artifacts need rebuilding:
+# Rebuild only if the selected suite needs updated native/client artifacts:
 ./tools/run-passives-regressions.ps1 -Build
 ```
 
@@ -38,6 +52,12 @@ loopback administrator and disposable GUID9001.
 | Death | Real lethal native combat runs the death path. Fixture disables skill/loot loss, so the existing immediate respawn path is used. Death event/message, overlay cleanup, base HP/level and reconnect are checked. Normal death-loss amounts are not tested. |
 | Six-tree contract | Final build checks six catalogs/18 presets, allocation, weapon activation, reset, Stop and logout cleanup. |
 
+The table describes coverage of the complete suite, not a checklist for every
+passive change. Allocation/catalog changes select contract cases; changed HP or
+disconnect behavior selects relevant lifecycle cases; changed combat hooks select
+ordinary combat and interacting effects. Passive UI copy alone does not select
+combat or lifecycle tests.
+
 The current presets spend 16 points. The lifecycle gate separately applies a
 server-validated 21-point admin build with five Vitality ranks to exercise its
 fixed +5% HP assertions. This fixture is within the 24-point test-overlay budget;
@@ -48,6 +68,11 @@ Logs are under `out/passives-regressions/`; the console summary is retained as
 its client log. Review failures; do not relax combat/gating rules to obtain a pass.
 
 ## Regressions found and fixed
+
+The remaining sections record completed increments and their scenario-specific
+commands. Their historical run/rerun instructions apply to those affected paths,
+not to every future patch or release. Select current coverage using the shared
+policy above and inspect today's scripts before reusing a historical command.
 
 The pre-fix binary reproduced percent-HP contamination: passive maxHP771,
 then +20% condition gave925; Stop left889 instead of882. The new HP-percent
@@ -182,8 +207,9 @@ Full executed evidence, release/access status and practical limits are in
 [passives-dev10086-results.md](passives-dev10086-results.md).
 
 The deployment exposed a late passive timer release during orderly server
-shutdown. After its native lifetime fix, rerun the five gates and then
-`tools/run-passives-shutdown-tests.ps1`. The shutdown runner requires the owned
+shutdown. The historical follow-up instructions called for the five gates and
+`tools/run-passives-shutdown-tests.ps1`; use the current diff to select coverage
+for another shutdown/lifetime change. The shutdown runner requires the owned
 loopback database/config and the empty ordinary Earthshaker fixture prepared by
 the starter suite. It tests a real delayed cast, `stopEvent` reference release
 and shutdown with a real pending managed timer, requires actual native/client

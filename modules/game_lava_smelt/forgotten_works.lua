@@ -3,6 +3,7 @@
 ForgottenWorks = {}
 local ui, send, recipes, selectedKey, donor, confirmBox, expiryEvent, quoteToken
 local clientSession, latestRequest, completionMessage
+local detailBox, detailMessages, questStage
 local windowSerial, requestSerial, pendingResults = 0, 0, {}
 local function text(value, limit)
   if type(value) ~= 'string' then return '' end
@@ -28,9 +29,29 @@ local function clearQuote()
   if confirmBox then confirmBox:destroy(); confirmBox = nil end
   quoteToken = nil
 end
+local function closeDetails()
+  if detailBox then detailBox:destroy(); detailBox = nil end
+end
+local function clearDetails()
+  closeDetails()
+  detailMessages = {}
+  for _, id in ipairs({'forgottenWeaponDetailsButton', 'forgottenEffectDetailsButton', 'forgottenActivityDetailsButton'}) do
+    ui[id]:setEnabled(false)
+  end
+  for _, id in ipairs({'forgottenStats', 'forgottenSignature', 'forgottenRule', 'forgottenStatus', 'forgottenDonor'}) do
+    ui[id]:setTooltip(nil)
+  end
+end
+local function showDetails(title, message)
+  if not message or message == '' then return end
+  closeDetails()
+  detailBox = displayGeneralBox(tr(title), wrappedMessage(message), {{text = tr('Close'), callback = closeDetails}}, closeDetails, closeDetails)
+end
 local function status(message, success)
   ui.forgottenStatus:setText(text(message, 700))
+  ui.forgottenStatus:setHeight(math.max(28, ui.forgottenStatus:getTextSize().height))
   ui.forgottenStatus:setColor(success and '#7fd992' or '#9e9080')
+  ui.forgottenStatus:setTooltip(nil)
 end
 local function request(payload)
   if not send or not clientSession then return end
@@ -48,20 +69,43 @@ end
 local function selectedRecipe()
   for _, recipe in ipairs(recipes or {}) do if recipe.key == selectedKey then return recipe end end
 end
+local function showPreviewControls(visible)
+  for _, id in ipairs({'forgottenDonor','forgottenStats','forgottenSignature','forgottenEffect','forgottenMaterialsLabel',
+    'forgottenMaterials','forgottenRule','forgottenWeaponSeparator','forgottenWeaponDetailsButton','forgottenEffectDetailsButton','forgottenActivityDetailsButton'}) do
+    ui[id]:setVisible(visible)
+  end
+end
 local function selectRecipe(key, preserveDonor, skipPreview)
   clearQuote()
+  clearDetails()
+  showPreviewControls(true)
   if not preserveDonor or selectedKey ~= key then donor, completionMessage = nil, nil end
   selectedKey = key
   ui.forgottenDonor:setItemId(donor and number(donor.clientId) or 0)
   ui.forgottenCraftButton:setEnabled(false)
-  for _, row in ipairs(ui.forgottenRecipes:getChildren()) do row:setOn(row.recipeKey == key) end
+  local selectedRow
+  for _, row in ipairs(ui.forgottenRecipes:getChildren()) do
+    local selected = row.recipeKey == key
+    if selected then selectedRow = row end
+    row:setOn(selected)
+    row:getChildById('stateLabel'):setText(selected and 'Selected' or '')
+  end
+  local currentUi = ui
+  addEvent(function()
+    if ui == currentUi and selectedKey == key and selectedRow and not selectedRow:isDestroyed() then
+      ui.forgottenRecipes:ensureChildVisible(selectedRow)
+    end
+  end)
+  ui.forgottenDetailsScrollbar:setValue(ui.forgottenDetailsScrollbar:getMinimum())
   local recipe = selectedRecipe()
   ui.forgottenName:setText(recipe and text(recipe.name, 90) or 'No discovered designs')
-  ui.forgottenDescription:setText(recipe and ('Epic ' .. text(recipe.donorName, 90) .. '\nDrop it into the slot to preview its rolls.') or '')
+  ui.forgottenDescription:setText(recipe and ('Epic ' .. text(recipe.donorName, 90) .. '\nDrop here; its two rolls are kept.') or '')
   ui.forgottenStats:setText('')
   ui.forgottenSignature:setText('')
+  ui.forgottenEffect:setText('')
   ui.forgottenRule:setText('')
   ui.forgottenMaterials:destroyChildren()
+  ui.forgottenMaterials:setHeight(0)
   status('Inspecting the design...')
   if not skipPreview then requestPreview() end
 end
@@ -92,6 +136,7 @@ local function materialRow(name, clientId, owned, required)
 end
 local function applySnapshot(data, preserveDonor, bootstrap)
   clearQuote()
+  questStage = number(data.questStage)
   recipes = {}
   local seen = {}
   for index, recipe in ipairs(type(data.recipes) == 'table' and data.recipes or {}) do
@@ -101,25 +146,31 @@ local function applySnapshot(data, preserveDonor, bootstrap)
     end
   end
   ui.forgottenRecipes:destroyChildren()
+  ui.forgottenDesignsLabel:setText('Designs (' .. #recipes .. ')')
   for _, recipe in ipairs(recipes) do
     local row = g_ui.createWidget('ForgottenRecipeButton', ui.forgottenRecipes)
     row.recipeKey = recipe.key
     row:getChildById('item'):setItemId(number(recipe.clientId))
     row:getChildById('nameLabel'):setText(text(recipe.name, 90))
-    row:getChildById('stateLabel'):setText(data.unlocked == true and 'Discovered design' or 'Forge access required')
-    row.onClick = function() selectRecipe(recipe.key) end
+    row.onClick = function() if selectedKey ~= recipe.key then selectRecipe(recipe.key) end end
   end
   if #recipes == 0 then
+    clearDetails()
+    showPreviewControls(false)
     selectedKey, donor = nil, nil
     ui.forgottenDonor:setItemId(0)
     ui.forgottenName:setText('No discovered designs')
     ui.forgottenDescription:setText('')
     ui.forgottenStats:setText('')
     ui.forgottenSignature:setText('')
+    ui.forgottenEffect:setText('')
+    ui.forgottenDescription:setText('Select Unlock designs to see the steps and page sources.')
     ui.forgottenRule:setText('')
     ui.forgottenMaterials:destroyChildren()
+    ui.forgottenMaterials:setHeight(0)
     ui.forgottenCraftButton:setEnabled(false)
-    status(data.unlocked == true and 'Discover a design to begin.' or 'Complete the Forgotten Works quest to unlock this forge.')
+    status(data.unlocked == true and 'Use a Forging Page to discover a design.'
+      or (questStage == 1 and 'Find your Old Forging Mould and return it to Bolgrim.' or 'After The Ascent, ask Bolgrim about forgotten works.'))
   else
     selectRecipe(selectedRecipe() and selectedKey or recipes[1].key, preserveDonor, bootstrap)
   end
@@ -143,23 +194,27 @@ end
 local function applyPreview(data)
   if data.recipeKey ~= selectedKey then return end
   clearQuote()
+  clearDetails()
   ui.forgottenName:setText(text(data.name, 90))
   ui.forgottenDescription:setText('Epic ' .. text(data.donorName, 90) .. '\nDrop here; right-click to clear.')
   local summary, details = resultDetails(data)
   ui.forgottenStats:setText(summary)
   ui.forgottenStats:setTooltip(wrappedMessage(details))
+  detailMessages.weapon = details
+  ui.forgottenWeaponDetailsButton:setEnabled(details ~= '')
   local signature = type(data.signature) == 'table' and data.signature or {}
-  ui.forgottenSignature:setText('Signature: ' .. text(signature.name, 60) .. ' (hover for effect)')
-  ui.forgottenSignature:setTooltip(wrappedMessage(text(signature.name, 60) .. '\n' .. text(signature.text, 1100)
-    .. '\n\n' .. text(data.signatureRule, 700)))
-  ui.forgottenRule:setText('Normal weapon attacks trigger signatures. Cooldown shared across weapons.')
-  ui.forgottenRule:setTooltip(wrappedMessage(text(data.signatureRule, 700)))
+  ui.forgottenSignature:setText('Signature: ' .. text(signature.name, 60))
+  ui.forgottenEffect:setText(text(signature.text, 1100))
+  detailMessages.signature = text(signature.name, 60) .. '\n' .. text(signature.text, 1100) .. '\n\n' .. text(data.signatureRule, 700)
+  ui.forgottenSignature:setTooltip('Normal weapon attacks trigger signatures.\nSelect Signature details for all combat rules.')
+  ui.forgottenEffectDetailsButton:setEnabled(text(signature.text, 1100) ~= '')
   ui.forgottenMaterials:destroyChildren()
   for index, requirement in ipairs(type(data.requirements) == 'table' and data.requirements or {}) do
     if index > 24 then break end
     materialRow(requirement.name, requirement.clientId, requirement.owned, requirement.required)
   end
   materialRow('Gold', 0, data.goldOwned, data.goldRequired)
+  ui.forgottenMaterials:setHeight(#ui.forgottenMaterials:getChildren() * 23)
   local selected = type(data.donor) == 'table' and data.donor or nil
   ui.forgottenDonor:setItemId(selected and number(selected.clientId) or 0)
   local tip = 'Epic base weapon: ' .. text(data.donorName, 90) .. '\nDrop it here. Right-click to remove it.'
@@ -172,16 +227,15 @@ local function applyPreview(data)
   end
   ui.forgottenDonor:setTooltip(wrappedMessage(tip))
   ui.forgottenCraftButton:setEnabled(data.success == true and data.canCraft == true and not quoteToken)
-  local lines, details = coreLines(data.core)
-  local readiness = data.canCraft == true and 'Forge activity: ready to forge.'
-    or (selected and 'Forge activity: requirements incomplete (hover for details).'
-      or 'Forge activity: Epic weapon required (hover for details).')
-  table.insert(lines, 1, completionMessage or readiness)
-  status(table.concat(lines, '\n'), completionMessage ~= nil or data.canCraft == true)
-  if text(data.message) ~= '' then table.insert(details, 1, text(data.message, 700)) end
-  if completionMessage then table.insert(details, 1, completionMessage) end
-  if text(data.activityHelp) ~= '' then details[#details + 1] = '\n' .. text(data.activityHelp, 1600) end
-  ui.forgottenStatus:setTooltip(wrappedMessage(table.concat(details, '\n')))
+  local lines, activityDetails = coreLines(data.core)
+  ui.forgottenRule:setText('Personal forge activity\n' .. table.concat(lines, '\n'))
+  if text(data.activityHelp) ~= '' then activityDetails[#activityDetails + 1] = '\n' .. text(data.activityHelp, 1600) end
+  detailMessages.activity = table.concat(activityDetails, '\n')
+  ui.forgottenRule:setTooltip('Each forge consumes activity from all four regions.\nSelect Forge activity for banked time and earning rules.')
+  ui.forgottenActivityDetailsButton:setEnabled(detailMessages.activity ~= '')
+  local readiness = data.canCraft == true and 'Ready to forge. Review the costs before confirming.'
+    or (selected and 'Requirements incomplete. Check costs and forge activity.' or 'Add the matching Epic weapon to preview its rolls.')
+  status(completionMessage or (text(data.message) ~= '' and text(data.message, 700) or readiness), completionMessage ~= nil or data.canCraft == true)
   ui.forgottenMaterialsLabel:setTooltip('All listed costs and the selected Epic weapon are consumed.\nThe finished weapon replaces it in its bag.')
 end
 local function showQuote(data)
@@ -225,12 +279,30 @@ function ForgottenWorks.init(window, sender)
   windowSerial = windowSerial + 1
   clientSession = tostring(g_clock.millis()) .. '-' .. tostring(windowSerial)
   completionMessage = nil
+  questStage, detailMessages = 0, {}
   for _, id in ipairs({'smeltPanel','forgottenPanel','smeltTab','forgottenTab','forgottenRecipes','forgottenName',
     'forgottenDescription','forgottenStats','forgottenSignature','forgottenRule','forgottenMaterials',
     'forgottenMaterialsLabel','forgottenDonor','forgottenStatus',
-    'forgottenCraftButton','forgottenRefreshButton'}) do ui[id] = window:recursiveGetChildById(id) end
+    'forgottenCraftButton','forgottenRefreshButton','forgottenEffect','forgottenDetails','forgottenDetailsScrollbar','forgottenDesignsLabel',
+    'forgottenWeaponSeparator','forgottenWeaponDetailsButton','forgottenEffectDetailsButton','forgottenActivityDetailsButton','forgottenUnlockButton'}) do ui[id] = window:recursiveGetChildById(id) end
+  ui.forgottenWeaponDetailsButton.onClick = function() showDetails('Weapon details', detailMessages.weapon) end
+  ui.forgottenEffectDetailsButton.onClick = function() showDetails('Signature details', detailMessages.signature) end
+  ui.forgottenActivityDetailsButton.onClick = function() showDetails('Forge activity', detailMessages.activity) end
+  ui.forgottenUnlockButton.onClick = function()
+    showDetails('Unlock designs', '1. Complete The Ascent and ask Bolgrim about forgotten works.\n'
+      .. '2. Defeat Dwarf Guards or Dwarf Geomancers and loot your Old Forging Mould from the corpse. Return it to Bolgrim.\n'
+      .. '3. Use a Forging Page to permanently learn that family of designs.\n\n'
+      .. 'Page sources in their normal hunting regions:\n'
+      .. 'Dwarf: Dwarf Guard, Dwarf Geomancer.\n'
+      .. 'Barbarian: Bloodwalker, Brutetamer, Headsplitter, Skullhunter.\n'
+      .. 'Dragon: Dragon, Dragon Hatchling.\n'
+      .. 'Lava: Fire Devil, Fire Elemental.\n\n'
+      .. 'Pages have a 2% chance per eligible regional kill. Keep more than 14 hours of stamina remaining and take part in the fight.\n'
+      .. 'Designs stay learned. Crafting costs and personal forge activity are separate requirements.')
+  end
   local function selectTab(forgotten)
     clearQuote()
+    closeDetails()
     ui.smeltPanel:setVisible(not forgotten); ui.forgottenPanel:setVisible(forgotten)
     ui.smeltTab:setOn(not forgotten); ui.forgottenTab:setOn(forgotten)
     if forgotten then
@@ -242,7 +314,8 @@ function ForgottenWorks.init(window, sender)
   ui.smeltTab.onClick = function() selectTab(false) end
   ui.forgottenTab.onClick = function() selectTab(true) end
   ui.forgottenRefreshButton.onClick = function()
-    clearQuote(); ui.forgottenCraftButton:setEnabled(false); request({action = 'forgotten_refresh'})
+    clearQuote(); clearDetails(); status('Refreshing your discovered works...')
+    ui.forgottenCraftButton:setEnabled(false); request({action = 'forgotten_refresh'})
   end
   ui.forgottenCraftButton.onClick = function()
     if selectedKey then
@@ -260,16 +333,20 @@ function ForgottenWorks.init(window, sender)
       return false
     end
     clearQuote()
+    clearDetails()
     completionMessage = nil
     donor = {id = number(recipe.donorId), clientId = item:getId(), pos = {x = pos.x, y = pos.y, z = pos.z}}
     ui.forgottenCraftButton:setEnabled(false)
+    ui.forgottenStats:setText('Inspecting weapon rolls...')
+    status('Inspecting the selected Epic weapon...')
     requestPreview()
     return true
   end
   ui.forgottenDonor.onMouseRelease = function(widget, mousePos, button)
     if button ~= MouseRightButton then return false end
-    clearQuote(); donor, completionMessage = nil, nil; ui.forgottenDonor:setItemId(0)
-    ui.forgottenCraftButton:setEnabled(false); requestPreview()
+    clearQuote(); clearDetails(); donor, completionMessage = nil, nil; ui.forgottenDonor:setItemId(0)
+    ui.forgottenCraftButton:setEnabled(false); ui.forgottenStats:setText('Inspecting base values...')
+    status('Inspecting the design without a donor weapon...'); requestPreview()
     return true
   end
 end
@@ -323,8 +400,10 @@ function ForgottenWorks.handle(data, bootstrap)
 end
 function ForgottenWorks.destroy(clearPending)
   clearQuote()
+  closeDetails()
   if ui and send and clientSession and not clearPending then request({action = 'forgotten_close'}) end
   ui, send, recipes, selectedKey, donor = nil, nil, nil, nil, nil
   clientSession, latestRequest, completionMessage = nil, nil, nil
+  detailMessages, questStage = nil, nil
   if clearPending then pendingResults = {} end
 end
