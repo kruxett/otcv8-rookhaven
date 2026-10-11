@@ -2,9 +2,14 @@
 
 Magic Quiver is a nonstackable ammunition container equipped in the ammo slot.
 It holds 20 ammo stacks and supplies the first compatible stack to the equipped
-bow or crossbow. Normal ammunition consumption and carrying weight still apply.
+bow or crossbow. Ammunition inside weighs 10% less, matching Backpack of Holding;
+the empty quiver still weighs 18.00 oz. Ammunition consumption is unchanged.
 It grants no damage or combat bonuses. Ordinary equipped ammunition remains
 supported. Non-ammunition and nested containers are rejected.
+
+For example, 100 arrows add 63.00 oz instead of 70.00 oz; 100 bolts add
+72.00 oz instead of 80.00 oz. A containing Backpack of Holding applies its
+own reduction to the loaded quiver. Look describes the ammunition reduction.
 
 The existing hunter's quiver (SID 12425), including Garrick's quest reward, is
 unchanged. The approved DEV10094 artwork uses SID 12830 → CID 11867 → SPR 36664.
@@ -62,6 +67,21 @@ target cap, range, delays and damage formulas are retained.
 The permanent command is registered in `data/talkactions/talkactions.xml`.
 `tools/quiver-fixture/quiver_native.lua` is registered only in the disposable
 loopback runtime; it is not a live game command.
+
+Container weight is rounded from the complete current contents at each level,
+so repeated one-round removals cannot accumulate rounding drift. Capacity checks
+use that same contribution through enclosing bags and preserve the player's
+pickup restrictions. Forgotten Works projects all costs, replacement weight and
+gold change together before checking the final capacity.
+
+For weight regressions, register the server's
+`tools/quiver-fixture/quiver_weight_startup.lua` only in the disposable loopback
+runtime. It checks 1,854 insertion/removal weights across three ammunition types
+and three enclosing bags. `/quiverqa weight` adds exact capacity boundaries,
+pickup flags, moves, cloning and nested Forgotten Works transactions. The native
+quiver and counter probes cover ordinary shots, spells, persistence, the shop,
+stack splitting/merging and the closed-container counter. Run these affected
+paths for weight changes; the full passive suite is not required.
 
 DEV 8.60 validates the quiver's client ID/container/nonstack/pickup flags before
 allowing login. A missing or incompatible item table prompts a client restart

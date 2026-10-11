@@ -166,7 +166,11 @@ local function online()
  closeClassChoice()
  if not inventory.inventoryWindow:isVisible()then inventory.toggle()end
  if reconnecting then reconnecting=false;local continuation=assert(onReconnect);onReconnect=nil;continuation()
- else command('/quiverqa counterbegin '..sid,'COUNTER_READY',function(receipt)verify(0,receipt,function()runStep(1)end)end)end
+ else command('/quiverqa weight','WEIGHT_OK',function(weight)
+  assert(weight.restored and weight.checks>=428,'Weight/capacity/forge regression proof missing')
+  evidence.weight=weight
+  command('/quiverqa counterbegin '..sid,'COUNTER_READY',function(receipt)verify(0,receipt,function()runStep(1)end)end)
+ end)end
 end
 doLogin=function()
  -- Each relog gets a fresh ProtocolLogin/XTEA handshake.

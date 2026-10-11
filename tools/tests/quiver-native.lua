@@ -293,9 +293,12 @@ local function firstProbe()
  end
  phase='contract'
  commands({'/passiveqa quiesce '..name,'/passivetest stop '..name,'/passiveqa learn '..name},function()
+  command('/quiverqa weight','WEIGHT_OK',function(weightResult)
+   evidence.weight=weightResult
   command('/quiverqa contract '..sid,'CONTRACT_OK',function(result)
    assert(result.sid==sid and result.maximumArrows==2000 and result.capacity==20 and result.overflowRejected and result.restored,'Actual container/type/capacity proof failed')
    evidence.contract=result;spellProbe()
+  end)
   end)
  end)
 end
