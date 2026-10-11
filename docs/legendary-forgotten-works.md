@@ -1,7 +1,9 @@
 # Legendary: Forgotten Works
 
-Implemented across the client and sibling `Rookhaven` server repository. This
-document describes the local implementation; it does not attest a live DEV release.
+Published to the ordinary DEV server on 2026-10-11 as **DEV10095**, with server
+commit `26e362de`, client code commit `b0127f19` and login checksum
+`CS1:14287d12`. Restart the DEV client and let its updater finish before testing;
+the previous 10094 client is refused before entering the world.
 
 Bolgrim opens the Forgotten Works for an Ascended character who retrieves his
 personal old mould from an eligible dwarven world spawn. Four scattered recipe
@@ -127,13 +129,94 @@ online; arguments use spaces, not command separators.
 /legendaryadmin reset
 ```
 
-`prepare` supplies one craft's Epic donor, materials, gold and personal counters;
-the recipient still completes the actual forge dialog. `grant` gives the issuer
-a complete testing item. `force` queues the next eligible signature lottery on
-the issuer; `reset` clears its testing state. Generic `/i` cannot create an
-incomplete catalog weapon.
+`prepare` supplies one craft's Epic donor, materials, gold and personal counters,
+sets quest stage 2 and teaches all recipes. The recipient needs capacity and a
+free backpack slot, and still completes the actual forge dialog. Omitting the
+target prepares the issuer. `grant` gives the issuer a complete testing item.
+`force` queues the next eligible signature lottery on the issuer; ordinary
+payment, cooldown and combat rules still apply. `reset` clears only the issuer's
+signature cooldown, pending force, temporary effects and diagnostic counters.
+It does not restore quest progress, pages, cores, materials, gold or items.
+Generic `/i` cannot create an incomplete catalog weapon.
+
+For a quick crafting/UI test on DEV:
+
+First restart/update the ordinary DEV client to 10095. The resulting weapons
+require level 35 to equip/use; admin preparation does not raise character level.
+
+1. Use an access character in group 5/6. Run `/legendaryadmin status`, then
+   `/legendaryadmin prepare deepwarden` with capacity and a free bag slot.
+2. Run `/goto Bolgrim`. The NPC is at `32124,32023,14`; walk to the lava forge
+   at `32118,32024,14` and stand within one tile on the same floor. The forge
+   uses item 7504/action ID 50053. Direct access-character teleport is also
+   supported: `/goto {x = 32117, y = 32024, z = 14}`.
+3. Use the forge, open **Forgotten Works**, choose **Deepwarden**, and drag the
+   Epic weapon from the supplied backpack into the donor slot. Check its two
+   inherited rolls, resulting stats, signature hover and listed costs.
+4. Try Refresh, clearing the donor, Close/reopen and Forge/Cancel. Cancel must
+   retain the donor and all costs. Confirming Forge replaces the exact donor in
+   its bag, retains both rolls and consumes the listed materials, gold and
+   225 minutes from each of the four personal cores. Resize the client and
+   verify that text and controls remain reachable.
+5. Equip the result and test normal attacks outside PZ. For a separate effect
+   test, use `/legendaryadmin grant stonewake`, equip it, then run
+   `/legendaryadmin reset` and `/legendaryadmin force` before a successful paid
+   attack. Watch `/legendaryadmin status` and the equipped item's feedback.
+   Swapping weapons must retain the shared cooldown.
+
+To test natural acquisition, use a separate Ascended character before running
+`prepare` or `unlock`. Speak to Bolgrim with `hi` and `forgotten works`, retrieve
+the personal mould from an eligible authored dwarven world spawn, return it,
+use a recipe page and follow the tempering dialogue. The admin preparation
+commands skip this quest flow; no command resets the quest to stage 0.
 
 ## Verification and release
+
+Fresh release evidence is in `out/chase-dev-release-20261011/`:
+
+- `coordinated-deployment-result.json` and `post-runtime-final.json` verify the
+  published DEV10095 updater manifest/API, matching client resources, rebuilt
+  Windows server and enforced `CS1:14287d12`. The final runtime check observed
+  448 seconds of uptime with no new startup errors or crash dumps. PROD remained
+  1006. These checks did not log in or exercise gameplay on live DEV.
+- `server/native-verification.json` records 14 passing native client gates in
+  owned loopback runtimes, including the old 10094 rejection, 38 item/combat
+  fix assertions, enabled/disabled combat baselines, delayed effects, lifecycle
+  and all six passive trees. Connected Legendary checks covered seven inventory
+  transaction cases, all ten paid signatures, four primary PvP cases, the actual
+  production forge and inherited rolls, quote replay, shared cooldown and ward
+  behavior, plus Bolgrim's ordinary-character quest path. Failed harness attempts
+  and their corrected reruns remain recorded; production rules were unchanged.
+  Original databases/configs and dedicated probe-profile bytes were preserved,
+  and owned processes were stopped.
+- `client/final-client-evidence.json` records the corrected client build,
+  159 source/package equality checks and 16 actual-catalog compatibility
+  assertions. Native rendering produced 17 screenshots at 1280×800 and 800×640,
+  using supplied rendering snapshots. The real DEV HTTP updater then downloaded
+  and promoted the new EXE, restarted from 10094 to 10095 and verified the actual
+  DAT guard and loaded UI modules. This updater test covered unauthenticated
+  startup, not live gameplay. Its ordinary and LocalItemTest profiles, and the
+  render probe profile, were restored with file bytes and recursive permissions
+  verified; the immutable release install was unchanged.
+
+Still unmeasured: natural proc/drop/page frequency, full material/core farming,
+ordinary chase duration, long sessions, spawn competition and secondary-player
+PvP/secure-mode combinations. The five-fix NPC test did not establish private
+callbacks or the full 300-second lifetime; Bolgrim dialogue was tested separately.
+The unchanged Stonebond gate was not rerun by the shared-ward fixture. Local
+native gameplay results and rendering snapshots do not establish live DEV
+gameplay or final balance.
+
+The first 2026-10-11 client build unexpectedly ran the legacy native checksum
+generator and wrote the ordinary profile's derived `checksum_expected.txt`.
+Metadata showed no other profile writes. Its original bytes were unavailable,
+so the resulting file was preserved rather than replaced with a guessed copy.
+`client/profile-reconciliation.json` records this incident. The legacy generator
+is now disabled by default; the corrected build preserved the reconciled profile.
+Later rendering/updater probes restored their captured profiles as described
+above. This does not claim restoration of the checksum file's pre-build bytes.
+
+### Historical local evidence, 2026-10-10
 
 Original implementation evidence is collected in `out/legendary-assets-20261010/`.
 Review fixes and connected retests are in `out/legendary-fixes-20261010/`, with
@@ -142,11 +225,11 @@ fixtures under `tools/legendary-fixture/` and the named native QA scripts belong
 only in an owned loopback runtime. Never copy them into DEV/PROD data.
 
 The change requires a recompiled server, matching DAT/SPR/OTB/XML, final encrypted
-client resources and freshly exported login checksums. Public DEV publication
-also requires a fresh DEV version and updater manifest; the local package's
-version 10094 is not a new public release. Preserve checksum enforcement.
+client resources and freshly exported login checksums. The following local
+package 10094 and `CS1:5e69735b` results are historical evidence, superseded by
+the DEV10095 publication above. Preserve checksum enforcement.
 
-Verified locally on 2026-10-10:
+Historically verified locally on 2026-10-10:
 
 - Final client and server builds, 19-item binary import with old records and
   pixels preserved, encrypted archive SHA256
@@ -218,8 +301,7 @@ Not measured: ordinary total farm time, natural signature frequency,
 secondary-player PvP selection and long-term competition for the authored
 spawns. The short quest test does not establish natural recipe-page frequency
 or human enjoyment. Acquisition costs and signature feel still need ordinary
-hunt telemetry before final launch tuning. This implementation has not been
-published to live DEV.
+hunt telemetry before final launch tuning.
 
 The initial build wrapper's ordinary-profile guard aborted before launching a
 native client because its backup did not match the expected fingerprint. The
