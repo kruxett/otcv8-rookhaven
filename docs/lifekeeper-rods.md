@@ -72,5 +72,28 @@ ran in the real client against the local server built from this source:
 (28 groups) still pass.
 
 Not exercised: an actual monster kill dropping a rod, forging Ashen Requiem from
-a real Wither Rod, rarity rolls or upgrades on the new rods, and any DEV or live
-server. Drop rates and damage are starting values, not a measured balance pass.
+a real Wither Rod, and rarity rolls or upgrades on the new rods. Drop rates and
+damage are starting values, not a measured balance pass.
+
+## DEV10097 release on 2026-10-12
+
+Published to the ordinary DEV server as **DEV10097**: server commit `178aba9a`
+(native EXE built on the DEV host from `7503f1f5`, identical native source),
+client commit `a4df63d`.
+
+- `modules/game_features/features.lua` now requires client IDs 11887–11894, which
+  moves the login checksum from `CS1:14287d12` to `CS1:a87b278f`. Earlier DEV
+  clients are refused until they update.
+- The client release is archive-only: the already published `RookhavenClient.exe`
+  is reused with a new `data.zip`. The prepared package (that EXE plus the new
+  archive) started offline with version 10097 and 11895 item types, and the same
+  login checksum was enforced in the local login tests.
+- On DEV: orderly shutdown with no players online, full database dump, fast-forward,
+  new EXE installed, client published while the server was stopped, restart through
+  the existing supervisor. Readback showed the new commit and EXE, listeners on
+  7173/7174, a clean start-up log, the updater offering 10097 to a 10096 client on
+  both the local and public endpoint, and config and PROD unchanged.
+
+Not exercised on DEV: a gameplay login, the native updater download/restart from a
+10096 client, and any rod behaviour. Those were tested on the local loopback only.
+Receipts are under `out/rods-dev-release-20261012/` (ignored by Git).
