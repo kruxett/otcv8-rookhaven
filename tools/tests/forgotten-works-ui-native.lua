@@ -135,7 +135,7 @@ local preview = {action='forgotten_preview',success=true,recipeKey='deepwarden',
 local longSignatures = {
   {index=9,key='stonewake',name='Stonewake',donorName='jade wand',signature={name='Living Bark',
     text='Normal attacks have a 12% chance to ready Living Bark for 8 seconds. Each of the next two direct hits absorbs up to 6 HP damage against creatures or 3 against players, within the shared ward limit. Total protection is capped at 12 or 6 HP; unused protection expires. Cooldown: 12 seconds.'}},
-  {index=10,key='ashen_requiem',name='Ashen Requiem',donorName='necrotic rod',signature={name='Soul Draw',
+  {index=10,key='ashen_requiem',name='Ashen Requiem',donorName='wither rod',signature={name='Soul Draw',
     text='Normal attacks have a 12% chance to deal 30% extra death damage before critical bonuses, up to 12, and restore 20% of the actual HP damage dealt by the main hit and Soul Draw, up to 8 health. Damage absorbed by a mana shield does not heal you. Cooldown: 12 seconds.'}}
 }
 local function snapshot(extra)

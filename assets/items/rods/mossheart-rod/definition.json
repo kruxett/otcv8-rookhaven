@@ -1,0 +1,17 @@
+{
+  "server_id": 12851,
+  "client_id": 11888,
+  "name": "mossheart rod",
+  "article": "a",
+  "prototype_server_id": 2182,
+  "attributes": {
+    "description": "A green heart of living stone pulses beneath the moss.",
+    "weight": "2300",
+    "weaponType": "wand",
+    "shootType": "smallearth",
+    "range": "3"
+  },
+  "minimum_level": 20,
+  "element": "earth",
+  "art_source": "PixelLab 1-direction object review pack, native 32x32, styled on the existing rod sprites; no rescaling. Clipped shaft ends were shortened two rows and closed with an outlined foot (bone rod unchanged)"
+}

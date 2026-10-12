@@ -1,0 +1,131 @@
+{
+  "items": [
+    {
+      "server_id": 12850,
+      "client_id": 11887,
+      "sprite_id": 36684,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "1ef999e76786f58aa5506d8c3690be8ab41c84fc8843f0d17baa14ef6ba63406"
+    },
+    {
+      "server_id": 12851,
+      "client_id": 11888,
+      "sprite_id": 36685,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "cde97f73591a5c4cbff480d17ef6e96c7c94af2e1f8f3e37ebe3fe243ea6462e"
+    },
+    {
+      "server_id": 12852,
+      "client_id": 11889,
+      "sprite_id": 36686,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "3d2b2f4203afbb945799f83335f6830ab2743279dccdba9ec04a63e1d03bf3ed"
+    },
+    {
+      "server_id": 12853,
+      "client_id": 11890,
+      "sprite_id": 36687,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "ba95a7775d9b567f94b3baabc8b6c074bc36886f530bf244abb476c2b78afa58"
+    },
+    {
+      "server_id": 12854,
+      "client_id": 11891,
+      "sprite_id": 36688,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "3d96b16c14dedb481ebeb396aee2d739b6b5b6043319ff6d18fae9876bc544c2"
+    },
+    {
+      "server_id": 12855,
+      "client_id": 11892,
+      "sprite_id": 36689,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "a8b3e35e2d20b086ecc7b1b23fa95a934d29ca728a58caf34b672b45294671f9"
+    },
+    {
+      "server_id": 12856,
+      "client_id": 11893,
+      "sprite_id": 36690,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "040c2e97e7329ee513f7c19ad774f95cf25b4de59d13ab0f82d7bf299c76efc4"
+    },
+    {
+      "server_id": 12857,
+      "client_id": 11894,
+      "sprite_id": 36691,
+      "donor": 2182,
+      "layout": [
+        1,
+        1,
+        1,
+        1,
+        2
+      ],
+      "image_sha256": "a4d44c8b7af919e35b8e910fc7cdbcc3300ee30501db6801a0fedd36c549a00d"
+    }
+  ],
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "cd8c69261bb996f52058a43858d4516b9c1eb82fc63a07b2a7f7c853d63ee7f1",
+    "client/data/things/860/Tibia.spr": "280e953c04f9632a8c4ac135c72030780228da15751adcf5acfa9b0bb9b60710",
+    "server/data/items/items.otb": "8f850ba351a171dc3e500340a15e1918038a1b24021c9e347374989eab45f77b",
+    "server/data/items/items.xml": "82214247f640ec8434873fabf995d5a7782f839e71eb8fc862cc602bff296136"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "71556a76acb4a95858a6d35cdb16940af52ef0da19dafef2cde3ef20f6905d5a",
+    "client/data/things/860/Tibia.spr": "7e4d2c1d941b786ef0d5742710bc76f1451e3ac60c31a9053efc22763e47de58",
+    "server/data/items/items.otb": "ba06b83935bb02cceea61e301146a272d9710a29008a0fff203a1be1fbfeb897",
+    "server/data/items/items.xml": "037d5b3afce2de7de1e078e2b0499c3f9bb149e6859fbe15ef7e248bbb9a0e24"
+  },
+  "validated_existing_sprites": 36683,
+  "validated_existing_dat_records": 12272,
+  "validated_existing_otb_records": 12750
+}

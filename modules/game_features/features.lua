@@ -10,11 +10,12 @@ function validateRookhavenAssets(version)
   if version ~= 860 or (UPDATER_CHANNEL ~= 'dev' and not LOCAL_PASSIVES_TEST) then
     return true
   end
-  -- DEV's quiver and Forgotten Works require the matching item table before login.
-  -- This critical resource also separates the new catalog's login checksum from
-  -- earlier DEV archives that cannot display the new client item IDs.
+  -- DEV's quiver, Forgotten Works and Lifekeeper rods require the matching item
+  -- table before login. This critical resource also separates the new catalog's
+  -- login checksum from earlier DEV archives that cannot display the new client
+  -- item IDs.
   local items = g_things.getThingTypes(ThingCategoryItem)
-  if #items > 11886 then
+  if #items > 11894 then
     local quiver = g_things.getThingType(11867, ThingCategoryItem)
     if quiver:getId() == 11867 and quiver:isContainer() and quiver:isPickupable()
         and not quiver:isStackable() then
@@ -25,6 +26,14 @@ function validateRookhavenAssets(version)
         if item:getId() ~= id or not item:isPickupable() or item:isContainer()
             or item:isStackable() ~= stackable or item:getWidth() ~= 1 or item:getHeight() ~= 1
             or item:getAnimationPhases() ~= phases then
+          return false, tr('Game data needs updating. Close and restart the client to download the latest version.')
+        end
+      end
+      -- Lifekeeper rods 11887-11894 keep the two-phase rod layout.
+      for id = 11887, 11894 do
+        local item = g_things.getThingType(id, ThingCategoryItem)
+        if item:getId() ~= id or not item:isPickupable() or item:isContainer() or item:isStackable()
+            or item:getWidth() ~= 1 or item:getHeight() ~= 1 or item:getAnimationPhases() ~= 2 then
           return false, tr('Game data needs updating. Close and restart the client to download the latest version.')
         end
       end

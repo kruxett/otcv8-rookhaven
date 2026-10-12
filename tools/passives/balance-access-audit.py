@@ -193,7 +193,7 @@ def audit(root):
     candidates = {}
     for family in ("axe", "sword", "club", "wand", "shield"):
         candidates[family] = sorted([row for row in equipment.values() if row.get("weapontype") == family], key=lambda r: int(r.get("attack", r.get("defense", 0))), reverse=True)[:8]
-    rod_ids = {2181, 2182, 2183, 2185, 2186, 8910, 8911, 8912}
+    rod_ids = {2181, 2182, 2183, 2185, 2186, 8910, 8911, 8912, 12850, 12851, 12852, 12853, 12854, 12855, 12856, 12857}
     # Item XML wands have no attack number: sorting them by attack would silently
     # omit stronger actual loot wands in favor of the first eight item IDs.
     candidates["wand"] = sorted([row for row in equipment.values() if row.get("nativeWandStats") and row["sources"]],

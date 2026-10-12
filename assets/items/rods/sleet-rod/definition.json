@@ -1,0 +1,17 @@
+{
+  "server_id": 12853,
+  "client_id": 11890,
+  "name": "sleet rod",
+  "article": "a",
+  "prototype_server_id": 2182,
+  "attributes": {
+    "description": "Cold grit hisses around its jagged shard of ice.",
+    "weight": "2100",
+    "weaponType": "wand",
+    "shootType": "smallice",
+    "range": "3"
+  },
+  "minimum_level": 13,
+  "element": "ice",
+  "art_source": "PixelLab 1-direction object review pack, native 32x32, styled on the existing rod sprites; no rescaling. Clipped shaft ends were shortened two rows and closed with an outlined foot (bone rod unchanged)"
+}

@@ -1,0 +1,17 @@
+{
+  "server_id": 12854,
+  "client_id": 11891,
+  "name": "winterbough rod",
+  "article": "a",
+  "prototype_server_id": 2182,
+  "attributes": {
+    "description": "A frozen bough that still remembers the deepest winter.",
+    "weight": "2400",
+    "weaponType": "wand",
+    "shootType": "smallice",
+    "range": "3"
+  },
+  "minimum_level": 20,
+  "element": "ice",
+  "art_source": "PixelLab 1-direction object review pack, native 32x32, styled on the existing rod sprites; no rescaling. Clipped shaft ends were shortened two rows and closed with an outlined foot (bone rod unchanged)"
+}
