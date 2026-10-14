@@ -341,6 +341,7 @@ void LuaInterface::loadScript(const std::string& fileName)
 
     filePath = g_resources.guessFilePath(filePath, "lua");
 
+    g_resources.requireTrustedResource(filePath);
     std::string buffer = g_resources.readFileContents(filePath);
     std::string source = std::string("@") + filePath;
     loadBuffer(buffer, source);
@@ -766,10 +767,32 @@ void LuaInterface::createLuaState()
 
     // installs script loader
     getGlobal("package");
+#ifdef ROOKHAVEN_QA_CLIENT
     getField("loaders");
     pushCFunction(&LuaInterface::luaScriptLoader);
     rawSeti(5);
     pop(2);
+#else
+    // No filesystem, DLL or FFI loaders. require() resolves only approved resources.
+    newTable();
+    pushCFunction(&LuaInterface::luaScriptLoader);
+    rawSeti(1);
+    setField("loaders");
+    pushNil(); setField("loadlib");
+    newTable(); setField("preload");
+    getField("loaded");
+    pushNil(); setField("ffi");
+    pushNil(); setField("io");
+    pop();
+    pop();
+    pushNil(); setGlobal("ffi");
+    pushNil(); setGlobal("io");
+    pushNil(); setGlobal("load");
+    pushNil(); setGlobal("loadstring");
+    getGlobal("os");
+    pushNil(); setField("execute");
+    pop();
+#endif
 
     // replace dofile
     pushCFunction(&LuaInterface::lua_dofile);

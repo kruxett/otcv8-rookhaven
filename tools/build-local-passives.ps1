@@ -6,7 +6,7 @@ $clientRoot = Split-Path $PSScriptRoot -Parent
 $serverRoot = Join-Path (Split-Path $clientRoot -Parent) 'Rookhaven'
 $packageDir = Join-Path $clientRoot 'out/install/x64-LocalPassives'
 if (-not $ServerOnly) {
-    & (Join-Path $PSScriptRoot 'build-dev.ps1') -Jobs $Jobs `
+    & (Join-Path $PSScriptRoot 'build-dev.ps1') -Jobs $Jobs -QaClient -Python $Python `
         -BuildDirectory (Join-Path $clientRoot 'out/build/x64-LocalPassives') `
         -InstallDirectory $packageDir -DefaultServerEndpoint '127.0.0.1:7174:860'
     if ($LASTEXITCODE) { throw 'Local client build failed.' }

@@ -125,9 +125,6 @@ end
 function collectiveReload()
   modules.game_topbar.refresh(true)
   modules.game_actionbar.refresh(true)
-  if modules.game_bot then
-    modules.game_bot.refresh()
-  end
 end
 
 -- json handlers

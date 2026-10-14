@@ -114,20 +114,7 @@ void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRando
         msg->addU8(challengeRandom);
     }
 
-    // Use C++ checksum generation instead of Lua
-    std::string extended = ChecksumManager::generateLoginChecksum();
-    if (!extended.empty()) {
-        msg->addString(extended);
-    } else {
-        msg->addString(std::string("OTCv8"));
-        std::string version = g_app.getVersion();
-        version = stdext::split(version, " ")[0];
-        stdext::replace_all(version, ".", "");
-        if (version.length() == 2) {
-            version += "0";
-        }
-        msg->addU16(atoi(version.c_str()));
-    }
+    msg->addString("RH2");
 
     // encrypt with RSA
     if (g_game.getFeature(Otc::GameLoginPacketEncryption)) {
@@ -137,31 +124,17 @@ void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRando
         msg->encryptRsa();
     }
 
-    if (g_game.getFeature(Otc::GameSendIdentifiers)) {
-        std::string user = g_platform.getUserName().substr(0, 20);
-        std::string cpu = g_platform.getCPUName().substr(0, 20);
-        uint32_t memory = (g_platform.getTotalSystemMemory() / (1024 * 1024));
-        auto macs = g_platform.getMacAddresses();
-        if (macs.size() > 4) {
-            macs.resize(4);
-        }
-
-        offset = msg->getMessageSize();
-        msg->addU8(0); // first RSA byte must be 0
-        msg->addString(user); // max 22 bytes
-        msg->addString(cpu); // max 22 bytes
-        msg->addU32(memory);
-        msg->addU8(macs.size());
-        for (auto& mac : macs) {
-            msg->addString(mac); // 18 bytes
-        }
-        if (g_game.getFeature(Otc::GameLoginPacketEncryption)) {
-            int paddingBytes = g_crypt.rsaGetSize() - (msg->getMessageSize() - offset);
-            VALIDATE(paddingBytes >= 0);
-            msg->addPaddingBytes(paddingBytes);
-            msg->encryptRsa();
-        }
-    }
+    // Separate block preserves the credential capacity of the original login block.
+    offset = msg->getMessageSize();
+    msg->addU8(0);
+#ifdef ROOKHAVEN_QA_CLIENT
+    msg->addU8(1);
+#else
+    msg->addU8(0);
+#endif
+    msg->addString(ChecksumManager::generateLoginProof(challengeTimestamp, challengeRandom));
+    msg->addPaddingBytes(g_crypt.rsaGetSize() - (msg->getMessageSize() - offset));
+    msg->encryptRsa();
 
     if(g_game.getFeature(Otc::GameProtocolChecksum))
         enableChecksum();

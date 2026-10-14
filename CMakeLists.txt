@@ -174,8 +174,6 @@ option(FRAMEWORK_GRAPHICS "Use GRAPHICS " ON)
 option(FRAMEWORK_XML "Use XML " ON)
 option(FRAMEWORK_NET "Use NET " ON)
 option(WITH_ENCRYPTION "Enable ENC3 file encryption support" ON)
-option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
-option(ENABLE_BOT_MODULE "Enable game_bot module" OFF)
 option(ENABLE_LUAC_RELEASE "Compile Lua scripts to bytecode in Release builds" ON)
 
 set(LUAC_EXECUTABLE "" CACHE FILEPATH "Path to the luac or luajit executable")
@@ -230,6 +228,26 @@ endif()
 
 # add client executable
 add_executable(${CLIENT_TARGET} ${framework_SOURCES} ${client_SOURCES} ${executable_SOURCES})
+option(ROOKHAVEN_QA_CLIENT "Allow test scripts; all game connections are restricted to loopback" OFF)
+if(ROOKHAVEN_QA_CLIENT)
+    target_compile_definitions(${CLIENT_TARGET} PRIVATE ROOKHAVEN_QA_CLIENT)
+endif()
+if(NOT ENABLE_LUAC_RELEASE OR NOT LUAC_EXECUTABLE)
+    message(FATAL_ERROR "Rookhaven requires deterministic LuaJIT bytecode for its resource manifest")
+endif()
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+file(GLOB_RECURSE ROOKHAVEN_RESOURCE_INPUTS CONFIGURE_DEPENDS
+    "${CMAKE_SOURCE_DIR}/data/*" "${CMAKE_SOURCE_DIR}/modules/*" "${CMAKE_SOURCE_DIR}/layouts/*")
+set(ROOKHAVEN_MANIFEST "${CMAKE_BINARY_DIR}/generated/rookhaven_resources.h")
+file(GENERATE OUTPUT "${CMAKE_BINARY_DIR}/generated/resource-inputs.txt" CONTENT "${ROOKHAVEN_RESOURCE_INPUTS}")
+add_custom_command(OUTPUT "${ROOKHAVEN_MANIFEST}"
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_SOURCE_DIR}/tools/client_resource_manifest.py"
+        --root "${CMAKE_SOURCE_DIR}" --output "${ROOKHAVEN_MANIFEST}" --luajit "${LUAC_EXECUTABLE}"
+    DEPENDS ${ROOKHAVEN_RESOURCE_INPUTS} "${CMAKE_SOURCE_DIR}/init.lua"
+        "${CMAKE_BINARY_DIR}/generated/resource-inputs.txt"
+        "${CMAKE_SOURCE_DIR}/tools/client_resource_manifest.py" VERBATIM)
+target_sources(${CLIENT_TARGET} PRIVATE "${ROOKHAVEN_MANIFEST}")
+target_include_directories(${CLIENT_TARGET} PRIVATE "${CMAKE_BINARY_DIR}/generated")
 target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
 
 # Resource changes must also rerun the post-build copy and bytecode packaging.
@@ -256,13 +274,7 @@ target_compile_definitions(${CLIENT_TARGET} PRIVATE
     BUILD_REVISION=${BUILD_REVISION}
     CLIENT_VERSION="${CLIENT_VERSION}")
 
-if(ENABLE_BOT_MODULE)
-    target_compile_definitions(${CLIENT_TARGET} PRIVATE ENABLE_BOT_MODULE)
-endif()
 
-if(ENABLE_BOT_MODULE)
-    target_compile_definitions(${CLIENT_TARGET} PRIVATE ENABLE_BOT_MODULE)
-endif()
 
 # Enable encryption support if option is ON
 if(WITH_ENCRYPTION)
@@ -650,105 +662,6 @@ install(FILES "${CMAKE_SOURCE_DIR}/discord-rpc.dll" DESTINATION "lib" OPTIONAL)
 # For static (Release) builds: package data/, modules/, layouts/ and init.lua into data.zip (no encryption)
 # For dynamic (Debug) builds: install uncompressed data/, modules/, layouts/ and init.lua
 if(USE_STATIC_LIBS)
-    if(ENABLE_BOT_MODULE)
-        install(CODE "
-            message(STATUS \"Creating data.zip for Release distribution...\")
-            
-            # Ensure CMAKE_INSTALL_PREFIX is absolute
-            if(NOT IS_ABSOLUTE \"\${CMAKE_INSTALL_PREFIX}\")
-                get_filename_component(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\" ABSOLUTE BASE_DIR \"${CMAKE_BINARY_DIR}\")
-            else()
-                set(_install_prefix \"\${CMAKE_INSTALL_PREFIX}\")
-            endif()
-            set(_data_zip_path \"\${_install_prefix}/data.zip\")
-            
-            # Determine source directory - handle both multi-config and single-config generators
-            set(_source_dir \"${CMAKE_BINARY_DIR}\")
-            if(\"${CMAKE_CONFIGURATION_TYPES}\" STREQUAL \"\")
-                # Single-config generator (Ninja) - files are in CMAKE_BINARY_DIR directly
-                # Already set correctly
-            else()
-                # Multi-config generator (Visual Studio) - files are in subdirectory
-                set(_cfg \"\$ENV{CMAKE_INSTALL_CONFIG_NAME}\")
-                if(NOT _cfg AND DEFINED CMAKE_INSTALL_CONFIG_NAME)
-                    set(_cfg \"\${CMAKE_INSTALL_CONFIG_NAME}\")
-                endif()
-                if(NOT _cfg AND DEFINED CMAKE_BUILD_TYPE)
-                    set(_cfg \"\${CMAKE_BUILD_TYPE}\")
-                endif()
-                if(_cfg)
-                    set(_source_dir \"\${_source_dir}/\${_cfg}\")
-                endif()
-            endif()
-                
-            # Remove old data.zip if exists
-            if(EXISTS \"\${_data_zip_path}\")
-                file(REMOVE \"\${_data_zip_path}\")
-            endif()
-                
-            # Create temp directory for packaging
-            set(_temp_dir \"\${_install_prefix}/_temp_pack\")
-            file(REMOVE_RECURSE \"\${_temp_dir}\")
-            file(MAKE_DIRECTORY \"\${_temp_dir}\")
-                
-            # Copy files to temp
-            message(STATUS \"Copying files for packaging from: \${_source_dir}\")
-            if(EXISTS \"\${_source_dir}/init.luac\")
-                file(COPY \"\${_source_dir}/init.luac\" DESTINATION \"\${_temp_dir}\")
-            elseif(EXISTS \"\${_source_dir}/init.lua\")
-                file(COPY \"\${_source_dir}/init.lua\" DESTINATION \"\${_temp_dir}\")
-            endif()
-            file(COPY \"\${_source_dir}/data\" DESTINATION \"\${_temp_dir}\")
-            file(COPY \"\${_source_dir}/modules\" DESTINATION \"\${_temp_dir}\")
-            file(COPY \"\${_source_dir}/layouts\" DESTINATION \"\${_temp_dir}\")
-
-            set(_bot_disabled \"\${_temp_dir}/modules/game_bot/bot.otmod.disabled\")
-            if(EXISTS \"\${_bot_disabled}\")
-                file(RENAME \"\${_bot_disabled}\" \"\${_temp_dir}/modules/game_bot/bot.otmod\")
-            endif()
-
-            if(${WITH_ENCRYPTION})
-                set(_encrypt_exe \"\${_install_prefix}/${CLIENT_TARGET}${CMAKE_EXECUTABLE_SUFFIX}\")
-                if(EXISTS \"\${_encrypt_exe}\")
-                    message(STATUS \"Encrypting client resources before packaging...\")
-                    execute_process(
-                        COMMAND \"\${_encrypt_exe}\" --local-passives --encrypt-data \"${RUNTIME_DATA_ZIP_PASSWORD}\"
-                        WORKING_DIRECTORY \"\${_temp_dir}\"
-                        RESULT_VARIABLE _enc_result
-                        ERROR_VARIABLE _enc_error
-                    )
-                    if(NOT _enc_result EQUAL 0)
-                        message(FATAL_ERROR \"Failed to encrypt resources: \${_enc_error}\")
-                    endif()
-                else()
-                    message(FATAL_ERROR \"Encryption executable not found: \${_encrypt_exe}\")
-                endif()
-            endif()
-                
-            # Create ZIP from files using CMake tar
-            message(STATUS \"Creating data.zip at: \${_data_zip_path}\")
-            set(_init_entry \"init.lua\")
-            if(EXISTS \"\${_temp_dir}/init.luac\")
-                set(_init_entry \"init.luac\")
-            endif()
-            execute_process(
-                COMMAND \${CMAKE_COMMAND} -E tar cf \"\${_data_zip_path}\" --format=zip -- \${_init_entry} data modules layouts
-                WORKING_DIRECTORY \"\${_temp_dir}\"
-                RESULT_VARIABLE _zip_result
-                OUTPUT_VARIABLE _zip_output
-                ERROR_VARIABLE _zip_error
-            )
-                
-            if(NOT _zip_result EQUAL 0)
-                message(FATAL_ERROR \"Failed to create data.zip: \${_zip_error}\")
-            endif()
-                
-            message(STATUS \"Successfully created data.zip\")
-                
-            # Clean up temp directory
-            file(REMOVE_RECURSE \"\${_temp_dir}\")
-        ")
-    else()
         install(CODE "
             message(STATUS \"Creating data.zip for Release distribution...\")
             
@@ -842,27 +755,14 @@ if(USE_STATIC_LIBS)
             # Clean up temp directory
             file(REMOVE_RECURSE \"\${_temp_dir}\")
         ")
-    endif()
 else()
     # Debug build: install uncompressed for easier development
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/data" DESTINATION ".")
     install(FILES "${CMAKE_SOURCE_DIR}/init.lua" DESTINATION ".")
-    if(ENABLE_BOT_MODULE)
-        install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION ".")
-    else()
-        install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION "."
-                PATTERN "game_bot" EXCLUDE)
-    endif()
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/modules" DESTINATION ".")
     install(DIRECTORY "${CMAKE_SOURCE_DIR}/layouts" DESTINATION ".")
 
-    if(ENABLE_BOT_MODULE)
-        install(CODE "
-            set(_bot_disabled \"\${CMAKE_INSTALL_PREFIX}/modules/game_bot/bot.otmod.disabled\")
-            if(EXISTS \"\${_bot_disabled}\")
-                file(RENAME \"\${_bot_disabled}\" \"\${CMAKE_INSTALL_PREFIX}/modules/game_bot/bot.otmod\")
-            endif()
-        ")
-    endif()
+
 endif()
 
 # Install extra files (init.lua is already handled above for Debug, and in data.zip for Release)

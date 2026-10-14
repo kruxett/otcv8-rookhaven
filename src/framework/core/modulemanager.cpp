@@ -47,12 +47,6 @@ void ModuleManager::discoverModules()
         modules.insert(modules.end(), subFilesAndDirs.begin(), subFilesAndDirs.end());
     }
 
-    dirs = g_resources.listDirectoryFiles("/mods", true);
-    for (auto& dir : dirs) {
-        auto subFilesAndDirs = g_resources.listDirectoryFiles(dir, true);
-        modules.insert(modules.end(), subFilesAndDirs.begin(), subFilesAndDirs.end());
-    }
-
     for (auto& mod : modules) {
         if (g_resources.isFileType(mod, "otmod")) {
             ModulePtr module = discoverModule(mod);
@@ -77,18 +71,14 @@ ModulePtr ModuleManager::discoverModule(const std::string& moduleFile)
 {
     ModulePtr module;
     try {
+        g_resources.requireTrustedResource(moduleFile);
         OTMLDocumentPtr doc = OTMLDocument::parse(moduleFile);
         OTMLNodePtr moduleNode = doc->at("Module");
 
         std::string name = moduleNode->valueAt("name");
 
-        // Block certain modules from loading
-        if (name == "game_bot") {
-#ifndef ENABLE_BOT_MODULE
-            g_logger.warning(stdext::format("Module '%s' is blocked from loading", name));
+        if (name == "game_bot" || name == "client_terminal")
             return nullptr;
-#endif
-        }
 
         bool push = false;
         module = getModule(name);

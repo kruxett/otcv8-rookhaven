@@ -117,7 +117,11 @@ public:
         return m_layout;
     }
 
+    // @dontbind
+    void requireTrustedResource(const std::string& path);
 private:
+    void checkResourceRead(const std::string& path);
+    bool validateArchive(const std::vector<uint8_t>& data);
     bool mountMemoryData(const std::shared_ptr<std::vector<uint8_t>>& data);
     void unmountMemoryData();
 

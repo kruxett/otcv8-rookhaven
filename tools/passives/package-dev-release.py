@@ -24,8 +24,8 @@ RESOURCE_ROOTS = ("modules/game_passives/", "data/images/game/passives/",
                   "modules/game_inventory/", "modules/game_lava_smelt/",
                   "data/images/items/legendary/")
 ITEM_ASSET_SOURCES = ("data/things/860/Tibia.dat", "data/things/860/Tibia.spr")
-# Changed character presentation must match the final archive without changing
-# the native critical-eight login checksum contract.
+# Legacy CRC inventory remains useful for deployment comparisons. RH2 login
+# instead pins the entire native resource manifest and the client executable.
 CYCLOPEDIA_SOURCES = ("modules/game_cyclopedia/game_cyclopedia.lua",
                       "modules/game_cyclopedia/tab/character/character.lua",
                       "modules/game_cyclopedia/tab/character/character.otui")
@@ -67,9 +67,9 @@ def critical_paths(client: Path, server: Path) -> list[str]:
         text = text.split(begin, 1)[1].split(end, 1)[0]
         return re.findall(r'"(/modules/[^"\r\n]+)"', text)
     left = extract(client / "src/client/checksummanager.cpp", "ChecksumManager::getCriticalFiles()", "uint32_t ChecksumManager::hashString")
-    right = extract(server / "src/protocolgame.cpp", "const std::vector<std::string> criticalFiles = {", "};")
-    if len(left) != 8 or left != right or len(set(left)) != 8:
-        raise ValueError("Native client/server critical eight paths/order differ")
+    # Retain the legacy CRC inventory for deployment tooling. Login now uses RH2.
+    if len(left) != 8 or len(set(left)) != 8:
+        raise ValueError("Legacy inventory must contain eight distinct resource paths")
     return left
 
 
@@ -141,13 +141,21 @@ def default_sources(client: Path, server: Path) -> dict[str, list[str]]:
     client_files = ["init.lua", "CMakeLists.txt", "modules/game_actionbar/actionbar.lua", "src/main.cpp",
                     "src/framework/core/resourcemanager.cpp", "src/framework/core/resourcemanager.h", "tools/build-dev.ps1",
                     "tools/passives/package-dev-release.py", "tools/legendary_assets.py"]
+    client_files += ["tools/client_resource_manifest.py", "docs/client-resource-integrity.md",
+                     "src/client/checksummanager.cpp", "src/client/checksummanager.h", "src/client/protocolgamesend.cpp",
+                     "src/client/const.h", "src/framework/core/modulemanager.cpp",
+                     "src/framework/luaengine/luainterface.cpp", "src/framework/net/protocol.cpp",
+                     "src/framework/ui/uiwidget.cpp", "modules/client/client.otmod",
+                     "modules/client_profiles/profiles.lua", "modules/game_console/console.lua",
+                     "modules/game_interface/gameinterface.lua", "modules/corelib/const.lua", "modules/gamelib/const.lua",
+                     "modules/gamelib/unlooted_corpses_config.lua"]
     client_files += [relative(name) for name in critical_paths(client, server)]
     client_files += list(CYCLOPEDIA_SOURCES)
     client_files += list(ITEM_ASSET_SOURCES)
     client_files += [p.relative_to(client).as_posix() for p in sorted((client / "assets/items/legendary").rglob("*")) if p.is_file()]
     for directory in RESOURCE_ROOTS:
         client_files += [p.relative_to(client).as_posix() for p in sorted((client / directory).rglob("*")) if p.is_file()]
-    server_files = ["schema.sql", "data/checksum_expected.txt", "data/items/items.otb", "data/items/items.xml",
+    server_files = ["schema.sql", "data/checksum_expected.txt", "data/client_integrity_expected.txt", "data/items/items.otb", "data/items/items.xml",
                     "data/lib/core/forgotten_works.lua", "data/lib/core/forgotten_works_config.lua",
                     "data/lib/core/forgotten_works_look.lua", "data/events/scripts/player.lua",
                     "data/scripts/eventcallbacks/player/default_onLook.lua",
@@ -186,6 +194,16 @@ def prepare(args: argparse.Namespace) -> dict:
     for path in (archive, executable, server_exe):
         if not path.is_file():
             raise ValueError(f"Final artifact missing: {path}")
+    integrity = install / "client_integrity_expected.txt"
+    if not integrity.is_file():
+        raise ValueError("Missing RH2 server compatibility pin; build the distributed client")
+    pins = integrity.read_text().split()
+    if len(pins) != 2 or not all(re.fullmatch(r"[0-9a-f]{64}", p) for p in pins) or pins[1] != sha256(executable):
+        raise ValueError("RH2 pin does not match the client executable")
+    verification = subprocess.run([str(executable), "--verify-resources"], cwd=install, check=True, timeout=60,
+                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if ("Verified resource manifest: " + pins[0]) not in verification.stdout.decode(errors="replace"):
+        raise ValueError("RH2 resource pin differs from the executable's native manifest")
     init_source = (client / "init.lua").read_text(encoding="utf-8-sig")
     version = re.search(r"local\s+DEV_APP_VERSION\s*=\s*(\d+)", init_source)
     if not version or int(version[1]) != args.version:
@@ -269,7 +287,8 @@ def prepare(args: argparse.Namespace) -> dict:
         raise ValueError("Missing or duplicate server binary/DLL paths")
     report = {"version": args.version, "channel": "dev", "preparedOnly": True, "published": False, "deployed": False,
               "criticalFiles": critical, "criticalCount": 8, "preservedMonitoredCount": len(existing),
-              "passiveResourceCount": len(extras), "checksumCount": len(checksums), "loginChecksum": f"CS1:{login_hash:08x}",
+              "passiveResourceCount": len(extras), "checksumCount": len(checksums), "legacyLoginChecksum": f"CS1:{login_hash:08x}",
+              "clientIntegrity": {"protocol": "RH2", "resources": pins[0], "executable": pins[1]},
               "updaterSha256": hashes, "serverExeSha256": sha256(server_exe), "sourcePackageEquality": equality,
               "clientFiles": {path.relative_to(install).as_posix(): sha256(path) for path in client_files},
               "serverBinaryFiles": {path.name: sha256(path) for path in server_files},
@@ -291,6 +310,7 @@ def prepare(args: argparse.Namespace) -> dict:
         checksum_text = "\n".join([f"# DEV {args.version}: CRC32 of final encrypted archive entries; native critical order first."] +
                                   [f"{path}={crc}" for path, crc, _ in checksums]) + "\n"
         (stage / "checksum_expected.txt").write_text(checksum_text, encoding="utf-8")
+        shutil.copy2(integrity, stage / "client_integrity_expected.txt")
         (stage / ("updater-response.json" if args.updater_template else "updater-values.json")).write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
         (stage / "source-allowlist.json").write_text(json.dumps(selected, indent=2) + "\n", encoding="utf-8")
         archives = [(f"Rookhaven-DEV{args.version}-client.zip", [(p, p.relative_to(install).as_posix()) for p in client_files]),
@@ -328,9 +348,9 @@ def main() -> None:
     args = parser.parse_args()
     try:
         report = prepare(args)
-    except (ValueError, OSError, zipfile.BadZipFile, subprocess.TimeoutExpired, zlib.error) as error:
+    except (ValueError, OSError, zipfile.BadZipFile, subprocess.SubprocessError, zlib.error) as error:
         parser.exit(1, f"DEV release export failed: {error}\n")
-    print(json.dumps({key: report[key] for key in ("version", "criticalCount", "preservedMonitoredCount", "passiveResourceCount", "checksumCount", "loginChecksum", "updaterSha256", "preparedOnly")}))
+    print(json.dumps({key: report[key] for key in ("version", "criticalCount", "preservedMonitoredCount", "passiveResourceCount", "checksumCount", "clientIntegrity", "updaterSha256", "preparedOnly")}))
 
 
 if __name__ == "__main__":

@@ -60,11 +60,6 @@ static void setupDllSearchPath() {
     else
         newPath = lib;
     SetEnvironmentVariableW(L"PATH", newPath.c_str());
-
-    // Explicitly preload lua51.dll from lib directory
-    std::filesystem::path luaPath = libDir / L"lua51.dll";
-    if(std::filesystem::exists(luaPath))
-        LoadLibraryW(luaPath.c_str());
 }
 #endif
 
@@ -94,16 +89,38 @@ int main(int argc, const char* argv[]) {
     installCrashHandler();
 #endif
 
+#ifndef ROOKHAVEN_QA_CLIENT
+    const bool encryptOnly = std::find(args.begin(), args.end(), "--encrypt-data") != args.end();
+    if (!encryptOnly && (std::find(args.begin(), args.end(), "--test") != args.end() ||
+        std::find(args.begin(), args.end(), "--run-script") != args.end() ||
+        std::find(args.begin(), args.end(), "--local-passives") != args.end())) {
+        std::cerr << "External scripts and QA flags are disabled in the distributed client." << std::endl;
+        return 2;
+    }
+#endif
     // initialize resources
     g_resources.init(argv[0]);
+    // Read-only native verification uses the same parser as normal startup.
+    // It neither initializes Lua nor accepts a caller-supplied manifest.
+    if (std::find(args.begin(), args.end(), "--verify-resources") != args.end()) {
+#ifdef ROOKHAVEN_QA_CLIENT
+        std::cerr << "QA builds cannot certify distributed client resources." << std::endl;
+        return 2;
+#else
+        const bool valid = g_resources.setupLocalArchive();
+        g_resources.terminate();
+        return valid ? 0 : 3;
+#endif
+    }
     // Native integration tests need real file IO in a disposable profile.
     bool testMode = std::find(args.begin(), args.end(), "--test") != args.end();
     bool localPassives = std::find(args.begin(), args.end(), "--local-passives") != args.end();
     bool localPeer = localPassives && std::find(args.begin(), args.end(), "--local-passives-peer") != args.end();
+    const bool isolatedProfile = std::find(args.begin(), args.end(), "--isolated-profile") != args.end();
     std::string compactName = localPassives
         ? (testMode ? (localPeer ? "Rookhaven-LocalPassives-Probe-Peer" : "Rookhaven-LocalPassives-Probe")
                     : (localPeer ? "Rookhaven-LocalPassives-Peer" : "Rookhaven-LocalPassives"))
-        : (testMode ? "Rookhaven-LocalItemTest" : "Rookhaven");
+        : (isolatedProfile ? "Rookhaven-Verification" : (testMode ? "Rookhaven-LocalItemTest" : "Rookhaven"));
     g_logger.setLogFile(compactName + ".log");
 
     // setup application name and version
@@ -145,7 +162,9 @@ int main(int argc, const char* argv[]) {
 
     g_http.init();
 
-    g_lua.pushBoolean(localPassives);
+    // A clean diagnostic profile uses the local endpoint and skips the updater;
+    // distributed builds still enforce the resource manifest and reject test scripts.
+    g_lua.pushBoolean(localPassives || isolatedProfile);
     g_lua.setGlobal("LOCAL_PASSIVES_TEST");
 
     if (testMode) {
@@ -158,7 +177,8 @@ int main(int argc, const char* argv[]) {
         if (!g_resources.setupLocalArchive())
             g_logger.fatal("Can't load local passive test data.zip. Rebuild the local test package.");
     } else {
-        g_resources.setup();
+        if (!g_resources.setup())
+            g_logger.fatal("Client resources do not match this executable. Reinstall the complete official client.");
     }
 
     if(!runScriptPath.empty()) {
@@ -208,12 +228,6 @@ int main(int argc, const char* argv[]) {
     }
 
  
-
-#ifdef WIN32
-    // support for progdn proxy system, if you don't have this dll nothing will happen
-    // however, it is highly recommended to use otcv8 proxy system
-    LoadLibraryA("progdn32.dll");
-#endif
 
     // the run application main loop
     g_app.run();

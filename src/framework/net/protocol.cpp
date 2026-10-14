@@ -64,6 +64,10 @@ Protocol::~Protocol()
 
 void Protocol::connect(const std::string& host, uint16 port)
 {
+#ifdef ROOKHAVEN_QA_CLIENT
+    if ((host != "127.0.0.1" && host != "::1") || g_proxy.isActive())
+        stdext::throw_exception("QA clients can connect only to a local fixture without proxies.");
+#endif
     if (host == "proxy" || host == "0.0.0.0" || (host == "127.0.0.1" && g_proxy.isActive())) {
         m_disconnected = false;
         m_proxy = g_proxy.addSession(port,

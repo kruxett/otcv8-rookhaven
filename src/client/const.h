@@ -449,7 +449,7 @@ namespace Otc
 
         GameItemTooltip = 93,
 
-        GameBot = 95,
+        // 95 was the removed bot feature; do not reuse.
         GameBiggerMapCache = 96,
         GameForceLight = 97,
         GameNoDebug = 98,

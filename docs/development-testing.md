@@ -99,6 +99,11 @@ the changed live path on a designated QA character when that test is in scope
 and available; otherwise report the gap. Release smoke does not require a full
 combat, passive or quest suite merely because a package was published.
 
+For the protected client, follow [client resource integrity](client-resource-integrity.md).
+Resource changes require a matching rebuilt executable and server RH2 pin.
+Use the loopback-only QA build for injected test drivers; check the distributed
+build separately with native archive verification and normal user input.
+
 ## Evidence and stopping point
 
 Keep source/build/package identities tied to the checks. Previous results can

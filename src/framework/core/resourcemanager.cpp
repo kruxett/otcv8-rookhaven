@@ -21,6 +21,7 @@
  */
 
 #include "resourcemanager.h"
+#include "rookhaven_resources.h"
 #include "filestream.h"
 #include "resource.h"
 
@@ -351,7 +352,7 @@ bool ResourceManager::setupLocalArchive()
     const auto archivePath = m_binaryPath.parent_path() / "data.zip";
     std::ifstream archive(archivePath, std::ios::binary);
     if (!archive.is_open()) {
-        g_logger.error("Local passive test requires data.zip beside the executable.");
+        g_logger.error("Rookhaven requires data.zip beside the executable.");
         return false;
     }
     auto bytes = std::make_shared<std::vector<uint8_t>>(
@@ -364,13 +365,17 @@ bool ResourceManager::setupLocalArchive()
         g_logger.error("Local passive test archive is incomplete.");
         return false;
     }
-    g_logger.info("LOCAL PASSIVES: loaded the archive beside the executable; updater disabled.");
+    g_logger.info("Loaded client archive beside the executable.");
     return true;
 #endif
 }
 
 bool ResourceManager::setup(bool ignoreWriteDir)
 {
+#if !defined(ROOKHAVEN_QA_CLIENT) && !defined(ANDROID)
+    // Never search cwd, parent directories or the writable profile for code.
+    return setupLocalArchive();
+#endif
     std::shared_ptr<std::vector<uint8_t>> data = nullptr;
 #ifdef ANDROID
     PHYSFS_File* file = PHYSFS_openRead("data.zip");
@@ -675,6 +680,7 @@ void ResourceManager::readFileStream(const std::string& fileName, std::iostream&
 std::string ResourceManager::readFileContents(const std::string& fileName, bool safe)
 {
     std::string fullPath = resolvePath(fileName);
+    checkResourceRead(fullPath);
     
     if (fullPath.find("/downloads") != std::string::npos) {
         auto dfile = g_http.getFile(fullPath.substr(10));
@@ -692,11 +698,6 @@ std::string ResourceManager::readFileContents(const std::string& fileName, bool 
     PHYSFS_close(file);
 
     if (safe) {
-        return buffer;
-    }
-
-    // skip decryption for bot configs
-    if (fullPath.find("/bot/") != std::string::npos) {
         return buffer;
     }
 
@@ -719,6 +720,7 @@ std::string ResourceManager::readFileContents(const std::string& fileName, bool 
 bool ResourceManager::isFileEncryptedOrCompressed(const std::string& fileName)
 {
     std::string fullPath = resolvePath(fileName);
+    checkResourceRead(fullPath);
     std::string fileContent;
 
     if (fullPath.find("/downloads") != std::string::npos) {
@@ -788,6 +790,7 @@ bool ResourceManager::writeFileContents(const std::string& fileName, const std::
 FileStreamPtr ResourceManager::openFile(const std::string& fileName, bool dontCache)
 {
     std::string fullPath = resolvePath(fileName);
+    checkResourceRead(fullPath);
     if (isFileEncryptedOrCompressed(fullPath) || !dontCache) {
         return FileStreamPtr(new FileStream(fullPath, readFileContents(fullPath)));
     }
@@ -873,6 +876,20 @@ std::string ResourceManager::resolvePath(std::string path)
 
 std::string ResourceManager::guessFilePath(const std::string& filename, const std::string& type)
 {
+#ifndef ROOKHAVEN_QA_CLIENT
+    if (type == "lua") {
+        std::string candidate = filename;
+        if (!stdext::ends_with(candidate, ".lua") && !stdext::ends_with(candidate, ".luac"))
+            candidate += ".lua";
+        if (RookhavenResources::files.count(resolvePath(candidate)))
+            return candidate;
+        if (stdext::ends_with(candidate, ".lua")) {
+            candidate += "c";
+            if (RookhavenResources::files.count(resolvePath(candidate)))
+                return candidate;
+        }
+    }
+#endif
     if(stdext::ends_with(filename, ".luac"))
         return filename;
 
@@ -1435,10 +1452,6 @@ void ResourceManager::encrypt(const std::string& seed) {
             if (!std::filesystem::is_regular_file(entry.path()))
                 continue;
             std::string str(entry.path().string());
-            // skip encryption for bot configs
-            if (str.find("game_bot") != std::string::npos && str.find("default_config") != std::string::npos) {
-                continue;
-            }
             toEncrypt.push(entry.path());
         }
     }
@@ -1493,19 +1506,22 @@ bool ResourceManager::decryptBuffer(std::string& buffer) {
         return false;
     }
 
+    if (buffer.size() < 24)
+        return false;
+
     uint64_t key = *(uint64_t*)&buffer[4];
     uint32_t compressed_size = *(uint32_t*)&buffer[12];
     uint32_t size = *(uint32_t*)&buffer[16];
     uint32_t adler = *(uint32_t*)&buffer[20];
 
-    if (compressed_size < buffer.size() - 24)
+    if (compressed_size != buffer.size() - 24 || size > 256 * 1024 * 1024)
         return false;
 
     g_crypt.bdecrypt((uint8_t*)&buffer[24], compressed_size, key);
     std::string new_buffer;
     new_buffer.resize(size);
     unsigned long new_buffer_size = new_buffer.size();
-    if (uncompress((uint8_t*)new_buffer.data(), &new_buffer_size, (uint8_t*)&buffer[24], compressed_size) != Z_OK)
+    if (uncompress((uint8_t*)new_buffer.data(), &new_buffer_size, (uint8_t*)&buffer[24], compressed_size) != Z_OK || new_buffer_size != size)
         return false;
 
     uint32_t addlerCheck = stdext::adler32((const uint8_t*)&new_buffer[0], size);
@@ -1572,9 +1588,102 @@ void ResourceManager::setLayout(std::string layout)
     m_layout = layout;
 }
 
+void ResourceManager::requireTrustedResource(const std::string& path)
+{
+#ifndef ROOKHAVEN_QA_CLIENT
+    const auto resolved = resolvePath(path);
+    const char* origin = PHYSFS_getRealDir(resolved.c_str());
+    if (!m_loadedFromArchive || RookhavenResources::files.count(resolved) != 1 ||
+        !origin || std::string(origin) != "memory_data.zip")
+        stdext::throw_exception(stdext::format("Unapproved client resource: %s", resolved));
+#endif
+}
+
+void ResourceManager::checkResourceRead(const std::string& path)
+{
+#ifndef ROOKHAVEN_QA_CLIENT
+    const auto extension = std::filesystem::path(path).extension().string();
+    if (path.rfind("/modules/", 0) == 0 || path.rfind("/layouts/", 0) == 0 ||
+        path.rfind("/data/", 0) == 0 || extension == ".lua" || extension == ".luac" ||
+        extension == ".otmod" || extension == ".otui")
+        requireTrustedResource(path);
+#endif
+}
+
+bool ResourceManager::validateArchive(const std::vector<uint8_t>& data)
+{
+#ifndef ROOKHAVEN_QA_CLIENT
+    zip_error_t error;
+    zip_error_init(&error);
+    auto source = zip_source_buffer_create(data.data(), data.size(), 0, &error);
+    zip_error_fini(&error);
+    if (!source)
+        return false;
+    auto archive = zip_open_from_source(source, ZIP_RDONLY, nullptr);
+    if (!archive) {
+        zip_source_free(source);
+        return false;
+    }
+    std::set<std::string> seen;
+    bool valid = true;
+    const auto count = zip_get_num_entries(archive, 0);
+    for (zip_int64_t i = 0; valid && i < count; ++i) {
+        zip_stat_t stat;
+        if (zip_stat_index(archive, i, 0, &stat) != 0 || !stat.name) {
+            valid = false;
+            break;
+        }
+        std::string name(stat.name);
+        // No aliases, traversal, duplicate names or files outside the build manifest.
+        if (name.empty() || name.front() == '/' || name.find('\\') != std::string::npos ||
+            name.find(':') != std::string::npos || name.find("..") != std::string::npos ||
+            name.find("//") != std::string::npos || name.rfind("./", 0) == 0) {
+            valid = false;
+            break;
+        }
+        if (name.back() == '/')
+            continue;
+        const auto expected = RookhavenResources::files.find("/" + name);
+        if (expected == RookhavenResources::files.end() || !seen.insert(name).second ||
+            stat.size > expected->second.size * 2 + 1024) {
+            valid = false;
+            break;
+        }
+        auto file = zip_fopen_index(archive, i, 0);
+        if (!file) {
+            valid = false;
+            break;
+        }
+        std::string bytes(static_cast<size_t>(stat.size), '\0');
+        valid = zip_fread(file, bytes.data(), bytes.size()) == static_cast<zip_int64_t>(bytes.size());
+        zip_fclose(file);
+        if (valid && bytes.size() >= 4 && bytes.compare(0, 4, "ENC3") == 0) {
+            uint32_t decodedSize = 0;
+            if (bytes.size() >= 24)
+                memcpy(&decodedSize, bytes.data() + 16, sizeof(decodedSize));
+            valid = bytes.size() >= 24 && decodedSize == expected->second.size && decryptBuffer(bytes);
+        }
+        valid = valid && bytes.size() == expected->second.size &&
+            g_crypt.sha256Encode(bytes, false) == expected->second.hash;
+        if (!valid)
+            g_logger.error(stdext::format("Client resource verification failed: %s", name));
+    }
+    zip_discard(archive);
+    if (!valid || seen.size() != RookhavenResources::files.size()) {
+        g_logger.error("Client archive does not match the executable's resource manifest.");
+        return false;
+    }
+    g_logger.info(std::string("Verified resource manifest: ") + RookhavenResources::fingerprint);
+#endif
+    return true;
+}
+
 bool ResourceManager::mountMemoryData(const std::shared_ptr<std::vector<uint8_t>>& data)
 {
     if (!data || data->size() < 1024)
+        return false;
+
+    if (!validateArchive(*data))
         return false;
 
     if (PHYSFS_mountMemory(data->data(), data->size(), nullptr,

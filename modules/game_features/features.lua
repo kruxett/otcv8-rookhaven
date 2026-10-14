@@ -50,7 +50,6 @@ if version <= 0 then
 end
     
     -- you can add custom features here, list of them is in the modules\gamelib\const.lua
-    g_game.enableFeature(GameBot)
     g_game.enableFeature(GameExtendedOpcode)
     g_game.enableFeature(GameClientPing)
     --g_game.enableFeature(GameMinimapLimitedToSingleFloor) -- it will generate minimap only for current floor

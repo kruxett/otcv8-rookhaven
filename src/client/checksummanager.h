@@ -28,8 +28,9 @@
 class ChecksumManager
 {
 public:
-    // Generate login checksum hash (CS1:hash format)
-    static std::string generateLoginChecksum();
+    // Compatibility proof bound to this executable, its resources and the login challenge.
+    // This is not remote attestation of a user-controlled process.
+    static std::string generateLoginProof(uint32_t timestamp, uint8_t random);
     
     // Generate checksums for specific files (for periodic challenges)
     static std::string generateChecksumResponse(const std::string& challengeId, const std::vector<std::string>& files);

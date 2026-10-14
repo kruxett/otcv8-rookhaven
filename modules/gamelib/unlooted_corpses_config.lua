@@ -80,7 +80,4 @@ function unlootedCorpseColor(r, g, b, a)
   UnlootedCorpseConfig.setGlowColor(r, g, b, a)
 end
 
--- Example usage:
--- /lua unlootedCorpseToggle()  -- Enable/disable
--- /lua unlootedCorpseDebug()   -- Toggle debug messages
--- /lua unlootedCorpseColor(0, 255, 0, 200)  -- Change to green
+-- Developer helpers; distributed clients do not expose a Lua console.

@@ -21,6 +21,8 @@
  */
 
 #include "checksummanager.h"
+#include "rookhaven_resources.h"
+#include <framework/util/crypt.h>
 #include <framework/core/resourcemanager.h>
 #include <sstream>
 #include <iomanip>
@@ -50,31 +52,11 @@ uint32_t ChecksumManager::hashString(const std::string& input)
     return h;
 }
 
-std::string ChecksumManager::generateLoginChecksum()
+std::string ChecksumManager::generateLoginProof(uint32_t timestamp, uint8_t random)
 {
-    // First verify data.zip exists - critical security check
-    if (!verifyDataZipExists()) {
-        std::cout << "[Checksum] CRITICAL: data.zip not found - cannot generate checksum" << std::endl;
-        return "CS1:00000000";
-    }
-    
-    std::string combined;
-    
-    // Use UNCACHED checksums for security validation (prevents cache bypass)
-    auto criticalFiles = getCriticalFiles();
-    for (const auto& filepath : criticalFiles) {
-        std::string checksum = g_resources.fileChecksumUncached(filepath);
-        combined += checksum + "|";
-    }
-    
-    // Hash the combined string
-    uint32_t hash = hashString(combined);
-    
-    // Format as CS1:XXXXXXXX
-    std::ostringstream oss;
-    oss << "CS1:" << std::hex << std::setfill('0') << std::setw(8) << hash;
-    
-    return oss.str();
+    const std::string material = std::string("RH2|") + RookhavenResources::fingerprint + "|" +
+        g_resources.selfChecksum() + "|" + std::to_string(timestamp) + "|" + std::to_string(random);
+    return g_crypt.sha256Encode(material, false);
 }
 
 std::string ChecksumManager::generateChecksumResponse(const std::string& challengeId, const std::vector<std::string>& files)

@@ -5,7 +5,9 @@ param(
     [int]$Jobs = 8,
     [string]$BuildDirectory = '',
     [string]$InstallDirectory = '',
-    [string]$DefaultServerEndpoint = 'testserver2.rookhaven-ot.com:7173:860'
+    [string]$DefaultServerEndpoint = 'testserver2.rookhaven-ot.com:7173:860',
+    [switch]$QaClient,
+    [string]$Python = 'C:/Users/marcu/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -58,6 +60,8 @@ $configureArgs = @(
     "-DDEFAULT_SERVER_ENDPOINT=$DefaultServerEndpoint",
     '-DUPDATER_CHANNEL=dev',
     '-DGENERATE_LEGACY_BUILD_CHECKSUMS=OFF',
+    "-DROOKHAVEN_QA_CLIENT=$($QaClient.IsPresent.ToString().ToUpperInvariant())",
+    "-DPython3_EXECUTABLE=$Python",
     "-DCMAKE_INSTALL_PREFIX=$installDir"
 )
 & $cmake @configureArgs
@@ -67,6 +71,12 @@ if ($LASTEXITCODE -ne 0) { throw 'DEV build failed.' }
 # POST_BUILD does not run when only Lua/UI resources changed. Refresh the staging
 # resources and bytecode explicitly so every DEV package contains current sources.
 foreach ($resourceDir in @('data', 'modules', 'layouts')) {
+    $stagingPath = [IO.Path]::GetFullPath((Join-Path $buildDir $resourceDir))
+    if (-not $stagingPath.StartsWith([IO.Path]::GetFullPath($buildDir).TrimEnd('\') + '\', [StringComparison]::OrdinalIgnoreCase) -or
+        $stagingPath.StartsWith([IO.Path]::GetFullPath((Join-Path $projectRoot $resourceDir)), [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Unsafe resource staging path: $stagingPath"
+    }
+    if (Test-Path -LiteralPath $stagingPath) { Remove-Item -LiteralPath $stagingPath -Recurse -Force }
     & $cmake -E copy_directory (Join-Path $projectRoot $resourceDir) (Join-Path $buildDir $resourceDir)
     if ($LASTEXITCODE -ne 0) { throw "DEV resource copy failed: $resourceDir" }
 }
@@ -78,4 +88,9 @@ $luaCompiler = $compilerEntry.Matches[0].Groups[1].Value
 if ($LASTEXITCODE -ne 0) { throw 'DEV bytecode compilation failed.' }
 & $cmake --install $buildDir
 if ($LASTEXITCODE -ne 0) { throw 'DEV install failed.' }
+if (-not $QaClient) {
+    $manifest = Get-Content -LiteralPath (Join-Path $buildDir 'generated/rookhaven_resources.json') -Raw | ConvertFrom-Json
+    $binaryHash = (Get-FileHash -LiteralPath (Join-Path $installDir 'RookhavenClient.exe') -Algorithm SHA256).Hash.ToLowerInvariant()
+    @($manifest.fingerprint, $binaryHash) | Set-Content -LiteralPath (Join-Path $installDir 'client_integrity_expected.txt') -Encoding ascii
+}
 Write-Host "DEV client: $(Join-Path $installDir 'RookhavenClient.exe')"

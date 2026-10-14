@@ -3,7 +3,7 @@
 -- ============================================================================
 APP_NAME = "Rookhaven"  -- important, change it, it's name for config dir and files in appdata
 APP_VERSION = 1008      -- client version for updater and login to identify outdated client
-local DEV_APP_VERSION = 10097 -- increment when packaging a new DEV client
+local DEV_APP_VERSION = 10098 -- increment when packaging a new DEV client
 DEFAULT_LAYOUT = "retro" -- on android it's forced to "mobile", check code bellow
 
 -- If you don't use updater or other service, set it to updater = ""
@@ -206,13 +206,6 @@ local function loadModules()
     g_modules.ensureModuleLoaded("game_affixes")
   else
     ClientLog.warning("moduleLoad", "game_affixes module not found!")
-  end
-
-  -- Explicitly load game_bot module when present
-  local botModule = g_modules.getModule("game_bot")
-  if botModule then
-    ClientLog.info("moduleLoad", "Found game_bot module, loading...")
-    g_modules.ensureModuleLoaded("game_bot")
   end
 
   -- mods 1000-9999
