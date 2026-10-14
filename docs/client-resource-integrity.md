@@ -79,9 +79,9 @@ For a coordinated release:
 5. Verify the public updater, normal login and live version after publication.
    Roll back the client pair, server binary and compatibility pin together.
 
-No DEV or PROD deployment is part of the local implementation verification below.
-The planned client version is DEV10098. Do not deploy a server pin copied from a
-QA build or from an earlier build of the executable.
+The local implementation checks below preceded publication. DEV10098 was then
+published with the matching server; see the release evidence at the end. Do not
+deploy a server pin copied from a QA build or an earlier executable build.
 
 ## Repeatable checks
 
@@ -141,3 +141,40 @@ This change does not alter combat or passive formulas; no full passive suite was
 selected. Compilation retains existing compiler/dependency warnings. Initial
 upstream-client test setup lacked fonts/things modules; the clean rerun loads
 those dependencies and confirms refusal without those setup errors.
+
+## DEV10098 publication, 2026-10-14
+
+Client source commit `54ea5f9` and server commit `87a904aa` are pushed. The server
+was rebuilt in a separate worktree on the DEV host from that exact server commit.
+An orderly shutdown, private database backup, source fast-forward and coordinated
+client/server publication completed before the existing supervisor restarted TFS.
+No players were online at preflight. The old server exited with code zero.
+
+- Live server EXE SHA-256:
+  `d16429b0f6311436acbbecacc372ec8e790f53b76c5695c6c0bf1e58acd36887`.
+- Published client EXE SHA-256:
+  `731b3b956f1d39b55e9814ca043f840356360182b1939f3259c0240b21eeb74b`.
+- Published `data.zip` SHA-256:
+  `2890f848115871d5b9a9ccfc7365d6eec5ec582be40e9b21aa7cf2ac11bb7ae0`.
+- The live RH2 pin matches the final client executable and resource fingerprint.
+  Server startup and listeners on 7173/7174 pass; the existing supervisor and
+  updater remain in place. Config and PROD1006 files/metadata are unchanged.
+- A complete DEV10097 client downloaded the new archive and executable from the
+  real public updater. Native binary promotion, restart, matching final hashes
+  and a stable child process passed without injected scripts. This completes the
+  real updater-transition check that was pending during local implementation.
+  Two initial harness attempts failed while reading an open log; changing the
+  harness to shared log reading resolved that test-tool failure.
+- The existing dedicated DEV QA account returned its character list. A normal
+  protocol check rejected its old CS1 login, accepted its matching RH2 login and
+  sent logout. It performed no gameplay actions or account/property changes.
+- Native UI input on the live client remains unverified: Computer Use could not
+  activate the client window. The live login evidence is a protocol check;
+  ordinary native gameplay/UI coverage comes from the earlier local checks.
+- Both existing local profiles used by the updater test were restored with
+  matching fingerprints, and the test-owned client processes were stopped.
+
+Deployment, runtime, public-updater and profile-restoration receipts are under
+`out/antibot-deploy-20261014/` (ignored by Git). The remote rollback stage is
+`C:/CodexAntibot-10098-20261014/rollback`. It retains the previous server/client
+artifacts, updater manifest and private database backup.
