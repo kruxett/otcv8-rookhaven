@@ -21,7 +21,7 @@ MASK = 0xFFFFFFFF
 DELTA = 0x9E3779B9
 CLIENT_EXE = "RookhavenClient.exe"
 RESOURCE_ROOTS = ("modules/game_passives/", "data/images/game/passives/",
-                  "modules/game_inventory/", "modules/game_lava_smelt/",
+                  "modules/game_inventory/", "modules/game_lava_smelt/", "modules/game_personalstore/",
                   "data/images/items/legendary/")
 ITEM_ASSET_SOURCES = ("data/things/860/Tibia.dat", "data/things/860/Tibia.spr")
 # Legacy CRC inventory remains useful for deployment comparisons. RH2 login
@@ -158,6 +158,8 @@ def default_sources(client: Path, server: Path) -> dict[str, list[str]]:
     server_files = ["schema.sql", "data/checksum_expected.txt", "data/client_integrity_expected.txt", "data/items/items.otb", "data/items/items.xml",
                     "data/lib/core/forgotten_works.lua", "data/lib/core/forgotten_works_config.lua",
                     "data/lib/core/forgotten_works_look.lua", "data/events/scripts/player.lua",
+                    "data/lib/core/client_requests.lua", "data/lib/game_personalstore.lua",
+                    "data/lib/core/lava_smelt.lua", "data/migrations/32.lua", "data/migrations/33.lua",
                     "data/scripts/eventcallbacks/player/default_onLook.lua",
                     "data/talkactions/scripts/legendaryadmin.lua", "data/migrations/30.lua", "data/migrations/31.lua", "src/CMakeLists.txt",
                     "data/global.lua", "data/lib/lib.lua", "data/lib/core/storages.lua", "data/creaturescripts/scripts/login.lua",
