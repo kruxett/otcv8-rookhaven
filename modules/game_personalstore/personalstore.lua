@@ -12,6 +12,28 @@ local storeOpen = false
 local pendingVisualSync = false
 
 local CurrentStore = {}
+local requestSequence = 0
+local pendingMutation = nil
+local function sendStore(encoded)
+    local ok,message=pcall(json.decode,encoded)
+    if not ok or type(message)~='table' then return end
+    message.v=2
+    if message.protocol~='RequestPersonalStore' then
+        if not CurrentStore.session then return end
+        message.session=CurrentStore.session
+        requestSequence=requestSequence+1
+        message.requestId=requestSequence
+    end
+    local mutation=message.protocol=='BuyItemFromPersonalStore' or message.protocol=='AddOrEditItemToPersonalStore'
+        or message.protocol=='RemoveItemFromPersonalStore'
+    if mutation then
+        if pendingMutation then return end
+        local pending={requestId=message.requestId,session=message.session}
+        pendingMutation=pending
+        scheduleEvent(function() if pendingMutation==pending then pendingMutation=nil end end,8000)
+    end
+    g_game.getProtocolGame():sendExtendedOpcode(Opcode,json.encode(message))
+end
 
 local PersonalStoreModeOff = 0
 local PersonalStoreModeOn = 1
@@ -142,6 +164,8 @@ end
 
 
 function refresh()
+    pendingMutation=nil
+    CurrentStore={}
 	pendingVisualSync = false
 	MainWindow:hide()
 
@@ -274,8 +298,8 @@ local function applyOwnerEditModeState()
 					return
 				end
 
-				g_game.getProtocolGame():sendExtendedOpcode(Opcode,
-				json.encode({ protocol = 'RemoveItemFromPersonalStore', item_code = child.itemInfo.item_code }))
+				sendStore(
+				json.encode({ protocol = 'RemoveItemFromPersonalStore', item_code = child.itemInfo.item_code, revision = child.itemInfo.revision }))
 				removeItemFromPanel(child)
 			end
 		end
@@ -298,7 +322,7 @@ end
 
 function enableEditionModeOrOfflineMode()
 	if CurrentStore.mode == PersonalStoreModeOn then
-		g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'ClosePersonalStore' }))
+		sendStore( json.encode({ protocol = 'ClosePersonalStore' }))
 	elseif CurrentStore.mode == PersonalStoreModeOff then
 		editMode = not editMode
 		applyOwnerEditModeState()
@@ -363,7 +387,7 @@ function selectItemToSell()
 						child:setBorderColor("#FFFFFF")
 						foundSlot = true
 						
-						g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({
+						sendStore( json.encode({
 							protocol = 'SelectItemToSell',
 							pos = item:getPosition()
 						}))
@@ -471,9 +495,9 @@ function showEditItemPanel(itemInfo)
 	end
 	ItemEditPanel:getChildById('confirm').onClick = function()
 		local count = tonumber(ItemEditPanel:getChildById('count'):getValue())
-		g_game.getProtocolGame():sendExtendedOpcode(Opcode,
-		json.encode({ protocol = 'AddOrEditItemToPersonalStore', checking = itemInfo.checking, itemid = itemInfo.itemid, item_code =
-			itemInfo.item_code, count = count, price = tonumber(ItemEditPanel:getChildById('price'):getChildById('value')
+		sendStore(
+		json.encode({ protocol = 'AddOrEditItemToPersonalStore', checking = itemInfo.checking == true, itemid = itemInfo.itemid, item_code =
+			itemInfo.item_code, revision = itemInfo.revision, count = count, price = tonumber(ItemEditPanel:getChildById('price'):getChildById('value')
 		:getText()) }))
 	end
 	ItemEditPanel:show()
@@ -503,8 +527,8 @@ function showBuyItemPanel(itemInfo)
 		end
 	end
 	BuyItemPanel:getChildById('confirm').onClick = function()
-		g_game.getProtocolGame():sendExtendedOpcode(Opcode,
-		json.encode({ protocol = 'BuyItemFromPersonalStore', name = CurrentStore.ownername, item_code = itemInfo.item_code, count =
+		sendStore(
+		json.encode({ protocol = 'BuyItemFromPersonalStore', name = CurrentStore.ownername, item_code = itemInfo.item_code, revision = itemInfo.revision, price = itemInfo.price, count =
 		BuyItemPanel:getChildById('count'):getValue() }))
 	end
 	BuyItemPanel:show()
@@ -523,7 +547,7 @@ function showStartStorePanel()
 		end
 	end
 	StartStorePanel:getChildById('confirm').onClick = function()
-		g_game.getProtocolGame():sendExtendedOpcode(Opcode,
+		sendStore(
 		json.encode({ protocol = 'StartPersonalStore', name = StartStorePanel:getChildById('description'):getText() }))
 	end
 	StartStorePanel:show()
@@ -549,9 +573,9 @@ function selectOrStartStore()
 		selectItemToSell()
 	else
 		if CurrentStore.mode == PersonalStoreModeOff then
-			g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'StartPersonalStore' }))
+			sendStore( json.encode({ protocol = 'StartPersonalStore' }))
 		else
-			g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'ClosePersonalStore' }))
+			sendStore( json.encode({ protocol = 'ClosePersonalStore' }))
 		end
 	end
 end
@@ -564,7 +588,7 @@ function requestPersonalStore(name, silent)
 	end
 
 	pendingVisualSync = silent == true
-	g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({ protocol = 'RequestPersonalStore', name = name }))
+	sendStore( json.encode({ protocol = 'RequestPersonalStore', name = name }))
 end
 
 local function checkDistance()
@@ -590,7 +614,34 @@ end
 
 
 function parsePersonalStore(protocol, opcode, buffer)
-	local personal_store = json.decode(buffer)
+	local ok,personal_store=pcall(json.decode,buffer)
+    if not ok or type(personal_store)~='table' then return end
+    if personal_store.protocol=='operation_result' then
+        if pendingMutation and personal_store.session==pendingMutation.session
+            and pendingMutation.requestId==personal_store.requestId then pendingMutation=nil end
+        return
+    end
+    if personal_store.protocol=='ps' and pendingMutation and personal_store.session==pendingMutation.session then pendingMutation=nil end
+	if personal_store.protocol == "ps" and pendingVisualSync then
+			pendingVisualSync = false
+        if personal_store.owner then
+            local localPlayer=g_game.getLocalPlayer()
+            if localPlayer then localPlayer:setPersonalStore(personal_store.mode or 0,personal_store.name or personal_store.ownername or "") end
+        end
+			-- Browsing rotates the server session even when only refreshing the
+			-- creature's store badge. Keep same-store UI confirmations current,
+			-- without consuming an in-flight receipt from its previous session.
+			if CurrentStore.ownername == personal_store.ownername then
+				CurrentStore.session = personal_store.session
+				CurrentStore.mode = personal_store.mode
+				CurrentStore.ownerPosition = personal_store.ownerPosition
+			else
+				if MainWindow:isVisible() then hide() end
+				CurrentStore = personal_store
+			end
+			return
+		end
+
 	local wasEditing = editMode
 	local purchasePanel = MainPanel:getChildById('purchasePanel')
 	
@@ -626,11 +677,6 @@ function parsePersonalStore(protocol, opcode, buffer)
 			if localPlayer then
 				localPlayer:setPersonalStore(personal_store.mode or PersonalStoreModeOff, personal_store.name or personal_store.ownername or "")
 			end
-		end
-
-		if pendingVisualSync then
-			pendingVisualSync = false
-			return
 		end
 
 		editMode = personal_store.owner and personal_store.mode == PersonalStoreModeOff and wasEditing or false
@@ -793,7 +839,7 @@ function setupDropFunctionality()
 		for _, child in ipairs(ItemsPanel:getChildren()) do
 			if not child.itemInfo or not child.itemInfo.itemid or child.itemInfo.itemid == 0 then
 				addItemToPanel(child, item)
-				g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({
+				sendStore( json.encode({
 					protocol = 'SelectItemToSell',
 					pos = item:getPosition()
 				}))
@@ -867,7 +913,7 @@ function addItemToPanel(slot, item)
 		showEditItemPanel(slot.itemInfo)
 	end
 	
-	g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({
+	sendStore( json.encode({
 		protocol = 'AddItemToPersonalStore',
 		itemid = item:getId(),
 		count = item:getCount(),
@@ -886,10 +932,11 @@ function buySelectedItem()
 		if child.itemInfo and child.itemInfo.isSelected then
 			local selectedCount = itemCountScroll:getValue() or 1
 			
-			g_game.getProtocolGame():sendExtendedOpcode(Opcode, json.encode({
+			sendStore( json.encode({
 				protocol = 'BuyItemFromPersonalStore',
 				name = CurrentStore.ownername,
 				item_code = child.itemInfo.item_code,
+                revision = child.itemInfo.revision, price = child.itemInfo.price,
 				count = selectedCount
 			}))
 			

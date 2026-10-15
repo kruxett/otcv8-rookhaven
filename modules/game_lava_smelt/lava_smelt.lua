@@ -6,6 +6,7 @@ local slotWidgets = {}
 local slotData = {}
 local ui = {}
 local pendingRerollMaterial = nil
+local smeltSession, smeltToken = nil, nil
 local rerollItemIds = {
   [12805] = true,
   [12807] = true,
@@ -72,6 +73,8 @@ local function destroyRerollConfirm()
 end
 
 local function destroyWindow(clearPending)
+  if smeltSession then protocolSend({action='close',session=smeltSession}) end
+  smeltSession, smeltToken = nil, nil
   ForgottenWorks.destroy(clearPending)
   destroyRerollConfirm()
   if window then
@@ -156,7 +159,9 @@ local function refreshSlots()
 end
 
 local function requestPreview()
-  protocolSend({ action = 'preview', positions = collectPositions() })
+  smeltToken = nil
+  if ui.smeltButton then ui.smeltButton:setEnabled(false) end
+  protocolSend({ action = 'preview', session = smeltSession, positions = collectPositions() })
 end
 
 local function clearSlot(index, skipPreview)
@@ -203,6 +208,8 @@ end
 
 local function applyPreview(preview)
   preview = preview or {}
+  smeltSession = preview.session or smeltSession
+  smeltToken = preview.token
   rebuildFromPreview(preview.entries or {})
 
   if ui.selectedCountLabel then
@@ -223,10 +230,12 @@ local function applyPreview(preview)
     ui.rarityBreakdownLabel:setText(string.format('Rare: %d  Epic: %d  Legendary: %d', tonumber(counts.rare) or 0, tonumber(counts.epic) or 0, tonumber(counts.legendary) or 0))
   end
   if ui.smeltButton then
-    ui.smeltButton:setEnabled((tonumber(preview.totalCount) or 0) > 0)
+    ui.smeltButton:setEnabled(smeltToken ~= nil and (tonumber(preview.totalCount) or 0) > 0)
   end
 
-  if tonumber(preview.ignored) and tonumber(preview.ignored) > 0 then
+  if preview.success == false then
+    setStatus(preview.message or 'Select your offerings at the lava forge again.', '#e05050')
+  elseif tonumber(preview.ignored) and tonumber(preview.ignored) > 0 then
     setStatus(string.format('%d invalid offering(s) were ignored. The forge accepts only rare, epic, or legendary gear.', tonumber(preview.ignored) or 0), '#e05050')
   elseif (tonumber(preview.totalCount) or 0) > 0 then
     setStatus('The forge is prepared. Smelting will consume all listed offerings.', '#d9d2bf')
@@ -321,7 +330,11 @@ local function bindWindow()
         setStatus('You cannot afford the forging fee.', '#e05050')
         return
       end
-      protocolSend({ action = 'smelt', positions = collectPositions() })
+      if not smeltToken then return end
+      local token = smeltToken
+      smeltToken = nil
+      ui.smeltButton:setEnabled(false)
+      protocolSend({ action = 'smelt', session = smeltSession, token = token })
     end
     ui.smeltButton:setEnabled(false)
   end

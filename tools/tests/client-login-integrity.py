@@ -46,11 +46,25 @@ def decrypt(data, key):
     return bytes(out[2:2 + length])
 
 
+def encrypt(data, key):
+    out = bytearray()
+    for offset in range(0, len(data), 8):
+        left, right = struct.unpack_from('<II', data, offset)
+        total = 0
+        for _ in range(32):
+            left = (left + ((((right << 4) ^ (right >> 5)) + right) ^ (total + key[total & 3]))) & 0xFFFFFFFF
+            total = (total + 0x9E3779B9) & 0xFFFFFFFF
+            right = (right + ((((left << 4) ^ (left >> 5)) + left) ^ (total + key[(total >> 11) & 3]))) & 0xFFFFFFFF
+        out.extend(struct.pack('<II', left, right))
+    return bytes(out)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--qa-disabled', action='store_true')
+    parser.add_argument('--ingress', action='store_true', help='Also check checksum/framing and authenticated malformed packets')
     args = parser.parse_args()
     rsa = load_pem_private_key((args.runtime / 'key.pem').read_bytes(), None).public_key().public_numbers()
     pin_file = args.runtime / 'data/client_integrity_expected.txt'
@@ -62,7 +76,7 @@ def main():
         assert len(data) <= 128
         return pow(int.from_bytes(data.ljust(128, b'\0'), 'big'), rsa.e, rsa.n).to_bytes(128, 'big')
 
-    def attempt(label, variant='valid', should_accept=False):
+    def attempt(label, variant='valid', should_accept=False, malformed=None):
         time.sleep(0.25)
         accepted = False
         responses = []
@@ -93,6 +107,12 @@ def main():
             if variant == 'trailing':
                 body += b'x'
             packet = struct.pack('<I', zlib.adler32(body)) + body
+            if variant == 'bad_checksum':
+                packet = struct.pack('<I', zlib.adler32(body) ^ 1) + body
+            elif variant == 'no_checksum':
+                packet = body
+            elif variant == 'short_frame':
+                packet = b'\0\0\0'
             sock.sendall(struct.pack('<H', len(packet)) + packet)
             try:
                 for _ in range(10):
@@ -109,6 +129,30 @@ def main():
                         break
             except (EOFError, ConnectionResetError):
                 pass
+            if malformed is not None:
+                assert accepted, 'Malformed game case requires a successful real login first'
+                if malformed == 'trailing_action':
+                    clear = b'\x02\0\x65\0' + bytes(4)  # walk + extra byte, no action may be dispatched
+                elif malformed == 'truncated_action':
+                    clear = b'\x01\0\x96' + bytes(5)  # talk without its required fields
+                elif malformed == 'padding':
+                    clear = b'\x01\0\x1e' + bytes(13)  # excess XTEA padding
+                elif malformed == 'inner_length':
+                    clear = b'\xff\x7f\x1e' + bytes(5)
+                else:
+                    clear = b'\x01\0\x1e' + bytes(5)
+                encrypted = encrypt(clear, key)
+                checksum = zlib.adler32(encrypted) ^ (1 if malformed == 'game_checksum' else 0)
+                invalid = struct.pack('<I', checksum) + encrypted
+                sock.sendall(struct.pack('<H', len(invalid)) + invalid)
+                sock.settimeout(5)
+                closed = False
+                try:
+                    for _ in range(100):
+                        receive(sock)  # drain valid map packets already queued before the malformed request
+                except (EOFError, ConnectionResetError):
+                    closed = True
+                assert closed, 'Malformed authenticated game frame was not disconnected'
         passed = accepted == should_accept
         rows.append({'case': label, 'passed': passed, 'accepted': accepted, 'responses': responses})
         args.output.write_text(json.dumps(rows, indent=2))
@@ -125,6 +169,10 @@ def main():
     attempt('wrong challenge proof', 'nonce')
     attempt('short proof', 'short')
     attempt('unknown mode', 'mode')
+    if args.ingress:
+        attempt('first packet wrong Adler checksum', 'bad_checksum')
+        attempt('first packet missing checksum', 'no_checksum')
+        attempt('frame shorter than checksum', 'short_frame')
     pin_text = pin_file.read_text()
     try:
         pin_file.unlink()
@@ -142,6 +190,10 @@ def main():
     # Positive must run after the rejection cases: it proves they were not simply
     # failing because of a down server, incorrect password or broken test framing.
     attempt('matching official build proof', should_accept=True)
+    if args.ingress:
+        for variant in ('trailing_action', 'truncated_action', 'padding', 'inner_length', 'game_checksum'):
+            attempt('authenticated ' + variant, should_accept=True, malformed=variant)
+        attempt('healthy login after all malformed game frames', should_accept=True)
     print(f'{len(rows)} native server login cases passed')
 
 

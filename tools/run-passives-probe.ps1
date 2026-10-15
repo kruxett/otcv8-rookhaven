@@ -10,7 +10,8 @@ param(
     [switch]$PrepareOnly,
     [string]$PackageDirectory = '',
     [switch]$NormalDev,
-    [string]$ExitReceiptPath = ''
+    [string]$ExitReceiptPath = '',
+    [string]$ProbePreamble = ''
 )
 $ErrorActionPreference = 'Stop'
 $clientRoot = Split-Path $PSScriptRoot -Parent
@@ -33,7 +34,7 @@ try {
     $entries = @{
         'init.lua' = "function T() assert(loadstring(g_resources.readFileContents('/passives-probe.txt')))() end`nreturn dofile('/startup_original.lua')"
         'test.lua' = 'T()'
-        'passives-probe.txt' = "PASSIVES_COMBAT_PHASE='$Phase'`nPASSIVES_PROBE_TREE='$Tree'`nPASSIVES_PROBE_CAP='$Cap'`nPASSIVES_PROBE_PARTY=$($Party.IsPresent.ToString().ToLowerInvariant())`n" + [IO.File]::ReadAllText((Join-Path $PSScriptRoot ('tests/' + $Script)))
+        'passives-probe.txt' = "PASSIVES_COMBAT_PHASE='$Phase'`nPASSIVES_PROBE_TREE='$Tree'`nPASSIVES_PROBE_CAP='$Cap'`nPASSIVES_PROBE_PARTY=$($Party.IsPresent.ToString().ToLowerInvariant())`n" + $ProbePreamble + "`n" + [IO.File]::ReadAllText((Join-Path $PSScriptRoot ('tests/' + $Script)))
     }
     if ($NormalDev) {
         # Only the disposable probe scripts the updater response. The unchanged
