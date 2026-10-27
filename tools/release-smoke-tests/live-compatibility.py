@@ -1,9 +1,11 @@
 """Read-only DEV RH2 compatibility/catalog smoke with one owned ordinary QA account.
 
-This is a wire compatibility test, not remote attestation. It neither starts a
-server nor edits accounts, profiles, items, outfits, points or privileges. The
-sole successful login sends init/history/init, then logout. Run it serially with
-any native QA account session. Credentials are read privately and never emitted.
+This is a wire compatibility test, not remote attestation. It starts no server,
+performs no SQL or privilege changes, and sends no purchase/equip/gameplay
+commands. Normal login bookkeeping and first-shop point initialization can
+persist on the owned QA character. The successful login sends init/history/init,
+then logout. Run serially with any native QA account session. Credentials are
+read privately and never emitted.
 """
 import argparse
 import hashlib
@@ -20,6 +22,18 @@ import zlib
 
 
 ROOT = Path(__file__).resolve().parents[2]
+FAMILIES = ["Rune Master", "Lion of War", "Afflicted", "Arbalester", "Arena Champion",
+            "Armoured Archer", "Discoverer", "Entrepreneur", "Formal Dress", "Golden",
+            "Nordic Chieftain", "Poltergeist", "Veteran Paladin"]
+LEGACY_PRODUCTS = {
+    5001: ("Premium Scroll (30 days)", 250, "item"),
+    5002: ("Premium Scroll (60 days)", 450, "item"),
+    5003: ("Premium Scroll (90 days)", 600, "item"),
+    4001: ("Magic Quiver", 150, "item"), 4002: ("Light Ring", 10, "item"),
+    4003: ("Food Ring", 10, "item"), 4004: ("Toolkit", 50, "item"),
+    4005: ("Boat Pass (30 days)", 100, "item"),
+    4006: ("Magic Gold Converter", 100, "item"), 1001: ("Keyring", 250, "image"),
+}
 spec = importlib.util.spec_from_file_location("wire", ROOT / "tools/tests/client-login-integrity.py")
 wire = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(wire)
@@ -55,6 +69,8 @@ def main():
     require(cfg["ownedQaAccountConfirmed"] is True, "Owned ordinary QA account must be confirmed by the release owner")
     require(not args.output.exists(), "Refuse to replace existing smoke evidence")
     creds = json.loads(args.private_account_file.read_text(encoding="utf-8-sig"))
+    account = creds.get("accountName") or creds.get("account")
+    require(isinstance(account, str) and account, "Owned QA account is missing")
     character = creds.get("characterName") or creds.get("character") or cfg.get("character")
     require(isinstance(character, str) and character, "Owned QA character is missing")
     pins = {}
@@ -68,7 +84,8 @@ def main():
     rows = []
     report = {"state": "FAIL", "cases": rows, "characterListPassed": False,
               "nativeGuiLoginPerformed": False, "compatibilityNotAttestation": True,
-              "noPurchaseOrGameplayCommands": True}
+              "noPurchaseOrGameplayCommands": True,
+              "normalLoginAndShopInitializationMayPersist": True}
 
     def rsa_block(data):
         require(len(data) <= 128, "Dedicated QA login fields exceed the native RSA block")
@@ -146,18 +163,22 @@ def main():
         require(len(offers) == 36 and len(outfits) == 26 and len(items) == 10, "Expected 26 outfits and 10 existing products")
         require([offer["id"] for offer in outfits] == list(range(6001, 6027)), "Outfit offer IDs/order differ")
         require([offer["outfit"]["type"] for offer in outfits] == list(range(373, 399)), "Native look types/order differ")
+        expected_titles = [family + " (" + gender + ")" for family in FAMILIES for gender in ("Female", "Male")]
+        require([offer["title"] for offer in outfits] == expected_titles, "Outfit family/gender labels differ")
         require(all(offer["cost"] == 250 and offer["outfit"]["addons"] == 3 for offer in outfits),
                 "Outfit price/addon contract differs")
         require(all(not offer.get("image") for offer in outfits), "Outfit catalog must use native creatures")
-        titles = [offer["title"] for offer in items]
-        require("Magic Quiver" in titles and "Keyring" in titles, "Existing Quiver/Keyring missing")
+        actual_products = {offer["id"]: (offer["title"], offer["cost"], offer["type"]) for offer in items}
+        require(actual_products == LEGACY_PRODUCTS, "Existing product IDs/title/cost/type differ")
         return {"categoryNames": [category["name"] for category in categories],
                 "totalOffers": len(offers), "outfitOffers": len(outfits), "existingProductOffers": len(items),
+                "existingProducts": [{"offer": offer["id"], "title": offer["title"], "cost": offer["cost"],
+                                      "type": offer["type"]} for offer in items],
                 "outfits": [{"offer": offer["id"], "title": offer["title"], "look": offer["outfit"]["type"],
                               "addons": offer["outfit"]["addons"], "cost": offer["cost"]} for offer in outfits]}
 
     try:
-        payload = (b"\0" + struct.pack("<4I", *key) + wire.string(creds["accountName"])
+        payload = (b"\0" + struct.pack("<4I", *key) + wire.string(account)
                    + wire.string(creds["password"]) + wire.string("OTCv8") + struct.pack("<H", cfg["newVersion"]))
         with socket.create_connection((cfg["loginHost"], cfg["loginPort"]), timeout=12) as sock:
             send(sock, b"\x01" + struct.pack("<HHIII", 10, 860, 0, 0, 0) + rsa_block(payload))
@@ -194,12 +215,12 @@ def main():
             ("QA_mode_refused_on_normal_DEV", "new", 1, True, False),
             ("target_retail_RH2_accepted", "new", 0, True, True),
         ):
-            accepted, refused, logout = False, False, False
+            accepted, refused, logout, closed_without_response = False, False, False, False
             with socket.create_connection((world_ip, world_port), timeout=12) as sock:
                 challenge = receive(sock, False)
                 require(challenge[:3] == b"\x06\x00\x1f", "Unexpected native game challenge")
                 timestamp, random = struct.unpack("<IB", challenge[-5:])
-                payload = (b"\0" + struct.pack("<4I", *key) + b"\0" + wire.string(creds["accountName"])
+                payload = (b"\0" + struct.pack("<4I", *key) + b"\0" + wire.string(account)
                            + wire.string(character) + wire.string(creds["password"])
                            + struct.pack("<IB", timestamp, random) + wire.string("RH2"))
                 body = b"\x0a" + struct.pack("<HH", 10, 860) + rsa_block(payload)
@@ -221,7 +242,7 @@ def main():
                             refused = message == "Client verification failed. Please update the official client."
                             break
                 except (EOFError, ConnectionResetError):
-                    pass
+                    closed_without_response = True
                 report["lastAttempt"] = {"case": label, "accepted": accepted, "logoutSent": False}
                 try:
                     if accepted and expected:
@@ -245,6 +266,7 @@ def main():
                         require(after == catalog, "Catalog/status changed during read-only smoke")
                         report["readOnlyActions"] = ["init", "history", "init"]
                         report["catalog"]["pointsUnchanged"] = True
+                        report["catalog"]["pointsComparisonBeginsAfterFirstInit"] = True
                         report["catalog"]["historyEntries"] = len(history["data"])
                 finally:
                     if accepted:
@@ -255,8 +277,12 @@ def main():
                         except OSError:
                             pass
                     report["lastAttempt"]["logoutSent"] = logout
+            # Native RSA_decrypt(msg, 2) rejects a missing second block before
+            # enabling XTEA, deliberately closing TCP without an error packet.
+            negative_passed = refused or (not second and closed_without_response)
             row = {"case": label, "accepted": accepted, "verificationRefusal": refused,
-                   "logoutSent": logout, "passed": accepted if expected else refused and not accepted}
+                   "closedWithoutResponse": closed_without_response, "logoutSent": logout,
+                   "passed": accepted and logout if expected else negative_passed and not accepted}
             rows.append(row)
             require(row["passed"], "Compatibility case failed: " + label)
             time.sleep(1)

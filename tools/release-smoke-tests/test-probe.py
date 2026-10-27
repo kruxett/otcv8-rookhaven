@@ -33,13 +33,16 @@ def run(label):
               "oldExeSha256": "b" * 64, "newResourceFingerprint": "c" * 64,
               "newExeSha256": "d" * 64, "ownedQaAccountConfirmed": True}
     # Deliberately public fake credentials, never an actual QA account.
-    private = {"accountName": "SyntheticOnly", "password": "PublicDummy", "characterName": "Synthetic"}
+    private = {("account" if label == "healthy" else "accountName"): "SyntheticOnly",
+               "password": "PublicDummy", "characterName": "Synthetic"}
     cfg, credential, output = (BASE / (label + suffix) for suffix in ("-config.json", "-dummy.json", "-result.json"))
     cfg.write_text(json.dumps(config))
     credential.write_text(json.dumps(private))
-    products = [{"id": i, "type": "item", "title": "Magic Quiver" if i == 0 else "Keyring" if i == 1 else "Item"}
-                for i in range(10)]
-    outfits = [{"id": 6001 + i, "type": "outfit", "title": "Synthetic outfit", "description": "Ö" * 400,
+    products = [{"id": offer, "type": row[2], "title": row[0], "cost": row[1]}
+                for offer, row in probe.LEGACY_PRODUCTS.items()]
+    if label == "legacy-row-replaced": products[4]["title"] = "Unapproved replacement"
+    outfit_titles = [family + " (" + gender + ")" for family in probe.FAMILIES for gender in ("Female", "Male")]
+    outfits = [{"id": 6001 + i, "type": "outfit", "title": outfit_titles[i], "description": "Ö" * 400,
                 "cost": 250, "outfit": {"type": 373 + i, "addons": 3}} for i in range(26)]
     catalog = {"action": "categories", "status": {"points": 1000},
                "data": [{"name": "Premium", "offers": products[:3]},
@@ -70,6 +73,10 @@ def run(label):
                 if self.index == 0:
                     payload = (b"\x64\x01" + probe.wire.string("Synthetic") + probe.wire.string("Rookhaven")
                                + bytes((192, 168, 1, 44)) + struct.pack("<HH", 7174, 0))
+                elif self.index == 2:
+                    # Native RSA_decrypt(msg, 2) closes before XTEA on missing
+                    # block2. No encrypted verification message can be sent.
+                    return
                 elif self.index == 4 or (label == "unexpected-old-acceptance" and self.index == 1):
                     payload = b"\x32\0\0\0\x17"
                 else:
@@ -78,6 +85,7 @@ def run(label):
                 return
             clear = probe.wire.decrypt(packet[6:], KEY)
             if clear == b"\x14":
+                if label == "logout-send-fails": raise OSError("Synthetic failed logout send")
                 self.logout = True
                 return
             assert clear[:2] == b"\x32\xc9", "Unexpected gameplay command from read-only probe"
@@ -114,6 +122,10 @@ def run(label):
         assert len(result["cases"]) == 4 and all(row["passed"] for row in result["cases"])
         assert actions == ["init", "history", "init"] and connections[-1].logout
         assert result["catalog"]["fragmentMarkers"] == ["S", "P", "P", "E"]
+    elif label == "logout-send-fails":
+        assert failed and result["state"] == "FAIL"
+        assert result["lastAttempt"]["accepted"] and not result["lastAttempt"]["logoutSent"]
+        assert not connections[-1].logout
     else:
         assert failed and result["state"] == "FAIL"
         assert result["lastAttempt"]["accepted"] and result["lastAttempt"]["logoutSent"]
@@ -121,6 +133,6 @@ def run(label):
     return {"case": label, "passed": True, "realNetworkUsed": False}
 
 
-results = [run(label) for label in ("healthy", "bad-server-checksum", "unexpected-old-acceptance")]
+results = [run(label) for label in ("healthy", "bad-server-checksum", "unexpected-old-acceptance", "logout-send-fails", "legacy-row-replaced")]
 (BASE / "receipt.json").write_text(json.dumps({"state": "PASS_OFFLINE_PROBE_REGRESSIONS", "cases": results}, indent=2))
 print(json.dumps({"state": "PASS_OFFLINE_PROBE_REGRESSIONS", "cases": results}))

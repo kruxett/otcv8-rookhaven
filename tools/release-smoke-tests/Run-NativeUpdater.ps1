@@ -5,6 +5,13 @@ param([Parameter(Mandatory=$true)][string]$Config)
 $ErrorActionPreference='Stop';Set-StrictMode -Version 2
 function Assert([bool]$ok,[string]$why){if(-not $ok){throw $why}}
 function Hash([string]$p){(Get-FileHash -LiteralPath $p -Algorithm SHA256).Hash.ToLowerInvariant()}
+function Read-OwnedLog([string]$p){
+ $s=[IO.File]::Open($p,[IO.FileMode]::Open,[IO.FileAccess]::Read,([IO.FileShare]::ReadWrite -bor [IO.FileShare]::Delete))
+ try{
+  $reader=[IO.StreamReader]::new($s,[Text.Encoding]::UTF8,$true)
+  try{$chars=New-Object char[] 1048577;$n=$reader.ReadBlock($chars,0,$chars.Length);Assert ($n -le 1048576) 'Owned updater log exceeds bounded capture limit.';[string]::new($chars,0,$n)}finally{$reader.Dispose()}
+ }finally{$s.Dispose()}
+}
 $cfg=Get-Content -LiteralPath $Config -Raw | ConvertFrom-Json
 $evidenceRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../out/release-smoke-20261027'))
 Assert ([IO.Path]::IsPathRooted([string]$cfg.stage)) 'Stage must be an explicit absolute path.'
@@ -189,11 +196,30 @@ try{
  Assert ($null -ne $stable -and ([DateTime]::UtcNow-$stable).TotalSeconds -ge 8) 'Updated child did not stabilize.'
  $process.Refresh();Assert ($process.HasExited -and $process.ExitCode -eq 0) 'Previous client did not exit normally.'
  $log=''
- foreach($logPath in @((Join-Path $stage 'stdout.log'),(Join-Path $copy 'Rookhaven.log'))){if(Test-Path -LiteralPath $logPath){$log+=Get-Content -LiteralPath $logPath -Raw}}
+ foreach($logPath in @((Join-Path $stage 'stdout.log'),(Join-Path $copy 'Rookhaven.log'))){if(Test-Path -LiteralPath $logPath){$log+=Read-OwnedLog $logPath}}
  Assert ($log -match 'Updating binary file: RookhavenClient-[0-9]+\.exe') 'Native HTTP binary download evidence missing.'
  Assert ($log -notmatch '(?m)^(ERROR|FATAL):') 'Client error during update.'
- Assert (@(Get-ChildItem -LiteralPath $copy -File -Filter 'RookhavenClient-*.exe').Count -eq 0) 'Versioned binary was not cleaned up.'
- $result=[ordered]@{state=('PASS_REAL_UPDATER'+$cfg.oldVersion+'_TO'+$cfg.newVersion);oldVersion=[int]$cfg.oldVersion;newVersion=[int]$cfg.newVersion;oldZipSha256=[string]$cfg.oldClientZipSha256;oldExitCode=$process.ExitCode;exeSha256=Hash $exe;dataSha256=Hash $data;childIdentity=$stableId;childStableSeconds=8;publicHttp=$true;nativeRestart=$true;noInjectedScripts=$true;normalProfile=(Join-Path $profileBase 'Rookhaven');visibleVersionRequiresGuiEvidence=$true;profileFingerprintIncludes='relative paths, every file SHA256, root and descendant owner/DACL SDDL';profileNames=$profileNames}
+ # launchCorrect() intentionally delegates self-deletion to a detached native
+ # CMD helper with up to thirty one-second retries after a five-second child
+ # wait. Eight seconds of base-child stability is not that cleanup deadline.
+ # Observe the actual bounded contract; never manually remove the executable.
+ $cleanupStarted=[DateTime]::UtcNow;$cleanupDeadline=$cleanupStarted.AddSeconds(45)
+ $cleanupSamples=[Collections.Generic.List[object]]::new()
+ do{
+  $current=@(Track)
+  $versioned=@(Get-ChildItem -LiteralPath $copy -File -Filter 'RookhavenClient-*.exe')
+  $bridges=@($current|Where-Object{$_.ExecutablePath -cne $exe})
+  $deleters=@(Get-CimInstance Win32_Process -Filter "Name='cmd.exe'"|Where-Object{$_.CommandLine -and $_.CommandLine.IndexOf($copy+'\RookhavenClient-',[StringComparison]::OrdinalIgnoreCase) -ge 0 -and $_.CommandLine -match 'for /L %i in \(1,1,30\)' -and $_.CreationDate.ToUniversalTime() -ge $started})
+  [void]$cleanupSamples.Add([pscustomobject]@{utc=[DateTime]::UtcNow.ToString('o');versionedFiles=$versioned.Count;bridgeProcesses=$bridges.Count;nativeDeletionHelpers=$deleters.Count})
+  if($versioned.Count -eq 0 -and $bridges.Count -eq 0 -and $deleters.Count -eq 0){break}
+  Start-Sleep -Milliseconds 750
+ }while([DateTime]::UtcNow -lt $cleanupDeadline)
+ Atomic-Json (Join-Path $stage 'native-deletion-observation.json') @($cleanupSamples.ToArray())
+ Assert ($versioned.Count -eq 0 -and $bridges.Count -eq 0 -and $deleters.Count -eq 0) 'Native bounded versioned executable/bridge/helper cleanup did not complete.'
+ $base=@($current|Where-Object{$_.ExecutablePath -ceq $exe -and $_.ProcessId -ne $process.Id -and (Hash $_.ExecutablePath) -ceq $newExe})
+ Assert ($base.Count -eq 1 -and (([string]$base[0].ProcessId)+'|'+$base[0].CreationDate.ToUniversalTime().ToString('o')) -ceq $stableId) 'Target child exited or changed during native deletion cleanup.'
+ $cleanupSeconds=([DateTime]::UtcNow-$cleanupStarted).TotalSeconds
+ $result=[ordered]@{state=('PASS_REAL_UPDATER'+$cfg.oldVersion+'_TO'+$cfg.newVersion);oldVersion=[int]$cfg.oldVersion;newVersion=[int]$cfg.newVersion;oldZipSha256=[string]$cfg.oldClientZipSha256;oldExitCode=$process.ExitCode;exeSha256=Hash $exe;dataSha256=Hash $data;childIdentity=$stableId;childStableSeconds=8;nativeDeletionCompleted=$true;nativeDeletionObservationSeconds=$cleanupSeconds;publicHttp=$true;nativeRestart=$true;noInjectedScripts=$true;normalProfile=(Join-Path $profileBase 'Rookhaven');visibleVersionRequiresGuiEvidence=$true;profileFingerprintIncludes='relative paths, every file SHA256, root and descendant owner/DACL SDDL';profileNames=$profileNames}
  Atomic-Json (Join-Path $stage 'ready-for-ui.json') $result
  [Console]::Out.WriteLine('REAL_UPDATER_PASSED_READY_FOR_UI')
  $uiDeadline=[DateTime]::UtcNow.AddSeconds($uiWaitSeconds)

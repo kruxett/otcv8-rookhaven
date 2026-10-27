@@ -19,7 +19,10 @@ against DEV. Do not run concurrently with another Rookhaven client or QA session
    the target retail claim succeeds last. Read-only `init/history/init` checks
    real native S/P/E catalog transport, all 26 outfit variants, full addons,
    native look IDs, 250-point outfit prices, all ten existing products and
-   unchanged points. It logs out and sends no purchase or outfit commands.
+   unchanged points after the first init. It logs out and sends no purchase or
+   outfit commands. Normal login bookkeeping and first-shop default point
+   initialization may persist on the owned QA character; this is not a claim of
+   a byte-identical live database before/after login.
    This checks protocol/build compatibility, not remote attestation.
 3. Native in-game shop and Try On interactions were tested separately by the
    local batch native/UI suites. This release smoke does not claim a native GUI
@@ -60,14 +63,17 @@ tool, leave account/password blank, then create the stage's `finish-ui` marker.
 This marker means observation is done and cleanup may proceed; retain a separate
 GUI observation receipt/screenshot. A timeout fails the combined run and still
 attempts restoration. Do not interrupt the guard process while profiles are moved.
+Native promotion's detached self-deletion helper has a thirty-retry asynchronous
+contract. The guard observes file/bridge/helper disappearance for up to 45
+seconds after initial child stability; it never deletes an executable itself.
 
 ```powershell
-powershell -NoProfile -File tools/release-smoke-tests/Run-NativeUpdater.ps1 -Config <owned-config.json>
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/release-smoke-tests/Run-NativeUpdater.ps1 -Config <owned-config.json>
 ```
 
 After updater cleanup and root's account/route greenlight, run the wire smoke.
-The private account JSON supplies `accountName`, `password` and `characterName`
-(or `character`). Root verifies the QA account is owned and ordinary; the probe
+The private account JSON supplies `account` (or `accountName`), `password` and
+`characterName` (or `character`). Root verifies the QA account is owned and ordinary; the probe
 never executes SQL or changes account/character privileges. Do not expose the
 private file or raw network packets in output.
 
@@ -77,8 +83,34 @@ python tools/release-smoke-tests/live-compatibility.py --config <owned-config.js
 
 `test-probe.py` runs offline mocked socket regressions for valid multi-fragment
 UTF-8 responses, corrupt frame checksum rejection and unexpected old-build
-acceptance. Both negative cases verify logout on an accepted QA connection.
+acceptance, failed logout sending and a replaced legacy product. Negative cases
+verify accepted-session logout, and a failed logout cannot produce PASS.
 
 ```powershell
 python tools/release-smoke-tests/test-probe.py
 ```
+
+ExecutionPolicy Bypass above affects this owned test process only; it does not
+change machine/user policy. A missing second RSA block deliberately receives a
+silent TCP close before XTEA setup; the other compatibility rejections require
+the native verification-error response.
+
+## Actual release run
+
+Evidence under `out/release-smoke-20261027/`:
+
+- `baseline-10099/receipt.json`: public previous ZIP and remote release FS hash
+  match; inner EXE/data match the published10099 manifest.
+- `native-updater-02/result.json`: real HTTP10099→10100, old exit0, verified
+  base-child promotion/restart, bounded native file/bridge/helper cleanup, all
+  four original byte/path/owner-DACL profile digests restored exactly.
+- `native-updater-02/native-10100-blank-login.jpg`: clean native10100 version and
+  blank login fields; no GUI authentication performed.
+- `live-wire-02.json`: four real compatibility cases PASS; actual8572-byte S/E
+  catalog contains all26 native outfit variants and ten expected products;
+  read-only init/history/init, unchanged points after first init, logout sent.
+
+Preserved failures explain test assumptions corrected without product edits:
+`native-updater-01` checked asynchronous deletion too early; `live-wire-01.json`
+expected an error message for a missing RSA block rather than its intended EOF.
+The initial shell attempt also stopped before execution under Restricted policy.

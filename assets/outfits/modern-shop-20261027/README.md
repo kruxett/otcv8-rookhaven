@@ -62,9 +62,9 @@ copies and the full import receipt are under
 - Existing source Try on contracts: 42 checks passed for preview behavior and
   preservation of appearance preferences.
 
-The implementation is complete and verified locally. Native runtime checks and
-private package verification are detailed below. Nothing has been published to
-DEV or PROD.
+The implementation is complete. Native runtime checks and private package
+verification are detailed below. The subsequent coordinated DEV10100 deployment
+is recorded in [the release report](../../../docs/shop-dev10100-release.md).
 
 ## Expanded catalogue transport
 
@@ -134,8 +134,9 @@ modified outfit DAT (three cases passed).
 - Package receipt and native verification:
   `out/client-shop-native-20261027/protected-verification.json`.
 
-The private protected build keeps a loopback endpoint and existing version.
-Protected GUI login, updater publication and live DEV gameplay were outside this
-local implementation. No live server pin, updater, public version or service was
-changed. Historical import receipts are immutable; their original pending-QA
-status records the import stage rather than this final completion state.
+The private protected build keeps a loopback endpoint and existing version; it
+was not published. The local validation above did not change live server pins,
+updater versions or services. DEV10100 uses a separate static build with the
+normal DEV endpoint and matching final server pins, as recorded in the release
+report. Historical import receipts are immutable; their original pending-QA
+status records the import stage rather than the later release state.
