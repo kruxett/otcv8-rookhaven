@@ -1,0 +1,40 @@
+{
+  "status": "revision-rejected-by-user",
+  "product": "Boat Pass (30 days)",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "9c931ee8-1516-442b-a716-ccaee9c1f2e0",
+  "asset_id": "ef125bf8-33d7-553f-bca2-44f4b50df1f5",
+  "gallery_asset": "gallery:ef125bf8-33d7-553f-bca2-44f4b50df1f5",
+  "source": "source/v2/pixellab-boat-pass.png",
+  "preview": "source/v2/preview.png",
+  "prompt": "Redesign ONE Boat Pass inventory sprite for the medieval Tibia 8.60 game Rookhaven. Native 32x32 pixel art. The boat MUST be instantly recognisable at 1x actual size. A simple pale cream parchment ticket, almost upright with only a very slight tilt, clean dark-brown edges and one tiny folded corner. The entire central face is occupied by a HUGE, exceptionally simple side-view SAILBOAT icon, about 21 pixels wide and 19 pixels high. Three separate unmistakable shapes: (1) a long HORIZONTAL DARK-BROWN wooden hull, broad across the bottom and tapered upward at BOTH ends, (2) ONE straight vertical dark-brown mast rising from its center, (3) ONE large solid OCEAN-BLUE RIGHT-TRIANGULAR sail on the right of the mast. Preserve a CLEAR CREAM-COLOURED GAP between the blue sail and the brown hull so their silhouettes never merge into a blue blob. A single small pale highlight on the blue triangle is enough. Hull horizontal and mast vertical, a universally obvious little sailing boat pictogram. The blue triangle and brown hull have strong colour separation against clean pale parchment. Boat icon fills nearly all available space. Classic retro Tibia chunky pixel clusters, dark contour, simple old parchment shading, top-left light, total item about 28x30 pixels with transparent outer margin. Remove the previous blue border stripes, waves, small decorative marks and complex multi-sail silhouette; leave only this large clear boat on the pass. One physical item only, all painted pixels fully opaque and background fully transparent. No text, digits, letters, labels, prices, duration, wax seal, ribbon, shadow on a floor, frame outside the item, glow, sparkles, gradients, antialiasing or photorealism.",
+  "seed": 20261101,
+  "art_direction": "Simplified boat pictogram with one solid blue triangular sail, one straight brown mast and a distinct broad brown hull separated by pale parchment. The blue border stripes and waves were removed to give the main icon space.",
+  "validation": "source/v2/validation.json",
+  "implementation": "Artwork only. No SID/CID, client/server import, timed entitlement, travel changes or shop offer implemented. Await user artwork approval.",
+  "required_behavior": {
+    "duration_days": 30,
+    "activation": "Right-click/use consumes the inventory item and activates free travel.",
+    "duration_begins_on_activation": true,
+    "extend_remaining_time_on_additional_activation": true,
+    "free_travel_with_all_rookhaven_boats": true,
+    "activation_scope": "Resolve against the intended character/account entitlement before implementation."
+  },
+  "implementation_research": {
+    "shared_fares": "Rookhaven/data/lib/boat_fare_registry.lua; routes registered by quest boat actions.",
+    "shared_rides": "Rookhaven/data/lib/boat_travel.lua",
+    "additional_paths_to_audit": [
+      "Rookhaven/data/npc/scripts/Ferryman.lua",
+      "Rookhaven/data/npc/scripts/Captain Voss.lua",
+      "Rookhaven/data/npc/scripts/Boatbuilder Floki.lua",
+      "Rookhaven/data/npc/lib/npcsystem/modules.lua StdModule.travel"
+    ],
+    "note": "All-boat coverage needs an audit of actual route/payment consumers; general transport must not accidentally grant free non-boat travel or bypass existing access restrictions."
+  },
+  "previous_draft": "source/v1/design-manifest-revision-requested.json",
+  "revision_reason": "The enlarged v2 boat is overdone; user prefers original v1 with only a brown hull and blue sail."
+}

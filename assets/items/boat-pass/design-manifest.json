@@ -1,0 +1,128 @@
+{
+  "status": "approved-implemented-verified-locally",
+  "product": "Boat Pass (30 days)",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab pixelart_workbench exact colour edit",
+  "asset_id": "c4cd5985-e0e6-496f-8981-e09202bf9899",
+  "gallery_asset": "gallery:c4cd5985-e0e6-496f-8981-e09202bf9899",
+  "source": "source/v1-brown-hull/pixellab-boat-pass.png",
+  "preview": "source/v1-brown-hull/preview.png",
+  "art_direction": "Original v1 geometry and parchment preserved exactly; boat hull recoloured warm brown, sails remain original blue. Only 40 existing hull pixels changed colour.",
+  "validation": "source/v1-brown-hull/validation.json",
+  "implementation": {
+    "server_id": 12866,
+    "client_id": 11903,
+    "sprite_id": 36700,
+    "shop_offer_id": 4005,
+    "verification": "verification.json",
+    "source": "sprite.png",
+    "account_expiry_column": "accounts.boat_pass_ends_at",
+    "database_version": 34,
+    "duration_days": 30,
+    "scope": "account",
+    "price_points": 100,
+    "weight_oz": 1,
+    "published": false
+  },
+  "required_behavior": {
+    "duration_days": 30,
+    "activation": "Right-click/use consumes the inventory item and activates free travel.",
+    "duration_begins_on_activation": true,
+    "extend_remaining_time_on_additional_activation": true,
+    "free_travel_with_all_rookhaven_boats": true,
+    "activation_scope": "Whole account, matching Premium; stated in the implementation update."
+  },
+  "implementation_research": {
+    "shared_fares": "Rookhaven/data/lib/boat_fare_registry.lua; routes registered by quest boat actions.",
+    "shared_rides": "Rookhaven/data/lib/boat_travel.lua",
+    "additional_paths_to_audit": [
+      "Rookhaven/data/npc/scripts/Ferryman.lua",
+      "Rookhaven/data/npc/scripts/Captain Voss.lua",
+      "Rookhaven/data/npc/scripts/Boatbuilder Floki.lua",
+      "Rookhaven/data/npc/lib/npcsystem/modules.lua StdModule.travel"
+    ],
+    "note": "All-boat coverage needs an audit of actual route/payment consumers; general transport must not accidentally grant free non-boat travel or bypass existing access restrictions.",
+    "audit_result": {
+      "Ferryman": "Both quest and return journeys are already free; their quest/password gates remain unchanged.",
+      "Captain Voss": "DESTINATIONS currently contains no active routes.",
+      "generic_NPC_transport": "No current paid boat consumers; generic transport cost handling was not changed."
+    },
+    "registered_routes": [
+      {
+        "path": "data/actions/scripts/quests/underground_boat_first.lua",
+        "price": 50,
+        "description": "Passage deeper underground"
+      },
+      {
+        "path": "data/actions/scripts/quests/underground_boat_second.lua",
+        "price": 50,
+        "description": "Passage to the depths"
+      },
+      {
+        "path": "data/actions/scripts/quests/underground_boat_third.lua",
+        "price": 50,
+        "description": "Passage back toward the surface"
+      },
+      {
+        "path": "data/actions/scripts/quests/floki_island_boat_travel.lua",
+        "price": 100,
+        "description": "Ferry to Floki's Island"
+      },
+      {
+        "path": "data/actions/scripts/quests/floki_island_return_boat.lua",
+        "price": 0,
+        "description": "Ferry back to the mainland"
+      },
+      {
+        "path": "data/actions/scripts/quests/spider_island_boat_travel.lua",
+        "price": 15,
+        "description": "Ferry to Spider Island"
+      },
+      {
+        "path": "data/actions/scripts/quests/spider_island_return_boat.lua",
+        "price": 15,
+        "description": "Ferry back from Spider Island"
+      },
+      {
+        "path": "data/actions/scripts/quests/gobbo_island_beach_boat_travel.lua",
+        "price": 5,
+        "description": "Ferry to Goblin Island Beach"
+      },
+      {
+        "path": "data/actions/scripts/quests/gobbo_island_beach_return_boat.lua",
+        "price": 5,
+        "description": "Ferry to Rookhaven"
+      },
+      {
+        "path": "data/actions/scripts/quests/rookhaven_to_stillshore_boat_travel.lua",
+        "price": 50,
+        "description": "Floki's Fares - The Stillshore Line"
+      },
+      {
+        "path": "data/actions/scripts/quests/stillshore_to_rookhaven_boat_travel.lua",
+        "price": 50,
+        "description": "Floki's Fares - The Stillshore Line"
+      }
+    ]
+  },
+  "previous_draft": "source/v2/design-manifest-rejected.json",
+  "source_job_id": "158635d3-fa30-43ec-a00b-ffb1cac1c4d6",
+  "edited_image_id": "d9617bf5-74c7-49c8-af9d-3c052c1214d2",
+  "edit_recipe": "source/v1-brown-hull/generation.json",
+  "artwork_approval": {
+    "date": "2026-10-25",
+    "user_response": "Det där blir bra. Kör."
+  },
+  "gameplay": {
+    "duration_days": 30,
+    "scope": "account",
+    "activation_consumes_item": true,
+    "extends_remaining_time": true,
+    "price_points": 100,
+    "weight_oz": 1,
+    "offer_id": 4005
+  }
+}

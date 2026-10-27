@@ -1,0 +1,11 @@
+{
+  "server_id": 12865,
+  "prototype_dat_server_id": 10511,
+  "prototype_otb_server_id": 10511,
+  "article": "a",
+  "name": "toolkit",
+  "attributes": {
+    "description": "A reusable rope, shovel, pick and machete in one item. Use it on a target to select the appropriate tool.",
+    "weight": "1000"
+  }
+}

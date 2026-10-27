@@ -1,0 +1,68 @@
+{
+  "status": "implemented-and-verified-locally-not-published",
+  "product": "Food Ring",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab edit_image",
+  "gallery_asset": "gallery:d0a492c6-c437-5b69-af9a-3ead0d7c4db9",
+  "source": "source/apple-v2/pixellab-food-ring.png",
+  "preview": "approval-preview.png",
+  "art_direction": "Red apple-shaped setting with green leaf on a gold ring. Revised geometry: squat rounded apple body and rounded oval metal loop. No engraved food symbol.",
+  "generation_note": "PixelLab edited the first apple proposal to improve the apple and band shapes at native size. Native 32x32 output retained unchanged with binary alpha. Original-size and nearest-neighbour enlarged previews inspected. Awaiting user approval.",
+  "implementation": "Native equipment-owned food replacement with ordinary-food precedence, native two-hour equipped-only decay, no ordinary food refill. Gameplay verified on current-source Release server; rendering verified separately in the matched older local QA client.",
+  "required_behavior": {
+    "only_fed_while_equipped": true,
+    "never_fill_ordinary_food_reserve_on_equip": true,
+    "unequip_or_expiry_ends_effect_immediately": true,
+    "preserve_ordinary_food_state": true,
+    "no_double_regeneration_when_normally_fed": true
+  },
+  "future_targeted_checks": [
+    "Equip hungry for one second and remove: no free food reserve.",
+    "Ordinary eaten-food duration is not refilled or deleted by ring equip/unequip.",
+    "Food and ring must not stack normal food regeneration.",
+    "Remaining ring time, expiry and reconnect."
+  ],
+  "validation": "source/apple-v2/validation.json",
+  "job_id": "b5035fba-dab1-43e9-adf2-5ff6e971fb8e",
+  "asset_id": "d0a492c6-c437-5b69-af9a-3ead0d7c4db9",
+  "prompt": "Redraw this Food Ring sprite with corrected, clean geometry while keeping the concept and classic Tibia 8.60 pixel-art style. Native 32x32 transparent inventory sprite. The gold ring band must form a smooth CLOSED OVAL loop in diagonal perspective, with a rounded bottom, rounded sides and a large clearly open finger hole. Use consistent 2-to-3-pixel band thickness. Replace the current angular V-shaped pointed band; the outline must read as a real circular metal ring viewed from above. At the upper-left of the loop, mount ONE small squat, rounded red APPLE-shaped jewel in a simple gold setting. Apple body approximately 9 pixels wide and 8 pixels tall: gently rounded shoulders and sides, one shallow top notch, a single rounded lower body, no long central groove, no tall vertical lobes. Short 1-to-2-pixel brown stalk and a small compact green leaf, about 3x2 pixels, attached beside the stalk. The fruit and leaf should be proportionate to a wearable ring. Show a coherent solid metal setting attaching the apple to the band, not a separate fruit floating beside it. Simple dark red shadow, rich red midtone, small red-orange highlight; gold metal shaded with dark bronze and warm yellow highlights from top left. Strong deliberate pixel clusters and a clean silhouette, about 21x23 pixels within the 32x32 canvas. No tiny inscriptions or patterns, text, frames, loose pieces, additional fruit, glows or antialiasing. Keep every background pixel fully transparent and all painted pixels fully opaque.",
+  "seed": 20261029,
+  "previous_draft": "source/apple-v1/design-manifest-revision-requested.json",
+  "artwork_approval": {
+    "date": "2026-10-25",
+    "user_response": "Vi kör på den."
+  },
+  "gameplay": {
+    "duration_seconds": 7200,
+    "duration_consumed_only_while_equipped": true,
+    "shop_points": 10,
+    "weight_oz": 1,
+    "shop_offer_id": 4003,
+    "ordinary_food_is_never_refilled": true,
+    "temporary_effect_ends_on_unequip": true,
+    "normal_food_has_regeneration_precedence": true,
+    "same_approved_sprite_in_both_states": true
+  },
+  "verification": "verification.json",
+  "states": [
+    {
+      "state": "unequipped",
+      "sid": 12863,
+      "cid": 11900,
+      "sprite": 36697
+    },
+    {
+      "state": "equipped",
+      "sid": 12864,
+      "cid": 11901,
+      "sprite": 36698
+    }
+  ],
+  "ingame_screenshots": [
+    "ingame-equipped.png",
+    "ingame-unequipped.png"
+  ]
+}

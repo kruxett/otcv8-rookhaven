@@ -1,0 +1,24 @@
+{
+  "description": "Create an entirely NEW original Magic Gold Converter inventory sprite for the retro medieval MMORPG Rookhaven, Tibia 8.60 style. New concept: an ENCHANTED COINING STAMP, a compact handheld minting tool. A short dark walnut rounded handle at the upper left, a narrow antique silver neck and a broad small circular steel stamping foot seen in a diagonal three-quarter top-down view. The stamping foot rests just behind THREE distinct currency coins, arranged as a loose overlapping fan in the foreground, not a straight row. The coins are the visual focus: one GOLD yellow coin, one PLATINUM muted silver-lavender coin and one CRYSTAL electric cyan-blue coin. Use the supplied in-game coin sprites as the precise visual reference for their faces: clean dark rim, round little metal disc, characteristic small inset vertical mint impression, native yellow / lavender-grey / bright-blue shading. Preserve the recognizable Rookhaven currency appearance; do not turn the coins into nuggets, gemstones or generic smooth buttons. Keep each visible coin large enough to read, about 7-9 pixels across. The stamp and coins form ONE coherent small inventory object, with simple bold pixel clusters, dark contours and upper-left highlights. A restrained violet accent in the handle suggests its enchantment, with no glow outside the object. Overall footprint about 26x27 pixels centered in native 32x32 with transparent margins. Use the reference ONLY for the three currency appearances and retro pixel shading; design a fresh composition from scratch. No box, chest, machine casing, front crystal window, coin slot, three coins in a row, text, letters, numbers, arrows, decorative micro-detail, sparkles, background, floor shadow, antialiasing, photorealism or modern technology. Entirely opaque painted pixels and fully transparent background.",
+  "width": 32,
+  "height": 32,
+  "no_background": true,
+  "max_colors": 32,
+  "seed": 20261105,
+  "style_image": {
+    "file": "coin-reference.png",
+    "usage_description": "These are the actual Rookhaven gold, platinum and crystal coin sprites, unscaled and unrecoloured. Reference their coin silhouette, inset mint impression, material colours, highlights and outlines. The reference board's triangular layout is not the final item composition."
+  },
+  "style_options": {
+    "color_palette": true,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  },
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "3e22bf88-b42c-448e-9775-e75987797634",
+  "asset_id": "0a3147f8-b477-5d0e-8be2-d01a08b69dab",
+  "concept": "Fresh enchanted coining stamp; former brass box concept discarded.",
+  "download": "https://api.pixellab.ai/mcp/images/3e22bf88-b42c-448e-9775-e75987797634/download",
+  "charged_generations": 5
+}

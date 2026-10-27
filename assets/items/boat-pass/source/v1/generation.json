@@ -1,0 +1,19 @@
+{
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "158635d3-fa30-43ec-a00b-ffb1cac1c4d6",
+  "asset_id": "571880ca-5299-5a9f-b62a-84e0387f797a",
+  "prompt": "ONE original Boat Pass inventory item for Rookhaven, a classic Tibia 8.60 medieval pixel-art MMORPG. A small weathered ivory parchment travel pass, a flat rectangular ticket tilted slightly diagonally, with a tiny folded corner. The pass has a LARGE very simple NAVY BLUE SAILBOAT printed across most of its face: a clear tall mast, two solid triangular sails and one broad curved hull, with one short blue wave underneath. The boat is the main readable symbol, about 13 by 13 pixels, not a tiny engraving or detailed illustration. The ticket has a dark-blue edge stripe near the bottom and warm brown shaded parchment edges, with modest upper-left ivory highlights. Strong clean silhouette, simple chunky intentional pixel clusters, dark brown contour, restrained old-school Tibia materials. Entire item footprint about 24x26 pixels centered within native 32x32 canvas, transparent margins. Match the reference's parchment colours, worn medieval feel, pixel density and shading ONLY, while making a distinct flat boat travel ticket silhouette rather than another rolled premium scroll. ONE coherent physical item only. All painted pixels fully opaque, background fully transparent. No writing, letters, digits, prices, labels, text, decorative micro-symbols, extra loose items, floor shadow, frame, background, glow, sparkles, photorealism or antialiasing. This represents a consumable thirty-day boat travel entitlement, but its duration is not written on the artwork.",
+  "seed": 20261031,
+  "width": 32,
+  "height": 32,
+  "max_colors": 20,
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/158635d3-fa30-43ec-a00b-ffb1cac1c4d6/download",
+  "style_reference": "assets/items/premium-scroll/30/sprite.png",
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": false,
+    "shading": true
+  }
+}

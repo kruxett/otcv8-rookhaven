@@ -1,0 +1,35 @@
+{
+  "status": "revision-requested-by-user",
+  "product": "Food Ring",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "gallery_asset": "gallery:b550c0cf-5669-5a13-8498-9d3efd9b1f62",
+  "source": "source/apple-v1/pixellab-food-ring.png",
+  "preview": "approval-preview.png",
+  "art_direction": "Bronze-gold band with a red apple-shaped bezel and a bold green leaf. Food is communicated by the whole physical setting and colour silhouette, without a tiny engraved symbol.",
+  "generation_note": "New PixelLab AI generation after user rejected wheat motif as unreadable at native size. Native 32x32 output retained unchanged; original-size and nearest-neighbour enlarged previews inspected. Awaiting user approval.",
+  "implementation": "Artwork only. No Food Ring SID/CID, server behavior or shop offer has been implemented.",
+  "required_behavior": {
+    "only_fed_while_equipped": true,
+    "never_fill_ordinary_food_reserve_on_equip": true,
+    "unequip_or_expiry_ends_effect_immediately": true,
+    "preserve_ordinary_food_state": true,
+    "no_double_regeneration_when_normally_fed": true
+  },
+  "future_targeted_checks": [
+    "Equip hungry for one second and remove: no free food reserve.",
+    "Ordinary eaten-food duration is not refilled or deleted by ring equip/unequip.",
+    "Food and ring must not stack normal food regeneration.",
+    "Remaining ring time, expiry and reconnect."
+  ],
+  "validation": "source/apple-v1/validation.json",
+  "job_id": "9d57c9d0-52a3-4af0-b5ff-df89fbb694ed",
+  "asset_id": "b550c0cf-5669-5a13-8498-9d3efd9b1f62",
+  "prompt": "ONE original Food Ring item sprite for Rookhaven, classic Tibia 8.60 medieval RPG pixel art. This ring must communicate FOOD through its large recognisable shape, readable at actual 32x32 inventory size. A gold-bronze finger ring seen diagonally from above, with a large clear hollow opening in its band at lower right. Its physical bezel at upper left is shaped like a plump RED APPLE, with two round red lobes, a small notch at the top, a short brown stalk and ONE bold GREEN LEAF. The apple IS the whole ring setting, not a tiny engraved pictogram inside a jewel. Use big simple clusters of deep crimson, warm red and one peach-red highlight; leaf in two green tones. Apple setting about 11x12 pixels, sturdy curved gold band about 3 pixels thick with a dark inner edge, total item footprint about 22x24 pixels centered in native 32x32 canvas with margins. A wearable magical ring shaped by a medieval jeweller, clearly a ring with an apple setting, not a loose fruit beside a ring. Chunky hand-placed pixel clusters, dark brown outline, top-left light, modest old-gold highlights and bronze shadows. Very simple readable silhouette with the two red lobes and green leaf visible at 1x. Fully transparent background, all pixels fully opaque or transparent. ONE item only. No wheat, engraving, small symbols, decorative patterns, lettering, numbers, borders, background, floor shadow, sparkles, particles, glow, photorealism or antialiasing.",
+  "seed": 20261028,
+  "previous_draft": "source/ai-20261025/design-manifest-rejected.json",
+  "revision_reason": "User likes the apple concept but says the shapes look odd and requests another version."
+}

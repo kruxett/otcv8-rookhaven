@@ -1,0 +1,47 @@
+{
+  "canvas": [
+    32,
+    32
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "opaque_colours": 65,
+  "sha256": "67032a3103bf3632710fbbf28ad5dee02c1bc47f4e320f2171487439a3475413",
+  "changed_pixels": 249,
+  "converter_body_below_y12_preserved_exactly": true,
+  "coins": [
+    {
+      "currency": "gold",
+      "exact_native_pixels": true,
+      "original_size": [
+        9,
+        9
+      ],
+      "recoloured": false,
+      "scaled": false
+    },
+    {
+      "currency": "platinum",
+      "exact_native_pixels": true,
+      "original_size": [
+        9,
+        9
+      ],
+      "recoloured": false,
+      "scaled": false
+    },
+    {
+      "currency": "crystal",
+      "exact_native_pixels": true,
+      "original_size": [
+        9,
+        9
+      ],
+      "recoloured": false,
+      "scaled": false
+    }
+  ],
+  "native_source_unmodified_after_export": true
+}

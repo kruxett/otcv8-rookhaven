@@ -1,0 +1,11 @@
+{
+  "server_id": 12860,
+  "prototype_dat_server_id": 5943,
+  "prototype_otb_server_id": 5943,
+  "article": "a",
+  "name": "premium scroll (90 days)",
+  "attributes": {
+    "description": "Use this scroll to add 90 days of premium time to your account. The scroll is consumed on use.",
+    "weight": "100"
+  }
+}

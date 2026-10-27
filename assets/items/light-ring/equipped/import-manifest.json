@@ -1,0 +1,45 @@
+{
+  "mode": "add",
+  "name": "light ring",
+  "server_id": 12862,
+  "client_id": 11899,
+  "sprite_id": 36696,
+  "definition": {
+    "server_id": 12862,
+    "prototype_dat_server_id": 2165,
+    "prototype_otb_server_id": 2165,
+    "article": "a",
+    "name": "light ring",
+    "attributes": {
+      "description": "Provides torchlight while worn. Its two-hour charge is consumed only while equipped.",
+      "weight": "100",
+      "slotType": "ring",
+      "showduration": "1",
+      "transformDeEquipTo": "12861",
+      "duration": "7200",
+      "decayTo": "0"
+    }
+  },
+  "image_sha256": "c4b4f4484540a07b7f82ba4b3fe59c0a9958454c51333405511a965a154f584d",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "8840a8dfa7e964a3863a83454fc52309cfd0f7e114e531ff67175e3b52f59e02",
+    "client/data/things/860/Tibia.spr": "e552aed9c1528cbd68ce2ac0540f90fa13cacc381ec0ed268053308965d53a39",
+    "server/data/items/items.otb": "3de17a5cd2dd0b2a57626b77472355e44a7629f423666e26744700acd5faefde",
+    "server/data/items/items.xml": "d3b4d663093e2cb87fa3654e5441f1fee788f46312d3a27877b24c7398c34e1a"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "1e5ef3b64704f66331adeb6dcd7983753aa3657ae0858ff19ae39f1eaa33091a",
+    "client/data/things/860/Tibia.spr": "04dc031384f62022f366e8b7a062d2d1ad55f4ad4cd8846f07d337c7daa2d82c",
+    "server/data/items/items.otb": "629eb9212e110aa772b83f70fc88fac55544cfdf4fd18b75da95ee8c257a12c7",
+    "server/data/items/items.xml": "72a27f43eb98da9fb293eec3f51d498d0ea5e82e6bb906bcce8315da3cf30d1b"
+  },
+  "validated_existing_sprites": 36695,
+  "validated_existing_dat_records": 12284,
+  "validated_existing_otb_records": 12762,
+  "light": {
+    "level": 7,
+    "color": 206,
+    "reference_sid": 2051,
+    "static_sprite": true
+  }
+}

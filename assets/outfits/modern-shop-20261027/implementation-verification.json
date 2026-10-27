@@ -1,0 +1,87 @@
+{
+  "status": "Implemented and verified locally; unpublished",
+  "date": "2026-10-27",
+  "families": [
+    "Afflicted",
+    "Arbalester",
+    "Arena Champion",
+    "Armoured Archer",
+    "Discoverer",
+    "Entrepreneur",
+    "Formal Dress",
+    "Golden",
+    "Nordic Chieftain",
+    "Poltergeist",
+    "Veteran Paladin"
+  ],
+  "newVariants": 22,
+  "shopOutfitOffers": 26,
+  "totalShopOffers": 36,
+  "pointsPerVariant": 250,
+  "addons": 3,
+  "tests": {
+    "assetTileRoundTrips": 19008,
+    "preservedDATRecords": 12294,
+    "cataloguePixelMatches": 22,
+    "shopSourceContracts": 604,
+    "transportRealCodecContracts": 176,
+    "sourceTryonContracts": 42,
+    "nativeAssertions": 326,
+    "nativeWireRequests": 212,
+    "nativeUIAssertions": 929,
+    "nativeAnimatedVariants": 26,
+    "tryonDirectionCaptures": 104,
+    "protectedResourceCases": 3
+  },
+  "protectedPackage": {
+    "status": "passed",
+    "nativeCases": [
+      {
+        "case": "matching protected archive",
+        "exit": 0,
+        "expected": 0,
+        "passed": true,
+        "log": "Verified resource manifest: 5b2fc6339827b466e994af1eab98a9aeb8bf4c4b2415b4200bb78f1f3edd6547\r\nLoaded client archive beside the executable.\r\n"
+      },
+      {
+        "case": "previous outfit data rejected",
+        "exit": 3,
+        "expected": 3,
+        "passed": true,
+        "log": "ERROR: Client resource verification failed: data/things/860/Tibia.dat\r\nERROR: Client archive does not match the executable's resource manifest.\r\n"
+      },
+      {
+        "case": "changed outfit DAT rejected",
+        "exit": 3,
+        "expected": 3,
+        "passed": true,
+        "log": "ERROR: Client resource verification failed: data/things/860/Tibia.dat\r\nERROR: Client archive does not match the executable's resource manifest.\r\n"
+      }
+    ],
+    "runtimeHashesVerified": 60,
+    "sourceHashesVerified": 1666,
+    "archiveEntriesVerified": 1269,
+    "sameDecodedResourcesAsQA": true,
+    "resourceFingerprint": "5b2fc6339827b466e994af1eab98a9aeb8bf4c4b2415b4200bb78f1f3edd6547",
+    "exeSha256": "36e80cb35ff43bd3895264e7fa477639cbee4b630343f88a4ce623ca779eaa79",
+    "dataZipSha256": "dd0f30c9d561b6bebe1d9b2cc779cd366df0008fc0550bc455e7e58513074831",
+    "guiStarted": false,
+    "published": false
+  },
+  "sourceHashes": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "c98803e8dfe886f7b9387952882b1c7af1008efc4ca1c765cdf094dfa8a69f8b",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "f105742cc8b58b00453e0ea2bdd2befbe0e6ee76a079a24b2a141f08af06eb3a",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "b4e31cd7b6c6bae8919777be0f63cffbd408c08ed0f7cf9626d7d0dc5c493f5c",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\lib\\game_shop_config.lua": "926c2c43944af8cb722304a266cc5f06e86e1c4d2792dfbb50339bd7b73d8e38",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\lib\\core\\game_shop.lua": "4437091c541ab997d6098b3630766241031f1b367ac041612e6339dc2bf7fe03"
+  },
+  "importReceiptSHA256": "055d62daaf0afc9e57678577eb1fcbce8de72d005ce1e0a87364287ea7253a31",
+  "sourceDatabasePreserved": true,
+  "profileRestored": true,
+  "ownedProcessesStopped": true,
+  "notRun": [
+    "Protected GUI login",
+    "Updater deployment",
+    "Live DEV gameplay"
+  ]
+}

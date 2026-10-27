@@ -1,0 +1,34 @@
+{
+  "mode": "add",
+  "name": "premium scroll (90 days)",
+  "server_id": 12860,
+  "client_id": 11897,
+  "sprite_id": 36694,
+  "definition": {
+    "server_id": 12860,
+    "prototype_dat_server_id": 5943,
+    "prototype_otb_server_id": 5943,
+    "article": "a",
+    "name": "premium scroll (90 days)",
+    "attributes": {
+      "description": "Use this scroll to add 90 days of premium time to your account. The scroll is consumed on use.",
+      "weight": "100"
+    }
+  },
+  "image_sha256": "26ec92ff7afb27bba545732c8f0747787e19fcbf4c7eb47225d4b447fc1f6ade",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "3ba4f040235748a8f71db326be18a982929ad319dcf11ec4435f84668b04c432",
+    "client/data/things/860/Tibia.spr": "2f0c9c146fd37507d59638f6512761a6d52cd4ea9b4d72bdc4daa158e9271dfa",
+    "server/data/items/items.otb": "9374616a3f021aa8323d7f9996210ee93c51bc4225a7741b22f1ba871e619dbf",
+    "server/data/items/items.xml": "4cac2555496e0461bdde2c7f36772cfb973df8c96f1b5600d1f1d9aa127cdb78"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "559d14fa19eda1f4674f2d4a13e865b9b2c4b887a68b1f919ca5024657164ee2",
+    "client/data/things/860/Tibia.spr": "e09c69b4c97a7d5226c389d9555c77f844313a8d9e6f1dd0c9c09183232b9c6e",
+    "server/data/items/items.otb": "fdfa5216a3f799d389ffcb02ce3a7623b02197052b4f31070594b2195339345f",
+    "server/data/items/items.xml": "e8cfbd30d115ad7f74a12101b1dab4870fc093ef780771fe9bf0c98600ddd335"
+  },
+  "validated_existing_sprites": 36693,
+  "validated_existing_dat_records": 12282,
+  "validated_existing_otb_records": 12760
+}

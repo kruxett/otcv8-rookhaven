@@ -1,0 +1,25 @@
+{
+  "status": "draft-awaiting-user-artwork-approval",
+  "product": "Magic Gold Converter",
+  "generator": "PixelLab pixelart_workbench exact coin edit",
+  "job_id": null,
+  "asset_id": "dca216e4-e7fa-4857-8446-87456c5540b0",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "source": "source/v3-clear-coins/pixellab-magic-gold-converter.png",
+  "preview": "source/v3-clear-coins/preview.png",
+  "generation": "source/v3-clear-coins/edit-recipe.json",
+  "validation": "source/v3-clear-coins/validation.json",
+  "art_direction": "Two broad round flat gold/platinum coins with clean rims; 126 exact pixel changes in the upper coin area. Original brass converter and cyan window below y=12 are pixel-identical to v1.",
+  "source_sha256": "6c09ba99ce7328465252843d3a02fdd2aac824af07612f9896de3c06f92e916c",
+  "implementation": "Artwork proposal only. No SID/CID allocation, item import, shop offer or gameplay changes. Wait for the user's artwork approval.",
+  "requested_function": "Automatically converts gold; implementation design follows artwork approval.",
+  "style_reference": "PixelLab Toolkit sprite: source job 32c05940-469c-4f3d-b8c9-1953792b117a; outline, shading and pixel scale only.",
+  "native_coin_references": "source/reference/",
+  "source_job_id": "da58961b-a320-437c-8189-8d5f887dee10",
+  "gallery_asset": "gallery:dca216e4-e7fa-4857-8446-87456c5540b0",
+  "edited_image_id": "e3155674-7965-4bcf-aa8e-0cf6c55afc02",
+  "user_revision": "Det är coins den convertar så det bör speglas. Alltså inte gold nuggets."
+}

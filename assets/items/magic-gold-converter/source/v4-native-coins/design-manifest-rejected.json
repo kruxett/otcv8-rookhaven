@@ -1,0 +1,25 @@
+{
+  "status": "concept-rejected-by-user",
+  "product": "Magic Gold Converter",
+  "generator": "PixelLab pixelart_workbench exact native-coin composition",
+  "job_id": null,
+  "asset_id": "2618f74a-e19e-49dc-a7ce-706a4f4f8e5d",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "source": "source/v4-native-coins/pixellab-magic-gold-converter.png",
+  "preview": "source/v4-native-coins/preview.png",
+  "generation": "source/v4-native-coins/edit-recipe.json",
+  "validation": "source/v4-native-coins/validation.json",
+  "art_direction": "Actual Rookhaven single gold, platinum and crystal coin sprites (SID 2148/2152/2160; SPR 410/402/6165) copied pixel-for-pixel at original 9x9 size onto the brass converter. Original machine body below y12 preserved.",
+  "source_sha256": "67032a3103bf3632710fbbf28ad5dee02c1bc47f4e320f2171487439a3475413",
+  "implementation": "Artwork proposal only. No SID/CID allocation, item import, shop offer or gameplay changes. Wait for the user's artwork approval.",
+  "requested_function": "Automatically converts gold; implementation design follows artwork approval.",
+  "style_reference": "PixelLab Toolkit sprite: source job 32c05940-469c-4f3d-b8c9-1953792b117a; outline, shading and pixel scale only.",
+  "native_coin_references": "source/reference/",
+  "source_job_id": "da58961b-a320-437c-8189-8d5f887dee10",
+  "gallery_asset": "gallery:2618f74a-e19e-49dc-a7ce-706a4f4f8e5d",
+  "edited_image_id": "34a2d71e-dd82-4da5-af2a-afa230630dcc",
+  "user_revision": "Nej. Du har hur Gold ser ut, varför inte använda oss av det? Hur gold, platinum och cystal coins ser ut"
+}

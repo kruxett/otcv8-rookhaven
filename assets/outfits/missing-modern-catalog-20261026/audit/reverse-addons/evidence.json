@@ -1,0 +1,41 @@
+{
+  "direction_flag_numbers": {
+    "north": 52,
+    "east": 49,
+    "south": 51,
+    "west": 50
+  },
+  "mapping_confidence": "direct primary protobuf definition, corroborated by Canary and multiple independent implementations",
+  "recommended_composition": {
+    "reverse_false": "ascending selected patternY rows, base first",
+    "reverse_true": "descending selected patternY rows including base; base last",
+    "examples": {
+      "base": [
+        0
+      ],
+      "base_addon1": [
+        1,
+        0
+      ],
+      "base_addon2": [
+        2,
+        0
+      ],
+      "base_both": [
+        2,
+        1,
+        0
+      ]
+    }
+  },
+  "ordering_evidence": {
+    "source": "https://github.com/nekiro/ots-creator/blob/7b4da39fd29d42da1280c96b5f58c9201a7fed65/frontend/src/lib/flags.ts",
+    "quote": "Addons are drawn under the outfit facing east",
+    "confidence": "Documented semantic supports base last; exact descending-order implementation is an inference, not directly verified against a running official renderer."
+  },
+  "implementation_search_limit": "Current primary OpenTibiaBR thingtype.cpp only comments these flags and does not implement them. No working public renderer implementation was found in the bounded search. Do not claim verified official render parity from this search alone.",
+  "sources": {
+    "otclient-appearances.proto": "https://raw.githubusercontent.com/opentibiabr/otclient/1fcea26f23ef1d1857103ef446c0190955523ca8/src/protobuf/appearances.proto",
+    "ots-creator-flags.ts": "https://raw.githubusercontent.com/nekiro/ots-creator/7b4da39fd29d42da1280c96b5f58c9201a7fed65/frontend/src/lib/flags.ts"
+  }
+}

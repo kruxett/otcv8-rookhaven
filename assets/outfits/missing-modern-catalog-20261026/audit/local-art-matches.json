@@ -1,0 +1,7 @@
+{
+  "client_dat_sha256": "01660834e06a9c18df602c042b68560c9d07813a4de73f19ab2d9407ca759de5",
+  "client_spr_sha256": "e1c7f21fa276e462cdd36e49c1f8c2bd86a9e7012a9ddf2bcf53f682f065a2cd",
+  "matching_method": "Exact RGBA after same recolor; cropped alpha bbox; source south base idle vs all phases/directions of legacy recolorable models",
+  "legacy_recolorable_models_checked": 61,
+  "matches": {}
+}

@@ -1,0 +1,954 @@
+[
+  {
+    "name": "Oriental Outfits",
+    "male": 146,
+    "female": 150,
+    "page": "https://exetares.wiki/Oriental_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/2/20/Outfit_Oriental_Male.gif/revision/latest?cb=20060829022729&path-prefix=en"
+  },
+  {
+    "name": "Druid Outfits",
+    "male": 144,
+    "female": 148,
+    "page": "https://exetares.wiki/Druid_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/c/c9/Outfit_Druid_Male.gif/revision/latest?cb=20060829001543&path-prefix=en"
+  },
+  {
+    "name": "Nobleman Outfits",
+    "male": 132,
+    "female": 140,
+    "page": "https://exetares.wiki/Nobleman_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/8/80/Outfit_Nobleman_Male.gif/revision/latest?cb=20060829001743&path-prefix=en"
+  },
+  {
+    "name": "Warrior Outfits",
+    "male": 134,
+    "female": 142,
+    "page": "https://exetares.wiki/Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/6b/Outfit_Warrior_Male.gif/revision/latest?cb=20060829022854&path-prefix=en"
+  },
+  {
+    "name": "Summoner Outfits",
+    "male": 133,
+    "female": 141,
+    "page": "https://exetares.wiki/Summoner_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/5e/Outfit_Summoner_Male.gif/revision/latest?cb=20061009164755&path-prefix=en"
+  },
+  {
+    "name": "Knight Outfits",
+    "male": 131,
+    "female": 139,
+    "page": "https://exetares.wiki/Knight_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d6/Outfit_Knight_Male.gif/revision/latest?cb=20170925202328&path-prefix=en"
+  },
+  {
+    "name": "Hunter Outfits",
+    "male": 129,
+    "female": 137,
+    "page": "https://exetares.wiki/Hunter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/5c/Outfit_Hunter_Male.gif/revision/latest?cb=20060828194217&path-prefix=en"
+  },
+  {
+    "name": "Mage Outfits",
+    "male": 130,
+    "female": 138,
+    "page": "https://exetares.wiki/Mage_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/63/Outfit_Mage_Male.gif/revision/latest?cb=20061009164750&path-prefix=en"
+  },
+  {
+    "name": "Citizen Outfits",
+    "male": 128,
+    "female": 136,
+    "page": "https://exetares.wiki/Citizen_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e4/Outfit_Citizen_Male.gif/revision/latest?cb=20060828193959&path-prefix=en"
+  },
+  {
+    "name": "Assassin Outfits",
+    "male": 152,
+    "female": 156,
+    "page": "https://exetares.wiki/Assassin_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/a7/Outfit_Assassin_Male.gif/revision/latest?cb=20060830000017&path-prefix=en"
+  },
+  {
+    "name": "Beggar Outfits",
+    "male": 153,
+    "female": 157,
+    "page": "https://exetares.wiki/Beggar_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Beggar_Male.gif/revision/latest?cb=20060830023030&path-prefix=en"
+  },
+  {
+    "name": "Pirate Outfits",
+    "male": 151,
+    "female": 155,
+    "page": "https://exetares.wiki/Pirate_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/62/Outfit_Pirate_Male.gif/revision/latest?cb=20060830023146&path-prefix=en"
+  },
+  {
+    "name": "Shaman Outfits",
+    "male": 154,
+    "female": 158,
+    "page": "https://exetares.wiki/Shaman_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/2/2b/Outfit_Shaman_Male.gif/revision/latest?cb=20060830042828&path-prefix=en"
+  },
+  {
+    "name": "Barbarian Outfits",
+    "male": 143,
+    "female": 147,
+    "page": "https://exetares.wiki/Barbarian_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/0b/Outfit_Barbarian_Male.gif/revision/latest?cb=20060828193758&path-prefix=en"
+  },
+  {
+    "name": "Wizard Outfits",
+    "male": 145,
+    "female": 149,
+    "page": "https://exetares.wiki/Wizard_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/bf/Outfit_Wizard_Male.gif/revision/latest?cb=20060830000134&path-prefix=en"
+  },
+  {
+    "name": "Norseman Outfits",
+    "male": 251,
+    "female": 252,
+    "page": "https://exetares.wiki/Norseman_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/ae/Outfit_Norseman_Male.gif/revision/latest?cb=20070628222812&path-prefix=en"
+  },
+  {
+    "name": "Jester Outfits",
+    "male": 273,
+    "female": 270,
+    "page": "https://exetares.wiki/Jester_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d5/Outfit_Jester_Male.gif/revision/latest?cb=20080813192343&path-prefix=en"
+  },
+  {
+    "name": "Brotherhood Outfits",
+    "male": 278,
+    "female": 279,
+    "page": "https://exetares.wiki/Brotherhood_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/6b/Outfit_Brotherhood_Male.gif/revision/latest?cb=20080107004219&path-prefix=en"
+  },
+  {
+    "name": "Nightmare Outfits",
+    "male": 268,
+    "female": 269,
+    "page": "https://exetares.wiki/Nightmare_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/2/2d/Outfit_Nightmare_Male.gif/revision/latest?cb=20180710152404&path-prefix=en"
+  },
+  {
+    "name": "Demon Hunter Outfits",
+    "male": 289,
+    "female": 288,
+    "page": "https://exetares.wiki/Demon_Hunter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d5/Outfit_Demon_Hunter_Male.gif/revision/latest?cb=20080725221103&path-prefix=en"
+  },
+  {
+    "name": "Yalaharian Outfits",
+    "male": 324,
+    "female": 325,
+    "page": "https://exetares.wiki/Yalaharian_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Yalaharian_Male.gif/revision/latest?cb=20140905202033&path-prefix=en"
+  },
+  {
+    "name": "Newly Wed Outfits",
+    "male": 328,
+    "female": 329,
+    "page": "https://exetares.wiki/Newly_Wed_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/4/48/Outfit_Newly_Wed_Male.gif/revision/latest?cb=20090627042000&path-prefix=en"
+  },
+  {
+    "name": "Warmaster Outfits",
+    "male": 335,
+    "female": 336,
+    "page": "https://exetares.wiki/Warmaster_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/ab/Outfit_Warmaster_Male.gif/revision/latest?cb=20091213152806&path-prefix=en"
+  },
+  {
+    "name": "Wayfarer Outfits",
+    "male": 366,
+    "female": 367,
+    "page": "https://exetares.wiki/Wayfarer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/ee/Outfit_Wayfarer_Male.gif/revision/latest?cb=20100628085204&path-prefix=en"
+  },
+  {
+    "name": "Afflicted Outfits",
+    "male": 430,
+    "female": 431,
+    "page": "https://exetares.wiki/Afflicted_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/5e/Outfit_Afflicted_Male.gif/revision/latest?cb=20110703045410&path-prefix=en"
+  },
+  {
+    "name": "Elementalist Outfits",
+    "male": 432,
+    "female": 433,
+    "page": "https://exetares.wiki/Elementalist_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/c/c4/Outfit_Elementalist_Male.gif/revision/latest?cb=20110703050027&path-prefix=en"
+  },
+  {
+    "name": "Deepling Outfits",
+    "male": 463,
+    "female": 464,
+    "page": "https://exetares.wiki/Deepling_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/dc/Outfit_Deepling_Male.gif/revision/latest?cb=20111209205851&path-prefix=en"
+  },
+  {
+    "name": "Insectoid Outfits",
+    "male": 465,
+    "female": 466,
+    "page": "https://exetares.wiki/Insectoid_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b7/Outfit_Insectoid_Male.gif/revision/latest?cb=20111209220343&path-prefix=en"
+  },
+  {
+    "name": "Entrepreneur Outfits",
+    "male": 472,
+    "female": 471,
+    "page": "https://exetares.wiki/Entrepreneur_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/32/Outfit_Entrepreneur_Male.gif/revision/latest?cb=20111209215513&path-prefix=en"
+  },
+  {
+    "name": "Crystal Warlord Outfits",
+    "male": 512,
+    "female": 513,
+    "page": "https://exetares.wiki/Crystal_Warlord_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/30/Outfit_Crystal_Warlord_Male.gif/revision/latest?cb=20120627180215&path-prefix=en"
+  },
+  {
+    "name": "Soil Guardian Outfits",
+    "male": 516,
+    "female": 514,
+    "page": "https://exetares.wiki/Soil_Guardian_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Soil_Guardian_Male.gif/revision/latest?cb=20120627190958&path-prefix=en"
+  },
+  {
+    "name": "Demon Outfits",
+    "male": 541,
+    "female": 542,
+    "page": "https://exetares.wiki/Demon_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e3/Outfit_Demon_Male.gif/revision/latest?cb=20121214214328&path-prefix=en"
+  },
+  {
+    "name": "Cave Explorer Outfits",
+    "male": 574,
+    "female": 575,
+    "page": "https://exetares.wiki/Cave_Explorer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/3b/Outfit_Cave_Explorer_Male.gif/revision/latest?cb=20140905172841&path-prefix=en"
+  },
+  {
+    "name": "Dream Warden Outfits",
+    "male": 577,
+    "female": 578,
+    "page": "https://exetares.wiki/Dream_Warden_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/18/Outfit_Dream_Warden_Male.gif/revision/latest?cb=20131130233405&path-prefix=en"
+  },
+  {
+    "name": "Glooth Engineer Outfits",
+    "male": 610,
+    "female": 618,
+    "page": "https://exetares.wiki/Glooth_Engineer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/dc/Outfit_Glooth_Engineer_Male.gif/revision/latest?cb=20140905171227&path-prefix=en"
+  },
+  {
+    "name": "Jersey Outfits",
+    "male": 619,
+    "female": 620,
+    "page": "https://exetares.wiki/Jersey_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/8/84/Outfit_Jersey_Male.gif/revision/latest?cb=20140905170745&path-prefix=en"
+  },
+  {
+    "name": "Champion Outfits",
+    "male": 633,
+    "female": 632,
+    "page": "https://exetares.wiki/Champion_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/14/Outfit_Champion_Male.gif/revision/latest?cb=20150501213511&path-prefix=en"
+  },
+  {
+    "name": "Chaos Acolyte Outfits",
+    "male": 665,
+    "female": 664,
+    "page": "https://exetares.wiki/Chaos_Acolyte_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/65/Outfit_Chaos_Acolyte_Male.gif/revision/latest?cb=20230730030003&path-prefix=en"
+  },
+  {
+    "name": "Death Herald Outfits",
+    "male": 667,
+    "female": 666,
+    "page": "https://exetares.wiki/Death_Herald_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/aa/Outfit_Death_Herald_Male.gif/revision/latest?cb=20150501182730&path-prefix=en"
+  },
+  {
+    "name": "Ceremonial Garb Outfits",
+    "male": 695,
+    "female": 694,
+    "page": "https://exetares.wiki/Ceremonial_Garb_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/08/Outfit_Ceremonial_Garb_Male.gif/revision/latest?cb=20150501150729&path-prefix=en"
+  },
+  {
+    "name": "Conjurer Outfits",
+    "male": 634,
+    "female": 635,
+    "page": "https://exetares.wiki/Conjurer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/12/Outfit_Conjurer_Male.gif/revision/latest?cb=20141015214848&path-prefix=en"
+  },
+  {
+    "name": "Beastmaster Outfits",
+    "male": 636,
+    "female": 637,
+    "page": "https://exetares.wiki/Beastmaster_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b1/Outfit_Beastmaster_Male.gif/revision/latest?cb=20150501152221&path-prefix=en"
+  },
+  {
+    "name": "Evoker Outfits",
+    "male": 725,
+    "female": 724,
+    "page": "https://exetares.wiki/Evoker_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/57/Outfit_Evoker_Male.gif/revision/latest?cb=20230730032126&path-prefix=en"
+  },
+  {
+    "name": "Puppeteer Outfits",
+    "male": 697,
+    "female": 696,
+    "page": "https://exetares.wiki/Puppeteer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/6c/Outfit_Puppeteer_Male.gif/revision/latest?cb=20150507231142&path-prefix=en"
+  },
+  {
+    "name": "Seaweaver Outfits",
+    "male": 733,
+    "female": 732,
+    "page": "https://exetares.wiki/Seaweaver_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Seaweaver_Male.gif/revision/latest?cb=20150512133852&path-prefix=en"
+  },
+  {
+    "name": "Rift Warrior Outfits",
+    "male": 846,
+    "female": 845,
+    "page": "https://exetares.wiki/Rift_Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b8/Outfit_Rift_Warrior_Male.gif/revision/latest?cb=20160319171943&path-prefix=en"
+  },
+  {
+    "name": "Grove Keeper Outfits",
+    "male": 908,
+    "female": 909,
+    "page": "https://exetares.wiki/Grove_Keeper_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Grove_Keeper_Male.gif/revision/latest?cb=20170925183115&path-prefix=en"
+  },
+  {
+    "name": "Ranger Outfits",
+    "male": 684,
+    "female": 683,
+    "page": "https://exetares.wiki/Ranger_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/05/Outfit_Ranger_Male.gif/revision/latest?cb=20150501214734&path-prefix=en"
+  },
+  {
+    "name": "Spirit Caller Outfits",
+    "male": 699,
+    "female": 698,
+    "page": "https://exetares.wiki/Spirit_Caller_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/13/Outfit_Spirit_Caller_Male.gif/revision/latest?cb=20150507232416&path-prefix=en"
+  },
+  {
+    "name": "Recruiter Outfits",
+    "male": 746,
+    "female": 745,
+    "page": "https://exetares.wiki/Recruiter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/6c/Outfit_Recruiter_Male.gif/revision/latest?cb=20150903210845&path-prefix=en"
+  },
+  {
+    "name": "Sea Dog Outfits",
+    "male": 750,
+    "female": 749,
+    "page": "https://exetares.wiki/Sea_Dog_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/75/Outfit_Sea_Dog_Male.gif/revision/latest?cb=20150919114242&path-prefix=en"
+  },
+  {
+    "name": "Royal Pumpkin Outfits",
+    "male": 760,
+    "female": 759,
+    "page": "https://exetares.wiki/Royal_Pumpkin_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/0f/Outfit_Royal_Pumpkin_Male.gif/revision/latest?cb=20151031004004&path-prefix=en"
+  },
+  {
+    "name": "Retro Hunter Outfits",
+    "male": 972,
+    "female": 973,
+    "page": "https://exetares.wiki/Retro_Hunter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/75/Outfit_Retro_Hunter_Male.gif/revision/latest?cb=20170526114044&path-prefix=en"
+  },
+  {
+    "name": "Retro Mage Outfits",
+    "male": 968,
+    "female": 969,
+    "page": "https://exetares.wiki/Retro_Mage_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/4/49/Outfit_Retro_Mage_Male.gif/revision/latest?cb=20170526114207&path-prefix=en"
+  },
+  {
+    "name": "Retro Nobleman Outfits",
+    "male": 966,
+    "female": 967,
+    "page": "https://exetares.wiki/Retro_Nobleman_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/f/f0/Outfit_Retro_Nobleman_Male.gif/revision/latest?cb=20170526113753&path-prefix=en"
+  },
+  {
+    "name": "Winter Warden Outfits",
+    "male": 853,
+    "female": 852,
+    "page": "https://exetares.wiki/Winter_Warden_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/98/Outfit_Winter_Warden_Male.gif/revision/latest?cb=20160319170140&path-prefix=en"
+  },
+  {
+    "name": "Philosopher Outfits",
+    "male": 873,
+    "female": 874,
+    "page": "https://exetares.wiki/Philosopher_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d0/Outfit_Philosopher_Male.gif/revision/latest?cb=20160319165020&path-prefix=en"
+  },
+  {
+    "name": "Arena Champion Outfits",
+    "male": 884,
+    "female": 885,
+    "page": "https://exetares.wiki/Arena_Champion_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/36/Outfit_Arena_Champion_Male.gif/revision/latest?cb=20170925204529&path-prefix=en"
+  },
+  {
+    "name": "Lupine Warden Outfits",
+    "male": 899,
+    "female": 900,
+    "page": "https://exetares.wiki/Lupine_Warden_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/16/Outfit_Lupine_Warden_Male.gif/revision/latest?cb=20160917074727&path-prefix=en"
+  },
+  {
+    "name": "Pharaoh Outfits",
+    "male": 955,
+    "female": 956,
+    "page": "https://exetares.wiki/Pharaoh_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/de/Outfit_Pharaoh_Male.gif/revision/latest?cb=20170925221243&path-prefix=en"
+  },
+  {
+    "name": "Retro Knight Outfits",
+    "male": 970,
+    "female": 971,
+    "page": "https://exetares.wiki/Retro_Knight_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d7/Outfit_Retro_Knight_Male.gif/revision/latest?cb=20170526114107&path-prefix=en"
+  },
+  {
+    "name": "Retro Citizen Outfits",
+    "male": 974,
+    "female": 975,
+    "page": "https://exetares.wiki/Retro_Citizen_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/6a/Outfit_Retro_Citizen_Male.gif/revision/latest?cb=20170526114016&path-prefix=en"
+  },
+  {
+    "name": "Retro Warrior Outfits",
+    "male": 962,
+    "female": 963,
+    "page": "https://exetares.wiki/Retro_Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/9b/Outfit_Retro_Warrior_Male.gif/revision/latest?cb=20170526113911&path-prefix=en"
+  },
+  {
+    "name": "Retro Summoner Outfits",
+    "male": 964,
+    "female": 965,
+    "page": "https://exetares.wiki/Retro_Summoner_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/59/Outfit_Retro_Summoner_Male.gif/revision/latest?cb=20170526113856&path-prefix=en"
+  },
+  {
+    "name": "Trophy Hunter Outfits",
+    "male": 957,
+    "female": 958,
+    "page": "https://exetares.wiki/Trophy_Hunter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/f/ff/Outfit_Trophy_Hunter_Male.gif/revision/latest?cb=20170610084346&path-prefix=en"
+  },
+  {
+    "name": "Festive Outfits",
+    "male": 931,
+    "female": 929,
+    "page": "https://exetares.wiki/Festive_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e7/Outfit_Festive_Male.gif/revision/latest?cb=20170828164517&path-prefix=en"
+  },
+  {
+    "name": "Makeshift Warrior Outfits",
+    "male": 1042,
+    "female": 1043,
+    "page": "https://exetares.wiki/Makeshift_Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/9d/Outfit_Makeshift_Warrior_Male.gif/revision/latest?cb=20171129140059&path-prefix=en"
+  },
+  {
+    "name": "Dream Warrior Outfits",
+    "male": 1146,
+    "female": 1147,
+    "page": "https://exetares.wiki/Dream_Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1e/Outfit_Dream_Warrior_Male.gif/revision/latest?cb=20181108184820&path-prefix=en"
+  },
+  {
+    "name": "Percht Raider Outfits",
+    "male": 1161,
+    "female": 1162,
+    "page": "https://exetares.wiki/Percht_Raider_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e3/Outfit_Percht_Raider_Male.gif/revision/latest?cb=20181227220736&path-prefix=en"
+  },
+  {
+    "name": "Guidon Bearer Outfits",
+    "male": 1186,
+    "female": 1187,
+    "page": "https://exetares.wiki/Guidon_Bearer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/8/84/Outfit_Guidon_Bearer_Male.gif/revision/latest?cb=20190416172352&path-prefix=en"
+  },
+  {
+    "name": "Void Master Outfits",
+    "male": 1202,
+    "female": 1203,
+    "page": "https://exetares.wiki/Void_Master_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1b/Outfit_Void_Master_Male.gif/revision/latest?cb=20230730035707&path-prefix=en"
+  },
+  {
+    "name": "Veteran Paladin Outfits",
+    "male": 1204,
+    "female": 1205,
+    "page": "https://exetares.wiki/Veteran_Paladin_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Veteran_Paladin_Male.gif/revision/latest?cb=20230730084857&path-prefix=en"
+  },
+  {
+    "name": "Lion of War Outfits",
+    "male": 1206,
+    "female": 1207,
+    "page": "https://exetares.wiki/Lion_of_War_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/67/Outfit_Lion_of_War_Male.gif/revision/latest?cb=20230730034932&path-prefix=en"
+  },
+  {
+    "name": "Golden Outfits",
+    "male": 1210,
+    "female": 1211,
+    "page": "https://exetares.wiki/Golden_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Golden_Male.gif/revision/latest?cb=20230730033004&path-prefix=en"
+  },
+  {
+    "name": "Hand of the Inquisition Outfits",
+    "male": 1243,
+    "female": 1244,
+    "page": "https://exetares.wiki/Hand_of_the_Inquisition_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/16/Outfit_Hand_of_the_Inquisition_Male.gif/revision/latest?cb=20190702023726&path-prefix=en"
+  },
+  {
+    "name": "Breezy Garb Outfits",
+    "male": 1245,
+    "female": 1246,
+    "page": "https://exetares.wiki/Breezy_Garb_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/2/23/Outfit_Breezy_Garb_Male.gif/revision/latest?cb=20190712165126&path-prefix=en"
+  },
+  {
+    "name": "Poltergeist Outfits",
+    "male": 1270,
+    "female": 1271,
+    "page": "https://exetares.wiki/Poltergeist_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Poltergeist_Male.gif/revision/latest?cb=20191114142003&path-prefix=en"
+  },
+  {
+    "name": "Falconer Outfits",
+    "male": 1282,
+    "female": 1283,
+    "page": "https://exetares.wiki/Falconer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/4/40/Outfit_Falconer_Male.gif/revision/latest?cb=20191113163953&path-prefix=en"
+  },
+  {
+    "name": "Herder Outfits",
+    "male": 1279,
+    "female": 1280,
+    "page": "https://exetares.wiki/Herder_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/4/45/Outfit_Herder_Male.gif/revision/latest?cb=20191129121944&path-prefix=en"
+  },
+  {
+    "name": "Orcsoberfest Garb Outfits",
+    "male": 1251,
+    "female": 1252,
+    "page": "https://exetares.wiki/Orcsoberfest_Garb_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/7c/Outfit_Orcsoberfest_Garb_Male.gif/revision/latest?cb=20191127184220&path-prefix=en"
+  },
+  {
+    "name": "Trailblazer Outfits",
+    "male": 1292,
+    "female": 1293,
+    "page": "https://exetares.wiki/Trailblazer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/8/87/Outfit_Trailblazer_Male.gif/revision/latest?cb=20230730035548&path-prefix=en"
+  },
+  {
+    "name": "Dragon Slayer Outfits",
+    "male": 1288,
+    "female": 1289,
+    "page": "https://exetares.wiki/Dragon_Slayer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d9/Outfit_Dragon_Slayer_Male.gif/revision/latest?cb=20200416171808&path-prefix=en"
+  },
+  {
+    "name": "Revenant Outfits",
+    "male": 1322,
+    "female": 1323,
+    "page": "https://exetares.wiki/Revenant_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Revenant_Male.gif/revision/latest?cb=20230730035209&path-prefix=en"
+  },
+  {
+    "name": "Jouster Outfits",
+    "male": 1331,
+    "female": 1332,
+    "page": "https://exetares.wiki/Jouster_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1c/Outfit_Jouster_Male.gif/revision/latest?cb=20200714233702&path-prefix=en"
+  },
+  {
+    "name": "Moth Cape Outfits",
+    "male": 1338,
+    "female": 1339,
+    "page": "https://exetares.wiki/Moth_Cape_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Moth_Cape_Male.gif/revision/latest?cb=20200911132731&path-prefix=en"
+  },
+  {
+    "name": "Rascoohan Outfits",
+    "male": 1371,
+    "female": 1372,
+    "page": "https://exetares.wiki/Rascoohan_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/15/Outfit_Rascoohan_Male.gif/revision/latest?cb=20201105161613&path-prefix=en"
+  },
+  {
+    "name": "Merry Garb Outfits",
+    "male": 1382,
+    "female": 1383,
+    "page": "https://exetares.wiki/Merry_Garb_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/5a/Outfit_Merry_Garb_Male.gif/revision/latest?cb=20201222172029&path-prefix=en"
+  },
+  {
+    "name": "Rune Master Outfits",
+    "male": 1384,
+    "female": 1385,
+    "page": "https://exetares.wiki/Rune_Master_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Rune_Master_Male.gif/revision/latest?cb=20230730035306&path-prefix=en"
+  },
+  {
+    "name": "Forest Warden Outfits",
+    "male": 1415,
+    "female": 1416,
+    "page": "https://exetares.wiki/Forest_Warden_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/91/Outfit_Forest_Warden_Male.gif/revision/latest?cb=20210517180313&path-prefix=en"
+  },
+  {
+    "name": "Royal Bounacean Advisor Outfits",
+    "male": 1436,
+    "female": 1437,
+    "page": "https://exetares.wiki/Royal_Bounacean_Advisor_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/a5/Outfit_Royal_Bounacean_Advisor_Male.gif/revision/latest?cb=20210611030408&path-prefix=en"
+  },
+  {
+    "name": "Herbalist Outfits",
+    "male": 1021,
+    "female": 1020,
+    "page": "https://exetares.wiki/Herbalist_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/c/c2/Outfit_Herbalist_Male.gif/revision/latest?cb=20171014034636&path-prefix=en"
+  },
+  {
+    "name": "Sun Priest Outfits",
+    "male": 1023,
+    "female": 1024,
+    "page": "https://exetares.wiki/Sun_Priest_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/8/89/Outfit_Sun_Priest_Male.gif/revision/latest?cb=20171223113014&path-prefix=en"
+  },
+  {
+    "name": "Citizen of Issavi Outfits",
+    "male": 1386,
+    "female": 1387,
+    "page": "https://exetares.wiki/Citizen_of_Issavi_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/db/Outfit_Citizen_of_Issavi_Male.gif/revision/latest?cb=20210521150838&path-prefix=en"
+  },
+  {
+    "name": "Siege Master Outfits",
+    "male": 1050,
+    "female": 1051,
+    "page": "https://exetares.wiki/Siege_Master_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/eb/Outfit_Siege_Master_Male.gif/revision/latest?cb=20180216133811&path-prefix=en"
+  },
+  {
+    "name": "Mercenary Outfits",
+    "male": 1056,
+    "female": 1057,
+    "page": "https://exetares.wiki/Mercenary_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b8/Outfit_Mercenary_Male.gif/revision/latest?cb=20180412135625&path-prefix=en"
+  },
+  {
+    "name": "Discoverer Outfits",
+    "male": 1094,
+    "female": 1095,
+    "page": "https://exetares.wiki/Discoverer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1b/Outfit_Discoverer_Male.gif/revision/latest?cb=20180609031352&path-prefix=en"
+  },
+  {
+    "name": "Battle Mage Outfits",
+    "male": 1069,
+    "female": 1070,
+    "page": "https://exetares.wiki/Battle_Mage_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/f/f5/Outfit_Battle_Mage_Male.gif/revision/latest?cb=20230730025109&path-prefix=en"
+  },
+  {
+    "name": "Sinister Archer Outfits",
+    "male": 1102,
+    "female": 1103,
+    "page": "https://exetares.wiki/Sinister_Archer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/9a/Outfit_Sinister_Archer_Male.gif/revision/latest?cb=20180713172225&path-prefix=en"
+  },
+  {
+    "name": "Pumpkin Mummy Outfits",
+    "male": 1127,
+    "female": 1128,
+    "page": "https://exetares.wiki/Pumpkin_Mummy_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/5b/Outfit_Pumpkin_Mummy_Male.gif/revision/latest?cb=20181019132100&path-prefix=en"
+  },
+  {
+    "name": "Owl Keeper Outfits",
+    "male": 1173,
+    "female": 1174,
+    "page": "https://exetares.wiki/Owl_Keeper_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/7c/Outfit_Owl_Keeper_Male.gif/revision/latest?cb=20190206130716&path-prefix=en"
+  },
+  {
+    "name": "Ancient Aucar Outfits",
+    "male": 1597,
+    "female": 1598,
+    "page": "https://exetares.wiki/Ancient_Aucar_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e4/Outfit_Ancient_Aucar_Male.gif/revision/latest?cb=20221110000535&path-prefix=en"
+  },
+  {
+    "name": "Dragon Knight Outfits",
+    "male": 1444,
+    "female": 1445,
+    "page": "https://exetares.wiki/Dragon_Knight_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/f/f1/Outfit_Dragon_Knight_Male.gif/revision/latest?cb=20210710200744&path-prefix=en"
+  },
+  {
+    "name": "Arbalester Outfits",
+    "male": 1449,
+    "female": 1450,
+    "page": "https://exetares.wiki/Arbalester_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/3c/Outfit_Arbalester_Male.gif/revision/latest?cb=20211008153857&path-prefix=en"
+  },
+  {
+    "name": "Royal Costume Outfits",
+    "male": 1457,
+    "female": 1456,
+    "page": "https://exetares.wiki/Royal_Costume_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/92/Outfit_Royal_Costume_Male.gif/revision/latest?cb=20211125152110&path-prefix=en"
+  },
+  {
+    "name": "Formal Dress Outfits",
+    "male": 1460,
+    "female": 1461,
+    "page": "https://exetares.wiki/Formal_Dress_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/33/Outfit_Formal_Dress_Male.gif/revision/latest?cb=20220107210538&path-prefix=en"
+  },
+  {
+    "name": "Ghost Blade Outfits",
+    "male": 1489,
+    "female": 1490,
+    "page": "https://exetares.wiki/Ghost_Blade_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/7a/Outfit_Ghost_Blade_Male.gif/revision/latest?cb=20230730032600&path-prefix=en"
+  },
+  {
+    "name": "Nordic Chieftain Outfits",
+    "male": 1500,
+    "female": 1501,
+    "page": "https://exetares.wiki/Nordic_Chieftain_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Nordic_Chieftain_Male.gif/revision/latest?cb=20220408140552&path-prefix=en"
+  },
+  {
+    "name": "Fire-Fighter Outfits",
+    "male": 1568,
+    "female": 1569,
+    "page": "https://exetares.wiki/Fire-Fighter_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1a/Outfit_Fire-Fighter_Male.gif/revision/latest?cb=20230730032320&path-prefix=en"
+  },
+  {
+    "name": "Fencer Outfits",
+    "male": 1575,
+    "female": 1576,
+    "page": "https://exetares.wiki/Fencer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/96/Outfit_Fencer_Male.gif/revision/latest?cb=20220708172003&path-prefix=en"
+  },
+  {
+    "name": "Shadowlotus Disciple Outfits",
+    "male": 1581,
+    "female": 1582,
+    "page": "https://exetares.wiki/Shadowlotus_Disciple_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Shadowlotus_Disciple_Male.gif/revision/latest?cb=20221018225030&path-prefix=en"
+  },
+  {
+    "name": "Frost Tracer Outfits",
+    "male": 1612,
+    "female": 1613,
+    "page": "https://exetares.wiki/Frost_Tracer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b5/Outfit_Frost_Tracer_Male.gif/revision/latest?cb=20230730032434&path-prefix=en"
+  },
+  {
+    "name": "Armoured Archer Outfits",
+    "male": 1618,
+    "female": 1619,
+    "page": "https://exetares.wiki/Armoured_Archer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/e8/Outfit_Armoured_Archer_Male.gif/revision/latest?cb=20230414084254&path-prefix=en"
+  },
+  {
+    "name": "Decaying Defender Outfits",
+    "male": 1662,
+    "female": 1663,
+    "page": "https://exetares.wiki/Decaying_Defender_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/7d/Outfit_Decaying_Defender_Male.gif/revision/latest?cb=20230730030144&path-prefix=en"
+  },
+  {
+    "name": "Darklight Evoker Outfits",
+    "male": 1675,
+    "female": 1676,
+    "page": "https://exetares.wiki/Darklight_Evoker_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/0a/Outfit_Darklight_Evoker_Male.gif/revision/latest?cb=20230729231439&path-prefix=en"
+  },
+  {
+    "name": "Flamefury Mage Outfits",
+    "male": 1680,
+    "female": 1681,
+    "page": "https://exetares.wiki/Flamefury_Mage_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Flamefury_Mage_Male.gif/revision/latest?cb=20230729230505&path-prefix=en"
+  },
+  {
+    "name": "Draccoon Herald Outfits",
+    "male": 1722,
+    "female": 1723,
+    "page": "https://exetares.wiki/Draccoon_Herald_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/5/51/Outfit_Draccoon_Herald_Male.gif/revision/latest?cb=20231115021121&path-prefix=en"
+  },
+  {
+    "name": "Doom Knight Outfits",
+    "male": 1713,
+    "female": 1714,
+    "page": "https://exetares.wiki/Doom_Knight_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/0b/Outfit_Doom_Knight_Male.gif/revision/latest?cb=20231222230244&path-prefix=en"
+  },
+  {
+    "name": "Celestial Avenger Outfits",
+    "male": 1725,
+    "female": 1726,
+    "page": "https://exetares.wiki/Celestial_Avenger_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/07/Outfit_Celestial_Avenger_Male.gif/revision/latest?cb=20240225135416&path-prefix=en"
+  },
+  {
+    "name": "Blade Dancer Outfits",
+    "male": 1745,
+    "female": 1746,
+    "page": "https://exetares.wiki/Blade_Dancer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/3/3a/Outfit_Blade_Dancer_Male.gif/revision/latest?cb=20240517161757&path-prefix=en"
+  },
+  {
+    "name": "Rootwalker Outfits",
+    "male": 1774,
+    "female": 1775,
+    "page": "https://exetares.wiki/Rootwalker_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Rootwalker_Male.gif/revision/latest?cb=20240617091812&path-prefix=en"
+  },
+  {
+    "name": "Beekeeper Outfits",
+    "male": 1776,
+    "female": 1777,
+    "page": "https://exetares.wiki/Beekeeper_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/bd/Outfit_Beekeeper_Male.gif/revision/latest?cb=20240627002727&path-prefix=en"
+  },
+  {
+    "name": "Fiend Slayer Outfits",
+    "male": 1809,
+    "female": 1808,
+    "page": "https://exetares.wiki/Fiend_Slayer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1d/Outfit_Fiend_Slayer_Male.gif/revision/latest?cb=20241105205357&path-prefix=en"
+  },
+  {
+    "name": "Winged Druid Outfits",
+    "male": 1831,
+    "female": 1832,
+    "page": "https://exetares.wiki/Winged_Druid_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/d/d9/Outfit_Winged_Druid_Male.gif/revision/latest?cb=20250305161341&path-prefix=en"
+  },
+  {
+    "name": "Field Surgeon Outfits",
+    "male": 1814,
+    "female": 1815,
+    "page": "https://exetares.wiki/Field_Surgeon_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/ac/Outfit_Field_Surgeon_Male.gif/revision/latest?cb=20250305173713&path-prefix=en"
+  },
+  {
+    "name": "Monk Outfits",
+    "male": 1824,
+    "female": 1825,
+    "page": "https://exetares.wiki/Monk_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/9/92/Outfit_Monk_Male.gif/revision/latest?cb=20250303105655&path-prefix=en"
+  },
+  {
+    "name": "Martial Artist Outfits",
+    "male": 1837,
+    "female": 1838,
+    "page": "https://exetares.wiki/Martial_Artist_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/be/Outfit_Martial_Artist_Male.gif/revision/latest?cb=20250503125758&path-prefix=en"
+  },
+  {
+    "name": "Illuminator Outfits",
+    "male": 1860,
+    "female": 1861,
+    "page": "https://exetares.wiki/Illuminator_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Illuminator_Male.gif/revision/latest?cb=20250804105850&path-prefix=en"
+  },
+  {
+    "name": "Bat Knight Outfits",
+    "male": 1874,
+    "female": 1875,
+    "page": "https://exetares.wiki/Bat_Knight_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/1d/Outfit_Bat_Knight_Male.gif/revision/latest?cb=20251103045412&path-prefix=en"
+  },
+  {
+    "name": "Necromancer Outfits",
+    "male": 1845,
+    "female": 1846,
+    "page": "https://exetares.wiki/Necromancer_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/0d/Outfit_Necromancer_Male.gif/revision/latest?cb=20251103131611&path-prefix=en"
+  },
+  {
+    "name": "Feral Trapper Outfits",
+    "male": 1907,
+    "female": 1906,
+    "page": "https://exetares.wiki/Feral_Trapper_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/1/15/Outfit_Feral_Trapper_Male.gif/revision/latest?cb=20251126001805&path-prefix=en"
+  },
+  {
+    "name": "Phoenix Evoker Outfits",
+    "male": 1920,
+    "female": 1921,
+    "page": "https://exetares.wiki/Phoenix_Evoker_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/71/Outfit_Phoenix_Evoker_Male.gif/revision/latest?cb=20251224190419&path-prefix=en"
+  },
+  {
+    "name": "Aerial Disciple Outfits",
+    "male": 1936,
+    "female": 1937,
+    "page": "https://exetares.wiki/Aerial_Disciple_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/7/7e/Outfit_Aerial_Disciple_Male.gif/revision/latest?cb=20260221221129&path-prefix=en"
+  },
+  {
+    "name": "Vampire Noble Outfits",
+    "male": 1948,
+    "female": 1949,
+    "page": "https://exetares.wiki/Vampire_Noble_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/f/fe/Outfit_Vampire_Noble_Male.gif/revision/latest?cb=20260618195147&path-prefix=en"
+  },
+  {
+    "name": "Illuminated Warrior Outfits",
+    "male": 1973,
+    "female": 1974,
+    "page": "https://exetares.wiki/Illuminated_Warrior_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/e/ef/Outfit_Illuminated_Warrior_Male.gif/revision/latest?cb=20260714225509&path-prefix=en"
+  },
+  {
+    "name": "Moon Guardian Outfits",
+    "male": 1976,
+    "female": 1977,
+    "page": "https://exetares.wiki/Moon_Guardian_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/0/01/Outfit_Moon_Guardian_Male.gif/revision/latest?cb=20260714225409&path-prefix=en"
+  },
+  {
+    "name": "Captains Outfits",
+    "male": 1940,
+    "female": 1941,
+    "page": "https://exetares.wiki/Captains_Outfits",
+    "image": "https://static.wikia.nocookie.net/tibia/images/b/b9/Outfit_Captains_Male.gif/revision/latest?cb=20260806225443&path-prefix=en"
+  }
+]

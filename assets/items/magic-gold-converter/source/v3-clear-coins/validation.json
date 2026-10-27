@@ -1,0 +1,16 @@
+{
+  "canvas": [
+    32,
+    32
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "opaque_colours": 19,
+  "sha256": "6c09ba99ce7328465252843d3a02fdd2aac824af07612f9896de3c06f92e916c",
+  "changed_pixels": 126,
+  "converter_body_below_y12_preserved_exactly": true,
+  "editor": "PixelLab pixelart_workbench",
+  "native_source_unmodified_after_export": true
+}

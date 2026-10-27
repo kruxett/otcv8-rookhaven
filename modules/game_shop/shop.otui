@@ -107,16 +107,67 @@ ShopOfferItem < ShopOffer
     virtual: true
     size: 48 48
     
-ShopOfferCreature < ShopOffer
-  UICreature
-    id: creature
+ShopOfferCreature < Panel
+  height: 88
+  background: alpha
+
+  $focus:
+    background: #99999999
+
+  Label
+    id: title
     anchors.top: parent.top
     anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 8
+    margin-left: 84
+    margin-right: 90
+    text-align: topleft
+    color: white
+    font: verdana-11px-rounded
+
+  Label
+    id: description
+    anchors.top: title.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-left: 84
+    margin-right: 90
+    margin-bottom: 8
+    text-align: topleft
+    text-auto-resize: true
+    text-wrap: true
+    color: white
+    font: verdana-11px-rounded
+
+  Button
+    id: buyButton
+    text: BUY
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 16
+    margin-right: 15
+    size: 64 25
+
+  Button
+    id: tryOnButton
+    !text: tr('Try On')
+    anchors.top: buyButton.bottom
+    anchors.right: parent.right
     margin-top: 4
-    margin-bottom: 4
-    margin-left: 2
-    size: 48 48
+    margin-right: 15
+    size: 64 25
+
+  UICreature
+    id: creature
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
+    margin-left: 8
+    size: 64 64
+    fixed-creature-size: true
+    old-scaling: false
+    animate: true
     
 ShopOfferImage < ShopOffer
   Label
@@ -202,7 +253,7 @@ MainWindow
   TextList
     id: offers
     vertical-scrollbar: offersScrollBar
-    anchors.top: adPanel.bottom
+    anchors.top: infoPanel.bottom
     anchors.left: adPanel.left
     anchors.right: adPanel.right
     anchors.bottom: transactionHistory.top

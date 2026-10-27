@@ -1,0 +1,131 @@
+{
+  "status": "implemented-and-verified-locally-not-published",
+  "sid": 12867,
+  "cid": 11904,
+  "sprite_id": 36701,
+  "shop_offer_id": 4006,
+  "price_points_provisional": 100,
+  "weight_oz": 1,
+  "permanent": true,
+  "conversion_interval_ms": 1000,
+  "conversion": "100 ordinary carried gold => 1 platinum; 100 ordinary carried platinum => 1 crystal. Existing remainders/crystal instances retained.",
+  "artwork": {
+    "source": "source/v6-three-coin-medallion/pixellab-magic-gold-converter.png",
+    "sha256": "d6edfd0c623f6c5caf0f1eedcbc0e85bbfd4615f78453e1e3e27fd587fd1883f",
+    "approved_bytes_unchanged": true,
+    "approval": "Ja kör på."
+  },
+  "native": {
+    "status": "PASS",
+    "source_database_unchanged": true,
+    "owned_processes_stopped": true,
+    "current_native_source_files_matched": 178,
+    "server_sha256": "23d14234e9a6599ac8544d818e23e3b8143e01187e118ebf99d07845d73e235c",
+    "wire_requests": {
+      "1": {
+        "label": "use-owned",
+        "kind": "use"
+      },
+      "2": {
+        "label": "use-ground",
+        "kind": "use"
+      },
+      "3": {
+        "label": "pickup-without-converter",
+        "kind": "move"
+      },
+      "4": {
+        "label": "pickup-converter",
+        "kind": "move"
+      },
+      "5": {
+        "label": "pickup-last-gold",
+        "kind": "move"
+      },
+      "6": {
+        "label": "request-trade",
+        "kind": "trade"
+      },
+      "7": {
+        "label": "counter-offer",
+        "kind": "trade"
+      },
+      "8": {
+        "label": "accept-trade",
+        "kind": "accept_trade"
+      }
+    },
+    "native_checks": [
+      "CONVERTER_SYNC_OK checks=38",
+      "CONVERTER_NATIVE_READY_RELOGIN checks=51",
+      "CONVERTER_MAIN_RELOGIN_OK checks=53",
+      "CONVERTER_PEER_RELOGIN_OK checks=54"
+    ]
+  },
+  "visual": {
+    "status": "PASS",
+    "scope": "Real local gameplay with matched older QA pair; current server tested separately",
+    "visual_engine_sha256": "3a46cf3114b617304bf02816884bc76b43de70cac5e5b3117703a7a1b930f754",
+    "normal_client_moves": true,
+    "native_redemption_tested_separately": true,
+    "rendering_only": true,
+    "server_item_sid": 12867,
+    "profile_restored": true,
+    "source_database_and_config_unchanged": true,
+    "owned_processes_stopped": true
+  },
+  "source_contracts": {
+    "shop_admin_checks": 124,
+    "converter_assertions": 15217,
+    "denomination_combinations": 77,
+    "additional_cases": [
+      "nested carried converter/split stacks",
+      "attributed currency preserved",
+      "missing converter",
+      "offline/dead/store seller",
+      "native transaction refusal/output cleanup",
+      "output creation failure",
+      "actual automatic tick function",
+      "registered action for owned, ground, detached and another player item"
+    ]
+  },
+  "asset_preservation": {
+    "existing_dat_records": 12289,
+    "existing_otb_records": 12767,
+    "existing_sprites": 36700,
+    "existing_xml_entries_unchanged": true
+  },
+  "native_engine_reuse": {
+    "unchanged_current_cpp_files": 178,
+    "engine_sha256": "23d14234e9a6599ac8544d818e23e3b8143e01187e118ebf99d07845d73e235c",
+    "baseline_receipt": "../boat-pass/verification.json",
+    "no_cpp_changes_or_new_build_needed": true
+  },
+  "server_files": {
+    "data/lib/magic_gold_converter.lua": "b53b26b86c1fe6629e6b51b67e63073700a60a66880c7602e9bad4791423d8c6",
+    "data/scripts/globalevents/magic_gold_converter.lua": "97dfb5c518fd471557592d747778f42d4efd9a78b1aa84079056dec6f9defd55",
+    "data/scripts/actions/others/magic_gold_converter.lua": "3d5a02b13a4e34735348eeef8d43e506bc3f721fe3a7c4e4748b3f39a7800588",
+    "data/lib/lib.lua": "7f5c4f3b9f7add76e7ae33a9c5ecc41731c0599722415af905578331d9bbc465",
+    "data/lib/game_shop_config.lua": "b36ae6590a27f01cdd3a1f43c912d9dcdc520c6f9d6a9cccb0576d44f07f0bda",
+    "data/items/items.otb": "eb3c0483d3798dba848a4d01fd4340b48793a8a974e78f1fd5e1b89156b7df63",
+    "data/items/items.xml": "358b9f332fa674d4b99718197ef6b97350c48843b8a9b1fd522066fd6c72e10b"
+  },
+  "client_files": {
+    "data/things/860/Tibia.dat": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+    "data/things/860/Tibia.spr": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf"
+  },
+  "rendering_scope": "Actual retro client inventory movement/look and final encrypted private archive checksums, using the existing matched older QA pair. Current native gameplay tested separately with the current ordinary Release engine.",
+  "material_limits": [
+    "Needs a carried bag slot or a compatible existing stack for conversion outputs. Refusal preserves all coins and automatic ticks retry after room is made.",
+    "Attributed currency is intentionally excluded.",
+    "Ground pickup and native player trade were exercised with real protocol packets. Depot exclusion was tested with an owned detached depot chest; no real depot NPC/map interaction was exercised.",
+    "No protected RH2 client/archive rebuild, updater release, publication, deployment, live restart, commit or push."
+  ],
+  "repairs_during_verification": [
+    "Full-bag fixture initially put gold in an equipment slot; split the test into real no-output-room refusal and full-bag slot reuse.",
+    "Owned detached depot chest cannot return items via Item:moveTo until opened. Used a separate carried QA converter for subsequent cases; depot one remained excluded.",
+    "Waited for the peer login fixture to finish before preparing its money.",
+    "This server requires a counter-offer for native trade; added a normal rope counter-offer instead of a one-sided gift.",
+    "Code review added a safe Tile/Player type check to ground Use; actual ground Use then passed. No native payment or trade rules were weakened."
+  ]
+}

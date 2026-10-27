@@ -1,0 +1,55 @@
+{
+  "date": "2026-10-25",
+  "status": "implemented-and-verified-locally-not-published",
+  "current_native_server": {
+    "status": "PASS",
+    "source_database_unchanged": true,
+    "owned_processes_stopped": true,
+    "server_sha256": "3d2eaa0a4ae3cee932578e0180db3f27b8de132a4c68bcc3b6f3281649b942c1",
+    "native_checks": [
+      "LIGHT_RING_NATIVE_READY_RELOGIN checks=35",
+      "LIGHT_RING_NATIVE_OK checks=43"
+    ]
+  },
+  "real_ingame_visual_fixture": {
+    "status": "PASS",
+    "scope": "Real local gameplay with matched older QA pair; current server tested separately",
+    "visual_engine_sha256": "3a46cf3114b617304bf02816884bc76b43de70cac5e5b3117703a7a1b930f754",
+    "normal_client_moves": true,
+    "server_equipped_sid": 12862,
+    "light_level": 7,
+    "light_color": 206,
+    "profile_restored": true,
+    "source_database_and_config_unchanged": true,
+    "owned_processes_stopped": true
+  },
+  "evidence_directories": [
+    "out/light-ring-20261025/native-05",
+    "out/light-ring-20261025/ingame-02"
+  ],
+  "preserved_asset_records": {
+    "DAT": 12283,
+    "OTB": 12761,
+    "SPR_payloads": 36694
+  },
+  "shop_source_contract_checks": 88,
+  "gameplay_terminal_check_count": 43,
+  "files_sha256": {
+    "otcv8-rookhaven/data/things/860/Tibia.dat": "1e5ef3b64704f66331adeb6dcd7983753aa3657ae0858ff19ae39f1eaa33091a",
+    "otcv8-rookhaven/data/things/860/Tibia.spr": "04dc031384f62022f366e8b7a062d2d1ad55f4ad4cd8846f07d337c7daa2d82c",
+    "Rookhaven/data/items/items.otb": "629eb9212e110aa772b83f70fc88fac55544cfdf4fd18b75da95ee8c257a12c7",
+    "Rookhaven/data/items/items.xml": "72a27f43eb98da9fb293eec3f51d498d0ea5e82e6bb906bcce8315da3cf30d1b",
+    "Rookhaven/data/movements/movements.xml": "446b1587f12a9bce23d0f2f55718af826e3af8d8b8b968fcde61685234b60bde",
+    "Rookhaven/data/lib/game_shop_config.lua": "43addf542d04ed8adbdf2c74fc815c3f697d0385fa90f866e19e4a75afd503c6"
+  },
+  "runtime_changes": "No shared C++ or client UI changes for Light Ring. Existing premium-scroll native binary reused after checking unchanged source identities.",
+  "limitations": [
+    "Ingame rendering uses an existing matched older QA client/server pair; current-server behavior is tested separately.",
+    "Protected executable/archive pair, RH2 release pin, updater and live DEV installation have not been rebuilt or published.",
+    "Two-hour duration is verified in native metadata and accelerated remaining-time/expiry checks; no two-hour wall-clock soak was run."
+  ],
+  "user_ingame_visual_approval": {
+    "approved": true,
+    "date": "2026-10-25"
+  }
+}

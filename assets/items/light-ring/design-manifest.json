@@ -1,0 +1,62 @@
+{
+  "status": "implemented-locally-and-ingame-appearance-approved",
+  "product": "Light Ring",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "07a2e1e4-8801-4977-bab6-76ea04502f74",
+  "asset_id": "aaff9c6c-f1ab-5e75-ac87-f0c8d6345962",
+  "source": "source/pixellab-light-ring.png",
+  "preview": "approval-preview.png",
+  "prompt": "A SINGLE original Light Ring inventory item for Rookhaven, a gritty 1990s Tibia 8.60 medieval pixel art MMORPG. A compact enchanted old brass ring with a thick gold-bronze band, clearly visible hollow finger opening in the lower right, viewed diagonally from above. At upper left a small sun-shaped bezel holds ONE luminous pale honey amber gemstone, a bright ivory core shaded to warm yellow and orange. A few sturdy dark-gold rays of the sun bezel are physically part of the metal setting, not loose sparkles. The ring should suggest the gentle warm light of a torch. Strong clean silhouette, chunky deliberate clusters, dark brown contour, top-left light, restrained old gold highlights and deep bronze shadows. Native inventory scale about 21x24 pixels centered on a 32x32 canvas, keep margins. Match the reference native ring's size, diagonal perspective, material contrast and retro hand-pixelled simplicity. Design a new ring shape, not a recolour. Fully transparent background, binary opaque pixels, ONE ring only. No text, no digits, no labels, no frame, no background, no floor shadow, no separate flames, no aura or outward glow cloud, no floating particles, no photorealism.",
+  "seed": 20261026,
+  "implementation": "Native ring transformEquipTo/transformDeEquipTo, equipped-only torchlight and standard equipped-only decay. Native gameplay and real local equipped/unequipped screenshots verified. Not published.",
+  "pulse_draft": "pulse-draft/light-pulse-preview.gif",
+  "pulse_validation": "pulse-draft/validation.json",
+  "pulse_source": "PixelLab pixelart_workbench exact edits, image_id d175a209-f0ad-47d4-bd1a-f3aa48955840",
+  "pulse_status": "Rejected direction by user; no pulsing will be implemented.",
+  "equip_states_draft": "equip-states-draft",
+  "equip_states_source": {
+    "unequipped": "PixelLab pixelart_workbench ca7e81e4-3b16-413b-9aa8-802a727cbc8c",
+    "equipped": "PixelLab pixelart_workbench d175a209-f0ad-47d4-bd1a-f3aa48955840, frame 5, used as one static image"
+  },
+  "gameplay": {
+    "duration_seconds": 7200,
+    "duration_consumed_only_while_equipped": true,
+    "shop_points": 10,
+    "shop_offer_id": 4002,
+    "weight_oz": 1,
+    "light_level": 7,
+    "light_color": 206,
+    "light_reference": "normal lit torch SID2051",
+    "animation": false,
+    "overlay": false
+  },
+  "states": [
+    {
+      "state": "unequipped",
+      "sid": 12861,
+      "cid": 11898,
+      "sprite": 36695,
+      "light_level": 0
+    },
+    {
+      "state": "equipped",
+      "sid": 12862,
+      "cid": 11899,
+      "sprite": 36696,
+      "light_level": 7
+    }
+  ],
+  "ingame_screenshots": [
+    "ingame-equipped.png",
+    "ingame-unequipped.png"
+  ],
+  "verification": "verification.json",
+  "ingame_visual_approval": {
+    "date": "2026-10-25",
+    "user_response": "Jag är nöjd. Kör vidare."
+  }
+}

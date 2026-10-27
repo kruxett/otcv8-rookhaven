@@ -1,0 +1,21 @@
+{
+  "canvas": [
+    32,
+    32
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "opaque_colours": 32,
+  "bbox": [
+    2,
+    2,
+    29,
+    29
+  ],
+  "sha256": "8284452c6992ae96ba48b53cdc616f4af000cd5f43b8ab1b7b8f5eae239158c3",
+  "native_source_unmodified": true,
+  "created_from_scratch": true,
+  "previous_converter_used_as_input": false
+}

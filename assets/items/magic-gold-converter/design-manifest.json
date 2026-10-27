@@ -1,0 +1,43 @@
+{
+  "status": "approved-implemented-verified-locally",
+  "product": "Magic Gold Converter",
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "5483734d-1ebc-4792-af14-bcc7e28bba57",
+  "asset_id": "aff90caa-6cf2-5940-a431-0962b61a54dc",
+  "gallery_asset": "gallery:aff90caa-6cf2-5940-a431-0962b61a54dc",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "source": "source/v6-three-coin-medallion/pixellab-magic-gold-converter.png",
+  "preview": "source/v6-three-coin-medallion/preview.png",
+  "generation": "source/v6-three-coin-medallion/generation.json",
+  "validation": "source/v6-three-coin-medallion/validation.json",
+  "source_sha256": "d6edfd0c623f6c5caf0f1eedcbc0e85bbfd4615f78453e1e3e27fd587fd1883f",
+  "art_direction": "Three native-inspired gold, platinum and crystal coin faces dominate a compact circular antique-silver medallion. No machine or stamping tool.",
+  "reference_board": "source/v5-coining-stamp/coin-reference.png",
+  "reference_provenance": "source/v5-coining-stamp/reference.json",
+  "created_from_scratch": true,
+  "previous_converter_used_as_input": false,
+  "user_revision": "Nej. Nytt försök.",
+  "implementation": {
+    "server_id": 12867,
+    "client_id": 11904,
+    "sprite_id": 36701,
+    "shop_offer_id": 4006,
+    "price_points": 100,
+    "weight_oz": 1,
+    "permanent": true,
+    "scope": "Carried inventory and nested carried containers",
+    "published": false,
+    "verification": "verification.json",
+    "native_checks": 54,
+    "source_contract_assertions": 15217,
+    "shop_contract_checks": 124,
+    "conversion_interval_ms": 1000
+  },
+  "requested_function": "Automatically converts gold; implementation follows artwork approval.",
+  "artwork_approval": {
+    "user_response": "Ja kör på."
+  }
+}

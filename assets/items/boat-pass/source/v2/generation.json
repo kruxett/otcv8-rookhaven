@@ -1,0 +1,19 @@
+{
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "9c931ee8-1516-442b-a716-ccaee9c1f2e0",
+  "asset_id": "ef125bf8-33d7-553f-bca2-44f4b50df1f5",
+  "prompt": "Redesign ONE Boat Pass inventory sprite for the medieval Tibia 8.60 game Rookhaven. Native 32x32 pixel art. The boat MUST be instantly recognisable at 1x actual size. A simple pale cream parchment ticket, almost upright with only a very slight tilt, clean dark-brown edges and one tiny folded corner. The entire central face is occupied by a HUGE, exceptionally simple side-view SAILBOAT icon, about 21 pixels wide and 19 pixels high. Three separate unmistakable shapes: (1) a long HORIZONTAL DARK-BROWN wooden hull, broad across the bottom and tapered upward at BOTH ends, (2) ONE straight vertical dark-brown mast rising from its center, (3) ONE large solid OCEAN-BLUE RIGHT-TRIANGULAR sail on the right of the mast. Preserve a CLEAR CREAM-COLOURED GAP between the blue sail and the brown hull so their silhouettes never merge into a blue blob. A single small pale highlight on the blue triangle is enough. Hull horizontal and mast vertical, a universally obvious little sailing boat pictogram. The blue triangle and brown hull have strong colour separation against clean pale parchment. Boat icon fills nearly all available space. Classic retro Tibia chunky pixel clusters, dark contour, simple old parchment shading, top-left light, total item about 28x30 pixels with transparent outer margin. Remove the previous blue border stripes, waves, small decorative marks and complex multi-sail silhouette; leave only this large clear boat on the pass. One physical item only, all painted pixels fully opaque and background fully transparent. No text, digits, letters, labels, prices, duration, wax seal, ribbon, shadow on a floor, frame outside the item, glow, sparkles, gradients, antialiasing or photorealism.",
+  "seed": 20261101,
+  "width": 32,
+  "height": 32,
+  "max_colors": 16,
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/9c931ee8-1516-442b-a716-ccaee9c1f2e0/download",
+  "style_reference": "gallery:571880ca-5299-5a9f-b62a-84e0387f797a",
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": false,
+    "shading": true
+  }
+}

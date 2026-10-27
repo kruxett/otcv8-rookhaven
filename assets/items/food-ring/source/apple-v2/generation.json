@@ -1,0 +1,15 @@
+{
+  "generator": "PixelLab edit_image",
+  "job_id": "b5035fba-dab1-43e9-adf2-5ff6e971fb8e",
+  "asset_id": "d0a492c6-c437-5b69-af9a-3ead0d7c4db9",
+  "input": "https://api.pixellab.ai/mcp/images/9d57c9d0-52a3-4af0-b5ff-df89fbb694ed/download",
+  "prompt": "Redraw this Food Ring sprite with corrected, clean geometry while keeping the concept and classic Tibia 8.60 pixel-art style. Native 32x32 transparent inventory sprite. The gold ring band must form a smooth CLOSED OVAL loop in diagonal perspective, with a rounded bottom, rounded sides and a large clearly open finger hole. Use consistent 2-to-3-pixel band thickness. Replace the current angular V-shaped pointed band; the outline must read as a real circular metal ring viewed from above. At the upper-left of the loop, mount ONE small squat, rounded red APPLE-shaped jewel in a simple gold setting. Apple body approximately 9 pixels wide and 8 pixels tall: gently rounded shoulders and sides, one shallow top notch, a single rounded lower body, no long central groove, no tall vertical lobes. Short 1-to-2-pixel brown stalk and a small compact green leaf, about 3x2 pixels, attached beside the stalk. The fruit and leaf should be proportionate to a wearable ring. Show a coherent solid metal setting attaching the apple to the band, not a separate fruit floating beside it. Simple dark red shadow, rich red midtone, small red-orange highlight; gold metal shaded with dark bronze and warm yellow highlights from top left. Strong deliberate pixel clusters and a clean silhouette, about 21x23 pixels within the 32x32 canvas. No tiny inscriptions or patterns, text, frames, loose pieces, additional fruit, glows or antialiasing. Keep every background pixel fully transparent and all painted pixels fully opaque.",
+  "seed": 20261029,
+  "width": 32,
+  "height": 32,
+  "no_background": true,
+  "revision_reason": "User liked the apple direction but requested a redraw because the shapes looked odd.",
+  "download": "https://api.pixellab.ai/mcp/images/b5035fba-dab1-43e9-adf2-5ff6e971fb8e/download",
+  "charged_generations": 10,
+  "status": "completed"
+}

@@ -92,15 +92,19 @@ void Outfit::draw(Point dest, Otc::Direction direction, uint walkAnimationPhase,
             }
         } else if (type->isAnimateAlways() || ui) {
             int phases = type->getAnimator() ? type->getAnimator()->getAnimationPhases() : type->getAnimationPhases();
-            if (ui && phases < 4) {
-                phases = 2; // old protocols with 2 frames walk animation
-            }
+            // Legacy phase zero is the standing pose. UI animation must loop
+            // only through the remaining walk phases, including longer cycles.
+            const bool skipStandingPhase = ui && !idleAnimator && !type->isAnimateAlways() && phases > 1;
+            if (skipStandingPhase)
+                --phases;
             int ticksPerFrame = !g_game.getFeature(Otc::GameEnhancedAnimations) ? 333 : (1000 / phases);
+            if (skipStandingPhase)
+                ticksPerFrame = std::min(ticksPerFrame, 1000 / phases);
             animationPhase = (g_clock.millis() % (ticksPerFrame * phases)) / ticksPerFrame;
             if (idleAnimator && ui) {
                 animationPhase += idleAnimator->getAnimationPhases() - 1;
             }
-            if (!type->isAnimateAlways() && ui) {
+            if (!type->isAnimateAlways() && ui && (idleAnimator || skipStandingPhase)) {
                 animationPhase += 1;
             }
         }

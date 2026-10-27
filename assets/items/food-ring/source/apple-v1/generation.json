@@ -1,0 +1,19 @@
+{
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "9d57c9d0-52a3-4af0-b5ff-df89fbb694ed",
+  "asset_id": "b550c0cf-5669-5a13-8498-9d3efd9b1f62",
+  "prompt": "ONE original Food Ring item sprite for Rookhaven, classic Tibia 8.60 medieval RPG pixel art. This ring must communicate FOOD through its large recognisable shape, readable at actual 32x32 inventory size. A gold-bronze finger ring seen diagonally from above, with a large clear hollow opening in its band at lower right. Its physical bezel at upper left is shaped like a plump RED APPLE, with two round red lobes, a small notch at the top, a short brown stalk and ONE bold GREEN LEAF. The apple IS the whole ring setting, not a tiny engraved pictogram inside a jewel. Use big simple clusters of deep crimson, warm red and one peach-red highlight; leaf in two green tones. Apple setting about 11x12 pixels, sturdy curved gold band about 3 pixels thick with a dark inner edge, total item footprint about 22x24 pixels centered in native 32x32 canvas with margins. A wearable magical ring shaped by a medieval jeweller, clearly a ring with an apple setting, not a loose fruit beside a ring. Chunky hand-placed pixel clusters, dark brown outline, top-left light, modest old-gold highlights and bronze shadows. Very simple readable silhouette with the two red lobes and green leaf visible at 1x. Fully transparent background, all pixels fully opaque or transparent. ONE item only. No wheat, engraving, small symbols, decorative patterns, lettering, numbers, borders, background, floor shadow, sparkles, particles, glow, photorealism or antialiasing.",
+  "seed": 20261028,
+  "width": 32,
+  "height": 32,
+  "max_colors": 20,
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/9d57c9d0-52a3-4af0-b5ff-df89fbb694ed/download",
+  "style_reference": "assets/items/light-ring/unequipped/sprite.png",
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": false,
+    "shading": true
+  }
+}

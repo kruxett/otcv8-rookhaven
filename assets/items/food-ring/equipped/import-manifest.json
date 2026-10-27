@@ -1,0 +1,41 @@
+{
+  "mode": "add",
+  "name": "food ring",
+  "server_id": 12864,
+  "client_id": 11901,
+  "sprite_id": 36698,
+  "definition": {
+    "server_id": 12864,
+    "prototype_dat_server_id": 2165,
+    "prototype_otb_server_id": 2165,
+    "article": "a",
+    "name": "food ring",
+    "attributes": {
+      "description": "Keeps you fed while worn without refilling your food reserve. Its two-hour charge is consumed only while equipped.",
+      "weight": "100",
+      "slotType": "ring",
+      "showduration": "1",
+      "duration": "7200",
+      "decayTo": "0",
+      "transformDeEquipTo": "12863",
+      "foodSustain": "1",
+      "showattributes": "1"
+    }
+  },
+  "image_sha256": "bb6f943a7496ed9417b48b4029a95bdc0a7b230c0cc21640b753e56d860d74bb",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "906f27aa6d420b16a862d75713dd3398ac3ad009c3e290708ebf07eef21648b9",
+    "client/data/things/860/Tibia.spr": "a53b28745c4b2d3b92346462882c55e32f5dd66022429994dae197677e07e815",
+    "server/data/items/items.otb": "28f90858bd3d22fb8b37d58502881b1cf82c740def73e5444ae9fe4a3443606a",
+    "server/data/items/items.xml": "35179646c657845dde77d01b07181bbc0d04adc5f98eabe3c2c875a9d5920441"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "61a9e38fd44679dcd24f2e3c5dac55ff3e19cccb2a48bd7daf9bab64242b0793",
+    "client/data/things/860/Tibia.spr": "4ed3b7f7fa7efb9de2b0270b7703fdfce410306a2e687d5b8dae7208ac8566a2",
+    "server/data/items/items.otb": "d2531fdabbc5067c65376afc37f2b7e8847bfee7d7cdda2ab4baa518b4910769",
+    "server/data/items/items.xml": "285e5fcd41a73789da37bf12d6a83dc864fb500224fec2d86233c06c3272e76e"
+  },
+  "validated_existing_sprites": 36697,
+  "validated_existing_dat_records": 12286,
+  "validated_existing_otb_records": 12764
+}

@@ -1,0 +1,26 @@
+{
+  "status": "rejected-by-user",
+  "product": "Magic Gold Converter",
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "3e22bf88-b42c-448e-9775-e75987797634",
+  "asset_id": "0a3147f8-b477-5d0e-8be2-d01a08b69dab",
+  "gallery_asset": "gallery:0a3147f8-b477-5d0e-8be2-d01a08b69dab",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "source": "source/v5-coining-stamp/pixellab-magic-gold-converter.png",
+  "preview": "source/v5-coining-stamp/preview.png",
+  "generation": "source/v5-coining-stamp/generation.json",
+  "validation": "source/v5-coining-stamp/validation.json",
+  "source_sha256": "8284452c6992ae96ba48b53cdc616f4af000cd5f43b8ab1b7b8f5eae239158c3",
+  "art_direction": "Fresh enchanted handheld coining stamp with a short wooden handle, silver stamping tool and fanned gold/platinum/crystal coins. Native currency sprites supplied as appearance references only.",
+  "reference_board": "source/v5-coining-stamp/coin-reference.png",
+  "reference_provenance": "source/v5-coining-stamp/reference.json",
+  "created_from_scratch": true,
+  "previous_converter_used_as_input": false,
+  "discarded_concept": "The former brass box/front-window design and its revisions v1-v4 were rejected by the user and archived.",
+  "user_revision": "Nej. Gör om från början med dem olika coinsen som referens. Skrota nuvarande ide.",
+  "implementation": "Artwork proposal only. No SID/CID allocation, import, shop offer or gameplay changes. Await artwork approval.",
+  "requested_function": "Automatically converts gold; implementation follows artwork approval."
+}

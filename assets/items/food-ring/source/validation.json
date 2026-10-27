@@ -1,0 +1,17 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "binary_alpha": true,
+  "bbox": [
+    5,
+    5,
+    26,
+    27
+  ],
+  "colors": 13,
+  "animated": false,
+  "glow": false,
+  "sha256": "817371b3c0f88ac0f9988b0864e8c3d3b7e6db5343382c0767fee1ddc0e7fcc9"
+}

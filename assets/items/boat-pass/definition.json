@@ -1,0 +1,11 @@
+{
+  "server_id": 12866,
+  "prototype_dat_server_id": 5943,
+  "prototype_otb_server_id": 5943,
+  "article": "a",
+  "name": "boat pass (30 days)",
+  "attributes": {
+    "description": "Use this pass to add 30 days of free boat travel to your account. Existing route access requirements still apply. The pass is consumed on use.",
+    "weight": "100"
+  }
+}

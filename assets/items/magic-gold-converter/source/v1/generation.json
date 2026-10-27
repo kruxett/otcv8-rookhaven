@@ -1,0 +1,23 @@
+{
+  "description": "ONE original Magic Gold Converter inventory item for Rookhaven, classic Tibia 8.60 medieval pixel art. A small squat BRASS ALCHEMY APPARATUS seen diagonally from above, a compact closed bevelled bronze-and-gold case with a clearly rectangular silhouette. ONE large bright TURQUOISE crystal window is inset into the front of the case, its light contained inside the object. TWO chunky round coins, one warm GOLD and one pale PLATINUM SILVER, are held visibly together in a thick coin slot on top of the device. Both coins touch the device as one coherent item. Make the coin faces large and plain, readable circular silhouettes rather than tiny engravings. The brass housing has a dark bronze lower edge and a few broad warm highlights, with strong separation between gold metal, silver coin and cyan core. Large simple pixel clusters and a clear silhouette at actual 32x32 inventory size; restrained detail, dark brown contour and light from upper left. Occupy roughly 24x25 pixels, centered with transparent margins. Match ONLY the reference's classic Tibia perspective, pixel density, outline and shading; create an original small metal money-converting artifact, do not copy its satchel, rope or tools. Native 32x32 canvas, fully opaque painted pixels and fully transparent background. No text, letters, digits, labels, arrows, tiny symbols, loose floating items, gears, floor shadow, halo, sparkles, frame, background, antialiasing, modern electronics or photorealism.",
+  "width": 32,
+  "height": 32,
+  "max_colors": 20,
+  "no_background": true,
+  "seed": 20261101,
+  "style_image": {
+    "url": "https://api.pixellab.ai/mcp/images/32c05940-469c-4f3d-b8c9-1953792b117a/download",
+    "usage_description": "Reference only for 32x32 Tibia item perspective, clean retro pixel clusters, directional lighting and contour. Replace leather/tools with a new brass apparatus and large clear coins."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": false,
+    "shading": true
+  },
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "da58961b-a320-437c-8189-8d5f887dee10",
+  "asset_id": "8962aa01-3330-52a1-b5d5-4f712f56816f",
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/da58961b-a320-437c-8189-8d5f887dee10/download"
+}

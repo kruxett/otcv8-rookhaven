@@ -1,0 +1,34 @@
+{
+  "mode": "add",
+  "name": "boat pass (30 days)",
+  "server_id": 12866,
+  "client_id": 11903,
+  "sprite_id": 36700,
+  "definition": {
+    "server_id": 12866,
+    "prototype_dat_server_id": 5943,
+    "prototype_otb_server_id": 5943,
+    "article": "a",
+    "name": "boat pass (30 days)",
+    "attributes": {
+      "description": "Use this pass to add 30 days of free boat travel to your account. Existing route access requirements still apply. The pass is consumed on use.",
+      "weight": "100"
+    }
+  },
+  "image_sha256": "d3d4727225b37324bc18a893daeabc9f65559ce31820e5100afd6ad61b44f3fb",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "1e5dc97fef8664419255aac0a75f467a59978493ba7af06cfc6c8ba61ad68394",
+    "client/data/things/860/Tibia.spr": "d36b2f445f7739a9e60ceb74b257e764c7888fbd8be1f5e174a3bfaf4745207d",
+    "server/data/items/items.otb": "e04e5f90084f8425e478cd89ce8292d53d5636a3d8af43b5bf073af58104bc00",
+    "server/data/items/items.xml": "895b0028060b237b556be4b69b949a1b2c153c15a0086b69aeb7d9849e75f692"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "f62ebd44d7436513e6ed15dc64a0123722def1906d41de02bb25314f646c9073",
+    "client/data/things/860/Tibia.spr": "a7fb27cd5a1e759d51f794fc8bdf303bf86acdc4d3bfdb26d210edaf052105c0",
+    "server/data/items/items.otb": "0a3f30bb53e41df9652073fa904d3f6304f700dc346f98bf75668fffa4056cad",
+    "server/data/items/items.xml": "3611528f231a5693914c854d50e8abc569b7ab309bb694a3d641725c61835447"
+  },
+  "validated_existing_sprites": 36699,
+  "validated_existing_dat_records": 12288,
+  "validated_existing_otb_records": 12766
+}

@@ -489,6 +489,27 @@ function showHistory(force)
   end
 end
 
+function tryOnOutfit(data)
+  if not g_game.isOnline() or not data or data.type ~= "outfit" or not data.outfit then
+    return
+  end
+  if not shop or not shop:isVisible() then return end
+  local outfitModule = modules.game_outfit
+  if not outfitModule or not outfitModule.previewOutfit then
+    return
+  end
+  local returnToShop = shop and shop:isVisible()
+  hide()
+  local preview = outfitModule.previewOutfit(table.copy(data.outfit), data.title, function()
+    if returnToShop and g_game.isOnline() then
+      show()
+    end
+  end)
+  if not preview and returnToShop then
+    show()
+  end
+end
+
 function addOffer(category, data)
   local offer
   if data["type"] == "item" then
@@ -499,9 +520,9 @@ function addOffer(category, data)
   elseif data["type"] == "outfit" then
     offer = g_ui.createWidget('ShopOfferCreature', shop.offers)
     offer.creature:setOutfit(data["outfit"])
-    if data["outfit"]["rotating"] then
-      offer.creature:setAutoRotating(true)
-    end
+    offer.creature:setAnimate(true)
+    offer.creature:setAutoRotating(data["outfit"]["rotating"] ~= false)
+    offer.tryOnButton.onClick = function() tryOnOutfit(data) end
   elseif data["type"] == "image" then
     offer = g_ui.createWidget('ShopOfferImage', shop.offers)
     if data["image"] and data["image"]:sub(1, 4):lower() == "http" then

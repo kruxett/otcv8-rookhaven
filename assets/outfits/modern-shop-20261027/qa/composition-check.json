@@ -1,0 +1,15 @@
+{
+  "legacy_pixel_composites_match_approved_catalogue": 22,
+  "palette": [
+    58,
+    49,
+    2,
+    58
+  ],
+  "pose": "idle,south,bothaddons",
+  "runtime_hashes_match_staged_outputs": true,
+  "new_spr_count": 46262,
+  "new_dat_outfit_max": 398,
+  "retained_source_layers": 5760,
+  "additional_idle_sheets": 18
+}

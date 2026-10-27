@@ -1,0 +1,31 @@
+{
+  "status": "draft-awaiting-user-artwork-approval",
+  "product": "Food Ring",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab pixelart_workbench exact drawing tools",
+  "drawing_id": "2c5497f1-fd63-4a7e-9e15-645b7437e1df",
+  "gallery_asset": "gallery:54b0c834-500f-40fb-ae9b-2cd4430d31b3",
+  "source": "source/pixellab-food-ring.png",
+  "recipe": "source/pixellab-recipe.json",
+  "preview": "approval-preview.png",
+  "art_direction": "Original bronze signet ring with matte forest-green enamel and a small golden wheat sprig; no glow or animation.",
+  "generation_note": "PixelLab create_image_pro_flash returned no generations or credits remaining. Artwork was instead drawn directly with PixelLab's free exact pixel tools, then saved in the PixelLab gallery. No alternative AI generator was used.",
+  "implementation": "Artwork only. No Food Ring SID/CID, server behavior or shop offer has been implemented.",
+  "required_behavior": {
+    "only_fed_while_equipped": true,
+    "never_fill_ordinary_food_reserve_on_equip": true,
+    "unequip_or_expiry_ends_effect_immediately": true,
+    "preserve_ordinary_food_state": true,
+    "no_double_regeneration_when_normally_fed": true
+  },
+  "future_targeted_checks": [
+    "Equip hungry for one second and remove: no free food reserve.",
+    "Ordinary eaten-food duration is not refilled or deleted by ring equip/unequip.",
+    "Food and ring must not stack normal food regeneration.",
+    "Remaining ring time, expiry and reconnect."
+  ],
+  "validation": "source/validation.json"
+}

@@ -1,0 +1,1952 @@
+[
+  {
+    "name": "Aerial Disciple Outfits",
+    "slug": "Aerial_Disciple_Outfits",
+    "href": "/wiki/Aerial_Disciple_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/7e/Outfit_Aerial_Disciple_Male.gif/revision/latest?cb=20260221221129&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/79/Outfit_Aerial_Disciple_Female.gif/revision/latest?cb=20260221221125&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Afflicted Outfits",
+    "slug": "Afflicted_Outfits",
+    "href": "/wiki/Afflicted_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/5e/Outfit_Afflicted_Male.gif/revision/latest?cb=20110703045410&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/41/Outfit_Afflicted_Female.gif/revision/latest?cb=20110703045536&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Afflicted Outfits Quest",
+      "href": "/wiki/Afflicted_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Afflicted Outfits Quest",
+      "href": "/wiki/Afflicted_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Ancient Aucar Outfits",
+    "slug": "Ancient_Aucar_Outfits",
+    "href": "/wiki/Ancient_Aucar_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e4/Outfit_Ancient_Aucar_Male.gif/revision/latest?cb=20221110000535&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/88/Outfit_Ancient_Aucar_Female.gif/revision/latest?cb=20221110000932&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Ancient Aucar Outfits Quest",
+      "href": "/wiki/Ancient_Aucar_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Ancient Aucar Outfits Quest",
+      "href": "/wiki/Ancient_Aucar_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Arbalester Outfits",
+    "slug": "Arbalester_Outfits",
+    "href": "/wiki/Arbalester_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/3c/Outfit_Arbalester_Male.gif/revision/latest?cb=20211008153857&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5f/Outfit_Arbalester_Female.gif/revision/latest?cb=20211008153851&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Arena Champion Outfits",
+    "slug": "Arena_Champion_Outfits",
+    "href": "/wiki/Arena_Champion_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/36/Outfit_Arena_Champion_Male.gif/revision/latest?cb=20170925204529&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/c/c4/Outfit_Arena_Champion_Female.gif/revision/latest?cb=20170925205005&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Armoured Archer Outfits",
+    "slug": "Armoured_Archer_Outfits",
+    "href": "/wiki/Armoured_Archer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e8/Outfit_Armoured_Archer_Male.gif/revision/latest?cb=20230414084254&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/44/Outfit_Armoured_Archer_Female.gif/revision/latest?cb=20230414084730&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Assassin Outfits",
+    "slug": "Assassin_Outfits",
+    "href": "/wiki/Assassin_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/a7/Outfit_Assassin_Male.gif/revision/latest?cb=20060830000017&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d2/Outfit_Assassin_Female.gif/revision/latest?cb=20060829235937&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Assassin Outfits Quest",
+      "href": "/wiki/Assassin_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Assassin Outfits Quest",
+      "href": "/wiki/Assassin_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Barbarian Outfits",
+    "slug": "Barbarian_Outfits",
+    "href": "/wiki/Barbarian_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/0b/Outfit_Barbarian_Male.gif/revision/latest?cb=20060828193758&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/6a/Outfit_Barbarian_Female.gif/revision/latest?cb=20060828193700&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Barbarian Outfits Quest",
+      "href": "/wiki/Barbarian_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Bat Knight Outfits",
+    "slug": "Bat_Knight_Outfits",
+    "href": "/wiki/Bat_Knight_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1d/Outfit_Bat_Knight_Male.gif/revision/latest?cb=20251103045412&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/2/23/Outfit_Bat_Knight_Female.gif/revision/latest?cb=20251103045409&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Battle Mage Outfits",
+    "slug": "Battle_Mage_Outfits",
+    "href": "/wiki/Battle_Mage_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/f/f5/Outfit_Battle_Mage_Male.gif/revision/latest?cb=20230730025109&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/2/2d/Outfit_Battle_Mage_Female.gif/revision/latest?cb=20230730025052&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Battle Mage Outfits Quest",
+      "href": "/wiki/Battle_Mage_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Battle Mage Outfits Quest",
+      "href": "/wiki/Battle_Mage_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Beastmaster Outfits",
+    "slug": "Beastmaster_Outfits",
+    "href": "/wiki/Beastmaster_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b1/Outfit_Beastmaster_Male.gif/revision/latest?cb=20150501152221&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/4d/Outfit_Beastmaster_Female.gif/revision/latest?cb=20150501152350&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Beekeeper Outfits",
+    "slug": "Beekeeper_Outfits",
+    "href": "/wiki/Beekeeper_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/bd/Outfit_Beekeeper_Male.gif/revision/latest?cb=20240627002727&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/ac/Outfit_Beekeeper_Female.gif/revision/latest?cb=20240627002738&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Beggar Outfits",
+    "slug": "Beggar_Outfits",
+    "href": "/wiki/Beggar_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Beggar_Male.gif/revision/latest?cb=20060830023030&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e6/Outfit_Beggar_Female.gif/revision/latest?cb=20060830022956&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Beggar Outfits Quest",
+      "href": "/wiki/Beggar_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Beggar Outfits Quest",
+      "href": "/wiki/Beggar_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Blade Dancer Outfits",
+    "slug": "Blade_Dancer_Outfits",
+    "href": "/wiki/Blade_Dancer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/3a/Outfit_Blade_Dancer_Male.gif/revision/latest?cb=20240517161757&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0e/Outfit_Blade_Dancer_Female.gif/revision/latest?cb=20240517161822&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Breezy Garb Outfits",
+    "slug": "Breezy_Garb_Outfits",
+    "href": "/wiki/Breezy_Garb_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/2/23/Outfit_Breezy_Garb_Male.gif/revision/latest?cb=20190712165126&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/2/21/Outfit_Breezy_Garb_Female.gif/revision/latest?cb=20190712165129&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Brotherhood Outfits",
+    "slug": "Brotherhood_Outfits",
+    "href": "/wiki/Brotherhood_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/6b/Outfit_Brotherhood_Male.gif/revision/latest?cb=20080107004219&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/af/Outfit_Brotherhood_Female.gif/revision/latest?cb=20080106220856&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Brotherhood Outfits Quest",
+      "href": "/wiki/Brotherhood_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Brotherhood Outfits Quest",
+      "href": "/wiki/Brotherhood_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Captains Outfits",
+    "slug": "Captains_Outfits",
+    "href": "/wiki/Captains_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b9/Outfit_Captains_Male.gif/revision/latest?cb=20260806225443&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/eb/Outfit_Captains_Female.gif/revision/latest?cb=20260806225444&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Cave Explorer Outfits",
+    "slug": "Cave_Explorer_Outfits",
+    "href": "/wiki/Cave_Explorer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/3b/Outfit_Cave_Explorer_Male.gif/revision/latest?cb=20140905172841&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Cave_Explorer_Female.gif/revision/latest?cb=20140905173512&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Cave Explorer Outfits Quest",
+      "href": "/wiki/Cave_Explorer_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Cave Explorer Outfits Quest",
+      "href": "/wiki/Cave_Explorer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Celestial Avenger Outfits",
+    "slug": "Celestial_Avenger_Outfits",
+    "href": "/wiki/Celestial_Avenger_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/07/Outfit_Celestial_Avenger_Male.gif/revision/latest?cb=20240225135416&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/ff/Outfit_Celestial_Avenger_Female.gif/revision/latest?cb=20240225135455&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Ceremonial Garb Outfits",
+    "slug": "Ceremonial_Garb_Outfits",
+    "href": "/wiki/Ceremonial_Garb_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/08/Outfit_Ceremonial_Garb_Male.gif/revision/latest?cb=20150501150729&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/1/1e/Outfit_Ceremonial_Garb_Female.gif/revision/latest?cb=20150501150755&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Champion Outfits",
+    "slug": "Champion_Outfits",
+    "href": "/wiki/Champion_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/14/Outfit_Champion_Male.gif/revision/latest?cb=20150501213511&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/de/Outfit_Champion_Female.gif/revision/latest?cb=20150501213424&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 570,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Chaos Acolyte Outfits",
+    "slug": "Chaos_Acolyte_Outfits",
+    "href": "/wiki/Chaos_Acolyte_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/65/Outfit_Chaos_Acolyte_Male.gif/revision/latest?cb=20230730030003&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/9a/Outfit_Chaos_Acolyte_Female.gif/revision/latest?cb=20230730025204&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 900,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Citizen of Issavi Outfits",
+    "slug": "Citizen_of_Issavi_Outfits",
+    "href": "/wiki/Citizen_of_Issavi_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/db/Outfit_Citizen_of_Issavi_Male.gif/revision/latest?cb=20210521150838&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5f/Outfit_Citizen_of_Issavi_Female.gif/revision/latest?cb=20210521150841&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Kilmaresh Quest",
+      "href": "/wiki/Kilmaresh_Quest"
+    },
+    "addonsQuest": {
+      "name": "Citizen of Issavi Outfits Quest",
+      "href": "/wiki/Citizen_of_Issavi_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Citizen Outfits",
+    "slug": "Citizen_Outfits",
+    "href": "/wiki/Citizen_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e4/Outfit_Citizen_Male.gif/revision/latest?cb=20060828193959&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/58/Outfit_Citizen_Female.gif/revision/latest?cb=20060828193902&path-prefix=en",
+    "method": "basic",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Citizen Outfits Quest",
+      "href": "/wiki/Citizen_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Conjurer Outfits",
+    "slug": "Conjurer_Outfits",
+    "href": "/wiki/Conjurer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/12/Outfit_Conjurer_Male.gif/revision/latest?cb=20141015214848&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/86/Outfit_Conjurer_Female.gif/revision/latest?cb=20141015222113&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 720,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Crystal Warlord Outfits",
+    "slug": "Crystal_Warlord_Outfits",
+    "href": "/wiki/Crystal_Warlord_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/30/Outfit_Crystal_Warlord_Male.gif/revision/latest?cb=20120627180215&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/94/Outfit_Crystal_Warlord_Female.gif/revision/latest?cb=20120627183807&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Crystal Warlord Outfits Quest",
+      "href": "/wiki/Crystal_Warlord_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Crystal Warlord Outfits Quest",
+      "href": "/wiki/Crystal_Warlord_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Darklight Evoker Outfits",
+    "slug": "Darklight_Evoker_Outfits",
+    "href": "/wiki/Darklight_Evoker_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/0a/Outfit_Darklight_Evoker_Male.gif/revision/latest?cb=20230729231439&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/44/Outfit_Darklight_Evoker_Female.gif/revision/latest?cb=20230729231510&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 1500,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Death Herald Outfits",
+    "slug": "Death_Herald_Outfits",
+    "href": "/wiki/Death_Herald_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/aa/Outfit_Death_Herald_Male.gif/revision/latest?cb=20150501182730&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/be/Outfit_Death_Herald_Female.gif/revision/latest?cb=20150501182825&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Decaying Defender Outfits",
+    "slug": "Decaying_Defender_Outfits",
+    "href": "/wiki/Decaying_Defender_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/7d/Outfit_Decaying_Defender_Male.gif/revision/latest?cb=20230730030144&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/82/Outfit_Decaying_Defender_Female.gif/revision/latest?cb=20230730030129&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Rotten Blood Quest",
+      "href": "/wiki/Rotten_Blood_Quest"
+    },
+    "addonsQuest": {
+      "name": "Decaying Defender Outfits Quest",
+      "href": "/wiki/Decaying_Defender_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Deepling Outfits",
+    "slug": "Deepling_Outfits",
+    "href": "/wiki/Deepling_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/dc/Outfit_Deepling_Male.gif/revision/latest?cb=20111209205851&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/af/Outfit_Deepling_Female.gif/revision/latest?cb=20111209213139&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Liquid Black Quest",
+      "href": "/wiki/Liquid_Black_Quest"
+    },
+    "addonsQuest": {
+      "name": "Liquid Black Quest",
+      "href": "/wiki/Liquid_Black_Quest"
+    }
+  },
+  {
+    "name": "Demon Hunter Outfits",
+    "slug": "Demon_Hunter_Outfits",
+    "href": "/wiki/Demon_Hunter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d5/Outfit_Demon_Hunter_Male.gif/revision/latest?cb=20080725221103&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Demon_Hunter_Female.gif/revision/latest?cb=20080725214838&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "The Inquisition Quest",
+      "href": "/wiki/The_Inquisition_Quest"
+    },
+    "addonsQuest": {
+      "name": "The Inquisition Quest",
+      "href": "/wiki/The_Inquisition_Quest"
+    }
+  },
+  {
+    "name": "Demon Outfits",
+    "slug": "Demon_Outfits",
+    "href": "/wiki/Demon_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e3/Outfit_Demon_Male.gif/revision/latest?cb=20121214214328&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/00/Outfit_Demon_Female.gif/revision/latest?cb=20121214214943&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Demon Outfits Quest",
+      "href": "/wiki/Demon_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Demon Outfits Quest",
+      "href": "/wiki/Demon_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Discoverer Outfits",
+    "slug": "Discoverer_Outfits",
+    "href": "/wiki/Discoverer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1b/Outfit_Discoverer_Male.gif/revision/latest?cb=20180609031352&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/49/Outfit_Discoverer_Female.gif/revision/latest?cb=20180609031402&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Measuring Tibia Quest",
+      "href": "/wiki/Measuring_Tibia_Quest"
+    },
+    "addonsQuest": {
+      "name": "Measuring Tibia Quest",
+      "href": "/wiki/Measuring_Tibia_Quest"
+    }
+  },
+  {
+    "name": "Doom Knight Outfits",
+    "slug": "Doom_Knight_Outfits",
+    "href": "/wiki/Doom_Knight_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/0b/Outfit_Doom_Knight_Male.gif/revision/latest?cb=20231222230244&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/65/Outfit_Doom_Knight_Female.gif/revision/latest?cb=20231222230242&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Draccoon Herald Outfits",
+    "slug": "Draccoon_Herald_Outfits",
+    "href": "/wiki/Draccoon_Herald_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/51/Outfit_Draccoon_Herald_Male.gif/revision/latest?cb=20231115021121&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d7/Outfit_Draccoon_Herald_Female.gif/revision/latest?cb=20231115021553&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "20 Years a Cook Quest",
+      "href": "/wiki/20_Years_a_Cook_Quest"
+    },
+    "addonsQuest": {
+      "name": "Draccoon Herald Outfits Quest",
+      "href": "/wiki/Draccoon_Herald_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Dragon Knight Outfits",
+    "slug": "Dragon_Knight_Outfits",
+    "href": "/wiki/Dragon_Knight_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/f/f1/Outfit_Dragon_Knight_Male.gif/revision/latest?cb=20210710200744&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/8d/Outfit_Dragon_Knight_Female.gif/revision/latest?cb=20210710201238&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Dragon Slayer Outfits",
+    "slug": "Dragon_Slayer_Outfits",
+    "href": "/wiki/Dragon_Slayer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d9/Outfit_Dragon_Slayer_Male.gif/revision/latest?cb=20200416171808&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/48/Outfit_Dragon_Slayer_Female.gif/revision/latest?cb=20200416171814&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Dragon Slayer Outfits Quest",
+      "href": "/wiki/Dragon_Slayer_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Dragon Slayer Outfits Quest",
+      "href": "/wiki/Dragon_Slayer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Dream Warden Outfits",
+    "slug": "Dream_Warden_Outfits",
+    "href": "/wiki/Dream_Warden_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/18/Outfit_Dream_Warden_Male.gif/revision/latest?cb=20131130233405&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/2/29/Outfit_Dream_Warden_Female.gif/revision/latest?cb=20131130233634&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Dream Warden Outfits Quest",
+      "href": "/wiki/Dream_Warden_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Dream Warden Outfits Quest",
+      "href": "/wiki/Dream_Warden_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Dream Warrior Outfits",
+    "slug": "Dream_Warrior_Outfits",
+    "href": "/wiki/Dream_Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1e/Outfit_Dream_Warrior_Male.gif/revision/latest?cb=20181108184820&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/77/Outfit_Dream_Warrior_Female.gif/revision/latest?cb=20181108185041&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Dream Warrior Outfits Quest",
+      "href": "/wiki/Dream_Warrior_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Druid Outfits",
+    "slug": "Druid_Outfits",
+    "href": "/wiki/Druid_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/c/c9/Outfit_Druid_Male.gif/revision/latest?cb=20060829001543&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e6/Outfit_Druid_Female.gif/revision/latest?cb=20060829001449&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Druid Outfits Quest",
+      "href": "/wiki/Druid_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Elementalist Outfits",
+    "slug": "Elementalist_Outfits",
+    "href": "/wiki/Elementalist_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/c/c4/Outfit_Elementalist_Male.gif/revision/latest?cb=20110703050027&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5b/Outfit_Elementalist_Female.gif/revision/latest?cb=20110703050100&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Elementalist Outfits Quest",
+      "href": "/wiki/Elementalist_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Elementalist Outfits Quest",
+      "href": "/wiki/Elementalist_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Entrepreneur Outfits",
+    "slug": "Entrepreneur_Outfits",
+    "href": "/wiki/Entrepreneur_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/32/Outfit_Entrepreneur_Male.gif/revision/latest?cb=20111209215513&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/4b/Outfit_Entrepreneur_Female.gif/revision/latest?cb=20111211151217&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Evoker Outfits",
+    "slug": "Evoker_Outfits",
+    "href": "/wiki/Evoker_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/57/Outfit_Evoker_Male.gif/revision/latest?cb=20230730032126&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/37/Outfit_Evoker_Female.gif/revision/latest?cb=20230730032114&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 840,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Falconer Outfits",
+    "slug": "Falconer_Outfits",
+    "href": "/wiki/Falconer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/4/40/Outfit_Falconer_Male.gif/revision/latest?cb=20191113163953&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/99/Outfit_Falconer_Female.gif/revision/latest?cb=20191113164048&path-prefix=en",
+    "method": "special",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Falconer Outfits Quest",
+      "href": "/wiki/Falconer_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Falconer Outfits Quest",
+      "href": "/wiki/Falconer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Fencer Outfits",
+    "slug": "Fencer_Outfits",
+    "href": "/wiki/Fencer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/96/Outfit_Fencer_Male.gif/revision/latest?cb=20220708172003&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/4a/Outfit_Fencer_Female.gif/revision/latest?cb=20220708172053&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Feral Trapper Outfits",
+    "slug": "Feral_Trapper_Outfits",
+    "href": "/wiki/Feral_Trapper_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/15/Outfit_Feral_Trapper_Male.gif/revision/latest?cb=20251126001805&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/f6/Outfit_Feral_Trapper_Female.gif/revision/latest?cb=20251126001801&path-prefix=en",
+    "method": "special",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Feral Trappers Quest",
+      "href": "/wiki/Feral_Trappers_Quest"
+    },
+    "addonsQuest": {
+      "name": "Feral Trappers Quest",
+      "href": "/wiki/Feral_Trappers_Quest"
+    }
+  },
+  {
+    "name": "Festive Outfits",
+    "slug": "Festive_Outfits",
+    "href": "/wiki/Festive_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e7/Outfit_Festive_Male.gif/revision/latest?cb=20170828164517&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/b4/Outfit_Festive_Female.gif/revision/latest?cb=20170828165319&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "First Dragon Quest",
+      "href": "/wiki/First_Dragon_Quest"
+    },
+    "addonsQuest": {
+      "name": "Festive Outfits Quest",
+      "href": "/wiki/Festive_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Field Surgeon Outfits",
+    "slug": "Field_Surgeon_Outfits",
+    "href": "/wiki/Field_Surgeon_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/ac/Outfit_Field_Surgeon_Male.gif/revision/latest?cb=20250305173713&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0c/Outfit_Field_Surgeon_Female.gif/revision/latest?cb=20250305173709&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Fiend Slayer Outfits",
+    "slug": "Fiend_Slayer_Outfits",
+    "href": "/wiki/Fiend_Slayer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1d/Outfit_Fiend_Slayer_Male.gif/revision/latest?cb=20241105205357&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/97/Outfit_Fiend_Slayer_Female.gif/revision/latest?cb=20241105210003&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "No Rest for the Wicked Quest",
+      "href": "/wiki/No_Rest_for_the_Wicked_Quest"
+    },
+    "addonsQuest": {
+      "name": "Fiend Slayer Outfits Quest",
+      "href": "/wiki/Fiend_Slayer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Fire-Fighter Outfits",
+    "slug": "Fire-Fighter_Outfits",
+    "href": "/wiki/Fire-Fighter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1a/Outfit_Fire-Fighter_Male.gif/revision/latest?cb=20230730032320&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/eb/Outfit_Fire-Fighter_Female.gif/revision/latest?cb=20230730032304&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Primal Ordeal Quest",
+      "href": "/wiki/Primal_Ordeal_Quest"
+    },
+    "addonsQuest": {
+      "name": "Fire-Fighter Outfits Quest",
+      "href": "/wiki/Fire-Fighter_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Flamefury Mage Outfits",
+    "slug": "Flamefury_Mage_Outfits",
+    "href": "/wiki/Flamefury_Mage_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Flamefury_Mage_Male.gif/revision/latest?cb=20230729230505&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/8d/Outfit_Flamefury_Mage_Female.gif/revision/latest?cb=20230729230556&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Forest Warden Outfits",
+    "slug": "Forest_Warden_Outfits",
+    "href": "/wiki/Forest_Warden_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/91/Outfit_Forest_Warden_Male.gif/revision/latest?cb=20210517180313&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/38/Outfit_Forest_Warden_Female.gif/revision/latest?cb=20210517181144&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Formal Dress Outfits",
+    "slug": "Formal_Dress_Outfits",
+    "href": "/wiki/Formal_Dress_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/3/33/Outfit_Formal_Dress_Male.gif/revision/latest?cb=20220107210538&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/03/Outfit_Formal_Dress_Female.gif/revision/latest?cb=20220107211048&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "25 Years of Tibia Quest",
+      "href": "/wiki/25_Years_of_Tibia_Quest"
+    },
+    "addonsQuest": {
+      "name": "Formal Dress Outfits Quest",
+      "href": "/wiki/Formal_Dress_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Frost Tracer Outfits",
+    "slug": "Frost_Tracer_Outfits",
+    "href": "/wiki/Frost_Tracer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b5/Outfit_Frost_Tracer_Male.gif/revision/latest?cb=20230730032434&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/40/Outfit_Frost_Tracer_Female.gif/revision/latest?cb=20230730032420&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Ghost Blade Outfits",
+    "slug": "Ghost_Blade_Outfits",
+    "href": "/wiki/Ghost_Blade_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/7a/Outfit_Ghost_Blade_Male.gif/revision/latest?cb=20230730032600&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/fb/Outfit_Ghost_Blade_Female.gif/revision/latest?cb=20230730032546&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Glooth Engineer Outfits",
+    "slug": "Glooth_Engineer_Outfits",
+    "href": "/wiki/Glooth_Engineer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/dc/Outfit_Glooth_Engineer_Male.gif/revision/latest?cb=20140905171227&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/43/Outfit_Glooth_Engineer_Female.gif/revision/latest?cb=20140905172052&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Glooth Engineer Outfits Quest",
+      "href": "/wiki/Glooth_Engineer_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Glooth Engineer Outfits Quest",
+      "href": "/wiki/Glooth_Engineer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Golden Outfits",
+    "slug": "Golden_Outfits",
+    "href": "/wiki/Golden_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Golden_Male.gif/revision/latest?cb=20230730033004&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e3/Outfit_Golden_Female.gif/revision/latest?cb=20230730032953&path-prefix=en",
+    "method": "quest",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Golden Outfits Quest",
+      "href": "/wiki/Golden_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Golden Outfits Quest",
+      "href": "/wiki/Golden_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Grove Keeper Outfits",
+    "slug": "Grove_Keeper_Outfits",
+    "href": "/wiki/Grove_Keeper_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Grove_Keeper_Male.gif/revision/latest?cb=20170925183115&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/37/Outfit_Grove_Keeper_Female.gif/revision/latest?cb=20170925183217&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Guidon Bearer Outfits",
+    "slug": "Guidon_Bearer_Outfits",
+    "href": "/wiki/Guidon_Bearer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/8/84/Outfit_Guidon_Bearer_Male.gif/revision/latest?cb=20190416172352&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/63/Outfit_Guidon_Bearer_Female.gif/revision/latest?cb=20190416172355&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Hand of the Inquisition Outfits",
+    "slug": "Hand_of_the_Inquisition_Outfits",
+    "href": "/wiki/Hand_of_the_Inquisition_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/16/Outfit_Hand_of_the_Inquisition_Male.gif/revision/latest?cb=20190702023726&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e5/Outfit_Hand_of_the_Inquisition_Female.gif/revision/latest?cb=20190702023747&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Grave Danger Quest",
+      "href": "/wiki/Grave_Danger_Quest"
+    },
+    "addonsQuest": {
+      "name": "Hand of the Inquisition Outfits Quest",
+      "href": "/wiki/Hand_of_the_Inquisition_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Herbalist Outfits",
+    "slug": "Herbalist_Outfits",
+    "href": "/wiki/Herbalist_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/c/c2/Outfit_Herbalist_Male.gif/revision/latest?cb=20171014034636&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Herbalist_Female.gif/revision/latest?cb=20171014035325&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Herder Outfits",
+    "slug": "Herder_Outfits",
+    "href": "/wiki/Herder_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/4/45/Outfit_Herder_Male.gif/revision/latest?cb=20191129121944&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/dc/Outfit_Herder_Female.gif/revision/latest?cb=20191129122012&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Hunter Outfits",
+    "slug": "Hunter_Outfits",
+    "href": "/wiki/Hunter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/5c/Outfit_Hunter_Male.gif/revision/latest?cb=20060828194217&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/fd/Outfit_Hunter_Female.gif/revision/latest?cb=20060828194102&path-prefix=en",
+    "method": "basic",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Hunter Outfits Quest",
+      "href": "/wiki/Hunter_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Illuminated Warrior Outfits",
+    "slug": "Illuminated_Warrior_Outfits",
+    "href": "/wiki/Illuminated_Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/ef/Outfit_Illuminated_Warrior_Male.gif/revision/latest?cb=20260714225509&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/1/16/Outfit_Illuminated_Warrior_Female.gif/revision/latest?cb=20260714225504&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Make Believe Quest",
+      "href": "/wiki/Make_Believe_Quest"
+    },
+    "addonsQuest": {
+      "name": "Illuminated Warrior Outfits Quest",
+      "href": "/wiki/Illuminated_Warrior_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Illuminator Outfits",
+    "slug": "Illuminator_Outfits",
+    "href": "/wiki/Illuminator_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Illuminator_Male.gif/revision/latest?cb=20250804105850&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/a1/Outfit_Illuminator_Female.gif/revision/latest?cb=20250804105955&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Between the Lines Quest",
+      "href": "/wiki/Between_the_Lines_Quest"
+    },
+    "addonsQuest": {
+      "name": "Illuminator Outfits Quest",
+      "href": "/wiki/Illuminator_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Insectoid Outfits",
+    "slug": "Insectoid_Outfits",
+    "href": "/wiki/Insectoid_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b7/Outfit_Insectoid_Male.gif/revision/latest?cb=20111209220343&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/b4/Outfit_Insectoid_Female.gif/revision/latest?cb=20111211145634&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Insectoid Outfits Quest",
+      "href": "/wiki/Insectoid_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Insectoid Outfits Quest",
+      "href": "/wiki/Insectoid_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Jersey Outfits",
+    "slug": "Jersey_Outfits",
+    "href": "/wiki/Jersey_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/8/84/Outfit_Jersey_Male.gif/revision/latest?cb=20140905170745&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e1/Outfit_Jersey_Female.gif/revision/latest?cb=20140905165010&path-prefix=en",
+    "method": "special",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Jester Outfits",
+    "slug": "Jester_Outfits",
+    "href": "/wiki/Jester_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d5/Outfit_Jester_Male.gif/revision/latest?cb=20080813192343&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/83/Outfit_Jester_Female.gif/revision/latest?cb=20071224020143&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Jester Outfits Quest",
+      "href": "/wiki/Jester_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Jester Outfits Quest",
+      "href": "/wiki/Jester_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Jouster Outfits",
+    "slug": "Jouster_Outfits",
+    "href": "/wiki/Jouster_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1c/Outfit_Jouster_Male.gif/revision/latest?cb=20200714233702&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5b/Outfit_Jouster_Female.gif/revision/latest?cb=20200714233704&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Knight Outfits",
+    "slug": "Knight_Outfits",
+    "href": "/wiki/Knight_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d6/Outfit_Knight_Male.gif/revision/latest?cb=20170925202328&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/97/Outfit_Knight_Female.gif/revision/latest?cb=20060828194326&path-prefix=en",
+    "method": "basic",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Knight Outfits Quest",
+      "href": "/wiki/Knight_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Lion of War Outfits",
+    "slug": "Lion_of_War_Outfits",
+    "href": "/wiki/Lion_of_War_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/67/Outfit_Lion_of_War_Male.gif/revision/latest?cb=20230730034932&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/bc/Outfit_Lion_of_War_Female.gif/revision/latest?cb=20230730034924&path-prefix=en",
+    "method": "special",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Lupine Warden Outfits",
+    "slug": "Lupine_Warden_Outfits",
+    "href": "/wiki/Lupine_Warden_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/16/Outfit_Lupine_Warden_Male.gif/revision/latest?cb=20160917074727&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Lupine_Warden_Female.gif/revision/latest?cb=20160917074637&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 840,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Mage Outfits",
+    "slug": "Mage_Outfits",
+    "href": "/wiki/Mage_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/63/Outfit_Mage_Male.gif/revision/latest?cb=20061009164750&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/4c/Outfit_Mage_Female.gif/revision/latest?cb=20070223165909&path-prefix=en",
+    "method": "basic",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Mage Outfits Quest",
+      "href": "/wiki/Mage_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Makeshift Warrior Outfits",
+    "slug": "Makeshift_Warrior_Outfits",
+    "href": "/wiki/Makeshift_Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/9d/Outfit_Makeshift_Warrior_Male.gif/revision/latest?cb=20171129140059&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/9a/Outfit_Makeshift_Warrior_Female.gif/revision/latest?cb=20171129140101&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Makeshift Warrior Outfits Quest",
+      "href": "/wiki/Makeshift_Warrior_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Makeshift Warrior Outfits Quest",
+      "href": "/wiki/Makeshift_Warrior_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Martial Artist Outfits",
+    "slug": "Martial_Artist_Outfits",
+    "href": "/wiki/Martial_Artist_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/be/Outfit_Martial_Artist_Male.gif/revision/latest?cb=20250503125758&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/de/Outfit_Martial_Artist_Female.gif/revision/latest?cb=20250503130541&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Mercenary Outfits",
+    "slug": "Mercenary_Outfits",
+    "href": "/wiki/Mercenary_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b8/Outfit_Mercenary_Male.gif/revision/latest?cb=20180412135625&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/05/Outfit_Mercenary_Female.gif/revision/latest?cb=20180412135623&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Merry Garb Outfits",
+    "slug": "Merry_Garb_Outfits",
+    "href": "/wiki/Merry_Garb_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/5a/Outfit_Merry_Garb_Male.gif/revision/latest?cb=20201222172029&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/37/Outfit_Merry_Garb_Female.gif/revision/latest?cb=20201222172229&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Monk Outfits",
+    "slug": "Monk_Outfits",
+    "href": "/wiki/Monk_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/92/Outfit_Monk_Male.gif/revision/latest?cb=20250303105655&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/53/Outfit_Monk_Female.gif/revision/latest?cb=20250303110206&path-prefix=en",
+    "method": "basic",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Moon Guardian Outfits",
+    "slug": "Moon_Guardian_Outfits",
+    "href": "/wiki/Moon_Guardian_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/01/Outfit_Moon_Guardian_Male.gif/revision/latest?cb=20260714225409&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/70/Outfit_Moon_Guardian_Female.gif/revision/latest?cb=20260714225404&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Moth Cape Outfits",
+    "slug": "Moth_Cape_Outfits",
+    "href": "/wiki/Moth_Cape_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/a0/Outfit_Moth_Cape_Male.gif/revision/latest?cb=20200911132731&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/6d/Outfit_Moth_Cape_Female.gif/revision/latest?cb=20200911132756&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Necromancer Outfits",
+    "slug": "Necromancer_Outfits",
+    "href": "/wiki/Necromancer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/0d/Outfit_Necromancer_Male.gif/revision/latest?cb=20251103131611&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/f3/Outfit_Necromancer_Female.gif/revision/latest?cb=20251103131608&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Newly Wed Outfits",
+    "slug": "Newly_Wed_Outfits",
+    "href": "/wiki/Newly_Wed_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/4/48/Outfit_Newly_Wed_Male.gif/revision/latest?cb=20090627042000&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d4/Outfit_Newly_Wed_Female.gif/revision/latest?cb=20090611022325&path-prefix=en",
+    "method": "quest",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Nightmare Outfits",
+    "slug": "Nightmare_Outfits",
+    "href": "/wiki/Nightmare_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/2/2d/Outfit_Nightmare_Male.gif/revision/latest?cb=20180710152404&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/62/Outfit_Nightmare_Female.gif/revision/latest?cb=20180710153200&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Nightmare Outfits Quest",
+      "href": "/wiki/Nightmare_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Nightmare Outfits Quest",
+      "href": "/wiki/Nightmare_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Nobleman Outfits",
+    "slug": "Nobleman_Outfits",
+    "href": "/wiki/Nobleman_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/8/80/Outfit_Nobleman_Male.gif/revision/latest?cb=20060829001743&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/7a/Outfit_Nobleman_Female.gif/revision/latest?cb=20060829001709&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Nobleman Outfits Quest",
+      "href": "/wiki/Nobleman_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Nordic Chieftain Outfits",
+    "slug": "Nordic_Chieftain_Outfits",
+    "href": "/wiki/Nordic_Chieftain_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Nordic_Chieftain_Male.gif/revision/latest?cb=20220408140552&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0d/Outfit_Nordic_Chieftain_Female.gif/revision/latest?cb=20220408141024&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Norseman Outfits",
+    "slug": "Norseman_Outfits",
+    "href": "/wiki/Norseman_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/ae/Outfit_Norseman_Male.gif/revision/latest?cb=20070628222812&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/37/Outfit_Norseman_Female.gif/revision/latest?cb=20070628223608&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Norseman Outfits Quest",
+      "href": "/wiki/Norseman_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Norseman Outfits Quest",
+      "href": "/wiki/Norseman_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Orcsoberfest Garb Outfits",
+    "slug": "Orcsoberfest_Garb_Outfits",
+    "href": "/wiki/Orcsoberfest_Garb_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/7c/Outfit_Orcsoberfest_Garb_Male.gif/revision/latest?cb=20191127184220&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/7a/Outfit_Orcsoberfest_Garb_Female.gif/revision/latest?cb=20191127184249&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Oriental Outfits",
+    "slug": "Oriental_Outfits",
+    "href": "/wiki/Oriental_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/2/20/Outfit_Oriental_Male.gif/revision/latest?cb=20060829022729&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/77/Outfit_Oriental_Female.gif/revision/latest?cb=20060829022641&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Oriental Outfits Quest",
+      "href": "/wiki/Oriental_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Owl Keeper Outfits",
+    "slug": "Owl_Keeper_Outfits",
+    "href": "/wiki/Owl_Keeper_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/7c/Outfit_Owl_Keeper_Male.gif/revision/latest?cb=20190206130716&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5f/Outfit_Owl_Keeper_Female.gif/revision/latest?cb=20190206130719&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Percht Raider Outfits",
+    "slug": "Percht_Raider_Outfits",
+    "href": "/wiki/Percht_Raider_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/e3/Outfit_Percht_Raider_Male.gif/revision/latest?cb=20181227220736&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/8e/Outfit_Percht_Raider_Female.gif/revision/latest?cb=20181227220737&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Pharaoh Outfits",
+    "slug": "Pharaoh_Outfits",
+    "href": "/wiki/Pharaoh_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/de/Outfit_Pharaoh_Male.gif/revision/latest?cb=20170925221243&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/36/Outfit_Pharaoh_Female.gif/revision/latest?cb=20170925221721&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Philosopher Outfits",
+    "slug": "Philosopher_Outfits",
+    "href": "/wiki/Philosopher_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d0/Outfit_Philosopher_Male.gif/revision/latest?cb=20160319165020&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5c/Outfit_Philosopher_Female.gif/revision/latest?cb=20160319165044&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Phoenix Evoker Outfits",
+    "slug": "Phoenix_Evoker_Outfits",
+    "href": "/wiki/Phoenix_Evoker_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/71/Outfit_Phoenix_Evoker_Male.gif/revision/latest?cb=20251224190419&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/1/12/Outfit_Phoenix_Evoker_Female.gif/revision/latest?cb=20251224190415&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Pirate Outfits",
+    "slug": "Pirate_Outfits",
+    "href": "/wiki/Pirate_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/62/Outfit_Pirate_Male.gif/revision/latest?cb=20060830023146&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/7/75/Outfit_Pirate_Female.gif/revision/latest?cb=20060830023108&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Pirate Outfits Quest",
+      "href": "/wiki/Pirate_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Pirate Outfits Quest",
+      "href": "/wiki/Pirate_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Poltergeist Outfits",
+    "slug": "Poltergeist_Outfits",
+    "href": "/wiki/Poltergeist_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Poltergeist_Male.gif/revision/latest?cb=20191114142003&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/d1/Outfit_Poltergeist_Female.gif/revision/latest?cb=20191114142056&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Feaster of Souls Quest",
+      "href": "/wiki/Feaster_of_Souls_Quest"
+    },
+    "addonsQuest": {
+      "name": "Poltergeist Outfits Quest",
+      "href": "/wiki/Poltergeist_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Pumpkin Mummy Outfits",
+    "slug": "Pumpkin_Mummy_Outfits",
+    "href": "/wiki/Pumpkin_Mummy_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/5b/Outfit_Pumpkin_Mummy_Male.gif/revision/latest?cb=20181019132100&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/ac/Outfit_Pumpkin_Mummy_Female.gif/revision/latest?cb=20181019132103&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Puppeteer Outfits",
+    "slug": "Puppeteer_Outfits",
+    "href": "/wiki/Puppeteer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/6c/Outfit_Puppeteer_Male.gif/revision/latest?cb=20150507231142&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/b7/Outfit_Puppeteer_Female.gif/revision/latest?cb=20150507230800&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Ranger Outfits",
+    "slug": "Ranger_Outfits",
+    "href": "/wiki/Ranger_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/05/Outfit_Ranger_Male.gif/revision/latest?cb=20150501214734&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/6b/Outfit_Ranger_Female.gif/revision/latest?cb=20150501214746&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Rascoohan Outfits",
+    "slug": "Rascoohan_Outfits",
+    "href": "/wiki/Rascoohan_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/15/Outfit_Rascoohan_Male.gif/revision/latest?cb=20201105161613&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5f/Outfit_Rascoohan_Female.gif/revision/latest?cb=20201105161617&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "A Pirate's Tail Quest",
+      "href": "/wiki/A_Pirate%27s_Tail_Quest"
+    },
+    "addonsQuest": {
+      "name": "Rascoohan Outfits Quest",
+      "href": "/wiki/Rascoohan_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Recruiter Outfits",
+    "slug": "Recruiter_Outfits",
+    "href": "/wiki/Recruiter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/6c/Outfit_Recruiter_Male.gif/revision/latest?cb=20150903210845&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e5/Outfit_Recruiter_Female.gif/revision/latest?cb=20150903212552&path-prefix=en",
+    "method": "special",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Citizen Outfits",
+    "slug": "Retro_Citizen_Outfits",
+    "href": "/wiki/Retro_Citizen_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/6a/Outfit_Retro_Citizen_Male.gif/revision/latest?cb=20170526114016&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/3/38/Outfit_Retro_Citizen_Female.gif/revision/latest?cb=20170526114356&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Hunter Outfits",
+    "slug": "Retro_Hunter_Outfits",
+    "href": "/wiki/Retro_Hunter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/75/Outfit_Retro_Hunter_Male.gif/revision/latest?cb=20170526114044&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0c/Outfit_Retro_Hunter_Female.gif/revision/latest?cb=20170526114056&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Knight Outfits",
+    "slug": "Retro_Knight_Outfits",
+    "href": "/wiki/Retro_Knight_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d7/Outfit_Retro_Knight_Male.gif/revision/latest?cb=20170526114107&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/94/Outfit_Retro_Knight_Female.gif/revision/latest?cb=20170526114140&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Mage Outfits",
+    "slug": "Retro_Mage_Outfits",
+    "href": "/wiki/Retro_Mage_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/4/49/Outfit_Retro_Mage_Male.gif/revision/latest?cb=20170526114207&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/59/Outfit_Retro_Mage_Female.gif/revision/latest?cb=20170925201749&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Nobleman Outfits",
+    "slug": "Retro_Nobleman_Outfits",
+    "href": "/wiki/Retro_Nobleman_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/f/f0/Outfit_Retro_Nobleman_Male.gif/revision/latest?cb=20170526113753&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/4/49/Outfit_Retro_Nobleman_Female.gif/revision/latest?cb=20170526113847&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Summoner Outfits",
+    "slug": "Retro_Summoner_Outfits",
+    "href": "/wiki/Retro_Summoner_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/59/Outfit_Retro_Summoner_Male.gif/revision/latest?cb=20170526113856&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/9a/Outfit_Retro_Summoner_Female.gif/revision/latest?cb=20170526113904&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Retro Warrior Outfits",
+    "slug": "Retro_Warrior_Outfits",
+    "href": "/wiki/Retro_Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/9b/Outfit_Retro_Warrior_Male.gif/revision/latest?cb=20170526113911&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/b/b1/Outfit_Retro_Warrior_Female.gif/revision/latest?cb=20170526113918&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Revenant Outfits",
+    "slug": "Revenant_Outfits",
+    "href": "/wiki/Revenant_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Revenant_Male.gif/revision/latest?cb=20230730035209&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e0/Outfit_Revenant_Female.gif/revision/latest?cb=20230730035156&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Soul War Quest",
+      "href": "/wiki/Soul_War_Quest"
+    },
+    "addonsQuest": {
+      "name": "Revenant Outfits Quest",
+      "href": "/wiki/Revenant_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Rift Warrior Outfits",
+    "slug": "Rift_Warrior_Outfits",
+    "href": "/wiki/Rift_Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b8/Outfit_Rift_Warrior_Male.gif/revision/latest?cb=20160319171943&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/5e/Outfit_Rift_Warrior_Female.gif/revision/latest?cb=20160319171952&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Rift Warrior Outfits Quest",
+      "href": "/wiki/Rift_Warrior_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Rift Warrior Outfits Quest",
+      "href": "/wiki/Rift_Warrior_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Rootwalker Outfits",
+    "slug": "Rootwalker_Outfits",
+    "href": "/wiki/Rootwalker_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Rootwalker_Male.gif/revision/latest?cb=20240617091812&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/c/c6/Outfit_Rootwalker_Female.gif/revision/latest?cb=20240617092333&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Podzilla Quest",
+      "href": "/wiki/Podzilla_Quest"
+    },
+    "addonsQuest": {
+      "name": "Rootwalker Outfits Quest",
+      "href": "/wiki/Rootwalker_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Royal Bounacean Advisor Outfits",
+    "slug": "Royal_Bounacean_Advisor_Outfits",
+    "href": "/wiki/Royal_Bounacean_Advisor_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/a5/Outfit_Royal_Bounacean_Advisor_Male.gif/revision/latest?cb=20210611030408&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/01/Outfit_Royal_Bounacean_Advisor_Female.gif/revision/latest?cb=20210611030413&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Adventures of Galthen Quest",
+      "href": "/wiki/Adventures_of_Galthen_Quest"
+    },
+    "addonsQuest": {
+      "name": "Royal Bounacean Advisor Outfits Quest",
+      "href": "/wiki/Royal_Bounacean_Advisor_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Royal Costume Outfits",
+    "slug": "Royal_Costume_Outfits",
+    "href": "/wiki/Royal_Costume_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/92/Outfit_Royal_Costume_Male.gif/revision/latest?cb=20211125152110&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/87/Outfit_Royal_Costume_Female.gif/revision/latest?cb=20211125152629&path-prefix=en",
+    "method": "quest",
+    "premium": false,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Royal Costume Outfits Quest",
+      "href": "/wiki/Royal_Costume_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Royal Costume Outfits Quest",
+      "href": "/wiki/Royal_Costume_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Royal Pumpkin Outfits",
+    "slug": "Royal_Pumpkin_Outfits",
+    "href": "/wiki/Royal_Pumpkin_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/0/0f/Outfit_Royal_Pumpkin_Male.gif/revision/latest?cb=20151031004004&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0e/Outfit_Royal_Pumpkin_Female.gif/revision/latest?cb=20151031004017&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 840,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Rune Master Outfits",
+    "slug": "Rune_Master_Outfits",
+    "href": "/wiki/Rune_Master_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d8/Outfit_Rune_Master_Male.gif/revision/latest?cb=20230730035306&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/98/Outfit_Rune_Master_Female.gif/revision/latest?cb=20230730035256&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Sea Dog Outfits",
+    "slug": "Sea_Dog_Outfits",
+    "href": "/wiki/Sea_Dog_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/7/75/Outfit_Sea_Dog_Male.gif/revision/latest?cb=20150919114242&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/6/60/Outfit_Sea_Dog_Female.gif/revision/latest?cb=20150919114258&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Seaweaver Outfits",
+    "slug": "Seaweaver_Outfits",
+    "href": "/wiki/Seaweaver_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Seaweaver_Male.gif/revision/latest?cb=20150512133852&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/e7/Outfit_Seaweaver_Female.gif/revision/latest?cb=20150512133826&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 570,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Shadowlotus Disciple Outfits",
+    "slug": "Shadowlotus_Disciple_Outfits",
+    "href": "/wiki/Shadowlotus_Disciple_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Shadowlotus_Disciple_Male.gif/revision/latest?cb=20221018225030&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/aa/Outfit_Shadowlotus_Disciple_Female.gif/revision/latest?cb=20221018225033&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Shaman Outfits",
+    "slug": "Shaman_Outfits",
+    "href": "/wiki/Shaman_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/2/2b/Outfit_Shaman_Male.gif/revision/latest?cb=20060830042828&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/9/98/Outfit_Shaman_Female.gif/revision/latest?cb=20060830042718&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Shaman Outfits Quest",
+      "href": "/wiki/Shaman_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Shaman Outfits Quest",
+      "href": "/wiki/Shaman_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Siege Master Outfits",
+    "slug": "Siege_Master_Outfits",
+    "href": "/wiki/Siege_Master_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/eb/Outfit_Siege_Master_Male.gif/revision/latest?cb=20180216133811&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/ff/Outfit_Siege_Master_Female.gif/revision/latest?cb=20180216133856&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Sinister Archer Outfits",
+    "slug": "Sinister_Archer_Outfits",
+    "href": "/wiki/Sinister_Archer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/9a/Outfit_Sinister_Archer_Male.gif/revision/latest?cb=20180713172225&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/83/Outfit_Sinister_Archer_Female.gif/revision/latest?cb=20180717211601&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Soil Guardian Outfits",
+    "slug": "Soil_Guardian_Outfits",
+    "href": "/wiki/Soil_Guardian_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/b0/Outfit_Soil_Guardian_Male.gif/revision/latest?cb=20120627190958&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/1/17/Outfit_Soil_Guardian_Female.gif/revision/latest?cb=20120627192730&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Soil Guardian Outfits Quest",
+      "href": "/wiki/Soil_Guardian_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Soil Guardian Outfits Quest",
+      "href": "/wiki/Soil_Guardian_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Spirit Caller Outfits",
+    "slug": "Spirit_Caller_Outfits",
+    "href": "/wiki/Spirit_Caller_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/13/Outfit_Spirit_Caller_Male.gif/revision/latest?cb=20150507232416&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0c/Outfit_Spirit_Caller_Female.gif/revision/latest?cb=20150507232435&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Summoner Outfits",
+    "slug": "Summoner_Outfits",
+    "href": "/wiki/Summoner_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/5/5e/Outfit_Summoner_Male.gif/revision/latest?cb=20061009164755&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/d/db/Outfit_Summoner_Female.gif/revision/latest?cb=20070223165807&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Summoner Outfits Quest",
+      "href": "/wiki/Summoner_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Sun Priest Outfits",
+    "slug": "Sun_Priest_Outfits",
+    "href": "/wiki/Sun_Priest_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/8/89/Outfit_Sun_Priest_Male.gif/revision/latest?cb=20171223113014&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/f9/Outfit_Sun_Priest_Female.gif/revision/latest?cb=20171223113017&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Trailblazer Outfits",
+    "slug": "Trailblazer_Outfits",
+    "href": "/wiki/Trailblazer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/8/87/Outfit_Trailblazer_Male.gif/revision/latest?cb=20230730035548&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/5/58/Outfit_Trailblazer_Female.gif/revision/latest?cb=20230730035536&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 600,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Trophy Hunter Outfits",
+    "slug": "Trophy_Hunter_Outfits",
+    "href": "/wiki/Trophy_Hunter_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/f/ff/Outfit_Trophy_Hunter_Male.gif/revision/latest?cb=20170610084346&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/f8/Outfit_Trophy_Hunter_Female.gif/revision/latest?cb=20170610084425&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Vampire Noble Outfits",
+    "slug": "Vampire_Noble_Outfits",
+    "href": "/wiki/Vampire_Noble_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/f/fe/Outfit_Vampire_Noble_Male.gif/revision/latest?cb=20260618195147&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/a2/Outfit_Vampire_Noble_Female.gif/revision/latest?cb=20260618195143&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Veteran Paladin Outfits",
+    "slug": "Veteran_Paladin_Outfits",
+    "href": "/wiki/Veteran_Paladin_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Veteran_Paladin_Male.gif/revision/latest?cb=20230730084857&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/0a/Outfit_Veteran_Paladin_Female.gif/revision/latest?cb=20230730084846&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Void Master Outfits",
+    "slug": "Void_Master_Outfits",
+    "href": "/wiki/Void_Master_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/1/1b/Outfit_Void_Master_Male.gif/revision/latest?cb=20230730035707&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/2/24/Outfit_Void_Master_Female.gif/revision/latest?cb=20230730035655&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 750,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Warmaster Outfits",
+    "slug": "Warmaster_Outfits",
+    "href": "/wiki/Warmaster_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/a/ab/Outfit_Warmaster_Male.gif/revision/latest?cb=20091213152806&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/a/a9/Outfit_Warmaster_Female.gif/revision/latest?cb=20091211111846&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Warmaster Outfits Quest",
+      "href": "/wiki/Warmaster_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Warmaster Outfits Quest",
+      "href": "/wiki/Warmaster_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Warrior Outfits",
+    "slug": "Warrior_Outfits",
+    "href": "/wiki/Warrior_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/6/6b/Outfit_Warrior_Male.gif/revision/latest?cb=20060829022854&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/0/00/Outfit_Warrior_Female.gif/revision/latest?cb=20060829022819&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Warrior Outfits Quest",
+      "href": "/wiki/Warrior_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Wayfarer Outfits",
+    "slug": "Wayfarer_Outfits",
+    "href": "/wiki/Wayfarer_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/e/ee/Outfit_Wayfarer_Male.gif/revision/latest?cb=20100628085204&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/1/1d/Outfit_Wayfarer_Female.gif/revision/latest?cb=20100628085202&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Wayfarer Outfits Quest",
+      "href": "/wiki/Wayfarer_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Wayfarer Outfits Quest",
+      "href": "/wiki/Wayfarer_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Winged Druid Outfits",
+    "slug": "Winged_Druid_Outfits",
+    "href": "/wiki/Winged_Druid_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/d9/Outfit_Winged_Druid_Male.gif/revision/latest?cb=20250305161341&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/c/cf/Outfit_Winged_Druid_Female.gif/revision/latest?cb=20250305161502&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Winter Warden Outfits",
+    "slug": "Winter_Warden_Outfits",
+    "href": "/wiki/Winter_Warden_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/9/98/Outfit_Winter_Warden_Male.gif/revision/latest?cb=20160319170140&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/e/ea/Outfit_Winter_Warden_Female.gif/revision/latest?cb=20160319170220&path-prefix=en",
+    "method": "store",
+    "premium": false,
+    "coinPrice": 870,
+    "outfitQuest": null,
+    "addonsQuest": null
+  },
+  {
+    "name": "Wizard Outfits",
+    "slug": "Wizard_Outfits",
+    "href": "/wiki/Wizard_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/b/bf/Outfit_Wizard_Male.gif/revision/latest?cb=20060830000134&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/8/8d/Outfit_Wizard_Female.gif/revision/latest?cb=20060830000057&path-prefix=en",
+    "method": "premium",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": null,
+    "addonsQuest": {
+      "name": "Wizard Outfits Quest",
+      "href": "/wiki/Wizard_Outfits_Quest"
+    }
+  },
+  {
+    "name": "Yalaharian Outfits",
+    "slug": "Yalaharian_Outfits",
+    "href": "/wiki/Yalaharian_Outfits",
+    "maleGif": "https://static.wikia.nocookie.net/tibia/images/d/df/Outfit_Yalaharian_Male.gif/revision/latest?cb=20140905202033&path-prefix=en",
+    "femaleGif": "https://static.wikia.nocookie.net/tibia/images/f/f7/Outfit_Yalaharian_Female.gif/revision/latest?cb=20140905203953&path-prefix=en",
+    "method": "quest",
+    "premium": true,
+    "coinPrice": null,
+    "outfitQuest": {
+      "name": "Yalaharian Outfits Quest",
+      "href": "/wiki/Yalaharian_Outfits_Quest"
+    },
+    "addonsQuest": {
+      "name": "Yalaharian Outfits Quest",
+      "href": "/wiki/Yalaharian_Outfits_Quest"
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "server_id": 12863,
+  "prototype_dat_server_id": 2165,
+  "prototype_otb_server_id": 2165,
+  "article": "a",
+  "name": "food ring",
+  "attributes": {
+    "description": "Keeps you fed while worn without refilling your food reserve. Its two-hour charge is consumed only while equipped.",
+    "weight": "100",
+    "slotType": "ring",
+    "showduration": "1",
+    "stopduration": "1",
+    "transformEquipTo": "12864"
+  }
+}

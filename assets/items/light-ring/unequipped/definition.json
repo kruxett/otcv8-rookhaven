@@ -1,0 +1,15 @@
+{
+  "server_id": 12861,
+  "prototype_dat_server_id": 2165,
+  "prototype_otb_server_id": 2165,
+  "article": "a",
+  "name": "light ring",
+  "attributes": {
+    "description": "Provides torchlight while worn. Its two-hour charge is consumed only while equipped.",
+    "weight": "100",
+    "slotType": "ring",
+    "showduration": "1",
+    "transformEquipTo": "12862",
+    "stopduration": "1"
+  }
+}

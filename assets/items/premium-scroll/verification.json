@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-25",
+  "status": "implemented-and-tested-locally-not-published",
+  "shop_source_contract_checks": 79,
+  "native_gameplay_checks": 59,
+  "native_fault_runs": 3,
+  "asset_integrity": {
+    "preserved_dat_records": 12280,
+    "preserved_otb_records": 12758,
+    "preserved_sprite_payloads": 36691
+  },
+  "files_sha256": {
+    "otcv8-rookhaven/data/things/860/Tibia.dat": "559d14fa19eda1f4674f2d4a13e865b9b2c4b887a68b1f919ca5024657164ee2",
+    "otcv8-rookhaven/data/things/860/Tibia.spr": "e09c69b4c97a7d5226c389d9555c77f844313a8d9e6f1dd0c9c09183232b9c6e",
+    "Rookhaven/data/items/items.otb": "fdfa5216a3f799d389ffcb02ce3a7623b02197052b4f31070594b2195339345f",
+    "Rookhaven/data/items/items.xml": "e8cfbd30d115ad7f74a12101b1dab4870fc093ef780771fe9bf0c98600ddd335",
+    "Rookhaven/data/lib/game_shop_config.lua": "baebb8022aa7facb71ef0bb7a651354cc21b1e34bbb40b2c8f4a399b41c392b9",
+    "Rookhaven/data/lib/core/game_shop.lua": "1072112bf488cab6c4b7a78154ac77ff52ac9ac324b8f76dae923a1e816030e5",
+    "Rookhaven/data/scripts/actions/others/premium_scroll.lua": "7ed4f15082f47ea58f3aa0f6286b3578a633612987add7e80c448d9edd0a5c2b",
+    "Rookhaven/src/luascript.cpp": "83aad995d8db55468ef17bbd64337350e97364c20dc5b643bde13635a540d914",
+    "Rookhaven/src/luascript.h": "a62dd6596b119212b594b269148ca90dbc925e89ec1e34f1b598049e3a3cc1d5",
+    "Rookhaven/src/player.h": "03853df963ef30200d48d72c12480962e6a3c971a136749a00c3e62d52c73324",
+    "Rookhaven/src/iologindata.cpp": "10736c821bd6266dd9fc1afaba65128ca5c7a5d29b5a0e5688424a26b53bc9d4"
+  },
+  "reports": {
+    "native": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "3d2eaa0a4ae3cee932578e0180db3f27b8de132a4c68bcc3b6f3281649b942c1",
+      "native_checks": [
+        "PREMIUM_SCROLL_WIRE_READY checks=53",
+        "PREMIUM_SCROLL_NATIVE_OK checks=55",
+        "PREMIUM_SCROLL_NATIVE_RELOGIN_OK checks=59"
+      ],
+      "duplicate_use_did_not_grant_time": true,
+      "markers": [
+        "PREMIUM_SCROLL_WIRE_READY checks=53",
+        "PREMIUM_SCROLL_NATIVE_OK checks=55",
+        "PREMIUM_SCROLL_NATIVE_RELOGIN_OK checks=59"
+      ],
+      "evidence_directory": "out/premium-scroll-20261025/native-01"
+    },
+    "commit_unknown_before": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "3d2eaa0a4ae3cee932578e0180db3f27b8de132a4c68bcc3b6f3281649b942c1",
+      "fault_mode": "commit_unknown_before",
+      "atomic_account_and_scroll_after_fault": true,
+      "native_checks": [],
+      "markers": [
+        "PREMIUM_SCROLL_FAULT_PREPARED mode=commit_unknown_before",
+        "PREMIUM_SCROLL_FAULT_RETURN mode=commit_unknown_before",
+        "PREMIUM_SCROLL_FAULT_RELOGIN_OK mode=commit_unknown_before checks=5"
+      ],
+      "evidence_directory": "out/premium-scroll-20261025/fault-before-01"
+    },
+    "commit_unknown_after": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "3d2eaa0a4ae3cee932578e0180db3f27b8de132a4c68bcc3b6f3281649b942c1",
+      "fault_mode": "commit_unknown_after",
+      "atomic_account_and_scroll_after_fault": true,
+      "native_checks": [],
+      "markers": [
+        "PREMIUM_SCROLL_FAULT_PREPARED mode=commit_unknown_after",
+        "PREMIUM_SCROLL_FAULT_RETURN mode=commit_unknown_after",
+        "PREMIUM_SCROLL_FAULT_RELOGIN_OK mode=commit_unknown_after checks=5"
+      ],
+      "evidence_directory": "out/premium-scroll-20261025/fault-after-01"
+    },
+    "crash_after_commit": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "3d2eaa0a4ae3cee932578e0180db3f27b8de132a4c68bcc3b6f3281649b942c1",
+      "fault_mode": "crash_after_commit",
+      "atomic_account_and_scroll_after_fault": true,
+      "native_checks": [],
+      "markers": [
+        "PREMIUM_SCROLL_FAULT_RELOGIN_OK mode=crash_after_commit checks=4"
+      ],
+      "evidence_directory": "out/premium-scroll-20261025/fault-crash-02"
+    },
+    "visual": {
+      "status": "PASS",
+      "scope": "Offline pre-integrity QA renderer; does not certify a distributed client package",
+      "profile_restored": true,
+      "markers": [
+        "PREMIUM_SCROLL_RENDER_OK writeDir=C:\\Users\\marcu\\AppData\\Roaming\\Rookhaven Client\\Rookhaven-LocalPassives-Probe\\"
+      ],
+      "evidence_directory": "out/premium-scroll-20261025/native-visual-03"
+    }
+  },
+  "limitations": [
+    "Protected client pair and RH2 pin have not been rebuilt or released.",
+    "Native offline graphics check uses the existing pre-integrity QA renderer.",
+    "No live installation, updater test, commit or push.",
+    "Concurrent same-account cache sync, trade refusal and maximum SQL timestamp boundary were not separately tested."
+  ]
+}

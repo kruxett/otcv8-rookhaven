@@ -1,0 +1,13 @@
+{
+  "source_image_id": "8962aa01-3330-52a1-b5d5-4f712f56816f",
+  "method": "text",
+  "description": "Edit ONLY the two objects protruding from the top coin slot. They must unmistakably read as MINTED COINS, not gold nuggets, mineral chunks, crystals or bars. Replace the left gold object with a broad ROUND FLAT GOLD COIN, about 9 pixels wide and 9 pixels high, its circular face clearly visible toward the viewer. Replace the right silver object with a similarly broad ROUND FLAT PLATINUM COIN, about 9 by 9 pixels, also showing its circular face. Give each coin a clean smooth pixel-stepped circular perimeter, a dark one-pixel rim, a simple inset circular highlight and a thin one- or two-pixel lower edge indicating a flat metal disc. Coin faces should be large plain round surfaces with a broad light area and one restrained shaded edge; NO irregular faceting, tall lumpy silhouette, pointed top or rock texture. Both coins remain seated in the top slot, touching the apparatus. Preserve the existing brass machine, turquoise front window, view, silhouette below the coins, top-left lighting and retro Tibia 8.60 style. Keep the unchanged native 32x32 canvas and transparent background with opaque painted pixels. No lettering, numbers, tiny engravings, symbols, arrows, extra objects, effects or background.",
+  "seed": 20261102,
+  "no_background": true,
+  "use_color_palette_correction": true,
+  "generator": "PixelLab edit_image_pro_flash",
+  "job_id": "01c081a1-1d4b-4237-bf2a-1bdf71554eb5",
+  "asset_id": "ca60a34b-12ec-5403-b713-1a26d59625e4",
+  "download": "https://api.pixellab.ai/mcp/images/01c081a1-1d4b-4237-bf2a-1bdf71554eb5/download",
+  "revision_request": "Det är coins den convertar så det bör speglas. Alltså inte gold nuggets."
+}

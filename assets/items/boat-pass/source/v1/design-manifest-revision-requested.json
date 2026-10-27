@@ -1,0 +1,39 @@
+{
+  "status": "revision-requested-by-user",
+  "product": "Boat Pass (30 days)",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "158635d3-fa30-43ec-a00b-ffb1cac1c4d6",
+  "asset_id": "571880ca-5299-5a9f-b62a-84e0387f797a",
+  "gallery_asset": "gallery:571880ca-5299-5a9f-b62a-84e0387f797a",
+  "source": "source/v1/pixellab-boat-pass.png",
+  "preview": "approval-preview.png",
+  "prompt": "ONE original Boat Pass inventory item for Rookhaven, a classic Tibia 8.60 medieval pixel-art MMORPG. A small weathered ivory parchment travel pass, a flat rectangular ticket tilted slightly diagonally, with a tiny folded corner. The pass has a LARGE very simple NAVY BLUE SAILBOAT printed across most of its face: a clear tall mast, two solid triangular sails and one broad curved hull, with one short blue wave underneath. The boat is the main readable symbol, about 13 by 13 pixels, not a tiny engraving or detailed illustration. The ticket has a dark-blue edge stripe near the bottom and warm brown shaded parchment edges, with modest upper-left ivory highlights. Strong clean silhouette, simple chunky intentional pixel clusters, dark brown contour, restrained old-school Tibia materials. Entire item footprint about 24x26 pixels centered within native 32x32 canvas, transparent margins. Match the reference's parchment colours, worn medieval feel, pixel density and shading ONLY, while making a distinct flat boat travel ticket silhouette rather than another rolled premium scroll. ONE coherent physical item only. All painted pixels fully opaque, background fully transparent. No writing, letters, digits, prices, labels, text, decorative micro-symbols, extra loose items, floor shadow, frame, background, glow, sparkles, photorealism or antialiasing. This represents a consumable thirty-day boat travel entitlement, but its duration is not written on the artwork.",
+  "seed": 20261031,
+  "art_direction": "One weathered flat parchment pass with a large blue sailboat silhouette; native 32x32 without lettering or duration printed on the item.",
+  "validation": "source/v1/validation.json",
+  "implementation": "Artwork only. No SID/CID, client/server import, timed entitlement, travel changes or shop offer implemented. Await user artwork approval.",
+  "required_behavior": {
+    "duration_days": 30,
+    "activation": "Right-click/use consumes the inventory item and activates free travel.",
+    "duration_begins_on_activation": true,
+    "extend_remaining_time_on_additional_activation": true,
+    "free_travel_with_all_rookhaven_boats": true,
+    "activation_scope": "Resolve against the intended character/account entitlement before implementation."
+  },
+  "implementation_research": {
+    "shared_fares": "Rookhaven/data/lib/boat_fare_registry.lua; routes registered by quest boat actions.",
+    "shared_rides": "Rookhaven/data/lib/boat_travel.lua",
+    "additional_paths_to_audit": [
+      "Rookhaven/data/npc/scripts/Ferryman.lua",
+      "Rookhaven/data/npc/scripts/Captain Voss.lua",
+      "Rookhaven/data/npc/scripts/Boatbuilder Floki.lua",
+      "Rookhaven/data/npc/lib/npcsystem/modules.lua StdModule.travel"
+    ],
+    "note": "All-boat coverage needs an audit of actual route/payment consumers; general transport must not accidentally grant free non-boat travel or bypass existing access restrictions."
+  },
+  "revision_reason": "User could not recognise the boat at actual native 32x32 size and requested a clearer boat symbol."
+}

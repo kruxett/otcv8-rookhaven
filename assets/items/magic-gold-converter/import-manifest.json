@@ -1,0 +1,34 @@
+{
+  "mode": "add",
+  "name": "magic gold converter",
+  "server_id": 12867,
+  "client_id": 11904,
+  "sprite_id": 36701,
+  "definition": {
+    "server_id": 12867,
+    "prototype_dat_server_id": 5943,
+    "prototype_otb_server_id": 5943,
+    "article": "a",
+    "name": "magic gold converter",
+    "attributes": {
+      "description": "Automatically converts carried gold coins to platinum coins and platinum coins to crystal coins at a rate of 100 to 1. Keep it in your inventory. No charges.",
+      "weight": "100"
+    }
+  },
+  "image_sha256": "d6edfd0c623f6c5caf0f1eedcbc0e85bbfd4615f78453e1e3e27fd587fd1883f",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "f62ebd44d7436513e6ed15dc64a0123722def1906d41de02bb25314f646c9073",
+    "client/data/things/860/Tibia.spr": "a7fb27cd5a1e759d51f794fc8bdf303bf86acdc4d3bfdb26d210edaf052105c0",
+    "server/data/items/items.otb": "0a3f30bb53e41df9652073fa904d3f6304f700dc346f98bf75668fffa4056cad",
+    "server/data/items/items.xml": "3611528f231a5693914c854d50e8abc569b7ab309bb694a3d641725c61835447"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+    "client/data/things/860/Tibia.spr": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+    "server/data/items/items.otb": "eb3c0483d3798dba848a4d01fd4340b48793a8a974e78f1fd5e1b89156b7df63",
+    "server/data/items/items.xml": "358b9f332fa674d4b99718197ef6b97350c48843b8a9b1fd522066fd6c72e10b"
+  },
+  "validated_existing_sprites": 36700,
+  "validated_existing_dat_records": 12289,
+  "validated_existing_otb_records": 12767
+}

@@ -1,0 +1,94 @@
+{
+  "source": "job:07a2e1e4-8801-4977-bab6-76ea04502f74",
+  "inspection_image_id": "9b7eebbe-2bec-47e8-b305-0573ecb360ac",
+  "duplicated_animation_id": "0fa04127-0c1b-478b-91db-967a136b6cad",
+  "edited_animation_id": "d175a209-f0ad-47d4-bd1a-f3aa48955840",
+  "changes": [
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        10,
+        11,
+        15,
+        15
+      ],
+      "colors": {
+        "#fefdfa": "#f8dd32",
+        "#fff8d2": "#f1c017",
+        "#fef365": "#cda819",
+        "#f8dd32": "#b68514",
+        "#f1c017": "#966505"
+      },
+      "reason": "Lowest warm gem brightness; metal and silhouette stay fixed."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        2,
+        8
+      ],
+      "region": [
+        10,
+        11,
+        15,
+        15
+      ],
+      "colors": {
+        "#fefdfa": "#fef365",
+        "#fff8d2": "#f8dd32",
+        "#fef365": "#f1c017",
+        "#f8dd32": "#cda819",
+        "#f1c017": "#b68514"
+      },
+      "reason": "Gentle rising and falling amber step."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        3,
+        7
+      ],
+      "region": [
+        10,
+        11,
+        15,
+        15
+      ],
+      "colors": {
+        "#fefdfa": "#fff8d2",
+        "#fff8d2": "#fef365",
+        "#fef365": "#f8dd32",
+        "#f8dd32": "#f1c017",
+        "#f1c017": "#cda819"
+      },
+      "reason": "Near-original warm highlight approaching the peak."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        5
+      ],
+      "region": [
+        10,
+        11,
+        15,
+        15
+      ],
+      "colors": {
+        "#fff8d2": "#fefdfa",
+        "#fef365": "#fff8d2",
+        "#f8dd32": "#fef365",
+        "#f1c017": "#f8dd32",
+        "#d88f08": "#f1c017"
+      },
+      "reason": "Brief pearl-yellow peak inside the existing gem only."
+    }
+  ]
+}

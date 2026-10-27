@@ -1,0 +1,1352 @@
+{
+  "as_of": "2026-10-26",
+  "status": "interim includes Canary +7 confirmed newer; latest three families under verification",
+  "families": [
+    {
+      "key": "aerial-disciple",
+      "name": "Aerial Disciple",
+      "male": 1936,
+      "female": 1937,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "afflicted",
+      "name": "Afflicted",
+      "male": 430,
+      "female": 431,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "ancient-aucar",
+      "name": "Ancient Aucar",
+      "male": 1597,
+      "female": 1598,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "arbalester",
+      "name": "Arbalester",
+      "male": 1449,
+      "female": 1450,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "arena-champion",
+      "name": "Arena Champion",
+      "male": 884,
+      "female": 885,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "armoured-archer",
+      "name": "Armoured Archer",
+      "male": 1618,
+      "female": 1619,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "assassin",
+      "name": "Assassin",
+      "male": 152,
+      "female": 156,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "barbarian",
+      "name": "Barbarian",
+      "male": 143,
+      "female": 147,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "bat-knight",
+      "name": "Bat Knight",
+      "male": 1874,
+      "female": 1875,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "battle-mage",
+      "name": "Battle Mage",
+      "male": 1069,
+      "female": 1070,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "beastmaster",
+      "name": "Beastmaster",
+      "male": 637,
+      "female": 636,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "beekeeper",
+      "name": "Beekeeper",
+      "male": 1776,
+      "female": 1777,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "beggar",
+      "name": "Beggar",
+      "male": 153,
+      "female": 157,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "blade-dancer",
+      "name": "Blade Dancer",
+      "male": 1745,
+      "female": 1746,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "breezy-garb",
+      "name": "Breezy Garb",
+      "male": 1245,
+      "female": 1246,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "brotherhood-of-bones",
+      "name": "Brotherhood of Bones",
+      "male": 278,
+      "female": 279,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "cave-explorer",
+      "name": "Cave Explorer",
+      "male": 574,
+      "female": 575,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "celestial-avenger",
+      "name": "Celestial Avenger",
+      "male": 1725,
+      "female": 1726,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "ceremonial-garb",
+      "name": "Ceremonial Garb",
+      "male": 695,
+      "female": 694,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "champion",
+      "name": "Champion",
+      "male": 633,
+      "female": 632,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "chaos-acolyte",
+      "name": "Chaos Acolyte",
+      "male": 665,
+      "female": 664,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "citizen",
+      "name": "Citizen",
+      "male": 128,
+      "female": 136,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "citizen-of-issavi",
+      "name": "Citizen of Issavi",
+      "male": 1386,
+      "female": 1387,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "conjurer",
+      "name": "Conjurer",
+      "male": 634,
+      "female": 635,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "crystal-warlord",
+      "name": "Crystal Warlord",
+      "male": 512,
+      "female": 513,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "darklight-evoker",
+      "name": "Darklight Evoker",
+      "male": 1675,
+      "female": 1676,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "death-herald",
+      "name": "Death Herald",
+      "male": 667,
+      "female": 666,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "decaying-defender",
+      "name": "Decaying Defender",
+      "male": 1662,
+      "female": 1663,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "deepling",
+      "name": "Deepling",
+      "male": 463,
+      "female": 464,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "demon",
+      "name": "Demon",
+      "male": 541,
+      "female": 542,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "demon-hunter",
+      "name": "Demon Hunter",
+      "male": 289,
+      "female": 288,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "discoverer",
+      "name": "Discoverer",
+      "male": 1094,
+      "female": 1095,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "doom-knight",
+      "name": "Doom Knight",
+      "male": 1713,
+      "female": 1714,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "draccoon-herald",
+      "name": "Draccoon Herald",
+      "male": 1722,
+      "female": 1723,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "dragon-knight",
+      "name": "Dragon Knight",
+      "male": 1444,
+      "female": 1445,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "dragon-slayer",
+      "name": "Dragon Slayer",
+      "male": 1288,
+      "female": 1289,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "dream-warden",
+      "name": "Dream Warden",
+      "male": 577,
+      "female": 578,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "dream-warrior",
+      "name": "Dream Warrior",
+      "male": 1146,
+      "female": 1147,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "druid",
+      "name": "Druid",
+      "male": 144,
+      "female": 148,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "elementalist",
+      "name": "Elementalist",
+      "male": 432,
+      "female": 433,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "entrepreneur",
+      "name": "Entrepreneur",
+      "male": 472,
+      "female": 471,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "evoker",
+      "name": "Evoker",
+      "male": 725,
+      "female": 724,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "falconer",
+      "name": "Falconer",
+      "male": 1282,
+      "female": 1283,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "fencer",
+      "name": "Fencer",
+      "male": 1575,
+      "female": 1576,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "feral-trapper",
+      "name": "Feral Trapper",
+      "male": 1907,
+      "female": 1906,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "festive",
+      "name": "Festive",
+      "male": 931,
+      "female": 929,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "field-surgeon",
+      "name": "Field Surgeon",
+      "male": 1814,
+      "female": 1815,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "fiend-slayer",
+      "name": "Fiend Slayer",
+      "male": 1809,
+      "female": 1808,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "fire-fighter",
+      "name": "Fire-Fighter",
+      "male": 1568,
+      "female": 1569,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "flamefury-mage",
+      "name": "Flamefury Mage",
+      "male": 1680,
+      "female": 1681,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "forest-warden",
+      "name": "Forest Warden",
+      "male": 1415,
+      "female": 1416,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "formal-dress",
+      "name": "Formal Dress",
+      "male": 1460,
+      "female": 1461,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "frost-tracer",
+      "name": "Frost Tracer",
+      "male": 1612,
+      "female": 1613,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "ghost-blade",
+      "name": "Ghost Blade",
+      "male": 1489,
+      "female": 1490,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "glooth-engineer",
+      "name": "Glooth Engineer",
+      "male": 610,
+      "female": 618,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "golden",
+      "name": "Golden",
+      "male": 1210,
+      "female": 1211,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "grove-keeper",
+      "name": "Grove Keeper",
+      "male": 908,
+      "female": 909,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "guidon-bearer",
+      "name": "Guidon Bearer",
+      "male": 1186,
+      "female": 1187,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "hand-of-the-inquisition",
+      "name": "Hand of the Inquisition",
+      "male": 1243,
+      "female": 1244,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "herbalist",
+      "name": "Herbalist",
+      "male": 1021,
+      "female": 1020,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "herder",
+      "name": "Herder",
+      "male": 1279,
+      "female": 1280,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "hunter",
+      "name": "Hunter",
+      "male": 129,
+      "female": 137,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "illuminator",
+      "name": "Illuminator",
+      "male": 1860,
+      "female": 1861,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [
+        "Canary erroneously has type=0 on both rows; male1860/female1861 verified against TibiaWiki Outfit_IDs."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "insectoid",
+      "name": "Insectoid",
+      "male": 465,
+      "female": 466,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "jersey",
+      "name": "Jersey",
+      "male": 619,
+      "female": 620,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "jester",
+      "name": "Jester",
+      "male": 273,
+      "female": 270,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "jouster",
+      "name": "Jouster",
+      "male": 1331,
+      "female": 1332,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "knight",
+      "name": "Knight",
+      "male": 131,
+      "female": 139,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "lion-of-war",
+      "name": "Lion of War",
+      "male": 1206,
+      "female": 1207,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "lupine-warden",
+      "name": "Lupine Warden",
+      "male": 899,
+      "female": 900,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "mage",
+      "name": "Mage",
+      "male": 130,
+      "female": 138,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "makeshift-warrior",
+      "name": "Makeshift Warrior",
+      "male": 1042,
+      "female": 1043,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "martial-artist",
+      "name": "Martial Artist",
+      "male": 1837,
+      "female": 1838,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "mercenary",
+      "name": "Mercenary",
+      "male": 1056,
+      "female": 1057,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "merry-garb",
+      "name": "Merry Garb",
+      "male": 1382,
+      "female": 1383,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "monk",
+      "name": "Monk",
+      "male": 1824,
+      "female": 1825,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "moth-cape",
+      "name": "Moth Cape",
+      "male": 1338,
+      "female": 1339,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "necromancer",
+      "name": "Necromancer",
+      "male": 1845,
+      "female": 1846,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "newly-wed",
+      "name": "Newly Wed",
+      "male": 328,
+      "female": 329,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "nightmare",
+      "name": "Nightmare",
+      "male": 268,
+      "female": 269,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "nobleman",
+      "name": "Nobleman",
+      "male": 132,
+      "female": 140,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "nordic-chieftain",
+      "name": "Nordic Chieftain",
+      "male": 1500,
+      "female": 1501,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "norseman",
+      "name": "Norseman",
+      "male": 251,
+      "female": 252,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "orcsoberfest-garb",
+      "name": "Orcsoberfest Garb",
+      "male": 1251,
+      "female": 1252,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "oriental",
+      "name": "Oriental",
+      "male": 146,
+      "female": 150,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "owl-keeper",
+      "name": "Owl Keeper",
+      "male": 1173,
+      "female": 1174,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "percht-raider",
+      "name": "Percht Raider",
+      "male": 1161,
+      "female": 1162,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "pharaoh",
+      "name": "Pharaoh",
+      "male": 955,
+      "female": 956,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "philosopher",
+      "name": "Philosopher",
+      "male": 873,
+      "female": 874,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "phoenix-evoker",
+      "name": "Phoenix Evoker",
+      "male": 1920,
+      "female": 1921,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "pirate",
+      "name": "Pirate",
+      "male": 151,
+      "female": 155,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "poltergeist",
+      "name": "Poltergeist",
+      "male": 1270,
+      "female": 1271,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "pumpkin-mummy",
+      "name": "Pumpkin Mummy",
+      "male": 1127,
+      "female": 1128,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "puppeteer",
+      "name": "Puppeteer",
+      "male": 697,
+      "female": 696,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "ranger",
+      "name": "Ranger",
+      "male": 684,
+      "female": 683,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "rascoohan",
+      "name": "Rascoohan",
+      "male": 1371,
+      "female": 1372,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "recruiter",
+      "name": "Recruiter",
+      "male": 746,
+      "female": 745,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-citizen",
+      "name": "Retro Citizen",
+      "male": 974,
+      "female": 975,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-hunter",
+      "name": "Retro Hunter",
+      "male": 972,
+      "female": 973,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-knight",
+      "name": "Retro Knight",
+      "male": 970,
+      "female": 971,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-mage",
+      "name": "Retro Mage",
+      "male": 968,
+      "female": 969,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-nobleman",
+      "name": "Retro Nobleman",
+      "male": 966,
+      "female": 967,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-summoner",
+      "name": "Retro Summoner",
+      "male": 964,
+      "female": 965,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "retro-warrior",
+      "name": "Retro Warrior",
+      "male": 962,
+      "female": 963,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "revenant",
+      "name": "Revenant",
+      "male": 1322,
+      "female": 1323,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "rift-warrior",
+      "name": "Rift Warrior",
+      "male": 846,
+      "female": 845,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "rootwalker",
+      "name": "Rootwalker",
+      "male": 1774,
+      "female": 1775,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "royal-bounacean-advisor",
+      "name": "Royal Bounacean Advisor",
+      "male": 1436,
+      "female": 1437,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "royal-costume",
+      "name": "Royal Costume",
+      "male": 1457,
+      "female": 1456,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "royal-pumpkin",
+      "name": "Royal Pumpkin",
+      "male": 760,
+      "female": 759,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "rune-master",
+      "name": "Rune Master",
+      "male": 1384,
+      "female": 1385,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "sea-dog",
+      "name": "Sea Dog",
+      "male": 750,
+      "female": 749,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "seaweaver",
+      "name": "Seaweaver",
+      "male": 733,
+      "female": 732,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "shadowlotus-disciple",
+      "name": "Shadowlotus Disciple",
+      "male": 1581,
+      "female": 1582,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "shaman",
+      "name": "Shaman",
+      "male": 154,
+      "female": 158,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "siege-master",
+      "name": "Siege Master",
+      "male": 1051,
+      "female": 1050,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "sinister-archer",
+      "name": "Sinister Archer",
+      "male": 1102,
+      "female": 1103,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "soil-guardian",
+      "name": "Soil Guardian",
+      "male": 516,
+      "female": 514,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "spirit-caller",
+      "name": "Spirit Caller",
+      "male": 699,
+      "female": 698,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "summoner",
+      "name": "Summoner",
+      "male": 133,
+      "female": 141,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "sun-priest",
+      "name": "Sun Priest",
+      "male": 1023,
+      "female": 1024,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "trailblazer",
+      "name": "Trailblazer",
+      "male": 1292,
+      "female": 1293,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "trophy-hunter",
+      "name": "Trophy Hunter",
+      "male": 957,
+      "female": 958,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "vampire-noble",
+      "name": "Vampire Noble",
+      "male": 1948,
+      "female": 1949,
+      "source": "https://tibia.fandom.com/wiki/Outfit_IDs",
+      "confidence": "wiki_registry",
+      "notes": [
+        "Named player family omitted by current Canary main XML; IDs also have installed addon/color-mask geometry."
+      ],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "veteran-paladin",
+      "name": "Veteran Paladin",
+      "male": 1204,
+      "female": 1205,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "void-master",
+      "name": "Void Master",
+      "male": 1202,
+      "female": 1203,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "warmaster",
+      "name": "Warmaster",
+      "male": 335,
+      "female": 336,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "warrior",
+      "name": "Warrior",
+      "male": 134,
+      "female": 142,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "wayfarer",
+      "name": "Wayfarer",
+      "male": 367,
+      "female": 366,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "winged-druid",
+      "name": "Winged Druid",
+      "male": 1831,
+      "female": 1832,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "winter-warden",
+      "name": "Winter Warden",
+      "male": 853,
+      "female": 852,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": false
+    },
+    {
+      "key": "wizard",
+      "name": "Wizard",
+      "male": 145,
+      "female": 149,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    },
+    {
+      "key": "yalaharian",
+      "name": "Yalaharian",
+      "male": 325,
+      "female": 324,
+      "source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+      "confidence": "server_registry",
+      "notes": [],
+      "already_in_rookhaven": true
+    }
+  ]
+}

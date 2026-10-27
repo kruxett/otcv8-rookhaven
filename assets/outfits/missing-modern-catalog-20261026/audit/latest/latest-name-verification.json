@@ -1,0 +1,129 @@
+{
+  "as_of": "2026-10-26",
+  "scope": "Read-only named-player-family completeness research for installed official Tibia 15.33.c9e45e; no runtime files modified.",
+  "latest_families": [
+    {
+      "key": "captain",
+      "name": "Captain",
+      "male": 1940,
+      "female": 1941,
+      "aliases": [
+        "Captain's",
+        "Captains"
+      ],
+      "existence_sources": [
+        "https://www.tibia.com/news/?id=8889&subtopic=newsarchive",
+        "https://www.tibiawiki.com.br/wiki/Captain%27s_Outfits"
+      ],
+      "id_sources": [
+        "https://exetares.wiki/Outfit_IDs",
+        "https://github.com/ricker72/RME-Alpha-AI/blob/3b3356823f69a46a3aa0d9e54b37c35dc625c378/_internal/resources/npc_maker/ATTRIBUTION.md"
+      ],
+      "confidence": "Corroborated current named registry rows plus independent existence sources; no native sprite-to-external-image pixel match obtained."
+    },
+    {
+      "key": "illuminated-warrior",
+      "name": "Illuminated Warrior",
+      "male": 1973,
+      "female": 1974,
+      "existence_sources": [
+        "https://www.tibiawiki.com.br/wiki/Illuminated_Warrior_Outfits",
+        "https://tibiawiki.com.br/wiki/Illuminated_Warrior_Outfits_Quest"
+      ],
+      "id_sources": [
+        "https://exetares.wiki/Outfit_IDs",
+        "https://github.com/ricker72/RME-Alpha-AI/blob/3b3356823f69a46a3aa0d9e54b37c35dc625c378/_internal/resources/npc_maker/ATTRIBUTION.md"
+      ],
+      "confidence": "Corroborated current named registry rows plus independent existence sources; no native sprite-to-external-image pixel match obtained."
+    },
+    {
+      "key": "moon-guardian",
+      "name": "Moon Guardian",
+      "male": 1976,
+      "female": 1977,
+      "existence_sources": [
+        "https://www.tibia.com/news/?id=8842&subtopic=newsarchive",
+        "https://www.gdr-online.com/news-gioco.asp?idgioco=4874&pag=3",
+        "https://exetares.wiki/Store",
+        "https://www.tibiadepot.com/en/characters/Niemiecki%20Malarz"
+      ],
+      "id_sources": [
+        "https://exetares.wiki/Outfit_IDs",
+        "https://github.com/ricker72/RME-Alpha-AI/blob/3b3356823f69a46a3aa0d9e54b37c35dc625c378/_internal/resources/npc_maker/ATTRIBUTION.md"
+      ],
+      "confidence": "Corroborated current named registry rows plus independent existence sources; no native sprite-to-external-image pixel match obtained."
+    }
+  ],
+  "completeness": {
+    "mirror_named_player_rows": 136,
+    "normalized_registry_families": 136,
+    "unordered_id_pairs_match_exactly": true,
+    "extra_mirror_families": [],
+    "missing_mirror_families": [],
+    "additional_new_named_families_found": [],
+    "table_boundary": "Player rows 0..135; row136 begins Draptor (Mount), followed by other mounts."
+  },
+  "known_sex_column_conflicts": [
+    {
+      "name": "Yalaharian Outfits",
+      "mirror": {
+        "male": 324,
+        "female": 325
+      },
+      "canary_registry": {
+        "male": 325,
+        "female": 324
+      },
+      "resolution": "Retain Canary sex mapping; the mirror has old sex-column reversals and is not a sole authoritative sex source."
+    },
+    {
+      "name": "Wayfarer Outfits",
+      "mirror": {
+        "male": 366,
+        "female": 367
+      },
+      "canary_registry": {
+        "male": 367,
+        "female": 366
+      },
+      "resolution": "Retain Canary sex mapping; the mirror has old sex-column reversals and is not a sole authoritative sex source."
+    },
+    {
+      "name": "Beastmaster Outfits",
+      "mirror": {
+        "male": 636,
+        "female": 637
+      },
+      "canary_registry": {
+        "male": 637,
+        "female": 636
+      },
+      "resolution": "Retain Canary sex mapping; the mirror has old sex-column reversals and is not a sole authoritative sex source."
+    },
+    {
+      "name": "Siege Master Outfits",
+      "mirror": {
+        "male": 1050,
+        "female": 1051
+      },
+      "canary_registry": {
+        "male": 1051,
+        "female": 1050
+      },
+      "resolution": "Retain Canary sex mapping; the mirror has old sex-column reversals and is not a sole authoritative sex source."
+    }
+  ],
+  "limitations": [
+    "Tibia official and wiki CDN direct image downloads returned 403; no visual/pixel verification of named external sprites was possible in this research.",
+    "Exetares is a publicly accessible current mirrored data source, not the official Tibia registry. Its full structured ID table was read directly, independently of the RME attribution note, but both may ultimately derive from TibiaWiki.",
+    "The mirror has four old male/female reversals versus Canary, so use Canary for existing known mappings and treat new sex labels as corroborated table values rather than verified primary asset metadata.",
+    "No public official machine-readable named player outfit ID registry was located; native appearances have empty name strings."
+  ],
+  "files": {
+    "raw_id_page": "exetares-outfit-ids.html",
+    "decoded_table_payload": "exetares-outfit-ids-flight.txt",
+    "player_rows": "mirror-player-outfit-ids.json",
+    "raw_outfit_page": "exetares-outfits.html",
+    "outfit_metadata": "mirror-outfit-metadata.json"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "bbox": [
+    3,
+    1,
+    30,
+    31
+  ],
+  "opaque_colors": 20,
+  "sha256": "d3d4727225b37324bc18a893daeabc9f65559ce31820e5100afd6ad61b44f3fb",
+  "changed_pixels": 40,
+  "changes_only_in_observed_hull_regions": true,
+  "original_silhouette_and_alpha_unchanged": true,
+  "all_other_pixels_identical_to_v1": true,
+  "preview_scale": 6,
+  "preview_filter": "nearest neighbour"
+}

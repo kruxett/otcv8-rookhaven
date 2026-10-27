@@ -1,0 +1,38 @@
+{
+  "status": "graphics-approved-implemented-and-tested-locally",
+  "product": "Premium Scroll",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "reference": "source/reference-7725.png (existing Rookhaven SID 7725)",
+  "variants": [
+    {
+      "days": 30,
+      "seal": "red",
+      "job_id": "8ea03f5e-bb69-42c2-819d-3d4b9e3335d5",
+      "asset_id": "818321ba-7e7b-5d6a-a62d-645000585dc2",
+      "prompt": "One original premium membership scroll inventory item for Rookhaven, a gritty medieval 1990s Tibia 8.60 pixel art MMORPG. A small warm ivory parchment scroll with thick rolled curled top and bottom, tilted diagonally very slightly, tied across its middle with a deep crimson ribbon and a readable round red wax seal bearing a tiny simple gold crown. A short gold ribbon tail hangs below the seal. The parchment has only two or three short dark ink marks. Compact coherent silhouette with 2 pixel transparent margin, fills about 26 by 28 pixels, solid dark brown contour, chunky deliberate pixel clusters, warm top left light, muted antique gold highlights, strong brown shadow on bottom right. Match the native reference's object scale, hand-pixelled material shading and old Tibia item style. Draw a SINGLE scroll only, no written numbers, no letters, no typography, no floor, no drop shadow, no sparkle particles, no aura, no extra objects. This is the 30 day variant with RED seal and ribbon. Fully transparent background.",
+      "source": "source/pixellab-30.png"
+    },
+    {
+      "days": 60,
+      "seal": "blue",
+      "job_id": "587bd6c6-966a-492f-9994-2e084b55a6d3",
+      "asset_id": "0f33800a-bcac-5a75-a955-825efc3a9b92",
+      "prompt": "Create the 60-day version of the supplied Rookhaven premium scroll. Preserve the reference scroll's exact silhouette, parchment folds, diagonal angle, shading, dark outline, tiny gold crown and pixel cluster style. Change ONLY the red wax seal and red ribbon to royal BLUE, using cobalt blue and navy shadows with bright highlights. Keep all parchment and gold parts unchanged. ONE single native 32x32 Tibia 8.60 inventory sprite, gritty retro medieval pixel art, crisp opaque pixels, fully transparent background. No text, no numbers, no extra objects, no aura, no sparkles, no background or drop shadow. The supplied reference is the 30 day red version; make a consistent 60 day royal BLUE companion.",
+      "source": "source/pixellab-60.png"
+    },
+    {
+      "days": 90,
+      "seal": "violet",
+      "job_id": "775a57ba-cc99-43a7-8a07-df4e82325b15",
+      "asset_id": "1e134056-472b-579e-b534-1d53b9f02472",
+      "prompt": "Create the 90-day version of the supplied Rookhaven premium scroll. Preserve the reference scroll's exact silhouette, parchment folds, diagonal angle, shading, dark outline, tiny gold crown and pixel cluster style. Change ONLY the red wax seal and red ribbon to deep VIOLET, using amethyst purple and dark plum shadows with bright highlights. Keep all parchment and gold parts unchanged. ONE single native 32x32 Tibia 8.60 inventory sprite, gritty retro medieval pixel art, crisp opaque pixels, fully transparent background. No text, no numbers, no extra objects, no aura, no sparkles, no background or drop shadow. The supplied reference is the 30 day red version; make a consistent 90 day deep VIOLET companion.",
+      "source": "source/pixellab-90.png"
+    }
+  ],
+  "approval": "User approved the text-free scroll sprites in this chat, 2026-10-25.",
+  "verification": "verification.json"
+}

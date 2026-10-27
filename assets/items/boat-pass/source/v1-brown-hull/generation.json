@@ -1,0 +1,54 @@
+{
+  "generator": "PixelLab pixelart_workbench exact recolour",
+  "original_job_id": "158635d3-fa30-43ec-a00b-ffb1cac1c4d6",
+  "original_asset_id": "571880ca-5299-5a9f-b62a-84e0387f797a",
+  "source": "source/v1/pixellab-boat-pass.png",
+  "imported_image_id": "fe701c84-7ebb-46a0-8a92-ebdb4474f887",
+  "edited_image_id": "d9617bf5-74c7-49c8-af9d-3c052c1214d2",
+  "download": "https://api.pixellab.ai/mcp/pixel-tools/d9617bf5-74c7-49c8-af9d-3c052c1214d2/image.png",
+  "changes": [
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        10,
+        17,
+        22,
+        20
+      ],
+      "colors": {
+        "#0d4476ff": "#91602aff",
+        "#3b5a80ff": "#a7743aff",
+        "#878a8bff": "#be894bff",
+        "#777681ff": "#a7743aff"
+      },
+      "reason": "Observed source grid: boat hull occupies rows17-20; change only its navy and blue-grey pixels to warm brown shades. Keep pale parchment pixels and original sail geometry unchanged."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        18,
+        15,
+        22,
+        16
+      ],
+      "colors": {
+        "#0d4476ff": "#91602aff",
+        "#3b5a80ff": "#a7743aff",
+        "#878a8bff": "#be894bff",
+        "#777681ff": "#a7743aff"
+      },
+      "reason": "Observed bow curls upward at x18-22,y15-16. Recolour those existing hull pixels to the same brown ramp; preserve the blue sails to the left/above and all waves below row20."
+    }
+  ],
+  "changed_pixels": 40,
+  "user_request": "Return to the first variant, recolour the boat hull brown and keep the sail blue; avoid the enlarged redesigned v2 boat.",
+  "gallery_asset": "gallery:c4cd5985-e0e6-496f-8981-e09202bf9899"
+}

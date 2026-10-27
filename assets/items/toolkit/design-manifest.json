@@ -1,0 +1,49 @@
+{
+  "status": "implemented-and-verified-locally-not-published",
+  "product": "Toolkit",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "32c05940-469c-4f3d-b8c9-1953792b117a",
+  "asset_id": "2ca0e78c-6b0f-5858-abad-4c897da13a71",
+  "gallery_asset": "gallery:2ca0e78c-6b0f-5858-abad-4c897da13a71",
+  "source": "source/v1/pixellab-toolkit.png",
+  "preview": "approval-preview.png",
+  "prompt": "ONE original adventurer's TOOLKIT inventory item for Rookhaven, classic Tibia 8.60 medieval pixel art. A compact sturdy brown leather tool satchel seen diagonally from above, with a broad steel pickaxe head and a rounded shovel head visibly protruding from its open top. A short wide silver machete blade is securely strapped along its right side, and a chunky loop of pale tan rope is tied to the left side. All tools are held together as ONE coherent portable kit, no loose or floating objects. Make the main pickaxe and spade shapes simple and clearly different at actual 32x32 scale; the rope reads as two thick curved loops. The lower leather pouch has one broad dark strap and a simple brass buckle. Large readable silhouettes, restrained detail, wood handles and steel highlights against dark leather, top-left lighting, dark brown contour, deliberate old-school pixel clusters. Occupy about 24x25 pixels centered on a native 32x32 canvas, leaving transparent margins. Match the reference's Tibia item perspective, earthy leather colours and retro shading, but design an ORIGINAL open tool satchel, not a copy of the reference pouch. Binary alpha: fully opaque painted pixels and fully transparent background. No text, numbers, symbols, borders, floor shadow, background, glow, sparkles, modern tools or photorealism.",
+  "seed": 20261030,
+  "art_direction": "One compact brown leather tool satchel with visible steel tool heads and a rope loop, readable through silhouette at native inventory size.",
+  "validation": "source/v1/validation.json",
+  "implementation": "Reusable native use-with item dispatching rope/shovel/pick/machete without tool jamming. Existing handlers and silo rope routes retained; native packets, ordinary-tool regressions, shop purchase, reconnect and real-client bag use verified.",
+  "requested_tools": [
+    "rope",
+    "shovel",
+    "pick",
+    "machete"
+  ],
+  "implementation_research": {
+    "existing_multitool": "Rookhaven/data/actions/scripts/tools/tool_gear.lua includes a 5 percent jam and extra tools; not a drop-in implementation of the requested four-tool kit.",
+    "rope_special_cases": "Rookhaven/data/actions/scripts/tools/rope.lua includes non-adjacent silo rope destinations; retain these existing rope behaviors when implementing.",
+    "shared_tool_handlers": "Rookhaven/data/actions/lib/actions.lua onUseRope/onUseShovel/onUsePick/onUseMachete.",
+    "visual_reference_only": "source/reference/rookhaven-bag.png uses existing bag SID1987 as an art-style anchor. Functional prototype not selected yet."
+  },
+  "artwork_approval": {
+    "user_response": "Jag godk\u00e4nner, k\u00f6r.",
+    "date": "2026-10-25"
+  },
+  "gameplay": {
+    "shop_offer_id": 4004,
+    "shop_points": 50,
+    "weight_oz": 10,
+    "reusable": true,
+    "random_tool_jam": false
+  },
+  "server_id": 12865,
+  "client_id": 11902,
+  "sprite_id": 36699,
+  "definition": "definition.json",
+  "sprite": "sprite.png",
+  "verification": "verification.json",
+  "ingame_screenshot": "ingame-inventory.png"
+}

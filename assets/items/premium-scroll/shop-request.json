@@ -1,0 +1,46 @@
+{
+  "workflow": "One product at a time. Present each sprite and wait for user approval before implementation.",
+  "catalog_target": [
+    "Premium Scroll (30, 60, 90 days)",
+    "Light Ring",
+    "Food Ring",
+    "Toolkit (rope, shovel, pick, machete)",
+    "Boat Pass (free travel with every Rookhaven boat)",
+    "Magic Gold Converter (automatic gold conversion)",
+    "Magic Quiver (keep existing)",
+    "Keyring (keep existing)",
+    "Cosmetic Outfit (one male and one female; separate task after other items)"
+  ],
+  "count_interpretation": "Confirmed by user: 10 separate items before outfits, 12 total including one male and one female outfit. Each of the three premium scroll durations counts separately. Keep every named product.",
+  "food_ring_constraint": "Never fill ordinary food reserve on equip. Propose an effective-fed state that exists only while equipped; remove it immediately on unequip/expiry. Verify rapid equip/unequip, reconnect and expiry. Implementation pending.",
+  "implementation_status": "Premium scrolls and Light Ring locally implemented/tested. Legacy offers removed; Quiver/Keyring retained. Not published. Further products await graphics approval.",
+  "confirmed_item_counts": {
+    "premium_scrolls": 3,
+    "light_ring": 1,
+    "food_ring": 1,
+    "toolkit": 1,
+    "boat_pass": 1,
+    "magic_gold_converter": 1,
+    "magic_quiver_existing": 1,
+    "keyring_existing": 1,
+    "male_outfit": 1,
+    "female_outfit": 1,
+    "before_outfits": 10,
+    "total": 12
+  },
+  "premium_scroll_prices": {
+    "30": 250,
+    "60": 450,
+    "90": 600,
+    "status": "provisional-user-authorized"
+  },
+  "light_ring": {
+    "status": "implemented-tested-locally-and-ingame-appearance-approved",
+    "shop_points": 10,
+    "equipped_duration_seconds": 7200,
+    "inactive_sid": 12861,
+    "active_sid": 12862,
+    "sprite_animation": false
+  },
+  "next_product": "Food Ring: artwork before implementation; never fill ordinary food reserve on equip."
+}

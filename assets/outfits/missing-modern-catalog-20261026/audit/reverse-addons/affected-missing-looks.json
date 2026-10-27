@@ -1,0 +1,307 @@
+{
+  "looks": [
+    {
+      "id": 1936,
+      "name": "Aerial Disciple",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1937,
+      "name": "Aerial Disciple",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1874,
+      "name": "Bat Knight",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1875,
+      "name": "Bat Knight",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1940,
+      "name": "Captain's",
+      "sex": "male",
+      "reverse": {
+        "north": false,
+        "east": false,
+        "south": true,
+        "west": false
+      }
+    },
+    {
+      "id": 1941,
+      "name": "Captain's",
+      "sex": "female",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1725,
+      "name": "Celestial Avenger",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1726,
+      "name": "Celestial Avenger",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1713,
+      "name": "Doom Knight",
+      "sex": "male",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1714,
+      "name": "Doom Knight",
+      "sex": "female",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1722,
+      "name": "Draccoon Herald",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1723,
+      "name": "Draccoon Herald",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1680,
+      "name": "Flamefury Mage",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1613,
+      "name": "Frost Tracer",
+      "sex": "female",
+      "reverse": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1860,
+      "name": "Illuminator",
+      "sex": "male",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": true,
+        "west": false
+      }
+    },
+    {
+      "id": 1837,
+      "name": "Martial Artist",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1838,
+      "name": "Martial Artist",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1920,
+      "name": "Phoenix Evoker",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1921,
+      "name": "Phoenix Evoker",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1774,
+      "name": "Rootwalker",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1775,
+      "name": "Rootwalker",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1581,
+      "name": "Shadowlotus Disciple",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1582,
+      "name": "Shadowlotus Disciple",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": true
+      }
+    },
+    {
+      "id": 1948,
+      "name": "Vampire Noble",
+      "sex": "male",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1949,
+      "name": "Vampire Noble",
+      "sex": "female",
+      "reverse": {
+        "north": false,
+        "east": true,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1831,
+      "name": "Winged Druid",
+      "sex": "male",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": false
+      }
+    },
+    {
+      "id": 1832,
+      "name": "Winged Druid",
+      "sex": "female",
+      "reverse": {
+        "north": true,
+        "east": false,
+        "south": false,
+        "west": false
+      }
+    }
+  ],
+  "direction_counts": {
+    "north": 19,
+    "west": 18,
+    "south": 2,
+    "east": 6
+  }
+}

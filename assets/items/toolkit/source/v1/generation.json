@@ -1,0 +1,19 @@
+{
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "32c05940-469c-4f3d-b8c9-1953792b117a",
+  "asset_id": "2ca0e78c-6b0f-5858-abad-4c897da13a71",
+  "prompt": "ONE original adventurer's TOOLKIT inventory item for Rookhaven, classic Tibia 8.60 medieval pixel art. A compact sturdy brown leather tool satchel seen diagonally from above, with a broad steel pickaxe head and a rounded shovel head visibly protruding from its open top. A short wide silver machete blade is securely strapped along its right side, and a chunky loop of pale tan rope is tied to the left side. All tools are held together as ONE coherent portable kit, no loose or floating objects. Make the main pickaxe and spade shapes simple and clearly different at actual 32x32 scale; the rope reads as two thick curved loops. The lower leather pouch has one broad dark strap and a simple brass buckle. Large readable silhouettes, restrained detail, wood handles and steel highlights against dark leather, top-left lighting, dark brown contour, deliberate old-school pixel clusters. Occupy about 24x25 pixels centered on a native 32x32 canvas, leaving transparent margins. Match the reference's Tibia item perspective, earthy leather colours and retro shading, but design an ORIGINAL open tool satchel, not a copy of the reference pouch. Binary alpha: fully opaque painted pixels and fully transparent background. No text, numbers, symbols, borders, floor shadow, background, glow, sparkles, modern tools or photorealism.",
+  "seed": 20261030,
+  "width": 32,
+  "height": 32,
+  "max_colors": 20,
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/32c05940-469c-4f3d-b8c9-1953792b117a/download",
+  "style_reference": "source/reference/rookhaven-bag.png",
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": false,
+    "shading": true
+  }
+}

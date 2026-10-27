@@ -1,0 +1,959 @@
+{
+  "status": "Applied locally; native rendering, gameplay and package checks pending",
+  "outfits": [
+    {
+      "name": "Afflicted",
+      "source_id": 431,
+      "looktype": 377,
+      "sex": 0,
+      "offer_id": 6005,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 37,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "f4f2c65b2c918eba4b9d59031b651b1caf4baf82c313f060dc376c528ffcdf28"
+    },
+    {
+      "name": "Afflicted",
+      "source_id": 430,
+      "looktype": 378,
+      "sex": 1,
+      "offer_id": 6006,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 37,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "aec5684187998b9099c31c0d059b5fd5ef710c6877302628caecc95c9f3485da"
+    },
+    {
+      "name": "Arbalester",
+      "source_id": 1450,
+      "looktype": 379,
+      "sex": 0,
+      "offer_id": 6007,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 42,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "91dcb2df47fb020f555bd67c8478e7010956f3169ec344eb354236065e3dbf3d"
+    },
+    {
+      "name": "Arbalester",
+      "source_id": 1449,
+      "looktype": 380,
+      "sex": 1,
+      "offer_id": 6008,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 42,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "60fc970eb0fffdaa601231e678b72d5c420819fde847cf7f396fcaf8c0e2e8c7"
+    },
+    {
+      "name": "Arena Champion",
+      "source_id": 885,
+      "looktype": 381,
+      "sex": 0,
+      "offer_id": 6009,
+      "addons": 3,
+      "shift": [
+        0,
+        0
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 42,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "09a0ec80389ac70381333b70c62691d4871ed2e0f3742aae027c945bf651f7be"
+    },
+    {
+      "name": "Arena Champion",
+      "source_id": 884,
+      "looktype": 382,
+      "sex": 1,
+      "offer_id": 6010,
+      "addons": 3,
+      "shift": [
+        0,
+        0
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 43,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "39e1827913009a502bd4d0927e4e12848c04dcee27142e602b366ca60c8b4d6c"
+    },
+    {
+      "name": "Armoured Archer",
+      "source_id": 1619,
+      "looktype": 383,
+      "sex": 0,
+      "offer_id": 6011,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 43,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "1697d250e3ad2bad12a165f4dd956772f5bd54435db4ceb3c5364e633abd9852"
+    },
+    {
+      "name": "Armoured Archer",
+      "source_id": 1618,
+      "looktype": 384,
+      "sex": 1,
+      "offer_id": 6012,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 46,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "905b234ce7fa3780f16796dcf8297f27b3a80f08696c54f64f279398c4bac8e6"
+    },
+    {
+      "name": "Discoverer",
+      "source_id": 1095,
+      "looktype": 385,
+      "sex": 0,
+      "offer_id": 6013,
+      "addons": 3,
+      "shift": [
+        6,
+        7
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 57,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "d49852b2e8c00b988d9f3c2321ff60f379eed056507d761746482ef072082ed5"
+    },
+    {
+      "name": "Discoverer",
+      "source_id": 1094,
+      "looktype": 386,
+      "sex": 1,
+      "offer_id": 6014,
+      "addons": 3,
+      "shift": [
+        5,
+        6
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 57,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "f7091a48b53a257d442d4c61cb07cb56580d39ff1b3bb989d011e05b99194196"
+    },
+    {
+      "name": "Entrepreneur",
+      "source_id": 471,
+      "looktype": 387,
+      "sex": 0,
+      "offer_id": 6015,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 41,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "5efc43cde911d1ffaf51cd9080d3a2a3b1d060759e3dbe1701ef6990cf034b0b"
+    },
+    {
+      "name": "Entrepreneur",
+      "source_id": 472,
+      "looktype": 388,
+      "sex": 1,
+      "offer_id": 6016,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 41,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "193c9792ccc9cb0d73d13cc87cf19a08572f1b460c93adfd161d8e9a3c99d059"
+    },
+    {
+      "name": "Formal Dress",
+      "source_id": 1461,
+      "looktype": 389,
+      "sex": 0,
+      "offer_id": 6017,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 43,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "00a202670daa1c8f914e9814ae9c6cb304d0aecbe822e427b03ffc5bdf4962cb"
+    },
+    {
+      "name": "Formal Dress",
+      "source_id": 1460,
+      "looktype": 390,
+      "sex": 1,
+      "offer_id": 6018,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 35,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "625c4e9912bd20f05e51a5008511015f272759fbb3d52279faa58f3e337a648c"
+    },
+    {
+      "name": "Golden",
+      "source_id": 1211,
+      "looktype": 391,
+      "sex": 0,
+      "offer_id": 6019,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": [
+        7,
+        206
+      ],
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 34,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "a68560578b37a713daa30e0088222ef6d776467360fa45809d8f9c4f160419ef"
+    },
+    {
+      "name": "Golden",
+      "source_id": 1210,
+      "looktype": 392,
+      "sex": 1,
+      "offer_id": 6020,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": [
+        7,
+        206
+      ],
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 34,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "d3b50179d34ac5ffc595b8e07deec21e8b743706f9a7a8f80bd9619ae1d7d641"
+    },
+    {
+      "name": "Nordic Chieftain",
+      "source_id": 1501,
+      "looktype": 393,
+      "sex": 0,
+      "offer_id": 6021,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 50,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "ddde6d4a9594d8099174618b72723638245fa74d84f64fd85376dc35044173d1"
+    },
+    {
+      "name": "Nordic Chieftain",
+      "source_id": 1500,
+      "looktype": 394,
+      "sex": 1,
+      "offer_id": 6022,
+      "addons": 3,
+      "shift": [
+        8,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 51,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "28977b28f93545cfe07b12158b68548b55bb6d0762a3f7c1764b938b52b40cdc"
+    },
+    {
+      "name": "Poltergeist",
+      "source_id": 1271,
+      "looktype": 395,
+      "sex": 0,
+      "offer_id": 6023,
+      "addons": 3,
+      "shift": [
+        9,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 39,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "42aab58b0c80e5142a2023fa97be3d5816f56c274d1777b12d6e2c270bf3d71c"
+    },
+    {
+      "name": "Poltergeist",
+      "source_id": 1270,
+      "looktype": 396,
+      "sex": 1,
+      "offer_id": 6024,
+      "addons": 3,
+      "shift": [
+        9,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 40,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 1,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "d800212426caa23e50f44a4e32da14832cfa54ff1b651ef0bcacbc1e266c46c0"
+    },
+    {
+      "name": "Veteran Paladin",
+      "source_id": 1205,
+      "looktype": 397,
+      "sex": 0,
+      "offer_id": 6025,
+      "addons": 3,
+      "shift": [
+        6,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 45,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "13f3881abe123be2a0e4e612df0294f987970cf55890f64119bedd7ecea309c3"
+    },
+    {
+      "name": "Veteran Paladin",
+      "source_id": 1204,
+      "looktype": 398,
+      "sex": 1,
+      "offer_id": 6026,
+      "addons": 3,
+      "shift": [
+        6,
+        8
+      ],
+      "light": null,
+      "reverse_addons": {
+        "north": false,
+        "east": false,
+        "south": false,
+        "west": false
+      },
+      "exact_size": 48,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864,
+      "source_idle_frames": 8,
+      "source_walk_frames": 8,
+      "source_appearance_sha256": "fe05c7456048a41d988959d731d6c2a97a62abee77b9c433fcdc095d90d725d1"
+    }
+  ],
+  "source_version": "15.33.c9e45e",
+  "original_sprites": 38964,
+  "added_sprites": 7298,
+  "source_tile_slots_compared": 19008,
+  "source_layers_exported": 5760,
+  "unrelated_DAT_records_byte_exact": 12294,
+  "all_original_SPR_payload_bytes_preserved": true,
+  "all_original_SPR_sprite_pointer_targets_preserved": true,
+  "source_catalog_sha256": "97d0963444e147f5eebb02ed8024abc7e2e80707ef03b08dce226117bebdcb4d",
+  "source_appearance_sha256": "501594e860be8a531ca465ae6e7638da05e3a4d5cef2d038d4f2321ae6729f5f",
+  "source_sheet_sha256": {
+    "sprites-3e1543377b3def5657383f9cb8ea78ba615da9dec3216de529b0c1739ac898a3.bmp.lzma": "41c24807ac0530c72789bff96a78021a090cd64cc57c3165d828c764e7c3e12e",
+    "sprites-a1ee311874692fd991ad807c657b3f8902349a059e3be60ef70f77d6e5d08a60.bmp.lzma": "6e4766223c4e4b1bfea644fb8acdbb672c93c9e9e20f131cd7601c35aaf56dae",
+    "sprites-f1bf3eb3578a4456a3527021459a3b958f3670cf369a55f88d6a3dc7714ede88.bmp.lzma": "7ee65841c8ecf448068a35a1074348ff934789297dfa440406ed02f670df65e9",
+    "sprites-881905f8fa9a7105ba18cec1457fa22ba7687dd2e53276e0013e014d5553e11a.bmp.lzma": "43508918a70a2231d33951c6b37a2ebe8c9b9ff5a5a38751b2ca6cdcc2d056c1",
+    "sprites-e59b7577f272b58cb3f8f2331e6cba2c7be7e6160303077381b3bfdcab90dab1.bmp.lzma": "8e33688f3e70b8cab200a9e1abfa3f0ef9e8b557a762f19f809dd9e88eb6f775",
+    "sprites-a063f3679746e25aed56ac4af443be33eb372aa63aa8e80e86adbd88bdd91fa7.bmp.lzma": "f36c0aefef3effb32b1c20d85434be0e8b14dc5cda0ea670f7e482ba537d4b82",
+    "sprites-971dbe04de8e15acf387ed146f3c815355783627b250de8b742efb7d2e646b89.bmp.lzma": "4f9f2419909f42c262658221f9cb70b73ab9402820d6f89800205725ae8c9f2c",
+    "sprites-6e0c4613cc1ec634a696477c06f30a62664aacf65332ba3c763d65c33e6714ad.bmp.lzma": "da6dd2a3f454a687822580ae46dedf7384997f8a3f09ed048d21066ab446d923",
+    "sprites-056237298a320b9241803efa4ab3979550d33cb473d9bf3e6f043c7580bf139b.bmp.lzma": "6d79244abac176b2e307ef026c74e2b255105ca170042dfda314dd12137e98ac",
+    "sprites-86a5fd047b19849069a8d5dfb76b01e2617ad0c6e1a0f23d6f473a8ae7f9b0b8.bmp.lzma": "2f3f9f6f0ba1d1f00487878c6ce112d876508e7c2ff039f9802b1e0c47cbe4d1",
+    "sprites-afd78b05f5eeb9e27a9836783b8cffec1621477ab1be15b22e73bf6f91e0ae41.bmp.lzma": "140de81cf1fb58d02e76857492667a693fb756b5570ea331bfa00bf51597f4fb",
+    "sprites-665b129e644fd710ec4d662cf573fb3acff9548f8dc5e18a590a53e3f3986e9b.bmp.lzma": "75abe787437777af960725581d345fc0926d6a18e7cda8da2d279906bf00301c",
+    "sprites-c8575ae4923d8915c5a5036985900d0d93bc442e6110eae4fd1b5887ddf071c9.bmp.lzma": "8ecfe38b55cbe11daa214e8673e208d0137aaaeb2b1e2350db4452283403383f",
+    "sprites-1238c14318cab79bcef1f3da741a2116c9b6328968be037ae5729fe37cf6d610.bmp.lzma": "5961dfffe1e00edfd112c4778b70681ba42a41047cf96c988360fae41077a175",
+    "sprites-727d2960b70897924ab3cfb836ac3a81c860ae453fb8f4b23d636749d173c4e3.bmp.lzma": "8cf165600fc0efc726b00e3bf4fdf999d8538efdc7e88a5869995453eb57d2ab",
+    "sprites-2f756933264f5b156103590bd36067051953bf1c7a8ed9332d9851e5a1215f30.bmp.lzma": "c3e9adbd352e7b6a59ced5b7f7f087c659d26ee73c4c0b004fbf3e24107fa16c",
+    "sprites-72ad998fdbfeaabc2d3554cb120dde7f42e227daf8c76171c72d13ebd1eda187.bmp.lzma": "0b8118b061d166335017d83957424b4911a564635666218114b3d2af9e22e866",
+    "sprites-a4109f66d605b32917920f3ab728375099977a6c81d92efea17859e5f425c5d9.bmp.lzma": "e2d7d361f58e5031f0247fc5cc5c33604b3d6a8e6f11e166accb6c1f980a54e3",
+    "sprites-28c69b2dc552ef8277a545c47ee4c3dbb327cbde36fe58458a86180cdeb2a892.bmp.lzma": "9ce3f91deb97c0ba621c4d4a69b50a6a45957b8fee0f22d695ce7b6a93a5e9d5",
+    "sprites-2f89ddae8822261fcaecb4292230df12aab9d5270a6601180077a3668168a1ea.bmp.lzma": "05550ec1f60fbe484698c2180b67b91da44704839ce46620ea9cd8f17a05e41f",
+    "sprites-c3c486157853132705cb0fd126889048204db2d400fe31bfdb0c8b9661421057.bmp.lzma": "107ace49e68c25f2ebe6911b881c1a4a75ffc02835b995a6d8f840730d97080f",
+    "sprites-1f9c79935653610403c34e78970086cdf4dc6010fc832c4a7e281f7e1996e2f1.bmp.lzma": "ba65ca3d9c0dc2b6c12ba3f3e43cfe9c3d79e542f3c73b5bb776319c54123289",
+    "sprites-bd2c61f2d0ff1d6e02033bd1465c993d221f627142fe0477be8dc9acd43f6c20.bmp.lzma": "5444cb5239f3121527fa73dc7b0929565a8dcd618359d37aad165e352d53279b",
+    "sprites-b10846c37a6291fc02d506648847a3276c924c4ac82cf3d839cea7fe337739d8.bmp.lzma": "523b77f696f5728d1afa93a29b0089b1ac4bef9c67d2281fc2fd322136b203c0",
+    "sprites-345f3c1965bf716404705a7c8837af0f4067953b67eddb5401e1865ed2409ea8.bmp.lzma": "39cb617b590bbb44594721acecd951834e159dd32f3f2f72d0a183713d6bfa18",
+    "sprites-183e40a89ce727ab382c7101d717926bb0f88976b2d0d174793dc747f49e502c.bmp.lzma": "23e36f704e7d05955f458bfd33be2ada668d5173be78b02aadf0013e1a7ea04f",
+    "sprites-5a9ff5a4ba73eeb097b68a5a37bbc3615bfe187f2ea51416d56c0299b467b9f3.bmp.lzma": "fd6be3c0333b73ec177ad19ae45203c2f625af7fb59e52fc86d8eef9e226f046",
+    "sprites-77eca61927f96bd1948f54ccc7bcb6e0442e13a1a17496ef660d1d1015e12e01.bmp.lzma": "6e7b3f000d563634b9832eda823591bf41ab6260eccec2608dedb6671eb37de3",
+    "sprites-6c032b6e2c5bc1a4b9a3a39c036591ccf7361bf9c518bf61d0a32d29661e092d.bmp.lzma": "426f9a83b8e7bf764e30a97bb3fd73f4a496a82bcdd0366dadaa3bed37c57733",
+    "sprites-e5b0d3556e8983afa6f45628898e582f82828f35f560cdf370e00dd942be333f.bmp.lzma": "c7c5fee982100aeb9c9d550ad4a997cdcd3de55855c0b21d6afb8754a2caba05",
+    "sprites-582b533642dc6d02ad4582ee0db217d630353e318c0a2760386ed07ff9e6131e.bmp.lzma": "b7c9d825c56ab0fae37f361b9e36840519961cc5dcf3faede25e208a772ad08e",
+    "sprites-e06532977a813a196d6fb9b075fb51eb862218301997dce6af04a32a89b7690c.bmp.lzma": "a1c358431a60a7fa2062b6896afa80365962c5ad0e724a80e2f45fe81a0234e8",
+    "sprites-a0b9df45a70ac6b9b9ff515c80e814d14fb3862ef8fcf45bb02c8bb0c99e0799.bmp.lzma": "2b8b8c90e907f575b170064f20802eddfee0291aa1249b7e8fa8172de4ebb98e",
+    "sprites-31a127cfb4f70e1a7397de21c365f7db485621f0b946de4e0b1af122cade02c9.bmp.lzma": "bfe386c0075377c6918c724080170be2ec2de95c928820d3db714841f56008c8",
+    "sprites-eb14c48910f6d98fdb41bff2a56c1b50b5ccd4b2397a40c2bc58261326a5dac1.bmp.lzma": "77003506f28b81ee626a99bf27070d4a64fd1fab329479449038424d498c7330",
+    "sprites-cb22a70e41b1eb655d5ee07c98c69fa69983e2fe76b86256a9dd334e24393201.bmp.lzma": "a20a0448df176c19d9e5bdae615263d91553b9c2f0a768048fb547a923404e1b",
+    "sprites-ceac4432b96d1fd5360592f27010298812682046b78fdd6c1ac10625ca1c351f.bmp.lzma": "f117e2e68564aea26d139a52831671f2479663ce757887c52bb9b6e9d6b218f9",
+    "sprites-595fac661f70c80bdda0e13c90e50baea9bffcf952007c326e25c55da3a8edb1.bmp.lzma": "f9610ceba687c214205f543645b2206c71e88b911ca4c06a43fae9bb1e1c132e",
+    "sprites-c975ae920b5afad3650bbd402ef7dcfd43773c25eac11339d058e522eeb39b52.bmp.lzma": "b0650c31cc19aa0093c1c049298806700217da16de941380313d89abdb1ce68d",
+    "sprites-ddf292a3474c653bbc2bad70a996546a13076cae19cdd0a2ac4cb7112745c2b0.bmp.lzma": "1439a8e4647edd47b0f7550bf85b2bec83081a59898a9a5498d12f91ae212cab",
+    "sprites-ac4aeeaf35568245883d5d8ffeab3e43b6c48f27316e711602c1c788fdf8b4fa.bmp.lzma": "66eae79df26ae3d5e014ebcf9b65f797ff209a13c06dbfb2c61ebec3a3f480a0",
+    "sprites-7dd0ab9324e7340cbf660b388288483a7089fccbb4039cdb648ed63712b2ebee.bmp.lzma": "14e25a3937005a36f6cb664d9637dcc621316d057c109c88691a75fbea4ed34b",
+    "sprites-a709f359a49cd193293cd0c4c8b4213f75e62b8b34056e063468c297b550b534.bmp.lzma": "5c667c5f4e56f55d44e89707a2a21cb059f92a7b1009ead83fad0ab9f527baa9",
+    "sprites-c33c1ee18475af3357e4303051031774754afcbdec3372ac7c6c077016ed2956.bmp.lzma": "f1fca92da6048f565ec9f9efad8e7df0831a091c9f246e57a8a8bc1dddb54087",
+    "sprites-bab52170b1ff575ea6333ae3a29fb177219d22dc1060adc3187a3747d1366f15.bmp.lzma": "d80ab0c8c96d59e8ad869fd64139742c6f832851f5a10c3d64ae0d8aa290953e",
+    "sprites-617497555ad60924b209527a9c4fa8290091a8f33da34569f94c96eb2d69c921.bmp.lzma": "9f9174b530c31342ca7a0d36a2c29f54f8841c271f67a055de6965c746921d8b",
+    "sprites-70a7b06cff660f4d62bf5ad62b60b8cebf29c5786c7d8f5093e11b6a030f944d.bmp.lzma": "193dbab2d34688772b324fa97fecef1b54562796b34c5853c39623a2918e6c0f",
+    "sprites-da5849d0fcddf54649b9f97899e5879276b3a327cdd38ebaba43fed765fb9924.bmp.lzma": "cc3ddd23dcfbea37bede807cf486cdc5c892a9934e497cfc942a057593c61cb3",
+    "sprites-1cc0debb9e3a022b954646b1643b635d7a4f5187780653c15447263b0963ea60.bmp.lzma": "ca9b3970b633a9b939a86a4b58537adf870005b1623bfb67a891a4ed6fb2fd2d",
+    "sprites-86e912a2cbbfb13baa3bca7089c73f3bfdcbe63baee3d1d1a995e3c369f782a1.bmp.lzma": "0c1b6b4dee33da2fe89c20112cc66bb1dd3b1f0667a62777c642d5e25e0a041b",
+    "sprites-748f64052aca96022315ddc6230d823bdf661acbe96329c48852bca7435d8827.bmp.lzma": "80ae943cc5ebfae4f276a06930117679d8c91984ecd604232c33cfc9165fbeb8",
+    "sprites-2d642ea67300db261eca6e58242939721a69ef43542d1df84aeb57e7cd87ccae.bmp.lzma": "fede82d3cd937ed51dbf5284aa8d2212d94493b37c3742e1842b2aa798f7ad27",
+    "sprites-fae461f8bd1042da96f64b979283ef74157a3b377d1b788be63c80bd28fd70fc.bmp.lzma": "8064c26b21ac92e164b6bafb6eaaca05bc29181d2a736e6a5b49d93402e2d1a5",
+    "sprites-fd189fa36f90dcee8f9f6723bb86e8b4aefc66fc6b4a3df6e8a3b0ccc966a6d7.bmp.lzma": "f1fc1195aef7034c53f989fbb3f0115f9b191321a4027e1d07118bab8be2ebd3",
+    "sprites-163bb6c21850638ca1fcd31966fd2ceeef43a36bc5bf956b9230dba799358346.bmp.lzma": "aa4cbb5809befdb1378b716e65912a7904ab4ac9058a77ab4fb76532771a5b0b",
+    "sprites-e3061f42e967c2d651c6596e9993872b46ae5d76bf2d92cc1bbc605e5a8d2d5a.bmp.lzma": "f8e57fb7b9cbd08dfe56f926563ef0e673fb3989edfb4f348ecbdd41e1ac8394",
+    "sprites-8a18e7670d553a5d9f98329fe5a6f0ab18905816a17cfbefcad4324ed5c169cf.bmp.lzma": "5d4927f97b8b9c52a5bcefc7486fcea7bb50b4e1fd46b87026da8b075d9ecd06",
+    "sprites-3f4cf422f1076410bcf5b793889871ecdb422e72fbcd7e6adda021a82a862ed2.bmp.lzma": "46c801b564f1cae110ddf005403401c4f7510d7aba214bce650d18b314e28d89",
+    "sprites-fde5f0b533cea48015acd47b30caad68d098d723978613310ab0b3f41ed997b9.bmp.lzma": "03bd82917a5cc2655604c685d9be70d8d8a197b787b419df6f18a139def7c94e",
+    "sprites-2a81ffb3aa77a0ab9c6ee08a52c5efd10bc139566dccf2769a3b2cfe1666766f.bmp.lzma": "0fd371ddda8d0d4c90c47fb1c21fec804f62b0ed6349d9606919133e0cb3cac4",
+    "sprites-17dfb9a1f94e772e26c503b09f390811e159ef58a8eef6f1c38263b751c01d47.bmp.lzma": "d3f1b3952f0280e00b0774cb9045a3a74edc1905d335e07d4586188ba8ffc1e0",
+    "sprites-cef49afb7aa7366443c9170756e3958d71b102b470ba896184a5dc217b850a03.bmp.lzma": "14a72343e6e5ed7a2b72c630be1854a91169ee5e396edcf1f71974e5763696b6",
+    "sprites-3f07feb22c5f67131edee8f2d4b974f75285d9e6ebdc683e43fb5538b52a1c2f.bmp.lzma": "3bfe1eab549cee54d815656fbf4b119cb0504de32bde01e9cb553377d4e00d5e",
+    "sprites-fe036d154254d9ddf53c58973728c247132668b0863783abfd84ba7bca059fe5.bmp.lzma": "8574851e3bfe04373bae52dcec629d4e8c4793c8f1ecbfb1bccd82740d29f92e",
+    "sprites-d211c798204574d8475fc46372883c45e6c2c3d6f3555954639f8f85bdf19612.bmp.lzma": "c64e63cae71eac03f0591f862050f070e823dbcc46703d50ff9fd93a48671368",
+    "sprites-30803b51a517754eab71cac79ddfbb14e503ef58ded099dddd7ef33a6a4f52e0.bmp.lzma": "18055a9cc7e68143e29ee9d11a235bbc8e5d73182f5536050854b44cb77e8b56",
+    "sprites-bb938762040959cae41c4f196014fc86609fc2b8c7a4eb9e047fbc495bd47706.bmp.lzma": "6652ef0e0e319c1d68249f78624a7e88f0a5c5033959eb8341d06a25718535e9",
+    "sprites-cca035bb0bef9a586994eb10b5ef58cd1a075bc061d26eec39b8d098adad07ed.bmp.lzma": "59d138113461567e34fa073fd04b1ae208f51596ce62c860d5ceddf6a575640c",
+    "sprites-bd9ebf6fdd1a6bc64ff548968c1042c84b4ca87042b1c28e83574fca0be2b19a.bmp.lzma": "aece9a599b0b828e0dcf072b5d45b89ceb31c056f91601107786f91327345a79",
+    "sprites-1bbe9e1a6a4eee29385a97813860ef6d3e1c86835b1631ff4d1f268ac2c2b753.bmp.lzma": "97dcf2d1bfe7caf259a469817eb562178e3440a8af35347d1d689bebb6713a6b",
+    "sprites-37200c615b24d985939c2634589f601501d553e7ae49f2d2eb23037081d1ac2c.bmp.lzma": "9bea1483d09e512c868c0b89f4a2babf68f9a6a671000a61d9941291f761c0c4",
+    "sprites-b546942c3bdf19ac9978d250145f655213282af3c3122eb393317ec47ffdb2d8.bmp.lzma": "029872f0281d0534ce8bb067d3c83760bbf8a474aa2819f63a9a2027c88c065a",
+    "sprites-c3ede50efa4bec03b6851fb873bf812f1784454e25f0779f616cdca39af75963.bmp.lzma": "9312da92da23fecacf86dc22f69fed18c30717e7969af2e4703eb81528893c8f",
+    "sprites-c6f09e62f3d3f4cc38e2f6c628eb080069eee46bb212362ec497e30b1cfbe859.bmp.lzma": "8c9c9e0f72887fd57954837e8f8389a04fb9ac006feacc91eaed223558a924fd",
+    "sprites-ffe05bc4218baa54c471dba0f42071a32a084abcc11ec98d957fcbea451703cd.bmp.lzma": "d7019a4284b5262dc56c5dba9ed6c3891958386ea4be57bc635a3e9c14a9922e",
+    "sprites-fae1fa62375dcab56674a5c9ad1fb69e0ea70184843f1be24cf44ce8cf3926d7.bmp.lzma": "fbc8f79128b9663b34e4bd2a050767f36b8294e52dbd6a8852d627aa5d4e116a",
+    "sprites-f9b002c401023e2c3c5cc825c39288594f5d77e93ab72982c702447e775cca67.bmp.lzma": "d7c62cb5ce67256814816afb9900afa920e6c0dd7ed94afdfcb276df4e3e3faa",
+    "sprites-08c7af9f4a27bb19a62bd3eceb9714a69d47cbc4b98446f5f0fab6881255fce5.bmp.lzma": "8eb25c7c2460a6205973bce8d22f835c087088577c81b05d9b113524f9cf9f68",
+    "sprites-cb9127e0da70efef020b9065fee241b8debdf413e7c13e8d1e8db50b5d6bbdcb.bmp.lzma": "c6dc7b66b65a5613f2116e6cd1873e2ee9774e2138272c7f5d668efb32749109",
+    "sprites-d25d292f3344feecb2bd9a18aba6492623addc23e62099f31807cece7e691b42.bmp.lzma": "66ba0565475fc382ec4d0d46e48207bd286d06afa07d571d768f076d176f2b72",
+    "sprites-de5afed745c6f7b7c23ebb1416697798969eddff356b9563c8cc9616392e4908.bmp.lzma": "c41ed13084a466de86fd27fda854209518413739c6b685a11392cade0b76e050",
+    "sprites-c3aff3d1d6436960a29ab712ef30658416a194d12c497292958f68a731cf928a.bmp.lzma": "e6d69f71b3f7efd7b5c69e9195edd68346b7b61f55bc92ddf539ff378e2c5ab8",
+    "sprites-ad33a54d0245649239ca97d1e63de3ed84854ace55ba04a212bbecd654c4e67d.bmp.lzma": "a3160c0bcba556ab30790c1c940071406f5af5140344c6a3755662ccae00d03c",
+    "sprites-b69b27e5cbe51829542c51c91cf0a2089a63b1069b0cdea011c360bcd54a23cc.bmp.lzma": "5609945f4b29423436cfeebe66a1be3ccd4fbb5792464414a16b473c2edcf58d",
+    "sprites-64222ef5d81d170caa0a03cfbed0959f866e42bff178702da975dd6e4c554e0d.bmp.lzma": "fc9bde7374afff55ed830439730a6518c370ac7627f546986a406b51596387b0",
+    "sprites-a36dbc801676bcb0398576f897094c687c1d8f3726a97827fa163cfa5f0991da.bmp.lzma": "0c03b0baf9e407ab62b966339b363df1fa50efabbbe47c713eed0ff1e2ae70bb",
+    "sprites-f5164560890c6a496d76cd1c8957adf258c017e9995ddb39132095c5b1e0ecbf.bmp.lzma": "16125374ddaa7b86d19675a44815e99dffb7b5dde4b971681b1f1e78b753a686",
+    "sprites-2c672eacd7346dc93cfab3da1834eafb5b5b999d7f318bd05f23e6ed3b1a96b5.bmp.lzma": "4925c43705759e8ed30444ee5b7e321f1604a8348632a7a80efc756ac6da4b30",
+    "sprites-eda61062a5d6af40c22889919b073a79798365da8e8c0a0a6636653800835a8e.bmp.lzma": "b7272495bb3844381170e83692fc23e3f53f35da88e0b6ea847f755453203a7b",
+    "sprites-8b24ee7bcb593f6e4c569c27b5c93a221ae0b7cfe4fcaece68a6e10eda5bc7d8.bmp.lzma": "5f64802e9ad4457d8a3381f9b334aebd080310eae8b75879aa5cce79759e40e7",
+    "sprites-f108a7a4e782a4ad8fa1f4d0ed21d44ee3544adafe638349c23fc0c511cf9e83.bmp.lzma": "bcd5d075bdc66417ea784ce36b51104e2ce869f8f1b7852e82fa985507c53028",
+    "sprites-8973656088e9f5a5f6adccb8877bb0867caeaa6dfaa44ff584b62dcdc7759f87.bmp.lzma": "45b68c5c38e2a309ab01f2c94d0585b81bd071f7773931d0bfa84870a33a27f2",
+    "sprites-05b33dce33dd16f44d12e32a6e033c46d78392e4c627bcaa1479e89a3d5faeb4.bmp.lzma": "853c5b96f7f887c8d3a8fdddbdaedd1d74777ab6c9b12ad81cf3b830aac2e089",
+    "sprites-93ac6e77494ddcd440073a8c83000c26a04e394c6746409b5fe0242dca49648d.bmp.lzma": "6448ffd62e8f2ee06c95a8b86d2e03544221b0e96ddf6981f152826db4f2a0e8",
+    "sprites-5e3b7e008de5327df45165977cc4fd1e64fd39d55efa4735daacc6930f54ae80.bmp.lzma": "b1c57661eee600b1472c58538329ac5e1b74ff6a61dec384096e6d3764ae9bdd",
+    "sprites-09ce4b3e6eac92aa1147fe3c58befef2fe2f7d1ea5fba7521da861f02cb0e79c.bmp.lzma": "a2202fd1f9a5c13def1a19178279cad2f9a5c7c4104d5f680b43941e5efc2ffd",
+    "sprites-fd161da387c353927876fecf4603eba7e0add6013b99dd718ca582d11d0c53f6.bmp.lzma": "68a8953739ab54029fb72c7272d81cf41e04e0ebef8322c2012264f424463b41",
+    "sprites-58d47b8fe4f97d0f678fa2350f80da66d841cf269531e0aeb22956ff311fce3d.bmp.lzma": "0a7192a234189e1c5e7b7f93b1f6094065afe049339aadbbdd6b60d7cafdbb8c",
+    "sprites-55c81e92aa0f78d780831866e6b5d900177e7b62e7e80c40a0b5f21c6df2a7a5.bmp.lzma": "3fdbe52d655ebd62f1b251e552ccd77e493925a5e4dfc923ace39a79f9e6285d",
+    "sprites-1b9e6d8398dec47f8bb619873a40bd0ca8ccb55185478e03dc5bc72116c691bb.bmp.lzma": "d69423c4ada8a6c001938d38174cc5e567bef324521e4c9995cf3923b9b591fb",
+    "sprites-7f7aafcd0b9ccc664956aad46532e1b92bcdfee300054429f78a3f6fddbbc0aa.bmp.lzma": "5686517364a4e1d190434acc9bf5ee476ba3ec8003ce4210a350dc7e462aeca3",
+    "sprites-d4391e3760cfbf52a8dce9abcfcc88f2f11485bb3b80c8aea788d1562241bab6.bmp.lzma": "41c7d498e4b45dd4f25196a4b98be3dc28b373d0709af201bccfe66c172f4a90",
+    "sprites-9ff3fe8eff15a376a086e67ee79170239b4dbe3cb7eff02db360d6ab423e577e.bmp.lzma": "588149030852338b3529c5ce067b433727739f935cd6449a915809a6ebfd4a94",
+    "sprites-56c0f6c05c7e5385cb0dbd076e01b63b090a3eec7a7613aabe5463e595a445ae.bmp.lzma": "722678a772861d133f00c80932153dde0bdbad3ffd4775eb60ff63045e9a2d2f",
+    "sprites-9fe04e5b5edd95f886dc4e7227ab28fdcf55c59035fc26a223f6c0f2d984bac2.bmp.lzma": "c988c184ad1723b9566f71b368e58a88f34fb8c2a7013c5f0066384a8a5c0199",
+    "sprites-96e9d562db87a3a0ed1028c077bf12840dd531dc2dc47d9392aa85e252a68ed7.bmp.lzma": "e5bfb15d2566983f1d8fdf3b84576c2e88a5b3e0981f4b9a555aeb6d30ba1ced",
+    "sprites-aa0f69be4a2a53bcd433edeb6ad8156a0b647cd83284256aa02cac1978eac7d8.bmp.lzma": "01cb76612039c929eb9bb61b074e4ee03e1292aba1a457ff06c71267b967c26f",
+    "sprites-d92c4f78a7e329e671766329daa3decfdf6197fc42eef50a8473e885ec094d9c.bmp.lzma": "dd4951b203e134af005c4d47b3ccc23c5656e3251a10629fec3b96f7489837bf",
+    "sprites-b6f21ff0a6487a10edb4d9a41e1ac387f9acf952de98bf2774c71e134ad4212c.bmp.lzma": "bdddeef96b181ed6c20d851e8783c9203441e288fc6d25f30f5508fbcf9540ac",
+    "sprites-04dab3ea5defd19774d31559f90f2ef4fcd6dcbfc411cb3711382e3d86fc48b6.bmp.lzma": "7ba1239f8be1c33375fa4c0ee6d1f9a2f54785d6504293d3e00b2138629134c7",
+    "sprites-3ee993cb3f5f6178fe45340897b2acaeb760235c691eca182be3e7dcb29e7a0d.bmp.lzma": "b1e833090f7afc1e9d036d6ac5e38e743f0e94f4d1db72e0b5024e63364ff6e8",
+    "sprites-3d88a30a84a80db94ac49deac708c1eedc7cbb314f032c04bd8fee486d32be40.bmp.lzma": "5f115a78889dbebc13c76af89bc14b9d45d8b091954578bb6b7bf4d2a6698725",
+    "sprites-df9fe67c554b0768542c66cc0288b9141616ec5168e8f5d9120e89a6d8c45196.bmp.lzma": "c6fc1f566c0fff530eb1f9f247fe5704765e459508f033634573e0e4ce454194",
+    "sprites-adbbb211e275c17b1e6dfbc89141ae621303263944bb6dedcc3625efa47dfd4f.bmp.lzma": "c3cd3d9c7c7fc52b90b1cb9d73a1c882bce147c91b3e641aebffb1d68b0434db",
+    "sprites-e3ea741fe4169cb60e1d8de2c0003ef6d1f6f11089f8d259671e8bca486caab2.bmp.lzma": "68de3ea3ba1699547e699726b19499afee6179f683fd278e9bbf5c52ab6a2a76",
+    "sprites-98b71fa6402726258a9ee92f4ab07488d0c0884d2a07f2da13d74d5b8a7584e4.bmp.lzma": "0277a9b9c6fa35a3322cc8b9be6f23cbe78b4179c04be48a6857f9e2c6f837dc",
+    "sprites-59ff507940a3051fd35ccc89ec9966ac3cfa89a9e0ddac8e0d6e3c419cb4313c.bmp.lzma": "bc6f87cd928cfe150456a40217e7b10645671b24503c1141938470bef318fb53",
+    "sprites-5bedc14bba99ed6be3f997da07a7c5a4be48f1f7a8b2755a50ecfffdcd426c7e.bmp.lzma": "a9c908217767fedf77c847dfc2141742d6c68951087a715d40ea94d897647de5",
+    "sprites-d8f5432d5b866e0581ecaa89312f6c38f79cf622423d19535b4fd0eabc13826a.bmp.lzma": "e83bfd74c985fa860c8eddf7f6763efd8ca74bf75f2af4910cc49c7063434117",
+    "sprites-8355dfb14fcf78e2974abb1dda35389dc4d28bacc239e20de25b4fcbe61315a5.bmp.lzma": "918d7b1ffc75f9355748b834a84b48067ecdcde4e4a0a381710073182acded85",
+    "sprites-b12b6a2c8467435eee7797ce5e9b0ea507da83ce91afe09fa9eea6551d994668.bmp.lzma": "ced160bd662f7340364ab565f648abd9be62c6fc49485c317be0273da873c17b",
+    "sprites-4dc7184f9a8ae7c326f6e86fd3604e60e6cc4734351be92e30e58e6d5689cf1b.bmp.lzma": "b86b49c08ee209f0d9542daa4e25da18cdf2a9a15e7bb190ccae030344fa3801",
+    "sprites-b14ce5091755cecc79539198d8db58f25354c12f0576aa04ed7a8aaf5d2313c4.bmp.lzma": "6159952dd82da1273e8cf08949f0faa7db92e26f750daab97364d5da3d3b513c",
+    "sprites-5ed293cc704f929bddcb5bf19420565f74c811f0a207451bb38891b2b7250d1a.bmp.lzma": "ea4850b3e1e739ced42103bcafff013179c41ea125feeb8c228f07e40b4a56d4",
+    "sprites-c891ccc47d1b5e58fc0889cf57393051ec45e7e66e86a109c81b1e7faca9de5c.bmp.lzma": "1e35449d43626fe2d58f1b8137062878637960b705c78ba072e7237b75230794",
+    "sprites-5d62ca6872756568b9aad2af2f68760159ed29dc57fd90397b43368ff72985ef.bmp.lzma": "4959621bf5785b134e720ac6aa6a6e1cfae44adcc84caeea1131deb0c1f2dd68",
+    "sprites-c0878b33ddcbfa8b6c24d92e81cb97707f16bbba60339b77e9ff1790370a25d5.bmp.lzma": "a432dd5dd564336b7464aeae6bf5ecde63bb53e9585ad51f0cefce8444327544",
+    "sprites-76541fccf03d37ff3940f6420855178830b0cea647f72fdce4b066b924610ef7.bmp.lzma": "282cf3f0ac65aba8ca1009880d554b08d34d890bb28717ec0ce696b745c0d3bf",
+    "sprites-9077b14b9946cab57a271474bb4bc96e1256de98d9c06c36ce31f2bcfbec0e20.bmp.lzma": "ad129eb932fc8d4d3af33926978b14a035ca80cefe4d26cebb5116aac23e8999",
+    "sprites-7ce46617d9aba8cd2494e02c46ab33004d7f5aa06648b0f3620e3100eda0425f.bmp.lzma": "469d334d9c9e5afeaf7178a40d1dc222b79f20afe2600477a2659776e9d3ebb2",
+    "sprites-5d1c00953b9c7570a6c90a19657503ba961f1ab4a75b9b460c5da3484782aa52.bmp.lzma": "07451188eb59a0604c621b6d4b39ab10cea67e6de89d553af9248ea7cf4c8470",
+    "sprites-bcf25a9df412ac134872c6a1535a1888998057f9570f7ca92feb4d253e46d505.bmp.lzma": "3c510de1e2a077d0713ddc44cb7ed575bc0e484255f5063e34f30198766dcbfd",
+    "sprites-0bb696b3a7f5a7a393c5f0651c67d7da4b6eb1af7ef5327435b4f25d098aa372.bmp.lzma": "530640bf05a097d11c50d7c09032cb0228e0127e31fa6034ddd0857c3f507683",
+    "sprites-488e61991db44b869069fc2dbca96aae14851cc6e2cd99113abac217ec5f8152.bmp.lzma": "fd44d4349659cd93e1b14b07ce7904ebd22a02833f6460b1658989d89df1a402",
+    "sprites-534f52e167be770b33d37619c4895057d19c251d2d2e67e7698a2c6ffb7dc700.bmp.lzma": "e477c1912f9118a27ba72259a9db0f320f2310b442cc3a7ede1ca386850997bb",
+    "sprites-eb98af5cdb0acc2a162c53c9a4fbc6d23939d85f204970b4507534f347df532d.bmp.lzma": "17a0b05b16358e0721803392a15ec2c1e4875e216a6c42a59a99fce99df248b8",
+    "sprites-25b5638c278fb73f2646db72867643dc9cddb917769478c4875491dbad23120c.bmp.lzma": "c90d3f56226a02751c07462db1f9d6109dcf1d715289deb44d362a5c22379d5b",
+    "sprites-758bfd4d7f155a7c5d32ae2c48b4e0d360633e633cf2ad91f9ae37312d205043.bmp.lzma": "14399430c57901684f017c8208c4209256bf87d2ecbe27bb01fb64b1d9b0ca52",
+    "sprites-e472b41e26f0ec8a498b7979aed8ac0df32b41184e5603133004e3ff90a5e269.bmp.lzma": "c57deb016713e819642b018244f3e110368e69dc4b843a3c950e766d56bed68f",
+    "sprites-21be82eee5780b683a64d5d65b061388f3c050092ff24f52bff9a0f49a5d356b.bmp.lzma": "8796199eaa293a4b9cf0a3034a2c2ee3955d633891f7ff6a268a23f8b8e049a0",
+    "sprites-41d472e8a7a357831c35425c3619034c8b3badfd09d700ba4cdac5373105715b.bmp.lzma": "0e7f475e4f0e5af0621e542c2f25325127db65f35cddf0e0f18626d625c4bbb4",
+    "sprites-6589b43e50b56dcf05b722e782fc6ff710b3715da49c0293f97b275d2adf0ccf.bmp.lzma": "5ca12e216af97bdc86a8e8d346bbff07e508af415a2c7c869b243032ad55a307",
+    "sprites-3762da1a11375a51a708bf5ea5b3ee5b7dfd1005962c955e31140af5c973a124.bmp.lzma": "551f80f6aa25e8c1d2b7375d38d39e722fccccc02591f0ae6726f8468e009d93",
+    "sprites-518fd93de5c41e53a3a43d98e9c916cfaf649596ec9c4f16d666112519fcbcd2.bmp.lzma": "9ff007fc0cf3ef63b0ecad1dae63bfd59b4a3abce13620308539921afd86923c",
+    "sprites-f140d592fffc80551fdc6711732d427624ace893835093fd612b056983e0bb82.bmp.lzma": "c87b67afe0327e65852c0e1e345a4391eaa49d52b1412b7736e06a210f28f451",
+    "sprites-715f79cdac463e02aa16db8287297b126b055f1276f33412d0d6254e44be334f.bmp.lzma": "6df0a37ce1473c0dacd9445d22bcd87c624eb07de50ea4712d50ea48eeeb58d4",
+    "sprites-f60785548f8da161614789c73058bf2a7af0526124a90938e5dfef54422f11bc.bmp.lzma": "b7a20f35c5411f443fe4a8c9973b8885897f47cdb662953283da8628994088a2",
+    "sprites-b94a0284e1937e100b36123422e13f30404e8c4ab5bb22891c0accd649b9bd06.bmp.lzma": "5028e79335db5418960b9e5799cf11c0b1e51ad3b557282d3014d47f9c724cfc",
+    "sprites-d64bc7089a1696c2da0174571b6d1c52b3635a2a359d875ab72e91e5eaff332d.bmp.lzma": "0199415601774b83f0ee5fee05e987b940c3684810d22df72c2e78b42097cd33",
+    "sprites-0277e12bf37dd17bd7d10dbe09c1eba1a5c8c1225c7518c2ce710148c145bb7f.bmp.lzma": "e1e1f9452e52a7c3a0971685a6c97a1fe2452efa22717c325aa262274c0be7eb",
+    "sprites-daaceaae01e0589a5e0273f328a7e673a311e4b1f96727c7f395ab660f441caf.bmp.lzma": "510b9552128cfaff2951242bf75871210e3b3519c80065e3c93587f8f8828be9",
+    "sprites-aaa0a542d50be340d8d029e75b01a8fed91d82fc543f802852158b3aba887821.bmp.lzma": "515f8d5d8b0de3c4b5b61ed88b1d61a4f88fbff7bf5dd853878987c4d43cf789",
+    "sprites-a89d0180193366e606830ffe1656f8379a5f37e5420ab526a1796c06b68fc53e.bmp.lzma": "dffd8522842381f108537b58895767ab2d4540df6ffdb95bd13a4b5aa7ba9c7e",
+    "sprites-2a1e318dace688a96462bb35c32236dd29934d1a662fead1754b658262ac7f26.bmp.lzma": "f6460533f8b3918e52578cfc227bf03121f1be28f879a773883350944780f85e",
+    "sprites-313dc5b2ca00f175a262ae4a194cc045991dab5fabe7d7e9bfe389502bb95f1c.bmp.lzma": "05f0bbdca6421ac848847f19257065e308f46d9206667e8ad4d293c648960c62",
+    "sprites-5cef040aedd58a3ce40d56812e6cba39de8134c8f62725baeb92f4bbac5c5b77.bmp.lzma": "670326a31f19a53e6d48f895c4d639e4bf3a3e3d4c29c87e42ba0b0b8a7448e4",
+    "sprites-9a24f9eb1c54fe10d9c449e5d85795b6ed1d59c116dce6281efc55e88b320b75.bmp.lzma": "fc8c11db895ca908c52fef0acd79135d838019708441597337610e3afb3c61ec",
+    "sprites-59e775ad89ddc1a6a8a816b51468f846533c691c73ab2bd3bd9d1596d56b6547.bmp.lzma": "ffd1a5694ea8c482e3ddcb70b566b072c77924b3ec20b74616954713915a55cf",
+    "sprites-304886fff654c92ec35c74056034c1d5bfb0d3f78a7e624188f575f688e2a243.bmp.lzma": "c4af9cf941ebc166af269844da78153fb16e12d1cfcd0448431dba8d2eecd398",
+    "sprites-3954d3fc7ff8eef6de2ee66478b8ff2457a45d14aaf3bfd44c1a03571d625f83.bmp.lzma": "4b0a8376f5682c68df785485c1cd9690935a6f9c64f1373b2b283be5e837ceca",
+    "sprites-455e1ab51a1753d836209c630a4f9f3cfc3f116db1708a01bf69514347b0c13e.bmp.lzma": "b251ffd0e42a27511dff14d72c78fcd31037582c0bf03e70c05ff967f3819bf2",
+    "sprites-adee652fe3083a83699b56bb9d88a396f1c1794fbd2555c739cd7962d55bfc97.bmp.lzma": "75f56ddcc09fc34f697bdc6dd6334be163155e521d59efb417c473212d46329b",
+    "sprites-8689596f47ef3df57805c012a302c64ef5ce3fad88642433c5e75800fce4623f.bmp.lzma": "69b03cd8308ca3631ecd21974a8a6c6d72c162824aaeb3555b6dcf30d6f5951e",
+    "sprites-065d1c0ac9a9f4719980987099fe70f58f6c818bc536c07bcefe5893033f0ac7.bmp.lzma": "b91f994d9428efb6431ba5ca7a68796262e7f69fdb38e84f877779ac795e9e97",
+    "sprites-c5a3eb860ac7d99e3ca3e715b99f83781f4dbd514e9f1d4156afd6cc1792dc20.bmp.lzma": "9ca7ae549504718466940c5b2e40d945ee525ceb94e54622df7716ff6de57ddf",
+    "sprites-d166b5e49b58d8badc8682ae9047d11b2040593a78e19adceea9aaa4f55b435f.bmp.lzma": "77387179d11bb8703ab6d65eb4698467dbaadb6dcb42c0530f377ed8ff99ecf3",
+    "sprites-0a231551714a746789e75279762504786ad2694fde1c7706c6b4d7a8749b9a53.bmp.lzma": "027a1cecb17405a5e8413d0b1272638ff3c468a13e2995e9121fa3576fdc3f46",
+    "sprites-1a2975185fc7ebbf869a265638f6dff4a4185c837adf778033e3c51a1268a50c.bmp.lzma": "f44cfadbe7f3aa5ed555c24508e32c9c5e28f35ce79858a1fcdc612c35146941",
+    "sprites-12e2d49352a5ebcc150ddf0555582603abcd924cfa1c3b0a2712d7558437bbbe.bmp.lzma": "f159509ceb9c9b9cf582e1c3f75c456f55f0830caef76149e75620cf35c326a0",
+    "sprites-bdc1e25519e2c82238bf3d0add0e3b33b33889efdc9152500279e6a6910506bb.bmp.lzma": "38cb39ea055e975dd21cf70384d8d36596f5bf2bbe78f8c84ad2cf84ca137111",
+    "sprites-60d425c4087c09417afd14e1d57fa6e15ebda6f4750c757f51b4947ede470b3e.bmp.lzma": "50836501d6b31c8bc1610004a7868b328fb9f261b8b45ccf2f30989e0bd92841",
+    "sprites-4427a97af63dc323c9a6d474a8d6cde7d3d2c340c810eed387665bdcbdc88a23.bmp.lzma": "bb4c7c2e1fdb1319ccd3380e9f77dab40daa2f1ad66d0d989c485f2254e92c3d",
+    "sprites-26c895a6e26046a0e53d401ec25db9b3ef6eec7d682159f3d38b0f50926e33bc.bmp.lzma": "a8e5a1c3ff4bcf153a666682872118bb3d53b8ea2503be7048f2535b95d71591",
+    "sprites-d980d35ee758472a1d9466890d43fa41d71197a35c8a1ff7271624617b803053.bmp.lzma": "4c8aa32f3167ca8545cb95412bc9bbb9d00cb9edd99fefcbaaf17f073917d849",
+    "sprites-825fc49c88847f4e443cb24ea473643dad093e9d071be0c08f9a788b7cd9e6cc.bmp.lzma": "ba714de54e926cbcd0f59aca86ff5944ce688b048aebb93fe2d02139468bc56b",
+    "sprites-954b674d6e653798db8fcf9f732fc8b3b798acde3e12f95a52048c4625d474d5.bmp.lzma": "962da95e441f755f4cab754b7676cd94eb67e7a5e21580d68ddaa4f78d5bcf76",
+    "sprites-e84e73867ddbb091dbd55ae5d46fd8f1ef1749aec8b4a6ef603180e397c8da47.bmp.lzma": "cddf54cafdf41d76f20b2b2402c5cac4f00641a61ab58282ab14ab9cd23b64ed",
+    "sprites-bd4e9e6f7a973ebd284e019fcd67a5ab8234abdc3beaa478af0611bc542d33d8.bmp.lzma": "62ad5411f59824b48b5e21b6a4c7f87c2f8609ca38aa513420b8b73e90ead970",
+    "sprites-aafe5e8351145ab1bc664032801a11255fd4f16866334653b65d0e15da9b351a.bmp.lzma": "f22ff8dbc7e9319fe7058ea7cc6541d0fcfeb6bd15e138d860966d6272642639",
+    "sprites-c9cd4df860061b69a8447fd8fc2db79b2b4115fa4595af97421d05095a408945.bmp.lzma": "03bfcb4c597a901adf0285de8838448a7b69388f0d25addc340da99ae1ddc735",
+    "sprites-a6b881aa8bf75e432b033beec0caaea4a97f386e3d397ad7b8212e3f9da674d2.bmp.lzma": "5396fd82453e8df8493fc045b6af8952adf950b26b23dee5b67f5b3f82b5deee",
+    "sprites-3b8d9d47b4a9b2950b5fbf4c0bc5c6e103e943527fb63c90356ce3899fc62180.bmp.lzma": "c5cf349f1ab4aad9b60559c0b6df59258ef6679bf8320d027f81547cb8cd8bd7",
+    "sprites-c3e2bcf6a73318dd6f3a5f2fa5a4c69ba223c22e5cbde64fcdc96886088921fa.bmp.lzma": "a5be0169b8086e4bad4356b59f58b9ddf4e1bfa4b14e78c2cd9c5c8a93240eb3",
+    "sprites-8d264a6b7b69d8f3f75800396c8d69be874d5b1744b53358ef7eb3a02f6e6c32.bmp.lzma": "41a0826337ffe134ee6014159d0659cf99d8cad85c875708271c09b36d0c4337",
+    "sprites-415ddf3612cae8b1325dcbb02f5bce12bd61d08cd6f7100dd82d401ea8771cb8.bmp.lzma": "f832139077a34d5b456b3918e20ca8bd25fd86410dde18b616d28f9890efc007",
+    "sprites-97a490c24ecaeda1633d34e3322d64fb8c48762b2a3d44f4ecb6b8f1cded8bd2.bmp.lzma": "6686d289988e72649090b2df329f77187610d9a15897d9caad08eb8d77ed7032",
+    "sprites-f21c7f3d056499cdff4c8e069d2dabba346c806c3ea6c5ce8edd9023e51190ea.bmp.lzma": "042ca362b03f9d0c780b2ef15366b77b453d294c787e0a76cad36c537e9552ed",
+    "sprites-fc3e00b105db276400788b4acb242244b1190a14bfec441fa468260e8ee45786.bmp.lzma": "573506e9ef6990cb8b88ef43350dd41867f214d9f5ad349bc3f0ad177fc1092a",
+    "sprites-4dc57517a1ed4ed08b7fd24039ea1485385d576b041ae1392827ca48227435b1.bmp.lzma": "67e12e02b83ef4c6c647c36197ba031ad7c7f1c250851dfd1e097cdbaf9aa976",
+    "sprites-f5d51025873331adfbebace078fff56758f15fca896a8270dbb4c9c5fd3d9cc8.bmp.lzma": "4fadf470e30c82019d27414f220ef5e66cc0ad8a9fa9b74eab70a18fc58679e2",
+    "sprites-bb033cc6f60e7e0c91974e2741eedd49ff3764e6dbf2d908b7c7bcafbfa789a3.bmp.lzma": "7eb815ec3695b965d7c7b411e60f5c7feb5785917731af700cb17a6682a979bc",
+    "sprites-025f18440eb974301c8df8d5347afc7ab5ec5d298846b8c87c35e52d7ba3f7d3.bmp.lzma": "0e6cec7e808f4224cbd221c9bc3dc1d2de4c3cee150ba62748ec930c4ac99664",
+    "sprites-25baf702a50199a498a66ed95694e669e8630ed4f1699bfa287047cf816a2b80.bmp.lzma": "9ac0d22b28275503773d8831cfb7102f423cf70c2b842164ae6952c91b0d847f",
+    "sprites-d3ccf3c90676868b7b6fcaa247f1f61f745b6c07011cdeb3bdaae90179a828c5.bmp.lzma": "0face338ef39c0c8678f65a26960527d30734a4755ffbb37f4c22fe83ec245cc",
+    "sprites-40647403b1536cb4908a004300903ecbbcde6f25afd2195222bb878f1d820349.bmp.lzma": "d20c5231ee12a578eaedb24357b94f94a7cd321b12ca755b7b978f52b05b2cdb",
+    "sprites-b5d6ce15842df9f7f216ecc617bc7b9dfe4904c91ed883e584be426d8af80d41.bmp.lzma": "fa4a8c0d0d79c0c08a583ac5fd22f18da759f5104465be17961d125675325fa8",
+    "sprites-23c6b38fbea60b55a02c95358e313fd48cea4af2865c1b3204de98c1a7ef6aa2.bmp.lzma": "da6c06401dc1bf32a05b647801fcd7ad278b32940ea321ce2efcf43017d50598",
+    "sprites-fff132430c71ea15f4353e5893c99a194f7445c2cfe221349da61679d33c04f1.bmp.lzma": "63d23807d0940aa2417a9bfc64893869b4562654809366a64e8a60bad94a337b",
+    "sprites-1b4d57ed56370d774630094ff50baa94e5522d16b2e49555c17ed1c64e7bbc32.bmp.lzma": "12e33f4f150e7a0537a9a50786d7adf805d6b6cbc0c62c948da3f7700694b941",
+    "sprites-7291fd361549500c9bcd67cfb824fae8976d0194c0bf1110f09850804e10a42a.bmp.lzma": "995a62835477e0def986e8a080f345847d4dcd455b6740cb02448d89572bb4f6",
+    "sprites-a85bd907aab03f0e454b75e56859ac8a9ace946895b8bfdf3fb13b53aa5a2828.bmp.lzma": "a8a80415cb73254e2b292b6e33f065505c14eafca03a0ebc0f841577e21265f9",
+    "sprites-bba752ee419781afab7afc12b5aebb3ae7b0bd40fc1916ab3d38744d714a215f.bmp.lzma": "e8f183948e348134c692638a2bf603b3135b9b4c88989933f4c604cd75b3ae41",
+    "sprites-fd6d581b0949b4a36fc6398adc2debc40f52c48a89bd583f0c708fc9b1114540.bmp.lzma": "51824cb00160f18728e82b42d697f018a589f1b9ab5a359a28f87c21b242d277",
+    "sprites-ec97c41f4bfcf78806db8db25c067725c123f2814ba563c6a289299b547a7a83.bmp.lzma": "e5cbde9e1da5ed49d82325ad94daa7f1615c986de1970cbf0e75b158455dea7c",
+    "sprites-d10e2053e1c95ffbfb24cea7130ca7a14899229a1e7c218623c329d9708a073d.bmp.lzma": "7c99da401ead3999b5167f16c455ea25434b5197239422532377b485b09d2e22",
+    "sprites-e25b6d8b7fa78249586b85e1c46c8f7e3392395fce4aa1ed73a4b00bfa707a08.bmp.lzma": "8021722ccb26a087bd141861a3b90082aa290a9b3312861b170b79b8b3cc50af",
+    "sprites-877ea0a34ecf663579d7f13135d901f25b26a7ff3641e7f37362f55714481a68.bmp.lzma": "4c0c8049ff157294b31cd01a3306e1ae6f79c46e687b65bbe59e40d5e1a6081d",
+    "sprites-b8d009e737f49a19db66379502d41f6383274ec43a26d5c98125a63660b9d75e.bmp.lzma": "905e163da6e8d8e32e276a3606e51b7476626935051324c5bc830a963c87f386",
+    "sprites-f58304138a3013a05e1284523f612c836349568191edced354fa59e220f71840.bmp.lzma": "e78bde793b619ff8fb9bb30024e15393dc7dc66e2f019c01ede51a07fcc70ce0",
+    "sprites-d7ea5341e29f42592f39b6b77bc13c66072c4c3ff784ff3e597ae611c99bfedb.bmp.lzma": "2cdf0596e772817e67690b7a091bff2d1c638940f5941456ffd82c167f3c4861",
+    "sprites-a8159c080bc6351c51a3ee732dca3cfda5a11c84c6dceaef027d1b2f7ec0f2ab.bmp.lzma": "05134ee65231f0c259ac7e60cdb1bd846bbb0ad9ad7dcd1f1af432271dfc0062",
+    "sprites-205727670fc3a6f6cd7bf998f5bf1974c79a5bee8c41695ab98e09fa7ffe3c9e.bmp.lzma": "847b0eded16146a9a8b5c8914ad9511a54029322e8c5b7dadf8da6374631c671",
+    "sprites-bb8a88bc15679b58028e542ea0456ab5b8ff739094c30eaf80d181706a71bda2.bmp.lzma": "ca11735a3e861e35e5cb2c740421ce27b53b417515aacd91ffab39c012e1041d",
+    "sprites-8492947f9d261047cff9a98153a301b18c5b2d29bb4f7f5d3489710b6e3cdd4e.bmp.lzma": "9f3bfa8de73a40e03670eb4879d0fa7971fa77096234d3e7b2a3decbb5c3a9c4",
+    "sprites-0ec720f1021acf518bab1487fe0f0055e585893cf9122017f0fdd4cc982276dc.bmp.lzma": "cfcdea4deedfc3bf2e96bbf12a9ab363f18b29bdce385c5a056e85f4ba644310",
+    "sprites-bf7765269e488492571a0391cc423369f91cbe9bf6c9f061c401c947749df83f.bmp.lzma": "0c876b95a56bb3f0528bbffd5d529f5e8f92b06225dfded29d7cdd5cb8625fde",
+    "sprites-ead5e719a6bd756464f2a11a719d0f0e61d635ed6930d9e0881ab5075c2d5040.bmp.lzma": "4fe36a9671478ec5f189c2701fe705a2872d0c995bb5d84d2dcc52f2a0d7e6bb",
+    "sprites-3d369e9aae70cacd6f05080b16d437e6fa03af04bebbd18a0677318a157eedd1.bmp.lzma": "21205771b78e1f3cf10f480350bda0772e0b6a574a33d8ff9783de3dcfd55d3d",
+    "sprites-5297c3008640d54ef63f11d04d3ba4e57bee65cd62bfb40e77a84baeb2f8c2e8.bmp.lzma": "0e64b2b934ef8d492532daaa31beb841eb12d09084eb792aafe0019b4adc6571",
+    "sprites-27ad3341447e09d091dad68447192d8de1e88adbefeca5ad1d18066f583d42ec.bmp.lzma": "1582134e6cd9ea74a0a40b34285fcd7d65571a43eb8604d67312aec867ba8bd8",
+    "sprites-2a2ed771ecad1c204c5ceab2930c3e7648efdde32e3d95be862324ae7c760558.bmp.lzma": "2afd57baf52366246316e0cbfd6cbcbd604c84d23874f1351656ad07a56c0d68",
+    "sprites-0acefb668012f4f868d617b5ce8d2f56dbee3a474302e8be3341f6793ad3d8da.bmp.lzma": "52eb7b8fc6634c0897810ecd2824c38d27aac04eb9e15b8aae9a9f08e695762b"
+  },
+  "additional_source_idle_sheet_sha256": {
+    "sprites-2a81ffb3aa77a0ab9c6ee08a52c5efd10bc139566dccf2769a3b2cfe1666766f.bmp.lzma": "0fd371ddda8d0d4c90c47fb1c21fec804f62b0ed6349d9606919133e0cb3cac4",
+    "sprites-cca035bb0bef9a586994eb10b5ef58cd1a075bc061d26eec39b8d098adad07ed.bmp.lzma": "59d138113461567e34fa073fd04b1ae208f51596ce62c860d5ceddf6a575640c",
+    "sprites-eb98af5cdb0acc2a162c53c9a4fbc6d23939d85f204970b4507534f347df532d.bmp.lzma": "17a0b05b16358e0721803392a15ec2c1e4875e216a6c42a59a99fce99df248b8",
+    "sprites-25b5638c278fb73f2646db72867643dc9cddb917769478c4875491dbad23120c.bmp.lzma": "c90d3f56226a02751c07462db1f9d6109dcf1d715289deb44d362a5c22379d5b",
+    "sprites-758bfd4d7f155a7c5d32ae2c48b4e0d360633e633cf2ad91f9ae37312d205043.bmp.lzma": "14399430c57901684f017c8208c4209256bf87d2ecbe27bb01fb64b1d9b0ca52",
+    "sprites-e472b41e26f0ec8a498b7979aed8ac0df32b41184e5603133004e3ff90a5e269.bmp.lzma": "c57deb016713e819642b018244f3e110368e69dc4b843a3c950e766d56bed68f",
+    "sprites-21be82eee5780b683a64d5d65b061388f3c050092ff24f52bff9a0f49a5d356b.bmp.lzma": "8796199eaa293a4b9cf0a3034a2c2ee3955d633891f7ff6a268a23f8b8e049a0",
+    "sprites-41d472e8a7a357831c35425c3619034c8b3badfd09d700ba4cdac5373105715b.bmp.lzma": "0e7f475e4f0e5af0621e542c2f25325127db65f35cddf0e0f18626d625c4bbb4",
+    "sprites-6589b43e50b56dcf05b722e782fc6ff710b3715da49c0293f97b275d2adf0ccf.bmp.lzma": "5ca12e216af97bdc86a8e8d346bbff07e508af415a2c7c869b243032ad55a307",
+    "sprites-fff132430c71ea15f4353e5893c99a194f7445c2cfe221349da61679d33c04f1.bmp.lzma": "63d23807d0940aa2417a9bfc64893869b4562654809366a64e8a60bad94a337b",
+    "sprites-1b4d57ed56370d774630094ff50baa94e5522d16b2e49555c17ed1c64e7bbc32.bmp.lzma": "12e33f4f150e7a0537a9a50786d7adf805d6b6cbc0c62c948da3f7700694b941",
+    "sprites-7291fd361549500c9bcd67cfb824fae8976d0194c0bf1110f09850804e10a42a.bmp.lzma": "995a62835477e0def986e8a080f345847d4dcd455b6740cb02448d89572bb4f6",
+    "sprites-a85bd907aab03f0e454b75e56859ac8a9ace946895b8bfdf3fb13b53aa5a2828.bmp.lzma": "a8a80415cb73254e2b292b6e33f065505c14eafca03a0ebc0f841577e21265f9",
+    "sprites-a8159c080bc6351c51a3ee732dca3cfda5a11c84c6dceaef027d1b2f7ec0f2ab.bmp.lzma": "05134ee65231f0c259ac7e60cdb1bd846bbb0ad9ad7dcd1f1af432271dfc0062",
+    "sprites-205727670fc3a6f6cd7bf998f5bf1974c79a5bee8c41695ab98e09fa7ffe3c9e.bmp.lzma": "847b0eded16146a9a8b5c8914ad9511a54029322e8c5b7dadf8da6374631c671",
+    "sprites-bb8a88bc15679b58028e542ea0456ab5b8ff739094c30eaf80d181706a71bda2.bmp.lzma": "ca11735a3e861e35e5cb2c740421ce27b53b417515aacd91ffab39c012e1041d",
+    "sprites-8492947f9d261047cff9a98153a301b18c5b2d29bb4f7f5d3489710b6e3cdd4e.bmp.lzma": "9f3bfa8de73a40e03670eb4879d0fa7971fa77096234d3e7b2a3decbb5c3a9c4",
+    "sprites-0ec720f1021acf518bab1487fe0f0055e585893cf9122017f0fdd4cc982276dc.bmp.lzma": "cfcdea4deedfc3bf2e96bbf12a9ab363f18b29bdce385c5a056e85f4ba644310"
+  },
+  "legacy_animation": "Idle source group 0 phase 0; all eight original unmounted walk frames. All original idle/walk source layers are retained as PNGs; modern idle animation, source timing and mounted patterns are not imported into legacy DAT.",
+  "input_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "01660834e06a9c18df602c042b68560c9d07813a4de73f19ab2d9407ca759de5",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "e1c7f21fa276e462cdd36e49c1f8c2bd86a9e7012a9ddf2bcf53f682f065a2cd",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "63e191493064c84349f6d59aabb44f5496de5a12f4f1d5cdfc4dc541e8f937d3"
+  },
+  "output_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "c98803e8dfe886f7b9387952882b1c7af1008efc4ca1c765cdf094dfa8a69f8b",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "f105742cc8b58b00453e0ea2bdd2befbe0e6ee76a079a24b2a141f08af06eb3a",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "b4e31cd7b6c6bae8919777be0f63cffbd408c08ed0f7cf9626d7d0dc5c493f5c"
+  },
+  "output_directory": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\out\\modern-outfits-20261027\\import-01"
+}

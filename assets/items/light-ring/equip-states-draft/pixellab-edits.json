@@ -1,0 +1,30 @@
+{
+  "source_image_id": "9b7eebbe-2bec-47e8-b305-0573ecb360ac",
+  "unequipped_image_id": "ca7e81e4-3b16-413b-9aa8-802a727cbc8c",
+  "unequipped_changes": [
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        10,
+        11,
+        15,
+        15
+      ],
+      "colors": {
+        "#fefdfa": "#cda819",
+        "#fff8d2": "#b68514",
+        "#fef365": "#966505",
+        "#f8dd32": "#825307",
+        "#f1c017": "#704202",
+        "#d88f08": "#704202",
+        "#c16a03": "#553b02"
+      },
+      "reason": "User replaced pulsing with two static equip states. Make the unequipped amber gemstone unlit; preserve all ring metal, silhouette and alpha exactly."
+    }
+  ],
+  "equipped_source": "../pulse-draft/frame-05.png (single static frame; no animation)"
+}

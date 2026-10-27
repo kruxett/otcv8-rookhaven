@@ -1,0 +1,797 @@
+{
+  "as_of": "2026-10-26",
+  "source_runtime": "server data/XML/outfits.xml enabled entries parsed as XML (comments ignored)",
+  "families": 26,
+  "sex_variants": 52,
+  "dat_outfit_max": 376,
+  "spr_count": 38964,
+  "missing_or_empty_runtime_looks": [],
+  "modern_source_to_local": {
+    "1384": 374,
+    "1385": 373,
+    "1206": 376,
+    "1207": 375
+  },
+  "rows": [
+    {
+      "name": "Rune Master",
+      "sex": "female",
+      "local_id": 373,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "nonzero_sprite_refs": 718
+    },
+    {
+      "name": "Rune Master",
+      "sex": "male",
+      "local_id": 374,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "nonzero_sprite_refs": 714
+    },
+    {
+      "name": "Lion of War",
+      "sex": "female",
+      "local_id": 375,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "nonzero_sprite_refs": 794
+    },
+    {
+      "name": "Lion of War",
+      "sex": "male",
+      "local_id": 376,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "nonzero_sprite_refs": 756
+    },
+    {
+      "name": "Citizen",
+      "sex": "female",
+      "local_id": 136,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 140
+    },
+    {
+      "name": "Citizen",
+      "sex": "male",
+      "local_id": 128,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 140
+    },
+    {
+      "name": "Hunter",
+      "sex": "female",
+      "local_id": 137,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 143
+    },
+    {
+      "name": "Hunter",
+      "sex": "male",
+      "local_id": 129,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 132
+    },
+    {
+      "name": "Mage",
+      "sex": "female",
+      "local_id": 138,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 110
+    },
+    {
+      "name": "Mage",
+      "sex": "male",
+      "local_id": 130,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 111
+    },
+    {
+      "name": "Knight",
+      "sex": "female",
+      "local_id": 139,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 160
+    },
+    {
+      "name": "Knight",
+      "sex": "male",
+      "local_id": 131,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 96
+    },
+    {
+      "name": "Nobleman",
+      "sex": "female",
+      "local_id": 140,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 132
+    },
+    {
+      "name": "Nobleman",
+      "sex": "male",
+      "local_id": 132,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 156
+    },
+    {
+      "name": "Summoner",
+      "sex": "female",
+      "local_id": 141,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 108
+    },
+    {
+      "name": "Summoner",
+      "sex": "male",
+      "local_id": 133,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 90
+    },
+    {
+      "name": "Warrior",
+      "sex": "female",
+      "local_id": 142,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 87
+    },
+    {
+      "name": "Warrior",
+      "sex": "male",
+      "local_id": 134,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 106
+    },
+    {
+      "name": "Barbarian",
+      "sex": "female",
+      "local_id": 147,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 182
+    },
+    {
+      "name": "Barbarian",
+      "sex": "male",
+      "local_id": 143,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 118
+    },
+    {
+      "name": "Druid",
+      "sex": "female",
+      "local_id": 148,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 121
+    },
+    {
+      "name": "Druid",
+      "sex": "male",
+      "local_id": 144,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 112
+    },
+    {
+      "name": "Wizard",
+      "sex": "female",
+      "local_id": 149,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 160
+    },
+    {
+      "name": "Wizard",
+      "sex": "male",
+      "local_id": 145,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 116
+    },
+    {
+      "name": "Oriental",
+      "sex": "female",
+      "local_id": 150,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 84
+    },
+    {
+      "name": "Oriental",
+      "sex": "male",
+      "local_id": 146,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 130
+    },
+    {
+      "name": "Pirate",
+      "sex": "female",
+      "local_id": 155,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 154
+    },
+    {
+      "name": "Pirate",
+      "sex": "male",
+      "local_id": 151,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 142
+    },
+    {
+      "name": "Assassin",
+      "sex": "female",
+      "local_id": 156,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 72
+    },
+    {
+      "name": "Assassin",
+      "sex": "male",
+      "local_id": 152,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 78
+    },
+    {
+      "name": "Beggar",
+      "sex": "female",
+      "local_id": 157,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 76
+    },
+    {
+      "name": "Beggar",
+      "sex": "male",
+      "local_id": 153,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 100
+    },
+    {
+      "name": "Shaman",
+      "sex": "female",
+      "local_id": 158,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 175
+    },
+    {
+      "name": "Shaman",
+      "sex": "male",
+      "local_id": 154,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 154
+    },
+    {
+      "name": "Norseman",
+      "sex": "female",
+      "local_id": 252,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 130
+    },
+    {
+      "name": "Norseman",
+      "sex": "male",
+      "local_id": 251,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 171
+    },
+    {
+      "name": "Nightmare",
+      "sex": "female",
+      "local_id": 269,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 133
+    },
+    {
+      "name": "Nightmare",
+      "sex": "male",
+      "local_id": 268,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 137
+    },
+    {
+      "name": "Jester",
+      "sex": "female",
+      "local_id": 270,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 241
+    },
+    {
+      "name": "Jester",
+      "sex": "male",
+      "local_id": 273,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 236
+    },
+    {
+      "name": "Brotherhood of Bones",
+      "sex": "female",
+      "local_id": 279,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 140
+    },
+    {
+      "name": "Brotherhood of Bones",
+      "sex": "male",
+      "local_id": 278,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 148
+    },
+    {
+      "name": "Demon Hunter",
+      "sex": "female",
+      "local_id": 288,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 137
+    },
+    {
+      "name": "Demon Hunter",
+      "sex": "male",
+      "local_id": 289,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 144
+    },
+    {
+      "name": "Yalaharian",
+      "sex": "female",
+      "local_id": 324,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 285
+    },
+    {
+      "name": "Yalaharian",
+      "sex": "male",
+      "local_id": 325,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 282
+    },
+    {
+      "name": "Newly Wed",
+      "sex": "female",
+      "local_id": 329,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 86
+    },
+    {
+      "name": "Newly Wed",
+      "sex": "male",
+      "local_id": 328,
+      "shape": [
+        1,
+        1,
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 24
+    },
+    {
+      "name": "Warmaster",
+      "sex": "female",
+      "local_id": 336,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 243
+    },
+    {
+      "name": "Warmaster",
+      "sex": "male",
+      "local_id": 335,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 239
+    },
+    {
+      "name": "Wayfarer",
+      "sex": "female",
+      "local_id": 366,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 208
+    },
+    {
+      "name": "Wayfarer",
+      "sex": "male",
+      "local_id": 367,
+      "shape": [
+        2,
+        2,
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "nonzero_sprite_refs": 199
+    }
+  ]
+}

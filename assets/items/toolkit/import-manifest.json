@@ -1,0 +1,34 @@
+{
+  "mode": "add",
+  "name": "toolkit",
+  "server_id": 12865,
+  "client_id": 11902,
+  "sprite_id": 36699,
+  "definition": {
+    "server_id": 12865,
+    "prototype_dat_server_id": 10511,
+    "prototype_otb_server_id": 10511,
+    "article": "a",
+    "name": "toolkit",
+    "attributes": {
+      "description": "A reusable rope, shovel, pick and machete in one item. Use it on a target to select the appropriate tool.",
+      "weight": "1000"
+    }
+  },
+  "image_sha256": "38931568aa08b614921afbdc7f633ebdb38f4b4bba549c0706625932fc7b3615",
+  "source_files": {
+    "client/data/things/860/Tibia.dat": "61a9e38fd44679dcd24f2e3c5dac55ff3e19cccb2a48bd7daf9bab64242b0793",
+    "client/data/things/860/Tibia.spr": "4ed3b7f7fa7efb9de2b0270b7703fdfce410306a2e687d5b8dae7208ac8566a2",
+    "server/data/items/items.otb": "d2531fdabbc5067c65376afc37f2b7e8847bfee7d7cdda2ab4baa518b4910769",
+    "server/data/items/items.xml": "285e5fcd41a73789da37bf12d6a83dc864fb500224fec2d86233c06c3272e76e"
+  },
+  "files": {
+    "client/data/things/860/Tibia.dat": "1e5dc97fef8664419255aac0a75f467a59978493ba7af06cfc6c8ba61ad68394",
+    "client/data/things/860/Tibia.spr": "d36b2f445f7739a9e60ceb74b257e764c7888fbd8be1f5e174a3bfaf4745207d",
+    "server/data/items/items.otb": "e04e5f90084f8425e478cd89ce8292d53d5636a3d8af43b5bf073af58104bc00",
+    "server/data/items/items.xml": "895b0028060b237b556be4b69b949a1b2c153c15a0086b69aeb7d9849e75f692"
+  },
+  "validated_existing_sprites": 36698,
+  "validated_existing_dat_records": 12287,
+  "validated_existing_otb_records": 12765
+}

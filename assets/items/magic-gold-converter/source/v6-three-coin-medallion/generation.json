@@ -1,0 +1,25 @@
+{
+  "description": "ONE original MAGIC GOLD CONVERTER inventory item for Rookhaven, retro Tibia 8.60 pixel art. Entirely new concept: a compact enchanted THREE-COIN MEDALLION. Three clearly recognizable currency coins are mounted together inside one narrow dark silver circular frame. GOLD coin at upper left, PLATINUM coin at upper right, CRYSTAL coin lower center, forming a tight triangular arrangement. Each face is large and readable, roughly 9 pixels across. The supplied reference contains the actual in-game coins: copy their distinctive yellow-gold, muted silver-lavender and bright cyan-blue materials, dark round rims, restrained highlights and simple inset mint marks. The three coins dominate the design. A few thick smooth antique-silver curved bridges connect them around the perimeter, giving the impression of a magical cycle of conversion, one solid physical artifact rather than three loose coins. The central gap is small and dark. Clear round overall silhouette, near-frontal view with slight top-down depth, top-left highlights, strong dark contour, chunky deliberate pixel clusters, minimal surface decoration. The silver setting is subdued so the three coin colours stand out. Entire item about 26x26 pixels centered on native 32x32 canvas with fully transparent margins and fully opaque painted pixels. This is a NEW medallion composed around the three currencies, not an edit of any prior converter. No chain, pendant loop, box, chest, glowing window, wooden handle, hammer, stamp, tools, machinery, floating coins, gemstone shapes, nuggets, arrows, letters, numbers, labels, external glow, sparkles, floor shadow, background, antialiasing or photorealism.",
+  "width": 32,
+  "height": 32,
+  "max_colors": 32,
+  "no_background": true,
+  "seed": 20261106,
+  "style_image": {
+    "file": "../v5-coining-stamp/coin-reference.png",
+    "usage_description": "Actual native Rookhaven gold, platinum and crystal single-coin sprites. Reference their exact currency identity, colours, circular faces, embossed marks, pixel density and shading. Build a new coherent three-coin medallion around them."
+  },
+  "style_options": {
+    "color_palette": true,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  },
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "5483734d-1ebc-4792-af14-bcc7e28bba57",
+  "asset_id": "aff90caa-6cf2-5940-a431-0962b61a54dc",
+  "created_from_scratch": true,
+  "previous_converter_used_as_input": false,
+  "download": "https://api.pixellab.ai/mcp/images/5483734d-1ebc-4792-af14-bcc7e28bba57/download",
+  "charged_generations": 5
+}

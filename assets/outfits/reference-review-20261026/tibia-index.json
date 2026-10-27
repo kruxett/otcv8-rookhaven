@@ -1,0 +1,4349 @@
+{
+  "installed_assets": "C:\\Users\\marcu\\AppData\\Local\\Tibia\\packages\\Tibia\\assets",
+  "catalog_sha256": "97d0963444e147f5eebb02ed8024abc7e2e80707ef03b08dce226117bebdcb4d",
+  "appearances_file": "appearances-501594e860be8a531ca465ae6e7638da05e3a4d5cef2d038d4f2321ae6729f5f.dat",
+  "appearance_count": 1480,
+  "recolorable_four_direction_variants": 394,
+  "selection": "All appearance outfits with 4 directions and 2 recoloring layers, including player outfits and compatible NPCs; idle base/full addons, mount pattern zero.",
+  "pages": 7,
+  "items": [
+    {
+      "id": 12,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\12"
+    },
+    {
+      "id": 75,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\75"
+    },
+    {
+      "id": 128,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\128"
+    },
+    {
+      "id": 129,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\129"
+    },
+    {
+      "id": 130,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\130"
+    },
+    {
+      "id": 131,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\131"
+    },
+    {
+      "id": 132,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\132"
+    },
+    {
+      "id": 133,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\133"
+    },
+    {
+      "id": 134,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\134"
+    },
+    {
+      "id": 136,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\136"
+    },
+    {
+      "id": 137,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\137"
+    },
+    {
+      "id": 138,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\138"
+    },
+    {
+      "id": 139,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\139"
+    },
+    {
+      "id": 140,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\140"
+    },
+    {
+      "id": 141,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\141"
+    },
+    {
+      "id": 142,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\142"
+    },
+    {
+      "id": 143,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\143"
+    },
+    {
+      "id": 144,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\144"
+    },
+    {
+      "id": 145,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\145"
+    },
+    {
+      "id": 146,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\146"
+    },
+    {
+      "id": 147,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\147"
+    },
+    {
+      "id": 148,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\148"
+    },
+    {
+      "id": 149,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\149"
+    },
+    {
+      "id": 150,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\150"
+    },
+    {
+      "id": 151,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\151"
+    },
+    {
+      "id": 152,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\152"
+    },
+    {
+      "id": 153,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\153"
+    },
+    {
+      "id": 154,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\154"
+    },
+    {
+      "id": 155,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\155"
+    },
+    {
+      "id": 156,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\156"
+    },
+    {
+      "id": 157,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\157"
+    },
+    {
+      "id": 158,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\158"
+    },
+    {
+      "id": 159,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\159"
+    },
+    {
+      "id": 160,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\160"
+    },
+    {
+      "id": 194,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\194"
+    },
+    {
+      "id": 226,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\226"
+    },
+    {
+      "id": 251,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\251"
+    },
+    {
+      "id": 252,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\252"
+    },
+    {
+      "id": 253,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\253"
+    },
+    {
+      "id": 254,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\254"
+    },
+    {
+      "id": 255,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\255"
+    },
+    {
+      "id": 264,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\264"
+    },
+    {
+      "id": 268,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\268"
+    },
+    {
+      "id": 269,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\269"
+    },
+    {
+      "id": 270,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\270"
+    },
+    {
+      "id": 273,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\273"
+    },
+    {
+      "id": 278,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\278"
+    },
+    {
+      "id": 279,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\279"
+    },
+    {
+      "id": 288,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\288"
+    },
+    {
+      "id": 289,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\289"
+    },
+    {
+      "id": 324,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\324"
+    },
+    {
+      "id": 325,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\325"
+    },
+    {
+      "id": 328,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\328"
+    },
+    {
+      "id": 329,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\329"
+    },
+    {
+      "id": 335,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\335"
+    },
+    {
+      "id": 336,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\336"
+    },
+    {
+      "id": 366,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\366"
+    },
+    {
+      "id": 367,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\367"
+    },
+    {
+      "id": 386,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\386"
+    },
+    {
+      "id": 430,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\430"
+    },
+    {
+      "id": 431,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\431"
+    },
+    {
+      "id": 432,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\432"
+    },
+    {
+      "id": 433,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\433"
+    },
+    {
+      "id": 463,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\463"
+    },
+    {
+      "id": 464,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\464"
+    },
+    {
+      "id": 465,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\465"
+    },
+    {
+      "id": 466,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\466"
+    },
+    {
+      "id": 471,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\471"
+    },
+    {
+      "id": 472,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\472"
+    },
+    {
+      "id": 493,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\493"
+    },
+    {
+      "id": 507,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\507"
+    },
+    {
+      "id": 512,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\512"
+    },
+    {
+      "id": 513,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\513"
+    },
+    {
+      "id": 514,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\514"
+    },
+    {
+      "id": 516,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\516"
+    },
+    {
+      "id": 532,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\532"
+    },
+    {
+      "id": 533,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\533"
+    },
+    {
+      "id": 534,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\534"
+    },
+    {
+      "id": 541,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\541"
+    },
+    {
+      "id": 542,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\542"
+    },
+    {
+      "id": 574,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\574"
+    },
+    {
+      "id": 575,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\575"
+    },
+    {
+      "id": 577,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\577"
+    },
+    {
+      "id": 578,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\578"
+    },
+    {
+      "id": 610,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\610"
+    },
+    {
+      "id": 618,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\618"
+    },
+    {
+      "id": 619,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\619"
+    },
+    {
+      "id": 620,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\620"
+    },
+    {
+      "id": 632,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\632"
+    },
+    {
+      "id": 633,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\633"
+    },
+    {
+      "id": 634,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\634"
+    },
+    {
+      "id": 635,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\635"
+    },
+    {
+      "id": 636,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\636"
+    },
+    {
+      "id": 637,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\637"
+    },
+    {
+      "id": 664,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\664"
+    },
+    {
+      "id": 665,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\665"
+    },
+    {
+      "id": 666,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\666"
+    },
+    {
+      "id": 667,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\667"
+    },
+    {
+      "id": 683,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\683"
+    },
+    {
+      "id": 684,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\684"
+    },
+    {
+      "id": 694,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\694"
+    },
+    {
+      "id": 695,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\695"
+    },
+    {
+      "id": 696,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\696"
+    },
+    {
+      "id": 697,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\697"
+    },
+    {
+      "id": 698,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\698"
+    },
+    {
+      "id": 699,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\699"
+    },
+    {
+      "id": 724,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\724"
+    },
+    {
+      "id": 725,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\725"
+    },
+    {
+      "id": 732,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\732"
+    },
+    {
+      "id": 733,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\733"
+    },
+    {
+      "id": 745,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\745"
+    },
+    {
+      "id": 746,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\746"
+    },
+    {
+      "id": 749,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\749"
+    },
+    {
+      "id": 750,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\750"
+    },
+    {
+      "id": 759,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\759"
+    },
+    {
+      "id": 760,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\760"
+    },
+    {
+      "id": 842,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\842"
+    },
+    {
+      "id": 845,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\845"
+    },
+    {
+      "id": 846,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\846"
+    },
+    {
+      "id": 852,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\852"
+    },
+    {
+      "id": 853,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\853"
+    },
+    {
+      "id": 862,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\862"
+    },
+    {
+      "id": 873,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\873"
+    },
+    {
+      "id": 874,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\874"
+    },
+    {
+      "id": 875,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\875"
+    },
+    {
+      "id": 876,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\876"
+    },
+    {
+      "id": 881,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\881"
+    },
+    {
+      "id": 884,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\884"
+    },
+    {
+      "id": 885,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\885"
+    },
+    {
+      "id": 899,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\899"
+    },
+    {
+      "id": 900,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\900"
+    },
+    {
+      "id": 908,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\908"
+    },
+    {
+      "id": 909,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\909"
+    },
+    {
+      "id": 929,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\929"
+    },
+    {
+      "id": 931,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\931"
+    },
+    {
+      "id": 932,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\932"
+    },
+    {
+      "id": 935,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\935"
+    },
+    {
+      "id": 947,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\947"
+    },
+    {
+      "id": 955,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\955"
+    },
+    {
+      "id": 956,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\956"
+    },
+    {
+      "id": 957,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\957"
+    },
+    {
+      "id": 958,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\958"
+    },
+    {
+      "id": 962,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\962"
+    },
+    {
+      "id": 963,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\963"
+    },
+    {
+      "id": 964,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\964"
+    },
+    {
+      "id": 965,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\965"
+    },
+    {
+      "id": 966,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\966"
+    },
+    {
+      "id": 967,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\967"
+    },
+    {
+      "id": 968,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\968"
+    },
+    {
+      "id": 969,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\969"
+    },
+    {
+      "id": 970,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\970"
+    },
+    {
+      "id": 971,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\971"
+    },
+    {
+      "id": 972,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\972"
+    },
+    {
+      "id": 973,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\973"
+    },
+    {
+      "id": 974,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\974"
+    },
+    {
+      "id": 975,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\975"
+    },
+    {
+      "id": 980,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\980"
+    },
+    {
+      "id": 1020,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1020"
+    },
+    {
+      "id": 1021,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1021"
+    },
+    {
+      "id": 1023,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1023"
+    },
+    {
+      "id": 1024,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1024"
+    },
+    {
+      "id": 1042,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1042"
+    },
+    {
+      "id": 1043,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1043"
+    },
+    {
+      "id": 1050,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1050"
+    },
+    {
+      "id": 1051,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1051"
+    },
+    {
+      "id": 1056,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1056"
+    },
+    {
+      "id": 1057,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1057"
+    },
+    {
+      "id": 1059,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1059"
+    },
+    {
+      "id": 1061,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1061"
+    },
+    {
+      "id": 1062,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1062"
+    },
+    {
+      "id": 1063,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1063"
+    },
+    {
+      "id": 1068,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1068"
+    },
+    {
+      "id": 1069,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1069"
+    },
+    {
+      "id": 1070,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1070"
+    },
+    {
+      "id": 1071,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1071"
+    },
+    {
+      "id": 1072,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1072"
+    },
+    {
+      "id": 1094,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1094"
+    },
+    {
+      "id": 1095,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1095"
+    },
+    {
+      "id": 1102,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1102"
+    },
+    {
+      "id": 1103,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1103"
+    },
+    {
+      "id": 1107,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1107"
+    },
+    {
+      "id": 1108,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1108"
+    },
+    {
+      "id": 1109,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1109"
+    },
+    {
+      "id": 1110,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1110"
+    },
+    {
+      "id": 1111,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1111"
+    },
+    {
+      "id": 1112,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1112"
+    },
+    {
+      "id": 1113,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1113"
+    },
+    {
+      "id": 1114,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1114"
+    },
+    {
+      "id": 1115,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1115"
+    },
+    {
+      "id": 1116,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1116"
+    },
+    {
+      "id": 1117,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1117"
+    },
+    {
+      "id": 1118,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1118"
+    },
+    {
+      "id": 1119,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1119"
+    },
+    {
+      "id": 1122,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1122"
+    },
+    {
+      "id": 1127,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1127"
+    },
+    {
+      "id": 1128,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1128"
+    },
+    {
+      "id": 1133,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1133"
+    },
+    {
+      "id": 1136,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1136"
+    },
+    {
+      "id": 1137,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1137"
+    },
+    {
+      "id": 1138,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1138"
+    },
+    {
+      "id": 1139,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1139"
+    },
+    {
+      "id": 1146,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1146"
+    },
+    {
+      "id": 1147,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1147"
+    },
+    {
+      "id": 1161,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1161"
+    },
+    {
+      "id": 1162,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1162"
+    },
+    {
+      "id": 1173,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1173"
+    },
+    {
+      "id": 1174,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1174"
+    },
+    {
+      "id": 1186,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1186"
+    },
+    {
+      "id": 1187,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1187"
+    },
+    {
+      "id": 1188,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1188"
+    },
+    {
+      "id": 1189,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1189"
+    },
+    {
+      "id": 1190,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1190"
+    },
+    {
+      "id": 1199,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1199"
+    },
+    {
+      "id": 1200,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1200"
+    },
+    {
+      "id": 1202,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1202"
+    },
+    {
+      "id": 1203,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1203"
+    },
+    {
+      "id": 1204,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1204"
+    },
+    {
+      "id": 1205,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1205"
+    },
+    {
+      "id": 1206,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1206"
+    },
+    {
+      "id": 1207,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1207"
+    },
+    {
+      "id": 1210,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1210"
+    },
+    {
+      "id": 1211,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1211"
+    },
+    {
+      "id": 1217,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1217"
+    },
+    {
+      "id": 1219,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1219"
+    },
+    {
+      "id": 1221,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1221"
+    },
+    {
+      "id": 1222,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1222"
+    },
+    {
+      "id": 1223,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1223"
+    },
+    {
+      "id": 1243,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1243"
+    },
+    {
+      "id": 1244,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1244"
+    },
+    {
+      "id": 1245,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1245"
+    },
+    {
+      "id": 1246,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1246"
+    },
+    {
+      "id": 1251,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1251"
+    },
+    {
+      "id": 1252,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1252"
+    },
+    {
+      "id": 1255,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1255"
+    },
+    {
+      "id": 1268,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1268"
+    },
+    {
+      "id": 1270,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1270"
+    },
+    {
+      "id": 1271,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1271"
+    },
+    {
+      "id": 1279,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1279"
+    },
+    {
+      "id": 1280,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1280"
+    },
+    {
+      "id": 1282,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1282"
+    },
+    {
+      "id": 1283,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1283"
+    },
+    {
+      "id": 1288,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1288"
+    },
+    {
+      "id": 1289,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1289"
+    },
+    {
+      "id": 1292,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1292"
+    },
+    {
+      "id": 1293,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1293"
+    },
+    {
+      "id": 1298,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1298"
+    },
+    {
+      "id": 1300,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1300"
+    },
+    {
+      "id": 1301,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1301"
+    },
+    {
+      "id": 1316,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1316"
+    },
+    {
+      "id": 1317,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1317"
+    },
+    {
+      "id": 1322,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1322"
+    },
+    {
+      "id": 1323,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1323"
+    },
+    {
+      "id": 1331,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1331"
+    },
+    {
+      "id": 1332,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1332"
+    },
+    {
+      "id": 1338,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1338"
+    },
+    {
+      "id": 1339,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1339"
+    },
+    {
+      "id": 1346,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1346"
+    },
+    {
+      "id": 1363,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1363"
+    },
+    {
+      "id": 1371,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1371"
+    },
+    {
+      "id": 1372,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1372"
+    },
+    {
+      "id": 1378,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1378"
+    },
+    {
+      "id": 1382,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1382"
+    },
+    {
+      "id": 1383,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1383"
+    },
+    {
+      "id": 1384,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1384"
+    },
+    {
+      "id": 1385,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1385"
+    },
+    {
+      "id": 1386,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1386"
+    },
+    {
+      "id": 1387,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1387"
+    },
+    {
+      "id": 1396,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1396"
+    },
+    {
+      "id": 1406,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1406"
+    },
+    {
+      "id": 1407,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1407"
+    },
+    {
+      "id": 1408,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1408"
+    },
+    {
+      "id": 1415,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1415"
+    },
+    {
+      "id": 1416,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1416"
+    },
+    {
+      "id": 1418,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1418"
+    },
+    {
+      "id": 1430,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1430"
+    },
+    {
+      "id": 1436,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1436"
+    },
+    {
+      "id": 1437,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1437"
+    },
+    {
+      "id": 1444,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1444"
+    },
+    {
+      "id": 1445,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1445"
+    },
+    {
+      "id": 1449,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1449"
+    },
+    {
+      "id": 1450,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1450"
+    },
+    {
+      "id": 1456,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1456"
+    },
+    {
+      "id": 1457,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1457"
+    },
+    {
+      "id": 1460,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1460"
+    },
+    {
+      "id": 1461,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1461"
+    },
+    {
+      "id": 1489,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1489"
+    },
+    {
+      "id": 1490,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1490"
+    },
+    {
+      "id": 1500,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1500"
+    },
+    {
+      "id": 1501,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1501"
+    },
+    {
+      "id": 1537,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1537"
+    },
+    {
+      "id": 1538,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1538"
+    },
+    {
+      "id": 1539,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1539"
+    },
+    {
+      "id": 1543,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1543"
+    },
+    {
+      "id": 1568,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1568"
+    },
+    {
+      "id": 1569,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1569"
+    },
+    {
+      "id": 1575,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1575"
+    },
+    {
+      "id": 1576,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1576"
+    },
+    {
+      "id": 1581,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1581"
+    },
+    {
+      "id": 1582,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1582"
+    },
+    {
+      "id": 1597,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1597"
+    },
+    {
+      "id": 1598,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1598"
+    },
+    {
+      "id": 1599,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1599"
+    },
+    {
+      "id": 1611,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1611"
+    },
+    {
+      "id": 1612,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1612"
+    },
+    {
+      "id": 1613,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1613"
+    },
+    {
+      "id": 1618,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1618"
+    },
+    {
+      "id": 1619,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1619"
+    },
+    {
+      "id": 1640,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1640"
+    },
+    {
+      "id": 1641,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1641"
+    },
+    {
+      "id": 1642,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1642"
+    },
+    {
+      "id": 1643,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1643"
+    },
+    {
+      "id": 1646,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1646"
+    },
+    {
+      "id": 1647,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1647"
+    },
+    {
+      "id": 1648,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1648"
+    },
+    {
+      "id": 1652,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1652"
+    },
+    {
+      "id": 1653,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1653"
+    },
+    {
+      "id": 1662,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1662"
+    },
+    {
+      "id": 1663,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1663"
+    },
+    {
+      "id": 1675,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1675"
+    },
+    {
+      "id": 1676,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1676"
+    },
+    {
+      "id": 1680,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1680"
+    },
+    {
+      "id": 1681,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1681"
+    },
+    {
+      "id": 1688,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1688"
+    },
+    {
+      "id": 1689,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1689"
+    },
+    {
+      "id": 1713,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1713"
+    },
+    {
+      "id": 1714,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1714"
+    },
+    {
+      "id": 1722,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1722"
+    },
+    {
+      "id": 1723,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1723"
+    },
+    {
+      "id": 1724,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1724"
+    },
+    {
+      "id": 1725,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1725"
+    },
+    {
+      "id": 1726,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1726"
+    },
+    {
+      "id": 1737,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1737"
+    },
+    {
+      "id": 1740,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1740"
+    },
+    {
+      "id": 1745,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1745"
+    },
+    {
+      "id": 1746,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1746"
+    },
+    {
+      "id": 1747,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1747"
+    },
+    {
+      "id": 1774,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1774"
+    },
+    {
+      "id": 1775,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1775"
+    },
+    {
+      "id": 1776,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1776"
+    },
+    {
+      "id": 1777,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1777"
+    },
+    {
+      "id": 1808,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1808"
+    },
+    {
+      "id": 1809,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1809"
+    },
+    {
+      "id": 1810,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1810"
+    },
+    {
+      "id": 1814,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1814"
+    },
+    {
+      "id": 1815,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1815"
+    },
+    {
+      "id": 1816,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1816"
+    },
+    {
+      "id": 1817,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1817"
+    },
+    {
+      "id": 1824,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1824"
+    },
+    {
+      "id": 1825,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1825"
+    },
+    {
+      "id": 1826,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1826"
+    },
+    {
+      "id": 1827,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1827"
+    },
+    {
+      "id": 1831,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1831"
+    },
+    {
+      "id": 1832,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1832"
+    },
+    {
+      "id": 1837,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1837"
+    },
+    {
+      "id": 1838,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1838"
+    },
+    {
+      "id": 1845,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1845"
+    },
+    {
+      "id": 1846,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1846"
+    },
+    {
+      "id": 1847,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1847"
+    },
+    {
+      "id": 1848,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1848"
+    },
+    {
+      "id": 1850,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1850"
+    },
+    {
+      "id": 1856,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1856"
+    },
+    {
+      "id": 1857,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1857"
+    },
+    {
+      "id": 1860,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1860"
+    },
+    {
+      "id": 1861,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1861"
+    },
+    {
+      "id": 1866,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1866"
+    },
+    {
+      "id": 1874,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1874"
+    },
+    {
+      "id": 1875,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1875"
+    },
+    {
+      "id": 1900,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1900"
+    },
+    {
+      "id": 1901,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1901"
+    },
+    {
+      "id": 1902,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1902"
+    },
+    {
+      "id": 1906,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1906"
+    },
+    {
+      "id": 1907,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1907"
+    },
+    {
+      "id": 1920,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1920"
+    },
+    {
+      "id": 1921,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1921"
+    },
+    {
+      "id": 1927,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1927"
+    },
+    {
+      "id": 1928,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1928"
+    },
+    {
+      "id": 1929,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1929"
+    },
+    {
+      "id": 1930,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1930"
+    },
+    {
+      "id": 1935,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1935"
+    },
+    {
+      "id": 1936,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1936"
+    },
+    {
+      "id": 1937,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1937"
+    },
+    {
+      "id": 1938,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1938"
+    },
+    {
+      "id": 1940,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1940"
+    },
+    {
+      "id": 1941,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1941"
+    },
+    {
+      "id": 1944,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1944"
+    },
+    {
+      "id": 1948,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1948"
+    },
+    {
+      "id": 1949,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1949"
+    },
+    {
+      "id": 1950,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1950"
+    },
+    {
+      "id": 1951,
+      "name": "",
+      "patterns": [
+        4,
+        1,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1951"
+    },
+    {
+      "id": 1961,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        1
+      ],
+      "layers": 2,
+      "source": "tibia\\1961"
+    },
+    {
+      "id": 1973,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1973"
+    },
+    {
+      "id": 1974,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1974"
+    },
+    {
+      "id": 1976,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1976"
+    },
+    {
+      "id": 1977,
+      "name": "",
+      "patterns": [
+        4,
+        3,
+        2
+      ],
+      "layers": 2,
+      "source": "tibia\\1977"
+    }
+  ],
+  "format_sources": [
+    "https://github.com/opentibiabr/otclient/blob/main/src/protobuf/appearances.proto",
+    "https://github.com/opentibiabr/otclient/blob/main/src/client/spriteappearances.cpp"
+  ]
+}

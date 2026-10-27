@@ -1,0 +1,225 @@
+{
+  "status": "implemented-and-verified-locally-not-published",
+  "date": "2026-10-25",
+  "sid": 12866,
+  "cid": 11903,
+  "sprite_id": 36700,
+  "artwork": {
+    "approved_source_sha256": "d3d4727225b37324bc18a893daeabc9f65559ce31820e5100afd6ad61b44f3fb",
+    "unchanged_from_approved_source": true
+  },
+  "preservation": {
+    "dat_records": 12288,
+    "otb_records": 12766,
+    "sprites": 36699,
+    "existing_xml_entries_unchanged": true
+  },
+  "ordinary_release_native_source_files_matched": 178,
+  "source_hashes": "native-source-hashes.json",
+  "native_boat_checks": 50,
+  "native_premium_regression_checks": 59,
+  "fare_contract_checks": 222,
+  "shop_contract_checks": 115,
+  "tests": {
+    "boat": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "23d14234e9a6599ac8544d818e23e3b8143e01187e118ebf99d07845d73e235c",
+      "actual_fare_popups": [
+        {
+          "price": 15,
+          "destination": "Ferry to Spider Island"
+        },
+        {
+          "price": 0,
+          "destination": "Ferry to Spider Island"
+        },
+        {
+          "price": 15,
+          "destination": "Ferry to Spider Island"
+        },
+        {
+          "price": 15,
+          "destination": "Ferry to Spider Island"
+        },
+        {
+          "price": 0,
+          "destination": "Ferry to Spider Island"
+        },
+        {
+          "price": 0,
+          "destination": "Ferry to Spider Island"
+        }
+      ],
+      "real_paid_and_free_rides": true,
+      "same_and_other_account_checks": true,
+      "duplicate_use_did_not_grant_time": true,
+      "schema_version": "34",
+      "native_checks": [
+        "BOAT_PASS_WIRE_READY checks=24",
+        "BOAT_PASS_NATIVE_OK checks=26",
+        "BOAT_PASS_SAME_ACCOUNT_OK checks=29",
+        "BOAT_PASS_OTHER_ACCOUNT_OK checks=30",
+        "BOAT_PASS_STAGE_OK stage=paid checks=34",
+        "BOAT_PASS_STAGE_OK stage=free checks=37",
+        "BOAT_PASS_STAGE_OK stage=poor checks=39",
+        "BOAT_PASS_STAGE_OK stage=paid_failure checks=41",
+        "BOAT_PASS_STAGE_OK stage=free_failure checks=43",
+        "BOAT_PASS_STAGE_OK stage=expired_quote checks=47",
+        "BOAT_PASS_RIDES_OK checks=47",
+        "BOAT_PASS_NATIVE_RELOGIN_OK checks=50"
+      ]
+    },
+    "premium": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "23d14234e9a6599ac8544d818e23e3b8143e01187e118ebf99d07845d73e235c",
+      "duplicate_use_did_not_grant_time": true,
+      "native_checks": [
+        "PREMIUM_SCROLL_WIRE_READY checks=53",
+        "PREMIUM_SCROLL_NATIVE_OK checks=55",
+        "PREMIUM_SCROLL_NATIVE_RELOGIN_OK checks=59"
+      ]
+    },
+    "fault_before": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "296dced3132fb0affbfdb18f6474503780565cb47f497e47f05392c30818af1d",
+      "fault_mode": "commit_unknown_before",
+      "atomic_account_and_scroll_after_fault": true,
+      "schema_version": "34",
+      "native_checks": [
+        "BOAT_PASS_FAULT_RELOGIN_OK mode=commit_unknown_before checks=6"
+      ]
+    },
+    "fault_after": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "296dced3132fb0affbfdb18f6474503780565cb47f497e47f05392c30818af1d",
+      "fault_mode": "commit_unknown_after",
+      "atomic_account_and_scroll_after_fault": true,
+      "schema_version": "34",
+      "native_checks": [
+        "BOAT_PASS_FAULT_RELOGIN_OK mode=commit_unknown_after checks=6"
+      ]
+    },
+    "crash_after": {
+      "status": "PASS",
+      "source_database_unchanged": true,
+      "owned_processes_stopped": true,
+      "server_sha256": "296dced3132fb0affbfdb18f6474503780565cb47f497e47f05392c30818af1d",
+      "fault_mode": "crash_after_commit",
+      "atomic_account_and_scroll_after_fault": true,
+      "schema_version": "34",
+      "native_checks": [
+        "BOAT_PASS_FAULT_RELOGIN_OK mode=crash_after_commit checks=5"
+      ]
+    },
+    "visual": {
+      "status": "PASS",
+      "scope": "Real local gameplay with matched older QA pair; current server tested separately",
+      "visual_engine_sha256": "3a46cf3114b617304bf02816884bc76b43de70cac5e5b3117703a7a1b930f754",
+      "normal_client_moves": true,
+      "native_redemption_tested_separately": true,
+      "rendering_only": true,
+      "server_item_sid": 12866,
+      "profile_restored": true,
+      "source_database_and_config_unchanged": true,
+      "owned_processes_stopped": true
+    }
+  },
+  "all_registered_boat_routes": [
+    {
+      "path": "data/actions/scripts/quests/underground_boat_first.lua",
+      "price": 50,
+      "description": "Passage deeper underground"
+    },
+    {
+      "path": "data/actions/scripts/quests/underground_boat_second.lua",
+      "price": 50,
+      "description": "Passage to the depths"
+    },
+    {
+      "path": "data/actions/scripts/quests/underground_boat_third.lua",
+      "price": 50,
+      "description": "Passage back toward the surface"
+    },
+    {
+      "path": "data/actions/scripts/quests/floki_island_boat_travel.lua",
+      "price": 100,
+      "description": "Ferry to Floki's Island"
+    },
+    {
+      "path": "data/actions/scripts/quests/floki_island_return_boat.lua",
+      "price": 0,
+      "description": "Ferry back to the mainland"
+    },
+    {
+      "path": "data/actions/scripts/quests/spider_island_boat_travel.lua",
+      "price": 15,
+      "description": "Ferry to Spider Island"
+    },
+    {
+      "path": "data/actions/scripts/quests/spider_island_return_boat.lua",
+      "price": 15,
+      "description": "Ferry back from Spider Island"
+    },
+    {
+      "path": "data/actions/scripts/quests/gobbo_island_beach_boat_travel.lua",
+      "price": 5,
+      "description": "Ferry to Goblin Island Beach"
+    },
+    {
+      "path": "data/actions/scripts/quests/gobbo_island_beach_return_boat.lua",
+      "price": 5,
+      "description": "Ferry to Rookhaven"
+    },
+    {
+      "path": "data/actions/scripts/quests/rookhaven_to_stillshore_boat_travel.lua",
+      "price": 50,
+      "description": "Floki's Fares - The Stillshore Line"
+    },
+    {
+      "path": "data/actions/scripts/quests/stillshore_to_rookhaven_boat_travel.lua",
+      "price": 50,
+      "description": "Floki's Fares - The Stillshore Line"
+    }
+  ],
+  "other_boats": {
+    "Ferryman": "Both quest and return journeys are already free; their quest/password gates remain unchanged.",
+    "Captain Voss": "DESTINATIONS currently contains no active routes.",
+    "generic_NPC_transport": "No current paid boat consumers; generic transport cost handling was not changed."
+  },
+  "server_files": {
+    "data/lib/boat_pass.lua": "89c048fdadc0b20bdc0d9bd8befd0e8342a35f31964b677a9e2cd6920f515c80",
+    "data/lib/boat_fare_registry.lua": "2f7319886109cc6f35bf64ba65f4c4ac22db5076aed4ff864b2112e34b759242",
+    "data/lib/lib.lua": "995ca012004097156b53e7526d9d30967d7c9dadbbb8aa531c20b82fc2dffac4",
+    "data/actions/scripts/boat_fare_station.lua": "a0fdcd30f58decf8ea729fd5a56768ed8a42def5fd38795b7f24268419b1b7ca",
+    "data/scripts/actions/others/boat_pass.lua": "065e0345f07c8bf7b34347f86f8f5c79c6ad9dc02cfc81e17539a4fdcfe42a33",
+    "data/creaturescripts/scripts/extendedopcode.lua": "1980bd0cd8687db0236f947d948b6dd1739383ce40e6fa9f269ef24dfc3339a6",
+    "data/lib/game_shop_config.lua": "3720d73cc56497a7fb31b0fec56ba406884debc4125631ace0c38f1d8d8480bb",
+    "data/migrations/33.lua": "6fc0ef43daf1278a253cb67d33431855627ce03b456698b66260ceff1638f139",
+    "data/migrations/34.lua": "55fb88a662af8fa21ef3a9a0785214204dc31e5032ac2f6ecaaa0668d6540afd",
+    "schema.sql": "77d336e2bcd94a72f9c3c4c0a12c8273aa20884fa0806d8dac50ec1ca2ff51db",
+    "data/items/items.otb": "0a3f30bb53e41df9652073fa904d3f6304f700dc346f98bf75668fffa4056cad",
+    "data/items/items.xml": "3611528f231a5693914c854d50e8abc569b7ab309bb694a3d641725c61835447"
+  },
+  "client_files": {
+    "data/things/860/Tibia.dat": "f62ebd44d7436513e6ed15dc64a0123722def1906d41de02bb25314f646c9073",
+    "data/things/860/Tibia.spr": "a7fb27cd5a1e759d51f794fc8bdf303bf86acdc4d3bfdb26d210edaf052105c0"
+  },
+  "visual_scope": "Native retro inventory move/look with current DAT/SPR/OTB/XML and checksums in the final private encrypted archive; existing matched older QA engine/client. Current native activation/fare packets and complete paid/free rides were tested separately.",
+  "not_done": [
+    "No protected RH2 client/archive rebuild or DEV release",
+    "No publication, deployment, server restart, commit or push",
+    "Only Spider Island was travelled end-to-end natively; all 11 actual route configurations and their fare/access/tradepack paths were exercised by source contracts."
+  ],
+  "test_fixture_repairs": [
+    "native-01 sent a deliberately malformed reply only; the existing ClientRequests gate correctly rejected it. native-02 verifies that rejection and then sends the valid reply. No gameplay checks were weakened.",
+    "The new shop fixture initially called a nonexistent helper; corrected to the existing init opcode. Shop/fare contracts then passed."
+  ]
+}

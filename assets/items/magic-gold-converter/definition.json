@@ -1,0 +1,11 @@
+{
+  "server_id": 12867,
+  "prototype_dat_server_id": 5943,
+  "prototype_otb_server_id": 5943,
+  "article": "a",
+  "name": "magic gold converter",
+  "attributes": {
+    "description": "Automatically converts carried gold coins to platinum coins and platinum coins to crystal coins at a rate of 100 to 1. Keep it in your inventory. No charges.",
+    "weight": "100"
+  }
+}

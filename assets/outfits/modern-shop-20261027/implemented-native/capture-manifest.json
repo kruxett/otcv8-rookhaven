@@ -1,0 +1,21 @@
+{
+  "scope": "Exact crops of real connected client screenshots; original pixels, no painted UI or sprite overlays.",
+  "sourceRun": "out\\modern-outfits-20261027\\shop-batch-02",
+  "window": {
+    "y": 150,
+    "width": 750,
+    "x": 265,
+    "height": 500
+  },
+  "animation": {
+    "file": "shop-native-animation.png",
+    "frames": 16,
+    "millisecondsPerFrame": 90,
+    "format": "lossless APNG"
+  },
+  "static": [
+    "shop-middle.png",
+    "shop-bottom.png",
+    "shop-first-new.png"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "size": [
+    32,
+    32
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "bbox": [
+    7,
+    5,
+    25,
+    26
+  ],
+  "opaque_colors": 12,
+  "sha256": "bb6f943a7496ed9417b48b4029a95bdc0a7b230c0cc21640b753e56d860d74bb",
+  "original_pixels_unchanged": true,
+  "preview_scale": 6,
+  "preview_filter": "nearest neighbour"
+}

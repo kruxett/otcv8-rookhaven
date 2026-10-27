@@ -1,0 +1,57 @@
+{
+  "date": "2026-10-25",
+  "status": "implemented-and-verified-locally-not-published",
+  "native_gameplay": {
+    "status": "PASS",
+    "source_database_unchanged": true,
+    "owned_processes_stopped": true,
+    "server_sha256": "eff48168dbce6f8310a8063e77e86006d18b270ac40df9e3165fa66ec3756d01",
+    "native_checks": [
+      "FOOD_RING_NATIVE_READY_RELOGIN_1 checks=81",
+      "FOOD_RING_NATIVE_READY_RELOGIN_2 checks=145",
+      "FOOD_RING_NATIVE_OK checks=157"
+    ]
+  },
+  "native_source_files_verified": 178,
+  "server_build": "Ordinary Release, no transaction-test compile flag. Isolated native build; MSBuild exit0.",
+  "server_package_sha256": "e99a06b2f30b72e09c37a7aa32c0dca16b4ae57ff8fed34a0496ec9510e1e690",
+  "source_contract_checks": {
+    "shop_admin": 97,
+    "existing_cyclopedia_equipment": 15,
+    "food_time_response": 29
+  },
+  "preserved_asset_records": {
+    "DAT": 12285,
+    "OTB": 12763,
+    "SPR_payloads": 36696
+  },
+  "real_ingame_visual_fixture": {
+    "status": "PASS",
+    "scope": "Real local gameplay with matched older QA pair; current server tested separately",
+    "visual_engine_sha256": "3a46cf3114b617304bf02816884bc76b43de70cac5e5b3117703a7a1b930f754",
+    "normal_client_moves": true,
+    "server_equipped_sid": 12864,
+    "profile_restored": true,
+    "source_database_and_config_unchanged": true,
+    "owned_processes_stopped": true
+  },
+  "files_sha256": {
+    "otcv8-rookhaven/data/things/860/Tibia.dat": "61a9e38fd44679dcd24f2e3c5dac55ff3e19cccb2a48bd7daf9bab64242b0793",
+    "otcv8-rookhaven/data/things/860/Tibia.spr": "4ed3b7f7fa7efb9de2b0270b7703fdfce410306a2e687d5b8dae7208ac8566a2",
+    "Rookhaven/data/items/items.otb": "d2531fdabbc5067c65376afc37f2b7e8847bfee7d7cdda2ab4baa518b4910769",
+    "Rookhaven/data/items/items.xml": "285e5fcd41a73789da37bf12d6a83dc864fb500224fec2d86233c06c3272e76e",
+    "Rookhaven/data/movements/movements.xml": "25463632dff69c876a0af69944d0695b4485b09e2507821d28b07ea8fae74f98",
+    "Rookhaven/data/lib/game_shop_config.lua": "44f2bc56830ca5e78b6e0d2412d78d91a121ad173e50829bd6cb9a9183f54b99"
+  },
+  "evidence_directories": [
+    "out/food-ring-20261025/native-06",
+    "out/food-ring-20261025/ingame-01",
+    "out/food-ring-20261025/import-01"
+  ],
+  "limitations": [
+    "Rendering uses an existing matched older QA pair; current-source food behavior tested separately.",
+    "Two-hour duration verified through native metadata and accelerated remaining-time/expiry checks, not a two-hour soak.",
+    "Death and PvP not separately playtested.",
+    "Protected executable/archive, RH2 pin, updater and live DEV release not rebuilt or published."
+  ]
+}

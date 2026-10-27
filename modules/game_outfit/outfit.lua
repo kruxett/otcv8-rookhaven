@@ -21,6 +21,9 @@ ignoreNextOutfitWindow = 0
 local floorTiles = 7
 local settingsFile = "/settings/outfit.json"
 local settings = {}
+local previewMode = false
+local previewCloseCallback = nil
+local floorAnimationGeneration = 0
 
 local tempOutfit = {}
 local ServerData = {
@@ -72,6 +75,9 @@ function onMovementChange(checkBox, checked)
 end
 
 function onShowFloorChange(checkBox, checked)
+  floorAnimationGeneration = floorAnimationGeneration + 1
+  local generation = floorAnimationGeneration
+  local owner = window
   if checked then
     floor:show()
 
@@ -79,6 +85,7 @@ function onShowFloorChange(checkBox, checked)
     local delay = 50
     periodicalEvent(
       function()
+        if generation ~= floorAnimationGeneration or window ~= owner then return end
         if movementCheck:isChecked() then
           local direction = previewCreature:getDirection()
           if direction == Directions.North then
@@ -117,7 +124,7 @@ function onShowFloorChange(checkBox, checked)
         end
       end,
       function()
-        return window and floor and showFloorCheck:isChecked()
+        return generation == floorAnimationGeneration and window == owner and window and floor and showFloorCheck:isChecked()
       end,
       delay,
       delay
@@ -174,20 +181,31 @@ local PreviewOptions = {
   ["showBars"] = onShowBarsChange
 }
 
-function create(currentOutfit, outfitList, mountList, wingList, auraList, shaderList, healthBarList, manaBarList)
-  if ignoreNextOutfitWindow and g_clock.millis() < ignoreNextOutfitWindow + 1000 then
+function create(currentOutfit, outfitList, mountList, wingList, auraList, shaderList, healthBarList, manaBarList, previewOptions)
+  if not previewOptions and ignoreNextOutfitWindow and g_clock.millis() < ignoreNextOutfitWindow + 1000 then
     return
   end
 
   if window then
-    destroy()
+    destroy(previewOptions ~= nil, true)
   end
+
+  previewMode = previewOptions ~= nil
+  previewCloseCallback = previewOptions and previewOptions.onClose or nil
 
   if currentOutfit.shader == "" then
     currentOutfit.shader = "outfit_default"
   end
 
-  loadSettings()
+  if previewMode then
+    -- A shop trial has its own preferences and must not read, alter or save
+    -- the character's current preset or appearance settings.
+    loadDefaultSettings()
+    settings.movement = true
+    settings.showFloor = true
+  else
+    loadSettings()
+  end
 
   ServerData = {
     currentOutfit = currentOutfit,
@@ -315,7 +333,7 @@ function create(currentOutfit, outfitList, mountList, wingList, auraList, shader
   appearanceGroup:addWidget(window.appearance.settings.manaBar.check)
 
   appearanceGroup.onSelectionChange = onAppearanceChange
-  appearanceGroup:selectWidget(window.appearance.settings.preset.check)
+  appearanceGroup:selectWidget(previewMode and window.appearance.settings.outfit.check or window.appearance.settings.preset.check)
 
   colorModeGroup = UIRadioGroup.create()
   colorModeGroup:addWidget(window.appearance.colorMode.head)
@@ -341,9 +359,60 @@ function create(currentOutfit, outfitList, mountList, wingList, auraList, shader
   window.configure.mount:setVisible(g_game.getFeature(GamePlayerMounts))
 
   window.listSearch.search.onKeyPress = onFilterSearch
+
+  if previewMode then
+    window:setText(tr("Try On") .. ": " .. previewOptions.title)
+    window.presetButtons:hide()
+    for _, key in ipairs({"preset", "mount", "wings", "aura", "shader", "healthBar", "manaBar"}) do
+      window.appearance.settings[key]:hide()
+    end
+    for _, key in ipairs({"showMount", "showWings", "showAura", "showShader", "showBars"}) do
+      window.preview.options[key]:hide()
+    end
+    window.configure.mount:hide()
+    -- These buttons are inherited from the shared OutfitWindow style.
+    for _, child in ipairs(window:getChildren()) do
+      if child:getText() == "Ok" or child:getText() == tr("Ok") then
+        child:hide()
+      elseif child:getText() == "Cancel" or child:getText() == tr("Cancel") then
+        child:setText(tr("Close"))
+      end
+    end
+  end
+
+  return window
 end
 
-function destroy()
+-- Use the ordinary character preview controls with a local, unowned shop
+-- appearance. The live creature and server outfit permissions are untouched.
+function previewOutfit(outfit, title, onClose)
+  local player = g_game.getLocalPlayer()
+  local lookType = type(outfit) == "table" and tonumber(outfit.type) or nil
+  if not player or not lookType or lookType % 1 ~= 0 or lookType < 1 or lookType > 65535 then
+    return nil
+  end
+
+  local trial = table.copy(outfit)
+  local worn = player:getOutfit()
+  trial.type = lookType
+  trial.addons = tonumber(trial.addons) or 3
+  if trial.addons % 1 ~= 0 or trial.addons < 0 or trial.addons > 3 then return nil end
+  for _, key in ipairs({"head", "body", "legs", "feet"}) do
+    trial[key] = worn[key] or trial[key] or 0
+  end
+  trial.mount, trial.wings, trial.aura = 0, 0, 0
+  trial.healthBar, trial.manaBar, trial.shader = 0, 0, "outfit_default"
+  title = type(title) == "string" and title ~= "" and title or tr("Outfit")
+
+  return create(trial, {{lookType, title, trial.addons}}, {}, {}, {}, {}, {}, {}, {title = title, onClose = onClose})
+end
+
+function getPreviewWindow()
+  return previewMode and window or nil
+end
+
+function destroy(skipSave, skipCloseCallback)
+  floorAnimationGeneration = floorAnimationGeneration + 1
   if window then
     window:destroy()
     window = nil
@@ -379,8 +448,13 @@ function destroy()
       manaBars = {}
     }
 
-    saveSettings()
+    if not previewMode and not skipSave then saveSettings() end
     settings = {}
+
+    local onClose = previewCloseCallback
+    previewMode = false
+    previewCloseCallback = nil
+    if onClose and not skipCloseCallback then onClose() end
   end
 end
 
@@ -1223,6 +1297,7 @@ function onFilterSearch()
 end
 
 function saveSettings()
+  if previewMode then return end
   if not g_resources.fileExists(settingsFile) then
     g_resources.makeDir("/settings")
     g_resources.writeFileContents(settingsFile, "[]")
@@ -1305,6 +1380,11 @@ function loadDefaultSettings()
 end
 
 function accept()
+  if not window then return end
+  if previewMode then
+    destroy()
+    return
+  end
   if g_game.getFeature(GamePlayerMounts) then
     local player = g_game.getLocalPlayer()
     local isMountedChecked = window.configure.mount.check:isChecked()

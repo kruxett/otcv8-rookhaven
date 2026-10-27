@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-25",
+  "status": "implemented-and-verified-locally-not-published",
+  "native_gameplay": {
+    "status": "PASS",
+    "source_database_unchanged": true,
+    "owned_processes_stopped": true,
+    "server_sha256": "eff48168dbce6f8310a8063e77e86006d18b270ac40df9e3165fa66ec3756d01",
+    "wire_use_requests": {
+      "1": "rope-spot-12865",
+      "2": "rope-spot-2120",
+      "3": "shovel-hole-12865",
+      "4": "shovel-hole-2554",
+      "5": "pick-floor-12865",
+      "6": "pick-floor-2553",
+      "7": "machete-grass-on-sand-12865",
+      "8": "machete-grass-on-sand-2420",
+      "9": "machete-wheat",
+      "10": "machete-wild-growth",
+      "11": "rope-pull-item-12865",
+      "12": "rope-pull-item-2120",
+      "13": "silo-1-12865",
+      "14": "silo-2-12865",
+      "15": "silo-1-2120",
+      "16": "silo-2-2120",
+      "17": "mining-training-denied-12865",
+      "18": "mining-training-denied-2553",
+      "19": "mining-training-success-on-sand",
+      "20": "learned-mining-on-sand",
+      "21": "wrong-floor-refusal",
+      "22": "wrong-client-id-refusal",
+      "23": "use-after-relogin"
+    },
+    "native_cases": [
+      "rope-spot-12865",
+      "rope-spot-2120",
+      "shovel-hole-12865",
+      "shovel-hole-2554",
+      "pick-floor-12865",
+      "pick-floor-2553",
+      "machete-grass-on-sand-12865",
+      "machete-grass-on-sand-2420",
+      "machete-wheat",
+      "machete-wild-growth",
+      "rope-pull-item-12865",
+      "rope-pull-item-2120",
+      "silo-1-12865",
+      "silo-2-12865",
+      "silo-1-2120",
+      "silo-2-2120",
+      "mining-training-denied-12865",
+      "mining-training-denied-2553",
+      "mining-training-success-on-sand",
+      "learned-mining-on-sand",
+      "wrong-floor-refusal",
+      "wrong-client-id-refusal",
+      "use-after-relogin"
+    ],
+    "native_checks": [
+      "TOOLKIT_NATIVE_READY_RELOGIN checks=97",
+      "TOOLKIT_NATIVE_OK checks=106"
+    ]
+  },
+  "source_contract_checks": {
+    "shop_admin": 106,
+    "toolkit_dispatch_and_rope_PZ": 92,
+    "existing_cyclopedia_equipment": 15,
+    "food_time_response": 29
+  },
+  "asset_integrity": {
+    "result": "TOOLKIT_ASSETS_OK",
+    "sid": 12865,
+    "cid": 11902,
+    "sprite": 36699,
+    "preserved_dat": 12287,
+    "preserved_otb": 12765,
+    "preserved_sprites": 36698
+  },
+  "native_engine_reuse": {
+    "current_native_source_files_verified": 178,
+    "source_snapshot": "out/food-ring-20261025/remote-source-hashes.json",
+    "engine_package": "out/food-ring-20261025/food-ring-runtime.zip",
+    "no_cpp_changes_for_toolkit": true
+  },
+  "real_ingame_visual_fixture": {
+    "status": "PASS",
+    "scope": "Real local gameplay with matched older QA pair; current server tested separately",
+    "visual_engine_sha256": "3a46cf3114b617304bf02816884bc76b43de70cac5e5b3117703a7a1b930f754",
+    "normal_client_moves": true,
+    "normal_client_use_with": true,
+    "server_item_sid": 12865,
+    "profile_restored": true,
+    "source_database_and_config_unchanged": true,
+    "owned_processes_stopped": true
+  },
+  "evidence_directories": [
+    "out/toolkit-20261025/native-06",
+    "out/toolkit-20261025/ingame-01",
+    "out/toolkit-20261025/import-01"
+  ],
+  "limitations": [
+    "Native current-source gameplay and matched older QA client/server rendering tested separately.",
+    "Player-to-player pulls, PvP and blocked silo destinations not separately playtested; PZ refusal checked through actual-handler source contract.",
+    "Protected executable/archive, RH2 release pin, updater and live DEV release not rebuilt or published."
+  ],
+  "files_sha256": {
+    "otcv8-rookhaven/data/things/860/Tibia.dat": "1e5dc97fef8664419255aac0a75f467a59978493ba7af06cfc6c8ba61ad68394",
+    "otcv8-rookhaven/data/things/860/Tibia.spr": "d36b2f445f7739a9e60ceb74b257e764c7888fbd8be1f5e174a3bfaf4745207d",
+    "Rookhaven/data/items/items.otb": "e04e5f90084f8425e478cd89ce8292d53d5636a3d8af43b5bf073af58104bc00",
+    "Rookhaven/data/items/items.xml": "895b0028060b237b556be4b69b949a1b2c153c15a0086b69aeb7d9849e75f692",
+    "Rookhaven/data/actions/actions.xml": "0ab45def7c5e764e14408fe5434fc32014deaa5c608a6724ca7486fc845b177a",
+    "Rookhaven/data/actions/lib/actions.lua": "a22c18eb26f55f5075921cc072b8bf01863722b826fdf74fb24ab272c3bd0129",
+    "Rookhaven/data/actions/scripts/tools/rope.lua": "e83d8133b1ba29501e26da0eb815f129b3725a76265bfb6325dca019eb5bcb21",
+    "Rookhaven/data/actions/scripts/tools/toolkit.lua": "09e7fafe9ff7fe6be52b16b2253711fc34ded82214581ae3e378efda859709de",
+    "Rookhaven/data/lib/game_shop_config.lua": "d18c36fc688fd54799838b82f6521f879a5f44d61c3d8039d952434248439649"
+  },
+  "final_source_vs_tested_library": "Same code; one original comment encoding restored after the native run."
+}

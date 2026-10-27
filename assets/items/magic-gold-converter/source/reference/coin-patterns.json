@@ -1,0 +1,314 @@
+[
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 0,
+    "sprite": 410,
+    "bbox": [
+      12,
+      11,
+      21,
+      20
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 1,
+    "sprite": 411,
+    "bbox": [
+      6,
+      7,
+      23,
+      23
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 2,
+    "sprite": 412,
+    "bbox": [
+      5,
+      7,
+      25,
+      26
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 3,
+    "sprite": 413,
+    "bbox": [
+      6,
+      6,
+      25,
+      27
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 4,
+    "sprite": 414,
+    "bbox": [
+      1,
+      13,
+      31,
+      26
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 5,
+    "sprite": 415,
+    "bbox": [
+      5,
+      13,
+      29,
+      23
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 6,
+    "sprite": 416,
+    "bbox": [
+      2,
+      10,
+      31,
+      25
+    ]
+  },
+  {
+    "currency": "gold",
+    "sid": 2148,
+    "cid": 3031,
+    "pattern": 7,
+    "sprite": 417,
+    "bbox": [
+      1,
+      8,
+      32,
+      28
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 0,
+    "sprite": 402,
+    "bbox": [
+      12,
+      11,
+      21,
+      20
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 1,
+    "sprite": 403,
+    "bbox": [
+      6,
+      7,
+      23,
+      23
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 2,
+    "sprite": 404,
+    "bbox": [
+      5,
+      7,
+      25,
+      26
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 3,
+    "sprite": 405,
+    "bbox": [
+      6,
+      6,
+      25,
+      27
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 4,
+    "sprite": 406,
+    "bbox": [
+      1,
+      13,
+      31,
+      26
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 5,
+    "sprite": 407,
+    "bbox": [
+      5,
+      13,
+      29,
+      23
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 6,
+    "sprite": 408,
+    "bbox": [
+      2,
+      10,
+      31,
+      25
+    ]
+  },
+  {
+    "currency": "platinum",
+    "sid": 2152,
+    "cid": 3035,
+    "pattern": 7,
+    "sprite": 409,
+    "bbox": [
+      1,
+      8,
+      32,
+      28
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 0,
+    "sprite": 6165,
+    "bbox": [
+      12,
+      11,
+      21,
+      20
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 1,
+    "sprite": 6166,
+    "bbox": [
+      6,
+      7,
+      23,
+      23
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 2,
+    "sprite": 6167,
+    "bbox": [
+      5,
+      7,
+      25,
+      26
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 3,
+    "sprite": 6168,
+    "bbox": [
+      6,
+      6,
+      25,
+      27
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 4,
+    "sprite": 3406,
+    "bbox": [
+      1,
+      13,
+      31,
+      26
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 5,
+    "sprite": 3407,
+    "bbox": [
+      5,
+      13,
+      29,
+      23
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 6,
+    "sprite": 3408,
+    "bbox": [
+      2,
+      10,
+      31,
+      25
+    ]
+  },
+  {
+    "currency": "crystal",
+    "sid": 2160,
+    "cid": 3043,
+    "pattern": 7,
+    "sprite": 3409,
+    "bbox": [
+      1,
+      8,
+      32,
+      28
+    ]
+  }
+]

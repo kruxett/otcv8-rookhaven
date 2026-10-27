@@ -1,0 +1,71 @@
+{
+  "status": "draft-awaiting-pulse-approval",
+  "frame_count": 8,
+  "duration_per_frame_ms": 500,
+  "loop_duration_ms": 4000,
+  "canvas": [
+    32,
+    32
+  ],
+  "edit_region_inclusive": [
+    10,
+    11,
+    15,
+    15
+  ],
+  "single_flattened_sprite_frames": true,
+  "overlay_layers": false,
+  "frames": [
+    {
+      "frame": 1,
+      "changed_gem_pixels": 19,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 2,
+      "changed_gem_pixels": 19,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 3,
+      "changed_gem_pixels": 19,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 4,
+      "changed_gem_pixels": 0,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 5,
+      "changed_gem_pixels": 17,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 6,
+      "changed_gem_pixels": 0,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 7,
+      "changed_gem_pixels": 19,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    },
+    {
+      "frame": 8,
+      "changed_gem_pixels": 19,
+      "silhouette_and_alpha_unchanged": true,
+      "all_pixels_outside_gem_unchanged": true
+    }
+  ],
+  "all_visible_gif_pixels_roundtrip_exact": true,
+  "game_DAT_and_SPR_still_equal_to_completed_scroll_state": true,
+  "ingame_implementation_or_equipped_screenshot": "Not performed; user requested pulse artwork first."
+}

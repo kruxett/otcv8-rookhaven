@@ -1,0 +1,19 @@
+{
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "eddc7cd5-5bc6-48c9-8712-8217fdcb081d",
+  "asset_id": "5388e1bd-72b7-5059-934a-b1c0ef8beba4",
+  "prompt": "A SINGLE original Food Ring inventory item for Rookhaven, an old-school 1990s Tibia 8.60 medieval pixel art MMORPG. A compact, believable bronze signet ring seen diagonally from above, with a clearly visible hollow finger opening in the lower-right and a small forest-green enamel signet face at the upper-left. ONE tiny golden wheat sprig is engraved on the green signet, a simple readable symbol of nourishment. Thick curved bronze band, worn dark bronze shadows, warm brass edge highlights, dark brown pixel contour, top-left lighting. Keep the signet small enough that this unmistakably reads as a ring, with a strong open loop, not a coin, shield or medallion. Original silhouette distinct from the reference ring, restrained earthy green and bronze palette. Match reference sprite's compact inventory scale, diagonal perspective, chunky deliberate pixel clusters, simple retro shading and contrast. Native 32x32 pixel art, item footprint about 21x24 pixels, centered with transparent margins. ONE ring only. Fully transparent background with binary alpha. No glow, aura, sparkles, text, digits, labels, frame, floor shadow, food scattered around, hands, character, or photorealism.",
+  "seed": 20261027,
+  "width": 32,
+  "height": 32,
+  "max_colors": 24,
+  "charged_generations": 5,
+  "download": "https://api.pixellab.ai/mcp/images/eddc7cd5-5bc6-48c9-8712-8217fdcb081d/download",
+  "style_reference": "assets/items/light-ring/unequipped/sprite.png",
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  }
+}

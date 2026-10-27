@@ -1,0 +1,180 @@
+{
+  "status": "Imported and tested locally, including fresh current QA build, native animated shop and read-only Try On. No public release or DEV publication.",
+  "outfits": [
+    {
+      "name": "Rune Master",
+      "source_id": 1385,
+      "looktype": 373,
+      "sex": 0,
+      "offer_id": 6001,
+      "shift": [
+        8,
+        7
+      ],
+      "exact_size": 55,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Rune Master",
+      "source_id": 1384,
+      "looktype": 374,
+      "sex": 1,
+      "offer_id": 6002,
+      "shift": [
+        8,
+        7
+      ],
+      "exact_size": 57,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Lion of War",
+      "source_id": 1207,
+      "looktype": 375,
+      "sex": 0,
+      "offer_id": 6003,
+      "shift": [
+        3,
+        4
+      ],
+      "exact_size": 46,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Lion of War",
+      "source_id": 1206,
+      "looktype": 376,
+      "sex": 1,
+      "offer_id": 6004,
+      "shift": [
+        4,
+        5
+      ],
+      "exact_size": 47,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    }
+  ],
+  "original_sprites": 36701,
+  "added_sprites": 2263,
+  "source_tile_slots_compared": 3456,
+  "unrelated_DAT_records_byte_exact": 12290,
+  "all_original_SPR_payload_bytes_preserved": true,
+  "source_appearance_sha256": "501594e860be8a531ca465ae6e7638da05e3a4d5cef2d038d4f2321ae6729f5f",
+  "source_sheet_sha256": {
+    "sprites-40d92ba20bd2da523ad0ebb1fa98ff0956d7115f27038605838a75c6d051d875.bmp.lzma": "d5268c2f57d81b0ef79fba0dcfe85eafd4da7eec8e8ea64f3c39f0e504c033b7",
+    "sprites-f61a03a27596b238f0e46aa16cc4bf6b214b4d18e87c484ad5b2e369c026aa4a.bmp.lzma": "0922f8eaee0f8bdf718cc98f7cbd8d616294c942e134b62e8010b5890e1e0c39",
+    "sprites-84c065ff3024afbdb70df0448f9f7184433cac14a0bc61987dea0621f0d83622.bmp.lzma": "44d0b634e1989a4fa9d50915b0dcbdd361526f647fd935422e859f661673277a",
+    "sprites-35a554b8539e11064a3e67e46392e27acac0af4827134e8437171b074f142386.bmp.lzma": "ca5809eadecbc582597cad34bdbe8491aecdffb8a064f66022b189dbbcb2f57b",
+    "sprites-0d477075459a308b16cefe495e2695e31f876449d6fcce3df451e2d2ac386566.bmp.lzma": "a6a3f429c6fa5da0784196854d6f196120547e7f7c3e108d167cc33922a2a542",
+    "sprites-990e1b1f1b220e834879511f9bc452a979a505f6b9eebbf00a60497474885404.bmp.lzma": "776d2a569211b4a0d029c6f1e747731be3c5dd4d778342760a1ce849fcdb7be8",
+    "sprites-3175fdf8b72701afe7b1f159a53e9396f59d27047a8d663728bc13e4b3eca106.bmp.lzma": "eb4ce310d06dc8d18057d0165e007044e8fac4376740b84e6c9370fcdea332f2",
+    "sprites-122882785415a0474f04c27eff76041d5ea54a07e203c397150ce6db8305dd1a.bmp.lzma": "3f00a94fa9e3f1a6f2aecc51118d2234b8631b53800ace6b93a1da0a746adcb5",
+    "sprites-07d68984bf87b444664fe347aeda40f37bd677e63c3c685b4e95b3acbb80c387.bmp.lzma": "4b0b5aefcc09d356bf2cdf582d333afd4a87b4da2c9b7f129ea55e3db13c4e83",
+    "sprites-c2ecc9141bb649ca1c9e1080075a3eb95277e5f1969bb0c4cd3db6b77b01ff3e.bmp.lzma": "6774bc657292f3d4b8e64681daf9958623a3d96570c936a4d5e422e0cfda01f0",
+    "sprites-ef7cb29dc3156649af67ff861c67088a6b09e046d39deef714f81a086da40fa9.bmp.lzma": "c520ef1ef44af04d2dcc37b0c7c3ca5d4167bba8f8b99e88bfdc311af8d32cc7",
+    "sprites-497fa44165211876281b5596360cc8ad73279802ca1a85bbda7cec8d77d58cd7.bmp.lzma": "177b0de454771254fcc1610cc463b2603b347735ec81de69cbf293229af719ee",
+    "sprites-caa150f93408153793e884561974b9d5ba858d6da8ea15df1c2b23998c7a6f58.bmp.lzma": "98cef499382a3b40da0b2ca2152d2cc1d05cfb24be4b59225b44a51676d25bb9",
+    "sprites-43531eedf97c48a2b4b2a48785e9193948b8783d4b79b97884d29f48abdd6eb7.bmp.lzma": "7c68f85b914a099f49d0caa65f83b018950b050fe878d07341428234719f138b",
+    "sprites-e0c988df1734fbcf1efc888bab4601cc924cb0f9c44ed6053ef02e89c94a9d75.bmp.lzma": "017da47a5aedd2c53b1ec5eb664058ddf7909476e7e1c571e034c3b0d2acfaf5",
+    "sprites-3f545013d0a4f571b290591ebe2499180ff42f655486e75a555c1706ae7f6d28.bmp.lzma": "5b49dba158061e7bb027c441a20fa360ab84d38cb881def83ed3f42511b7a2cb",
+    "sprites-39e195786ce8a28d494f06857e5c4d4be859f1d6def4bcebe81f982938ca526f.bmp.lzma": "80ee78423fec83f0b1b506a70471669879d776c3c32e9b933b2e18c01ebaaafd",
+    "sprites-b0c086556aaa5b00f2751590dd85b66d90cee8dc01c1ef4a9f8588507c43480b.bmp.lzma": "e1dcdecc2bd54225ab84e3cff120c656d1150a0afd94118dfa2da5d71f78270c",
+    "sprites-9bc251283b10f3df4262294f610c2f9bd8b8497213ab62021255721f55dba26a.bmp.lzma": "ce451e509729fc28a7266e9f33f08062a9113675e836e12372382d9782928b3a",
+    "sprites-c105697cde6182891cadb6e229aa06117bf41da71b27aa8699a9de95362e5066.bmp.lzma": "83734d793bf97df8917a062944c397e7b66062eb95913eb520d6eba767fa7655",
+    "sprites-5bafb4a84ce5751e8a2fdd1ceb73da0ee6181b692b410df8e030a745068feccc.bmp.lzma": "c703804627408653c0a42004814d8a790b0b5aba1080c5547e19fd90e65a03bd",
+    "sprites-edc2a05abd0d0352590be8b1bd6b7d9e53b5d047c2c21393ee4e8136c2408c1c.bmp.lzma": "7c15658b3701a20750dbb9a3a33a3b271076265559ac5ac58a3990d994329a1f",
+    "sprites-3438aa95ba3805ef3d831f950ebc02ef406ddb5f7fe7499d69705c3bd5ea5f74.bmp.lzma": "2b4ea2377f34aed37da14c80c1168fede027f2ceb375ed9aa010b4ce4e9f8f60",
+    "sprites-ca55451a69bcd64268b770b3ad5ee9a83780c664908c0fae405003e1526cb603.bmp.lzma": "99de14c6d7b7f0972a748c6d976189101523ba1fa1a4e2aee290088033582605",
+    "sprites-8ff0bce39562752acffd4c7e50650df111b4b9e6fe24e66fe71e28fb022f6f46.bmp.lzma": "b809484ad020e682d09a4917054e2b66cdc9e2915f519f3b02a22c7280ec8e41",
+    "sprites-20ddbea564b0c4308a7118a22f04dfd49996252221ae0b08031b5c34635110ad.bmp.lzma": "d80f0e65c300f1671cff3c653d308d1649b0dd9563cd7658d99e9ef2dd5f63e1",
+    "sprites-ceb60b2adc013597aa2a811b698efb888ddd41fdd0dffed7ebb457da2d7ca358.bmp.lzma": "bdd86e4a1a600bb4b38ab804423f7b340af238eba25fae7202b6612af5211e8d",
+    "sprites-1943f31f13b174c6d380ec4110090617345ebf702c532674a4ee3ecf3c4bf527.bmp.lzma": "ad4e1f4c35f40a7ffceb6ce8f3d0d295dc721d544ad0b41d7a13c70af1573beb",
+    "sprites-2308a483aa06391d4d7138f89e69d3bb0bdd43db42cded9bfe84018b57fd73ed.bmp.lzma": "bf8a54ed7137347736ba98a69558d5a2ab14227cb253792cf0ba2358743af3e2",
+    "sprites-67c76394719905176cf8ccb72d3c86884cd86517a37541f6283cccbe270e3a58.bmp.lzma": "a6316b82a7425e0a784bcb402fe4ff344c599ae1b331d08c19eb0db6902b3104",
+    "sprites-e669f83ad130c9475bd10345cf953cd200a2cd51e36c65659e17d88e35265bd9.bmp.lzma": "823c55d8251142d12ac5b9355c9c504d09b5d3c57725604e729827b4a21963a6",
+    "sprites-0832caa1f8fc5dddc9966d4e6bfd1808cae96223ace50343b8b03665012843e6.bmp.lzma": "e17f9285cf5cdc4e417c285e15c8c16667069c964df7f5441a80c4c38f771e04",
+    "sprites-9d6eaa41673db7595b19958a81898b8f4672157cb68135048e6f6dd5f189ce65.bmp.lzma": "66443e8180b37462badc4428aa857f228ffe5d329ceab8018ef9317a922f31dd",
+    "sprites-0cce9adbbc8fcb8c5ffdcbd25dd9b9fa47d69e1da1b6ce144730ba5e91138455.bmp.lzma": "a7a8bbd02ecea4b3eaf892be0cfe35dd46d7a3e4f2bb0cceb303468f6fa3cb0d",
+    "sprites-accbafa800a287369878113b19107f063248c95568579b18269ce316b09a2b66.bmp.lzma": "e336c773aab1042bde401226b4d802f0f0e075e773bf5bb286f91176004def8a",
+    "sprites-30af3d4abb11c6e55e557c8e295e9bc4eb9874ef083ef7846ed32f9532a6f3fc.bmp.lzma": "526237aadd3001e3b27596d2cbbc7daec94769002d30adc27ecde98614809d72",
+    "sprites-bf95c8f8991ca998d032d5546bb5de54347c39ec5fb0ae0d4538ae983da2ee81.bmp.lzma": "d8a2290614338d9a780e04a8dcb41a27c8b65c52c5902f9da79624a142cab0d6",
+    "sprites-6e9e08e5c346818b4b303e949671acf3a3d925eaa0954ea505e77c34b44c1818.bmp.lzma": "1d8c1e0f37c3fd3fc23b4386eb3131bcdf01b06b9eb7c824842d88ede50b5eae",
+    "sprites-1f8c7c121271b0899d10defbb7d95e72441dcd2ea8bd7a5c44a7859ca605328b.bmp.lzma": "522fd3355edde1a05aec0169908f231308119503eef39ef58b4f593975256519",
+    "sprites-7b0a7c16b290546ea12aafba4ae9e7cb6cc0e60f279a98b023fcf2ba3e900502.bmp.lzma": "13767ffd2017ae4ff98ee4c882b1361127c7ac6ee191ba431457e22cdecec276",
+    "sprites-6e4d400451a431ba4d529fb0c5e60266b031594e2643f2972a7637d0acb1639b.bmp.lzma": "e3c4885a3463b2ed1ec86cb077d3b34e2ee5fb6708a591f41cd4d49537c4cd63",
+    "sprites-85cc22a52dc5708e3fe085bacb2ea8b8e97293c5ad9e620bfb09e91cc478f06a.bmp.lzma": "788a7c391d8b18b7ffe58e321ce14c2bb78be31e4d173d21670eee58eebe1cb0",
+    "sprites-44fd932e92393325a474eedb77b61079ff8c662ce554a4f3d9458dbbbbe995e9.bmp.lzma": "01b0b918772774a8a819ee14ad7241f53bac7331742488e8f14c59b3f4d719f4",
+    "sprites-86e898b12ce5b18c1a25fbb5ba7f76d829723014910c561c3be248aaa1880187.bmp.lzma": "63744c4f8cc9e44d20138fe29c92405d6c1e23d5a7dc39d8aa51a5b9b0edc159",
+    "sprites-065500798142f7fb13c3e7a6bc818bb62e4ce649b1fb00fe46b7292c7330cbb3.bmp.lzma": "0401fe6ba6ff384d817298f71d32924202413b5fe14a3884fd0a3424339e8efd",
+    "sprites-8dfa2370ccc675469aab3e9dda75bcda6f82995079aa17cc774d88dfcd4e0641.bmp.lzma": "abc91c6a7e4071d571dac6188b8c05807d8899ff2012d8c6475ec6b6ae17ea18",
+    "sprites-66b4c243421f0d63d46bb367a45f4ea4c38432340534ec6e7011c00cd952c25a.bmp.lzma": "13b3893dd4973825bb2694694daf8e5dc437286810b4eadc133b38b13a29655c",
+    "sprites-53ae631508d5d8f009df31762d2cde4ca52299f76f9199260ad2cf071e36947b.bmp.lzma": "a8099004e8d4e58dab8cfdd1968108feb30529fc1a6a9debe58591b74d2144af"
+  },
+  "legacy_animation": "Idle source group 0 phase 0; all eight original unmounted walking frames. Modern animated idle/timing and mounted patterns are not imported.",
+  "input_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "7b13e4f466d2e8957ad9229ab67e5f2556397f9712d96837b3e458c968c59ef9"
+  },
+  "output_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "01660834e06a9c18df602c042b68560c9d07813a4de73f19ab2d9407ca759de5",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "e1c7f21fa276e462cdd36e49c1f8c2bd86a9e7012a9ddf2bcf53f682f065a2cd",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "63e191493064c84349f6d59aabb44f5496de5a12f4f1d5cdfc4dc541e8f937d3"
+  },
+  "shop": {
+    "offers": 4,
+    "points_each": 250,
+    "permanent_per_character": true,
+    "addons": 3,
+    "premium_required": false,
+    "total_shop_offers": 14,
+    "presentation": "Native animated rotating UICreature64x64 in retro rows; Try On uses the existing native outfit window without equip/payment/profile writes."
+  },
+  "verification": {
+    "native_repo_relative": "out/modern-outfits-20261026/native-02/result.json",
+    "native_assertions": 57,
+    "wire_requests": 34,
+    "shop_contract_assertions": 193,
+    "visual_repo_relative": "out/modern-outfits-20261026/ingame-02/result.json",
+    "scope": "Current source-matched native server; fresh current QA client. Eight native walking images per new outfit, ordinary creature regressions, shop UI, Try On, purchases and history verified.",
+    "current_shop_native_repo_relative": "out/shop-outfit-preview-20261026/native-03/result.json",
+    "current_shop_animation_repo_relative": "out/shop-outfit-preview-20261026/native-03/animation-result.json",
+    "native_shop_ui_assertions": 124,
+    "read_only_preview_source_assertions": 42
+  },
+  "client_build": {
+    "status": "Current QA client built and native UI verified",
+    "qa_executable_sha256": "6eab3a487f73cb33d01cbc0acb7daf1c86ab282f8281362dc34978e8338eae1a",
+    "build_receipt_repo_relative": "out/client-shop-native-20261026/qa-client/package/build-receipt.json",
+    "public_release": false,
+    "dev_published": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "status": "artwork-awaiting-user-approval",
+  "animated": false,
+  "overlay": false,
+  "states": [
+    {
+      "state": "unequipped",
+      "size": [
+        32,
+        32
+      ],
+      "changed_gem_pixels": 24,
+      "all_pixels_outside_gem_unchanged": true,
+      "alpha_and_silhouette_unchanged": true,
+      "sha256": "a862992697aa2bc8c4ce81f37739b46b677bf21b0b65945fe85bf2bdaa1628bd"
+    },
+    {
+      "state": "equipped",
+      "size": [
+        32,
+        32
+      ],
+      "changed_gem_pixels": 17,
+      "all_pixels_outside_gem_unchanged": true,
+      "alpha_and_silhouette_unchanged": true,
+      "sha256": "c4b4f4484540a07b7f82ba4b3fe59c0a9958454c51333405511a965a154f584d"
+    }
+  ],
+  "game_implementation": "None yet"
+}

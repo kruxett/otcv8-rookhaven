@@ -1,0 +1,60 @@
+{
+  "role": "Appearance reference only; not the final sprite or a prescribed composition.",
+  "canvas": [
+    32,
+    32
+  ],
+  "coins": [
+    {
+      "currency": "gold",
+      "source": "assets/items/magic-gold-converter/source/reference/gold-pattern-0.png",
+      "source_sha256": "9157739a0c515e00d68db908947c01d26c8fed7783881d428e4a4d41dd9445c7",
+      "source_box": [
+        12,
+        11,
+        21,
+        20
+      ],
+      "reference_at": [
+        3,
+        3
+      ],
+      "scaled": false,
+      "recoloured": false
+    },
+    {
+      "currency": "platinum",
+      "source": "assets/items/magic-gold-converter/source/reference/platinum-pattern-0.png",
+      "source_sha256": "ed663993735172f29934938aa82aa022d626c653c446999b5a6338487aa0062b",
+      "source_box": [
+        12,
+        11,
+        21,
+        20
+      ],
+      "reference_at": [
+        19,
+        3
+      ],
+      "scaled": false,
+      "recoloured": false
+    },
+    {
+      "currency": "crystal",
+      "source": "assets/items/magic-gold-converter/source/reference/crystal-pattern-0.png",
+      "source_sha256": "84b78c6e7ba84264648173a16841683418f86f87803c5368c9d1e9be6e1c830d",
+      "source_box": [
+        12,
+        11,
+        21,
+        20
+      ],
+      "reference_at": [
+        11,
+        19
+      ],
+      "scaled": false,
+      "recoloured": false
+    }
+  ]
+}

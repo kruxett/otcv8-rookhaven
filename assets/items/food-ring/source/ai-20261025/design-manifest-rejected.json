@@ -1,0 +1,35 @@
+{
+  "status": "rejected-by-user",
+  "product": "Food Ring",
+  "native_canvas": [
+    32,
+    32
+  ],
+  "generator": "PixelLab create_image_pro_flash",
+  "gallery_asset": "gallery:5388e1bd-72b7-5059-934a-b1c0ef8beba4",
+  "source": "source/ai-20261025/pixellab-food-ring.png",
+  "preview": "approval-preview.png",
+  "art_direction": "Original bronze signet ring with matte forest-green enamel and a small golden wheat sprig; no glow or animation.",
+  "generation_note": "Regenerated with PixelLab AI after subscription activation. Native 32x32 output retained unchanged. Artwork is awaiting user approval.",
+  "implementation": "Artwork only. No Food Ring SID/CID, server behavior or shop offer has been implemented.",
+  "required_behavior": {
+    "only_fed_while_equipped": true,
+    "never_fill_ordinary_food_reserve_on_equip": true,
+    "unequip_or_expiry_ends_effect_immediately": true,
+    "preserve_ordinary_food_state": true,
+    "no_double_regeneration_when_normally_fed": true
+  },
+  "future_targeted_checks": [
+    "Equip hungry for one second and remove: no free food reserve.",
+    "Ordinary eaten-food duration is not refilled or deleted by ring equip/unequip.",
+    "Food and ring must not stack normal food regeneration.",
+    "Remaining ring time, expiry and reconnect."
+  ],
+  "validation": "source/ai-20261025/validation.json",
+  "job_id": "eddc7cd5-5bc6-48c9-8712-8217fdcb081d",
+  "asset_id": "5388e1bd-72b7-5059-934a-b1c0ef8beba4",
+  "prompt": "A SINGLE original Food Ring inventory item for Rookhaven, an old-school 1990s Tibia 8.60 medieval pixel art MMORPG. A compact, believable bronze signet ring seen diagonally from above, with a clearly visible hollow finger opening in the lower-right and a small forest-green enamel signet face at the upper-left. ONE tiny golden wheat sprig is engraved on the green signet, a simple readable symbol of nourishment. Thick curved bronze band, worn dark bronze shadows, warm brass edge highlights, dark brown pixel contour, top-left lighting. Keep the signet small enough that this unmistakably reads as a ring, with a strong open loop, not a coin, shield or medallion. Original silhouette distinct from the reference ring, restrained earthy green and bronze palette. Match reference sprite's compact inventory scale, diagonal perspective, chunky deliberate pixel clusters, simple retro shading and contrast. Native 32x32 pixel art, item footprint about 21x24 pixels, centered with transparent margins. ONE ring only. Fully transparent background with binary alpha. No glow, aura, sparkles, text, digits, labels, frame, floor shadow, food scattered around, hands, character, or photorealism.",
+  "seed": 20261027,
+  "previous_draft": "source/pixel-workbench-design-manifest.json",
+  "rejection_reason": "The wheat motif is too small to read at 32x32; user requested a different way to communicate Food Ring."
+}
