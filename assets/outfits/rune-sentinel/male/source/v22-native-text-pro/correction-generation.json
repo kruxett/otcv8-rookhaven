@@ -1,0 +1,14 @@
+{
+  "generator": "PixelLab inpaint_image Pro",
+  "job_id": "1ceec07b-43ad-4668-9a6c-5f1b362a3496",
+  "asset_id": "ac07699f-c7cb-5f97-8b52-55f974264e45",
+  "source": "ai-art-all36.png",
+  "mask": "back-and-boots-correction-mask.png",
+  "description": "Correct ONLY selected NORTH upper-body and boot pixels of this existing36-frame Rune Sentinel outfit, preserving pixel scale and all poses/grid. This is one coherent outfit across all3 addon tiers.\nIn ALL3 phases of ALL3 NORTH sets (rows0,2,4 columns0,1,2,40px cells), wearer faces AWAY FROM VIEWER: show the SOLID BACK OF HELMET and BACK OF CUIRASS. NO face, eyes, nose, mouth, beard, front visor, chest inset or front diamond visible in NORTH. Remove fake faces/front armor from these selected North pixels. Smooth closed back helmet, subtle vertical center seam, back neck rim, layered back armor matching existing steel design. Keep same head/body outline and joint positions. Do not turn north into south.\nSOUTH rows1,3,5 cols0..2 stays front. EAST cols3..5 on even rows and WEST cols3..5 on odd rows stay their native views. Everything outside selected regions is frozen. Do not generate a new outfit or move any body part.\nOther selected pixels at bottoms of EVERY frame are LEGS/BOOTS: cover them in solid fitted STEEL GREAVES AND ARMORED BOOTS, with dark seams matching current armor. They are not bare legs or toes. NO orange/brown skin in boots. Preserve shoe contour, foot positions, gait/phase. Same boot design both legs/every view/tier. Grayscale metal, charcoal undersuit, no specular white confetti, no tiny scratches. Keep all existing opaque pixels opaque. No new text, limbs, objects, effects or weapons.",
+  "estimated_cost_generations": 10,
+  "scope": "NORTH upper-body all9, boots/lower legs all36; unmasked art frozen",
+  "manual_artistic_edits": 0,
+  "status": "complete; graphical proposal pending user approval",
+  "actual_cost_generations": 10,
+  "total_this_attempt_generations": 35
+}

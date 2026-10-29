@@ -1,0 +1,13 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "5689b301-2a4a-4dbf-a104-02d8e8c75f29",
+  "asset_id": "a9efe294-97f6-5941-b86f-92d172cc9799",
+  "status": "complete, intermediate source; not final addon layers",
+  "source": "pixellab-corrected-raw.png",
+  "mask": "rear-crest-only-mask.png",
+  "context": "rear-crest-reference-context.png",
+  "description": "Fix ONLY selected NORTH helmet crests and wrong equipment colors; preserve all other pixels exactly. NORTH addon frames are rows2 and4,columns0,1,2 in6x6 grid40px.\nCurrent upward horns/crown are WRONG. REMOVE upward projections and restore a smooth helmet DOME above. Paint SAME three short steel fins LYING FLAT and sweeping BACKWARD OVER THE LOWER BACK OF HELMET toward neck/collar. In NORTH tips project DOWN the image, behind/below dome, never above. This is a LOW DORSAL HELMET COMB, not an upright royal crown/horns.\nThe cyan-arrow DIAGRAM at context bottom-right specifies REAR projection: N down,E left,W right,S up. Arrows are guidance only, not artwork. Do not paint arrows/text/cyan. Existing SOUTH/EAST/WEST crests are unchanged design/length references. N base helmet(first row) is plain BACK helmet; addon comb attaches to that same dome/back rim. Keep original protected face/hand/limb/foot anchors and exact body scale. No new face, eyes or front rune on back-facing head/body. Original unmasked native skin remains immutable.\nOther selected warm pixels are EQUIPMENT, not extra skin. Render those fragments ONLY NEUTRAL WHITE/GRAY/CHARCOAL matching surrounding metal/cloth. Do not generate any orange/brown/blue colored equipment pixel. Keep connected native pixel clusters, existing materials and correct transparency. No floating points, new objects or costume redesign.",
+  "context_usage": "Existing target at(480,360)240x240; complete native Knight/Warmaster art+mask references above/left. Bottom-right y600..719 is REAR-direction DIAGRAM only: NORTH comb down toward collar, EAST left,WEST right,SOUTH up. Match existing South/East/West fin design and size. Source N base dome in first row is authoritative back helmet geometry. Only six North addon head frames plus remaining incorrect equipment colors can change.",
+  "actual_generations": 9,
+  "manual_art_edits": 0
+}

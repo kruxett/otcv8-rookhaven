@@ -1,0 +1,171 @@
+{
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "references": [
+    {
+      "name": "Brotherhood",
+      "looktype": 279,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Citizen",
+      "looktype": 128,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Knight",
+      "looktype": 131,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Warrior",
+      "looktype": 134,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Druid",
+      "looktype": 144,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Assassin",
+      "looktype": 152,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    },
+    {
+      "name": "Warmaster",
+      "looktype": 335,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "pattern_y_layers": 3,
+      "native_order": "base first; bit1 -> patternY1; bit2 -> patternY2"
+    }
+  ],
+  "rune_sentinel_base_pixels_erased_by_addon1": [
+    [
+      36,
+      31
+    ],
+    [
+      40,
+      31
+    ],
+    [
+      41,
+      32
+    ],
+    [
+      42,
+      33
+    ],
+    [
+      42,
+      34
+    ],
+    [
+      50,
+      36
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      52,
+      38
+    ],
+    [
+      53,
+      39
+    ],
+    [
+      55,
+      40
+    ],
+    [
+      56,
+      41
+    ],
+    [
+      57,
+      42
+    ],
+    [
+      49,
+      43
+    ],
+    [
+      50,
+      44
+    ],
+    [
+      51,
+      45
+    ],
+    [
+      52,
+      46
+    ],
+    [
+      53,
+      47
+    ],
+    [
+      54,
+      48
+    ]
+  ]
+}

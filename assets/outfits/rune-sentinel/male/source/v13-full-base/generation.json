@@ -1,0 +1,15 @@
+{
+  "stage": "Whole-body Rune Sentinel BASE outfit, no addon geometry. South view for garment design review.",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "18ea777c-70a1-4c62-a631-fc9f41b18990",
+  "asset_id": "2f39d785-6f42-57c0-9936-49d87b21a190",
+  "seed": 2026102837,
+  "description": "Completely REPAINT the WHITE CLOTHING of the target Citizen pose into the BASE OUTFIT of an original premium RUNE SENTINEL. BASE ONLY, no addons: it must already be a finished valuable whole-body costume, not a recolored starter shirt. Same native 32px figure on64x64 canvas. Strong clean armor craft inspired by the actual NIGHTMARE and WARMASTER BASE outfits above, not a copy. A fitted OPEN-FACE segmented steel helm, no horns/spikes/crest. Raised armored collar. Sculpted faceted breastplate with one bold inset DIAMOND RUNE in a thick stepped frame, coherent geometric engraving, no tiny noise. Broad articulated waist belt and two fitted overlapping fauld plates around original hips. Separate tailored trousers and shaped thigh/SHIN ARMOR following EACH original leg, distinct knee articulation and steel toe boots. Fitted layered bracers and small plain integrated shoulder caps. Whole costume shares a stepped angular runic motif and deliberate bright steel planes with dark recesses, 2-3px clusters, upper-left light. NEUTRAL WHITE/GRAY shaded artwork ONLY; skin stays original. No blue, gold or other costume colors baked in. Redraw clothing/material surfaces extensively but preserve EXACT underlying native body anatomy, limb outlines, joint locations, head/face position, both exposed hands, leg split and original foot shape/pose. All dark joint/separation contours and exposed skin are unmasked and immutable. Paint only inside original opaque clothing pixels. No opacity holes or erased body coverage. No extra skin/hand/limb, wings, cape, long skirt covering the legs, weapon, shield, banner, particles, text or blurry glow. Do not add the optional head ornament or ornate shoulder addon. Base should read premium from its own chest/waist/arm/leg/boot construction even with zero addons.",
+  "source": "native-source.png",
+  "paint_mask": "surface-only-paint-mask.png",
+  "contour_guard": "fixed-skin-and-joint-contours.png",
+  "context": "base-costume-context.png",
+  "references": "all-outfit-review/index.json",
+  "base_value": "Complete redesigned costume must have its own premium identity without addon1 or addon2.",
+  "surface_rule": "Repaint white clothing, preserving native anatomy, silhouette, fixed skin and dark joint boundaries. Native shirt texture is not the desired final costume."
+}

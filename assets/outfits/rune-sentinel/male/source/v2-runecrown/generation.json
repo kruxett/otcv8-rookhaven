@@ -1,0 +1,22 @@
+{
+  "context_image": {
+    "file": "style-context.png",
+    "usage_description": "Top LEFT is the SELECTED Rune Sentinel to preserve and evolve. Other top sprites are actual Tibia references for premium headgear/material craft only. Bottom is the exact target pose and selected outfit."
+  },
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "description": "Evolve this SELECTED RUNE SENTINEL into its own recognizable paid premium costume. Retain its open-face silver/dark-steel knight identity, blue cloth, native Citizen pose and two clearly readable arms. Add a distinctive RUNECROWN: THREE broad angular silver battlement prongs with teal crystal insets, swept slightly back; central prong tallest. Crest rises about 5-7 native pixels above the current helmet, silhouette like an ancient runic tower crown, not ordinary horns. Make this the signature readable at 1x. A larger 3x4px faceted TEAL RUNESTONE set in a bold aged-gold chest frame is the second focal point. Sculpted stepped steel shoulder armor with one broad gold edge each, coordinated rune-shaped borders on breastplate and belt, dark navy split tabard, steel bracers. Restrained fixed cyan highlights IN the crystals and chest rune, no particle cloud. Deliberate premium 2-3px clusters and upper-left metallic shading, crisp old Tibia 8.60 density. New ornament should form coherent shapes, not scattered gold specks or noisy texture. Keep all unmasked face/eyes/skin/hand pixels, shoulder-elbow-wrist pose, dark cuff separation and foot positions EXACTLY. Exactly two original hands, no new skin anywhere. Boots are frozen. No extra limbs, narrow pale strips near arms, weapons, shields, wings, pets, floor shadows, lettering or blurred glow. Transparent, binary alpha, no rescaling or new camera angle. Original outfit, not a copy of the references.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 2026102668,
+  "source_file": "selected-rune-sentinel.png",
+  "mask_file": "upgrade-mask.png",
+  "job_id": "61cc0614-e810-4998-88b5-5a9030b2ff4b",
+  "asset_id": "4cd4cffa-ba5e-5b85-846b-006850aa4712",
+  "stage": "Iterated south-idle design of user-selected Rune Sentinel. Await graphic approval before all directions, walks, final color masks and game integration."
+}

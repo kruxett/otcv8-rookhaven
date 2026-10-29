@@ -1,0 +1,22 @@
+{
+  "job_id": "b1afde33-2523-4a13-8fe8-5bc2af132609",
+  "asset_id": "7f928098-2932-5efb-bfe2-c61827016531",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "charged_generations": 5,
+  "seed": 2026102681,
+  "description": "Create ADDON TWO for this Rune Sentinel: ONE back-mounted RUNIC BATTLE STANDARD, ceremonial equipment inspired by the Warmaster banner references, redesigned for the Rune Sentinel. All visible existing character pixels are frozen: draw ONLY in the masked transparent space BEHIND the upper-right shoulder. A short aged-gold standard pole attaches to the BACK, never held in a hand. One broad dark teal cloth pennant with clean gold border, large simple bright cyan diamond-shaped rune, two short swallowtail points. Small faceted cyan crystal finial on pole. The entire accessory should fit around x49..62, y17..42, behind the head/shoulder, top slightly above the helmet crown. Single coherent readable cloth mass 8-10px wide; solid dark teal folds, 2-3px clusters, bright gold edging. Correct original Tibia 8.60 top-down south-view perspective and upper-left light; not a new humanoid pose. Preserve exact source armor, runecrown, skin, face, both hands, cuffs, feet and silhouette underneath. No new arm, no hand grabbing the pole, no weapon, shield, wings, giant cape, aura, extra flags, particles, text, anti-aliasing or blurred light. Exactly ONE banner on one back-mounted pole. Black crisp outline, transparent background, binary alpha, native 64x64 pixel canvas. The banner must read as an optional addon independent of helmet and breastplate decoration.",
+  "source_file": "base-plus-addon1-native-composite.png",
+  "mask_file": "addon2-generation-mask.png",
+  "context_file": "addon2-context.png",
+  "context_reference": "Warmaster 335 native south base, south with addon1 banner, north with addon1 banner extracted from current local DAT/SPR",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "stage": "Base and addon1 selected by user. New addon2 south-idle style concept awaiting graphic approval."
+}

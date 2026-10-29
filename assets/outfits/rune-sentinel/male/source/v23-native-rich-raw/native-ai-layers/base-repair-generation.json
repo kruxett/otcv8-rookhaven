@@ -1,0 +1,15 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "36246344-9f1a-4a4c-8de4-62a05b7a07d1",
+  "asset_id": "9ff28146-a0c7-573d-ad52-3b8ff6e5b176",
+  "status": "complete",
+  "description": "Fill only selected tiny garment holes and incorrect colored clothing pixels in this existing Rune Sentinel BASE outfit. Same twelve native poses,3 columns idle/walkA/walkB,4 rows NORTH/EAST/SOUTH/WEST,40px cells,remaining padding untouched.\nEvery selected pixel is EQUIPMENT or cloth UNDER the armor, not skin. Fill it OPAQUE in ONLY neutral equal-RGB GRAYSCALE matching its surrounding armor or dark undercloth; use the gray swatch reference. Selected transparent holes inside native body become dark cloth/plate, never empty background. Do not erase or move any original opaque pixel.\nAll existing helmet, rune breastplate, dark short tabard, belt, bracers, trousers, boots, materials and silhouette remain the SAME. No new styling or redesign. Native faces/hands/limb/foot contours are unmasked and immutable. No new face, hands, skin, colored cloth, text or objects. NORTH stays back with no face/front rune. Preserve native3-phase gait and original joint/foot locations.",
+  "source": "base-all12-raw-input.png",
+  "mask": "base-tiny-repair-mask.png",
+  "no_background": false,
+  "estimated_generations": 6,
+  "selected_pixels": 39,
+  "raw_art_edited_by_us": false,
+  "actual_generations": 6,
+  "total_generations_this_turn": 43
+}

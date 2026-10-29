@@ -1,0 +1,29 @@
+{
+  "canvas": [
+    48,
+    48
+  ],
+  "alpha_values": [
+    0,
+    255
+  ],
+  "bbox": [
+    7,
+    7,
+    40,
+    40
+  ],
+  "visible_size": [
+    33,
+    33
+  ],
+  "opaque_colours": 26,
+  "sha256": "4eb50ad18eaa7812bbfee5dd6aa902acf89da93e08623a9352b6601d03919f19",
+  "native_source_unmodified": true,
+  "reference_looktype": 132,
+  "reference_body_size": [
+    33,
+    33
+  ],
+  "scope": "Single male south-facing idle design proposal; not a complete outfit."
+}

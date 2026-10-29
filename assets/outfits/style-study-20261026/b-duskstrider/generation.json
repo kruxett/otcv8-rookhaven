@@ -1,0 +1,23 @@
+{
+  "context_image": {
+    "file": "style-context.png",
+    "usage_description": "Top three are actual Tibia reference costumes and pixel craft. Bottom is the immutable target Citizen pose. Adopt craft and costume richness, not reference weapons, poses or identical outfit."
+  },
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "description": "DUSKSTRIDER: an elite arcane ranger with a wide angular midnight-purple brimmed travel hat, one large silver diamond hat clasp; a layered deep petrol-blue leather cuirass with a short sculpted back mantle, dark articulated bracers and high strapped boots. A broad diagonal belt and ONE turquoise rune clasp give a deliberate focal point. Refined Hunter/Assassin/Ranger richness and silhouette, entirely original clothes. The mantle is a broad dark back surface, never narrow hanging strips beside the hands. No feathers or face mask. Native Tibia 8.60 pixel art for a paid original outfit, not a recolor of the starter. Top context images are REAL Tibia costume/pixel-style references only; the bottom CITIZEN is the exact pose target. Keep his fixed face, eyes, two hands, shoulder-elbow-wrist pose and foot positions unchanged. Exactly TWO arms following those original wrist anchors. No additional skin anywhere in the mask. Clearly separate sleeves/bracers from the existing peach hands with dark cuffs. No pale fleshy sleeve panels. New headgear is allowed only in the masked hair/head margin; never redraw a face inside headgear. Same south-facing oblique camera and roughly 32px body, with modest extra headgear height. Rich deliberate 2-3px clusters, strong silhouette, layered shading like the references, dark outlines and upper-left light. Distinct materials, no noisy confetti or smooth antialiasing. No weapons, shields, pets, detached ornaments, glow, shadows, words, panel borders or extra body parts. Transparent background.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 2026102641,
+  "job_id": "98c4d6f0-aa8d-4fd4-90ac-46cb9a0e0e09",
+  "image_file": "../citizen-native-south.png",
+  "mask_file": "../design-mask.png",
+  "stage": "south idle design study only, no integration or completed animation",
+  "boot_coverage_repair_workbench_id": "a2ad0985-6246-4554-aee6-ba2b333de600",
+  "boot_coverage_repair": "Restore original foot interior pixels using the existing adjacent same-boot material."
+}

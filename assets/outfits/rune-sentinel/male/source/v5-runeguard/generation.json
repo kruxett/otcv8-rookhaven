@@ -1,0 +1,21 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "c8ae7cd8-b12a-44fa-a59c-85cc7a283069",
+  "asset_id": "5270f444-99fe-5b29-90e6-12dd84d54e42",
+  "seed": 2026102699,
+  "charged_generations": 5,
+  "description": "Design ADDON 2 for this Rune Sentinel: a substantial ATTACHED RUNEGUARD SHOULDER MANTLE. Change only the exposed upper-right shoulder/back equipment. This must be much bolder than the original small round shoulder cap: ONE broad angular shield-shaped dark-steel PAULDRON that rises 5-6 native pixels above the original shoulder, about 10px wide, tilted with the existing 3/4 south-facing body. Two overlapping steel plates, heavy aged-gold outer rim, one large 3x3 bright teal faceted rune inset in the upper plate. Its LOWER HALF must overlap and cover the original shoulder cap: a broad continuous solid base attached directly to the shoulder, no air gap or thin stem. A gold clasp connects a very short navy mantle under the plate, with only a small fabric edge visible behind the far arm. Do not drape cloth across legs or put a gold stripe across the thighs. Keep native old Tibia 8.60 pixel craft: big coherent shaded clusters, crisp dark outline, no texture noise. A solid wearable armor mass, not a hovering crystal, weapon, flag, pole, wings, feathers or floating object. Exactly preserve original helmet, face, chest, both arms/hands, leg pose and boots. No new skin or extra limb. New silhouette should clearly read as a LARGE ceremonial SHOULDER GUARD physically worn on the same original shoulder, not a hand-held shield. Keep all old body coverage opaque. Native64x64, binary alpha, transparent background; no scaling, text, particles, aura or blurry glow.",
+  "source_file": "base.png",
+  "mask_file": "mantle-generation-mask.png",
+  "context_file": "mantle-context.png",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "status": "Reviewed and packaged: replacement addon2 awaiting user graphic approval."
+}

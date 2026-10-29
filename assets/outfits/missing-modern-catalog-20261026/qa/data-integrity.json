@@ -1,0 +1,20 @@
+{
+  "families": 110,
+  "variants": 220,
+  "media": {
+    "PNG stills": 3520,
+    "lossless APNG animations": 3520
+  },
+  "missing": [],
+  "empty": [],
+  "priorAtlasIdentical": 218,
+  "priorAtlasDifferent": [
+    1940,
+    1860
+  ],
+  "dimensions": {
+    "(64, 64)": 220
+  },
+  "allFinalMediaPresent": true,
+  "obsoleteGIFsRemoved": 3520
+}

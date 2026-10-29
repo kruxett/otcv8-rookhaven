@@ -1,0 +1,34 @@
+{
+  "family": "Warmaster",
+  "status": "existing client/server asset, NOT newly granted or added to shop",
+  "source": "current local DAT/SPR and server outfits.xml",
+  "native_pixels_unmodified": true,
+  "candidates": [
+    {
+      "looktype": 335,
+      "sex": "male",
+      "server_definition": {
+        "type": "1",
+        "looktype": "335",
+        "name": "Warmaster",
+        "premium": "yes",
+        "unlocked": "no",
+        "enabled": "yes"
+      },
+      "native_frames_and_addons_valid": true
+    },
+    {
+      "looktype": 336,
+      "sex": "female",
+      "server_definition": {
+        "type": "0",
+        "looktype": "336",
+        "name": "Warmaster",
+        "premium": "yes",
+        "unlocked": "no",
+        "enabled": "yes"
+      },
+      "native_frames_and_addons_valid": true
+    }
+  ]
+}

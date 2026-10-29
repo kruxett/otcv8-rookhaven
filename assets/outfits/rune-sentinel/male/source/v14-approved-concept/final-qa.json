@@ -1,0 +1,14 @@
+{
+  "source_size": [
+    64,
+    64
+  ],
+  "alpha_exact_to_native": true,
+  "fixed_skin_and_other_nonmask_pixels_exact": true,
+  "costume_is_neutral_grayscale": true,
+  "clothing_pixels_changed_from_native": 448,
+  "binary_alpha": [
+    0,
+    255
+  ]
+}

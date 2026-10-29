@@ -1,0 +1,49 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "67d10c48-86ba-43d7-a272-c5936c615505",
+  "asset_id": "cf0ae493-9e2c-57f8-bd74-21f7992d32fd",
+  "seed": 2026102921,
+  "description": "Generate the complete new RUNE SENTINEL MALE BASE costume in ALL12 target sprites SIMULTANEOUSLY. This whole96x128 sheet has columns idle/walk1/walk2 and rows NORTH/EAST/SOUTH/WEST. All12 remain the SAME outfit, not variants. Context contains FOUR COMPLETE outfit sheets: top-left Knight, top-right Nightmare, bottom-left Brotherhood (each all4 directions/all3 phases), bottom-right exact Citizen target. Learn the full native TIBIA art style, how equipment turns and moves across every reference frame. Citizen supplies ANATOMY/POSE ONLY: frozen original face/hands, diagonal oblique body axis, proportions, every joint/foot position. Repaint ALL white clothing substantially, including old shirt folds and hair. Do not just recolor Citizen or add scratches. Create an original expensive rune-order guard: fitted open-face angular STEEL HELMET with same brow/side construction in every view, sculpted PLATE CUIRASS with ONE readable inset DIAMOND RUNESTONE, strong belt and two overlapping short hip plates, fitted METAL BRACERS, simple integral shoulder caps, shaped KNEE/FULL SHIN GUARDS and armored BOOTS. Dark tailored UNDERCLOTH at upper arms/thighs and flexible joints contrasts with broad bright steel planes. Same construction and paired coverage/endings on both legs/arms, full greaves not white edge wires. Repeat clean stepped/angular plate motifs across complete wardrobe, no speckled/checkerboard texture. Rune is on FRONT of chest; foreshortened/occluded in profiles, absent on back. All back views show back of helmet/armor, all side walks retain their native heading. All costume pixels NEUTRAL WHITE/GRAY/CHARCOAL, skin only on original unmasked face/hands. Native32px humans, no resizing/illustration. Preserve every opaque body pixel, including black seams, and no new skin/limbs. Base only, ornate crest/shoulder addons later. No copied outfit, weapons, shield, cape, banner, particles, labels, text or blur.",
+  "target": "native-target-all12.png",
+  "mask": "all12-clothing-mask.png",
+  "context": "four-complete-sheets-context.png",
+  "context_size": [
+    240,
+    320
+  ],
+  "context_source_bbox": {
+    "x": 120,
+    "y": 160,
+    "width": 96,
+    "height": 128
+  },
+  "target_size": [
+    96,
+    128
+  ],
+  "grid": {
+    "columns": 3,
+    "rows": 4,
+    "cell": [
+      32,
+      32
+    ],
+    "directions": [
+      "north",
+      "east",
+      "south",
+      "west"
+    ],
+    "phases": [
+      0,
+      1,
+      2
+    ]
+  },
+  "references": "Four complete native sheets: target Citizen, Knight, Nightmare, Brotherhood; 48 total poses; no rejected Rune Sentinel art.",
+  "workflow": "One joint generation of every target costume frame, with whole Citizen pose sheet protecting original skin/geometry. No direction generated or anchored separately.",
+  "cost_generations_estimate": 6,
+  "status": "complete, not approved",
+  "editable_output": "../../../editable-v19-complete-sheet",
+  "neutral_encoding_image_id": "86370190-533e-452f-aeff-be68b763f756"
+}

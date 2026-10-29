@@ -1,0 +1,40 @@
+{
+  "source_size": [
+    64,
+    64
+  ],
+  "alpha_exact_to_native": true,
+  "fixed_skin_and_other_nonmask_pixels_exact": true,
+  "costume_is_neutral_grayscale": true,
+  "clothing_pixels_changed_from_native": 448,
+  "binary_alpha": [
+    0,
+    255
+  ],
+  "layer_merge_byte_exact": true,
+  "aseprite_and_openraster_layers_read_back_exact": true,
+  "color_channels": {
+    "Helmet": {
+      "mask_pixels": 77,
+      "tint_changed_pixels": 77,
+      "other_channels_and_fixed_skin_unchanged": true
+    },
+    "Breastplate, bracers and hip armor": {
+      "mask_pixels": 217,
+      "tint_changed_pixels": 213,
+      "other_channels_and_fixed_skin_unchanged": true
+    },
+    "Legs and greaves": {
+      "mask_pixels": 119,
+      "tint_changed_pixels": 116,
+      "other_channels_and_fixed_skin_unchanged": true
+    },
+    "Boots and runestone": {
+      "mask_pixels": 60,
+      "tint_changed_pixels": 56,
+      "other_channels_and_fixed_skin_unchanged": true
+    }
+  },
+  "source_sha256": "a19f878230971d3660d820ddcb71a0b952350bc53e5754781ea575e4bb09650b",
+  "scope": "One native south idle base study. No addons, other directions, walk frames or in-game tests yet. Alpha and fixed skin checks do not establish aesthetic approval."
+}

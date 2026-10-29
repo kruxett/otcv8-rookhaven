@@ -1,0 +1,16 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "b6aa4937-16d5-4639-87f6-b0732723ada3",
+  "asset_id": "140466b8-0243-5d14-8320-e47540f507c7",
+  "seed": 2026102885,
+  "description": "RIGHT PROFILE facing EAST/right: retain the exact original right-facing face and native arm gestures, including the raised hand by the head and the lower hand. Do not transplant south-view arms. Helmet brow/front on the right; chest stone only foreshortened on the front/right side of chest, never on the back or arm. Dress the EXACT target Citizen in the SAME Rune Sentinel BASE armor shown TOP LEFT. It is ONE costume turned around, not a new design. Copy identity/material construction from that canonical south sprite: fitted open-face steel helmet with continuous brow/side plates, broad clean plate armor, one inset front diamond runestone in stepped frame, strong belt, two short overlapping hip plates, fitted bracers, plain shoulder caps, paired shaped knee plates and FULL broad shin guards, matching armored boots, dark cloth between plates. BOTH sides have corresponding plate coverage and deliberate lower bevels, no missing counterpart or thin white wire. Top middle/right native Knight/Nightmare match this facing for craftsmanship only; ANATOMY and POSE come ONLY from bottom-center target. Keep exact head/body/limb proportions, arm/leg positions, bends, hands, foot shapes, facing and opaque silhouette. Never add skin or a limb. All editable costume pixels are NEUTRAL white/gray/charcoal metal/cloth, equal RGB, no gold/blue/brown. Frozen native skin stays untouched. Preserve every opaque pixel, including black seams. Large coherent 2-3px clusters, classic native32px Tibia human on64canvas, upper-left light, no scaling/blur. BASE ONLY, no crest/horns/spikes, cape/banner, weapons, shield, particles, text or new shoulder addon.",
+  "source": "native-target.png",
+  "mask": "costume-paint-mask.png",
+  "context": "context.png",
+  "canonical_costume": "../south-ai-original.png",
+  "canonical_south_job": "520bdc61-dbe5-4d5e-b331-2182ae38702a",
+  "facing": "east",
+  "addon": 0,
+  "phase": 0,
+  "status": "completed; base graphic review pending"
+}

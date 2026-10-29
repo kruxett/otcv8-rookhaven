@@ -1,0 +1,30 @@
+{
+  "north": {
+    "x": 0,
+    "y": 0,
+    "width": 64,
+    "height": 64,
+    "editable_pixels": 421
+  },
+  "east": {
+    "x": 64,
+    "y": 0,
+    "width": 64,
+    "height": 64,
+    "editable_pixels": 382
+  },
+  "south": {
+    "x": 0,
+    "y": 64,
+    "width": 64,
+    "height": 64,
+    "editable_pixels": 0
+  },
+  "west": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64,
+    "editable_pixels": 421
+  }
+}

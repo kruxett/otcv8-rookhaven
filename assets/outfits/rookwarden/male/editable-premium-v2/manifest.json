@@ -1,0 +1,70 @@
+{
+  "status": "editable graphic proposal, not imported",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "sheet_canvas": [
+    192,
+    256
+  ],
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "unscaled_translation_from_48px_reference": [
+    24,
+    24
+  ],
+  "channel_pixels": {
+    "(255, 255, 0, 255)": 1022,
+    "(255, 0, 0, 255)": 2873,
+    "(0, 255, 0, 255)": 882,
+    "(0, 0, 255, 255)": 1303
+  },
+  "fixed_pixels": 1629,
+  "default_player_colors": {
+    "head": 57,
+    "body": 49,
+    "legs": 2,
+    "feet": 58
+  },
+  "checks": [
+    "source alpha unchanged",
+    "only neutral grayscale under color masks",
+    "fixed pixels byte-identical",
+    "pure native mask colors",
+    "all 133 palette colors on all 4 channels",
+    "per-channel isolation",
+    "white tint identity",
+    "ASE cels/flags lossless readback",
+    "ORA PNG/XML readback",
+    "96 legacy SPR tiles roundtrip"
+  ],
+  "preview_note": "Software preview follows local shader multiplication and local palette formula. No native game rendering or outfit import performed.",
+  "source": "assets\\outfits\\rookwarden\\male\\source\\v9-shoulder-consistency\\color-concept-render.png",
+  "layers_source": "assets\\outfits\\rookwarden\\male\\source\\v9-shoulder-consistency",
+  "files": {
+    "base.png": "10a2cbc2d721c40f708a5abc9c8a0b21bb52917fc95f37a9382f4d90d87b497b",
+    "color-options-preview.png": "3a6ec62b3a7de315e4080cd589bca0000b438f090678e7cb1aa9b9d87170b6d1",
+    "color-preview.png": "f839a8762fd8a32a0e06ca93dd6494ef379f1f960766156e8cdadc768d3ff192",
+    "layers-overview.png": "92284ed5511db16e7c03b64cff4d2de1cb48d54c8b4041644286815b89e7dd26",
+    "mask.png": "cc098281d00038a2a44dc346ebd01936667ce9098ad38006fe5cbb3f57e4896f",
+    "native-reference.png": "bed5c8b2ead0e80eee5123c6e6d730649743aecb1c4cc0c20ad7687aff4c42f5",
+    "previous-color-concept.png": "f839a8762fd8a32a0e06ca93dd6494ef379f1f960766156e8cdadc768d3ff192",
+    "rookwarden-male.aseprite": "30e3262f1b7b02f22dbb8d4d6cdeb935eb8cc495915af6c06bb3ec837c8ab0c0",
+    "rookwarden-male.ora": "8b6cdc0119d87c4579a609913fa101aaa300b4471b0325b4396e4dd48587e6e3",
+    "walking-color-preview.gif": "31ef3edf666dcacb53a8ca790be31a32d3fae304bf2d967924e96946650a294a",
+    "shoulder-before-after.png": "9e117bc83512b1896c2cf1d0adc110567f70306f559e2b51e0faf1b94dc3509e",
+    "shoulder-before-after.gif": "b25ba48f51d73af9802c8cbd66032b1d220bc231c47a5f140b5cfcb84c36b1f4",
+    "all-frames-before-after.png": "6d8c3927a2022ccfceca9428583fe8c9de35b581bc9a885bf66b7ef6ffbf4379"
+  },
+  "shoulder_correction_validation": "../source/v9-shoulder-consistency/validation.json"
+}

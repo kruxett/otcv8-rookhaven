@@ -1,0 +1,637 @@
+{
+  "outfit_variants": 48,
+  "pages": 8,
+  "variants_per_outfit": [
+    "base",
+    "base+addon1",
+    "base+addon2",
+    "both"
+  ],
+  "note": "All enabled playable outfit definitions, both sexes. Actual neutral artwork and individual addon/mask layers extracted from current DAT/SPR.",
+  "records": [
+    {
+      "looktype": 136,
+      "name": "Citizen",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\136-0"
+    },
+    {
+      "looktype": 137,
+      "name": "Hunter",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\137-0"
+    },
+    {
+      "looktype": 138,
+      "name": "Mage",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\138-0"
+    },
+    {
+      "looktype": 139,
+      "name": "Knight",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\139-0"
+    },
+    {
+      "looktype": 140,
+      "name": "Noblewoman",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\140-0"
+    },
+    {
+      "looktype": 141,
+      "name": "Summoner",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\141-0"
+    },
+    {
+      "looktype": 142,
+      "name": "Warrior",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\142-0"
+    },
+    {
+      "looktype": 147,
+      "name": "Barbarian",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\147-0"
+    },
+    {
+      "looktype": 148,
+      "name": "Druid",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\148-0"
+    },
+    {
+      "looktype": 149,
+      "name": "Wizard",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\149-0"
+    },
+    {
+      "looktype": 150,
+      "name": "Oriental",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\150-0"
+    },
+    {
+      "looktype": 155,
+      "name": "Pirate",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\155-0"
+    },
+    {
+      "looktype": 156,
+      "name": "Assassin",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\156-0"
+    },
+    {
+      "looktype": 157,
+      "name": "Beggar",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\157-0"
+    },
+    {
+      "looktype": 158,
+      "name": "Shaman",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\158-0"
+    },
+    {
+      "looktype": 252,
+      "name": "Norsewoman",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\252-0"
+    },
+    {
+      "looktype": 269,
+      "name": "Nightmare",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\269-0"
+    },
+    {
+      "looktype": 270,
+      "name": "Jester",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\270-0"
+    },
+    {
+      "looktype": 279,
+      "name": "Brotherhood",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\279-0"
+    },
+    {
+      "looktype": 288,
+      "name": "Demon Hunter",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\288-0"
+    },
+    {
+      "looktype": 324,
+      "name": "Yalaharian",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\324-0"
+    },
+    {
+      "looktype": 329,
+      "name": "Newly Wed",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\329-0"
+    },
+    {
+      "looktype": 336,
+      "name": "Warmaster",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\336-0"
+    },
+    {
+      "looktype": 366,
+      "name": "Wayfarer",
+      "sex": "0",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\366-0"
+    },
+    {
+      "looktype": 128,
+      "name": "Citizen",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\128-1"
+    },
+    {
+      "looktype": 129,
+      "name": "Hunter",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\129-1"
+    },
+    {
+      "looktype": 130,
+      "name": "Mage",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\130-1"
+    },
+    {
+      "looktype": 131,
+      "name": "Knight",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\131-1"
+    },
+    {
+      "looktype": 132,
+      "name": "Nobleman",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\132-1"
+    },
+    {
+      "looktype": 133,
+      "name": "Summoner",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\133-1"
+    },
+    {
+      "looktype": 134,
+      "name": "Warrior",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\134-1"
+    },
+    {
+      "looktype": 143,
+      "name": "Barbarian",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\143-1"
+    },
+    {
+      "looktype": 144,
+      "name": "Druid",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\144-1"
+    },
+    {
+      "looktype": 145,
+      "name": "Wizard",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\145-1"
+    },
+    {
+      "looktype": 146,
+      "name": "Oriental",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\146-1"
+    },
+    {
+      "looktype": 151,
+      "name": "Pirate",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\151-1"
+    },
+    {
+      "looktype": 152,
+      "name": "Assassin",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\152-1"
+    },
+    {
+      "looktype": 153,
+      "name": "Beggar",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\153-1"
+    },
+    {
+      "looktype": 154,
+      "name": "Shaman",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\154-1"
+    },
+    {
+      "looktype": 251,
+      "name": "Norseman",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\251-1"
+    },
+    {
+      "looktype": 268,
+      "name": "Nightmare",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\268-1"
+    },
+    {
+      "looktype": 273,
+      "name": "Jester",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\273-1"
+    },
+    {
+      "looktype": 278,
+      "name": "Brotherhood",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\278-1"
+    },
+    {
+      "looktype": 289,
+      "name": "Demon Hunter",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\289-1"
+    },
+    {
+      "looktype": 325,
+      "name": "Yalaharian",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\325-1"
+    },
+    {
+      "looktype": 328,
+      "name": "Newly Wed",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\328-1"
+    },
+    {
+      "looktype": 335,
+      "name": "Warmaster",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\335-1"
+    },
+    {
+      "looktype": 367,
+      "name": "Wayfarer",
+      "sex": "1",
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "folder": "assets\\outfits\\rune-sentinel\\male\\source\\v13-full-base\\all-outfit-review\\367-1"
+    }
+  ]
+}

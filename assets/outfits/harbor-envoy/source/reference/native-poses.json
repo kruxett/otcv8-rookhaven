@@ -1,0 +1,465 @@
+{
+  "reference_looktype": 128,
+  "reference_name": "Citizen male / standard starter outfit",
+  "native_cell": [
+    64,
+    64
+  ],
+  "working_cell": [
+    48,
+    48
+  ],
+  "reference_crop_translation": [
+    -24,
+    -24
+  ],
+  "scaled": false,
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "layer": 0,
+      "file": "citizen-male-north-0.png",
+      "sprite_ids": [
+        13796,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 0,
+      "layer": 1,
+      "file": "citizen-male-north-0-mask.png",
+      "sprite_ids": [
+        13015,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "layer": 0,
+      "file": "citizen-male-north-1.png",
+      "sprite_ids": [
+        13851,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "layer": 1,
+      "file": "citizen-male-north-1-mask.png",
+      "sprite_ids": [
+        13016,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "layer": 0,
+      "file": "citizen-male-north-2.png",
+      "sprite_ids": [
+        13852,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        10,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "layer": 1,
+      "file": "citizen-male-north-2-mask.png",
+      "sprite_ids": [
+        13017,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        10,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "layer": 0,
+      "file": "citizen-male-east-0.png",
+      "sprite_ids": [
+        13853,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "layer": 1,
+      "file": "citizen-male-east-0-mask.png",
+      "sprite_ids": [
+        13572,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "layer": 0,
+      "file": "citizen-male-east-1.png",
+      "sprite_ids": [
+        13567,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "layer": 1,
+      "file": "citizen-male-east-1-mask.png",
+      "sprite_ids": [
+        13573,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "layer": 0,
+      "file": "citizen-male-east-2.png",
+      "sprite_ids": [
+        13854,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "layer": 1,
+      "file": "citizen-male-east-2-mask.png",
+      "sprite_ids": [
+        13574,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        39
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "layer": 0,
+      "file": "citizen-male-south-0.png",
+      "sprite_ids": [
+        13855,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "layer": 1,
+      "file": "citizen-male-south-0-mask.png",
+      "sprite_ids": [
+        13575,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "layer": 0,
+      "file": "citizen-male-south-1.png",
+      "sprite_ids": [
+        13570,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "layer": 1,
+      "file": "citizen-male-south-1-mask.png",
+      "sprite_ids": [
+        13576,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "layer": 0,
+      "file": "citizen-male-south-2.png",
+      "sprite_ids": [
+        13856,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "layer": 1,
+      "file": "citizen-male-south-2-mask.png",
+      "sprite_ids": [
+        13577,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        8,
+        39,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "layer": 0,
+      "file": "citizen-male-west-0.png",
+      "sprite_ids": [
+        13857,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "layer": 1,
+      "file": "citizen-male-west-0-mask.png",
+      "sprite_ids": [
+        13024,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "layer": 0,
+      "file": "citizen-male-west-1.png",
+      "sprite_ids": [
+        13858,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "layer": 1,
+      "file": "citizen-male-west-1-mask.png",
+      "sprite_ids": [
+        13025,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "layer": 0,
+      "file": "citizen-male-west-2.png",
+      "sprite_ids": [
+        13859,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        10,
+        40,
+        40
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "layer": 1,
+      "file": "citizen-male-west-2-mask.png",
+      "sprite_ids": [
+        13026,
+        0,
+        0,
+        0
+      ],
+      "bbox": [
+        8,
+        10,
+        40,
+        40
+      ]
+    }
+  ],
+  "native_body_anchors": "Head/hair, face, hands and boots fixed during garment inpainting."
+}

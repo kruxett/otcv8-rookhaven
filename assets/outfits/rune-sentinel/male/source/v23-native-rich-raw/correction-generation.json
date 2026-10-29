@@ -1,0 +1,14 @@
+{
+  "generator": "PixelLab inpaint_image Pro",
+  "job_id": "d521d620-4cbb-49da-8c9d-30779d501d55",
+  "asset_id": "34b75275-e17b-5551-982d-e1ba02a7f52d",
+  "source": "pixellab-raw-original.png",
+  "mask": "targeted-ai-correction-mask.png",
+  "description": "Correct selected defects in this SAME Rune Sentinel sprite sheet, all36 frames jointly. Keep every original pose, silhouette/limb/foot anchor, rich costume construction and pixel scale. Do not simplify the design into smooth bland plate. Unmasked pixels are immutable, including original Citizen faces/hands and limb contours.\n240x240 grid6x6 cells40px. Columns0-2=idle/walkA/walkB NORTH(even rows)/SOUTH(odd); columns3-5=EAST(even)/WEST(odd). Rows0-1 BASE,2-3 BASE+ADDON1,4-5 BASE+BOTH.\n1) NORTH selected equipment MUST show BACKS of helmet, neck and armor: no new face, eyes, nose, mouth, front visor or chest rune. Solid worked back helmet and layered back plate, matching existing metal craft. In addon tiers NORTH crown fins attach to BACK of same helmet and sweep DOWN toward upper back. They do NOT point upward like SOUTH fins. Original unmasked skin stays exactly as supplied.\n2) All other selected orange/brown pixels are EQUIPMENT, not new skin. Replace with connected GRAYSCALE plate, dark cloth or metal edges appropriate to their surrounding material. All new skin is forbidden. Selected transparent holes inside native body must become matching solid costume/undercloth; preserve original coverage.\n3) Selected LEGS/BOOTS in addon tiers MUST MATCH the corresponding BASE pose in first2 rows: same trousers, hip hem, knee/shin coverage, both boot heights and same plate design/tones. Adding a helmet crest or shoulder armor must NEVER change the legs. Base twelve leg poses are authoritative, not separate designs per tier. No longer white stripe on only one leg. Same paired construction viewed in perspective.\nPreserve original Rune Sentinel identity: angular helmet, rune breastplate, split tabard, belt/hip panels, bracers and boots. Keep deliberate native pixel clusters and original 3-step animation. No extra limbs, fake hands, weapons, flags, floating decorations, text, blur or color tint.",
+  "scope": "NORTH equipment orientation, new warm costume pixels, native body holes, addon leg consistency. Original fixed anatomy remains excluded from mask.",
+  "manual_painted_pixels": 0,
+  "estimated_generations": 10,
+  "status": "complete",
+  "actual_generations": 10,
+  "total_generations_this_turn": 43
+}

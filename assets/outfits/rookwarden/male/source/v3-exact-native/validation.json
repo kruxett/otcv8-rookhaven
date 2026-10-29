@@ -1,0 +1,209 @@
+{
+  "status": "exact-native-pose-validation-pass",
+  "reference_looktype": 132,
+  "direction_order": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "phase_order": [
+    "idle",
+    "walk1",
+    "walk2"
+  ],
+  "canvas": [
+    144,
+    192
+  ],
+  "cell_size": [
+    48,
+    48
+  ],
+  "native_canvas_translation_only": [
+    -24,
+    -24
+  ],
+  "native_masks_used": true,
+  "generated_pose_pixels_used": false,
+  "silhouette_changes": 0,
+  "unmasked_face_hands_outline_changes": 0,
+  "new_motion_outside_native_pixel_changes": 0,
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1878,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "92e3ada565c362abe7511225bc7d6bb750246b9e9c05b54c0ee33d2474f3c5d8"
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1885,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "5f50efea3ec031bc6a7b36b935aac522f8279647a0c5b49309bf91e0dbcb0491"
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1900,
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ],
+      "sha256": "5506f5fc2c779fb9b4216bfe37e746aed5266750b8773ddb564cb94f3477d609"
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1871,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "d0add055ec1da76d70abb95d27b9a248cbbaa3666dc243331e8c5be839d31bf0"
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1917,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "3823fbfe373575c3ceb78e126e9037ef15cecb6ae11168dd341e5f2879df078a"
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1898,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "a957998ff25b462ec45f5cb65ba61323762b6172f0ae48ec73c16b2385c9df4f"
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1871,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "b36440cca76764257b6ee79dd83ed0b90449afaad7643cf3f88aea33377ae45b"
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1917,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "e530a6c363a6c35155cf17e9c98de9a17576591f16891d4f2e3bfc9735928a2a"
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1898,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "739be8e032748171f3e3f4ae60ec39220f6fad3020d4c4cc0b05058f26d47aca"
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1878,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "05cc2caf6424bad4d60863ed428b5536ff772b8658256e45d1de361c3a94f2fa"
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1885,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "13a31734ad6baa43fae2354af6a7dd78e148585460bb52baa6b26c0c1cc30373"
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "silhouette_pixel_identical": true,
+      "face_hands_and_unmasked_pixels_identical": true,
+      "protected_pixels": 1900,
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ],
+      "sha256": "848d278d72ceae28e2fbfc1c3eab94b65656fa35ded32b37ca0125a1372cb506"
+    }
+  ],
+  "sheet_sha256": "4bcc1fe5faeee82b88af3ebc2d6c05089e9b5c5d1f41fde413c3b26f4efb774d",
+  "walk_sequence": [
+    1,
+    2
+  ],
+  "preview_timing_only_ms": 220,
+  "in_game_timing": "Will use the existing unchanged Creature::updateWalkAnimation path if approved and integrated."
+}

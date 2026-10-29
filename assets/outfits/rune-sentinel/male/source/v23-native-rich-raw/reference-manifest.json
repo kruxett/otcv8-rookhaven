@@ -1,0 +1,37 @@
+{
+  "pose_source": 128,
+  "pose_name": "Citizen male, all original N/E/S/W and idle/walkA/walkB",
+  "source_size": [
+    240,
+    240
+  ],
+  "cell_size": [
+    40,
+    40
+  ],
+  "context_size": [
+    720,
+    720
+  ],
+  "source_bbox": {
+    "x": 480,
+    "y": 360,
+    "width": 240,
+    "height": 240
+  },
+  "native_complete_reference_outfits": [
+    335,
+    131
+  ],
+  "all_reference_art_and_mask_frames": 144,
+  "refs_contain_all4_facings_all3_phases_base_and_addons": true,
+  "concept_role": "Original selected Rune Sentinel wardrobe/material richness only. NOT a pose/facing anchor.",
+  "old_rejected_v19_v20_v21_v22_art_used": false,
+  "resized_reference_art": false,
+  "protected_native_face_hand_pixels": 4392,
+  "anchored_native_contour_pixels": 3204,
+  "inside_clothing_including_old_folds_editable": true,
+  "manual_painted_art_pixels": 0,
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf"
+}

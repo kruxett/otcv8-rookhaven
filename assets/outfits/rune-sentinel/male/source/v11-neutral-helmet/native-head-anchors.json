@@ -1,0 +1,34 @@
+{
+  "south": {
+    "skull_top_anchor": [
+      38,
+      32
+    ],
+    "head_min_y": 32,
+    "head_center_source": "Top two rows of actual native head mask, not hair/ponytail bounding-box center."
+  },
+  "east": {
+    "skull_top_anchor": [
+      36,
+      33
+    ],
+    "head_min_y": 33,
+    "head_center_source": "Top two rows of actual native head mask, not hair/ponytail bounding-box center."
+  },
+  "north": {
+    "skull_top_anchor": [
+      38,
+      32
+    ],
+    "head_min_y": 32,
+    "head_center_source": "Top two rows of actual native head mask, not hair/ponytail bounding-box center."
+  },
+  "west": {
+    "skull_top_anchor": [
+      37,
+      33
+    ],
+    "head_min_y": 33,
+    "head_center_source": "Top two rows of actual native head mask, not hair/ponytail bounding-box center."
+  }
+}

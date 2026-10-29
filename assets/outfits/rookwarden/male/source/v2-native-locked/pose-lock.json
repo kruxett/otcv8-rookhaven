@@ -1,0 +1,199 @@
+{
+  "source_looktype": 132,
+  "grid": [
+    3,
+    4
+  ],
+  "phase_order": [
+    "idle",
+    "walk1",
+    "walk2"
+  ],
+  "direction_order": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "translation_only": [
+    -24,
+    -24
+  ],
+  "clothing_only_mask": true,
+  "protected": [
+    "native silhouettes and transparent pixels",
+    "unmasked face and hands",
+    "all head/hand/boot positions",
+    "frame order and stepping geometry"
+  ],
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-north-0.png",
+      "at": [
+        0,
+        0
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "f2f6e435388c943c9cc170d9724828e9dd9120b518535c6ee038093b0327a577"
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-north-1.png",
+      "at": [
+        48,
+        0
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "b819bc6ddba0c6fe24fe97054df8a0bf12a83385e4db4abfbef0b6600021529b"
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-north-2.png",
+      "at": [
+        96,
+        0
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "6065ecb61945c3e8eef3bcd2a51f8693f50d017069e5ad97e10f40acf0c49c03"
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-east-0.png",
+      "at": [
+        0,
+        48
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "798d7b15015f8e248bbc179e2d5ff6703569a52518d20e7459f8dfaf300bc60a"
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-east-1.png",
+      "at": [
+        48,
+        48
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "3e2e6f51b11c2a2740f7f1e7612743d287a89c4451e4e4f94abe556d32f84615"
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-east-2.png",
+      "at": [
+        96,
+        48
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "2db7ae95d6f4bd451a1c6af84314366dc4cfc060cda00336d2b01cc873321203"
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-south-0.png",
+      "at": [
+        0,
+        96
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "6016dd0171f9c524299409a6469ef590fbdff4d687538b10f5c4a7b3478d6689"
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-south-1.png",
+      "at": [
+        48,
+        96
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "af53c3632dbe5d6cf2b22d1e194a646575e670409ef4e310aa45e8b0bda282e2"
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-south-2.png",
+      "at": [
+        96,
+        96
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "c00a80a843e704c2f13f9ca8891a60d4fc71bc6fa7f3d703702ee9061588652c"
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-west-0.png",
+      "at": [
+        0,
+        144
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "85a25422ae664166f6c7748cad5c8aaee473b1396242eb508a9354ba5a51bef6"
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-west-1.png",
+      "at": [
+        48,
+        144
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "9e913b7494dd4e57fd6ce6626eadd2a0ac8476b8088a9466a0b9a74aeb81f7bc"
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "source": "assets/outfits/rookwarden/source/reference/nobleman-west-2.png",
+      "at": [
+        96,
+        144
+      ],
+      "cell_size": [
+        48,
+        48
+      ],
+      "alpha_sha256": "ddbd6fce61f41dbabaad9078bd216c9913bc85c0cbbe97d86a97bdbfb83a3ff6"
+    }
+  ]
+}

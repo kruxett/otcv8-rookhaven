@@ -1,0 +1,331 @@
+{
+  "reference_rendering": "Exact base layer, addon 0, idle frame 0; neutral white outfit tint. No sprite rescaling in source images.",
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "outfits": [
+    {
+      "looktype": 132,
+      "name": "nobleman",
+      "tile_size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "directions": {
+        "north": {
+          "file": "nobleman-north.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            15916,
+            0,
+            0,
+            0
+          ],
+          "sha256": "e05c1dbb1326e7d566795aa9aa28192ea202f6b740fa265399ea5faa08cfa73c"
+        },
+        "east": {
+          "file": "nobleman-east.png",
+          "bbox": [
+            31,
+            31,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            15919,
+            15921,
+            15920,
+            0
+          ],
+          "sha256": "c8e24245b9497a96b0f2687943eb49e0d9a355d995c849f2d47e514288d804d0"
+        },
+        "south": {
+          "file": "nobleman-south.png",
+          "bbox": [
+            31,
+            31,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            15927,
+            15929,
+            15928,
+            0
+          ],
+          "sha256": "e089107da268aec10f23e38dd41cce9938701a780883c5b6e9c84d0222b9a1c2"
+        },
+        "west": {
+          "file": "nobleman-west.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            15935,
+            0,
+            0,
+            0
+          ],
+          "sha256": "659188d19236d7e9226a355cefb0305197f2bbab4566fb36493df0cbeeea454b"
+        }
+      }
+    },
+    {
+      "looktype": 140,
+      "name": "noblewoman",
+      "tile_size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "directions": {
+        "north": {
+          "file": "noblewoman-north.png",
+          "bbox": [
+            33,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            1155,
+            0,
+            0,
+            0
+          ],
+          "sha256": "7e04f686c3cabd3c26a8a4198d9488b5aba8e9a8998f841520eaa049c13dd404"
+        },
+        "east": {
+          "file": "noblewoman-east.png",
+          "bbox": [
+            26,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            1818,
+            1819,
+            0,
+            0
+          ],
+          "sha256": "73af6d825ad80c3a60fc62a29c9c35b1af51c151f2ed0559790074e41ec2d48a"
+        },
+        "south": {
+          "file": "noblewoman-south.png",
+          "bbox": [
+            32,
+            26,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            1823,
+            0,
+            1824,
+            0
+          ],
+          "sha256": "2e289d6d85275a246e95b4588af033cd98f6866318d2c9560a0d35922243a17b"
+        },
+        "west": {
+          "file": "noblewoman-west.png",
+          "bbox": [
+            32,
+            33,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            1828,
+            0,
+            0,
+            0
+          ],
+          "sha256": "eda3e7d04fa9e08e73bac6bf0a2aaa40b1ebabac6a1c20a2939884435f125d14"
+        }
+      }
+    },
+    {
+      "looktype": 128,
+      "name": "citizen-male",
+      "tile_size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "directions": {
+        "north": {
+          "file": "citizen-male-north.png",
+          "bbox": [
+            33,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13796,
+            0,
+            0,
+            0
+          ],
+          "sha256": "872e332d9bf4d30717b7ed2757e38e609be3e8bd971a155be4ef45bca8122d9e"
+        },
+        "east": {
+          "file": "citizen-male-east.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13853,
+            0,
+            0,
+            0
+          ],
+          "sha256": "9c4bf804253e395e0db2e1b224754aa2e73963e364078d11e8c3112e605da5e8"
+        },
+        "south": {
+          "file": "citizen-male-south.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13855,
+            0,
+            0,
+            0
+          ],
+          "sha256": "6aa74dc8663fc7478146c71ea2e8fcaaf4db7761d693e1f114d5c8524fee63fc"
+        },
+        "west": {
+          "file": "citizen-male-west.png",
+          "bbox": [
+            32,
+            33,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13857,
+            0,
+            0,
+            0
+          ],
+          "sha256": "f77bd1c03e639532c15d72e1e7dc1d531088c4e3845e203c60469f3d29b63907"
+        }
+      }
+    },
+    {
+      "looktype": 136,
+      "name": "citizen-female",
+      "tile_size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "directions": {
+        "north": {
+          "file": "citizen-female-north.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13579,
+            0,
+            0,
+            0
+          ],
+          "sha256": "df3b9591013eb9d5e647db36defb9584f7d5c830f73ab12c472777d422047294"
+        },
+        "east": {
+          "file": "citizen-female-east.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13582,
+            0,
+            0,
+            0
+          ],
+          "sha256": "37aa4962aec2ab01649cc4fdfb0b868095564fc50d7d30f8d065e0048158d6c8"
+        },
+        "south": {
+          "file": "citizen-female-south.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13585,
+            0,
+            0,
+            0
+          ],
+          "sha256": "2ab074b56ad04bb559faa00b680d06d2249b1f4fd5c957cefc789af9050f96f2"
+        },
+        "west": {
+          "file": "citizen-female-west.png",
+          "bbox": [
+            32,
+            32,
+            64,
+            64
+          ],
+          "sprite_ids": [
+            13588,
+            0,
+            0,
+            0
+          ],
+          "sha256": "c5bc250ca774091fd1f6aeaf35c4250e49afebdb6f161bc33a9f9ec47d23e81c"
+        }
+      }
+    }
+  ]
+}

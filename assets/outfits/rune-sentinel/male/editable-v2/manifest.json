@@ -1,0 +1,27 @@
+{
+  "stage": "Rune Sentinel selected; paid-outfit design iteration awaiting graphic approval",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "61cc0614-e810-4998-88b5-5a9030b2ff4b",
+  "source": "../source/v2-runecrown/pixellab-runecrown.png",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "pixel_density": "Original native body; new silhouette includes 6px additional helmet crest height. No scaling.",
+  "layers": [
+    "CITIZEN_POSE_REFERENCE",
+    "PREVIOUS_RUNE_SENTINEL_REFERENCE",
+    "RUNE_SENTINEL_V2_COLOR_CONCEPT - editable",
+    "FIXED_FACE_AND_HANDS_REFERENCE"
+  ],
+  "color_mask_note": "This file is a color design concept, not a finalized DAT/SPR base/mask export. Four player-color channels will be prepared for the approved costume.",
+  "validation": "../source/v2-runecrown/validation.json",
+  "files": {
+    "before-after-preview.png": "61d37ae81e45a540218fd22729273c7b1b2b2678318ad69e516aae44ea3081d3",
+    "citizen-pose-reference.png": "6aa74dc8663fc7478146c71ea2e8fcaaf4db7761d693e1f114d5c8524fee63fc",
+    "previous-design-reference.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-v2.aseprite": "82003a333b629103627cad9cf40db33d787c5702288429e4a573ec25c8e39bcc",
+    "rune-sentinel-v2.ora": "39f088aeb862198baa9930dc01e03c148e485d4362d5f9971c07fe6417fdb557",
+    "rune-sentinel-v2.png": "620f13800ccc576168204617552fca8af007ba89d8db746bf870fb18d78baf07"
+  }
+}

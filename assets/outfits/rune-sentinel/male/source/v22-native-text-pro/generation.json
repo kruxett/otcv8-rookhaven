@@ -1,0 +1,37 @@
+{
+  "generator": "PixelLab edit_image Pro text mode",
+  "job_id": "e9f8871c-b2d2-480d-9ea9-26cd46629441",
+  "asset_id": "1c2c2373-5578-5445-a42e-bc53432d49c3",
+  "description": "Edit ONLY TOP HALF of this512x512 sheet into ONE ORIGINAL RUNE SENTINEL outfit. Keep full512x512 canvas and ALL sprite cells in their exact original positions/sizes. Bottom Knight sheet is a STYLE GUIDE to leave untouched, never relocate into top.\nTOP-LEFT x0..239,y0..239 = outfit art,6x6 cells40px. Cols0-2 idle/walkA/walkB for NORTH(even rows)/SOUTH(odd rows); cols3-5 EAST(even)/WEST(odd). Rows0-1=BASE;2-3=BASE+ADDON1;4-5=BASE+ADDON1+ADDON2. All36 full bodies must remain, no reflow, resizing, cropping, added duplicates or switched facings.\nTOP-RIGHT x240..479,y0..239 = matching color mask. Update to match new art, same40px grid: pure yellow helmet/head; red torso/arms/shoulders; green hips/legs; blue boots/chest stone. Flat masks without shading. Transparency matches art's costume.\nNative Tibia: Warrior supplies EXACT anatomy, face/hands, joint/foot/limb positions and animation; complete Knight art+mask below y256 supplies native armor style, shading and rotating equipment references. Preserve native diagonal oblique body axis, all poses and facing-specific visible face. Same underlying costume across tiers; only addons change.\nRedesign ALL clothing into premium ancient rune-order guard: smooth fitted open-face steel helmet, strong angular plate cuirass with one readable diamond rune inset, dark fitted undersuit, substantial belt, short overlapping split hip armor, shaped bracers and paired solid greaves/boots. Clean broad gray metal planes separated by dark joints. Both legs identical construction/hem length. Distinct complete base, not just ornamented hair.\nADDON1: attached runic brow/temple armor on existing helmet, no spikes/horns/crest. ADDON2: TWO fitted layered angular pauldrons and short collar at actual shoulders. Remove ALL weapons from ALL tiers. No flags/cape, floating parts or new limbs.\nNeutral grayscale costume with original warm skin. Crisp connected clusters, native32px body. No white speckles, scratches, dithering, checkerboard.",
+  "source": "single-input-native-outfits-and-masks.png",
+  "source_size": [
+    512,
+    512
+  ],
+  "art_region": [
+    0,
+    0,
+    240,
+    240
+  ],
+  "mask_region": [
+    240,
+    0,
+    480,
+    240
+  ],
+  "all36_frames_and_addons_generated_jointly": true,
+  "native_references": [
+    134,
+    131
+  ],
+  "rejected_AI_art_used": false,
+  "manual_artistic_edits": 0,
+  "estimated_cost_generations": 25,
+  "generations_before": 1694,
+  "status": "complete; graphical proposal pending user approval",
+  "user_requested_retry_after_v21": true,
+  "docs_guidance": "Use text mode to avoid reference_image_url switching edit mode. No documented guarantee of exact grid/alpha preservation.",
+  "actual_cost_generations": 25,
+  "total_this_attempt_generations": 35
+}

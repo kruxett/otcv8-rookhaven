@@ -1,0 +1,66 @@
+{
+  "reference_frames": 48,
+  "complete_base_sheets": [
+    {
+      "name": "Citizen",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\citizen-complete-base-12.png",
+      "frames": 12,
+      "source_crop": [
+        32,
+        32,
+        64,
+        64
+      ],
+      "reference_cell": 32,
+      "rescaled": false
+    },
+    {
+      "name": "Knight",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\knight-complete-base-12.png",
+      "frames": 12,
+      "source_crop": [
+        24,
+        24,
+        64,
+        64
+      ],
+      "reference_cell": 40,
+      "rescaled": false
+    },
+    {
+      "name": "Nightmare",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\nightmare-complete-base-12.png",
+      "frames": 12,
+      "source_crop": [
+        24,
+        24,
+        64,
+        64
+      ],
+      "reference_cell": 40,
+      "rescaled": false
+    },
+    {
+      "name": "Brotherhood",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\brotherhood-complete-base-12.png",
+      "frames": 12,
+      "source_crop": [
+        24,
+        24,
+        64,
+        64
+      ],
+      "reference_cell": 40,
+      "rescaled": false
+    }
+  ],
+  "crop_removes_transparent_padding_only": true,
+  "generated_target_size": [
+    96,
+    128
+  ],
+  "generated_cells": [
+    32,
+    32
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "generator": "PixelLab edit_image Pro reference mode",
+  "job_id": "d6dd1223-a2cc-4dac-93a2-39c899b108e2",
+  "asset_id": "6beb8c6e-681e-5b23-96bf-d504909c4881",
+  "description": "Improve this WHOLE36-frame Rune Sentinel outfit into clean professional native Tibia pixel art, with BASE AND BOTH ADDONS coherent across ALL directions/walking poses. Keep exact40px cell placement, native body scale, original faces/hands, limb positions and diagonal Tibia perspective. Do NOT independently rotate/redraw one chosen facing.\nEdit target240x240:6x6 cells40px. Columns0-2 idle/walkA/walkB for NORTH(even rows)/SOUTH(odd); columns3-5 EAST(even)/WEST(odd). Rows0-1=BASE;2-3=BASE+ADDON1;4-5=BASE+ADDON1+ADDON2. Each is a full dressed figure, not isolated equipment. SAME underlying wardrobe in matching tiers; only optional equipment changes. No floating parts or new limbs.\nReference512x512 contains TWO COMPLETE native outfits, ALL poses/addons AND exact color masks: Knight top (art left252x252, mask right252x252); Warrior bottom y264 (art left240x240, mask right240x240). Both follow same6x6 state/direction/phase grid. Learn native style, crisp connected clusters, anatomy, armor and addon construction. Do not copy horns/weapons.\nOriginal Rune Sentinel elite guard: sculpted steel cuirass with ONE readable diamond rune inset, dark tailored undercloth, strong belt, short layered hip plates, fitted bracers and symmetrical solid greaves/boots. Calm broad metal planes; dark seams; no white speckling, dithering, tiny scratches, checkerboard or edge wires. Premium complete base, not recolored Citizen.\nREMOVE all spikes, fins and crests. Base helmet has simple fitted open face and flat sloping crown. ADDON1 adds a clean narrow runic brow band and paired temple plates attached to SAME helmet; follow all facings. ADDON2 adds TWO fitted broad layered pauldrons and short collar on actual shoulders, not elbows/head. Use clear connected shapes readable at native32px figure size. Neutral grayscale costume; native skin only warm color. No weapons, cape, flags, effects or text.",
+  "size": [
+    240,
+    240
+  ],
+  "input": "../../../editable-v20-complete-outfit/base-and-addons-all36.png",
+  "reference": "two-complete-native-reference-sheets.png",
+  "estimated_cost_generations": 10,
+  "generations_before": 1704,
+  "status": "complete, internally rejected; final attempt; custom generation abandoned",
+  "maximum_generation_attempts": 1,
+  "user_requested_bounded_time_and_cost": true,
+  "manual_artistic_edits": 0,
+  "approval": false,
+  "actual_cost_generations": 10,
+  "generations_after": 1694,
+  "follow_up_generation_jobs": 0
+}

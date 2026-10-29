@@ -1,0 +1,132 @@
+{
+  "status": "PASS",
+  "anatomical_shoulder": "left",
+  "native_head_face_hands_boots_changed": 0,
+  "pixels_changed_outside_declared_shoulder_regions": 0,
+  "guarded_patch_output_mismatches": 0,
+  "original_editable_files_byte_identical": true,
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        12,
+        20,
+        21
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        13,
+        22,
+        23
+      ]
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        13,
+        20,
+        16
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        12,
+        18,
+        40
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        13,
+        21,
+        37
+      ]
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        13,
+        18,
+        42
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        23,
+        31,
+        38
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        23,
+        31,
+        32
+      ]
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        23,
+        31,
+        29
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        28,
+        24,
+        24
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        28,
+        24,
+        32
+      ]
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "anatomical_shoulder": "left",
+      "visible_blade_unique_pixels": [
+        28,
+        24,
+        29
+      ]
+    }
+  ],
+  "visual_review": "Reviewed all four direction rows and both native walk phases at native pixel density / nearest neighbor zoom.",
+  "preview_note": "Software shader preview, not an in-game screenshot. No outfit import or runtime change."
+}

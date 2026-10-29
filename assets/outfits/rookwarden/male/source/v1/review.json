@@ -1,0 +1,7 @@
+{
+  "status": "concept-reference-only-generative-poses-discarded",
+  "reason": "User requires exact Tibia angles and walking animation. Generated rotations and individual walk poses are not acceptable final pose sources.",
+  "retained_use": "South concept image is a clothing and palette reference only for native-pose-locked clothing inpainting.",
+  "discarded_rotation_jobs": ["ed99da41-1523-48e7-97a3-dd3afe2375ba", "2648ecea-4554-4d5f-a263-b784c6e0202a", "8cf1df5b-bafb-4603-b487-e3ade63dc41e", "dc4420cd-ff10-41c4-b453-702619ec6eee"],
+  "discarded_walk_jobs": ["3af5f785-2c3f-4d12-be44-dc1532b3dd02", "b797021b-3f26-465c-89cd-c823c30ea970"]
+}

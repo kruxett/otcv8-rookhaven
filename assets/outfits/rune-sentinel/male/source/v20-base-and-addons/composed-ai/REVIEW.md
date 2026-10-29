@@ -1,0 +1,1 @@
+Internally rejected: calmer shading but too plain, little visual distinction among base/addon1/full and 1134 native opaque pixels lost. Not approved. No integration. Next pass edits the existing armor source jointly in all36 states with complete native addon/mask references.

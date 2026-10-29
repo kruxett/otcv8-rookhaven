@@ -1,0 +1,96 @@
+{
+  "looktype": 128,
+  "phase": 0,
+  "addon": 0,
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "layout": [
+    2,
+    4,
+    3,
+    1,
+    3
+  ],
+  "frames": {
+    "north-native.png": {
+      "sprite_ids": [
+        13796,
+        0,
+        0,
+        0
+      ],
+      "sha256": "eb65b44d114a26e29539960a91c34e4ed2f5c7eb29afa06a85e43c243ff5d1fb",
+      "prior_extraction_identical": true
+    },
+    "north-native-mask.png": {
+      "sprite_ids": [
+        13015,
+        0,
+        0,
+        0
+      ],
+      "sha256": "c9502f41320b4792342a9c462150d0ecc5632eb8f8f890b616a46468a5accd6a",
+      "prior_extraction_identical": true
+    },
+    "east-native.png": {
+      "sprite_ids": [
+        13853,
+        0,
+        0,
+        0
+      ],
+      "sha256": "0f165e026c6252d1e91da1be490325d808d8dc3b8c9b256362a92e958001bf8e",
+      "prior_extraction_identical": true
+    },
+    "east-native-mask.png": {
+      "sprite_ids": [
+        13572,
+        0,
+        0,
+        0
+      ],
+      "sha256": "1ae572a56bac5f48dfbf33e71e3ced3faa9b939ae3314ce76ac7d33321a4d237",
+      "prior_extraction_identical": true
+    },
+    "south-native.png": {
+      "sprite_ids": [
+        13855,
+        0,
+        0,
+        0
+      ],
+      "sha256": "e9bb67f2329bfbc3aa211f1ebe241085e36f6f9280086c0fc0d1ec623f3c6839",
+      "prior_extraction_identical": true
+    },
+    "south-native-mask.png": {
+      "sprite_ids": [
+        13575,
+        0,
+        0,
+        0
+      ],
+      "sha256": "a0115973845e6a5b190f83713e7226e7188fdb62d5fc65a1610530db9e1c2e5b",
+      "prior_extraction_identical": true
+    },
+    "west-native.png": {
+      "sprite_ids": [
+        13857,
+        0,
+        0,
+        0
+      ],
+      "sha256": "5061046aee3feba5e05f8b4765ca89497f4d0a55d46b435b6b369787a74b0818",
+      "prior_extraction_identical": true
+    },
+    "west-native-mask.png": {
+      "sprite_ids": [
+        13024,
+        0,
+        0,
+        0
+      ],
+      "sha256": "3467bef537102b718cdb87806481737746aafe1b3754ffcc2f32e155487280b6",
+      "prior_extraction_identical": true
+    }
+  }
+}

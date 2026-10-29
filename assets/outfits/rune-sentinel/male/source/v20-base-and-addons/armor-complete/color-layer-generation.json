@@ -1,0 +1,15 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "c90b85f1-ee63-4425-9d7b-bc2fa7310d55",
+  "asset_id": "30edfe29-dcdb-5c25-b154-60b8f33bad43",
+  "status": "complete; unapproved review draft",
+  "seed": 2026102712,
+  "description": "Create the EXACT NATIVE FOUR-CHANNEL COLOR MASK for this COMPLETE36-frame outfit sheet. This is a flat INDEX MASK, not artwork or a new character. Existing Warmaster/Knight pure-color mask sheets in context are authoritative examples.\nReplace EVERY selected costume pixel by ONE of exactly FOUR solid opaque colors: YELLOW #ffff00=helmet and helmet crest; RED #ff0000=torso, shoulder guards, collar, belt and arms; GREEN #00ff00=hip armor and legs; BLUE #0000ff=boots and inset chest runestone. No shading, no outlines, no skin, no gray, no black or antialiasing in selected pixels. Preserve every source pixel position and alpha. Never delete opaque costume. Original fixed native skin and unselected pixels remain unchanged by tool.\nThe SAME garment regions must get SAME channel in matching facings/walks and addon tiers. Armor shape and seams from source determine boundaries, not arbitrary stripes.\n240x240 6x6 cells40px. Cols0-2 NORTH(even)/SOUTH(odd), idle/walkA/walkB; cols3-5 EAST(even)/WEST(odd). Rows0-1=base; rows2-3=base+addon1; rows4-5=base+both. Generate all36 index masks TOGETHER. Color both shoulder guards RED; helmet decoration YELLOW. No added geometry or background.",
+  "context_usage": "FULL actual native outfit references: TOP720x360 Warmaster art atleft360x360, exact matching yellow/red/green/blue index masks at right360x360. BOTTOMLEFT Knight art at(0,360)396x176 and exact matching masks at(0,536)396x176. Every reference contains all4 directions,3 poses and base/addon1/both. Target source at(480,360)240x240. Learn semantic channel assignment and crisp flat mask boundaries from the actual native mask images; mask output must contain only those FOUR pure colors in selected opaque costume pixels. Output all36 masks coherently, do not redraw the costume or alter its opacity.",
+  "all36_masks_generated_jointly": true,
+  "mask": "color-layer-generation-mask.png",
+  "target": "base-and-addons-neutral-all36.png",
+  "context": "color-layer-reference-context.png",
+  "manual_painted_pixels": 0,
+  "cost_generations": 9
+}

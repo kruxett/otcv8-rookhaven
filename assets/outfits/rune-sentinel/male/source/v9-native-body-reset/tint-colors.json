@@ -1,0 +1,23 @@
+{
+  "head_steel": [
+    188,
+    208,
+    220
+  ],
+  "body_steel": [
+    170,
+    194,
+    211
+  ],
+  "legs_blue": [
+    85,
+    112,
+    151
+  ],
+  "feet_steel": [
+    153,
+    175,
+    193
+  ],
+  "method": "Exact multiply tint as native client; original grayscale body/limb shading is not regenerated. No details/addons at this proof stage."
+}

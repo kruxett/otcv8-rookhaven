@@ -1,0 +1,12 @@
+{
+  "image_url": "https://api.pixellab.ai/mcp/pixel-tools/b371ebf1-56f8-422b-82b9-4269092a20a8/image.png",
+  "description": "Upgrade ONLY THE CLOTHING to an original premium ceremonial Rookhaven ROOKWARDEN outfit worth buying for real money. The current simple ranger garment is too ordinary. Design a bold, cohesive ceremonial silhouette with NEW shapes: one sculpted swept raven-feather shoulder mantle, exactly THREE broad pointed overlapping charcoal feather blades; high structured collar; a fitted midnight ROYAL BLUE overcoat with a generous split long back mantle and two broad pointed coat tails showing PALE IVORY lining; one clear bronze raven-shaped clasp at the chest, strong bronze edging and belt buckle, a substantial diagonal dark leather baldric. The ornaments must be BIG SIMPLE readable clusters, not tiny dotted trim. Luxurious velvet cloth, dark layered feathers, contrasting lining and polished old gold. Character reads as a unique ceremonial warden, not a common hooded NPC, generic thief or noble recolor. No weapons or props. Consistent exact same costume across every cell. IMPORTANT all native body poses are immutable: sheet rows NORTH, EAST, SOUTH, WEST, columns IDLE, STEP1, STEP2. Preserve the fixed head facing and the exact face, hand and boot coordinates; sleeves follow those exact frozen wrist anchors and keep native shoulder/elbow poses. Do not draw new limbs, hands, faces or feet. Do not mirror or rotate any cell. Only change garment construction, outline and material. The existing hood and boots are intentionally frozen and will receive matching finishing work separately. Respect pixel density: roughly 32x32 visible body inside 48x48 cells, native Tibia 8.60 oblique viewpoint. Clear sophisticated pixel clusters, strong shape grouping, restrained highlight palette, no antialiasing, no glow, no sparkles, no jewelry confetti, no floating accessories. Retain transparency around each figure and between all twelve cells. Avoid isolated single pixel decorations. The outfit must be recognizably more exclusive at actual game size, not merely more saturated or brighter.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 20261176,
+  "mask_file": "garment-mask.png",
+  "job_id": "29f7f45a-ab76-48f4-b722-6d854868627c",
+  "asset_id": "b0eca043-ce7d-5dbb-b383-bc8816ed8014",
+  "hood_trim_workbench_image_id": "e64637ce-8c32-4a35-ae30-3ddc6d00cd0e"
+}

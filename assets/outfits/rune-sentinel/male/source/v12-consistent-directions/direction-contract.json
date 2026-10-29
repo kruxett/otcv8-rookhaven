@@ -1,0 +1,51 @@
+{
+  "purpose": "Design consistency, not changing the selected design or deciding what the appendages physically are.",
+  "canonical_direction": "south",
+  "canonical_source": "../../editable-v11-neutral-helmet/helmet-neutral.png",
+  "canonical_crop": "All source ornament pixels y<=34, mounting origin(38,34). South composite itself preserved byte-for-byte.",
+  "direction_rule": {
+    "south": [
+      0,
+      -1
+    ],
+    "east": [
+      -1,
+      0
+    ],
+    "north": [
+      0,
+      1
+    ],
+    "west": [
+      1,
+      0
+    ]
+  },
+  "mounts": {
+    "south": [
+      38,
+      34
+    ],
+    "east": [
+      34,
+      38
+    ],
+    "north": [
+      40,
+      42
+    ],
+    "west": [
+      42,
+      38
+    ]
+  },
+  "quarter_turns_image_coordinates": {
+    "south": 0,
+    "east": -1,
+    "north": 2,
+    "west": 1
+  },
+  "body": "Exact native pose in every direction. Only ornament drawing is transformed, never the avatar.",
+  "head_direction_source": "Current explicit user instruction: south up; west right; east left; north down.",
+  "sprite_notes": "Neutral white/gray base and separate masks remain mandatory. No approved game import."
+}

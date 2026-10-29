@@ -1,0 +1,54 @@
+{
+  "status": "rejected-user-found-boring-and-false-arm-contour",
+  "product": "Harbor Envoy male outfit proposal",
+  "reference_looktype": 128,
+  "reference_name": "Citizen male starter, no addons",
+  "reference": "../source/reference/native-poses.json",
+  "art_direction": "Clean ceremonial seafarer uniform: tailored wine-red jacket, broad ivory collar and cuffs, dark trousers, single brass belt clasp. Symmetrical construction, uncovered native Citizen hair.",
+  "generation": "PixelLab inpaint_image_pro_flash + guarded pixelart_workbench material conversion and cleanup",
+  "generation_job_id": "a12a5b1d-7307-4ca4-8db1-8cbb6e26ad33",
+  "base_workbench_id": "43170641-a63a-4c0f-aa09-2f3de5c97ccd",
+  "mask_workbench_id": "77c99727-6fc4-4132-bb76-c0dcaad6a4b0",
+  "source": "source/v1-citizen/pixellab-harbor-envoy-clean.png",
+  "base": "source/v2-recolorable/base-48-sheet.png",
+  "mask": "source/v2-recolorable/mask-48-sheet.png",
+  "editable": "editable-v2/harbor-envoy-male.aseprite",
+  "editable_alternative": "editable-v2/harbor-envoy-male.ora",
+  "preview": "editable-v2/citizen-comparison.gif",
+  "validation": "source/v2-recolorable/validation.json",
+  "editor_canvas": [
+    192,
+    256
+  ],
+  "editor_cell": [
+    64,
+    64
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "native_scaling": false,
+  "default_colors": {
+    "head": 58,
+    "body": 112,
+    "legs": 2,
+    "feet": 58
+  },
+  "sha256": "959db65fcd90f22a6aba25486c5edd17b377f7ec8d521d3ad71b58a469e4bfad",
+  "implementation": "Graphic files only: no new looktype, DAT/SPR import, server grant, shop offer or deployment. Await user graphic review and optional manual edits.",
+  "next": [
+    "Approve male design direction",
+    "Separate Citizen-female design and review",
+    "Integrate approved outfit graphics, color masks and shop grants",
+    "Native rendering/color selection/walk/purchase tests at integration"
+  ],
+  "next_design_study": "../../style-study-20261026/review.json"
+}

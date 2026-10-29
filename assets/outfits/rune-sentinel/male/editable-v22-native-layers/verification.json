@@ -1,0 +1,56 @@
+{
+  "status": "graphical proposal; not user-approved; not game-imported",
+  "generator": "PixelLab Pro text edit + constrained Pro inpaint correction",
+  "generation_jobs": [
+    "e9f8871c-b2d2-480d-9ea9-26cd46629441",
+    "1ceec07b-43ad-4668-9a6c-5f1b362a3496"
+  ],
+  "generation_cost": 35,
+  "all36_frames_generated_jointly": true,
+  "base_and_two_independent_native_addons": true,
+  "art_source": "PixelLab AI output only; automatic mask-based layer extraction and neutral-luma encoding; no hand-painted costume pixels",
+  "technical_processing": {
+    "manual_painted_pixels": 0,
+    "art_pixels_source": "unchanged AI pixels selected into native base/addon layers; original source images preserved",
+    "technical_grayscale_encoding_pixels": 7942,
+    "addon_pixels": [
+      1307,
+      557
+    ],
+    "fixed_AI_skin_pixels": 277,
+    "mask_label_fallback_pixels": 646,
+    "method": "largest connected AI yellow helmet-label component across base/addon1, expanded1px and limited to helmet bottom; native upper torso red mask within8px of head, limited by head center+9px, expanded1px. No arbitrary hand-painted shapes. All other base garment pixels reused exactly.",
+    "review_status": "pending visual review of layer seams and geometry; not imported"
+  },
+  "four_addon_bit_combinations_composed": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "four_tint_channels_isolated": true,
+  "ase_cel_and_flags_readback": true,
+  "ora_layer_readback": true,
+  "sprite_860_lossless_tiles": 288,
+  "DAT_SPR_unchanged": true,
+  "native_canvas": [
+    64,
+    64
+  ],
+  "native_placement": [
+    24,
+    24
+  ],
+  "frames_each_layer": 12,
+  "visual_checks": [
+    "all36 composed frames reviewed separately",
+    "NORTH has back of helmet and armor rather than chest rune",
+    "base clothing reused exactly under both addons"
+  ],
+  "limitations": [
+    "Working mask boundaries and addon extraction need user graphic review.",
+    "No in-game rendering verification or female counterpart yet."
+  ],
+  "visual_review_status": "All36 composed frames inspected at integer nearest-neighbor magnification; new art draft, user approval pending.",
+  "remaining_generations_after_attempt": 1659
+}

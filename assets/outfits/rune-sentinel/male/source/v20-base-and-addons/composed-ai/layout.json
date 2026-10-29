@@ -1,0 +1,29 @@
+{
+  "size": [
+    240,
+    240
+  ],
+  "cell": [
+    40,
+    40
+  ],
+  "tiers": [
+    "base",
+    "base+addon1",
+    "base+addon1+addon2"
+  ],
+  "row_layout": [
+    "N0 N1 N2 E0 E1 E2",
+    "S0 S1 S2 W0 W1 W2"
+  ],
+  "native_body_looktype": 128,
+  "all36_skin_exactly_protected": true,
+  "mask_only_growth_allowance": "3px dilation around native head for addon1, around native upper red torso for addon2; fixed native pixels excluded. This is a placement constraint, no painted addon artwork.",
+  "reference_art_and_matching_masks": 216,
+  "source_bbox_in_context": {
+    "x": 480,
+    "y": 0,
+    "width": 240,
+    "height": 240
+  }
+}

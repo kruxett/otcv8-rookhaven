@@ -1,0 +1,19 @@
+{
+  "artwork_creator": "PixelLab generative AI: whole-costume inpaint and AI helmet repair",
+  "manual_artistic_sprite_edits_after_ai": 0,
+  "technical_hue_correction_pixels": 4,
+  "source_size": [
+    64,
+    64
+  ],
+  "alpha_exact_to_native": true,
+  "fixed_skin_and_other_nonmask_pixels_exact": true,
+  "costume_is_neutral_grayscale": true,
+  "outside_full_ai_mask_changes": 0,
+  "technical_changes_from_repaired_ai": 4,
+  "final_png_file_sha256": "beb0f152870c06a6a9d5320009c8bbdd9d7f7d3d3f436ea2dd696745e70144fc",
+  "raw_ai_original_png_file_sha256": "cf92a7899514f879bf2211ea6ecaea8eeb2612b2901fd5b0379c1b7e3ddf36ac",
+  "scope": "South idle base study, pending graphic approval. No other facings/walk frames/addons or game integration. Native mask is a working mask.",
+  "layer_merge_byte_exact": true,
+  "aseprite_and_openraster_readback_exact": true
+}

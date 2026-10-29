@@ -1,0 +1,35 @@
+{
+  "reference_looktype": 128,
+  "source": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\harbor-envoy\\male\\source\\v1-citizen\\pixellab-harbor-envoy-clean.png",
+  "source_sha256": "959db65fcd90f22a6aba25486c5edd17b377f7ec8d521d3ad71b58a469e4bfad",
+  "channels": {
+    "head": 1110,
+    "fixed": 695,
+    "legs": 2466,
+    "body": 2571,
+    "feet": 589
+  },
+  "cloth_neutral_values": [
+    0,
+    24,
+    48,
+    80,
+    120,
+    168,
+    216,
+    255
+  ],
+  "rear_gold_clasp_pixels_replaced_with_plain_belt": 68,
+  "inpaint_changes_outside_mask": 0,
+  "inpaint_body_anchor_changes": 0,
+  "defaults": {
+    "head": 58,
+    "body": 112,
+    "legs": 2,
+    "feet": 58
+  },
+  "edits": {
+    "base": 5324,
+    "mask": 7431
+  }
+}

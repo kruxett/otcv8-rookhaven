@@ -1,0 +1,398 @@
+[
+  {
+    "looktype": 132,
+    "direction": "north",
+    "phase": 0,
+    "meaning": "idle",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15916,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-north-0.png",
+    "bbox": [
+      8,
+      8,
+      40,
+      40
+    ],
+    "sha256": "5947feb82e5dd68efff5bd2edb34175d411ca5524bf556de783042501c64cb5d"
+  },
+  {
+    "looktype": 132,
+    "direction": "north",
+    "phase": 1,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15917,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-north-1.png",
+    "bbox": [
+      8,
+      8,
+      40,
+      40
+    ],
+    "sha256": "2a776ca2afbc8ec1b568064332e9ccf0a0c01b560c351aed0f17fe4ab17ec80f"
+  },
+  {
+    "looktype": 132,
+    "direction": "north",
+    "phase": 2,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15918,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-north-2.png",
+    "bbox": [
+      9,
+      8,
+      40,
+      40
+    ],
+    "sha256": "b4be2dc5c0a9fe90cbb5a14cc7ff20312ecdb137e63860b58bc09b9c27cd7738"
+  },
+  {
+    "looktype": 132,
+    "direction": "east",
+    "phase": 0,
+    "meaning": "idle",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15919,
+      15921,
+      15920,
+      0
+    ],
+    "file": "nobleman-east-0.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "5221a4ee83f0b16ab1efeae94e81553bf4a859611cb2ea32bac9ec1f27628808"
+  },
+  {
+    "looktype": 132,
+    "direction": "east",
+    "phase": 1,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15922,
+      15921,
+      15923,
+      0
+    ],
+    "file": "nobleman-east-1.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "d8a6eac302ae082468337f37350673e9b1b5ea0f085e78e6cc7a9db48aa5523b"
+  },
+  {
+    "looktype": 132,
+    "direction": "east",
+    "phase": 2,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15924,
+      15926,
+      15925,
+      0
+    ],
+    "file": "nobleman-east-2.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "fdd3e2e4cf519b0d51eddf27da44a78871f3be9b666fe01e970323f8002ac6bc"
+  },
+  {
+    "looktype": 132,
+    "direction": "south",
+    "phase": 0,
+    "meaning": "idle",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15927,
+      15929,
+      15928,
+      0
+    ],
+    "file": "nobleman-south-0.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "28a7c501e07e679d09436ecd7538a225ca1d1709ca30dc289f44d88a5dcbacc9"
+  },
+  {
+    "looktype": 132,
+    "direction": "south",
+    "phase": 1,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15930,
+      15931,
+      15928,
+      0
+    ],
+    "file": "nobleman-south-1.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "f25c281cb56dc91cd3d69e81e62d2e8aa35254a41edc122dcef46514009aa458"
+  },
+  {
+    "looktype": 132,
+    "direction": "south",
+    "phase": 2,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15932,
+      15933,
+      15934,
+      0
+    ],
+    "file": "nobleman-south-2.png",
+    "bbox": [
+      7,
+      7,
+      40,
+      40
+    ],
+    "sha256": "c35fca82485600733eebe1dfc6df216efba521cfa2d0bd125daf3d6347193ffe"
+  },
+  {
+    "looktype": 132,
+    "direction": "west",
+    "phase": 0,
+    "meaning": "idle",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15935,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-west-0.png",
+    "bbox": [
+      8,
+      8,
+      40,
+      40
+    ],
+    "sha256": "4732897ef1c0ae92ff3e86086fa6add1bf00f2d5c5c571cfabbc041991cfad3f"
+  },
+  {
+    "looktype": 132,
+    "direction": "west",
+    "phase": 1,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15936,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-west-1.png",
+    "bbox": [
+      8,
+      8,
+      40,
+      40
+    ],
+    "sha256": "7f34d6cb85e7be531fe8245b1598fbc1a897898ca3ec785498075cbb95117a60"
+  },
+  {
+    "looktype": 132,
+    "direction": "west",
+    "phase": 2,
+    "meaning": "alternating native walk pose",
+    "native_canvas": [
+      64,
+      64
+    ],
+    "reference_canvas": [
+      48,
+      48
+    ],
+    "translation": [
+      -24,
+      -24
+    ],
+    "resized": false,
+    "sprite_ids": [
+      15937,
+      0,
+      0,
+      0
+    ],
+    "file": "nobleman-west-2.png",
+    "bbox": [
+      8,
+      9,
+      40,
+      40
+    ],
+    "sha256": "20f7aefc694f3457e6d8548dadbe37d0aa478773a9fd52d29ae94a6d7f3c710a"
+  }
+]

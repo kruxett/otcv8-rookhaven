@@ -1,0 +1,11 @@
+[
+  {
+    "operation": "patch_pixels",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "pixels": [],
+    "reason": "Keep south helmet ornament as fixed design. Turn ONLY this exact ornament contour relative to the native head: south up, east left, north down, west right. Native face/hand/leg/boot foreground preserved; no new design or anatomy generation."
+  }
+]

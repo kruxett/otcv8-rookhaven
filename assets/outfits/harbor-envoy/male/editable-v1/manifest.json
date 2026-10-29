@@ -1,0 +1,66 @@
+{
+  "status": "editable graphic proposal, not imported",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "sheet_canvas": [
+    192,
+    256
+  ],
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "unscaled_translation_from_48px_reference": [
+    24,
+    24
+  ],
+  "channel_pixels": {
+    "(255, 255, 0, 255)": 1110,
+    "(255, 0, 0, 255)": 2571,
+    "(0, 255, 0, 255)": 2467,
+    "(0, 0, 255, 255)": 590
+  },
+  "fixed_pixels": 695,
+  "default_player_colors": {
+    "head": 58,
+    "body": 56,
+    "legs": 2,
+    "feet": 58
+  },
+  "checks": [
+    "source alpha unchanged",
+    "only neutral grayscale under color masks",
+    "fixed pixels byte-identical",
+    "pure native mask colors",
+    "all 133 palette colors on all 4 channels",
+    "per-channel isolation",
+    "white tint identity",
+    "ASE cels/flags lossless readback",
+    "ORA PNG/XML readback",
+    "96 legacy SPR tiles roundtrip"
+  ],
+  "preview_note": "Software preview follows local shader multiplication and local palette formula. No native game rendering or outfit import performed.",
+  "source": "assets\\outfits\\harbor-envoy\\male\\source\\v1-citizen\\pixellab-harbor-envoy-raw.png",
+  "layers_source": "assets\\outfits\\harbor-envoy\\male\\source\\v2-recolorable",
+  "files": {
+    "base.png": "90fa99e2f876ce9422f7484215b75741b903395b39dbc60a0bc70cf47a4853c1",
+    "color-options-preview.png": "bed418f288d0024f2427feda26b325b850b472d22faac704be7d118648a2d47e",
+    "color-preview.png": "83a24a8be19cd9de4a35a4d572920a612c597f24ed4370b0aae8f3fa39230093",
+    "harbor-envoy-male.aseprite": "fc147de80070c36a94aa282b7b5ea2c2c58e830c2f1c2d7aee35665a1a62d675",
+    "harbor-envoy-male.ora": "7f2512f7cee30858743867c2dc6a25a036819b9a27e17b967578a7ca48efe4ce",
+    "layers-overview.png": "dd9b03d2411cde5736ea9a17014e68e1652e6cb7e628e371fc76138c0cb23ea9",
+    "mask.png": "44f8320d6d9c7ceed5bd76c3c453bc0e3e029dfa0435c3428f6addc2d5d89161",
+    "native-reference.png": "07fabd70a9f34a6b9ad4269ae0aeb6425c1cabfc146e2a9a4c82741254b627d0",
+    "previous-color-concept.png": "27723c4d48d2946a8a95b6da8322fa3ee4e58de78f01f2f9bfe4ee10788e59fb",
+    "walking-color-preview.gif": "b11a1d916c000d59b8ce37029d294f7571e7c9e0487dbaa4fa9e17923c1c1746"
+  }
+}

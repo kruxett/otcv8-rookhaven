@@ -1,0 +1,199 @@
+{
+  "status": "PASS: native head, face, hands, body coverage and walk poses retained",
+  "reference_looktype": 132,
+  "native_pose_frames": 12,
+  "directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "phase_order": [
+    "idle",
+    "walk1",
+    "walk2"
+  ],
+  "ai_generated_body_or_pose_pixels_used": false,
+  "new_pixels_only": "71 raven mantle feather tip pixels over all 12 frames, placed from native shoulder edges",
+  "checks": {
+    "body_pixels_removed": 0,
+    "protected_face_hands_outline_pixels_changed": 0,
+    "changes_outside_approved_garment_mask_or_mantle": 0,
+    "additional_garment_pixels": 71,
+    "unexpected_changes_from_verified_v3": 0
+  },
+  "v3_material_validation": "../v3-exact-native/validation.json",
+  "preview_timing_ms": 220,
+  "runtime_timing": "Existing client Creature::updateWalkAnimation when approved and imported; no timing change planned.",
+  "sheet_sha256": "d91158a2cc2d3e2d991f7be11f65ea9c33075b0a24c915b4b8951643b2d6014b",
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "native_body_retained": true,
+      "changed_material_pixels": 426,
+      "new_feather_pixels": 9,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "e4b25da89f8b515a720f8ac8ce2f910a88521bf292e3ae3958e0aee8735ec948"
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "native_body_retained": true,
+      "changed_material_pixels": 419,
+      "new_feather_pixels": 0,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "5f50efea3ec031bc6a7b36b935aac522f8279647a0c5b49309bf91e0dbcb0491"
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "native_body_retained": true,
+      "changed_material_pixels": 404,
+      "new_feather_pixels": 0,
+      "bbox": [
+        9,
+        8,
+        40,
+        40
+      ],
+      "sha256": "5506f5fc2c779fb9b4216bfe37e746aed5266750b8773ddb564cb94f3477d609"
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "native_body_retained": true,
+      "changed_material_pixels": 429,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "85c9c2beb59e4a6d8f3a8a7abbf40599264e43bd0ba6a0ebde7443eeb77627d5"
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "native_body_retained": true,
+      "changed_material_pixels": 384,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "43040b34a069292071180ac0c87a2d2652c1503e6df3bcc2bba4646e0b6664ed"
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "native_body_retained": true,
+      "changed_material_pixels": 404,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "df4e3b492b3d69b88b079c234a02dcf86d1eb77865aefddc75b414b1037010c6"
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "native_body_retained": true,
+      "changed_material_pixels": 429,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "bd41668ac44f1a1e20cf902299e43ee317da7cc9ca271ffe11dad5810223b327"
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "native_body_retained": true,
+      "changed_material_pixels": 384,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "0755d3633f4e042adcdb7ff771c6f4f88dd99511e1d50f9146f49fae013c4abb"
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "native_body_retained": true,
+      "changed_material_pixels": 404,
+      "new_feather_pixels": 9,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "8794e112a656048fc866cdcf94b907250b7e58ad8d1ae427b801ece35cc3a25e"
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "native_body_retained": true,
+      "changed_material_pixels": 426,
+      "new_feather_pixels": 8,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "7ddd75284f120add4fd3ec6cef6157e9831768762e9e16f76052146fe7336601"
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "native_body_retained": true,
+      "changed_material_pixels": 419,
+      "new_feather_pixels": 0,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "13a31734ad6baa43fae2354af6a7dd78e148585460bb52baa6b26c0c1cc30373"
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "native_body_retained": true,
+      "changed_material_pixels": 404,
+      "new_feather_pixels": 0,
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ],
+      "sha256": "848d278d72ceae28e2fbfc1c3eab94b65656fa35ded32b37ca0125a1372cb506"
+    }
+  ]
+}

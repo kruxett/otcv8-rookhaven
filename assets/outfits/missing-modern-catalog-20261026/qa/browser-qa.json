@@ -1,0 +1,1033 @@
+{
+  "asOf": "2026-10-26T20:56:45.850Z",
+  "url": "http://127.0.0.1:8179/",
+  "browser": "Chrome via CUA Browser plugin",
+  "result": "Passed UI checks; one mobile image-gutter issue fixed and rechecked",
+  "mediaNote": "Initial UI checks used GIF media. Final source-mode/addon/direction and mobile checks use lossless PNG/APNG media; earlier GIF paths below are historical evidence.",
+  "checks": [
+    {
+      "check": "pagination-last-page",
+      "broken": 0,
+      "count": "109–110 av 110 outfits",
+      "names": [
+        "Winged Druid",
+        "Winter Warden"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "jersey-no-addons-main",
+      "addonsDisabled": true,
+      "addonsLabel": "Inga separata addons",
+      "count": "1–1 av 1 outfits",
+      "name": "Jersey",
+      "notes": [
+        "Inga separata addons"
+      ],
+      "sources": [
+        "media/619/walk-south-base.gif",
+        "media/620/walk-south-base.gif"
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "jersey-detail-eight-base-directions",
+      "broken": 0,
+      "dirs": [
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster",
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster"
+      ],
+      "disabled": true,
+      "note": "Inga separata addons. Här visas den kompletta basoutfiten.",
+      "sources": [
+        "media/619/walk-north-base.gif",
+        "media/619/walk-east-base.gif",
+        "media/619/walk-south-base.gif",
+        "media/619/walk-west-base.gif",
+        "media/620/walk-north-base.gif",
+        "media/620/walk-east-base.gif",
+        "media/620/walk-south-base.gif",
+        "media/620/walk-west-base.gif"
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "seven-retro-no-addons",
+      "count": "1–7 av 7 outfits",
+      "disabled": true,
+      "names": [
+        "Retro Citizen",
+        "Retro Hunter",
+        "Retro Knight",
+        "Retro Mage",
+        "Retro Nobleman",
+        "Retro Summoner",
+        "Retro Warrior"
+      ],
+      "notes": [
+        "Inga separata addons",
+        "Inga separata addons",
+        "Inga separata addons",
+        "Inga separata addons",
+        "Inga separata addons",
+        "Inga separata addons",
+        "Inga separata addons"
+      ],
+      "sources": [
+        "media/974/walk-south-base.gif",
+        "media/975/walk-south-base.gif",
+        "media/972/walk-south-base.gif",
+        "media/973/walk-south-base.gif",
+        "media/970/walk-south-base.gif",
+        "media/971/walk-south-base.gif",
+        "media/968/walk-south-base.gif",
+        "media/969/walk-south-base.gif",
+        "media/966/walk-south-base.gif",
+        "media/967/walk-south-base.gif",
+        "media/964/walk-south-base.gif",
+        "media/965/walk-south-base.gif",
+        "media/962/walk-south-base.gif",
+        "media/963/walk-south-base.gif"
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "normal-family-addon-switch",
+      "broken": 0,
+      "choice": "base",
+      "disabled": false,
+      "images": [
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-north-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-east-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-south-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-west-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-north-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-east-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-south-base.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            0,
+            0
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-west-base.gif"
+        }
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "normal-family-addon-switch",
+      "broken": 0,
+      "choice": "a1",
+      "disabled": false,
+      "images": [
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-north-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-east-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-south-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-west-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-north-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-east-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-south-a1.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-west-a1.gif"
+        }
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "normal-family-addon-switch",
+      "broken": 0,
+      "choice": "a2",
+      "disabled": false,
+      "images": [
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-north-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-east-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-south-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-west-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-north-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-east-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-south-a2.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-west-a2.gif"
+        }
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "normal-family-addon-switch",
+      "broken": 0,
+      "choice": "full",
+      "disabled": false,
+      "images": [
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-north-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-east-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-south-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-west-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-north-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-east-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-south-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-west-full.gif"
+        }
+      ],
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "desktop-all-directions-loaded-integer-pixels",
+      "count": 8,
+      "images": [
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-north-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-east-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-south-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1936/walk-west-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-north-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-east-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-south-full.gif"
+        },
+        {
+          "display": [
+            192,
+            192
+          ],
+          "natural": [
+            64,
+            64
+          ],
+          "rendering": "pixelated",
+          "src": "media/1937/walk-west-full.gif"
+        }
+      ],
+      "open": true,
+      "overflow": false,
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "idle-png-walk-gif-source-switch",
+      "idle": {
+        "mode": "true",
+        "sources": [
+          "media/1936/idle-north-full.png",
+          "media/1936/idle-east-full.png",
+          "media/1936/idle-south-full.png",
+          "media/1936/idle-west-full.png",
+          "media/1937/idle-north-full.png",
+          "media/1937/idle-east-full.png",
+          "media/1937/idle-south-full.png",
+          "media/1937/idle-west-full.png"
+        ]
+      },
+      "walk": {
+        "mode": "true",
+        "sources": [
+          "media/1936/walk-north-full.gif",
+          "media/1936/walk-east-full.gif",
+          "media/1936/walk-south-full.gif",
+          "media/1936/walk-west-full.gif",
+          "media/1937/walk-north-full.gif",
+          "media/1937/walk-east-full.gif",
+          "media/1937/walk-south-full.gif",
+          "media/1937/walk-west-full.gif"
+        ]
+      },
+      "sourcePhase": "initial GIF UI pass; source fidelity later replaced by APNG"
+    },
+    {
+      "check": "shortlist-persists-reload",
+      "firstName": "Aerial Disciple",
+      "firstPressed": "true",
+      "selectedCount": "1",
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "shortlist-only-filter",
+      "names": [
+        "Aerial Disciple"
+      ],
+      "result": "1–1 av 1 outfits",
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "responsive-736-main",
+      "grid": "335px 335px",
+      "images": [
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "width": 128
+        },
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "width": 128
+        },
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "width": 128
+        },
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "width": 128
+        }
+      ],
+      "overflow": false,
+      "viewport": [
+        736,
+        1024
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "responsive-736-detail",
+      "columns": "305.5px 305.5px",
+      "count": 8,
+      "overflow": false,
+      "width": 736,
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "responsive-320-main-after-gutter-fix",
+      "broken": 0,
+      "card": 281,
+      "grid": "281px",
+      "images": [
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "space": 132,
+          "src": "media/1936/walk-south-full.png",
+          "width": 128
+        },
+        {
+          "natural": 64,
+          "rendering": "pixelated",
+          "space": 132,
+          "src": "media/1937/walk-south-full.png",
+          "width": 128
+        }
+      ],
+      "overflow": false,
+      "viewport": [
+        320,
+        900
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "responsive-320-detail-apng",
+      "columns": "226px",
+      "images": [
+        {
+          "natural": 64,
+          "src": "media/1936/walk-north-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1936/walk-east-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1936/walk-south-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1936/walk-west-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1937/walk-north-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1937/walk-east-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1937/walk-south-full.png",
+          "width": 192
+        },
+        {
+          "natural": 64,
+          "src": "media/1937/walk-west-full.png",
+          "width": 192
+        }
+      ],
+      "open": true,
+      "overflow": false,
+      "viewport": [
+        320,
+        900
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "hash-number-search-final-apng",
+      "count": "1–1 av 1 outfits",
+      "disabled": true,
+      "names": [
+        "Jersey"
+      ],
+      "sources": [
+        "media/619/walk-south-base.png",
+        "media/620/walk-south-base.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "original-id-search",
+      "count": "1–1 av 1 outfits",
+      "names": [
+        "Aerial Disciple"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "both-sex-filter",
+      "count": "1–18 av 110 outfits",
+      "sexLabels": [
+        "Male",
+        "Female"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "special-filter-empty-valid-for-all-paired-catalogue",
+      "count": "0 outfits",
+      "empty": "Inga outfits matchar sökningen.Visa alla outfits",
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-main-four-directions",
+      "direction": "north",
+      "sources": [
+        "media/1936/walk-north-full.png",
+        "media/1937/walk-north-full.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-main-four-directions",
+      "direction": "east",
+      "sources": [
+        "media/1936/walk-east-full.png",
+        "media/1937/walk-east-full.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-main-four-directions",
+      "direction": "south",
+      "sources": [
+        "media/1936/walk-south-full.png",
+        "media/1937/walk-south-full.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-main-four-directions",
+      "direction": "west",
+      "sources": [
+        "media/1936/walk-west-full.png",
+        "media/1937/walk-west-full.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-eight-directions-addon-switch",
+      "addon": "base",
+      "captions": [
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster",
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster"
+      ],
+      "missing": 0,
+      "open": true,
+      "sources": [
+        "media/1936/walk-north-base.png",
+        "media/1936/walk-east-base.png",
+        "media/1936/walk-south-base.png",
+        "media/1936/walk-west-base.png",
+        "media/1937/walk-north-base.png",
+        "media/1937/walk-east-base.png",
+        "media/1937/walk-south-base.png",
+        "media/1937/walk-west-base.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-eight-directions-addon-switch",
+      "addon": "a1",
+      "captions": [
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster",
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster"
+      ],
+      "missing": 0,
+      "open": true,
+      "sources": [
+        "media/1936/walk-north-a1.png",
+        "media/1936/walk-east-a1.png",
+        "media/1936/walk-south-a1.png",
+        "media/1936/walk-west-a1.png",
+        "media/1937/walk-north-a1.png",
+        "media/1937/walk-east-a1.png",
+        "media/1937/walk-south-a1.png",
+        "media/1937/walk-west-a1.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-eight-directions-addon-switch",
+      "addon": "a2",
+      "captions": [
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster",
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster"
+      ],
+      "missing": 0,
+      "open": true,
+      "sources": [
+        "media/1936/walk-north-a2.png",
+        "media/1936/walk-east-a2.png",
+        "media/1936/walk-south-a2.png",
+        "media/1936/walk-west-a2.png",
+        "media/1937/walk-north-a2.png",
+        "media/1937/walk-east-a2.png",
+        "media/1937/walk-south-a2.png",
+        "media/1937/walk-west-a2.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-apng-eight-directions-addon-switch",
+      "addon": "full",
+      "captions": [
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster",
+        "Norr",
+        "Öster",
+        "Söder",
+        "Väster"
+      ],
+      "missing": 0,
+      "open": true,
+      "sources": [
+        "media/1936/walk-north-full.png",
+        "media/1936/walk-east-full.png",
+        "media/1936/walk-south-full.png",
+        "media/1936/walk-west-full.png",
+        "media/1937/walk-north-full.png",
+        "media/1937/walk-east-full.png",
+        "media/1937/walk-south-full.png",
+        "media/1937/walk-west-full.png"
+      ],
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-idle-png-versus-walk-apng",
+      "idle": {
+        "pressed": "true",
+        "sources": [
+          "media/1936/idle-north-full.png",
+          "media/1936/idle-east-full.png",
+          "media/1936/idle-south-full.png",
+          "media/1936/idle-west-full.png",
+          "media/1937/idle-north-full.png",
+          "media/1937/idle-east-full.png",
+          "media/1937/idle-south-full.png",
+          "media/1937/idle-west-full.png"
+        ]
+      },
+      "walk": {
+        "pressed": "true",
+        "sources": [
+          "media/1936/walk-north-full.png",
+          "media/1936/walk-east-full.png",
+          "media/1936/walk-south-full.png",
+          "media/1936/walk-west-full.png",
+          "media/1937/walk-north-full.png",
+          "media/1937/walk-east-full.png",
+          "media/1937/walk-south-full.png",
+          "media/1937/walk-west-full.png"
+        ]
+      },
+      "sourcePhase": "final APNG or format-independent UI check"
+    },
+    {
+      "check": "final-clean-catalogue-state",
+      "brokenImages": 0,
+      "direction": "south",
+      "firstSources": [
+        "media/1936/walk-south-full.png",
+        "media/1937/walk-south-full.png"
+      ],
+      "horizontalOverflow": false,
+      "query": "",
+      "result": "1–18 av 110 outfits",
+      "selected": "0",
+      "viewport": [
+        736,
+        1024
+      ],
+      "consoleErrors": [],
+      "sourcePhase": "final APNG or format-independent UI check"
+    }
+  ],
+  "screenshots": [
+    "desktop-catalog.jpg",
+    "desktop-eight-directions.jpg",
+    "tablet-736.jpg",
+    "tablet-736-detail.jpg",
+    "phone-320.jpg",
+    "phone-320-detail.jpg"
+  ],
+  "limitations": [
+    "Did not load every one of 7040 images through the browser; root independently verifies all referenced media files.",
+    "No gameplay, client or shop implementation changed."
+  ]
+}

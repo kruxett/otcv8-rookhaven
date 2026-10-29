@@ -1,0 +1,24 @@
+{
+  "description": "ONE male PLAYER OUTFIT SPRITE for Rookhaven, matching the supplied actual Tibia 8.60 Nobleman sprite. Preserve the reference's EXACT low oblique top-down camera, south-facing idle pose, body proportions, small human head, hand positions and diagonal silhouette: head toward upper left, boots toward lower right, face visible from above. This is a tiny playable Tibia character, not a portrait or a side-view hero. Keep the visible full-body character about 33-35 pixels across and 33-35 pixels high on the 48x48 canvas, like the reference, with transparent space around it. Original costume concept: ROOKHAVEN NOBLE, an elegant medieval travelling noble wearing a dark NAVY BLUE fitted knee-length split coat, broad IVORY collar and light undershirt, restrained aged-copper coat edging, a wide brown leather belt and brown leather boots. A short BURGUNDY shoulder mantle falls behind ONE shoulder to the waist, with a simple brass clasp. Short chestnut hair, clean-shaven readable face, bare hands, arms in the same relaxed pose as the reference. Clothing should be built from a few broad readable pixel clusters: dark blue torso, pale open collar, burgundy shoulder, brown boots. Keep the garment compact around the original body, no large billowing cloak. Follow the actual reference's old-school Tibia pixel density, dark selective outline, top-left light and restrained material shading. Create a distinct new outfit while keeping its native-scale anatomy and perspective. ONE complete standing character, all parts visible, fully opaque painted pixels and fully transparent background. No weapon, shield, staff, hat, crown, armour pauldrons, wings, aura, sparkles, text, numbers, UI, border, floor, cast shadow, scenery, antialiasing, realistic rendering, enlarged chibi head or modern clothing.",
+  "width": 48,
+  "height": 48,
+  "max_colors": 32,
+  "no_background": true,
+  "seed": 20261107,
+  "style_image": {
+    "file": "../../../source/reference/nobleman-south-style.png",
+    "usage_description": "Actual Rookhaven/Tibia Nobleman looktype 132, idle south, base layer. The 33x33 original body has only been translated to the center of this 48x48 reference, never resized. Match its precise oblique top-down view, pose, human proportions, pixel scale and shading. Replace the costume with the described original navy/ivory/burgundy outfit."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  },
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "eada7f29-d2bf-4513-921f-595202722042",
+  "asset_id": "5103faef-0a43-5999-969b-80dbff209a86",
+  "download": "https://api.pixellab.ai/mcp/images/eada7f29-d2bf-4513-921f-595202722042/download",
+  "scope": "Male south idle design proposal only; no game integration or other directions generated yet.",
+  "charged_generations": 5
+}

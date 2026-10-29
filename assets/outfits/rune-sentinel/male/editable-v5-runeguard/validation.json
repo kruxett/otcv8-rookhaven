@@ -1,0 +1,193 @@
+{
+  "stage": "south-idle design study; new mantle addon2 awaiting graphic approval",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "c8ae7cd8-b12a-44fa-a59c-85cc7a283069",
+  "base_and_addon1_unchanged": true,
+  "outside_mask_changes": 0,
+  "protected_face_hands_changes": 0,
+  "source_changes": 69,
+  "shoulder_attachment_overlap_pixels": 32,
+  "attachment_overlap_coordinates": [
+    [
+      48,
+      36
+    ],
+    [
+      49,
+      36
+    ],
+    [
+      50,
+      36
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      48,
+      38
+    ],
+    [
+      49,
+      38
+    ],
+    [
+      50,
+      38
+    ],
+    [
+      51,
+      38
+    ],
+    [
+      52,
+      38
+    ],
+    [
+      48,
+      39
+    ],
+    [
+      49,
+      39
+    ],
+    [
+      50,
+      39
+    ],
+    [
+      51,
+      39
+    ],
+    [
+      52,
+      39
+    ],
+    [
+      53,
+      39
+    ],
+    [
+      50,
+      40
+    ],
+    [
+      51,
+      40
+    ],
+    [
+      52,
+      40
+    ],
+    [
+      54,
+      40
+    ],
+    [
+      55,
+      40
+    ],
+    [
+      51,
+      41
+    ],
+    [
+      52,
+      41
+    ],
+    [
+      53,
+      41
+    ],
+    [
+      54,
+      41
+    ],
+    [
+      55,
+      41
+    ],
+    [
+      56,
+      41
+    ],
+    [
+      53,
+      42
+    ],
+    [
+      54,
+      42
+    ],
+    [
+      55,
+      42
+    ]
+  ],
+  "variant_4_connected_components": {
+    "0": [
+      549
+    ],
+    "1": [
+      640
+    ],
+    "2": [
+      585
+    ],
+    "3": [
+      675
+    ]
+  },
+  "native_overlay_order": [
+    "base",
+    "addon1 if bit1",
+    "addon2 if bit2"
+  ],
+  "all_four_combinations_exported": true,
+  "ase_ora_readback": "PASS, pixel-identical layer cels/PNGs",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "retained_base_coverage_pixels": 0,
+  "remaining": [
+    "user graphic approval",
+    "all directions and walking phases",
+    "four-channel player-color masks",
+    "female outfit and addons",
+    "native import and in-game visual check"
+  ],
+  "files": {
+    "addon-combinations-preview.png": "79cce151ec2c988a853928415e03fe0cd0ec1c8a6c492d36373e6d2c1aebe76b",
+    "addon1-overlay.png": "c813a30daf4c9931e9ad333350ae5f80a725a1ad07f0824a038cddef6c2b71c1",
+    "addon2-overlay.png": "93610d3b2df40c3c141a901e2789bdc8024590f4d5ccc0a187e61087f118ab04",
+    "base.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-mantle.aseprite": "75449a096101b4d9821580a65ad25fbf9fa6e20eb35da78e2ac0be775707fa4c",
+    "rune-sentinel-mantle.ora": "6a5d413e9b938060b7db2c50bc252dd09cb8568d6d67bf4319ac708ae4418b36",
+    "variant-0.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "variant-1.png": "8dbfa13d224343f7e372640ce321b90aa5d94d21d829ea6e697016b03e41be02",
+    "variant-2.png": "207a5af1bfc5fcc9b12a25de7e296d8e33dae3ded8d3fbe9d72eb3ab0b8ca309",
+    "variant-3.png": "33f8177acf6f0c58a2796e9c44174b832606406a5bcd99732ee2216a6b0c3e52"
+  },
+  "native_foot_color_mask_pixel_changes": {
+    "0": 0,
+    "1": 0,
+    "2": 0,
+    "3": 0
+  },
+  "far_arm_pose_strip_unchanged": true,
+  "visual_review": "Reviewed at 4x/6x and 1x: raised angular shoulder guard overlaps the shoulder cap; no flag, pole, extra hand or detached accessory. All four combinations reviewed."
+}

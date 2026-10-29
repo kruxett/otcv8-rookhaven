@@ -1,0 +1,55 @@
+{
+  "status": "New native-body repaint study for review, not approved game art.",
+  "source": "../source/v9-native-body-reset/direct-native-source.json",
+  "method": "No body generation. Actual source material masks and original shading reused per pixel. PixelLab exact edits only. Body alpha geometry and original limb shading retained.",
+  "direction_checks": {
+    "north": {
+      "workbench_id": "31628425-894b-4c08-b2a1-af0ba4db23a5",
+      "native_opaque_body_pixels_removed": 0,
+      "native_fixed_face_hands_pixel_changes": 0,
+      "leg_and_foot_pixels_changed_from_exact_native_tint": 0,
+      "extra_body_pixels_at_or_below_y36": 0,
+      "body_shading_matches_native_material_transform": true,
+      "new_geometry": "Helmet crown only, all additions above y36",
+      "crown_extra_pixels": 63
+    },
+    "east": {
+      "workbench_id": "7de1025c-4b0a-424e-a575-d44352d07397",
+      "native_opaque_body_pixels_removed": 0,
+      "native_fixed_face_hands_pixel_changes": 0,
+      "leg_and_foot_pixels_changed_from_exact_native_tint": 0,
+      "extra_body_pixels_at_or_below_y36": 0,
+      "body_shading_matches_native_material_transform": true,
+      "new_geometry": "Helmet crown only, all additions above y36",
+      "crown_extra_pixels": 58
+    },
+    "south": {
+      "workbench_id": "88931454-6195-4430-91c1-5f22d8b903d7",
+      "native_opaque_body_pixels_removed": 0,
+      "native_fixed_face_hands_pixel_changes": 0,
+      "leg_and_foot_pixels_changed_from_exact_native_tint": 0,
+      "extra_body_pixels_at_or_below_y36": 0,
+      "body_shading_matches_native_material_transform": true,
+      "new_geometry": "Helmet crown only, all additions above y36",
+      "crown_extra_pixels": 72
+    },
+    "west": {
+      "workbench_id": "af0a649e-7075-4077-be2e-da66e0c5f6bb",
+      "native_opaque_body_pixels_removed": 0,
+      "native_fixed_face_hands_pixel_changes": 0,
+      "leg_and_foot_pixels_changed_from_exact_native_tint": 0,
+      "extra_body_pixels_at_or_below_y36": 0,
+      "body_shading_matches_native_material_transform": true,
+      "new_geometry": "Helmet crown only, all additions above y36",
+      "crown_extra_pixels": 55
+    }
+  },
+  "ase_ora_readback": "PASS; pixel-identical layer cels and PNGs",
+  "remaining": [
+    "User review of proportions against original",
+    "Further premium costume and shoulder-design refinement on locked source",
+    "Final independent native addon/color-mask layers",
+    "Walking phases and female counterpart",
+    "Approved game integration and native verification"
+  ]
+}

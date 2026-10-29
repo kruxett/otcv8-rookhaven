@@ -1,0 +1,393 @@
+{
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "addon": 0,
+  "phase": 0,
+  "native_citizen_matches_previous_extraction": true,
+  "records": [
+    {
+      "looktype": 128,
+      "direction": "north",
+      "layer": "art",
+      "sprite_ids": [
+        13796,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "eb65b44d114a26e29539960a91c34e4ed2f5c7eb29afa06a85e43c243ff5d1fb"
+    },
+    {
+      "looktype": 128,
+      "direction": "north",
+      "layer": "mask",
+      "sprite_ids": [
+        13015,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "c9502f41320b4792342a9c462150d0ecc5632eb8f8f890b616a46468a5accd6a"
+    },
+    {
+      "looktype": 128,
+      "direction": "east",
+      "layer": "art",
+      "sprite_ids": [
+        13853,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "0f165e026c6252d1e91da1be490325d808d8dc3b8c9b256362a92e958001bf8e"
+    },
+    {
+      "looktype": 128,
+      "direction": "east",
+      "layer": "mask",
+      "sprite_ids": [
+        13572,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "1ae572a56bac5f48dfbf33e71e3ced3faa9b939ae3314ce76ac7d33321a4d237"
+    },
+    {
+      "looktype": 128,
+      "direction": "south",
+      "layer": "art",
+      "sprite_ids": [
+        13855,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "e9bb67f2329bfbc3aa211f1ebe241085e36f6f9280086c0fc0d1ec623f3c6839"
+    },
+    {
+      "looktype": 128,
+      "direction": "south",
+      "layer": "mask",
+      "sprite_ids": [
+        13575,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "a0115973845e6a5b190f83713e7226e7188fdb62d5fc65a1610530db9e1c2e5b"
+    },
+    {
+      "looktype": 128,
+      "direction": "west",
+      "layer": "art",
+      "sprite_ids": [
+        13857,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "5061046aee3feba5e05f8b4765ca89497f4d0a55d46b435b6b369787a74b0818"
+    },
+    {
+      "looktype": 128,
+      "direction": "west",
+      "layer": "mask",
+      "sprite_ids": [
+        13024,
+        0,
+        0,
+        0
+      ],
+      "rgba_sha256": "3467bef537102b718cdb87806481737746aafe1b3754ffcc2f32e155487280b6"
+    },
+    {
+      "looktype": 131,
+      "direction": "north",
+      "layer": "art",
+      "sprite_ids": [
+        15224,
+        13488,
+        0,
+        0
+      ],
+      "rgba_sha256": "2bae5bbaf0b20ba352a22f46e557d461319fe50f81f3922dc14818079fc066d3"
+    },
+    {
+      "looktype": 131,
+      "direction": "north",
+      "layer": "mask",
+      "sprite_ids": [
+        13513,
+        13514,
+        0,
+        0
+      ],
+      "rgba_sha256": "becac9486ecdab0e1e4c7ff3cf66c565ae5bbdca2e3676cfe65d9a2dbaaaeeb1"
+    },
+    {
+      "looktype": 131,
+      "direction": "east",
+      "layer": "art",
+      "sprite_ids": [
+        13498,
+        0,
+        13499,
+        0
+      ],
+      "rgba_sha256": "70fa9be259ba81767440277ceaac549bd845e895adb2752586d09b6e82e86263"
+    },
+    {
+      "looktype": 131,
+      "direction": "east",
+      "layer": "mask",
+      "sprite_ids": [
+        13519,
+        0,
+        13520,
+        0
+      ],
+      "rgba_sha256": "512a0ab6b8b730144dab175ab93e0d0459b642c1d896a926f615f15f944c9c7f"
+    },
+    {
+      "looktype": 131,
+      "direction": "south",
+      "layer": "art",
+      "sprite_ids": [
+        13503,
+        13504,
+        0,
+        0
+      ],
+      "rgba_sha256": "09711dd56ccc4478d3b4c34397ca4e61b791c6189b345078b723d02757d58764"
+    },
+    {
+      "looktype": 131,
+      "direction": "south",
+      "layer": "mask",
+      "sprite_ids": [
+        13524,
+        13525,
+        0,
+        0
+      ],
+      "rgba_sha256": "bc691910d7e9f68a22f983faf550e978f6e60982efd35367869aa1defefc78c3"
+    },
+    {
+      "looktype": 131,
+      "direction": "west",
+      "layer": "art",
+      "sprite_ids": [
+        15227,
+        0,
+        13509,
+        0
+      ],
+      "rgba_sha256": "c639bd4a26bc7a5b29993ccabbd9a690bd349441dffc31ef522a79f0dab54b7a"
+    },
+    {
+      "looktype": 131,
+      "direction": "west",
+      "layer": "mask",
+      "sprite_ids": [
+        13529,
+        0,
+        13530,
+        0
+      ],
+      "rgba_sha256": "167a2a04f76dddc974d4f6e812270942c50b95a80fe8ef7aac9f6732cbb2bad9"
+    },
+    {
+      "looktype": 134,
+      "direction": "north",
+      "layer": "art",
+      "sprite_ids": [
+        14498,
+        14499,
+        0,
+        0
+      ],
+      "rgba_sha256": "16f593b6c8e020547f8e4315b2112f12d8a5a7515bc9aaae1c9e36d0d34eec0d"
+    },
+    {
+      "looktype": 134,
+      "direction": "north",
+      "layer": "mask",
+      "sprite_ids": [
+        14518,
+        13514,
+        0,
+        0
+      ],
+      "rgba_sha256": "d289cd85288254208ac4cf7e987fbc5be347df2f41a56812ffbb7f45c5440b2e"
+    },
+    {
+      "looktype": 134,
+      "direction": "east",
+      "layer": "art",
+      "sprite_ids": [
+        14503,
+        0,
+        14504,
+        0
+      ],
+      "rgba_sha256": "3ddfab4369668215fa4adbbc0ff5349280e5e7a5e0c981284467edcec72d5e0c"
+    },
+    {
+      "looktype": 134,
+      "direction": "east",
+      "layer": "mask",
+      "sprite_ids": [
+        14521,
+        0,
+        14522,
+        0
+      ],
+      "rgba_sha256": "ef064e704f15f326985c4bb5bdeb086a2c910c3a6452fc4c221688a3e5a47eb6"
+    },
+    {
+      "looktype": 134,
+      "direction": "south",
+      "layer": "art",
+      "sprite_ids": [
+        14508,
+        14509,
+        0,
+        0
+      ],
+      "rgba_sha256": "b61f60b84bade82c55cba15b00eb123c7ec55996f4d92ec90b64b215fe34b299"
+    },
+    {
+      "looktype": 134,
+      "direction": "south",
+      "layer": "mask",
+      "sprite_ids": [
+        14526,
+        14527,
+        0,
+        0
+      ],
+      "rgba_sha256": "3f875d2cbabfb2f5363dda300989e0fd31e05501882db08b6f160742e66f26c2"
+    },
+    {
+      "looktype": 134,
+      "direction": "west",
+      "layer": "art",
+      "sprite_ids": [
+        14513,
+        0,
+        14514,
+        0
+      ],
+      "rgba_sha256": "ab8150bebb1a3d9242281c5c0630121f323982adf7066dec21ef623514e4b6af"
+    },
+    {
+      "looktype": 134,
+      "direction": "west",
+      "layer": "mask",
+      "sprite_ids": [
+        14531,
+        0,
+        13530,
+        0
+      ],
+      "rgba_sha256": "f7f7747c82f32b0a3d760f5dd43dc62700ddb75d6fa01fe6e43dc75f3c406a82"
+    },
+    {
+      "looktype": 268,
+      "direction": "north",
+      "layer": "art",
+      "sprite_ids": [
+        1995,
+        1996,
+        0,
+        0
+      ],
+      "rgba_sha256": "01ef72f118868e774c2a235202713eb9e5a53c4966aaa9e5ac91bd5deaa8834c"
+    },
+    {
+      "looktype": 268,
+      "direction": "north",
+      "layer": "mask",
+      "sprite_ids": [
+        4224,
+        4806,
+        0,
+        0
+      ],
+      "rgba_sha256": "9ed7a94ec48d833d775d1a60baff7e6e357dfd2b17d43c6d8f063c5080102cc8"
+    },
+    {
+      "looktype": 268,
+      "direction": "east",
+      "layer": "art",
+      "sprite_ids": [
+        22250,
+        0,
+        2002,
+        0
+      ],
+      "rgba_sha256": "af3cf02cdd191e7e17d91722702e167a7186eba978309f237dee704b36391aeb"
+    },
+    {
+      "looktype": 268,
+      "direction": "east",
+      "layer": "mask",
+      "sprite_ids": [
+        4811,
+        0,
+        4812,
+        0
+      ],
+      "rgba_sha256": "11aa8d67bf9a70dcbcae44e8d18b75d6700d2b74a6684f51654436b5c10fe68a"
+    },
+    {
+      "looktype": 268,
+      "direction": "south",
+      "layer": "art",
+      "sprite_ids": [
+        23126,
+        2008,
+        0,
+        0
+      ],
+      "rgba_sha256": "755471c03efe5b7b7aed9ddfa99d8d21e2fc59d3d54bcea698c32895a9ccc217"
+    },
+    {
+      "looktype": 268,
+      "direction": "south",
+      "layer": "mask",
+      "sprite_ids": [
+        4816,
+        4817,
+        0,
+        0
+      ],
+      "rgba_sha256": "f751cd455cb55fe46f4874d8beedcb9e0547d60173d61f747634b3aded32c99e"
+    },
+    {
+      "looktype": 268,
+      "direction": "west",
+      "layer": "art",
+      "sprite_ids": [
+        2012,
+        0,
+        2013,
+        0
+      ],
+      "rgba_sha256": "53760541309ff2e3c0f7c9eb4a25416212c8a73968ea6f026399ca0666a02276"
+    },
+    {
+      "looktype": 268,
+      "direction": "west",
+      "layer": "mask",
+      "sprite_ids": [
+        5659,
+        0,
+        5660,
+        0
+      ],
+      "rgba_sha256": "e6656c185dcbe0476a9d2212480210897b2b661f9be17ee3f5a722a66d2d03d0"
+    }
+  ]
+}

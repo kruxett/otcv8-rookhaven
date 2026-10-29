@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "reference_looktype": 128,
+  "frames": 12,
+  "native_skin_pixels_changed": 0,
+  "native_head_coverage_changes": 0,
+  "native_boot_coverage_changes": 0,
+  "guarded_pixel_patch_mismatches": 0,
+  "new_isolated_components": [],
+  "cleaned_generated_fragment": [
+    [
+      38,
+      123
+    ],
+    [
+      38,
+      124
+    ]
+  ],
+  "export_regression": "export-regression.json",
+  "preview": "../../editable-v2/citizen-comparison.gif",
+  "runtime_note": "Graphic proposal only. No DAT/SPR, outfit rights, shop or game runtime changes."
+}

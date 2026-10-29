@@ -1,0 +1,83 @@
+{
+  "status": "Direction improving per user; v15 refines leg highlight/joint consistency. Graphic approval still pending.",
+  "product": "Rune Sentinel male cosmetic outfit",
+  "iteration": "v15 armor articulation and highlight consistency",
+  "reference_body_looktype": 128,
+  "reference_body": "Citizen male original south idle pose",
+  "original_selected_concept": "../../style-study-20261026/c-rune-sentinel/pixellab-concept.png",
+  "source": "source/v15-armor-articulation",
+  "preview": "editable-v15-armor-articulation/base-review.png",
+  "editable": "editable-v15-armor-articulation/rune-sentinel-base-south.aseprite",
+  "editable_alternative": "editable-v15-armor-articulation/rune-sentinel-base-south.ora",
+  "validation": "editable-v15-armor-articulation/verification.json",
+  "pixel_art_generator": "PixelLab inpaint_image_pro_flash",
+  "design": "Ancient rune-order elite guard. Complete fitted open-face helmet, solid runestone breastplate, overlapping short hip armor, bracers, dark undergarment and shaped greaves/boots. Neutral grayscale art and separate native four-channel mask. Citizen is an anatomy template, not a garment to recolor.",
+  "implementation": "No outfit ID, DAT/SPR change, final color mask, server rights, shop addition, build or deployment.",
+  "remaining": [
+    "Graphic approval or revision of complete south base",
+    "The same costume in north/east/west with native anatomy and consistent construction",
+    "All native walking phases",
+    "Independent addon1 and addon2 in all directions/phases, and combinations 0/1/2/3",
+    "Female counterpart",
+    "Approved import, granting/shop behavior and in-game verification"
+  ],
+  "base_style_approved": false,
+  "addon1_style_approved": false,
+  "addon2_style_approved": false,
+  "addon_bits": {
+    "0": "complete Rune Sentinel base costume",
+    "1": "ceremonial helmet with low crest and inset runestone",
+    "2": "paired ceremonial shoulder plates and worked collar",
+    "3": "both independent addons"
+  },
+  "native_layer_order": [
+    "base",
+    "addon1 if bits&1",
+    "addon2 if bits&2"
+  ],
+  "rejected_proposals": [
+    {
+      "version": "v3-addons",
+      "reason": "User: banner not attached visually and design choice disliked."
+    },
+    {
+      "version": "v6-paired-shoulders",
+      "reason": "User: no visible guard on right shoulder; left guard placed inside the arm. Near coordinate y45 was elbow rather than shoulder."
+    },
+    {
+      "version": "v8-four-directions",
+      "reason": "User: not approved; original body proportions, arms, feet and legs were not preserved. Alpha coverage/fixed skin checks did not establish anatomy or internal limb contours."
+    },
+    {
+      "version": "v10-native-costume helmet",
+      "reason": "User: base should be white/neutral; head spikes do not turn consistently relative to south shape. Body proportions tentatively okay."
+    },
+    {
+      "version": "v11-neutral-helmet",
+      "reason": "User: direction-dependent head ornament remained inconsistent; head-only work went beyond the intended correction."
+    },
+    {
+      "version": "v13-full-base",
+      "reason": "User: reads as native Citizen with wrinkles. Define and approve a complete garment concept before further PixelLab drawing."
+    }
+  ],
+  "internal_trials": [
+    {
+      "version": "v4-mantle",
+      "reason": "Too subtle; thigh hem did not read convincingly as mantle."
+    }
+  ],
+  "base_directions_approved": [],
+  "addon1_directions_approved": [],
+  "next_workflow": "Review the new full base south costume before transferring its canonical garment construction to other native directions and walking frames. Repaint clothing; preserve actual anatomy and joint layout. Develop independent addons afterward.",
+  "selected_design_theme": "Rune Sentinel, elite guard from an ancient rune order; concept approved, v14 rendered artwork awaiting review.",
+  "body_source_looktype": 128,
+  "body_source_phase": 0,
+  "direction_workbench_ids": {
+    "south": "a22c4901-99ec-4fe2-bd01-d16743865af6"
+  },
+  "body_geometry_feedback": "User: proportions seem right (tentative). Keep exact native source body.",
+  "neutral_base_required": true,
+  "concept_approved": true,
+  "latest_feedback": "User sees progress, but right leg has an inconsistent long white streak; example of remaining visual refinement, not approval."
+}

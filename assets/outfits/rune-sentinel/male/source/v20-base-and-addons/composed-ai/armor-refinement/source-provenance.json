@@ -1,0 +1,11 @@
+{
+  "target": "v19 unapproved armor reused as explicit EDIT TARGET, not approved source or style reference",
+  "source_file": "../../../../editable-v19-complete-sheet/base-neutral-all12.png",
+  "reason": "retain substantial existing plate armor while PixelLab removes dot noise and paints matching addons across all36 frames",
+  "native_reference_outfits": [
+    134,
+    289,
+    367
+  ],
+  "manual_painted_pixels": 0
+}

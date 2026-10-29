@@ -1,0 +1,23 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "139a9a9b-972d-4381-8c20-bf43f632893b",
+  "asset_id": "5afed0b3-5ce2-5f6e-914d-d5e0cd8da73e",
+  "status": "complete",
+  "description": "Paint ONE coherent premium RUNE SENTINEL male outfit: BASE and BOTH ADDONS, all36 native poses TOGETHER.\nHARD INVARIANTS: unmasked Citizen face/eyes/hands and limb/foot contours are IMMUTABLE. Keep head size, shoulder/elbow/wrist/hip/knee anchors, hand/foot positions, diagonal Tibia projection and each original idle/walk pose. No upright RPG proportions, mirrored facings, extra limbs/skin or resized bodies. Native~32px actor inside40px cell.\nGRID240x240:6x6 cells40px. Cols0-2=idle/walkA/walkB NORTH(even rows)/SOUTH(odd); cols3-5=EAST(even)/WEST(odd). Rows0-1=BASE,2-3=BASE+ADDON1,4-5=BASE+BOTH. NORTH shows BACK helmet/armor, no face/front jewel; SOUTH front; E/W follow native face and arm visibility.\nDESIGN: retain original Rune Sentinel wardrobe identity from concept, not generic smooth gray plate. Angular fitted open-face silver/dark-steel helmet; layered sculpted breastplate framing ONE readable inset diamond rune; dark short split tabard over fitted trousers; strong belt/hip plates; worked bracers and paired tall armored boots. Redesign ALL clothing, including shirt folds. Rich native metal-edge clusters, dark cloth/leather joints, strong material/value separation, matching Knight/Warmaster craft. No bland round helmet, tiny white confetti, scratches, blur or dithering. Neutral WHITE/GRAY costume including jewel; original unmasked skin only warm color.\nBASE already complete and distinctive. ADDON1 adds THREE short swept ceremonial crown fins attached to SAME helmet. Same geometry rotating: rear sweep SOUTH=up,EAST=left,NORTH=down,WEST=right. ADDON2 adds TWO sculpted fitted shoulder guards/worked collar at shoulder roots, not elbows; far guard foreshortened. Preserve identical underlying garment, seams, leg coverage and lengths across addon tiers and walking poses. No flags, weapons, cape, floating parts, text or background.",
+  "context_usage": "ALL REAL COMPLETE REFERENCES, unchanged native pixel scale. Top720x360 is Warmaster: left360x360=36 full art frames, right360x360=all36 exact color masks. Bottom-left Knight: art at(0,360)378x168, corresponding masks at(0,528)378x168. Knight has3 states across (base,+addon1,+both), each3 phases across and4 N/E/S/W rows. Both contain every facing, original walk phase and native addon construction. Learn pixel craft, real equipment rotation, material shading and part layering; don't copy their weapons/design.\nExact TARGET at(480,360)240x240 is full Citizen anatomy/pose sheet repeated over3 tiers. That target is authoritative for ALL36 body poses and joints. Paint body clothing substantially, keep masked-anatomy constraints. At(500,627)64x64 is ORIGINAL SELECTED Rune Sentinel concept: clothing identity/material richness only, NOT a facing or pose anchor. Never turn other views from that south image; use every native target pose directly in ONE joint generation. Source gray shirt is anatomy only, not the final costume to recolor. Refs include masks to teach recolorable regions; output ART ONLY, not new color masks.",
+  "source": "native-target-all36.png",
+  "mask": "anatomy-protected-paint-mask.png",
+  "context": "complete-native-references-and-concept.png",
+  "source_bbox": {
+    "x": 480,
+    "y": 360,
+    "width": 240,
+    "height": 240
+  },
+  "estimated_generations": 9,
+  "generations_before": 1659,
+  "manual_artistic_edits": 0,
+  "output_postprocessing_allowed_before_review": "Lossless saving/cropping and integer-nearest magnification only.",
+  "actual_generations": 9,
+  "total_generations_this_turn": 43
+}

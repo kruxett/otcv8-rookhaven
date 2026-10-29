@@ -1,0 +1,78 @@
+{
+  "status": "editable graphic proposal, not imported",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "sheet_canvas": [
+    192,
+    256
+  ],
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "unscaled_translation_from_48px_reference": [
+    24,
+    24
+  ],
+  "channel_pixels": {
+    "(255, 255, 0, 255)": 1110,
+    "(255, 0, 0, 255)": 2571,
+    "(0, 255, 0, 255)": 2466,
+    "(0, 0, 255, 255)": 589
+  },
+  "fixed_pixels": 695,
+  "default_player_colors": {
+    "head": 58,
+    "body": 112,
+    "legs": 2,
+    "feet": 58
+  },
+  "checks": [
+    "source alpha unchanged",
+    "only neutral grayscale under color masks",
+    "fixed pixels byte-identical",
+    "pure native mask colors",
+    "all 133 palette colors on all 4 channels",
+    "per-channel isolation",
+    "white tint identity",
+    "ASE cels/flags lossless readback",
+    "ORA PNG/XML readback",
+    "96 legacy SPR tiles roundtrip"
+  ],
+  "preview_note": "Software preview follows local shader multiplication and local palette formula. No native game rendering or outfit import performed.",
+  "source": "assets\\outfits\\harbor-envoy\\male\\source\\v1-citizen\\pixellab-harbor-envoy-clean.png",
+  "layers_source": "assets\\outfits\\harbor-envoy\\male\\source\\v2-recolorable",
+  "files": {
+    "base.png": "dbd8610418aa78de678cb24ebab451fd65759a89887a76b0ef282016f8399fec",
+    "color-options-preview.png": "f89ba9061748a8bce70f01a4b5bc3065f3948e4809e26e9e9fb416d10ae8f410",
+    "color-preview.png": "531963fb3970ab6a4f0a42874d4df97a0c63f5fd86595ed8ded8aeb856e22952",
+    "harbor-envoy-male.aseprite": "5cf095326b3b48c2943f7f9c2fd711674c49b96cf82e727f880cb7d4f35ff73e",
+    "harbor-envoy-male.ora": "f90614af142158c07b19f8d2069666538391ee2cc73fc49a60d6316e444ffddb",
+    "layers-overview.png": "67a1bd8cd615299f516835351c6b66d8fcbb0ef56bcbcf40109a1c781aa02412",
+    "mask.png": "aad4851cec87088b894e87852654bc755e2bc6efbca30fab1bae2e1bae3613eb",
+    "native-reference.png": "07fabd70a9f34a6b9ad4269ae0aeb6425c1cabfc146e2a9a4c82741254b627d0",
+    "previous-color-concept.png": "326730d180d834d7907f0e271f1ebd0d6176d144c8f31dd4e4886f5a891150cc",
+    "walking-color-preview.gif": "a0712cf76bd0eda69358ebeb1a315a35c6277e1efaf08e7260d20fd40cce9ebd",
+    "citizen-comparison.png": "50cece3ae27a5e05f112ea6c99793c61860030cab8807ade1003c66bc7086d59",
+    "citizen-comparison.gif": "470b1e2dab6f26381dbcf7279f47ad61a59366602dde33ca73a71b5caab122f6",
+    "colored-citizen-reference.png": "0856a1b7fee4def71b6d9e5236892521c7a5204e060c9e3b49bc78cfc2402f33"
+  },
+  "reference_looktype": 128,
+  "reference_name": "Citizen male starter, no addons",
+  "reference_prefix": "citizen-male",
+  "reference_frames": 12,
+  "native_skin_pixels_changed": 0,
+  "native_head_coverage_changes": 0,
+  "native_boot_coverage_changes": 0,
+  "guarded_pixel_patch_mismatches": 0,
+  "new_isolated_components": []
+}

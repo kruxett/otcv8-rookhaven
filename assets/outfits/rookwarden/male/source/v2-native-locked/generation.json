@@ -1,0 +1,24 @@
+{
+  "context_image": {
+    "file": "style-context.png",
+    "usage_description": "The TOP single dark teal/charcoal character is the Rookwarden COSTUME reference only. The bottom 144x192 is the exact target sheet at its original coordinates. Dress each target pose in that same Rookwarden costume. Preserve the target poses, not the top reference's pose."
+  },
+  "bounding_box": {
+    "x": 0,
+    "y": 48,
+    "width": 144,
+    "height": 192
+  },
+  "description": "Redesign ONLY THE CLOTHING TEXTURES in the white mask of this exact native Tibia outfit sheet. The sheet has 3 columns (idle, first walk step, opposite walk step) and 4 rows (north, east, south, west). All 12 ORIGINAL POSES MUST REMAIN EXACT: do not move, rotate, mirror, scale or shift any head, torso, hand or boot. Keep every original silhouette, face, hand and transparent pixel unchanged. Give all twelve poses the SAME original ROOKWARDEN costume shown in the top context reference: dark charcoal cloth cowl instead of pale hair/hat, short dark raven-feather mantle over one shoulder with broad feather texture, muted deep teal wrap tunic, brown diagonal harness and a bronze belt clasp, short ivory-edged teal split cloth panels over dark trousers and brown boots. Redesign garment textures and colour boundaries, not just a uniform recolour; replace the old white noble armour texture with soft cloth, leather and charcoal feathers. The feather mantle remains on the same anatomical shoulder in every direction. Use restrained retro Tibia pixel clusters and a consistent limited palette across all twelve frames. The white mask contains ONLY already-opaque clothing/hair pixels; keep all those pixels opaque and preserve their exact coverage. The unmasked original skin, hands, geometry and outlines are immutable. Same native pixel density. No extra silhouette, accessories outside the mask, weapons, wings, glow, labels, borders, shadows, new animation, interpolation or antialiasing.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 20261140,
+  "image_file": "native-pose-sheet.png",
+  "mask_file": "clothing-only-mask.png",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "c7a71944-6fa8-4ea9-9b38-7ef5c9535bc2",
+  "asset_id": "0e6e894f-32f2-5844-82c5-98b24362c663",
+  "download": "https://api.pixellab.ai/mcp/images/c7a71944-6fa8-4ea9-9b38-7ef5c9535bc2/download",
+  "user_requirement": "Själva angles och walk animation ska vara exakt som referensen som du tar från Tibia."
+}

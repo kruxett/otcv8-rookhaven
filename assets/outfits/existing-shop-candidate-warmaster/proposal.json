@@ -1,0 +1,11 @@
+{
+  "family": "Warmaster",
+  "male_looktype": 335,
+  "female_looktype": 336,
+  "status": "selected fallback proposal; graphic approval pending",
+  "source_art": "existing unmodified native DAT/SPR assets",
+  "color_preview": "actual client four-channel multiply formula; palette IDs 57,49,2,58",
+  "no_new_art_drawing": true,
+  "included_addons_in_purchase": "pending user approval; preview shows base and both",
+  "shop_or_grant_changes": false
+}

@@ -1,0 +1,59 @@
+{
+  "outside_mask_changes": 0,
+  "alpha_exact_to_source": true,
+  "removed_coverage": 0,
+  "ai_changed_pixels": 330,
+  "costume_non_gray_pixels": 6,
+  "max_costume_channel_difference": 96,
+  "non_gray_examples": [
+    [
+      34,
+      38,
+      [
+        145,
+        103,
+        59
+      ]
+    ],
+    [
+      36,
+      38,
+      [
+        196,
+        158,
+        118
+      ]
+    ],
+    [
+      37,
+      38,
+      [
+        196,
+        158,
+        118
+      ]
+    ],
+    [
+      39,
+      38,
+      [
+        87,
+        75,
+        64
+      ]
+    ],
+    [
+      35,
+      39,
+      [
+        167,
+        119,
+        71
+      ]
+    ]
+  ],
+  "partial_alpha_values": [
+    0,
+    255
+  ]
+}

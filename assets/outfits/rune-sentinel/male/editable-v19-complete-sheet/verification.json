@@ -1,0 +1,282 @@
+{
+  "status": "asset checks passed; artwork NOT approved; no game import",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "67d10c48-86ba-43d7-a272-c5936c615505",
+  "generation_scope": "all12 frames jointly with four complete existing outfit references",
+  "sheet_size": [
+    96,
+    128
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "columns": [
+    "idle0",
+    "walk1",
+    "walk2"
+  ],
+  "native_cell_size": [
+    32,
+    32
+  ],
+  "native64_atlas_size": [
+    192,
+    256
+  ],
+  "manual_artistic_edits": 0,
+  "technical_hue_only_pixels": 2508,
+  "all_native_alpha_preserved": true,
+  "protected_native_pixels_preserved": 664,
+  "visible_layer_merge_byte_exact": true,
+  "ase_cels_and_flags_readback_passed": true,
+  "ora_layers_readback_passed": true,
+  "independent_tint_channels_passed": 4,
+  "lossless_860_spr_tiles_roundtrip": 24,
+  "working_mask_channels": {
+    "H - helmet": 1110,
+    "R - chest and arms": 2543,
+    "G - legs": 1360,
+    "B - boots and runestone": 503
+  },
+  "native_mask_outside_visible_alpha_clipped": [
+    [
+      45,
+      6
+    ],
+    [
+      46,
+      6
+    ],
+    [
+      78,
+      6
+    ],
+    [
+      16,
+      54
+    ],
+    [
+      70,
+      55
+    ],
+    [
+      71,
+      56
+    ],
+    [
+      87,
+      70
+    ],
+    [
+      88,
+      71
+    ],
+    [
+      22,
+      80
+    ],
+    [
+      38,
+      109
+    ],
+    [
+      38,
+      110
+    ],
+    [
+      70,
+      110
+    ]
+  ],
+  "mask_only_gem_reroute": {
+    "rule": "red torso mask AND AI B>R+40 AND G>R+25 AND maxRGB>90",
+    "pixels": [
+      [
+        10,
+        46
+      ],
+      [
+        42,
+        46
+      ],
+      [
+        73,
+        46
+      ],
+      [
+        74,
+        46
+      ],
+      [
+        10,
+        47
+      ],
+      [
+        11,
+        47
+      ],
+      [
+        41,
+        47
+      ],
+      [
+        42,
+        47
+      ],
+      [
+        43,
+        47
+      ],
+      [
+        73,
+        47
+      ],
+      [
+        74,
+        47
+      ],
+      [
+        11,
+        48
+      ],
+      [
+        42,
+        48
+      ],
+      [
+        74,
+        48
+      ],
+      [
+        42,
+        78
+      ],
+      [
+        43,
+        78
+      ],
+      [
+        44,
+        78
+      ],
+      [
+        75,
+        78
+      ],
+      [
+        11,
+        79
+      ],
+      [
+        12,
+        79
+      ],
+      [
+        43,
+        79
+      ],
+      [
+        44,
+        79
+      ],
+      [
+        74,
+        79
+      ],
+      [
+        75,
+        79
+      ],
+      [
+        76,
+        79
+      ],
+      [
+        12,
+        80
+      ],
+      [
+        76,
+        80
+      ]
+    ],
+    "artwork_changed": false
+  },
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "native_alpha_equal": true
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "native_alpha_equal": true
+    }
+  ],
+  "limitations": [
+    "Visual consistency and garment design require user review.",
+    "Working mask uses native body regions plus automatically detected chest stone; final mask needs visual approval.",
+    "No addons, female counterpart or game rendering verification yet."
+  ],
+  "files_sha256": {
+    "base-neutral-all12.png": "f2e3769113474100d546d8a25756341e498059790409951fd5514820a0e178be",
+    "pixellab-ai-original.png": "32b315c26c29e902701f6f45b4ab2bc7055537d688ed2ce2e17bc979741ae8a1",
+    "working-color-mask.png": "a2970c8eb700aac1cd2a655073190a4aa85c8a1201d7f59da90450f2bb5ba60b",
+    "rune-sentinel-all12.aseprite": "3ecbf53774295fb79bb23bea5c791f90eca51be5583ce6b59a611161864e6635",
+    "rune-sentinel-all12.ora": "b9652520326f7b7b20b7e5e540ef4d4ae9460db6c06858f455954ff085c329d1"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "stage": "South-facing complete BASE costume for graphic review; approved concept, unapproved sprite",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "ce50fdcb-4a42-4908-bb31-10142204ff2f",
+  "asset_id": "b5a65650-3bab-531a-967e-90207cecc92d",
+  "seed": 2026102851,
+  "description": "Redesign ALL clothing into the complete BASE costume of RUNE SENTINEL, an elite guard of an ancient rune order. Native 32px Tibia human on64x64 canvas, no scaling. Citizen is ONLY the anatomical/pose template: entirely replace its shirt folds, trousers, shoes and hair with new costume construction. Do not add wrinkles to Citizen. NO ADDONS yet. A fitted OPEN-FACE PLATE HELMET, angular brow band and side plates, no crest/horns/spikes. A broad SOLID BREASTPLATE with clean large metal planes and one prominent inset diamond RUNESTONE, stepped raised frame. Strong belt, TWO distinct overlapping short HIP PLATES over dark tailored cloth. Plain shoulder caps, separate METAL BRACERS. DARK UNDERGARMENT contrasts strongly with bright knee plates, sculpted SHIN GUARDS and armored toe BOOTS. Original two separate legs remain clear. Repeat stepped angular plate edges, not runes everywhere. Three signatures: runestone breastplate, short layered hip armor, bright steel over dark cloth. Expensive fitted crafted armor, restrained ancient fantasy, not futuristic. LARGE READABLE pixel clusters and decisive light/dark masses, no tiny speckles or chains of folds. Entire recolorable costume NEUTRAL GRAYSCALE, white/silver highlights to charcoal shadows, skin unchanged. Upper-left light and classic Tibia outlined pixel craftsmanship like the actual armor BASE references above. Preserve exact native head/face/hands, anatomy, shoulder/elbow/hip/knee/foot locations, limb proportions, silhouette coverage, leg split and pose. Repaint clothing shading fully; old interior shirt creases are NOT anatomy. Do not erase opaque body pixels or create holes. No extra arms, cloth strip resembling an arm, weapons, shields, capes, banners, particles, glow halo or text. Base must have its own recognizable whole-body armor design WITHOUT ornate headgear or shoulder addons.",
+  "source": "native-citizen-south.png",
+  "paint_mask": "whole-costume-edit-mask.png",
+  "context": "base-costume-context.png",
+  "change_from_rejected_v13": "Old interior clothing folds may be repainted. Only anatomical pose, fixed skin and native silhouette are held; no old shirt-shading lock.",
+  "status": "graphic-review-pending",
+  "exact_finish_image_id": "057bad5a-2c49-4f9c-92f1-e49d16ffc498",
+  "exact_finish_decisions": "finish-decisions.json",
+  "final_qa": "final-qa.json",
+  "editable_project": "../../editable-v14-base-concept/rune-sentinel-base-south.aseprite"
+}

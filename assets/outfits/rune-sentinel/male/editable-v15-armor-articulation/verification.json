@@ -1,0 +1,25 @@
+{
+  "source_size": [
+    64,
+    64
+  ],
+  "alpha_exact_to_previous": true,
+  "alpha_exact_to_native": true,
+  "fixed_skin_and_other_nonmask_pixels_exact": true,
+  "costume_is_neutral_grayscale": true,
+  "changed_pixels": 30,
+  "changed_regions": {
+    "legs_and_boots": 26,
+    "near_arm_edge": 4
+  },
+  "all_changes_match_pixel_lab_patch_decision": true,
+  "binary_alpha": [
+    0,
+    255
+  ],
+  "layer_merge_byte_exact": true,
+  "aseprite_and_openraster_layers_read_back_exact": true,
+  "color_mask_byte_exact_to_previous": true,
+  "source_sha256": "6da6169664e649314d88412f1c76e229ac7afd947da6aff126e14ab0afc23c6e",
+  "scope": "One south idle base study awaiting graphic approval; no other directions, walk frames, addons or game integration."
+}

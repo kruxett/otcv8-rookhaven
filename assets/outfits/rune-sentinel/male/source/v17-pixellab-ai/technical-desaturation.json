@@ -1,0 +1,73 @@
+{
+  "rule": "Rec709 luminance, equal RGB; mask-constrained technical hue correction only",
+  "changes": [
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        36,
+        38,
+        36,
+        38
+      ],
+      "colors": {
+        "#c49e76ff": "#a3a3a3ff"
+      },
+      "reason": "Automatic luminance-preserving desaturation of AI helmet color leak for native four-channel tinting. No artistic repaint or geometry change."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        37,
+        38,
+        37,
+        38
+      ],
+      "colors": {
+        "#c49e76ff": "#a3a3a3ff"
+      },
+      "reason": "Automatic luminance-preserving desaturation of AI helmet color leak for native four-channel tinting. No artistic repaint or geometry change."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        35,
+        39,
+        35,
+        39
+      ],
+      "colors": {
+        "#a77747ff": "#7e7e7eff"
+      },
+      "reason": "Automatic luminance-preserving desaturation of AI helmet color leak for native four-channel tinting. No artistic repaint or geometry change."
+    },
+    {
+      "operation": "map_colors",
+      "layer": "image",
+      "frames": [
+        1
+      ],
+      "region": [
+        41,
+        40,
+        41,
+        40
+      ],
+      "colors": {
+        "#1f1912ff": "#1a1a1aff"
+      },
+      "reason": "Automatic luminance-preserving desaturation of AI helmet color leak for native four-channel tinting. No artistic repaint or geometry change."
+    }
+  ]
+}

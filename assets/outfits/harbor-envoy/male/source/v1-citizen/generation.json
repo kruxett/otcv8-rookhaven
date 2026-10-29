@@ -1,0 +1,11 @@
+{
+  "description": "New original premium ceremonial SEAFARER costume on the exact plain male CITIZEN starter body. WINE-RED tailored short naval jacket; broad warm-IVORY folded sailor collar; wide ivory turned-back cuffs; dark charcoal trousers; ONE large square BRASS belt clasp. Front: two big ivory collar folds in a clean V. Back: a broad simple rectangular ivory sailor collar panel over red upper back. Symmetrical clean construction. Original uncovered Citizen hair stays frozen. Distinctive silhouette from collar and tailoring, not clutter. Three LARGE shading clusters per material, flat clear cloth areas, dark outline, few highlights. Readable at 32x32. No feathers, spikes, armor, pauldrons, hood, cloak, cape, weapons, bag, chains, noisy texture, jewelry dots, many buttons, piping, glow or ground shadow. Do not copy Nobleman armor. This CITIZEN is the only pose source. Sheet: 4 ROWS NORTH/EAST/SOUTH/WEST, 3 COLUMNS idle/step1/step2. EXACT native head, face, shoulder/elbow/wrist, hand, leg and boot positions in EVERY cell. Never mirror, rotate, shift or invent a body pose. Fixed hands are cuff anchors, fixed boots are trouser anchors. No extra limbs or faces. Only masked clothing and its immediate margin may change. Same costume across all 12 cells. The white head/boots are frozen pose references for later native player recoloring; do not copy their white texture into the clothes. Transparent background, crisp original pixel grid, no resizing or smoothing. Clean early Tibia 8.60 pixel style, broad readable shapes, restrained palette.",
+  "no_background": true,
+  "crop_to_mask": true,
+  "output_method": "Modify current layer",
+  "seed": 2026102614,
+  "image_file": "native-source-sheet.png",
+  "mask_file": "garment-redesign-mask.png",
+  "job_id": "a12a5b1d-7307-4ca4-8db1-8cbb6e26ad33",
+  "asset_id": "d17a252a-e6a4-556c-bf33-4a1503a57ae5"
+}

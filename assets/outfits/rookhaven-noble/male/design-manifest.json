@@ -1,0 +1,43 @@
+{
+  "status": "revision-requested-more-original-design",
+  "product": "Rookhaven Noble (male)",
+  "scope": "South idle design proposal only",
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "eada7f29-d2bf-4513-921f-595202722042",
+  "asset_id": "5103faef-0a43-5999-969b-80dbff209a86",
+  "gallery_asset": "gallery:5103faef-0a43-5999-969b-80dbff209a86",
+  "source": "source/v1/pixellab-rookhaven-noble-male-south.png",
+  "preview": "source/v1/preview.png",
+  "comparison": "source/v1/reference-comparison.png",
+  "generation": "source/v1/generation.json",
+  "validation": "source/v1/validation.json",
+  "source_sha256": "4eb50ad18eaa7812bbfee5dd6aa902acf89da93e08623a9352b6601d03919f19",
+  "canvas": [
+    48,
+    48
+  ],
+  "visible_body_size": [
+    33,
+    33
+  ],
+  "reference": {
+    "existing_outfit": "Nobleman",
+    "looktype": 132,
+    "source": "../source/reference/nobleman-south-style.png",
+    "visible_body_size": [
+      33,
+      33
+    ],
+    "source_rescaled": false
+  },
+  "art_direction": "Native Nobleman proportions and oblique south-facing idle stance; navy coat, ivory collar/shirt, copper trim, short burgundy shoulder mantle and brown boots.",
+  "implementation": "No outfit ID, creature DAT/SPR entry, color mask, walk frames, server outfit grant or shop offer implemented. Await style approval.",
+  "future_work": [
+    "Remaining north/east/west directions and walking frames after approval",
+    "Color mask/anchor consistency and matching native client rendering",
+    "Separate matching female design based on actual Noblewoman reference",
+    "Separate male and female shop purchases"
+  ],
+  "superseded_by": "../../rookwarden/male/",
+  "user_feedback": "More original costume; exact native Tibia angles and walk frames."
+}

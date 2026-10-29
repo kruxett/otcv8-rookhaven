@@ -1,0 +1,27 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "d107092c-6fb3-4867-8f3c-e03455985aad",
+  "asset_id": "bf4dadf8-5015-5a47-a470-b4f543fe8d62",
+  "seed": 2026102712,
+  "description": "Improve ADDON 2 into a MATCHED PAIR of fitted runic PAULDRONS, ONE ON EACH EXISTING SHOULDER. The previous one-sided tall fin is a STYLE reference only; replace that awkward upright fin with two compact domed shoulder caps. Same dark steel, broad aged-gold rims, small teal rune insets. Exactly two original shoulders: NEAR shoulder is lower-left beside/below the face around (33,45), FAR shoulder is upper-right around (49,38). Near cap occupies about x29..36,y42..48; far cap around x47..55,y34..41. Each cap curves over the top of its own upper arm with two overlapping lamellar plates and a visible attached lower band. Both must feel like fitted armor, not shields on poles or vertical horns. Let the near cap be partly occluded by the existing helmet/face, not pasted over it. Far cap follows the receding shoulder perspective. Use actual Warrior/Warmaster references for anatomical placement ONLY. Do not mirror the pose or add another arm. Preserve head/helmet, exact face/skin pixels, BOTH exposed hands, forearms and cuffs, chest jewel, legs and boots. Exactly two arms and two hands, all at original positions. Keep torso silhouette/pose and existing solid coverage. Premium readable 2-3px clusters, consistent upper-left metallic light, native old Tibia 8.60 density, gold trim integrated into matching rounded shoulder forms, not scattered jewelry. No high spikes, wings, feathers, flags, weapons, text, particles, blur or floating pieces. Binary alpha, transparent native64x64, no rescaling. Shoulder addon remains separate from the crown addon.",
+  "estimated_generations": 5,
+  "source_file": "base.png",
+  "mask_file": "mantle-generation-mask.png",
+  "context_file": "paired-context.png",
+  "immutable_skin_guard": "skin-only-guard.png",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "status": "Packaged paired shoulder revision awaiting user graphic approval",
+  "charged_generations": 5,
+  "pixelart_workbench_id": "eac8fb2d-8c57-4191-8c4c-1587a1073287",
+  "manual_finish": "26 exact pixels via PixelLab pixelart_workbench; near pauldron matches far plate and overlaps original upper arm without moving skin/hands.",
+  "patch_file": "near-pauldron-patch.json",
+  "final_gallery_reference": "gallery:a3957666-fb24-44b3-adaa-514befd16949"
+}

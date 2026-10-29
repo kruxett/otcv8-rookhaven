@@ -1,0 +1,77 @@
+{
+  "references": [
+    {
+      "looktype": 335,
+      "name": "Warmaster",
+      "art_frames": 36,
+      "mask_frames": 36,
+      "directions": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "phases": [
+        0,
+        1,
+        2
+      ],
+      "addon_states": [
+        0,
+        1,
+        3
+      ],
+      "independent_raw_layers_and_masks_saved": true,
+      "native_crop": [
+        4,
+        4,
+        64,
+        64
+      ],
+      "cropping_lost_pixels": 0,
+      "resized": false
+    },
+    {
+      "looktype": 131,
+      "name": "Knight",
+      "art_frames": 36,
+      "mask_frames": 36,
+      "directions": [
+        "north",
+        "east",
+        "south",
+        "west"
+      ],
+      "phases": [
+        0,
+        1,
+        2
+      ],
+      "addon_states": [
+        0,
+        1,
+        3
+      ],
+      "independent_raw_layers_and_masks_saved": true,
+      "native_crop": [
+        20,
+        20,
+        64,
+        64
+      ],
+      "cropping_lost_pixels": 0,
+      "resized": false
+    }
+  ],
+  "reference_art_and_mask_frames": 144,
+  "additional_reference_set": "../reference-manifest.json",
+  "native_scale": true,
+  "source_bbox_in_context": {
+    "x": 480,
+    "y": 360,
+    "width": 240,
+    "height": 240
+  },
+  "same_all36_target_layout": true,
+  "target_provenance": "Earlier v19 armor is edit target, explicitly unfinished; actual Knight and Warmaster supply style/structure."
+}

@@ -1,0 +1,5 @@
+{
+  "status": "native-pose-baseline-only",
+  "reason": "User requested new clothing shapes beyond recoloring.",
+  "superseded_by": "../v5-new-garments/"
+}

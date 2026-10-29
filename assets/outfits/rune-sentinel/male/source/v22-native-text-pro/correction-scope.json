@@ -1,0 +1,6 @@
+{
+  "regions": "NORTH upper-body all9 frames, plus lower-leg/boot opaque pixels all36 frames",
+  "unmasked_pixels_frozen_by_tool": true,
+  "manual_artistic_edits": 0,
+  "reason": "NORTH is mistakenly front-facing, and boots have skin-colored pixels. All art changes must be generative PixelLab corrections."
+}

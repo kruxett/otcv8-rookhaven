@@ -1,0 +1,10 @@
+{
+  "selected": "assets/outfits/style-study-20261026/c-rune-sentinel/pixellab-concept.png",
+  "context_references": [
+    "assets\\outfits\\reference-review-20261026\\rookhaven\\335-1\\south-0-full.png",
+    "assets\\outfits\\reference-review-20261026\\tibia\\1976\\south-full.png"
+  ],
+  "source_body": "Citizen male 128 south idle",
+  "scope": "Upgrade the selected Rune Sentinel style; no game integration.",
+  "paths_relative_to": "repository root"
+}

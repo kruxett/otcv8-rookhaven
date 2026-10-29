@@ -1,0 +1,101 @@
+{
+  "status": "Historical rejected Acolyte trial; removed before the approved modern import. Its looktypes 373/374 and offer IDs 6001/6002 are now reused for Rune Master, not Acolyte.",
+  "name": "Acolyte",
+  "source_commit": "ae88e1828671b349e729dd21177dde15ea41e123",
+  "gender_mapping": "Project assignment from visual design:20 female,21 male. Upstream DAT/SPR has no sex metadata.",
+  "outfits": [
+    {
+      "source_id": 20,
+      "looktype": 373,
+      "sex": 0,
+      "sex_name": "female",
+      "name": "Acolyte",
+      "size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "legacy_attributes_hex": "1808000800ff",
+      "exact_size": 32,
+      "sprite_slots": 288
+    },
+    {
+      "source_id": 21,
+      "looktype": 374,
+      "sex": 1,
+      "sex_name": "male",
+      "name": "Acolyte",
+      "size": [
+        2,
+        2
+      ],
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "legacy_attributes_hex": "1808000800ff",
+      "exact_size": 32,
+      "sprite_slots": 288
+    }
+  ],
+  "original_sprites": 36701,
+  "added_sprites": 134,
+  "source_tile_slots_compared": 576,
+  "unrelated_DAT_records_byte_exact": 12290,
+  "all_original_SPR_payload_bytes_preserved": true,
+  "all_existing_outfit_XML_attributes_preserved": true,
+  "input_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "7b13e4f466d2e8957ad9229ab67e5f2556397f9712d96837b3e458c968c59ef9"
+  },
+  "output_sha256": {
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "7db7753db7299ce4dc1ef59f800af419fca7056a6bccf3b562ce8e2e889c6390",
+    "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "b42b041457a924c1b5b883de0be51f4aeed05f0b9f6adcabd8c62d4265f23b17",
+    "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "2d44be4a6f3afc6e8892406b4624023dc71b94dbfc928e803fd0bb1335dca649"
+  },
+  "shop": {
+    "category": "Outfits",
+    "offer_ids": [
+      6001,
+      6002
+    ],
+    "points_each": 250,
+    "per_character": true,
+    "permanent": true,
+    "included_addons": 3,
+    "premium_required": false,
+    "active": false
+  },
+  "verification": {
+    "native": "out/outfit-otsp-20261026/native-01/result.json",
+    "native_assertions": 24,
+    "shop_contract_assertions": 159,
+    "visual": "out/outfit-otsp-20261026/ingame-02/result.json",
+    "visual_scope": "Matched older local QA executable pair for rendering; current source-matched server tested separately. No release certification.",
+    "scope_note": "Native and visual results above describe the earlier trial, which is now rolled back. Current removal verified by exact pre-import hashes and source shop contracts."
+  },
+  "colour_mask_note": "Source masks retained: female has head/body/legs regions and fixed footwear; male also has the footwear colour region.",
+  "removal": {
+    "reason": "User: these outfits do not fit Rookhaven; select an existing modern Tibia outfit instead.",
+    "restored_sha256": {
+      "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.dat": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+      "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\data\\things\\860\\Tibia.spr": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+      "C:\\GitRepos\\kruxett\\Rookhaven\\data\\XML\\outfits.xml": "7b13e4f466d2e8957ad9229ab67e5f2556397f9712d96837b3e458c968c59ef9"
+    },
+    "backups_repo_relative": "out/outfit-otsp-20261026/removal-01",
+    "shop_contract_checks": 165,
+    "remaining_shop_offers": 10,
+    "live_deployment_changed": false
+  },
+  "current_replacement": "../modern-shop-20261026/import-manifest.json"
+}

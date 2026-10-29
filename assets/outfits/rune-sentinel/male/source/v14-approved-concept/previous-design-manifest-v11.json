@@ -1,0 +1,75 @@
+{
+  "status": "User: body proportions appear right, but v10 spikes rejected as inconsistent between directions. Neutral white-gray v11 helmet study prepared with separate masks and one shared crown construction. Awaiting graphic review.",
+  "product": "Rune Sentinel male cosmetic outfit",
+  "iteration": "v11 neutral helmet turnaround and work color masks",
+  "reference_body_looktype": 128,
+  "reference_body": "Citizen male original south idle pose",
+  "original_selected_concept": "../../style-study-20261026/c-rune-sentinel/pixellab-concept.png",
+  "source": "source/v11-neutral-helmet",
+  "preview": "editable-v11-neutral-helmet/neutral-helmet-four-directions.png",
+  "editable": "editable-v11-neutral-helmet/rune-sentinel-neutral-helmet.aseprite",
+  "editable_alternative": "editable-v11-neutral-helmet/rune-sentinel-neutral-helmet.ora",
+  "validation": "editable-v11-neutral-helmet/validation.json",
+  "pixel_art_generator": "PixelLab inpaint_image_pro_flash",
+  "design": "Neutral white/gray body and helmet source art, separate native four-color work masks. Three-prong front plate and closed circlet are a single construction rotated across four native directions, with depth overlap and skull occlusion. No baked player colors.",
+  "implementation": "No outfit ID, DAT/SPR change, final color mask, server rights, shop addition, build or deployment.",
+  "remaining": [
+    "User review of neutral helmet shape and same-construction turnaround",
+    "Exclusive armor detailing on locked native body",
+    "Final base/addon1/addon2 structures and color regions",
+    "All walking phases and female outfit counterpart",
+    "Approved import and in-game verification"
+  ],
+  "base_style_approved": false,
+  "addon1_style_approved": false,
+  "addon2_style_approved": false,
+  "addon_bits": {
+    "0": "base Rune Sentinel",
+    "1": "runecrown and richer armor ornament",
+    "2": "pair of fitted runic shoulder guards",
+    "3": "both addons"
+  },
+  "native_layer_order": [
+    "base",
+    "addon1 if bits&1",
+    "addon2 if bits&2"
+  ],
+  "rejected_proposals": [
+    {
+      "version": "v3-addons",
+      "reason": "User: banner not attached visually and design choice disliked."
+    },
+    {
+      "version": "v6-paired-shoulders",
+      "reason": "User: no visible guard on right shoulder; left guard placed inside the arm. Near coordinate y45 was elbow rather than shoulder."
+    },
+    {
+      "version": "v8-four-directions",
+      "reason": "User: not approved; original body proportions, arms, feet and legs were not preserved. Alpha coverage/fixed skin checks did not establish anatomy or internal limb contours."
+    },
+    {
+      "version": "v10-native-costume helmet",
+      "reason": "User: base should be white/neutral; head spikes do not turn consistently relative to south shape. Body proportions tentatively okay."
+    }
+  ],
+  "internal_trials": [
+    {
+      "version": "v4-mantle",
+      "reason": "Too subtle; thigh hem did not read convincingly as mantle."
+    }
+  ],
+  "base_directions_approved": [],
+  "addon1_directions_approved": [],
+  "next_workflow": "Use exact source body and shading per direction; lock contours and joints, do not regenerate anatomy. Show native comparison before applying final costume across directions.",
+  "selected_design_theme": "Rune Sentinel retained as chosen design direction; current geometry and rendered direction art not approved.",
+  "body_source_looktype": 128,
+  "body_source_phase": 0,
+  "direction_workbench_ids": {
+    "south": "44a90f30-8c9c-4f19-a3e5-2aa5fe673673",
+    "east": "717b7701-42c7-4492-b614-62a32fba0bbb",
+    "north": "03b815bf-2385-4d8e-ad07-fe26b097ee4a",
+    "west": "cc4a2a36-d7b7-4122-93df-0544d8f6d6b8"
+  },
+  "body_geometry_feedback": "User: proportions seem right (tentative). Keep exact native source body.",
+  "neutral_base_required": true
+}

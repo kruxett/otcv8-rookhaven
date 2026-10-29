@@ -1,0 +1,49 @@
+{
+  "status": "BODY PROPORTION CONTROL ONLY. Not a new Rune Sentinel outfit approval proposal.",
+  "native_source": "../source/v9-native-body-reset/direct-native-source.json",
+  "drawing_method": "Only exact native four-material multiply tint, executed through PixelLab guarded pixel edits. Original source image shape, limb contours, face/hands, shading and every source coordinate are retained. No generated body, nearest-neighbor hole repair, costume details, new geometry or addon shapes.",
+  "directions": {
+    "north": {
+      "source_looktype": 128,
+      "source_phase": 0,
+      "workbench_id": "c15bb79b-f57e-4367-aa27-7eddd42a5c53",
+      "changed_rgb_pixels": 458,
+      "alpha_changes": 0,
+      "original_non_masked_pixels_changed": 0,
+      "deviations_from_exact_native_tint": 0,
+      "source_rgb_shading_field_not_generated": true
+    },
+    "east": {
+      "source_looktype": 128,
+      "source_phase": 0,
+      "workbench_id": "603b6c58-5cae-43f9-b840-d0e3b2353381",
+      "changed_rgb_pixels": 435,
+      "alpha_changes": 0,
+      "original_non_masked_pixels_changed": 0,
+      "deviations_from_exact_native_tint": 0,
+      "source_rgb_shading_field_not_generated": true
+    },
+    "south": {
+      "source_looktype": 128,
+      "source_phase": 0,
+      "workbench_id": "9ae84e8e-6784-4896-bf39-7139581ea180",
+      "changed_rgb_pixels": 435,
+      "alpha_changes": 0,
+      "original_non_masked_pixels_changed": 0,
+      "deviations_from_exact_native_tint": 0,
+      "source_rgb_shading_field_not_generated": true
+    },
+    "west": {
+      "source_looktype": 128,
+      "source_phase": 0,
+      "workbench_id": "9c37f988-bd03-4aba-8722-d9ff7d7b2e5e",
+      "changed_rgb_pixels": 458,
+      "alpha_changes": 0,
+      "original_non_masked_pixels_changed": 0,
+      "deviations_from_exact_native_tint": 0,
+      "source_rgb_shading_field_not_generated": true
+    }
+  },
+  "ase_ora_readback": "PASS",
+  "scope": "Native body foundation for repainting Rune Sentinel clothing, not final outfit graphics or approved integration."
+}

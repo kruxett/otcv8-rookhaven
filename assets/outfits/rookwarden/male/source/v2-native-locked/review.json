@@ -1,0 +1,5 @@
+{
+  "status": "discarded-pose-interpretation",
+  "reason": "Head/hair redraw could imply wrong facing. Do not use generated poses.",
+  "superseded_by": "../v5-new-garments/"
+}

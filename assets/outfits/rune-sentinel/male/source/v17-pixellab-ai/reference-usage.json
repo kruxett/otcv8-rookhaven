@@ -1,0 +1,12 @@
+{
+  "reference_sources": [
+    "Knight131 male BASE",
+    "Warrior134 male BASE",
+    "Nightmare268 male BASE"
+  ],
+  "context_layout": "Top: original native armor references; bottom center: exact edit target. Native size, no rescaling.",
+  "style_takeaway": "Unbroken metal planes, deliberate silhouettes and real complete armor components, consistent paired garment construction.",
+  "edit_scope": "All interior costume surfaces; skin and native silhouette boundaries frozen. AI performs actual drawing.",
+  "editable_pixels": 382,
+  "retired_manual_study": "v16-coherent-armor was manually specified and is not the AI result."
+}

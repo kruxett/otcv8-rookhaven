@@ -1,0 +1,18 @@
+{
+  "base_workbench_image": "d1e9d727-bc01-4dea-abca-81e84564f7db",
+  "mask_workbench_image": "8c567079-454d-4069-8c5e-4f5904cabe1d",
+  "gallery": {
+    "base": "gallery:a9ece459-364b-49bf-806a-a11a6cb24f47",
+    "mask": "gallery:50c79037-53ef-495d-8186-125d508e2644"
+  },
+  "workbench_canvas": [
+    144,
+    192
+  ],
+  "editor_canvas": [
+    192,
+    256
+  ],
+  "anatomical_shoulder": "left",
+  "native_body_pose_changes": 0
+}

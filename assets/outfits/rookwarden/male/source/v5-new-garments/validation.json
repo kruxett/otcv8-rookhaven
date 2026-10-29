@@ -1,0 +1,155 @@
+{
+  "status": "PASS: immutable skin and native hood/boot coverage",
+  "native_reference_looktype": 132,
+  "pose_frames": 12,
+  "checks": {
+    "native_face_hand_skin_pixels_changed": 0,
+    "native_head_coverage_changes": 0,
+    "native_foot_coverage_changes": 0
+  },
+  "raw_inpainting_validation": {
+    "outside_mask_changed": 0,
+    "protected_head_hands_feet_changed": 0,
+    "new_garment_outline_pixels": 838,
+    "old_garment_outline_pixels_removed": 53
+  },
+  "body_note": "Head, face, hand and foot anchors protected in generator mask. New clothing silhouettes differ. Shoulder/elbow alignment is visually reviewed; native sprites do not contain rig bones.",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "fd7a0c37-e9af-42e5-af76-ba02539f465a",
+  "workbench_image_id": "b371ebf1-56f8-422b-82b9-4269092a20a8",
+  "sha256": "b76e8225fbb4e8b040350432bb5fc03956cad691393d6aa1337a53a3cbb991d2",
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "8642a164383cc83f2d58d4b9ac5dd163118a2e12e68a2e83d2e82e118c189a4f"
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "6b8b7b63159a6eb57435605c7a3da51fd48c378ca4f0a0305187b37bdb2f3759"
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "bb1c287ae68fd5d1e043596a0c46db9facd28e124665a1a1cde4d418b8be7eb3"
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "87f678ccafcb14e258ba97e949b0ee724ef7b040a516b14aab4755ee4e42f30c"
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "03a2a961da147eab950f8f621142ef6f95489cdb77f35be61d711a234e0c9d7a"
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "bbc99f75aa826bd1444e0321492e690191158eb1e04b788b6c18d6a980887e1b"
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "332b3da7ae65d649210a7d4624eac5a2abf64dfaf78cd4d71b7a352f19890d9f"
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "3051ff3948fc1de39979d5e942c98551c55702688ebe7435c0434373e1ab70de"
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "bbox": [
+        7,
+        7,
+        40,
+        40
+      ],
+      "sha256": "ead7176ea9e3e94705801b87ec6bcc09563971b6b4e806fe7d73e91f94983c68"
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "9c80240de550f8908e7c7d02100a29042806550dda41ab32da905efecde974a6"
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "bbox": [
+        8,
+        8,
+        40,
+        40
+      ],
+      "sha256": "8cb08f5f04da0ea47be823b6b832589d395f9a64019fdbfe38c467966ed447e5"
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "bbox": [
+        8,
+        9,
+        40,
+        40
+      ],
+      "sha256": "c1e1866fc288a2aa6f687c535c40c89a43c0493f8732bb4eca8a0834838e1667"
+    }
+  ]
+}

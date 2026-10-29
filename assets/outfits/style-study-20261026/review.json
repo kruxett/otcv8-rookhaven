@@ -1,0 +1,64 @@
+{
+  "stage": "C is selected as base outfit; Runecrown is selected as addon1. New addon2 standard concept awaiting graphic approval.",
+  "reference_body": {
+    "looktype": 128,
+    "name": "Citizen male",
+    "source": "../harbor-envoy/source/reference/citizen-male-south-0.png"
+  },
+  "research": {
+    "rookhaven_atlas": "../reference-review-20261026/rookhaven-index.json",
+    "rookhaven_variants": 48,
+    "rookhaven_reviewed_frames": 1152,
+    "tibia_atlas": "../reference-review-20261026/tibia-index.json",
+    "tibia_recolorable_four_direction_variants": 394,
+    "scope_note": "All 48 enabled Rookhaven server-defined outfit variants, male/female base/full addons and gait frames. Installed official Tibia appearances scanned; all 394 two-layer four-direction figures rendered, including NPC/special variants. These are not claimed to be 394 player outfit families.",
+    "web_catalog": "https://www.tibiawiki.com.br/wiki/Outfits"
+  },
+  "visual_findings": [
+    "Premium/full-addon outfits often get their readable identity from a strong hat/helmet/head silhouette plus a few coherent equipment masses.",
+    "Native forearms, cuffs and the two exposed hands must read as connected limbs; pixel-position guards alone do not prevent an accessory or light cloth shape looking like an extra arm.",
+    "Cool steel/cloth cuffs keep outfit materials distinct from peach skin. Decorative silhouette changes belong primarily around headgear; avoid dangling pale strips near the arms.",
+    "A plain recolored shirt is insufficient as the central selling point; reference craft includes layered materials, deliberate clusters and upper-left highlights."
+  ],
+  "candidates": [
+    {
+      "id": "A",
+      "name": "Wildwarden",
+      "source": "a-wildwarden/pixellab-concept.png",
+      "actual_references": [
+        "Druid 144",
+        "Norseman 251",
+        "Warmaster 335"
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Duskstrider",
+      "source": "b-duskstrider/pixellab-concept.png",
+      "actual_references": [
+        "Hunter 129",
+        "Assassin 152",
+        "Tibia client figure 683"
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Rune Sentinel",
+      "source": "c-rune-sentinel/pixellab-concept.png",
+      "actual_references": [
+        "Knight 131",
+        "Warrior 134",
+        "Tibia client figure 632"
+      ]
+    }
+  ],
+  "preview": "three-style-studies.png",
+  "editable": [
+    "style-proposals.aseprite",
+    "style-proposals.ora"
+  ],
+  "approval_scope": "Choose a clothing/art direction first. These are not completed rotation/walk sheets and are not approved for game import. The chosen design must retain the native Tibia poses, get all directions and walk phases, final four-color masks and editable source.",
+  "integration": "No outfit IDs, DAT/SPR mutation, server rights, shop data, deployment or native game rendering.",
+  "selected_candidate": "C",
+  "current_iteration": "../rune-sentinel/male/design-manifest.json"
+}

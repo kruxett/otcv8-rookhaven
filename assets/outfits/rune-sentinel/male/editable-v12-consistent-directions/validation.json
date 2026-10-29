@@ -1,0 +1,87 @@
+{
+  "stage": "Explicit design-consistency direction study; user review required, not finished shop art",
+  "directions": {
+    "south": {
+      "canonical_ornament_inverse_transform_exact": true,
+      "source_pixel_count": 87,
+      "fixed_source_pixels_changed": 0,
+      "leg_foot_pixels_changed": 0,
+      "colored_recolorable_pixels": 0,
+      "native_coverage_removed": 0,
+      "canonical_south_unchanged": true,
+      "mount": [
+        38,
+        34
+      ],
+      "design_axis": [
+        0,
+        -1
+      ]
+    },
+    "east": {
+      "canonical_ornament_inverse_transform_exact": true,
+      "source_pixel_count": 87,
+      "fixed_source_pixels_changed": 0,
+      "leg_foot_pixels_changed": 0,
+      "colored_recolorable_pixels": 0,
+      "native_coverage_removed": 0,
+      "canonical_south_unchanged": null,
+      "mount": [
+        34,
+        38
+      ],
+      "design_axis": [
+        -1,
+        0
+      ]
+    },
+    "north": {
+      "canonical_ornament_inverse_transform_exact": true,
+      "source_pixel_count": 87,
+      "fixed_source_pixels_changed": 0,
+      "leg_foot_pixels_changed": 0,
+      "colored_recolorable_pixels": 0,
+      "native_coverage_removed": 0,
+      "canonical_south_unchanged": null,
+      "mount": [
+        40,
+        42
+      ],
+      "design_axis": [
+        0,
+        1
+      ]
+    },
+    "west": {
+      "canonical_ornament_inverse_transform_exact": true,
+      "source_pixel_count": 87,
+      "fixed_source_pixels_changed": 0,
+      "leg_foot_pixels_changed": 0,
+      "colored_recolorable_pixels": 0,
+      "native_coverage_removed": 0,
+      "canonical_south_unchanged": null,
+      "mount": [
+        42,
+        38
+      ],
+      "design_axis": [
+        1,
+        0
+      ]
+    }
+  },
+  "white_palette_exact": true,
+  "ase_ora_readback": "PASS: exact cels and PNG layers",
+  "design_contract": "../source/v12-consistent-directions/direction-contract.json",
+  "scope_note": "Exact ornament transform establishes consistent source shape and the user-defined directions. It does not establish final perspective, occlusion, attachment or lighting quality; those still require visual user review. Do not apply this design-specific mapping to all helmet types.",
+  "files": {
+    "base-neutral.png": "bcabfe3d89275bd584c9a02a0ec6c881912a11e3e7c3712fb2aa30829c337cc4",
+    "color-mask.png": "138590792cc372a1822913b6e20ed80e362a487870f1cfd622de649c1e73b4be",
+    "consistent-helmet-directions.png": "3c5078cbd6944c36307178b0f877299525cf1a4fd40073f7e40ccde86ecace9d",
+    "helmet-ornament.png": "408206595702a23eafbe64d754c56deb557deb19cb7a171d6a42ef14b20ec7f1",
+    "helmet-shell.png": "427dd01e4b1a4adceadaf1684048860a099f6d151d9d4a1e18ed735a66f8cd2b",
+    "neutral-composite.png": "d448a0fd9d81e1c80a80079fb92baa03f451862757e279f40d3fd1f3f4c11e13",
+    "rune-sentinel-consistent-helmet.aseprite": "f636219cbe21baa2cf37921324682a797175623a7dd64387dadd79bcb9f29a55",
+    "rune-sentinel-consistent-helmet.ora": "d44cbd8bc0caad8e6a4f884d744fec393809572f4811dfec48bfb67d81c4baca"
+  }
+}

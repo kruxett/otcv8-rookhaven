@@ -1,0 +1,18 @@
+[
+  {
+    "operation": "patch_pixels",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        63,
+        56,
+        "#00000000",
+        "#05070aff"
+      ]
+    ],
+    "reason": "Restore exact native Citizen foot coverage where the generator erased interior boot pixels. Preserve original foot pose; use adjacent same-boot material color."
+  }
+]

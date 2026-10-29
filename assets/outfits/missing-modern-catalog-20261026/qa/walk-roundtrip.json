@@ -1,0 +1,345 @@
+{
+  "format": "lossless APNG",
+  "checkedAnimations": 48,
+  "checkedFrames": 384,
+  "allExact": true,
+  "checks": [
+    {
+      "look": 1581,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1581,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1581,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1581,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1582,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1582,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1582,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1582,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1860,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1860,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1860,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1860,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1861,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1861,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1861,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1861,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1936,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1936,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1936,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1936,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1937,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1937,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1937,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1937,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1940,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1940,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1940,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1940,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1941,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1941,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1941,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1941,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1973,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1973,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1973,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1973,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1974,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1974,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1974,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1974,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1976,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1976,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1976,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1976,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1977,
+      "direction": "north",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1977,
+      "direction": "east",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1977,
+      "direction": "south",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    },
+    {
+      "look": 1977,
+      "direction": "west",
+      "animationFrames": 8,
+      "sourceFrames": 8,
+      "exactRGBA": true
+    }
+  ],
+  "fixedIssue": "Initial GIF export quantized source colors; replaced by APNG."
+}

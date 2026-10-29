@@ -1,0 +1,16 @@
+{
+  "art_job": "e6f3fdd9-4c74-45db-90ac-bc1604c1817b",
+  "mask_job": "c90b85f1-ee63-4425-9d7b-bc2fa7310d55",
+  "art_and_mask_cost_generations": 18,
+  "all_v20_generations_including_internal_rejects": 45,
+  "final_native_reference_looks": [
+    131,
+    335
+  ],
+  "additional_native_reference_looks": [
+    134,
+    289,
+    367
+  ],
+  "no_hand_painted_art_pixels": true
+}

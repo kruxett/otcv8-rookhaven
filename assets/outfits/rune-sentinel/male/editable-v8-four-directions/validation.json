@@ -1,0 +1,64 @@
+{
+  "stage": "fully dressed male idle color concept studies, all four directions; awaiting user graphic review",
+  "directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "native_canvas_per_direction": [
+    64,
+    64
+  ],
+  "scaled": false,
+  "direction_qa": {
+    "north": {
+      "erased_native_coverage": 0,
+      "fixed_native_face_hands_outline_changes": 0,
+      "outside_mask_changes": 0,
+      "partial_alpha": 0,
+      "lower_pose_silhouette_identical": true
+    },
+    "east": {
+      "erased_native_coverage": 0,
+      "fixed_native_face_hands_outline_changes": 0,
+      "outside_mask_changes": 0,
+      "partial_alpha": 0,
+      "lower_pose_silhouette_identical": true
+    },
+    "south": {
+      "existing_south_unchanged": true,
+      "source_sha256": "9b708ded8c9cd93c524e74f6e31be7a03af0037a8a07edace2695ee8da96cb08"
+    },
+    "west": {
+      "erased_native_coverage": 0,
+      "fixed_native_face_hands_outline_changes": 0,
+      "outside_mask_changes": 0,
+      "partial_alpha": 0,
+      "lower_pose_silhouette_identical": true
+    }
+  },
+  "ase_ora_layer_readback": "PASS: pixel-identical cels and PNG layers",
+  "reference_pose": "Actual Citizen looktype128 phase0 for each direction, translated from original extraction by +24 with no rotation/rescaling",
+  "remaining": [
+    "user review of the new north/east/west interpretations and shoulder placement",
+    "walking phases",
+    "coherent neutral base/four player-color masks",
+    "separate base/addon1/addon2 art layers for north/east/west",
+    "female counterpart",
+    "native import and in-game render verification"
+  ],
+  "files": {
+    "east.png": "cd2e1e2f5dc8cf64e53abbe8581f2bdb3b9301bcdb005a1f228fe84f87a1c38c",
+    "four-directions-preview.png": "14d5563ba91ff03e74f6fbf61b265870de16c0e0c787b61ee96c8e4766950567",
+    "native-pose-reference.png": "9922ef753915da753b3c74c605bff20f6014264a3c4a8686470642d387e2ddbc",
+    "north.png": "5a2499fdc002befc79c2a6a1583be6cc1a33184198ee013454c8c72052b4457e",
+    "rune-sentinel-four-directions.aseprite": "4021af0170442fb74bd74da94dd19dc6c4d7efe3133ab972ea309e0e73f822ed",
+    "rune-sentinel-four-directions.ora": "235b2db5df99bfa64cce339919e7f56b812ebfc04cdf9ad2eaf3880c11eb5621",
+    "rune-sentinel-four-directions.png": "e5800be42dbccb813734117a9d7ef4c82485ea239b2e1d768cb5c5050465e5c7",
+    "south.png": "9b708ded8c9cd93c524e74f6e31be7a03af0037a8a07edace2695ee8da96cb08",
+    "west.png": "a6c11687611784084760aba84948c0169322e5af830d0581f85d034d7cf61f0d"
+  },
+  "user_review": "REJECTED: limbs and proportions not preserved",
+  "limits_of_checks": "Alpha/fixed-pixel/source-pose checks did not validate internal anatomy or relative body-part forms. These are not evidence of accepted graphic fidelity."
+}

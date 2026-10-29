@@ -1,0 +1,7 @@
+{
+  "raw_alpha_outside_pregeneration_mask": 0,
+  "addon1_opaque_pixels": 749,
+  "addon2_opaque_pixels": 699,
+  "post_generation_art_edits": 0,
+  "packing": "Known cell rectangles only, no pixel selection or recoloring."
+}

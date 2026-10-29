@@ -1,0 +1,10 @@
+{
+  "user_feedback": "Direction is improving; character-right leg has an uninterrupted white streak unlike the other leg. This is an example of visual inconsistencies, not graphic approval.",
+  "method": "Exact PixelLab edits of surface shading only. No generation, rescaling, alpha changes, silhouette changes, joint movement or skin changes.",
+  "right_leg": "viewer-left in the south pose",
+  "right_leg_fix": "Dark fabric break below hip plate, dark knee flexion, coherent shin facet and distinct ankle/boot planes. Only one brightest boot-edge highlight.",
+  "left_leg_fix": "Match knee-joint construction; reduce disconnected overbright shin pixels, preserving upper-left light.",
+  "other_reviewed_area": "Reduce continuous overbright near-arm edge to one metal glint and descending shadow.",
+  "previous_version": "editable-v14-base-concept",
+  "changed_pixels": 30
+}

@@ -1,0 +1,133 @@
+{
+  "source_art_repainted": false,
+  "sprite_pack_art_and_masks_only": true,
+  "native_phases_and_directions_preserved": true,
+  "display": "Shared original-coordinate crop then nearest3x; no per-pose shape changes. Native four-channel shader tint sample.",
+  "selected_humanoids": [
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    44,
+    45
+  ],
+  "addon_candidates": [
+    20,
+    21,
+    44,
+    45
+  ],
+  "native_player_poses_reviewed": 96,
+  "addon_nonempty_and_visible": {
+    "20": {
+      "1": {
+        "opaque_pixels_all12": 502,
+        "visible_changes_to_base_all12": 476
+      },
+      "2": {
+        "opaque_pixels_all12": 338,
+        "visible_changes_to_base_all12": 246
+      }
+    },
+    "21": {
+      "1": {
+        "opaque_pixels_all12": 2579,
+        "visible_changes_to_base_all12": 2565
+      },
+      "2": {
+        "opaque_pixels_all12": 1184,
+        "visible_changes_to_base_all12": 1166
+      }
+    },
+    "44": {
+      "1": {
+        "opaque_pixels_all12": 3020,
+        "visible_changes_to_base_all12": 3012
+      },
+      "2": {
+        "opaque_pixels_all12": 1116,
+        "visible_changes_to_base_all12": 1080
+      }
+    },
+    "45": {
+      "1": {
+        "opaque_pixels_all12": 3506,
+        "visible_changes_to_base_all12": 3482
+      },
+      "2": {
+        "opaque_pixels_all12": 1146,
+        "visible_changes_to_base_all12": 1140
+      }
+    }
+  },
+  "upstream_guide_stale_count": {
+    "guide": 24,
+    "actual_DAT_definitions": 46
+  },
+  "native_source_masks_valid": true,
+  "gender_note": "No sex/pair metadata in this pack.44/45 appear visually related; pairing not asserted from file data.",
+  "access_status": "No source game DAT/SPR or shop modified. Graphic selection and8.60 conversion pending.",
+  "exact_colored_preview_matches_to_installed_Tibia": {
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "44": [],
+    "45": []
+  },
+  "walk_phase_comparison": {
+    "16": [
+      437,
+      455,
+      316,
+      342
+    ],
+    "17": [
+      484,
+      257,
+      257,
+      484
+    ],
+    "18": [
+      500,
+      553,
+      553,
+      500
+    ],
+    "19": [
+      556,
+      533,
+      533,
+      521
+    ],
+    "20": [
+      579,
+      607,
+      607,
+      577
+    ],
+    "21": [
+      591,
+      647,
+      659,
+      591
+    ],
+    "44": [
+      605,
+      604,
+      604,
+      605
+    ],
+    "45": [
+      611,
+      651,
+      651,
+      611
+    ]
+  },
+  "animated_previews_verified": true
+}

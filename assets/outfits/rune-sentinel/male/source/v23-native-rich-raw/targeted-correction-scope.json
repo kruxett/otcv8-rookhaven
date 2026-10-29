@@ -1,0 +1,11 @@
+{
+  "counts": {
+    "north_equipment": 3454,
+    "new_warm_color": 633,
+    "body_holes": 220,
+    "addon_leg_consistency": 2306
+  },
+  "protected_anatomy_still_excluded": true,
+  "artwork_changed_by_preparation": false,
+  "all_changes_requested_from_PixelLab_AI": true
+}

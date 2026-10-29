@@ -1,0 +1,35 @@
+{
+  "references": [
+    {
+      "looktype": 131,
+      "name": "Knight",
+      "art_frames": 36,
+      "mask_frames": 36,
+      "native_crop": [
+        22,
+        22,
+        64,
+        64
+      ],
+      "no_pixel_loss": true,
+      "no_resizing": true
+    },
+    {
+      "looktype": 134,
+      "name": "Warrior",
+      "art_frames": 36,
+      "mask_frames": 36,
+      "native_crop": [
+        24,
+        24,
+        64,
+        64
+      ],
+      "no_pixel_loss": true,
+      "no_resizing": true
+    }
+  ],
+  "source": "current local Tibia.dat/Tibia.spr",
+  "layout": "6x6 grid per art/mask reference: each row pair base, base+addon1, base+both; N/E then S/W, all three native phases",
+  "all_actual_art_and_mask_frames": 144
+}

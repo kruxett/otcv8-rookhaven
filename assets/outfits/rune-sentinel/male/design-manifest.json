@@ -1,0 +1,263 @@
+{
+  "status": "Custom Rune Sentinel stopped; Rune Master/Lion of War imported. Fresh QA build and animated native shop/Try On verified locally. No DEV release.",
+  "product": "Rune Sentinel male cosmetic outfit",
+  "iteration": "v24 targeted PixelLab base leg correction over actual native leg reference",
+  "reference_body_looktype": 128,
+  "reference_body": "Citizen male all four directions and all three native poses",
+  "original_selected_concept": "../../style-study-20261026/c-rune-sentinel/pixellab-concept.png",
+  "source": "source/v24-leg-readability",
+  "preview": "editable-v24-leg-readability/overview-all-directions.png",
+  "editable": "editable-v24-leg-readability/rune-sentinel-leg-correction.aseprite",
+  "editable_alternative": "editable-v24-leg-readability/rune-sentinel-leg-correction.ora",
+  "validation": "editable-v24-leg-readability/verification.json",
+  "pixel_art_generator": "PixelLab AI; targeted Pro leg inpaint over native leg reference; addon art retained unchanged.",
+  "design": "Ancient rune-order elite guard. Complete fitted open-face helmet, solid runestone breastplate, overlapping short hip armor, bracers, dark undergarment and shaped greaves/boots. Neutral grayscale art and separate native four-channel mask. Citizen is an anatomy template, not a garment to recolor.",
+  "implementation": "No outfit ID, DAT/SPR change, final color mask, server rights, shop addition, build or deployment.",
+  "remaining": [
+    "User graphic approval of base/addons and final mask boundary work",
+    "Female counterpart",
+    "Approved native import/shop unlocks and in-game verification"
+  ],
+  "base_style_approved": false,
+  "addon1_style_approved": false,
+  "addon2_style_approved": false,
+  "addon_bits": {
+    "0": "complete Rune Sentinel base costume",
+    "1": "ceremonial helmet with low crest and inset runestone",
+    "2": "paired ceremonial shoulder plates and worked collar",
+    "3": "both independent addons"
+  },
+  "native_layer_order": [
+    "base",
+    "addon1 if bits&1",
+    "addon2 if bits&2"
+  ],
+  "rejected_proposals": [
+    {
+      "version": "v3-addons",
+      "reason": "User: banner not attached visually and design choice disliked."
+    },
+    {
+      "version": "v6-paired-shoulders",
+      "reason": "User: no visible guard on right shoulder; left guard placed inside the arm. Near coordinate y45 was elbow rather than shoulder."
+    },
+    {
+      "version": "v8-four-directions",
+      "reason": "User: not approved; original body proportions, arms, feet and legs were not preserved. Alpha coverage/fixed skin checks did not establish anatomy or internal limb contours."
+    },
+    {
+      "version": "v10-native-costume helmet",
+      "reason": "User: base should be white/neutral; head spikes do not turn consistently relative to south shape. Body proportions tentatively okay."
+    },
+    {
+      "version": "v11-neutral-helmet",
+      "reason": "User: direction-dependent head ornament remained inconsistent; head-only work went beyond the intended correction."
+    },
+    {
+      "version": "v13-full-base",
+      "reason": "User: reads as native Citizen with wrinkles. Define and approve a complete garment concept before further PixelLab drawing."
+    },
+    {
+      "version": "v18-ai-base-turnaround",
+      "reason": "User rejected. Supply several COMPLETE existing outfit spritesheets and generate every direction and walk frame jointly; do not anchor other views on one generated south design."
+    },
+    {
+      "version": "v19-complete-sheet",
+      "reason": "User: animations look good, but white speckling and inconsistent details remain. New attempt must include BASE AND BOTH ADDONS jointly with complete outfit/addon/mask references."
+    },
+    {
+      "version": "v20-full-outfit",
+      "reason": "User: looks terrible; one last bounded attempt authorized, otherwise abandon custom art and choose an existing outfit."
+    },
+    {
+      "version": "v21-final-pro-attempt",
+      "reason": "Pro editor mixed reference sprite atlas into the generated image: duplicated tiny figures, wrong frame layout, clipped poses and inconsistent sprite scale. Full 36-frame output inspected at native and 3x scale."
+    },
+    {
+      "version": "v22-native-layers",
+      "reason": "User: substantially worse; confirmed over-simplified design and destructive inferred addon extraction/gray conversion. New attempt must preserve actual reference anatomy and stronger original design."
+    }
+  ],
+  "internal_trials": [
+    {
+      "version": "v4-mantle",
+      "reason": "Too subtle; thigh hem did not read convincingly as mantle."
+    }
+  ],
+  "base_directions_approved": [],
+  "addon1_directions_approved": [],
+  "next_workflow": "Shop presentation complete locally. Use the protected release workflow if DEV publication is requested; temporary QA panels are never product UI.",
+  "selected_design_theme": "Rune Sentinel, elite guard from an ancient rune order; theme approved, no current artwork approved.",
+  "body_source_looktype": 128,
+  "body_geometry_feedback": "User: proportions seem right (tentative). Keep exact native source body.",
+  "neutral_base_required": true,
+  "concept_approved": true,
+  "latest_feedback": "User required native animated shop presentation consistent with the retro client, then asked about the temporary renderer regression panel. Shop and read-only Try On now verified in a fresh build; regression panel closes automatically.",
+  "artwork_generator_jobs": [
+    "520bdc61-dbe5-4d5e-b331-2182ae38702a",
+    "93349607-7f65-4167-9bbb-e91b473effb2",
+    "b6aa4937-16d5-4639-87f6-b0732723ada3",
+    "f17a0307-bb99-4b2d-8e89-372cc70ddcaa",
+    "9350af4a-d155-4ca6-af18-660ccb3928a6",
+    "abc3214a-3868-4caf-9f21-9efb7d16435d",
+    "6775969f-95af-4109-b47c-28f64717b9f0",
+    "67d10c48-86ba-43d7-a272-c5936c615505",
+    "3df50b74-5169-45b2-8ba4-a05bec0dd76b",
+    "d9c3899d-93e5-4e3a-98a7-5e2461c09d8e",
+    "89ad0255-9dc3-4cea-96b1-82a28ae30c70",
+    "e6f3fdd9-4c74-45db-90ac-bc1604c1817b",
+    "c90b85f1-ee63-4425-9d7b-bc2fa7310d55",
+    "e9f8871c-b2d2-480d-9ea9-26cd46629441",
+    "1ceec07b-43ad-4668-9a6c-5f1b362a3496",
+    "139a9a9b-972d-4381-8c20-bf43f632893b",
+    "d521d620-4cbb-49da-8c9d-30779d501d55",
+    "5689b301-2a4a-4dbf-a104-02d8e8c75f29",
+    "36246344-9f1a-4a4c-8de4-62a05b7a07d1",
+    "8a1d3e74-e3d5-4f72-969d-2b278214362b",
+    "6746f5b0-8aa2-4cb2-8429-6f6d7acb9d28",
+    "ad49f0a0-bbcb-460e-98f1-243d1d017340"
+  ],
+  "technical_color_finish_image": "ea7415ff-3c4f-46d1-b484-aa77422e5b9e",
+  "artwork_workflow_requirement": "Use PixelLab generative AI to draw/refine the outfit. Clearly distinguish AI artwork from manual painting and disclose any technical color processing.",
+  "walking_preview": "editable-v24-leg-readability/walking-all-angles.gif",
+  "body_source_phases": [
+    0,
+    1,
+    2
+  ],
+  "body_source_directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "all_frames_preview": "editable-v24-leg-readability/all36-frames-review.png",
+  "mask": "editable-v20-complete-outfit/working-four-channel-mask.png",
+  "leg_comparison": "editable-v24-leg-readability/east-native-leg-reference-before-after.png",
+  "custom_design_continues": false,
+  "existing_outfit_selection": {
+    "status": "Awaiting user choice",
+    "inventory": "assets/outfits/existing-shop-selection-20261026/inventory.json",
+    "preview": "assets/outfits/existing-shop-selection-20261026/all24-male-female.png",
+    "shortlist": [
+      "Warmaster",
+      "Nightmare",
+      "Yalaharian"
+    ],
+    "external_research": "assets/outfits/external-outfit-research-20261026/research-sources.json",
+    "modern_candidates": [
+      "Rune Master",
+      "Dream Warden",
+      "Crystal Warlord",
+      "Lion of War",
+      "Royal Costume",
+      "Death Herald"
+    ],
+    "open_sprite_pack_review": "assets/outfits/opentibia-sprite-pack-20261026/inventory.json",
+    "open_sprite_pack_candidates": [
+      20,
+      21,
+      44,
+      45
+    ],
+    "user_favored_OTSP": [
+      20,
+      21
+    ],
+    "budget_preference_SEK": 50,
+    "budget_research": "assets/outfits/external-outfit-research-20261026/budget-options.json"
+  },
+  "rejected_existing_outfit": {
+    "name": "Acolyte",
+    "female_source_id": 20,
+    "female_looktype": 373,
+    "male_source_id": 21,
+    "male_looktype": 374,
+    "integration_manifest": "../../opentibia-sprite-pack-20261026/import-manifest.json",
+    "gender_mapping": "Our project assignment; upstream has no gender metadata.",
+    "status": "Rejected; local import and shop registration rolled back."
+  },
+  "selected_existing_outfits": [
+    {
+      "name": "Rune Master",
+      "source_id": 1385,
+      "looktype": 373,
+      "sex": 0,
+      "offer_id": 6001,
+      "shift": [
+        8,
+        7
+      ],
+      "exact_size": 55,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Rune Master",
+      "source_id": 1384,
+      "looktype": 374,
+      "sex": 1,
+      "offer_id": 6002,
+      "shift": [
+        8,
+        7
+      ],
+      "exact_size": 57,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Lion of War",
+      "source_id": 1207,
+      "looktype": 375,
+      "sex": 0,
+      "offer_id": 6003,
+      "shift": [
+        3,
+        4
+      ],
+      "exact_size": 46,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    },
+    {
+      "name": "Lion of War",
+      "source_id": 1206,
+      "looktype": 376,
+      "sex": 1,
+      "offer_id": 6004,
+      "shift": [
+        4,
+        5
+      ],
+      "exact_size": 47,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        9
+      ],
+      "sprite_slots": 864
+    }
+  ],
+  "selected_integration_manifest": "../../modern-shop-20261026/import-manifest.json"
+}

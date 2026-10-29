@@ -1,0 +1,23 @@
+{
+  "description": "ONE original male playable cosmetic outfit called ROOKWARDEN for Rookhaven, classic Tibia 8.60 pixel art. Use the supplied real Nobleman sprite strictly for its exact low oblique top-down camera, south-facing idle stance, human anatomy and 33-pixel body scale. Invent a very different silhouette and clothing design. A mysterious medieval raven-keeper and frontier wayfarer: an OPEN-FACED dark charcoal cowl frames a visible human face; a short asymmetric RAVEN-FEATHER MANTLE covers one shoulder in three broad swept feather clusters, creating a clear angular outline rather than a normal noble cape. The other shoulder has a simple weathered leather strap. A muted DEEP TEAL wrap tunic has a diagonal brown leather harness and one broad aged-bronze clasp. Two short unequal split cloth tails hang from the belt, above practical dark brown trousers and sturdy brown boots. The clothes look worn and purposeful, with a few pale linen edges for contrast. The charcoal feather mantle, teal diagonal wrap and asymmetric split hem are the main readable shapes. No armour bulk. Keep both hands free and the legs clearly separate so the design can walk. Preserve the reference's diagonal Tibia silhouette: head upper-left, boots lower-right, visible top of head and shoulders, same tiny hands, same relaxed walking-ready posture. Keep the entire visible figure roughly 33-36 pixels across and high, centered on 48x48 transparent canvas; do NOT enlarge it to fill the canvas. Chunky deliberate old-school pixel clusters, dark selective contour, restrained top-left highlights, 28-32 colours. One full-body south-facing idle frame only, with all painted pixels fully opaque. No weapon, staff, shield, bird companion, skull, huge wings, long trailing cape, sparkling aura, text, labels, scenery, floor shadow, giant chibi head, realistic painting or antialiasing. This is an original raven-themed adventurer costume, not a recolour of Nobleman.",
+  "width": 48,
+  "height": 48,
+  "max_colors": 32,
+  "no_background": true,
+  "seed": 20261108,
+  "style_image": {
+    "file": "../../../../rookhaven-noble/source/reference/nobleman-south-style.png",
+    "usage_description": "Exact existing Nobleman looktype 132, native south idle frame, translated without resizing. Reference ONLY its camera, 33x33 body proportions, stance, native pixel density and lighting. Replace the noble clothing and silhouette with the described original Rookwarden costume."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  },
+  "generator": "PixelLab create_image_pro_flash",
+  "job_id": "3ef2220f-dc82-4974-ad63-c9d1e7f44da4",
+  "asset_id": "09dd9880-66ed-58eb-ad53-879098a4ce20",
+  "download": "https://api.pixellab.ai/mcp/images/3ef2220f-dc82-4974-ad63-c9d1e7f44da4/download",
+  "scope": "Original male costume, followed by four native directions and walking previews before graphic approval."
+}

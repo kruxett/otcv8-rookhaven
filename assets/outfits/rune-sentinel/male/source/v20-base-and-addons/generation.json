@@ -1,0 +1,27 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "3df50b74-5169-45b2-8ba4-a05bec0dd76b",
+  "asset_id": "4cb6d3a3-53f7-55f0-8960-2183a4e89046",
+  "seed": 2026102636,
+  "description": "Create COMPLETE ORIGINAL RUNE SENTINEL: BASE + ADDON1 + ADDON2, ALL36 matching frames TOGETHER. One coherent Tibia outfit, not variants.\n240x240 target: 6x6 cells of40px. Cols0-2 idle/walkA/walkB for NORTH(even rows)/SOUTH(odd rows); cols3-5 idle/walkA/walkB for EAST(even)/WEST(odd). Rows0-1=BASE full figure. Rows2-3=ADDON1 isolated helmet crest ONLY. Rows4-5=ADDON2 isolated paired shoulder guards/collar ONLY. Addon cells MUST NOT contain base body; transparent elsewhere. Addons align EXACTLY to matching base pose so either/both can be overlaid.\nCitizen is ANATOMY ONLY: preserve original diagonal body axis, silhouette, face/hands, joints, arms/legs/feet in every base pose. Repaint ALL clothing/hair into a premium ancient rune guard: fitted open-face steel helmet; broad sculpted cuirass with ONE inset diamond runestone; strong belt/short overlapping hip plates; dark tailored undercloth; bracers; paired full greaves/armored boots. Same construction/hem lengths on both legs. Base must be completely redesigned and distinctive.\nAddon1: low elegant rear-swept geometric rune crest, turning consistently with helmet. Addon2: TWO broad elegant angular pauldrons and short worked collar, attached to shoulders, not elbows; far shoulder occluded naturally.\nCLEAN connected clusters with only5-6 neutral gray tones, broad calm metal planes and dark seams. NO white dot noise, glitter, scratches, dotted edges, checkerboard, dithering, tiny etched detail or edge wires. Highlights are SHORT CONNECTED clusters. Same helmet/chest/legs/addons across all12 matched poses. Chest stone only at front. Costume/addons/stone GRAYSCALE; original skin only warm color. Native~32px body within40px cell, no upscaling/recentering. No text, weapons, shield, banner, cape, effects or masks in art output.",
+  "context_usage_description": "COMPLETE NATIVE REFERENCE ATLAS 720x720, unchanged actual DAT/SPR pixels. LEFT480px: three complete existing outfits stacked in240px bands: Warrior(top), Demon Hunter(middle), Wayfarer(bottom). Each band's left240x240 contains art BASE/ADDON1/ADDON2 ALL36 frames, in EXACT same6x6 grid as target. Each band's next240x240 is its matching pure yellow/red/green/blue recolor mask for ALL36 frames. These are independent native addon overlays, NOT full repeated bodies. Study how each equipment part is attached, rotates, and follows original walking phases. RIGHT top240x240 at(480,0) is exact Citizen edit target, right middle has full-equipped references, right bottom shows player recoloring. All directions and animation/addon/color layers are provided; use ENTIRE sheets for consistency. Learn native oblique Tibia anatomy, same-scale pixel rendering and additive layers; don't copy particular weapons/shields/backpacks or designs. No rejected Rune Sentinel art provided. Keep isolated generated addon backgrounds transparent. Paint a COMPLETE new premium base wardrobe plus BOTH matching independent addons in this same call.",
+  "image_size": {
+    "width": 240,
+    "height": 240
+  },
+  "status": "complete, internally rejected",
+  "target": "target-all36.png",
+  "generation_mask": "generation-mask-all36.png",
+  "context": "complete-reference-context.png",
+  "source_bbox": {
+    "x": 480,
+    "y": 0,
+    "width": 240,
+    "height": 240
+  },
+  "reference_manifest": "reference-manifest.json",
+  "all_base_and_addons_generated_jointly": true,
+  "manual_artistic_edits": 0,
+  "estimated_generations": 9,
+  "review_reason": "Misaligned isolated addon layers and duplicate faces."
+}

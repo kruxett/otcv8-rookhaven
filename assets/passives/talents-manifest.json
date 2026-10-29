@@ -1,0 +1,4194 @@
+{
+  "version": 1,
+  "description": "Approved unique PixelLab art for all six passive talent catalogs.",
+  "iconCount": 174,
+  "nodesPerTree": 29,
+  "nativePixels": [
+    32,
+    32
+  ],
+  "safeBorderPixels": 2,
+  "binaryAlpha": true,
+  "canonicalAuthoringSource": "Each tracked runtime PNG; no regeneration or duplicate source copy.",
+  "legacyManifest": "assets/passives/manifest.json",
+  "legacyManifestSha256": "c45003db5eb8d1086d89e21424a39a6e04978c586c41389cf679d06b0b43cdd2",
+  "classSpellConfigSha256": "2ef07d2938032c96788cedc0ce749ef767c3e69660ad4d8d37f554bf00ea2307",
+  "icons": [
+    {
+      "key": "reaver/minor_precision",
+      "tree": "reaver",
+      "nodeId": "minor_precision",
+      "name": "Precision",
+      "runtime": "data/images/game/passives/talent_reaver_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_precision.png",
+      "sha256": "bf1ef04db43072944c0003d25a8a10588ec5fb0e9d04bde6616de610546950f8",
+      "visiblePixelsSha256": "8db28fee39aa300a72d8243299ffec6fd1693cb3b24337e811673a33272b18e2",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0716b457-470b-4a19-a0b6-9abe4b733d3b",
+        "nativeSourceSha256": "ff7dd9b9ed236f4550a2ffb16f349c739825e5509dbc481707c8fe38cabd9e6a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_critical",
+      "tree": "reaver",
+      "nodeId": "minor_critical",
+      "name": "Critical Force",
+      "runtime": "data/images/game/passives/talent_reaver_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_critical.png",
+      "sha256": "5cd60b73cbdfcb65a4ceda9a05007ec011fe110a6791f7041248a99159844966",
+      "visiblePixelsSha256": "262aeda880b83cd0be6048bbeb8373ef29079d0f33f629cfb94d8ad3bba6bc5b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "393e74aa-9ca6-46e2-a259-72b261dfec74",
+        "nativeSourceSha256": "8fa1e7636c9e61ff8e710d1975ca3e02b889efab11d19cba162db2a322f4c441",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_power",
+      "tree": "reaver",
+      "nodeId": "minor_power",
+      "name": "Power",
+      "runtime": "data/images/game/passives/talent_reaver_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_power.png",
+      "sha256": "2cbf491f692e5e4e008725d8a31111adcf6eaf2d94bbeed6c8ae481bfc3cef51",
+      "visiblePixelsSha256": "6623ef1c5cd62ae0abaa537651fda0d3956b0ed4f86091ce14bddf9ef6f55fe3",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 13,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "be10b51e-8e20-48ea-98c5-b316b8d10756",
+        "nativeSourceSha256": "d592216905abafbd13afcaf3d1680c488ce8d10989222df5846d71e22a1cbecd",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_efficiency",
+      "tree": "reaver",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_reaver_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_efficiency.png",
+      "sha256": "81eed3f56c8da3092241b86c9e1707247f4c29fbf560d616f2c21c82997dcc01",
+      "visiblePixelsSha256": "0569911ab6bfc861d2071731700c5e86627e3500ebf4c0fa43ac05ccb6bb7cb0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e1eccfb1-b860-434b-81e7-5df39da4318a",
+        "nativeSourceSha256": "9c9a55db2849be859402abd01695e1cf0cb02c856d054f439a99e1cc5cdaaecb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_vitality",
+      "tree": "reaver",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_reaver_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_vitality.png",
+      "sha256": "a95f6d784a2fc0ff507ba63320fb5a73e69ef5301eec205e0ec1ce1a33619cb8",
+      "visiblePixelsSha256": "ddf08706a8f7bac7f0765a181986256ef8cbad284e2f3b263362f6d991d1b44c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1f4d5f0c-3118-4d16-92e5-7f66f4232dcf",
+        "nativeSourceSha256": "4adb01520b7a160323ff124c0bedbd106d8715027edf2c7faf94d6bb8c2b0533",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_resilience",
+      "tree": "reaver",
+      "nodeId": "minor_resilience",
+      "name": "Resilience",
+      "runtime": "data/images/game/passives/talent_reaver_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_resilience.png",
+      "sha256": "dc8b9664084c1c57b03ddf3c03900bf6ddb24f4fd6a1a580b0a6e270fafe89bd",
+      "visiblePixelsSha256": "b4c4cd7e2e516373cd18bd170335cdc0875dcf561ed196390b76be566dfc4615",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "bd025334-4671-44b2-b4ff-6390f20c84b6",
+        "nativeSourceSha256": "43c796121b1b6980754e942d56267967827231ac1f69740da7235d2569172d36",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_recovery",
+      "tree": "reaver",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_reaver_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_recovery.png",
+      "sha256": "21e0febed3fc6637b2473b3eb99458f220c2296660f68087790c73d558cc5e1b",
+      "visiblePixelsSha256": "b9c4cbf841a8df830ce69eb7af5f540de8eff4ce46dbdf4df760d1e239eff877",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "4561459b-72c3-4282-928b-5decd24f5e8e",
+        "nativeSourceSha256": "7476d6691ad14069dace9ee561ab2528fa20235ece353b9c6079c050c6b36689",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/minor_focus",
+      "tree": "reaver",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_reaver_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_minor_focus.png",
+      "sha256": "0fca43ac97139cf1f04a4f3b09b27ca9c6c7aff43906901f7ab4d940e587e5da",
+      "visiblePixelsSha256": "921a51e1990777d529f713e1952492342fcc02bff829d9460e28b73ccb20cac0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "84db50db-27cc-401d-ad38-1ead2b84cfd8",
+        "nativeSourceSha256": "9ac4c4def2fe6c58ed2934e1cec242611304521e4dd35e32fd64fe516aecfbfa",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_precision",
+      "tree": "reaver",
+      "nodeId": "major_precision",
+      "name": "Measured Edge",
+      "runtime": "data/images/game/passives/talent_reaver_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_precision.png",
+      "sha256": "ce48b4eec7d428f08b5bc4013bc45aeea9d1460a59ff16c8c7aaca25324dcbaf",
+      "visiblePixelsSha256": "41ca665683d1b3f4a9e847cbe65310cab1ac34c3ff0ea42b19c3a24b523a8920",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "d96e2f14-52c5-4d60-8a2f-3f2f09e77dfe",
+        "nativeSourceSha256": "e7519b21023c31cc094d1da352149879f4d66e58aaaa00b6bd93bdc03f5ea49e",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_pressure",
+      "tree": "reaver",
+      "nodeId": "major_pressure",
+      "name": "Overwhelming Force",
+      "runtime": "data/images/game/passives/talent_reaver_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_pressure.png",
+      "sha256": "45f6668305f79af9f2d72db683210b592316ef88768f8b6b7fdd48bd4cb91042",
+      "visiblePixelsSha256": "2d16b7fba9657e83788454f7c7dc603e8025cb347d1a29072d002f35932a5726",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ed1344bd-1c91-46bf-8bc2-33f6ad0f0a91",
+        "nativeSourceSha256": "92426ab02c55201fcd15e17bbf9e9f81610505a4bad4c754669c4e87a730ec8d",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_guard",
+      "tree": "reaver",
+      "nodeId": "major_guard",
+      "name": "Iron Resolve",
+      "runtime": "data/images/game/passives/talent_reaver_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_guard.png",
+      "sha256": "f025a00ca10e7c294e25a15ce70264172bca232e2c75c51fa83ab34a36d8945f",
+      "visiblePixelsSha256": "b5f9526fd4a7a867e73a6895a02cae9c311829d5f2e7473141a107f543b912d1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "d8deb5e0-41e4-4928-a58a-110f1d729de1",
+        "nativeSourceSha256": "8800c227190f30fe0132629bb92298cfd16efe6f8e84727cfb325eff9d79349b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_recovery",
+      "tree": "reaver",
+      "nodeId": "major_recovery",
+      "name": "Battle Recovery",
+      "runtime": "data/images/game/passives/talent_reaver_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_recovery.png",
+      "sha256": "5dcdf9ee09e0278030df7d5f67b8430f286b06b8549162f4fb23b9ab67d0d0dc",
+      "visiblePixelsSha256": "f862a1ad38a5b2e6992b2bd26d051c2c0470003cd23c432d2a0ae11f4b69647d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0f10c77d-fa62-4f31-9aa3-92489c523723",
+        "nativeSourceSha256": "464d2923a02a3015f33c6040599cc2b81b583814435c914fdc07727d1f787e60",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_tactical",
+      "tree": "reaver",
+      "nodeId": "major_tactical",
+      "name": "Tactical Focus",
+      "runtime": "data/images/game/passives/talent_reaver_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_tactical.png",
+      "sha256": "0990e0d675724f58463d2fb60705aae11a740d4a0e999577ae430dabd6eb9de8",
+      "visiblePixelsSha256": "237894299aa264594ceb0364bda2945dafd6b3c311f1d542657203ea20248334",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b6d94328-b333-413c-995c-2a5921bf49c5",
+        "nativeSourceSha256": "056ffef7d6a680a56ae84ea96c42e10871d9c85f360a1f1f6054d06ea1f7dcb7",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/major_steady",
+      "tree": "reaver",
+      "nodeId": "major_steady",
+      "name": "Steady Nerves",
+      "runtime": "data/images/game/passives/talent_reaver_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_major_steady.png",
+      "sha256": "2028821b624624d671bb9aceb2d9c679393b154f58d8250e397771c70a9d0124",
+      "visiblePixelsSha256": "a8baf13e607d1245544e2cd856fd6e3051f2fcf87b4dd6265aa5c888df21e76d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 14,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "28967bee-11d7-4705-af83-8842b30ead0e",
+        "nativeSourceSha256": "b3f4abbdae9be90fd27ddf9c8512605bc85f91fe2ceeaeb5623f79058fbff3de",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/cap_berserker",
+      "tree": "reaver",
+      "nodeId": "cap_berserker",
+      "name": "Berserker",
+      "runtime": "data/images/game/passives/talent_reaver_cap_berserker.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_cap_berserker.png",
+      "sha256": "23f3eadf2dbae629a9497e077c521185e510dc08c09686082df6a6c39f5c8768",
+      "visiblePixelsSha256": "2067e7c1d330dda4aac61d185b8b1e304bad5b22f6a5e0b0fc09e9eeaf347e2e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 13,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ef9ccb49-ccb9-4c55-883e-445ec2cf3bb8",
+        "nativeSourceSha256": "3550393d14f640be45db9fde842df2662e0e7a000181b36ce4f5c12e62b234a5",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/cap_bloodletting",
+      "tree": "reaver",
+      "nodeId": "cap_bloodletting",
+      "name": "Bloodletting",
+      "runtime": "data/images/game/passives/talent_reaver_cap_bloodletting.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_cap_bloodletting.png",
+      "sha256": "f2cffd4cefd24400843dd998fdd3269139bea7aa7111adb1f1825f041c9e952c",
+      "visiblePixelsSha256": "e791c83e1d5c3b6124c62c49e088047daa9dbf4f05040b980a73eb33638ae203",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 11,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "57762e0a-dd9f-40fa-b4b2-999ed5500f6e",
+        "nativeSourceSha256": "9be83c1edc850b220d802578c2519bfe8d6d78ef32b4ce8d1622c84fdaa48ac4",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/cap_bloodguard",
+      "tree": "reaver",
+      "nodeId": "cap_bloodguard",
+      "name": "Bloodguard",
+      "runtime": "data/images/game/passives/talent_reaver_cap_bloodguard.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_cap_bloodguard.png",
+      "sha256": "25045ca097ac1a24815e6fc0d372cf83ad113d6f656546aab73fe1006d8bffa5",
+      "visiblePixelsSha256": "cb94333ee66a32716a578be02f1ef245013a53ec438539c4b4ed837da9c01daf",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "c121cab1-fb0c-41f6-bdf9-cc35f49d7047",
+        "nativeSourceSha256": "b9fdfdffc648293090e67e4ff745e74503dd0daa75a034dfc066034c88ebb68d",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_broad_stroke",
+      "tree": "reaver",
+      "nodeId": "path_broad_stroke",
+      "name": "Broad Stroke",
+      "runtime": "data/images/game/passives/talent_reaver_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_broad_stroke.png",
+      "sha256": "5d3c0c4feb12e572a5adc41835ecc95705bc5b0c3a2a6566c2e9203b37ede47b",
+      "visiblePixelsSha256": "7ebbede42294c0c2acc1d6258eed96b125e33c5d68b08087ec522abfe9ba7f5e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "991bfd6b-591e-4b3b-bb28-764f29b368ea",
+        "nativeSourceSha256": "9e8e8a26cc0ff62d6db4dbe605886a1b63d772505e91ef22f4b80b71a4a2484e",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_deliberate_cut",
+      "tree": "reaver",
+      "nodeId": "path_deliberate_cut",
+      "name": "Deliberate Cut",
+      "runtime": "data/images/game/passives/talent_reaver_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_deliberate_cut.png",
+      "sha256": "23618c21ae727ff71b36b63ee835abdc82989eb9941b20353cec8b5e2139f3eb",
+      "visiblePixelsSha256": "d13bae98b8757edc1debdc01fb8687b1d52b4991ba32fa8cc5b1fe858e511fcf",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "bd1e8a33-be6e-4112-9356-7b6590d48c1f",
+        "nativeSourceSha256": "faecac90818d640fbd7fbfb540520c2295ed362b71af9f84e32961faf03e12d0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_blood_return",
+      "tree": "reaver",
+      "nodeId": "path_blood_return",
+      "name": "Blood Return",
+      "runtime": "data/images/game/passives/talent_reaver_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_blood_return.png",
+      "sha256": "3cf90e96ced9245875b9451fe3fec47ea18aa4c8dc2e55aa7683372153d6ff3f",
+      "visiblePixelsSha256": "35d5fab69e0bcde32759994fc1f8640f1666c7b9675147f712a6f267425a4b90",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "483385e4-832b-4b4c-857a-5f815a631c1a",
+        "nativeSourceSha256": "836e3f1a39344697f3bd348b3aef503ce8c018e57587aa9fead97883e41f47a3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_hewing_rhythm",
+      "tree": "reaver",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Hewing Rhythm",
+      "runtime": "data/images/game/passives/talent_reaver_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_hewing_rhythm.png",
+      "sha256": "ce5798fabd27f05c935f32d61f1071698b75a578f34febbb764351ae518eb333",
+      "visiblePixelsSha256": "d81b4fc3fd788b9cf7d2ed047ec41499d75b32b814ccc85c399a988fd06107d9",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5fa7ec2c-6591-4dcb-ac17-e69027550dbf",
+        "nativeSourceSha256": "c444274091f7db38739293e325082d9b4bc7940ed6d7652eaa67f5ca24ebab0d",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_battle_sustenance",
+      "tree": "reaver",
+      "nodeId": "path_battle_sustenance",
+      "name": "Battle Sustenance",
+      "runtime": "data/images/game/passives/talent_reaver_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_battle_sustenance.png",
+      "sha256": "34d39fb9b98b71b12c439c16ec8fc0bf4d754ffacd3ed1388fed1e5a0bee49e6",
+      "visiblePixelsSha256": "b8ea2163ce38424006d723f4a0e1f76ad5a3ad052ec37561a8f7e5d0e16efae3",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "8c97b270-4934-4115-9bdd-10c7e514f58f",
+        "nativeSourceSha256": "afdadc7cae9386edb565edc38bc1ec1391e22926f7e33929b5a8b04a4ff58830",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/path_iron_rhythm",
+      "tree": "reaver",
+      "nodeId": "path_iron_rhythm",
+      "name": "Iron Rhythm",
+      "runtime": "data/images/game/passives/talent_reaver_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_path_iron_rhythm.png",
+      "sha256": "f3eac3edb3238b5c8db78b5d6f98e4fd974570112f27e8f89286c3d9c6b7ae1b",
+      "visiblePixelsSha256": "1227cc913e8ec61c2a9b1cdfe1e206caf731474d3971b8444105ba1e1266dda6",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "260587e3-cafa-48af-8821-94051dbd2cb9",
+        "nativeSourceSha256": "d90511d1f9887b1b301ddc982d185a390d6786987f51bb2d850f120da5e001d3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_sweeping_form",
+      "tree": "reaver",
+      "nodeId": "mid_sweeping_form",
+      "name": "Sweeping Form",
+      "runtime": "data/images/game/passives/talent_reaver_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_sweeping_form.png",
+      "sha256": "cece22f98c91b424883357c1e9182c44af13dee54614efabc29d93dbe959c097",
+      "visiblePixelsSha256": "b22e58b0e0a57a59ea93ecea10fe27009e7f1926b630296722b39ac42b82701c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1c91f065-da55-40b3-b216-5c145fe900c0",
+        "nativeSourceSha256": "c45fc473263b1cb51e32e60a38c4455de5fd3694f8f472a289e0a3ef84205336",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_true_aim",
+      "tree": "reaver",
+      "nodeId": "mid_true_aim",
+      "name": "True Aim",
+      "runtime": "data/images/game/passives/talent_reaver_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_true_aim.png",
+      "sha256": "e39113471755289266d89504ddd085245d6388c98b7f4ce5eff6bc344cd92484",
+      "visiblePixelsSha256": "f832cbdc24b399dc3da7a550fda77edd72b90e3ee523da7a913c501064c571c8",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "51049cdb-dd28-4489-a8ee-722ad325d7a0",
+        "nativeSourceSha256": "de0bfe210236e0d58a8bffaf8a0a0e8afeb0444910301f7b6807221656642f4c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_focused_edge",
+      "tree": "reaver",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Edge",
+      "runtime": "data/images/game/passives/talent_reaver_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_focused_edge.png",
+      "sha256": "03d95262f1de877e11c73d456e8db495a483a19a88eb35d762c5c8c38d717e84",
+      "visiblePixelsSha256": "291ab21d7ee7d2c29c7d02e172205c07adafd8b4da069635fb5837ebaa28a086",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "794d562b-75cd-4c4f-805b-a90da44655be",
+        "nativeSourceSha256": "08952f2f35287193b4fcc26c58efb463e1622132b8c25dfc774dd67e6eec9ed1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_measured_breath",
+      "tree": "reaver",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Breath",
+      "runtime": "data/images/game/passives/talent_reaver_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_measured_breath.png",
+      "sha256": "d7cc9681b99f22df3f0f13ce004ed8a51ad5675ea54c172f61cdb8197523f15d",
+      "visiblePixelsSha256": "1ee74bca01dfb392b6000c1f3b004d94d51d13faeddb28c0d55052e58df28e48",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "f2359b02-7035-4fca-b107-06bcba154d33",
+        "nativeSourceSha256": "5a1f351c62dc776b0295908ede8a92adf2987327c466c18ccf8b631ba664f56e",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_stout_heart",
+      "tree": "reaver",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Heart",
+      "runtime": "data/images/game/passives/talent_reaver_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_stout_heart.png",
+      "sha256": "2cf7f9a522feab2e20512c2ce23c781842971959a50bafa30c5dcd46a2e859c4",
+      "visiblePixelsSha256": "b197e6a0d3b31f3eb76c349d51bee0b59d4f245758afe8b9067d43707b6ef88e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "94949464-a6a0-465c-8a0f-08351681d6be",
+        "nativeSourceSha256": "3f09d92b85163f18527ddc8ddc00b33ba4c02f6d8d56601fa28a4ed0ff673fcb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "reaver/mid_braced_guard",
+      "tree": "reaver",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Guard",
+      "runtime": "data/images/game/passives/talent_reaver_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_reaver_mid_braced_guard.png",
+      "sha256": "ea3009af5001607d8a5d2bd7261aff073bf7420d59da9054a5fd3634a3818104",
+      "visiblePixelsSha256": "a3883778876610aa1c49f3bf5d885ef9a4562ae1499a381a56ca8e40610737b2",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "266a8878-3554-420b-be11-2754795f4273",
+        "nativeSourceSha256": "4ee25e014f2986b339f06032b4c6cb086622636317a4ef445d26b250af1301a0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_precision",
+      "tree": "blademaster",
+      "nodeId": "minor_precision",
+      "name": "Accuracy",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_precision.png",
+      "sha256": "befccac8b9890d50e7df7379959cf05b8ba03a34ee30e7edbbd1f1dafd05ff4e",
+      "visiblePixelsSha256": "cb907bab6963547c94b8d8fda393876142464d3191813c5c157d5770da29d70e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "8d4651dc-e548-43b1-8820-c2dcacd40152",
+        "nativeSourceSha256": "15dcab27159474db5125bc7ad0cdbace37d58d6773dd597a09af1c57af945e56",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_critical",
+      "tree": "blademaster",
+      "nodeId": "minor_critical",
+      "name": "Keen Force",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_critical.png",
+      "sha256": "8af7e3a732be97c8bdd4a49e036b85101a9c48f6f48ca4a6743826bc7a06de59",
+      "visiblePixelsSha256": "448b280d924c7655d360525d3dcb4785c0b947ff13ef82b34ccdef28b64a432f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b2e46a28-068c-4adb-ba36-5e5e10061e84",
+        "nativeSourceSha256": "d34becc3a523d5a27b78a150ff640e05aea128410c2e9381db0aa55635bbc899",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_power",
+      "tree": "blademaster",
+      "nodeId": "minor_power",
+      "name": "Sword Power",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_power.png",
+      "sha256": "470df7f015632e80058aee42bec7f1496e06eab9c44dd400c8bdb25835200b49",
+      "visiblePixelsSha256": "dd522ffe03be9a50e864b90eeb12a0257ec97523732e67a1dc1323339ac2cac1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 23,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "2498023c-0b26-441c-aef9-0178e457ab3f",
+        "nativeSourceSha256": "c8ce164b70a2ff2623a4f34265b7b5098df7997f2a4e4613376b970b762c3598",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_efficiency",
+      "tree": "blademaster",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_efficiency.png",
+      "sha256": "5ee91a139fe0fbbf096d4e63874b4189f7a49c24ae04e6ff3fb862d6e0f6f859",
+      "visiblePixelsSha256": "c87f3a2803f0697ecaa204e4a2a530b86477e7090d3daa549e894450768ebb28",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "10c5b30e-2abc-45f9-8706-a447f326e511",
+        "nativeSourceSha256": "a37b37889789333c5dab118341b328499ba2b4ebeec1fe12f852c997a22d0d69",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_vitality",
+      "tree": "blademaster",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_vitality.png",
+      "sha256": "a258cb9fa374a7dc884518cdfc18641d737c32ae654ec1c4fefd9c2135b29f4e",
+      "visiblePixelsSha256": "144780b581de441e50057d7edd3acd019d5b15ad32793c92d09ee8ac00793c6e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "f1dc2743-e90c-472d-9d79-2f0e9da6c421",
+        "nativeSourceSha256": "8f6b38074780509b4c38c8add85dd99f952f0ebae63d445c55141b814e37c028",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_resilience",
+      "tree": "blademaster",
+      "nodeId": "minor_resilience",
+      "name": "Poise",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_resilience.png",
+      "sha256": "92790b7af8f4497eb9cbed4757a2d8006a62bec0c805eb527ae5ab5ff91d9272",
+      "visiblePixelsSha256": "ff32ca90cb5887c40feb775d4e57cc76dc10ef9e44ca9cc1d24423d297b51d35",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "fb656adb-1439-4b53-849e-e4f772311773",
+        "nativeSourceSha256": "b9692bd4637e1149746a705d9dfa64cf60915ab5d9c5cfd375cbddd45a2baa70",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_recovery",
+      "tree": "blademaster",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_recovery.png",
+      "sha256": "966ac3650dbbbe79494a5ca0b3c7e2e1da03df006c670a28a68d97fefe7283f9",
+      "visiblePixelsSha256": "337e1d37428814b383d5f41d4023be6674b9d7798fa51a23dfc880a9fa92e441",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0f396d81-5df5-4ec7-80eb-3fd6ca9f6e30",
+        "nativeSourceSha256": "7f25e486d92e51b0c83f955628e57e8b287c485c4c65f2033b108e84efc8aff4",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/minor_focus",
+      "tree": "blademaster",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_blademaster_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_minor_focus.png",
+      "sha256": "1bbc2af1fbca1938908d05245ac888548b99979c97bb3c8fb11d781b0c956a30",
+      "visiblePixelsSha256": "17728df596843403c9124ba92d3ad10d18506eea05a504e04b3343081efa8b24",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "79f44261-908b-4c73-b29f-abd0b14b76cb",
+        "nativeSourceSha256": "30192793505a58c5734b194ff33b2cfea1c1e62b1c680eba47f7a576aa146db2",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_precision",
+      "tree": "blademaster",
+      "nodeId": "major_precision",
+      "name": "Measured Blade",
+      "runtime": "data/images/game/passives/talent_blademaster_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_precision.png",
+      "sha256": "3ba358b3340926c7c38f77d3d9ad73ff64f0ff6735d8f402e8c8bdad4babf699",
+      "visiblePixelsSha256": "30e687d13241f5ce3f1b4fbbdbad12d638e54273834cb6098b15dea00fc8d044",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "dafef3a1-eccb-4b5e-b44e-70094c23316e",
+        "nativeSourceSha256": "85ba4500cc7075907c1b8f56b8f3592beaeb0ce872acc856b0797ab495647402",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_pressure",
+      "tree": "blademaster",
+      "nodeId": "major_pressure",
+      "name": "Relentless Edge",
+      "runtime": "data/images/game/passives/talent_blademaster_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_pressure.png",
+      "sha256": "e48a3d2613ab0fcd28b3db0854d9e93a033e486e6f609d02335ea38ef2c262eb",
+      "visiblePixelsSha256": "984da5d7f49a1b89bee02bb726d52e2342a1758b08cffae9868a1efd053f99de",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 23,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e9216497-dc48-4425-9866-1790f67135a0",
+        "nativeSourceSha256": "39f4c31cc172d3c22059e427aac598c6182c4b847e0537d6be79bdc5455b88cc",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_guard",
+      "tree": "blademaster",
+      "nodeId": "major_guard",
+      "name": "Iron Poise",
+      "runtime": "data/images/game/passives/talent_blademaster_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_guard.png",
+      "sha256": "351d729790e3cdd7b3426e91233a8b21ef6f5a5f67a4f125e7288c5623d80705",
+      "visiblePixelsSha256": "d0cac62bc45f79638a98d6f3699fe1437838bd8cdecdeef8dac4b80e1724a403",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "c891559e-2d55-4985-a324-408a67989e20",
+        "nativeSourceSha256": "5736bc4fcb7c86c86476680f7cc81baac4665de80b7e0a6e7c1fae9206dd24cb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_recovery",
+      "tree": "blademaster",
+      "nodeId": "major_recovery",
+      "name": "Second Wind",
+      "runtime": "data/images/game/passives/talent_blademaster_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_recovery.png",
+      "sha256": "65f255046af4fb7b6970fc5cd515b58e7581f9110dae7ac29e0c21a035be33d2",
+      "visiblePixelsSha256": "17fdcefe6d48184f306eb2d3cebcdd8ce10a97752e8b600f87e073b931f62f47",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0229d466-7c6b-45c6-a4e6-a137c7ebcb4c",
+        "nativeSourceSha256": "c18822aa0d958595b13ef8752ed7c37230069293a7b1ebec037f3159b4f5248a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_tactical",
+      "tree": "blademaster",
+      "nodeId": "major_tactical",
+      "name": "Blade Rhythm",
+      "runtime": "data/images/game/passives/talent_blademaster_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_tactical.png",
+      "sha256": "4e16f6ff9a743a594db1d27fa701a9210e60345278b1618840b3649bb3648b01",
+      "visiblePixelsSha256": "e1cf52cfbf594f4cba905466b1b44405b78b303f94b2e099db7dec8fa8916dbd",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "c8fc9774-2b12-4cfb-bee9-12a16fd94d96",
+        "nativeSourceSha256": "ace3d1f7f441920c4a2335244115b44cab6a68e6f59b2afe9d281a5f1d170bc8",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/major_steady",
+      "tree": "blademaster",
+      "nodeId": "major_steady",
+      "name": "Steady Hand",
+      "runtime": "data/images/game/passives/talent_blademaster_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_major_steady.png",
+      "sha256": "13f204cff241f420b0758e7b26409b5dcef0648b34b981697b0b434fe0a526c1",
+      "visiblePixelsSha256": "7cab2c7c417f7b799ba3495bcc4300f01e14529871e77e3c8442af5e95dc7ba2",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "00b13c76-ad30-4bcc-a414-2dd5803efa9f",
+        "nativeSourceSha256": "ccac07b12432b61ac4ba1994da95e852b200286435dd9a1427c09920d6e43c87",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/cap_duelist",
+      "tree": "blademaster",
+      "nodeId": "cap_duelist",
+      "name": "Duelist",
+      "runtime": "data/images/game/passives/talent_blademaster_cap_duelist.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_cap_duelist.png",
+      "sha256": "e6c5130fe516c5677091cd73d72ae6fa4c429e371a05315fc435f23b05b07e3d",
+      "visiblePixelsSha256": "ecfc17e9b58e181100a04cb93ff5688a47c1ad3b49cc6ff65a241f78827f50f3",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0557909e-7a1a-4a0f-82df-a4d3f1d5dd88",
+        "nativeSourceSha256": "7e98d046545b6302f5938ed1e6aefbebaff4edc7fef92655a6de518f769cd6d1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/cap_riposte",
+      "tree": "blademaster",
+      "nodeId": "cap_riposte",
+      "name": "Riposte",
+      "runtime": "data/images/game/passives/talent_blademaster_cap_riposte.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_cap_riposte.png",
+      "sha256": "1efe73c143567f339038ea45230d2a1d7887c5b220b7e51cda2cc7de43502edf",
+      "visiblePixelsSha256": "c5558c8c2b7153f70469579ba32cbd40c376e037efabb3071216cdeee5a4dac7",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b70f6bbb-e72b-4ee8-84ed-8816c02f454b",
+        "nativeSourceSha256": "99c7bb601a90c46c51bd03abb03a516e700a24f6abd19885e7e05679bf844957",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/cap_bladestorm",
+      "tree": "blademaster",
+      "nodeId": "cap_bladestorm",
+      "name": "Blade Storm",
+      "runtime": "data/images/game/passives/talent_blademaster_cap_bladestorm.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_cap_bladestorm.png",
+      "sha256": "8e08b596bafd3e2887d39b21da70d2bf9238632997e8c5ae0b54827dec1fc5c8",
+      "visiblePixelsSha256": "8c324d3f9465334d988ef9604a5d5724f812fbc76d42f902f13bbf98a23c6e2c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1d74393d-449e-4263-a52b-82ffb443f2bd",
+        "nativeSourceSha256": "61cf9be306eb2925f106ad7ebd391f6278909bcee046de33bd92d04236e6a623",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_broad_stroke",
+      "tree": "blademaster",
+      "nodeId": "path_broad_stroke",
+      "name": "Keen Finish",
+      "runtime": "data/images/game/passives/talent_blademaster_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_broad_stroke.png",
+      "sha256": "fcb8bd43558cfe5c90cccdc583d44e62e99993f87eeef4f9367071052ba5232b",
+      "visiblePixelsSha256": "909229d19deb4e5f18858fdd80997def8aa44a5bfdb143dc168de6dc61ab1e5c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "67a7d430-f476-4a52-acba-9a66fbb6529b",
+        "nativeSourceSha256": "3b7e4791795f582250e2d14012c3c26d64ce7373cdc2dc2247b3dcbb581ce010",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_deliberate_cut",
+      "tree": "blademaster",
+      "nodeId": "path_deliberate_cut",
+      "name": "Honed Reversal",
+      "runtime": "data/images/game/passives/talent_blademaster_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_deliberate_cut.png",
+      "sha256": "6efde9a7b0fd0240256d3639ba2379c797e16090f9f002b7d98613098f24eefb",
+      "visiblePixelsSha256": "1712473e9e1b388082cf159294cbb4776d812f6cbb0a7ecf49801d712063c650",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "791518f3-b1b2-46c6-94e3-88696aba7816",
+        "nativeSourceSha256": "c5d2802efc2a394b75f11c4a9065ba200dc8d358f4569e27bd37813a401115c2",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_blood_return",
+      "tree": "blademaster",
+      "nodeId": "path_blood_return",
+      "name": "Returning Steel",
+      "runtime": "data/images/game/passives/talent_blademaster_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_blood_return.png",
+      "sha256": "02cb3d5cb441f0118305ee545207ac97e6154b00b9cacc22e0b7938107206706",
+      "visiblePixelsSha256": "5e0a0bc321535250afd581114c927785b050b07c589e02725d671bbdf6bcf66d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e0e146e5-5c0a-44d6-aef7-307ac0aa8776",
+        "nativeSourceSha256": "93b6e1a6f23496f486a1200434746e47d53920125f041a921c8286d2a60f0c79",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_hewing_rhythm",
+      "tree": "blademaster",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Duel Tempo",
+      "runtime": "data/images/game/passives/talent_blademaster_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_hewing_rhythm.png",
+      "sha256": "427acd2c28425337acb507ebe07966a2bc2ac62cd4d37b9e6e8279e8a29f8273",
+      "visiblePixelsSha256": "9f9fa659a608167834f1d086c07410e5d1d7e11cd6eae2105f81f802d8a4be17",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "829cbfb8-8fa7-4fdf-9015-2bd9bb042aef",
+        "nativeSourceSha256": "049b1a0bf2fe3d6a5fc2969a92d5f5884c0fedfb1c33260c7867edcef4a8d4ae",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_battle_sustenance",
+      "tree": "blademaster",
+      "nodeId": "path_battle_sustenance",
+      "name": "Second Breath",
+      "runtime": "data/images/game/passives/talent_blademaster_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_battle_sustenance.png",
+      "sha256": "60f154bd5fe617407877cdc46fffd4abce4d0ff5630b76b666beec17dc6810ab",
+      "visiblePixelsSha256": "ad7bef42b39e04516a4bd479bb952dbfd7f072085918a1e3a88cdad3c10a49bd",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "8ef1833a-72cc-40e9-8476-8e6df7e758bd",
+        "nativeSourceSha256": "25508a89b04b95d9e8398bfc5b17124b458dec56d6d6f94e2752af2356f0ccbd",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/path_iron_rhythm",
+      "tree": "blademaster",
+      "nodeId": "path_iron_rhythm",
+      "name": "Shield Rhythm",
+      "runtime": "data/images/game/passives/talent_blademaster_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_path_iron_rhythm.png",
+      "sha256": "254cabd9813849b41dd7808ec68f5324e7508c7508fffeee02aba1bb8f9b54f2",
+      "visiblePixelsSha256": "fbba3ad04ddff0305d344cbe7c00865bc09e8f934f4608dc5ddcc536dc8c5400",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5485feaa-09f1-41ba-b31f-ca2b2b85610c",
+        "nativeSourceSha256": "d79460cb23c9a61ec559a6480412245864cd325029acd3f48ebc10581b1df97a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_sweeping_form",
+      "tree": "blademaster",
+      "nodeId": "mid_sweeping_form",
+      "name": "Keen Form",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_sweeping_form.png",
+      "sha256": "a4e947c5e5b31c749111646ced0ad865067a9dfdc82bceb84fa6ac84ce5a7907",
+      "visiblePixelsSha256": "d57839967c0b90c8c5e6d059ae84522375d9eb0159ddc34c0dd674d24a5b4b40",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 23,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7e245f16-351e-43d2-958d-7db7ea6f9c0a",
+        "nativeSourceSha256": "7a9d94efceb7aad14677defe236b068b7cb5a650c2ad2d7ab74608c98134f22c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_true_aim",
+      "tree": "blademaster",
+      "nodeId": "mid_true_aim",
+      "name": "True Point",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_true_aim.png",
+      "sha256": "b90c740443bf1763d57c351d6aafbbdf12e219c6cd9a921dfaa2cc838684265e",
+      "visiblePixelsSha256": "d7c44500d0b195fa5330ec291925dcce836d7d6204051d042ad895745ce3e696",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "9607274d-ba2b-4d71-b31a-da4b1d751449",
+        "nativeSourceSha256": "278ac0855f55e7d92f2c5c4a43c49dd27b4cc5fbb4c6efc402d23224c3a1af9c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_focused_edge",
+      "tree": "blademaster",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Point",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_focused_edge.png",
+      "sha256": "e7d7e612dbc71447cec3cbae6d97cf301df3e4ee5075434e684fa18a73ecb955",
+      "visiblePixelsSha256": "21060e4d84228a889d7dea2adb704f0b85ec4137267985b8ecb66744a61a6d8e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "05a98837-b5f5-4edb-9101-4eeada4577b6",
+        "nativeSourceSha256": "beaabb60ee4013a03b06d695b9ba5555b39687283e353d7fa91519bc0d9c703c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_measured_breath",
+      "tree": "blademaster",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Breath",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_measured_breath.png",
+      "sha256": "6b03cab1c0dbceb6d7353689d7c990c4b691e485fab8f3b2cca88c5e5899cb76",
+      "visiblePixelsSha256": "6cf9c7083da32a19efa87fc11b5ae4b6454e701ad545db15e79583f33b19e93b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e7ce982e-4251-4f0d-bfac-36401652a63a",
+        "nativeSourceSha256": "ccd020cf7dc88765cdd2a29f0ccc4528c99d0b23833ff4de61322a1d5d30bb7f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_stout_heart",
+      "tree": "blademaster",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Heart",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_stout_heart.png",
+      "sha256": "77da068367a8636ce6decf97bc83f621e8dad08cc291b489a9eec3fc61d9f2bd",
+      "visiblePixelsSha256": "a2f41db3284cd7f2bbf93243e19d88c3e6c56eb580d728954ac6dd36b1d45e8d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "6039cfa1-5896-499a-8b11-7301a46aae86",
+        "nativeSourceSha256": "99cfec1525053cccbd930ac486a67d9b1eb0fb5cde4abae7220e4c2d0e353b58",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "blademaster/mid_braced_guard",
+      "tree": "blademaster",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Guard",
+      "runtime": "data/images/game/passives/talent_blademaster_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_blademaster_mid_braced_guard.png",
+      "sha256": "84755dcd2058769adfc4d782fc4c2a39a70510cfecda3e4f62d4e55bfe7ba4a5",
+      "visiblePixelsSha256": "5356355dcc7b4cf593ae1409f946c44677155e2cbec9b041553ff8111d9cf547",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "192ab63d-514d-455e-bd03-3cc9734a2a83",
+        "nativeSourceSha256": "8185253506449322cbe149cbb5190a9d24ff8fd9b0c5185dd3f909958a6ed957",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_precision",
+      "tree": "earthshaker",
+      "nodeId": "minor_precision",
+      "name": "Accuracy",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_precision.png",
+      "sha256": "2a58765b57a8ab11524676748d3265efcb215d1c468d8146085f9c6ad8fb17c1",
+      "visiblePixelsSha256": "110f956dff48aa8a1ae2f6c6cee7830f489f0bf821695bc11ce9be59e9f41072",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "623d1d38-baf2-4b8a-82c6-d58c61d26685",
+        "nativeSourceSha256": "aabb4725d4a4daa802dd57aaf102ed5cf2a0ce9f2b65e71c2ae980c79f80cb57",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_critical",
+      "tree": "earthshaker",
+      "nodeId": "minor_critical",
+      "name": "Heavy Force",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_critical.png",
+      "sha256": "bccdcbf4a47459f3c864a8ee28e17665b8ef38d068296b7763798a70e1f163d3",
+      "visiblePixelsSha256": "659ae3577522e8baa6d2f9524d8d055a4813547f49a8578e5b17f3a046dd0869",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "79613fb7-4766-4cb9-8644-6b1f245f66a5",
+        "nativeSourceSha256": "16db1d75700cb2f75d41fb892b330338ddfeb00367c9cdaa6f594fb50156fdcf",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_power",
+      "tree": "earthshaker",
+      "nodeId": "minor_power",
+      "name": "Club Power",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_power.png",
+      "sha256": "a0030f011abd64e35a9bacc3b9db0d751b7f0daf715ebdb897a0e61513817b20",
+      "visiblePixelsSha256": "a276db2d67f2f366df8d2b74771ca7f89132af47cd6e5e177dd98768e429cf27",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "8b0f4f00-7c40-4c58-baba-dc47802de0e6",
+        "nativeSourceSha256": "7dc407521c504462e7d684a25586827fa981a15dc1b30187c2d10efe67ae073e",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_efficiency",
+      "tree": "earthshaker",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_efficiency.png",
+      "sha256": "6259dbaaa690b27a0db1deae9f4b79b714cb831eb4787fe3e80c2f057af2d484",
+      "visiblePixelsSha256": "0ee89f306a9eee54cf47c0a09eb9b1ed024655a590affd0c7605cd8a65f229f9",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e8202e37-82af-4c36-b448-94688c2a2a85",
+        "nativeSourceSha256": "6a5189dd381394bb06da2df06f07fd42fc9f24ac4889421ec688d819f6f890ef",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_vitality",
+      "tree": "earthshaker",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_vitality.png",
+      "sha256": "234bd884d2bbe799fb14339ad5a8c86b68569dc1a6d20a974ac25ec0ea694900",
+      "visiblePixelsSha256": "1df5df2948d788103d1b37cda3a40f18387711e878ce3c635437f607a443bb37",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e8e2c734-3f57-4af5-9d02-6893db2314e3",
+        "nativeSourceSha256": "b1a9d628cd49c939f9975cf805b7316e25e1fbe5608dc95bff4966474f509585",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_resilience",
+      "tree": "earthshaker",
+      "nodeId": "minor_resilience",
+      "name": "Resilience",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_resilience.png",
+      "sha256": "e2fe696528a1e126c9f84cb9d64f9bb4ceefc4552d50fa3c7d63a7a5861f0d91",
+      "visiblePixelsSha256": "dad33c5381f1a153f9f7cfda5d217ecc0defbe38477631d3e99cc1d6494b5dc0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 19,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "09cf1512-2f7e-49b4-9a8d-9c312c2554a2",
+        "nativeSourceSha256": "2d99222615ed9b0560ba52150cbe6a507118dc95462c6efb54428d0b10a04ad9",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_recovery",
+      "tree": "earthshaker",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_recovery.png",
+      "sha256": "36f6752afbd2dfe7e3ce27df4931ba52412e4721e88e0ffbfd321891da9e9674",
+      "visiblePixelsSha256": "0c4ed631cc3b95f76d76bbfd5ccd68ec5469f5a396ac3e6aa7275e4a1301a4a5",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "d7116ae8-1c52-4028-ad07-1875a95cd0c5",
+        "nativeSourceSha256": "62837de25f20009dade52535ad84e25c81e66492e0cd0fde7bc4e5f741db76c8",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/minor_focus",
+      "tree": "earthshaker",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_earthshaker_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_minor_focus.png",
+      "sha256": "37d90d0e17778a9b12da9f371168562b543f31b4d9b6fcf6c831ff0d29b3bf18",
+      "visiblePixelsSha256": "526dc85222ec37e90f12c629e8d9afee070b580068be2b0d8fa9ef4a5a3507d4",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 21,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "aa39a8d7-2166-48ff-a889-03d469841792",
+        "nativeSourceSha256": "fc37fa4c52d0418cae874885c9dd425a178ac873daac0a19aa815ce16a8b3d1d",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_precision",
+      "tree": "earthshaker",
+      "nodeId": "major_precision",
+      "name": "Measured Impact",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_precision.png",
+      "sha256": "2999f624376596db58e97ad0f7b8ae9aa49f36bf6d3c1763bcbb87ed86809ac1",
+      "visiblePixelsSha256": "9bfc2fb0533db11650446ef3f1087907101cf97dc59f3931b94918f0b0f71993",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "2f7342b8-293b-4a59-8dd8-e0af1f40574f",
+        "nativeSourceSha256": "5fa05c1dfd74b4e16bc39328d47a860c86d05d9f34d01e90d11f1c3e339ffe49",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_pressure",
+      "tree": "earthshaker",
+      "nodeId": "major_pressure",
+      "name": "Heavy Pressure",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_pressure.png",
+      "sha256": "56bf08b9cb21055f3dc96bc9f9f3c5054fe460944eec4988824c4175ef0ece50",
+      "visiblePixelsSha256": "a9c84d998e182aa8b3de6bf6c92f0eac9520a26c34037fe093d5f41e9fda6fd4",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e3398717-98a6-4ed1-9bf0-63ff798ba3be",
+        "nativeSourceSha256": "a54a47f88023c96c7de401046c8ea3be8a2fc4047020575c8c490fbdefe4d4c1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_guard",
+      "tree": "earthshaker",
+      "nodeId": "major_guard",
+      "name": "Iron Foundation",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_guard.png",
+      "sha256": "5ddcc4e877647f712a33a2a3d539e0de9b1c7b1955b902b8ca4987d85d55773b",
+      "visiblePixelsSha256": "95be47a1a9342e1ad0a67b12dbc41afd647d75c8d84b5f0c9b937cf11b521d32",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "79ba859d-43d4-4347-b025-984a6a9a653a",
+        "nativeSourceSha256": "5851c0bfe23e7acf1e31b36d865a71d169368d73524875cc65e3ada476197723",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_recovery",
+      "tree": "earthshaker",
+      "nodeId": "major_recovery",
+      "name": "Battle Recovery",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_recovery.png",
+      "sha256": "5ced385cb25685e0626a418f596fc38b9503db88d2a577e6018e0059d0e752d7",
+      "visiblePixelsSha256": "2e1881c92fbcc5b1983f4e8c8c667b81158e926d26b1af10eb3bada11d709c8b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "444a7c88-b0a9-45a6-80d6-800000590471",
+        "nativeSourceSha256": "6dced18b193c2e1dfadaaa4d0edb905373ed5348523bb34e6cee2ab69d82a975",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_tactical",
+      "tree": "earthshaker",
+      "nodeId": "major_tactical",
+      "name": "Heavy Rhythm",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_tactical.png",
+      "sha256": "7a2d9a9ae9b270b6f177cc4ea9ac7aaff83e95027fc0740ec08d9b15a5f3e3ae",
+      "visiblePixelsSha256": "1c3201434b363ae664359a0392fa60bec07e9e7ccbbfc52c53b23213ae0d58c5",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "adbf78f7-6163-496e-9c6b-9374f8722160",
+        "nativeSourceSha256": "a8e5a65552e4f2a398fa2a23d298b8c272db941e687ad3a5486b691d4842f48c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/major_steady",
+      "tree": "earthshaker",
+      "nodeId": "major_steady",
+      "name": "Steadfast",
+      "runtime": "data/images/game/passives/talent_earthshaker_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_major_steady.png",
+      "sha256": "faa485c2d3905a60ca56816121639b302c4a9f4fe2db299f1325ef09678af4f3",
+      "visiblePixelsSha256": "5976daec08c32da51ca23bfe685e10df79f0b2d5183e2a85de3e9c69ca5be2ff",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7d93fea9-9e33-41b2-8df5-b32148cb3136",
+        "nativeSourceSha256": "b138e7e8d52ec0df67a50ff7a4cdf3c7f9a4c4c2756591d92cd8e524845678bb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/cap_aftershock",
+      "tree": "earthshaker",
+      "nodeId": "cap_aftershock",
+      "name": "Aftershock",
+      "runtime": "data/images/game/passives/talent_earthshaker_cap_aftershock.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_cap_aftershock.png",
+      "sha256": "0b96b60d7e5004c94ae9232309947948a395d311b51a422044066f456a326dac",
+      "visiblePixelsSha256": "713015a129e72dae075dea2ceb9194a0ef10cc0f15682acfef9d87ae5871bd78",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 50,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5760d731-e713-45b6-95b6-99dbde60f3a2",
+        "nativeSourceSha256": "b75379e3fd4523f19e689a645c34f7c35e4113910b6e1de1d527627181e3e75e",
+        "generatedPixels": [
+          32,
+          32
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/cap_stoneguard",
+      "tree": "earthshaker",
+      "nodeId": "cap_stoneguard",
+      "name": "Stoneguard",
+      "runtime": "data/images/game/passives/talent_earthshaker_cap_stoneguard.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_cap_stoneguard.png",
+      "sha256": "c5863f63887765ab564a25c9f77fc13ef204ef0488db1466f7031d6e0d8824b0",
+      "visiblePixelsSha256": "462613a45ab05bbfa7e69b77cbed906b593aa54c6bd1cbe7b64c37f57cd8453d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7548139b-0b8d-45ba-bdeb-880061488cf0",
+        "nativeSourceSha256": "e64f87c190e9ebcf34b4c6411ee07d87fbcc78ca7b12077cd78abe3b1e629ce4",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/cap_stonebond",
+      "tree": "earthshaker",
+      "nodeId": "cap_stonebond",
+      "name": "Stonebond",
+      "runtime": "data/images/game/passives/talent_earthshaker_cap_stonebond.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_cap_stonebond.png",
+      "sha256": "dc617b2933a23fe9914728419664439b9bd4a69df6e7f4ff4b80a2d8fc30fe35",
+      "visiblePixelsSha256": "fcf840c842f4a797959e5329d4a273546036ede65a7e9a4d6a79643248bf6081",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "94988040-8522-483d-b732-413f6194711a",
+        "nativeSourceSha256": "f2c99b3a6948f34693e47f044a198371e282f2b863b1991d9566c39c640bcaac",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_broad_stroke",
+      "tree": "earthshaker",
+      "nodeId": "path_broad_stroke",
+      "name": "Wide Impact",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_broad_stroke.png",
+      "sha256": "609df219eb9b68c2c1475c23f5523280b6c68690c46a6e1a3fb4e1c65355d7ec",
+      "visiblePixelsSha256": "0843250766b14e4e731ebc5f9c8c2a646c7d82902bac981c685802b2449a7f04",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 21,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1625ce28-77a4-4e20-bdf8-5d2b43df43ed",
+        "nativeSourceSha256": "e7528d22fd504d20a2ba6fe42f80c3d3208a640a529f06648598590123c110f5",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_deliberate_cut",
+      "tree": "earthshaker",
+      "nodeId": "path_deliberate_cut",
+      "name": "Crushing Sequence",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_deliberate_cut.png",
+      "sha256": "5e0d08dedf2708cdfa5dcc999f7e209631857398b283591bcc1af8b593d6e227",
+      "visiblePixelsSha256": "ce9f89ca77356806d02bf93bd6c27119738dace62761dc58a5d4188cd48df74c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "4fae8569-7f4b-47d2-88dd-cd4321052fb1",
+        "nativeSourceSha256": "99a43e3fd4ff64aa3431a498a13465cff56086a557a4e5edc739adce1ab0db82",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_blood_return",
+      "tree": "earthshaker",
+      "nodeId": "path_blood_return",
+      "name": "Stone Recovery",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_blood_return.png",
+      "sha256": "0cff78446a2a803f7227c6372b2ce811335546d78cc2517a4627d39af2de5f17",
+      "visiblePixelsSha256": "f5d3ee49a9601e88560cbcec82c9d4dcecbe37fc0177c50c78f8f27607934e72",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "654c7876-07b1-4554-989e-617c22b07f1f",
+        "nativeSourceSha256": "1eb43320ebcec98aefcc278b9d9357d8c2006eeeac6df54857a329218eb10195",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_hewing_rhythm",
+      "tree": "earthshaker",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Heavy Rhythm",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_hewing_rhythm.png",
+      "sha256": "de8313339fccd817e61fe0884ad80e93a2901bed351284699caaea361fc0a0ff",
+      "visiblePixelsSha256": "079ab975decb8de48928bb38b880187f756bb79f402c6d6f9bc6d5d04dda1654",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "247ef828-cecd-4cac-969a-0474c53435e2",
+        "nativeSourceSha256": "2559d57937af5dfcbea8448e63f038ce85b09c6b6e97f8ac76ad7bed6c8dbbf9",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_battle_sustenance",
+      "tree": "earthshaker",
+      "nodeId": "path_battle_sustenance",
+      "name": "Battle Breath",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_battle_sustenance.png",
+      "sha256": "077d79402efcf8270ef5805c179b6c6b39c312e3bcb02695c44e6035658d0dca",
+      "visiblePixelsSha256": "d1360c93b6bedfb7790b96d60f942984824bac1a47864be34bc721ef6ecc73aa",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b7b4c237-0f59-4a68-a595-ae67bc87e3f9",
+        "nativeSourceSha256": "0f1a12c07a70376a136a8c42171cb731892f893bdc382b5d4f9f9930bc6eae7a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/path_iron_rhythm",
+      "tree": "earthshaker",
+      "nodeId": "path_iron_rhythm",
+      "name": "Iron Cadence",
+      "runtime": "data/images/game/passives/talent_earthshaker_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_path_iron_rhythm.png",
+      "sha256": "be9dc255d7d0bab9b3f08c119d11e4c0dcad1dfc82a6dda5462c106bf25b22ab",
+      "visiblePixelsSha256": "9d160b0a587736655097b2279252e7b908e5f8f28542c13419a414ba0e7d0433",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0d4f0170-bd56-472d-89cd-1ff9ec79da61",
+        "nativeSourceSha256": "7c95b56ebc8952a30b75e7aa81dfbc29e81a7943f1b903540be1ecc9eaa7e921",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_sweeping_form",
+      "tree": "earthshaker",
+      "nodeId": "mid_sweeping_form",
+      "name": "Sweeping Force",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_sweeping_form.png",
+      "sha256": "d8f92f23f65081e7312d9b8af688dce8612ded6a43a4b98b7b24f091513175a1",
+      "visiblePixelsSha256": "b1d203c184f17d8155bd1c5dd12a8b5e5591e4a501d56c09020530013cf54fe0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e3d5e2c9-c2b5-4599-9090-d6112aeee4f4",
+        "nativeSourceSha256": "05cf8be24ec09388d02665a4a7afab6cdbed2be31741a7a4cd9d087d9ef437fe",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_true_aim",
+      "tree": "earthshaker",
+      "nodeId": "mid_true_aim",
+      "name": "True Impact",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_true_aim.png",
+      "sha256": "18eb75fa5608b79004de29b5344d0c90c3b677ee0780a3966051b4bb3bac55b0",
+      "visiblePixelsSha256": "2ada62530dd8150dcd5f1310b77c09fafc4faaf40b0338bc8df6fd5d4020ad35",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "d5cd7f40-11a0-4837-b5e9-ba19f9ba8147",
+        "nativeSourceSha256": "5f3abc6e23fc49d4ab67527887c05e394df1345d4c6561bb162a2f0d827735f0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_focused_edge",
+      "tree": "earthshaker",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Weight",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_focused_edge.png",
+      "sha256": "89668bc0e11abf5424b6c4ab6d72f61205ccf791496abae4fd51b3405aca8d87",
+      "visiblePixelsSha256": "0985a5cbb917347986dd2fef6e3d7553eac6b51bb1502f2b0f24a4e2add61e8c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "45960367-2c3d-4fd5-8fbb-1b7500f1f649",
+        "nativeSourceSha256": "440e79db9969dc248c24e599c6895c9ff7798030872de8499c69c34d93973ec8",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_measured_breath",
+      "tree": "earthshaker",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Breath",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_measured_breath.png",
+      "sha256": "9c534f662d8755ce283b40a03982f07c889633936411c86a587cfd6c27da6a60",
+      "visiblePixelsSha256": "23fe7b81dd7f254889493307648f1e0313679f775247bbb91e4b3f2682063ff6",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "130b9b68-4560-4cbc-a588-5a8b59b2cb5e",
+        "nativeSourceSha256": "2c78ad7550b93d6e3f52f81e54526695a7408feb61b5ec6402fd3f328e3c47e6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_stout_heart",
+      "tree": "earthshaker",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Core",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_stout_heart.png",
+      "sha256": "011b5b2d73409ecca5b2a9996e8472f961a0abb42682e9e4e89f377430470db0",
+      "visiblePixelsSha256": "76d9603de906b5a27f2d9222131e87d99d255fd9c52ae954e9fbb86fcd0556c1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 16,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "96f066f2-0dd9-4f43-a829-de8b930cac86",
+        "nativeSourceSha256": "70c2f27275f3b6baf3db280f965643731c3ba4cab00adffd9953c6e683fde222",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "earthshaker/mid_braced_guard",
+      "tree": "earthshaker",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Form",
+      "runtime": "data/images/game/passives/talent_earthshaker_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_earthshaker_mid_braced_guard.png",
+      "sha256": "2676d5318a0545a09ad2455a871dc21f6d13cc2aef8d69f4a0b2a8fd47574e6f",
+      "visiblePixelsSha256": "6bba33de11fe7506bc5bbfabb072062c2b80857fac32d3a0d21963b55deb1568",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5859c40b-ec20-4527-a962-47f944364cf8",
+        "nativeSourceSha256": "6bc2c1a4c8fb6c96b29a2fd77926ebbd28f030288211741239f360b68e187fb6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_precision",
+      "tree": "marksman",
+      "nodeId": "minor_precision",
+      "name": "Accuracy",
+      "runtime": "data/images/game/passives/talent_marksman_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_precision.png",
+      "sha256": "4f1d2398ecdd860d8ed571fd6e648308f5d3edf2cb754d5ff57082d25742c434",
+      "visiblePixelsSha256": "f0d9f67eafd74a5de6cf9be8c2503407866f66b93c857fd7d749194df35eb035",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "f7451cb6-ee51-4473-adb8-9b577446c62c",
+        "nativeSourceSha256": "a82185a6caf060416618f07bb5e5a61f1e54d2d6b854ece43d2aba0ad2996e42",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_critical",
+      "tree": "marksman",
+      "nodeId": "minor_critical",
+      "name": "Deadly Force",
+      "runtime": "data/images/game/passives/talent_marksman_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_critical.png",
+      "sha256": "42834da3c0384c98d7f9495502528046ca1f64bdfcb442127ed2dcd1563a90ff",
+      "visiblePixelsSha256": "481313fd2c50e7ffe11ed1a714e360a137c70fb816ab7d38af34c3bbea7d5938",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "75a6d842-612e-4d1d-a439-9a65a51def6b",
+        "nativeSourceSha256": "2d7165f03040d70e3e48b5e44ab400591a340a221d9fbd3610cf11ff1ce5d9ed",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_power",
+      "tree": "marksman",
+      "nodeId": "minor_power",
+      "name": "Bow Power",
+      "runtime": "data/images/game/passives/talent_marksman_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_power.png",
+      "sha256": "59b3ec62b529f0142cbf712af8f4d63a8ac17a79c6796e1bd0b8c7e911ff7524",
+      "visiblePixelsSha256": "a973bdd3280ae8c5e175cd86f593541c3ee0642f336a0f00ee3e604c06d67fd9",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "68a1637a-4648-434c-bbe4-6bad289e5d83",
+        "nativeSourceSha256": "bc6efab253fd5c5b4e37a2c399c3c16687b60307a9e039e10fb75a231e0eef46",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_efficiency",
+      "tree": "marksman",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_marksman_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_efficiency.png",
+      "sha256": "67740f866079a94ee4294ee8998bdcefb3be4b1026e176dafca56b7392021019",
+      "visiblePixelsSha256": "1489abbd4f355090a78ed44a67845888ae1e504b0824c90e7f6ecb734d94368c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "2c022f8c-e0a6-4c9c-86e7-0528c3bddd61",
+        "nativeSourceSha256": "b13908e497be00ec5d897db01877cabce6d37c9485ab137c3b8b869c4996335c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_vitality",
+      "tree": "marksman",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_marksman_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_vitality.png",
+      "sha256": "b40aa010cda41d98bd3fda965dbac4153b56ed6e74b54e6d79ed754b5d6bb75e",
+      "visiblePixelsSha256": "037243c184838d992729eb6a5be65878aa5d7d50c065da318bc61932bdc050a1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0b59a7b5-de12-4e42-a3d8-32d7fd5d1503",
+        "nativeSourceSha256": "3ab23057c175d6bc15bb5ae507a5f0b7ddeace75a4b61a940b477bcb0e3617ec",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_resilience",
+      "tree": "marksman",
+      "nodeId": "minor_resilience",
+      "name": "Resilience",
+      "runtime": "data/images/game/passives/talent_marksman_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_resilience.png",
+      "sha256": "34fc30c94d2625beaed0604bdf21747de187d4e6acc03220d7eb49af0fd815b1",
+      "visiblePixelsSha256": "bffef730288065c501bfa1889ed1fede113c2f8b9a2d0882669a8a577268d0cb",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "65526e3a-20b9-4b4a-a637-4ad0a8f40424",
+        "nativeSourceSha256": "7cfb6e05ad2d0d46d84bbd62a3d8289c189c05ccd74085c990529c6400af88c6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_recovery",
+      "tree": "marksman",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_marksman_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_recovery.png",
+      "sha256": "b7bf2ebe5037beeb037b0b28d92e761ff44c494a85fa116456d2b2da9dc0e0d4",
+      "visiblePixelsSha256": "5663f30e7e9d119342e5ef4d1a63422b973ccde6bcb9c50db78b42f34159cada",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e4a7a9ee-89f2-4e43-b98c-01054e905b11",
+        "nativeSourceSha256": "d1756fdab57ced51ba366e7d9487e086606c873de662fb1b95bb03f192ade43b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/minor_focus",
+      "tree": "marksman",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_marksman_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_minor_focus.png",
+      "sha256": "0ca8e7b9ca0f31c92aa22cdc2bc879204d9a31bf61f0c791881298977684af80",
+      "visiblePixelsSha256": "c44a23ba90074adcec13c37486e48c231b5caab4be5958b48879d7ce24adf2ce",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "bfa81219-c0f3-462f-a099-7cab8f423cc6",
+        "nativeSourceSha256": "bf0560ca7f222b05e42b7f29d1283ca1a4737c7d09b336da1039c882096b0d46",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_precision",
+      "tree": "marksman",
+      "nodeId": "major_precision",
+      "name": "Measured Shot",
+      "runtime": "data/images/game/passives/talent_marksman_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_precision.png",
+      "sha256": "25f9817830ba8ca7bce2bf0ba8f82ad7e62677cf5914d0773688566ca4df3d7f",
+      "visiblePixelsSha256": "2e46453aaacaa1710e8e16c4720f8091432f22ead98dd5ed239fb4f5a30554d9",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e45e12d1-17f4-41a8-b9fb-e89b1b024fe2",
+        "nativeSourceSha256": "a3598c0c1ba5f30fd6b2224609172cdd0aba4eeb0d6d35260b3e3e09540df7bb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_pressure",
+      "tree": "marksman",
+      "nodeId": "major_pressure",
+      "name": "Pressure Volley",
+      "runtime": "data/images/game/passives/talent_marksman_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_pressure.png",
+      "sha256": "895bcd7dfc9208d028b92e1ed9b9444e7f2a33496dc8cd405d83a6c252e70cce",
+      "visiblePixelsSha256": "6b808a2d2c5d220060239a7e2733928f75677b1ef486bca001156bc1d4510879",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "9a4fc675-e1ab-4033-b73b-4fb797db83eb",
+        "nativeSourceSha256": "82fbb696da24260039998a5a778b9e0beaea577ff050aea2c674e8d068a3a749",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_guard",
+      "tree": "marksman",
+      "nodeId": "major_guard",
+      "name": "Iron Resolve",
+      "runtime": "data/images/game/passives/talent_marksman_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_guard.png",
+      "sha256": "64bfd01016008ecadabc18bdf7016a398ce2d7a99b44c873522d45ca5647dc68",
+      "visiblePixelsSha256": "f57cfe9f991c33962b64c0d5883b4c449451425e4f250ed703a59db7b7b2052d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "31cd43ef-3da7-42d1-aaca-a325eb9a6bb9",
+        "nativeSourceSha256": "1797fac2112c1ac49120dfaed85998428ca6a8a040117191ff6e6f2fbb5c055f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_recovery",
+      "tree": "marksman",
+      "nodeId": "major_recovery",
+      "name": "Field Recovery",
+      "runtime": "data/images/game/passives/talent_marksman_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_recovery.png",
+      "sha256": "e8235e82129b795d534e0e92c5c3a93180c6b792c43a6bb6c29324937877db56",
+      "visiblePixelsSha256": "876d3e194058907a207d2c5e73af66699b0dc7f7e469799c461802f48f4689cb",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ed8506f7-0a50-4dc4-b3e8-d1fd14c5363a",
+        "nativeSourceSha256": "e283431629ee506de1495c8176269de961dd64cb63d4d62cec486f4ab9b4d990",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_tactical",
+      "tree": "marksman",
+      "nodeId": "major_tactical",
+      "name": "Shot Rhythm",
+      "runtime": "data/images/game/passives/talent_marksman_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_tactical.png",
+      "sha256": "8b502fb469867f532dab1cc89baf9a6612b176ee48748b23838ee55beef2a713",
+      "visiblePixelsSha256": "e5cfa3b11af4889e19a9741b08a52908628cd27e5208d4d56a3232bb3fac8068",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "9f455cfd-e917-46c5-b645-3f769480fb4a",
+        "nativeSourceSha256": "431489dc9994e9b6f867e830a27103ccab50c9264943101df005d4ce35398f49",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/major_steady",
+      "tree": "marksman",
+      "nodeId": "major_steady",
+      "name": "Steady Aim",
+      "runtime": "data/images/game/passives/talent_marksman_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_major_steady.png",
+      "sha256": "10d365d2a471d8726869aeb1b7962ab9bb504da9f521d8852ca9b7880716a178",
+      "visiblePixelsSha256": "07711f867139579b18e9c1ee7f2e41f8595c3891632af770ced996447235228e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "540b845f-2ed7-44c5-b20d-ed000b4cc1e8",
+        "nativeSourceSha256": "2e484ea033289b747c003ab9b3732c3c3ce1719cebc031b0a5cc212e78a9e026",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/cap_deadeye",
+      "tree": "marksman",
+      "nodeId": "cap_deadeye",
+      "name": "Deadeye",
+      "runtime": "data/images/game/passives/talent_marksman_cap_deadeye.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_cap_deadeye.png",
+      "sha256": "792ab4dedd26cfee9bc72bc3931b366a779b4f5e8309784da11c56e653397a9c",
+      "visiblePixelsSha256": "453852677ba687c242acf3bebe25e9899d4cdcd2e1b2f46bda141de96a247be6",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "6c88f3f9-5ff7-40ad-9bf5-dacf1f0c506f",
+        "nativeSourceSha256": "52fa8e9966c627fad3d33620d18803ba2c96d4a309eeec14bad8c60c410eef0a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/cap_skirmisher",
+      "tree": "marksman",
+      "nodeId": "cap_skirmisher",
+      "name": "Skirmisher",
+      "runtime": "data/images/game/passives/talent_marksman_cap_skirmisher.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_cap_skirmisher.png",
+      "sha256": "a7644a7cadf3212a03f46e30ea5ce025e21896ef5fff11f1285867a7951f0531",
+      "visiblePixelsSha256": "a18b344714658c4af6150bf784a9bf89823627377666e04c26aea8fba0c7b185",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "3c12d39c-99ac-4023-b409-f9f5c5c1d629",
+        "nativeSourceSha256": "2d32661afcf85188b90a2fff925770307d8868afbde1680fdcf8703f4493f8d8",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/cap_quarry",
+      "tree": "marksman",
+      "nodeId": "cap_quarry",
+      "name": "Quarry",
+      "runtime": "data/images/game/passives/talent_marksman_cap_quarry.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_cap_quarry.png",
+      "sha256": "e738af229b85edd812e7caf3576e8be42edc16b783bbcc685dd4819bc21d8096",
+      "visiblePixelsSha256": "be4ebbf9435e84005d664dd090249311924e82c1ace62ba3ba4b788088eb3bf1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "961644cb-7e15-42f0-90e3-2e0f921f0c95",
+        "nativeSourceSha256": "861599412ab9e8e365e716f6385943352165b083c6158328afde8866edf0a4da",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_broad_stroke",
+      "tree": "marksman",
+      "nodeId": "path_broad_stroke",
+      "name": "Wide Volley",
+      "runtime": "data/images/game/passives/talent_marksman_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_broad_stroke.png",
+      "sha256": "3c94f211abd7516ab09b01a71d27d15e5e34751536892939a9ce24f330ecff9e",
+      "visiblePixelsSha256": "7d203482756cc2dc54b5f1b729de4f691859bc856d132ce9c9d910fceb475828",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 23,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "125197d3-5e46-4272-8c75-08f2bbcebf40",
+        "nativeSourceSha256": "acf8a3140467987e47171e7218caa7bd5b145344df82437d939a01a5e6238609",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_deliberate_cut",
+      "tree": "marksman",
+      "nodeId": "path_deliberate_cut",
+      "name": "Drawn Focus",
+      "runtime": "data/images/game/passives/talent_marksman_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_deliberate_cut.png",
+      "sha256": "546524a47995c24ce3eeab090a171eed9d71d46abd7c583165a7bd0ee70da894",
+      "visiblePixelsSha256": "be4bc62927f6209108f391bda1268fe90918591896f8ade9ce0dfa05f87d79ae",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a52f2d1d-48f0-4d26-8f1a-43a8c7a8784a",
+        "nativeSourceSha256": "336a9a645d3aa8e8798bf5f17b28299aa68dccafaf0f717c844a87d6e2f3700b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_blood_return",
+      "tree": "marksman",
+      "nodeId": "path_blood_return",
+      "name": "Field Return",
+      "runtime": "data/images/game/passives/talent_marksman_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_blood_return.png",
+      "sha256": "438860519932f4eec6d8740d7423beffec7d24337f8339b1c621f31082055dc0",
+      "visiblePixelsSha256": "8c523ab0d2a0072815d44864a261e56dd26b0f165f9a95d5e035bed1e369a6a7",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "3517e65a-7d92-48e2-8fc0-6153a9f4ead4",
+        "nativeSourceSha256": "574df8533191616ebf8926d98b12bee9b402fe2d90b53cc2fb4f867d57afa136",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_hewing_rhythm",
+      "tree": "marksman",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Sure Rhythm",
+      "runtime": "data/images/game/passives/talent_marksman_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_hewing_rhythm.png",
+      "sha256": "7a9848233c812016191b5f6c433797a17cfcf14c29c1eb4ebe67ba7254beed9b",
+      "visiblePixelsSha256": "3bacc232b304c6365c7f21c5dac7bf2e58ebb49a9e39deda638d7c4e17e11f48",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7d5e04bf-6dbe-43fd-b94d-79ec280b06d0",
+        "nativeSourceSha256": "7ab49e4d4876a7053fe06039478149fea6231f16716dc88bed4d476fbb0b2752",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_battle_sustenance",
+      "tree": "marksman",
+      "nodeId": "path_battle_sustenance",
+      "name": "Trail Recovery",
+      "runtime": "data/images/game/passives/talent_marksman_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_battle_sustenance.png",
+      "sha256": "d85279c981b3a1c9563ca39270bb5e25759485563350bee0e7962a5bfe4b42f0",
+      "visiblePixelsSha256": "b0fd042b070e0636496c7655c7a43c36b015ddfe8176908aeef3debbec030c85",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b8922582-cfaa-4430-a819-dc4c59d0688c",
+        "nativeSourceSha256": "362ff662899e0bcd9d33ee9cff3fc813187b79041aaff9bb2f8aa311c8eee637",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/path_iron_rhythm",
+      "tree": "marksman",
+      "nodeId": "path_iron_rhythm",
+      "name": "Watchful Rhythm",
+      "runtime": "data/images/game/passives/talent_marksman_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_path_iron_rhythm.png",
+      "sha256": "d048734868be460c58a09ae2699652fbebcae977050a984e8ffaea49d34a5e98",
+      "visiblePixelsSha256": "d9e7448b9a2c8c9770a6f5aa11ae25335478ab8789d296cfd6b7fba107db415f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7cc8892a-4e38-441a-a3e6-23828c8fe43a",
+        "nativeSourceSha256": "a3d6b98ce3ac283818e6f4ad52fabc8040b3d7a0dcbd606aafb7f4e5538dc47c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_sweeping_form",
+      "tree": "marksman",
+      "nodeId": "mid_sweeping_form",
+      "name": "Wide Form",
+      "runtime": "data/images/game/passives/talent_marksman_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_sweeping_form.png",
+      "sha256": "713f0ac3db67be4745089aa7e70ac05a2d0148d63fe806c7e1f666d33d704a59",
+      "visiblePixelsSha256": "1937da6aefe244e1ef6a4c9fe7f6c8c407bc967ecd3d3be7c93c1b7b56d229a0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a4b50887-2cd1-4617-ba0a-feee5f71f635",
+        "nativeSourceSha256": "f29389c707409f2e8b391972702fcba11c4575326e500a3b340dc8d5c6f642ca",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_true_aim",
+      "tree": "marksman",
+      "nodeId": "mid_true_aim",
+      "name": "True Aim",
+      "runtime": "data/images/game/passives/talent_marksman_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_true_aim.png",
+      "sha256": "32e30a22140d623b2025aa9d108e2bbb1faf7a33922d7d07d84f594d34d51491",
+      "visiblePixelsSha256": "2317091cd38feb1f2dea728bd583bff5de25cc5f071eea4ff1bfa7547ce0f424",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1ce58f9f-d65a-443e-b4a3-79e7ae7c3ce1",
+        "nativeSourceSha256": "f3c6896baa36a66a801208f8c3d9e4d6c63ffbabcc64a83c0028302efcbd15d3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_focused_edge",
+      "tree": "marksman",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Draw",
+      "runtime": "data/images/game/passives/talent_marksman_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_focused_edge.png",
+      "sha256": "c44c22801738136e66fb2dda7588408d46df230f2bdf14a8a6264efdb4e3dd76",
+      "visiblePixelsSha256": "f812b62d5881080ef0a63397883e8381c433799166ad8556a87dc632ec610e77",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "309d6a7e-22e0-4ce3-9e8d-bf4a8a6f5118",
+        "nativeSourceSha256": "3dd303d71c0f19d38233b137caca729c309d98204d2ade3ab27593c523aa2667",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_measured_breath",
+      "tree": "marksman",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Breath",
+      "runtime": "data/images/game/passives/talent_marksman_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_measured_breath.png",
+      "sha256": "baec1a189b983536107f0910e55b0d1c664c9a843e4ed09c79dc81dc80c1b927",
+      "visiblePixelsSha256": "5cf257d7a83cd82a61a20b2a7ee04120edcd37d4460205ae9d6897dc5a7a2df0",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "6b36e370-2768-4d78-83ff-07f230b6071f",
+        "nativeSourceSha256": "24f2809a44c44bec98c431d5c9e998aa9ae6364a2106d585a040b83b68faf870",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_stout_heart",
+      "tree": "marksman",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Watch",
+      "runtime": "data/images/game/passives/talent_marksman_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_stout_heart.png",
+      "sha256": "3934e18bdaf4b4cf56a48dd507ad4f9caac4e0064f63dcf134ccb0f8c0fd846a",
+      "visiblePixelsSha256": "f9e35b719bdd7344ec3d1e828b0c4756792a7317694a950ed0f8b2cebb2c3fcf",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "000a078a-4607-41ee-93f0-920d91388cd1",
+        "nativeSourceSha256": "8efb539087d1fe550d072023ed779482410f0bbe5c6e4f7b063809e2022965aa",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "marksman/mid_braced_guard",
+      "tree": "marksman",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Watch",
+      "runtime": "data/images/game/passives/talent_marksman_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_marksman_mid_braced_guard.png",
+      "sha256": "1db5f6664ad75f9348e46e1bf34e8d70a9726c7731ce674b23cb233d8f007a6f",
+      "visiblePixelsSha256": "65428134b273aa1a9fc1d318ed5dcbb97c8650a2bbd5aab281aa50809d8cf38b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "506c3bad-8a47-4e4b-a2a2-697f9fa62780",
+        "nativeSourceSha256": "1a93e70e25d7e023d85ee75bc17473ba772e8b9d1072711057a203ac6ea41d9f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_precision",
+      "tree": "arcanist",
+      "nodeId": "minor_precision",
+      "name": "Accuracy",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_precision.png",
+      "sha256": "70a03cf2b3deb3a30c5240a5e5b520e2f03480a8364a5c2d0133799e72fe6e4f",
+      "visiblePixelsSha256": "724bc6cfdcbd1a90178e2492d604087f3961b33b492b4626b5137d60542fb93e",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "42ed91bf-3421-4b3f-a861-b0244416fc22",
+        "nativeSourceSha256": "d7c5ef5888bae553a77f686f40d8e56d6aa487a30835622081802a2a3a49afd0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_critical",
+      "tree": "arcanist",
+      "nodeId": "minor_critical",
+      "name": "Critical Force",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_critical.png",
+      "sha256": "33a824e16be090f7648268033c15cf6dc486447dbef9005e4ccdc57fe993c7d6",
+      "visiblePixelsSha256": "1dbcdf0f02308ea73807ebf9575d14eee6b2c091363ef8ad66122de4261707e1",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "db5d633b-a0b6-40a6-9321-3b6ed1c515dc",
+        "nativeSourceSha256": "c9cb0a0600eb4a22a5d5849626db6913ac892e315656c15f6297208e18d4a1eb",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_power",
+      "tree": "arcanist",
+      "nodeId": "minor_power",
+      "name": "Arcane Power",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_power.png",
+      "sha256": "263c3f0894e69f24aa03ead25b6297e2e885034fde73442ff84427fe179cac35",
+      "visiblePixelsSha256": "5164c2e292f5dc9e7047e693eb8aa054c321335797f0199032e41bc666f3981a",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "95a37bfd-bc99-4db4-9ad5-da831f0936c7",
+        "nativeSourceSha256": "1e676f77c04bee32ba83d2829213be5044bc865240111a939889541e8faeee91",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_efficiency",
+      "tree": "arcanist",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_efficiency.png",
+      "sha256": "75d8ecd6806626bfe5d9199e05711933dd20798d93d74f15222b1feda43f57e1",
+      "visiblePixelsSha256": "6f80285bbd8b4800ccea6ec0f024f1eb4def8a5fe15af00a22135baedcddb07a",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "fb004109-d6dc-4a04-8259-66d1621fc798",
+        "nativeSourceSha256": "4a3f6a3da48b30d2097f4c724784ac7bc38a1af497dca522ad2e027c3e9bcc12",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_vitality",
+      "tree": "arcanist",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_vitality.png",
+      "sha256": "e55c943ed4d83f528663d9acd80dfa0c3fceb939baa7c031a5c921b3e8a63a43",
+      "visiblePixelsSha256": "e8d7cdbc31c21788c189c2c44c7aa0ea1117a490f08301d9f228a9ca6b011e15",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1c50d01e-084c-473a-bac0-b29422dfef69",
+        "nativeSourceSha256": "8246e911c822b0a8baaa8f1a6ca18b2c44e20234891795053a38677f9be3d1d7",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_resilience",
+      "tree": "arcanist",
+      "nodeId": "minor_resilience",
+      "name": "Resilience",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_resilience.png",
+      "sha256": "68972ac44b73888ca66cd4b916a7357bdb7f8d910d1e5409c36a64f9053fe663",
+      "visiblePixelsSha256": "ae456120272d25cde8dd42a554e0f83d0ef27eab9031fb26f5985a85edd54aa7",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "f94f48cd-8829-49f3-9b74-a329564df81f",
+        "nativeSourceSha256": "5e982d5169dfeb530172f2464e52f42c5f3a7585b408256bc5ff0857f33a0be2",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_recovery",
+      "tree": "arcanist",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_recovery.png",
+      "sha256": "305fba8c9422f57b58d9a12267f7af096c7a86ba652a070d57bbf065542a2db4",
+      "visiblePixelsSha256": "0ce3f5afd424cf7e7206c98fea2cc2f528f0f17906d1141622b5b27f561c148f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "80230193-e2fa-4b7c-885b-77e57aae52a1",
+        "nativeSourceSha256": "ca94ea8807a02c188c075f0126033efe2e295227139c043b4c2d012ad7c79078",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/minor_focus",
+      "tree": "arcanist",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_arcanist_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_minor_focus.png",
+      "sha256": "6db9ef3255b9163dff7c3693d8532ef8d4686f73dca454eddf6ccc45423af0eb",
+      "visiblePixelsSha256": "e31944ac78fa30d4955e9fe2da01abd638b0c85d1f31fade8ea722687e2ba50d",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 21,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "6cd34aae-f471-49d9-adf4-c934d709819e",
+        "nativeSourceSha256": "afbb0070fa2abae09353afcfbe82f2f7167c968d91f4ed300b043c6087079418",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_precision",
+      "tree": "arcanist",
+      "nodeId": "major_precision",
+      "name": "Measured Spark",
+      "runtime": "data/images/game/passives/talent_arcanist_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_precision.png",
+      "sha256": "7a8e2c3c3fa718a2c095b7ea9453b6c32dfb183043575fde43c875f9a3d1a16b",
+      "visiblePixelsSha256": "cc1fd559b35e83c9963146dbef731aad77cf7351a44c478c320bc1b52d040068",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e749991f-aaf1-4414-8654-d477014312a3",
+        "nativeSourceSha256": "c8a415ded08ad8c067108c453db222386594d8696439f67885254984a4ab294c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_pressure",
+      "tree": "arcanist",
+      "nodeId": "major_pressure",
+      "name": "Arcane Pressure",
+      "runtime": "data/images/game/passives/talent_arcanist_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_pressure.png",
+      "sha256": "b3e2113edbb1d3e3d07553239706dd89b3440aa18563812c00e8a0b6c9495624",
+      "visiblePixelsSha256": "7682f3f7253eff5c61f588c27a4d392da96816bf42a5676376d787b544cd86ff",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "56850458-d9c1-484f-bee5-72281745b7a3",
+        "nativeSourceSha256": "eb6b11e2bce8e1cec6dfd5007d93438fca3dfe50854b07e0cb9542718aa8799f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_guard",
+      "tree": "arcanist",
+      "nodeId": "major_guard",
+      "name": "Iron Will",
+      "runtime": "data/images/game/passives/talent_arcanist_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_guard.png",
+      "sha256": "45f6ea24b5469d5a03fd79d93af2f0655884dac018d1e44d5cfd080084334721",
+      "visiblePixelsSha256": "7bbdfa467354c08dc2cf7fc03be9a54252c19195d8096768f5f7246ce80bb16c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "9e6fc45b-cb02-4f8a-b1c3-ff6864e025c4",
+        "nativeSourceSha256": "def39eb0c07442f601375302211ea81a5e7e453e335956a0a06a1f3330530d90",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_recovery",
+      "tree": "arcanist",
+      "nodeId": "major_recovery",
+      "name": "Arcane Recovery",
+      "runtime": "data/images/game/passives/talent_arcanist_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_recovery.png",
+      "sha256": "57ee64842bf4ab870e6d4bd3a7252c8536b82e374fb210d140a9a5e371ebc2ac",
+      "visiblePixelsSha256": "073e0ea350b53d3c270652db0b156f2e40289eacfa74db9ec0f48f58dc26ef68",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b8bc8a6f-2b6e-4fea-aef4-5bd475ab6c04",
+        "nativeSourceSha256": "c5a62ee510b3c3685664335fc12e53649381dea0d54bb1f93b380bd836c653d3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_tactical",
+      "tree": "arcanist",
+      "nodeId": "major_tactical",
+      "name": "Spell Rhythm",
+      "runtime": "data/images/game/passives/talent_arcanist_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_tactical.png",
+      "sha256": "9f910fb8515bf6a31f3748aa1d8cc75e19272f6954bbd96a25c39b2c2927a80a",
+      "visiblePixelsSha256": "8c4098aa580c0d09fd51547481a59e01b354a26d2ab8a5e9e2394816a1bfe434",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "33c4ac6e-640b-4c5e-b89f-11466d979db6",
+        "nativeSourceSha256": "c37bdea1fb90fda1362be6b466c40c44e165deb42ff90bfff1212e2904d3a0ff",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/major_steady",
+      "tree": "arcanist",
+      "nodeId": "major_steady",
+      "name": "Steady Mind",
+      "runtime": "data/images/game/passives/talent_arcanist_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_major_steady.png",
+      "sha256": "f2ca3face4b0b115768b63e72fa583c3c39adde7a02a648c4fe5e55f9a80914c",
+      "visiblePixelsSha256": "17f22d076ec44044ecd52b434e1258cf1a1d85b722fe21e385c29c08eb1c500f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1df928cb-82f5-47b8-8ab5-831ac80b2759",
+        "nativeSourceSha256": "603375af24f012d9b62cd928d5755232c32dc286ecf50093f36a412cd2643fbc",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/cap_conduit",
+      "tree": "arcanist",
+      "nodeId": "cap_conduit",
+      "name": "Conduit",
+      "runtime": "data/images/game/passives/talent_arcanist_cap_conduit.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_cap_conduit.png",
+      "sha256": "d18041ccbb82fdbc1a3505af6ac00b36e7762b91362c7d50c83085c83f4835e3",
+      "visiblePixelsSha256": "1af6dd3d3f1efa3a94ea84ef6f566f08c5378f8878eb5df9b122496a07fe7aeb",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1904de77-5422-4c42-b5ad-8f1ca03f1507",
+        "nativeSourceSha256": "38a95e11dd73bacb57e08af7c84dccf8a2157006f2bb402d753b70dbd85dde8b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/cap_resonance",
+      "tree": "arcanist",
+      "nodeId": "cap_resonance",
+      "name": "Resonance",
+      "runtime": "data/images/game/passives/talent_arcanist_cap_resonance.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_cap_resonance.png",
+      "sha256": "2bbc277b6872bd151a8e0cec063a1124f60fcebc77204fbb86e3809d2fe1cd5f",
+      "visiblePixelsSha256": "22d032a34c162e9e616690c1086d1ac927d6e2dd830d2449fc93e5933c34301f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "4419c810-2992-4e16-a4c2-a37de3e46ca2",
+        "nativeSourceSha256": "0880f4582bc6fe49c81bd3578880fa29cb71239e8001511b4a65fe9d8f700896",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/cap_spellweaver",
+      "tree": "arcanist",
+      "nodeId": "cap_spellweaver",
+      "name": "Spellweaver",
+      "runtime": "data/images/game/passives/talent_arcanist_cap_spellweaver.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_cap_spellweaver.png",
+      "sha256": "b44bc66598da685e5c6acf4c9a4179de3f3241bcb4af48c9cb3ea2acde8b1929",
+      "visiblePixelsSha256": "7b5ac1c7863920bac383c0fdca4bd28b3e52c8cc3e2aecec6ecdb22d85ec4e1b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "3fd5b70f-5222-472b-adc2-f2dac8ed36cb",
+        "nativeSourceSha256": "387022903098441b6c4e739d136d8a0ba5cb5a0682b6915d9ee39b8d78ae970b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_broad_stroke",
+      "tree": "arcanist",
+      "nodeId": "path_broad_stroke",
+      "name": "Arcane Reach",
+      "runtime": "data/images/game/passives/talent_arcanist_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_broad_stroke.png",
+      "sha256": "0c56016a7bdd115aa0a0af533be07637d3ad626add9f69982909609ac3fb1e92",
+      "visiblePixelsSha256": "8f0d3b90b44afa2f0c9b11cd44a2fba47fc28570cab958e989f5146cdc255697",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "be4d4c77-b9d5-4126-8f97-355a73573396",
+        "nativeSourceSha256": "badaf70330f028cb985f4dd3f046371c7f7c40da27a4b01b44d57c6c20d47bc0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_deliberate_cut",
+      "tree": "arcanist",
+      "nodeId": "path_deliberate_cut",
+      "name": "Focused Casting",
+      "runtime": "data/images/game/passives/talent_arcanist_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_deliberate_cut.png",
+      "sha256": "d078e19a7a5a893490bd61ea2d5486af53058285d15425e0202f5a41d1f6a566",
+      "visiblePixelsSha256": "06c15eeb94d81e4a3a363b42e15f295c6ecae5af2296a5e1acf255a727eca5a4",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 15,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5721133d-bee0-4cf4-8330-16694c0b942e",
+        "nativeSourceSha256": "e12cf68ceace3a05b7110d1899609454a4881eaa646cef2e45b36ba48ee34939",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_blood_return",
+      "tree": "arcanist",
+      "nodeId": "path_blood_return",
+      "name": "Arcane Return",
+      "runtime": "data/images/game/passives/talent_arcanist_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_blood_return.png",
+      "sha256": "f161b2a6804b53c008148649d06424807f7e8a45c0762359cb5125755910350f",
+      "visiblePixelsSha256": "45cff155701f883503edb7f25d13c8c238ed269432e09a93ec146483e62611fa",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "57543daf-1773-44e1-a8a4-e77c0f0c323b",
+        "nativeSourceSha256": "1d988f9be59d5b956aae924625e8a99b7204d376432700a27a1c6099949e8c0f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_hewing_rhythm",
+      "tree": "arcanist",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Wand Rhythm",
+      "runtime": "data/images/game/passives/talent_arcanist_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_hewing_rhythm.png",
+      "sha256": "de9f192b1fef3ea43bf4ba4133195df9e51c264bb8adb05a581c013074e8568c",
+      "visiblePixelsSha256": "b2a45dafe7dd75fc4d8270dd78c960d426fcb2e7440adcdba362bc94ae702466",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0c6480d5-eb66-4b9b-a1b5-c3bbc37cff09",
+        "nativeSourceSha256": "0a32911ceb6f26bec2ed9ba4b7750d1770ab7ea87e66576b4fc5166bae20fe0b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_battle_sustenance",
+      "tree": "arcanist",
+      "nodeId": "path_battle_sustenance",
+      "name": "Spell Recovery",
+      "runtime": "data/images/game/passives/talent_arcanist_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_battle_sustenance.png",
+      "sha256": "16a7961a285b3ef64ab3da170f86ecbae5c6678797bf0f429f90940e0cd8a8e9",
+      "visiblePixelsSha256": "6e30e1b7c193cd2db01740d1c4438d3cfb58bc8b20ecf94a01628f0cb71baea4",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e38c5c59-739c-47fd-b4da-ba890e20253f",
+        "nativeSourceSha256": "a50990642a926fa9dee5583ca34b430afbf0c0b8523fd3bd60efcff108102231",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/path_iron_rhythm",
+      "tree": "arcanist",
+      "nodeId": "path_iron_rhythm",
+      "name": "Woven Guard",
+      "runtime": "data/images/game/passives/talent_arcanist_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_path_iron_rhythm.png",
+      "sha256": "1a0ee102ed5479656097a2cdd986beb6900dfcd8957cb41f143393bd0470b031",
+      "visiblePixelsSha256": "64ce5becaf4571b1e297521a47280ee4ab5d29e55dc620ff014920df1172e387",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ca6bf8ca-a0fe-4675-81b3-b6c550b97309",
+        "nativeSourceSha256": "edd74231aeedfe78a772c35665c02f5840f96d3048168e21adbef378b73eb081",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_sweeping_form",
+      "tree": "arcanist",
+      "nodeId": "mid_sweeping_form",
+      "name": "Wide Pattern",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_sweeping_form.png",
+      "sha256": "e9c05e8f2cd2f251bc1cbff0c91f5a00e9f52c6532c276cbc9c20108c73eb33d",
+      "visiblePixelsSha256": "71b536167b10800fd5d893416807478c261b8f89da78e2357a5a9532b1d03a53",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "268d0fa8-2351-4c3d-9406-c328d2e1c632",
+        "nativeSourceSha256": "26911dccfef92cc86ef6829390491993c93f2b167cd99412664e19a9d5d64113",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_true_aim",
+      "tree": "arcanist",
+      "nodeId": "mid_true_aim",
+      "name": "True Spark",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_true_aim.png",
+      "sha256": "6a4e3dd2613f3136c909eb1cf6c258194b4efd93e9e8c2b66eafffebfd3abfa4",
+      "visiblePixelsSha256": "ea16751ea1a4895096a910bc4c96f0494ca80d79ab2f3e0869e62248faff22e2",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1590c5f3-99d9-4dbc-b2f9-cae4aed2b1be",
+        "nativeSourceSha256": "619635c9d1a8f2d8e4196d557d57e3a54e6b6a3fd3b9c84bc748ece373aeddba",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_focused_edge",
+      "tree": "arcanist",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Spark",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_focused_edge.png",
+      "sha256": "4323ee6f2996d2a2e2a3944380f08ea089d80fe904c39bbc2dd05ce780107377",
+      "visiblePixelsSha256": "a7d63ef48bd254befc2e57fdacf5285fec77e256ebaca5e92f74c0b5e4c6f41f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 21,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "46061f98-a781-4e69-86f7-6f1b55ea8ec7",
+        "nativeSourceSha256": "a852a2b1f326de4e0aea2fbbef76d136acdd9a01e4d466ec69fc5783870e11d3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_measured_breath",
+      "tree": "arcanist",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Flow",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_measured_breath.png",
+      "sha256": "b5eb26c80649adb78cdf74092cbbe0cfa8b89ab6c8cd116ef8f56dd8a2fe7411",
+      "visiblePixelsSha256": "bd10a46a26c9d3aa940da4f9b5b194d38c15888ce96e39e501c9eeaaa34f2061",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "e168b609-4588-4b14-a871-5e1214cccfc2",
+        "nativeSourceSha256": "abae183a616a173d9ecc66c7e1dd86b8704d4dc35a3289656120fbddffb59c11",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_stout_heart",
+      "tree": "arcanist",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Will",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_stout_heart.png",
+      "sha256": "de0a89d7757bac8d6565a86b1965919cef7e1e41b9058b420fdab8c38aa0412b",
+      "visiblePixelsSha256": "f70eeaee07f4b03d70a43761ee42900f90294e8a3538e6629d5d6e7e5f2a8710",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "4d346e51-ed01-4f2a-9e99-29de543da58c",
+        "nativeSourceSha256": "20d58339f35ecb0c4f759d751298e16f940b9adf78fcba5bfea56ee1c225473b",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "arcanist/mid_braced_guard",
+      "tree": "arcanist",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Will",
+      "runtime": "data/images/game/passives/talent_arcanist_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_arcanist_mid_braced_guard.png",
+      "sha256": "45302419aaafee55cedc80ed14258f2ccd476c375b8100725c5e817c6241c834",
+      "visiblePixelsSha256": "09791a94dc244d1624217bd619e851575432852339d4aabaa13c48b366f7930a",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "5aa4a8ed-6e34-4725-acd4-c5e4bc4fe010",
+        "nativeSourceSha256": "dd74f6b81a0b3aa9d8452ff9c5586cee65789bd3a4dfdaed484041307fda0575",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_precision",
+      "tree": "lifekeeper",
+      "nodeId": "minor_precision",
+      "name": "Mending",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_precision.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_precision.png",
+      "sha256": "6b6585c5a600d88c2e3021db36f3b57629239b41d5f1b2de2990af7a342025cc",
+      "visiblePixelsSha256": "d62ece61a3110d11ea0a26c102411c30340be4f8f6203e2cbc899a76732f8a70",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 19,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ead06afc-b7e5-45f1-95fd-93237f02b923",
+        "nativeSourceSha256": "cbd2e7c0a59c92110860e9eb836d7f37325ae9c136eb28418ce895e473d503c3",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_critical",
+      "tree": "lifekeeper",
+      "nodeId": "minor_critical",
+      "name": "Healing Force",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_critical.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_critical.png",
+      "sha256": "af1baa05236c15a738c80cd5b3681680ecfeb2bc38b03a791effe6852bf24cde",
+      "visiblePixelsSha256": "c9dd0acbe099b3db9df809200f466dce8c025b022aef15b3bde0f36d73417f12",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ca126e93-397d-4537-90e1-1140975ff5e9",
+        "nativeSourceSha256": "adc57b8c44c625d2ec10496faf9e5c2ec4abe63e20dba598da2af0a29bc8ceb5",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_power",
+      "tree": "lifekeeper",
+      "nodeId": "minor_power",
+      "name": "Rod Power",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_power.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_power.png",
+      "sha256": "b18a4d89c6bfde41db93c17b960ec405b72ac9b3c43f542bc605ed1905475e1e",
+      "visiblePixelsSha256": "02d7d81d3ff9291220262475169618b7eb844165948c5606ebc2de92e9cc39d4",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "b63747bb-1227-4df6-846a-5e1a066354e2",
+        "nativeSourceSha256": "cdef278147e9964e4a7bbb40a47a7e34b1ef9a57d2e1db73d714e09b3990b4d1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_efficiency",
+      "tree": "lifekeeper",
+      "nodeId": "minor_efficiency",
+      "name": "Efficiency",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_efficiency.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_efficiency.png",
+      "sha256": "aa29116a758ff385a84f0769f12af91882730dc6e25a53e908d3686371617f87",
+      "visiblePixelsSha256": "5fdcc9158e4cbab28c6f7e73faf1d7b5b8fa1134560a5f48430bbd356fea7c02",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 22,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "1f2835cf-9c38-4233-9bd6-db4e6d33ae7c",
+        "nativeSourceSha256": "365579c2893810f3fd787aecd29897c93f1491ea6d747c2351b298947c8f48ce",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_vitality",
+      "tree": "lifekeeper",
+      "nodeId": "minor_vitality",
+      "name": "Vitality",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_vitality.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_vitality.png",
+      "sha256": "2cd9df78b2d2603f23c27e92527ba0ca23e5ad3c242f85cca2a0969c3606e7dc",
+      "visiblePixelsSha256": "34b3b03b21af0370de679d98fbd152079fb4ae903a1848f6b44bf42caa36e33c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a470ebe6-67a5-4418-a08b-f776c575f7e4",
+        "nativeSourceSha256": "067d1c8327dd7ddf79cecaa3f7aeddd533206f4106f5cee73cbbc5756c02b225",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_resilience",
+      "tree": "lifekeeper",
+      "nodeId": "minor_resilience",
+      "name": "Resilience",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_resilience.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_resilience.png",
+      "sha256": "34f869fa89aa9d4032a9baf63142596478f57a3d0d4cea4c3997845facafe5c9",
+      "visiblePixelsSha256": "e0ed1756dd9bbd171bd9dbfe9184940d99c8cf6491658bb50419313936349d6c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "fed9eb9d-64f8-4ac6-953f-9b1bac7a78fb",
+        "nativeSourceSha256": "0ccb291583d37589d1e28ee4f67d2dac0f7f853c2ad565d63e47d4b2864bc1c6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_recovery",
+      "tree": "lifekeeper",
+      "nodeId": "minor_recovery",
+      "name": "Recovery",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_recovery.png",
+      "sha256": "ff22ce0724035b1f30bf363870ea2e5c783abb8c0643ac702f806a4e53b608ef",
+      "visiblePixelsSha256": "6d66b67a865ce8ca5c0ecbbb737ace975f9c8c4e600e10b01b246955f44a2411",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "498a9f07-4c47-461f-9d9d-b0628a566187",
+        "nativeSourceSha256": "34b115a808e1ed8988435522bdbc3ff380c7e91bf0406bf9e0dd00b4360be65f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/minor_focus",
+      "tree": "lifekeeper",
+      "nodeId": "minor_focus",
+      "name": "Focus",
+      "runtime": "data/images/game/passives/talent_lifekeeper_minor_focus.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_minor_focus.png",
+      "sha256": "66b690bc842b4140d0bb6d4793d294536530bb2c0b37a64b5e0aa5e11100dc99",
+      "visiblePixelsSha256": "3b97e47d91e9a061c55f69062cf739cd7ac853ae5e17fe07aa0bbee519f89e7b",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "dd5f6401-0a17-4d20-8117-9fcaaf301200",
+        "nativeSourceSha256": "7fa895e6c0ff96dea74a1a5fd8e42431662c748e6d96b14b463c2a459242f746",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_precision",
+      "tree": "lifekeeper",
+      "nodeId": "major_precision",
+      "name": "Measured Remedy",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_precision.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_precision.png",
+      "sha256": "3cf05a01ec046189c93c83ab4462a34497d1a32f6d3a27ec940bb371ff771e9b",
+      "visiblePixelsSha256": "7394262f3f543282b0e252660964652ce5b865a2bb976b8e30e082cb27bb8a79",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "4f3d4a1a-e70a-4f77-bc9f-bd427f5a0a5e",
+        "nativeSourceSha256": "93858d3a8001358bb94d591ca385d66eaf7bcc9d0f6b7454dfc5efcbdefcd57e",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_pressure",
+      "tree": "lifekeeper",
+      "nodeId": "major_pressure",
+      "name": "Vital Pressure",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_pressure.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_pressure.png",
+      "sha256": "ebf2cd01dbcea00dc8062339d4d8f9773cd1a1ddd9e8a21eab99b900174e2bc4",
+      "visiblePixelsSha256": "240ef319df5865c47c180830a1eb88b85a4c9595dd04b65d112ca3e8b3994a48",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "fd7ff000-a4c4-48de-85ce-a68465e6f2e6",
+        "nativeSourceSha256": "438fbf6e8251735f349f2463ff5a159ce3c1c5506c19a0f1b1ec11065a89d4fa",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_guard",
+      "tree": "lifekeeper",
+      "nodeId": "major_guard",
+      "name": "Iron Resolve",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_guard.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_guard.png",
+      "sha256": "5ff2c6df69109fb0534a8e125c63bc272cb5a18db601bb1d32edb53859c1c337",
+      "visiblePixelsSha256": "33315cb082718bfe402984d1b4edfd07139d22be7b868c5ecd59498b0e756920",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "d3d56606-4c6b-4dea-951f-3cc06499aea3",
+        "nativeSourceSha256": "b8c8071ea45b04519f717db0f22934390f543c31c07d051b043577f730967a2a",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_recovery",
+      "tree": "lifekeeper",
+      "nodeId": "major_recovery",
+      "name": "Life Recovery",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_recovery.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_recovery.png",
+      "sha256": "8d0a047a655b675e35dfb637c90196a5ad841724017a3118ad8384ec8bb4a507",
+      "visiblePixelsSha256": "882a5dbbf62d34623d87c7028e5dce54c679ea68bb2b497d62efcfcbede805f3",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "0ffb528a-9aee-4306-82ca-322bd1a86a55",
+        "nativeSourceSha256": "8bdd78423c27d61e5881380ca24107894f386bcdcf033685ddd7c8a1127e10c2",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_tactical",
+      "tree": "lifekeeper",
+      "nodeId": "major_tactical",
+      "name": "Healing Rhythm",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_tactical.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_tactical.png",
+      "sha256": "d2d49ef8c41b2ccc5e76ec825d41d1c6f01b41794e8f2504374c62162ef64237",
+      "visiblePixelsSha256": "80d7ab0451b320797eaf9431be93e16f4b36cdfbe4cbabf167b88f82a2a7841c",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "2ac6e58f-f3ed-4db6-926c-10151d153fc4",
+        "nativeSourceSha256": "993367db604821f55847bba7042fb905a28b981664b7370d65c7559caee8cb0c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/major_steady",
+      "tree": "lifekeeper",
+      "nodeId": "major_steady",
+      "name": "Steady Care",
+      "runtime": "data/images/game/passives/talent_lifekeeper_major_steady.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_major_steady.png",
+      "sha256": "d5644e3b2aff54aa387a2f41681829317687e4e15d692599dd91967fe5a5ab6c",
+      "visiblePixelsSha256": "43d014f52abde3262112734cc67e2066837f73304572e29b28154022a0eb9a3f",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ded7d4c2-ed07-41f8-bc4f-a55ea3c9d43e",
+        "nativeSourceSha256": "dc281c11337f97c6cfe98e81accce83f908e5df67434d4d7298fe744e1464e2f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/cap_renewal",
+      "tree": "lifekeeper",
+      "nodeId": "cap_renewal",
+      "name": "Renewal",
+      "runtime": "data/images/game/passives/talent_lifekeeper_cap_renewal.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_cap_renewal.png",
+      "sha256": "567f299457b366fd2615aad1a881ede87b0186c9ec23a68e438de2c626397649",
+      "visiblePixelsSha256": "f3e794314ab2a7ed01d0ff1b6dfdd82cfd4db03bd436b91257ccdec72d595f95",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ced8a059-e683-425e-9754-b7ea53bc4128",
+        "nativeSourceSha256": "611218fc72977c2c3c3e689ff84c24d46e012d430357cc4f4f5782a2f9c3bfe1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/cap_aegis",
+      "tree": "lifekeeper",
+      "nodeId": "cap_aegis",
+      "name": "Aegis",
+      "runtime": "data/images/game/passives/talent_lifekeeper_cap_aegis.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_cap_aegis.png",
+      "sha256": "3733acd828b2f5865529317b753be37853c7a27e93fd8c428c133af60183f2f3",
+      "visiblePixelsSha256": "5c249901b33c6dbfe8f3e7f73eeb218d1907688dc7e4273c26749ca52f8738f7",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "56b9287e-fcdd-4285-9736-c27e33763bf6",
+        "nativeSourceSha256": "5790f926f4c416b369cc35214ebd3bebbadc71e6ced3906a3ecaab80439d61b7",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/cap_concord",
+      "tree": "lifekeeper",
+      "nodeId": "cap_concord",
+      "name": "Concord",
+      "runtime": "data/images/game/passives/talent_lifekeeper_cap_concord.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_cap_concord.png",
+      "sha256": "72891b63b1b05abf9410f99068994603a52ede309a37b933186cd219643f60f7",
+      "visiblePixelsSha256": "26f07e01d134b9b905e257b981c3e044c35bb3597d8a47504f3633c410d0eeaa",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "29002d4e-1bd2-42da-b4cc-2757062b18d8",
+        "nativeSourceSha256": "a5b79a6dbcb3095aee89c50b39eebaafdaf785424e05455ccc3ecc7844daa6b1",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_broad_stroke",
+      "tree": "lifekeeper",
+      "nodeId": "path_broad_stroke",
+      "name": "Restoring Touch",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_broad_stroke.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_broad_stroke.png",
+      "sha256": "256878a93e8b7e721d454cf680fcc35624517d213c25f7d8c15f4abf3fee37de",
+      "visiblePixelsSha256": "7b39c632fc71dc7fd7a15d433cf0b88c27ce52ef3be8c7e01e4f05ee21306744",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 19,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "041ccf3a-8d48-474b-a98a-676c1d729f27",
+        "nativeSourceSha256": "8c5b91729159ce34a895e8600cbf2ac4ff81efbc36b0a8a2a34412926f1537e5",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_deliberate_cut",
+      "tree": "lifekeeper",
+      "nodeId": "path_deliberate_cut",
+      "name": "Mending Sequence",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_deliberate_cut.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_deliberate_cut.png",
+      "sha256": "dd7648abf6e06f506a28e6f673a8452024ee620c0cceddeab82c9b4cfccbb98c",
+      "visiblePixelsSha256": "7b1adf2b60364ccbb36d88b80db8445563386a2b602fe3279a4fa8034c8494a3",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "ad350d35-e6d3-4b1c-9779-b3992917adfc",
+        "nativeSourceSha256": "fffd5ad80688d8e3fd6dfa228794bb971b169b14cc8fefe9f9a0fb377ceb02b6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_blood_return",
+      "tree": "lifekeeper",
+      "nodeId": "path_blood_return",
+      "name": "Life Return",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_blood_return.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_blood_return.png",
+      "sha256": "71d1da866871fbc7166ebca949b36bcb0ec5c0d925c4797b98166f82f9ca41bf",
+      "visiblePixelsSha256": "bdc54f1219282c5c11d7962b761dbf5e97694e1c28ca6965c5f27a7070fef235",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "9b1c52bc-553f-4396-8408-402cee4261c8",
+        "nativeSourceSha256": "18625f61bc753089143089c1aad51f030e6b8042b775ade47f570887d3a0f7d5",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_hewing_rhythm",
+      "tree": "lifekeeper",
+      "nodeId": "path_hewing_rhythm",
+      "name": "Renewing Rhythm",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_hewing_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_hewing_rhythm.png",
+      "sha256": "262a3be10337c03ecdab67be97d72dbc0a8fd73d55d4b192bb26c92faea5ce1d",
+      "visiblePixelsSha256": "f10e16c9ba15460eef5f1a0f9a5472bae18e4ccda29a384d808d5ad308cece91",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a09ba4e8-5fec-42bc-b9fe-b2496e477f85",
+        "nativeSourceSha256": "2041e08654c2c5e61e7e21d0a96348457dac214390db0b3eed382d7cbbbaef5c",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_battle_sustenance",
+      "tree": "lifekeeper",
+      "nodeId": "path_battle_sustenance",
+      "name": "Caring Cadence",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_battle_sustenance.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_battle_sustenance.png",
+      "sha256": "78e5b7c0d05aa310dac1d540ce5dfd93a40d4fdc82d72bbb4998366b39ebc66f",
+      "visiblePixelsSha256": "d3aba242c79430f76f2caa3939bd4867cf14b71a0d0cf91b6a04ff201c8b58ce",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a021dfa7-8130-49ce-b0d5-04ce53e9daff",
+        "nativeSourceSha256": "7cb77e3eb9d88d3f34ed391231977608bdd07064fbca80f7f706555d6add24e6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/path_iron_rhythm",
+      "tree": "lifekeeper",
+      "nodeId": "path_iron_rhythm",
+      "name": "Sheltering Rhythm",
+      "runtime": "data/images/game/passives/talent_lifekeeper_path_iron_rhythm.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_path_iron_rhythm.png",
+      "sha256": "95578610efd6a18b2c8b736a654d9a2e8dbfd1756facc98c08f6529fe10876d6",
+      "visiblePixelsSha256": "2981d081932a9547088154494359a0a54d63cab685c925c28514461036111128",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "6e053b42-3249-4d0a-a585-f1174c3e931f",
+        "nativeSourceSha256": "a4452693e86c836913dfc4632b6e5b7105df610c4c1d8eeae10c1996d7334d55",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_sweeping_form",
+      "tree": "lifekeeper",
+      "nodeId": "mid_sweeping_form",
+      "name": "Gentle Form",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_sweeping_form.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_sweeping_form.png",
+      "sha256": "95aa2099c39dcd118031eeea1112057d8877c2db2a19d3365e3a8493130d64ad",
+      "visiblePixelsSha256": "af990e3e1c69d90e39ae3cdb8d7cd47bec0c4de83796fbbf21443ae2e390d305",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "67b2721d-8e79-409a-a4a1-834ef67b37e3",
+        "nativeSourceSha256": "645fac902c8fbe3fd4901bc643a170a8181872e39d406928345cee8bde8d70b6",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_true_aim",
+      "tree": "lifekeeper",
+      "nodeId": "mid_true_aim",
+      "name": "True Care",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_true_aim.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_true_aim.png",
+      "sha256": "6f32daa4ffccaface9471a24d78b359b476174e10a63444ad84b4ee79e45f4db",
+      "visiblePixelsSha256": "ea2737a30f74159927dfd2b693bd5b76de5495eda7cf655f238da14b1a2f1311",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "af281b34-0ed2-4e39-a761-ecedbaaf38af",
+        "nativeSourceSha256": "ac923f5e146761404342949c3502c91a206589d1e3d5b82f6ea6f111b47c0166",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_focused_edge",
+      "tree": "lifekeeper",
+      "nodeId": "mid_focused_edge",
+      "name": "Focused Care",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_focused_edge.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_focused_edge.png",
+      "sha256": "d4cf19510c822a8df927cbbad32ed121577ab8f4ea76cc61020c9bd19afd588a",
+      "visiblePixelsSha256": "d469919c0482f556fa737fe173607ca17c0260524ffd7cd969e8e8bc0e15abe8",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "95781ce2-2483-4f79-a8c4-5aed4c423190",
+        "nativeSourceSha256": "ff253f6ddfea6a5e3fa29de6544c6e1d38323c4de74697ee853dceff496b85de",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_measured_breath",
+      "tree": "lifekeeper",
+      "nodeId": "mid_measured_breath",
+      "name": "Measured Care",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_measured_breath.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_measured_breath.png",
+      "sha256": "e89f4212f4aaaca443409b49f81f616d062591bb5781d1d368db6b774bd1a0f0",
+      "visiblePixelsSha256": "fa71e16f2e6f656f79cd1539d930d1b149a3a0da73f5bccbccc11585f7f138b6",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 18,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "a60eaeb4-b4ed-4c5d-a4d8-3f2f62306418",
+        "nativeSourceSha256": "284acbb285b17239ba6387e7e5915c28cd336d750260e6397dd1c5b1a3bc71a8",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_stout_heart",
+      "tree": "lifekeeper",
+      "nodeId": "mid_stout_heart",
+      "name": "Stout Spirit",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_stout_heart.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_stout_heart.png",
+      "sha256": "537a135395a5cda7d79c6fea17ca9c27cda54a1fe060e7921876269c12c7d52c",
+      "visiblePixelsSha256": "d8a3bba8c81c06a9148762fc425e0a3d9d19d936af96ecd2dffa877e4690df34",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 20,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "c5bea5cf-a77a-42df-855c-ff13342d46e3",
+        "nativeSourceSha256": "fd32514054e997a66250492b37f1c1c32a1f746e18e0444838ff5018a116745f",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    },
+    {
+      "key": "lifekeeper/mid_braced_guard",
+      "tree": "lifekeeper",
+      "nodeId": "mid_braced_guard",
+      "name": "Braced Care",
+      "runtime": "data/images/game/passives/talent_lifekeeper_mid_braced_guard.png",
+      "authoringSource": "data/images/game/passives/talent_lifekeeper_mid_braced_guard.png",
+      "sha256": "12c9ce89701a397775736dd35f83604d3de3bfecfb14a783ff295699ae451a1a",
+      "visiblePixelsSha256": "1cdf9fd8605802ae9caa5ba687a28a055626eb78c2045b795c2842d34ab24bd8",
+      "size": [
+        32,
+        32
+      ],
+      "opaqueColors": 24,
+      "provenance": {
+        "provider": "PixelLab",
+        "jobId": "7c990a19-3871-407b-9918-4b0cc3df7eb2",
+        "nativeSourceSha256": "11d733edcb14dfaa7256d9669c8df017d9628a4871235789708dc8506005e6a0",
+        "generatedPixels": [
+          28,
+          28
+        ]
+      }
+    }
+  ]
+}

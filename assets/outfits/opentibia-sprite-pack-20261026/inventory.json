@@ -1,0 +1,1242 @@
+{
+  "upstream": "https://github.com/peonso/opentibia_sprite_pack",
+  "license": "CC BY4.0",
+  "originals": "upstream/LICENSE.txt and upstream/AUTHORS.md",
+  "source_manifest": "source-manifest.json",
+  "original_art_repainted": false,
+  "source_protocol": 1041,
+  "source_settings": {
+    "extended": true,
+    "transparency": false,
+    "frame_durations": false,
+    "frame_groups": false
+  },
+  "DAT_consumed_exactly": true,
+  "sprite_count": 7691,
+  "creature_outfit_definitions": 46,
+  "native_direction_phase_compositions": 616,
+  "items": [
+    {
+      "id": 1,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\01"
+    },
+    {
+      "id": 2,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\02"
+    },
+    {
+      "id": 3,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\03"
+    },
+    {
+      "id": 4,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\04"
+    },
+    {
+      "id": 5,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\05"
+    },
+    {
+      "id": 6,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\06"
+    },
+    {
+      "id": 7,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\07"
+    },
+    {
+      "id": 8,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\08"
+    },
+    {
+      "id": 9,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\09"
+    },
+    {
+      "id": 10,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\10"
+    },
+    {
+      "id": 11,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\11"
+    },
+    {
+      "id": 12,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 8,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\12"
+    },
+    {
+      "id": 13,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\13"
+    },
+    {
+      "id": 14,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\14"
+    },
+    {
+      "id": 15,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\15"
+    },
+    {
+      "id": 16,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\16"
+    },
+    {
+      "id": 17,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": true,
+      "source": "extracted\\17"
+    },
+    {
+      "id": 18,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": true,
+      "source": "extracted\\18"
+    },
+    {
+      "id": 19,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": true,
+      "source": "extracted\\19"
+    },
+    {
+      "id": 20,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 3,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 2,
+      "recommended_for_players_in_upstream_guide": true,
+      "source": "extracted\\20"
+    },
+    {
+      "id": 21,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 3,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 2,
+      "recommended_for_players_in_upstream_guide": true,
+      "source": "extracted\\21"
+    },
+    {
+      "id": 22,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\22"
+    },
+    {
+      "id": 23,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\23"
+    },
+    {
+      "id": 24,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\24"
+    },
+    {
+      "id": 25,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 6,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\25"
+    },
+    {
+      "id": 26,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\26"
+    },
+    {
+      "id": 27,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 4,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\27"
+    },
+    {
+      "id": 28,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 4,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\28"
+    },
+    {
+      "id": 29,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\29"
+    },
+    {
+      "id": 30,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\30"
+    },
+    {
+      "id": 31,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\31"
+    },
+    {
+      "id": 32,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\32"
+    },
+    {
+      "id": 33,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\33"
+    },
+    {
+      "id": 34,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\34"
+    },
+    {
+      "id": 35,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\35"
+    },
+    {
+      "id": 36,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\36"
+    },
+    {
+      "id": 37,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\37"
+    },
+    {
+      "id": 38,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\38"
+    },
+    {
+      "id": 39,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\39"
+    },
+    {
+      "id": 40,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\40"
+    },
+    {
+      "id": 41,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\41"
+    },
+    {
+      "id": 42,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\42"
+    },
+    {
+      "id": 43,
+      "tile_size": [
+        1,
+        1
+      ],
+      "pixel_size": [
+        32,
+        32
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\43"
+    },
+    {
+      "id": 44,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 3,
+      "z_patterns": 2,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 2,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\44"
+    },
+    {
+      "id": 45,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 2,
+      "directions": 4,
+      "patterns": 3,
+      "z_patterns": 2,
+      "phases": 3,
+      "has_visible_art": true,
+      "has_visible_color_layer": true,
+      "mask_colors": [
+        [
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          0,
+          255,
+          0,
+          255
+        ],
+        [
+          255,
+          0,
+          0,
+          255
+        ],
+        [
+          255,
+          255,
+          0,
+          255
+        ]
+      ],
+      "all_mask_labels_native": true,
+      "addon_layers": 2,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\45"
+    },
+    {
+      "id": 46,
+      "tile_size": [
+        2,
+        2
+      ],
+      "pixel_size": [
+        64,
+        64
+      ],
+      "layers": 1,
+      "directions": 4,
+      "patterns": 1,
+      "z_patterns": 1,
+      "phases": 9,
+      "has_visible_art": true,
+      "has_visible_color_layer": false,
+      "mask_colors": [],
+      "all_mask_labels_native": true,
+      "addon_layers": 0,
+      "recommended_for_players_in_upstream_guide": false,
+      "source": "extracted\\46"
+    }
+  ],
+  "preview_note": "Original art extracted losslessly; optional original four-channel client tinting; integer nearest scaling. No invented source outfit names or gender pairs."
+}

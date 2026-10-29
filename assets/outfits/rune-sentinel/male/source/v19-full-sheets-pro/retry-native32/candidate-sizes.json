@@ -1,0 +1,46 @@
+[
+  {
+    "candidate": 1,
+    "size": [
+      96,
+      128
+    ],
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  {
+    "candidate": 2,
+    "size": [
+      96,
+      128
+    ],
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  {
+    "candidate": 3,
+    "size": [
+      96,
+      128
+    ],
+    "alpha_values": [
+      0,
+      255
+    ]
+  },
+  {
+    "candidate": 4,
+    "size": [
+      96,
+      128
+    ],
+    "alpha_values": [
+      0,
+      255
+    ]
+  }
+]

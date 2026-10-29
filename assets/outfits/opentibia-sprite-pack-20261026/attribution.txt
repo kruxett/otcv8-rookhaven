@@ -1,0 +1,7 @@
+OpenTibia Sprite Pack by the contributors listed in upstream/AUTHORS.md.
+Source:https://github.com/peonso/opentibia_sprite_pack
+Pinned commit:ae88e1828671b349e729dd21177dde15ea41e123
+License:Creative Commons Attribution4.0 International.
+https://creativecommons.org/licenses/by/4.0/
+Original LICENSE.txt and AUTHORS.md retained in upstream/.
+Changes for previews:original sprite extraction, native four-region player tint examples, exact frame/addon composition, shared cropping and integer nearest scaling. No artwork repainting.

@@ -1,0 +1,14 @@
+{
+  "previous_error": "Near pad was at y44..47, on the elbow/forearm rather than shoulder. V6 rejected by user.",
+  "native_near_shoulder_root": [
+    32,
+    38
+  ],
+  "native_far_shoulder_root": [
+    49,
+    38
+  ],
+  "native_evidence": "Citizen mask primary/body stripe at x32,y37..42 and Warrior native shoulder-spike addon roots; Knight base shoulder caps.",
+  "edit_height_limit": 43,
+  "pose_guard": "All y>=44 immutable, including elbows, hands, torso, legs and feet. Native yellow/head pixels and original skin immutable."
+}

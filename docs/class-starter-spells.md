@@ -97,8 +97,9 @@ table does not bypass the equipment's own level/skill requirements.
 | Lifekeeper | Mending Thread: level 4 | Essence Lash: level 3 |
 
 No starter can be cast at level 1. Mending Thread fits mana capacity at level 4,
-but Snakebite Rod and the basic Wand of Vortex require level 7. Thus the magic
-starter fixtures' gear is not usable at levels 1–6. Mending uses 22 of the available
+but the ordinary shop's Snakebite Rod and Hex Wand both require level 7 in either
+hand after the shared tier update. Magic starter gear is therefore unavailable
+at levels 1–6. Mending uses 22 of the available
 60 mana at level 7, leaving 38 after one cast. With normal vocation-3 regeneration
 of 2 mana every 4 seconds, replacing 22 mana takes approximately 44 seconds,
 provided normal food/regeneration is active and allowed throughout, without

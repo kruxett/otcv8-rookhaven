@@ -1,0 +1,118 @@
+{
+  "status": "New full36-frame AI draft; known visual inconsistencies; pending user review, no integration.",
+  "product": "Rune Sentinel male cosmetic outfit",
+  "iteration": "v20 complete base and addon worn-state study",
+  "reference_body_looktype": 128,
+  "reference_body": "Citizen male all four directions and all three native poses",
+  "original_selected_concept": "../../style-study-20261026/c-rune-sentinel/pixellab-concept.png",
+  "source": "source/v20-base-and-addons/armor-complete",
+  "preview": "editable-v20-full-outfit/all-directions-three-states.png",
+  "editable": "editable-v20-full-outfit/rune-sentinel-full-outfit.aseprite",
+  "editable_alternative": "editable-v20-full-outfit/rune-sentinel-full-outfit.ora",
+  "validation": "editable-v20-full-outfit/verification.json",
+  "pixel_art_generator": "PixelLab inpaint_image_pro_flash",
+  "design": "Ancient rune-order elite guard. Complete fitted open-face helmet, solid runestone breastplate, overlapping short hip armor, bracers, dark undergarment and shaped greaves/boots. Neutral grayscale art and separate native four-channel mask. Citizen is an anatomy template, not a garment to recolor.",
+  "implementation": "No outfit ID, DAT/SPR change, final color mask, server rights, shop addition, build or deployment.",
+  "remaining": [
+    "User review and refinement of full36-frame outfit design",
+    "Consistent unchanged underlying garment across addon tiers",
+    "Final independent addon1/addon2 layers and all bit combinations",
+    "Final four-channel mask boundary review",
+    "Female counterpart",
+    "Approved import, shop/grants and in-game verification"
+  ],
+  "base_style_approved": false,
+  "addon1_style_approved": false,
+  "addon2_style_approved": false,
+  "addon_bits": {
+    "0": "complete Rune Sentinel base costume",
+    "1": "ceremonial helmet with low crest and inset runestone",
+    "2": "paired ceremonial shoulder plates and worked collar",
+    "3": "both independent addons"
+  },
+  "native_layer_order": [
+    "base",
+    "addon1 if bits&1",
+    "addon2 if bits&2"
+  ],
+  "rejected_proposals": [
+    {
+      "version": "v3-addons",
+      "reason": "User: banner not attached visually and design choice disliked."
+    },
+    {
+      "version": "v6-paired-shoulders",
+      "reason": "User: no visible guard on right shoulder; left guard placed inside the arm. Near coordinate y45 was elbow rather than shoulder."
+    },
+    {
+      "version": "v8-four-directions",
+      "reason": "User: not approved; original body proportions, arms, feet and legs were not preserved. Alpha coverage/fixed skin checks did not establish anatomy or internal limb contours."
+    },
+    {
+      "version": "v10-native-costume helmet",
+      "reason": "User: base should be white/neutral; head spikes do not turn consistently relative to south shape. Body proportions tentatively okay."
+    },
+    {
+      "version": "v11-neutral-helmet",
+      "reason": "User: direction-dependent head ornament remained inconsistent; head-only work went beyond the intended correction."
+    },
+    {
+      "version": "v13-full-base",
+      "reason": "User: reads as native Citizen with wrinkles. Define and approve a complete garment concept before further PixelLab drawing."
+    },
+    {
+      "version": "v18-ai-base-turnaround",
+      "reason": "User rejected. Supply several COMPLETE existing outfit spritesheets and generate every direction and walk frame jointly; do not anchor other views on one generated south design."
+    },
+    {
+      "version": "v19-complete-sheet",
+      "reason": "User: animations look good, but white speckling and inconsistent details remain. New attempt must include BASE AND BOTH ADDONS jointly with complete outfit/addon/mask references."
+    }
+  ],
+  "internal_trials": [
+    {
+      "version": "v4-mantle",
+      "reason": "Too subtle; thigh hem did not read convincingly as mantle."
+    }
+  ],
+  "base_directions_approved": [],
+  "addon1_directions_approved": [],
+  "next_workflow": "Review full base/addon worn-state draft, refine helmet and underlying costume consistency using PixelLab AI. Extract native independent addons only after artwork is settled.",
+  "selected_design_theme": "Rune Sentinel, elite guard from an ancient rune order; theme approved, no current artwork approved.",
+  "body_source_looktype": 128,
+  "body_geometry_feedback": "User: proportions seem right (tentative). Keep exact native source body.",
+  "neutral_base_required": true,
+  "concept_approved": true,
+  "latest_feedback": "User approves animation direction, rejects v19 art details and base-only workflow; requests base/addons together with complete actual outfit/addon/color-mask references.",
+  "artwork_generator_jobs": [
+    "520bdc61-dbe5-4d5e-b331-2182ae38702a",
+    "93349607-7f65-4167-9bbb-e91b473effb2",
+    "b6aa4937-16d5-4639-87f6-b0732723ada3",
+    "f17a0307-bb99-4b2d-8e89-372cc70ddcaa",
+    "9350af4a-d155-4ca6-af18-660ccb3928a6",
+    "abc3214a-3868-4caf-9f21-9efb7d16435d",
+    "6775969f-95af-4109-b47c-28f64717b9f0",
+    "67d10c48-86ba-43d7-a272-c5936c615505",
+    "3df50b74-5169-45b2-8ba4-a05bec0dd76b",
+    "d9c3899d-93e5-4e3a-98a7-5e2461c09d8e",
+    "89ad0255-9dc3-4cea-96b1-82a28ae30c70",
+    "e6f3fdd9-4c74-45db-90ac-bc1604c1817b",
+    "c90b85f1-ee63-4425-9d7b-bc2fa7310d55"
+  ],
+  "technical_color_finish_image": "ea7415ff-3c4f-46d1-b484-aa77422e5b9e",
+  "artwork_workflow_requirement": "Use PixelLab generative AI to draw/refine the outfit. Clearly distinguish AI artwork from manual painting and disclose any technical color processing.",
+  "walking_preview": "editable-v20-full-outfit/walking-all-states.gif",
+  "body_source_phases": [
+    0,
+    1,
+    2
+  ],
+  "body_source_directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "all_frames_preview": "editable-v20-full-outfit/all36-frames-review.png",
+  "mask": "editable-v20-full-outfit/working-four-channel-mask.png"
+}

@@ -1,0 +1,24 @@
+{
+  "requested_size": [
+    240,
+    240
+  ],
+  "actual_size": [
+    240,
+    240
+  ],
+  "size_matches": true,
+  "opaque_pixels": 19311,
+  "source_opaque_pixels": 19356,
+  "manual_artistic_edits": 0,
+  "source_alpha_pixels_retained": 12646,
+  "alpha_mismatch_pixels": 13375,
+  "visual_verdict": "REJECTED",
+  "grid_and_frame_layout_preserved": false,
+  "direction_and_walk_layout_preserved": false,
+  "reason": "Pro editor mixed reference sprite atlas into the generated image: duplicated tiny figures, wrong frame layout, clipped poses and inconsistent sprite scale. Full 36-frame output inspected at native and 3x scale.",
+  "retry_performed": false,
+  "cost_generations": 10,
+  "generations_after": 1694,
+  "custom_outfit_abandoned_per_user_fallback": true
+}

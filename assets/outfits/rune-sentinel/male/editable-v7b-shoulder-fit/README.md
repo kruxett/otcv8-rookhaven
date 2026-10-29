@@ -1,0 +1,11 @@
+# Rune Sentinel – korrigerad placering av båda axelskydden
+
+Användaren avvisade v6: ena skyddet syntes inte som axelskydd och det andra hamnade inuti armen. Den tidigare placeringen nära (33,45) var vid armbågen. Native Citizen-färgmasken och Warriors riktiga axel-addon visar axelfästena omkring **(32,38)** och **(49,38)**. Den här versionen utgår från dessa fästen. Det främre skyddet är flyttat upp bredvid hjälmen; det bortre ersätter hela den befintliga axelkåpan omkring (48,38).
+
+`before-after-shoulder-placement.png` jämför v6 med det nya förslaget. `addon-combinations-preview.png` visar alla fyra bitkombinationer. Öppna `rune-sentinel-shoulders.aseprite` eller `rune-sentinel-shoulders.ora` för redigerbara lager. De likadana filerna med mantle i namnet kommer från det generella exportverktyget.
+
+Grafiken bearbetades i PixelLab. Genereringsjobb: `a3ecb5a3-b268-40fa-8108-09ccd77495bc`. Genereringen placerade inte skydden tillräckligt tydligt och ändrade två skyddade ansiktspixlar; dessa ändringar återställdes. Axelskydden färdigställdes med exakta, bevakade PixelLab-pixeländringar i två steg: `04f9826a-c699-4132-a6db-508e6dcd94c0` (internt domprov) och `cc3a515f-7af0-4e2c-a05e-4d50fbce2b8c` (slutligt förslag). JSON-patchar, originalgenerering, inpaint-mask och separat slutlig ritmask finns i `../source/v7-shoulder-placement/`. Den slutliga bilden finns även i PixelLab-galleriet: `gallery:633c73c3-a9b4-489c-baac-e42c1d7a6769`.
+
+Verifierat: grund och addon 1 är pixelidentiska med tidigare exporter. Addon 2 lämnar hela kroppen från y44 och nedåt oförändrad; båda händer, armbågar/underarmar, ben och fötter flyttas alltså inte. Native huvudmask och skyddad ansikts-/handgrafik är bevarade. Alla fyra kombinationer är sammanhängande med fyrgrannskontakt. ASE/ORA återläses pixelidentiskt. Båda kapsiluetterna jämfördes även visuellt mot den riktiga posen i förstoring och 1×; topologiska pixelkontroller bedömer inte ensamma anatomisk passform. Se `validation.json` och `../source/v7-shoulder-placement/placement-review.json`.
+
+Detta är fortfarande **sydvy, stillastående, grafikförslag** som inväntar användarens bedömning. Övriga riktningar/gångfaser, fyrfärgsmasker, female-version och spelimport återstår. Native 64 × 64-canvas, ingen omskalning av spritegrafiken. Inga klient-/serverresurser eller shopposter importerades i denna iteration.

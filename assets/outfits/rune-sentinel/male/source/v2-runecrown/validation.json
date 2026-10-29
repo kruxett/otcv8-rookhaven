@@ -1,0 +1,37 @@
+{
+  "source_bbox": [
+    32,
+    31,
+    64,
+    64
+  ],
+  "new_bbox": [
+    28,
+    25,
+    64,
+    64
+  ],
+  "outside_mask_changes": 0,
+  "face_hand_guard_changes": 0,
+  "partial_alpha": 0,
+  "alpha_components": [
+    {
+      "size": 622,
+      "bbox": [
+        28,
+        25,
+        64,
+        64
+      ]
+    }
+  ],
+  "boot_and_lower_pose_pixels_changed": 0,
+  "layer_readback": "PASS: ASE cels and ORA layer PNGs are pixel-identical to inputs",
+  "stage": "south-idle design iteration only",
+  "not_yet_completed": [
+    "north/east/west rotations",
+    "walking phases",
+    "final four-channel Tibia mask",
+    "native game render/import"
+  ]
+}

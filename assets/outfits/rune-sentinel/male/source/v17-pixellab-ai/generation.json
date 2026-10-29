@@ -1,0 +1,15 @@
+{
+  "stage": "Actual PixelLab AI whole-costume refinement; not manual pixel painting",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "ccb73cb8-c6cf-47a5-9634-4592e6dc3385",
+  "asset_id": "acdf0db0-ce23-587e-8f51-750da848f071",
+  "seed": 2026102873,
+  "description": "Professionally REPAINT this whole Rune Sentinel BASE outfit as one coherent premium armor set for classic Tibia. Same costume concept, substantially better craftsmanship throughout, not a color correction. Actual native Knight/Warrior/Nightmare BASE armor above demonstrates clean readable metal construction: learn this craft, do not copy their designs. Native32px human on64x64 canvas. Preserve EXACT target Citizen anatomy, face, hands, head/arm/leg/foot positions, proportions and pose. Frozen outer pixels and skin are immutable. Create a fitted open-face STEEL HELMET with coherent large facets and continuous brow band, NO checkered patches. A solid faceted BREASTPLATE with ONE inset diamond runestone; clear strong center motif, no ornamental pixel noise. Strong waist belt and TWO matching short overlapping HIP PLATES, each with the same shaped lower edge and length relative to the hips. Paired fitted BRACERS and plain shoulder caps. Dark tailored UNDERGARMENT clearly separates solid steel plates. Both legs must wear the SAME knee-cap and full SHIN-GUARD design: corresponding upper rims, side coverage and beveled lower ends at the ankles. No long bright strip on one leg while its counterpart is missing. Give both BOOTS matching fitted armored toe plates. Perspective and upper-left lighting may vary shading, not the actual garment construction. Large clean 2-3px clusters and broad metal planes; eliminate the source's scattered disconnected bright fragments, checkerboard chest and helmet, wire-like greaves and unequal armor edges. Ancient rune-order elite guard, restrained expensive craft. Neutral white/silver/gray/charcoal costume ONLY, original skin unchanged. No costume colors baked in. Keep EVERY original opaque body pixel opaque, even black outlines/shadows; no holes. BASE ONLY: no crests, spikes, horns, wings, cape, flag, weapons, shield, extra limbs, glow aura, text, blur or scaling.",
+  "source": "source-before.png",
+  "paint_mask": "ai-paint-mask.png",
+  "context": "native-armor-context.png",
+  "editable_pixels": 382,
+  "artwork_edit_policy": "PixelLab AI performs all drawing. Preserve its returned PNG bytes. Local work is reference extraction, masks, inspection and editable layer packaging only; no hand-drawn replacement of the generated costume.",
+  "source_transparency_policy": "Preserve frozen source silhouette/skin; no_background=false requests opaque paint inside the existing opaque clothing mask.",
+  "status": "completed; graphic approval pending"
+}

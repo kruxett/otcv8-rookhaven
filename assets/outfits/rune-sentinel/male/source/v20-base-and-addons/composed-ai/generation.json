@@ -1,0 +1,22 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "d9c3899d-93e5-4e3a-98a7-5e2461c09d8e",
+  "asset_id": "6c0249f2-4679-5279-bfb1-3041771458fd",
+  "status": "complete, internally rejected",
+  "seed": 2026102648,
+  "description": "Paint ORIGINAL premium RUNE SENTINEL, all36 frames of BASE + ADDON1 + BOTH ADDONS TOGETHER in one coherent sheet.\n240x240, grid6x6 of40px cells. Cols0-2 idle/walkA/walkB for NORTH(even rows)/SOUTH(odd rows); cols3-5 for EAST(even)/WEST(odd).\nRows0-1 COMPLETE BASE.\nRows2-3 SAME BASE wearing ADDON1.\nRows4-5 SAME BASE wearing ADDON1+ADDON2.\nALL cells have complete dressed body. NOT isolated parts. Clothing underneath must be IDENTICAL across three tiers; ONLY added helmet ornament and shoulder guards distinguish tiers. Exactly align heads, arms, legs and all garment seams across matching tiers.\nUse Citizen for ANATOMY ONLY. Original faces/hands are frozen: don't paint duplicate faces or change limb/head placement. Native diagonal Tibia body axis and native scale. Completely redesign ALL white clothing/hair, not just scratches on Citizen.\nBASE: fitted open-face steel helmet, broad angular rune-plate cuirass with one subtle diamond runestone, strong waist belt and short overlapping hip plates, dark tailored undercloth, clean bracers, symmetrical full metal greaves and boots. Premium complete wardrobe already distinctive without addons.\nADDON1: small elegant backward-swept geometric crest physically attached to existing helmet, following its heading. NOT a second oversized helmet or head.\nADDON2: TWO fitted angular pauldrons and worked collar ON SHOULDERS of existing body, never floating, never on head/elbows. Match size and construction in all facings.\nCLEAN connected pixel clusters,5-6 grayscale armor tones, broad medium/light gray planes, charcoal joints. NO white dot noise, glitter, dotted edges, checkerboard, scratches, edge wires or tiny etching. Highlights short connected edge clusters only. Same metal surfaces/paired coverage/hem lengths on both legs and all12 poses; walk changes pose only. Costume/addons/stone GRAYSCALE, fixed native skin only warm color. No weapons, cape, flag, shield, effects or text.",
+  "context_usage": "FULL REAL NATIVE outfit references incl ALL4 directions, idle+both walking phases, base and BOTH addons and four-channel recolor masks. LEFT480px is Warrior(top240px), Demon Hunter(middle240px), Wayfarer(bottom240px). Each band's LEFT240x240 is complete composed states in EXACT target grid: rows0-1 base; rows2-3 base+native addon1; rows4-5 base+native addons1+2. Each band's RIGHT240x240 is the EXACT matching native color mask. Learn from ALL216 art/mask frames. RIGHT top240x240 at(480,0) is Citizen target; right middle shows fully equipped references and right bottom player tinting. Native source pixels not scaled; do not copy specific weapons/shields/backpacks. Body position/skin/animation of edit target are authoritative. References teach proper attached addons and coherent native outfit construction. No rejected Rune Sentinel art is used. Paint whole36-cell sheet jointly, not directions separately.",
+  "target": "target-three-complete-states.png",
+  "generation_mask": "generation-mask.png",
+  "context": "complete-reference-context.png",
+  "all36_frames_generated_jointly": true,
+  "source_bbox": {
+    "x": 480,
+    "y": 0,
+    "width": 240,
+    "height": 240
+  },
+  "manual_artistic_edits": 0,
+  "cost_generations": 9,
+  "review_reason": "Too plain and insufficient addon distinction; opaque costume pixels lost."
+}

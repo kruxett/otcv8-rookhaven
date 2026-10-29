@@ -1,0 +1,69 @@
+{
+  "status": "superseded-user-requested-Citizen-template-and-new-style",
+  "product": "Rookwarden male premium outfit proposal",
+  "design": "Ceremonial raven mantle, fitted royal coat with contrasting lining, structured bronze fittings and fixed bronze hood edging. Native player colors on cloth and leather.",
+  "generator": "PixelLab pixelart_workbench guarded BASE/MASK shoulder correction on premium source",
+  "workbench_image_id": "d1e9d727-bc01-4dea-abca-81e84564f7db",
+  "source": "source/v9-shoulder-consistency/color-concept-render.png",
+  "comparison": "editable-premium-v2/shoulder-before-after.gif",
+  "all_frames": "editable-premium-v2/all-frames-before-after.png",
+  "validation": "source/v9-shoulder-consistency/validation.json",
+  "sha256": "527017385015c12c6801a74062e16f4762be6f879b9669e08dd4ed5e79cd10e4",
+  "reference_looktype": 132,
+  "canvas": [
+    144,
+    192
+  ],
+  "cells": [
+    48,
+    48
+  ],
+  "directions": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "columns": [
+    "idle",
+    "walk1",
+    "walk2"
+  ],
+  "reference_transform": "Native 64x64 frames translated -24,-24 onto 48x48 cells. No rescaling or per-frame centering.",
+  "pose_constraints": "Native head, face, hands and boots frozen during garment generation. Hood material and boot color finished with guarded PixelLab patches. No original skin pixels changed. New garment silhouettes allowed around the same body anchors.",
+  "implementation": "No outfit imported, ID allocated, server grant or shop offer. User can edit BASE and MASK before graphic approval and later integration.",
+  "remaining": [
+    "User manual edits and graphic approval",
+    "Separate matching female proposal with native female poses",
+    "Outfit asset import and shop permissions after graphic approval",
+    "Native color selection, idle/walk and purchase/unlock verification on integration"
+  ],
+  "neutral_base": "source/v9-shoulder-consistency/base-48-sheet.png",
+  "color_mask": "source/v9-shoulder-consistency/mask-48-sheet.png",
+  "editable_project": "editable-premium-v2/rookwarden-male.aseprite",
+  "editable_project_alternative": "editable-premium-v2/rookwarden-male.ora",
+  "editable_png_base": "editable-premium-v2/base.png",
+  "editable_png_mask": "editable-premium-v2/mask.png",
+  "walking_preview": "editable-premium-v2/walking-color-preview.gif",
+  "editable_manifest": "editable-premium-v2/manifest.json",
+  "editable_canvas": [
+    192,
+    256
+  ],
+  "editable_cells": [
+    64,
+    64
+  ],
+  "color_channels": {
+    "head": "yellow",
+    "body": "red",
+    "legs": "green",
+    "feet": "blue",
+    "fixed": "transparent mask"
+  },
+  "mask_workbench_image_id": "8c567079-454d-4069-8c5e-4f5904cabe1d",
+  "anatomical_mantle_shoulder": "left",
+  "previous_editable_preserved": "editable-premium/",
+  "original_generation_job_id": "29f7f45a-ab76-48f4-b722-6d854868627c",
+  "superseded_by": "../../harbor-envoy/male/design-manifest.json"
+}

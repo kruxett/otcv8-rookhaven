@@ -1,0 +1,11 @@
+{
+  "source": "Native original leg sketch copied inside predeclared generation mask BEFORE PixelLab inpaint; other input pixels unchanged.",
+  "alpha_exact_all12": true,
+  "all_unselected_RGBA_exact": true,
+  "all_selected_RGBA_exact_to_PixelLab_raw": true,
+  "inpaint_compositing": "Explicit original binary mask only. Raw Pro opaque export retained; original unselected RGBA restored by exact standard mask composition.",
+  "manual_painted_pixels": 0,
+  "changed_pixels": 1252,
+  "status": "Candidate reviewed in all12 base poses and all36 base/addon presentation frames; graphic approval pending.",
+  "visual_review": "Near/far planes are more distinct; native side-view overlap remains. Visual quality is separate from silhouette checks."
+}

@@ -1,0 +1,65 @@
+{
+  "generator": "PixelLab create_image_pro",
+  "job_id": "6775969f-95af-4109-b47c-28f64717b9f0",
+  "asset_id": "b9a3e0c0-be86-5137-b241-86923405d627",
+  "seed": 2026102920,
+  "description": "ONE complete ORIGINAL Rune Sentinel male BASE outfit sheet, ALL12 frames designed TOGETHER from the FOUR complete reference sheets. Output EXACT96x128, grid3 columns x4 rows, every cell32x32. Columns idle/walk1/walk2. Rows N/back, E/right, S/front, W/left; EVERY frame in each row keeps its heading, including ALL west walk frames. Match the EXACT TIBIA8.6 projection and anatomy in Citizen reference1: compact roughly32x32 human, head UPPER-LEFT of feet and whole body extending diagonally LOWER-RIGHT in ALL facings. This diagonal body axis is the fixed oblique camera, not a facing direction. NOT upright front/side RPG humans, not tall64px actors. Copy all12 native head/face/hands, arm/leg bends, foot poses and square proportions. Fit each complete figure in its32px slot, no crossing rows. NEW exclusive rune-order elite guard clothing over that anatomy: fitted open-face angular steel helm, crafted plate cuirass with ONE inset diamond runestone, short layered hip armor/belt, fitted bracers, dark cloth joints, paired matching knee/greave plates and armored boots. Broad coherent steel planes, deliberate silhouette and repeated angular cuts throughout, not recolored Citizen or noisy wrinkles. Same outfit/attachments/materials in every angle and phase; chest stone stays FRONT and is hidden on back. Use the full Knight/Nightmare/Brotherhood sheets to understand real Tibia craft, turning and walking. Neutral WHITE/GRAY/CHARCOAL COSTUME including stone, natural skin ONLY on actual face/hands. Upper-left light, clean native pixels, transparent background. Base stands alone; crest and enlarged ornate shoulder addons come later. No copied outfit, extra limb, weapon, shield, cape, banner, text, grid lines, particles or blur.",
+  "palette": [
+    "#080808",
+    "#1b1b1b",
+    "#343434",
+    "#515151",
+    "#747474",
+    "#9c9c9c",
+    "#c8c8c8",
+    "#ededed",
+    "#ffffff",
+    "#301605",
+    "#653817",
+    "#9b6837",
+    "#c39460",
+    "#e0b786",
+    "#f2d2ac"
+  ],
+  "requested_size": [
+    96,
+    128
+  ],
+  "cell_size": [
+    32,
+    32
+  ],
+  "candidates": 4,
+  "cost_generations": 10,
+  "reference_count": 4,
+  "reference_frames": 48,
+  "reference_images": [
+    {
+      "name": "Citizen",
+      "ref": "upload:d1d0e2f7-93b2-4b62-9f3f-e84ce3484737",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\citizen-complete-base-12.png",
+      "usage": "EXACT COMPLETE TARGET LAYOUT and anatomical template96x128: 12 native32x32 cells, columns idle/walk1/walk2, rows north/east/south/west. These are all12 original Citizen poses, NO resizing. Copy their square proportions, body axis, head/hand/foot positions and original Tibia perspective; redesign clothing only."
+    },
+    {
+      "name": "Knight",
+      "ref": "upload:b125bab6-22bb-40e6-b819-291b90de2f94",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\knight-complete-base-12.png",
+      "usage": "COMPLETE original Knight BASE spritesheet, ALL4 directions × ALL3 phases, native pixels, each40px cell. Removed transparent padding only, never resized. Study the Tibia oblique projection, matching armor through all poses, material planes, clarity; not copying the design."
+    },
+    {
+      "name": "Nightmare",
+      "ref": "upload:4dcf492f-e9a2-4040-ba2d-0188033e7141",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\nightmare-complete-base-12.png",
+      "usage": "COMPLETE original Nightmare BASE spritesheet, ALL4 directions × ALL3 phases, native pixels, each40px cell. Study premium armor construction, consistent plates/head/limbs across all views and gait, actual Tibia perspective, not generic upright RPG art."
+    },
+    {
+      "name": "Brotherhood",
+      "ref": "upload:8254ace0-d150-4147-8328-dfbfb4ec1727",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\retry-native32\\references\\brotherhood-complete-base-12.png",
+      "usage": "COMPLETE original Brotherhood BASE spritesheet, ALL4 directions × ALL3 phases, native pixels, each40px cell. Study original premium whole-garment identity, layered construction, outlines and shading across complete turning/walking set."
+    }
+  ],
+  "retry_reason": "First complete Pro sheet was coherent but drew upright 60px actors, used wrong headings in some west walk frames, and crossed cell boundaries. Dense complete base-only references and exact32px cells address those failures without painting or repairing directions separately.",
+  "artwork_policy": "Every candidate is a complete12-frame joint AI generation. Preserve raw images; no manual drawing, downsampling or per-view repair.",
+  "status": "processing"
+}

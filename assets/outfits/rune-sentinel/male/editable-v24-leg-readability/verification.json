@@ -1,0 +1,35 @@
+{
+  "status": "Leg correction candidate; graphic approval pending; no game import",
+  "scope": "Base leg shading only in all12 poses; existing addons and masks unchanged.",
+  "all12_pose_alpha_exact_to_v23": true,
+  "unselected_RGBA_exact_to_v23": true,
+  "selected_RGBA_exact_to_raw_PixelLab_output": true,
+  "manual_painted_pixels": 0,
+  "postprocessing": "Predeclared binary inpaint-mask composition to retain original unselected RGBA; complete native-frame packing and standard addon alpha composition. No repainting, recoloring or inferred addon extraction.",
+  "all_original_face_hand_contour_RGBA_preserved": true,
+  "all4_addon_combinations_checked": true,
+  "base_legs_identical_across_all4_combinations": true,
+  "addon1_crest_identical_with_or_without_addon2": true,
+  "addon_art_and_working_mask_PNGs_byte_exact_to_v23": true,
+  "four_tint_channels_independent": true,
+  "ASE_ORA_readback_passed": true,
+  "lossless_SPR_860_tiles": 288,
+  "DAT_SPR_unchanged": true,
+  "jobs_this_turn": [
+    "6746f5b0-8aa2-4cb2-8429-6f6d7acb9d28",
+    "ad49f0a0-bbcb-460e-98f1-243d1d017340"
+  ],
+  "generations_this_turn": 16,
+  "limitations": [
+    "Visual approval pending. Native side poses retain natural leg overlap.",
+    "Working color masks still require final visual approval.",
+    "No client/server integration or in-game rendering verification."
+  ],
+  "source_file_sha256": {
+    "base-leg-correction-composited.png": "7b200ae67ff94ad108b2c2c6f29593184e3e4dac3b3b9e10d5dd5fc48a47e97e",
+    "legs-pixellab-opaque-original.png": "548ba0991cc3d45eb18a9996960ae88d58c669d34e44f132f63cefc1d8e0e9cb",
+    "addons-pixellab-original.png": "b048a9ed568de42d2469db527769308ba4b49a9831aebae3a246de27df0822e8",
+    "rune-sentinel-leg-correction.aseprite": "79326d3ee2dbaabb423ead89a1a21f556195cedd387b9bff52b6df0fb7740a09",
+    "rune-sentinel-leg-correction.ora": "867e1c98a018ccb0f68cb4e54ee683714d5157fb15e25f049f9a2bbf716bf811"
+  }
+}

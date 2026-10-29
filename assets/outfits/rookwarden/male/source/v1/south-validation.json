@@ -1,0 +1,19 @@
+{
+  "canvas": [
+    48,
+    48
+  ],
+  "bbox": [
+    8,
+    7,
+    40,
+    40
+  ],
+  "visible_body_size": [
+    32,
+    33
+  ],
+  "opaque_colours": 32,
+  "sha256": "e86c6c133e3b31798c6a5e15c019dc96feb945a3c6eb9737c3a4b4c459b00b26",
+  "native_source_unmodified": true
+}

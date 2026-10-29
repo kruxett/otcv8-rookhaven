@@ -1,0 +1,23 @@
+{
+  "free": {
+    "name": "OpenTibia Sprite Pack",
+    "url": "https://github.com/peonso/opentibia_sprite_pack",
+    "license": "CC BY4.0",
+    "guide": "https://github.com/peonso/opentibia_sprite_pack/blob/master/GUIDE.md",
+    "verified_from_guide": "24 creature outfits;17-21 recommended for players. Default source protocol10.41.",
+    "not_verified": "Complete matching male/female + both addons for any chosen free family; no free-pack import performed."
+  },
+  "paid": {
+    "name": "WsT Class Outfits Vol1",
+    "url": "https://westudesign.itch.io/tibia-style-class-outfits-9-rpg-characters-male-female-godot-wst",
+    "publisher_description": "9 classes,18 male/female characters,4 directions,4-frame walks,4 tint regions. Commercial projects allowed; standalone asset redistribution/resale prohibited.",
+    "not_verified": "Actual downloaded ZIP, native addon1/addon2 coverage and exact license text included with purchase."
+  },
+  "modern": {
+    "preview": "modern-six-male-female.png",
+    "walking": "modern-six-male-female-walking.gif",
+    "variants": 12,
+    "source": "Existing installed official Tibia assets; no free license verified.",
+    "status": "544 original frame compositions checked. No DAT/SPR import or game test."
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "source": "source\\v5-new-garments\\pixellab-rookwarden-sheet.png",
+  "source_sha256": "b76e8225fbb4e8b040350432bb5fc03956cad691393d6aa1337a53a3cbb991d2",
+  "generator": "PixelLab pixelart_workbench guarded pixel conversion",
+  "channels": {
+    "head": "#ffff00ff",
+    "primary": "#ff0000ff",
+    "secondary": "#00ff00ff",
+    "detail": "#0000ffff"
+  },
+  "default_outfit_colors": {
+    "head": 57,
+    "body": 47,
+    "legs": 21,
+    "feet": 58
+  },
+  "mask_rule": "Opaque pure yellow/red/green/blue; transparent means fixed color.",
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "pixels": {
+        "fixed": 94,
+        "head": 113,
+        "primary": 233,
+        "detail": 120,
+        "secondary": 66
+      }
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "pixels": {
+        "fixed": 84,
+        "head": 115,
+        "primary": 233,
+        "detail": 91,
+        "secondary": 70
+      }
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "pixels": {
+        "fixed": 85,
+        "head": 115,
+        "primary": 231,
+        "detail": 77,
+        "secondary": 79
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "pixels": {
+        "fixed": 147,
+        "detail": 118,
+        "head": 73,
+        "secondary": 99,
+        "primary": 202
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "pixels": {
+        "fixed": 154,
+        "detail": 101,
+        "primary": 217,
+        "head": 73,
+        "secondary": 93
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "pixels": {
+        "fixed": 143,
+        "head": 73,
+        "detail": 90,
+        "secondary": 97,
+        "primary": 228
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "pixels": {
+        "fixed": 136,
+        "head": 73,
+        "primary": 256,
+        "detail": 121,
+        "secondary": 75
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "pixels": {
+        "fixed": 146,
+        "head": 73,
+        "primary": 233,
+        "detail": 97,
+        "secondary": 85
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "pixels": {
+        "fixed": 139,
+        "head": 73,
+        "primary": 250,
+        "detail": 92,
+        "secondary": 82
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "pixels": {
+        "fixed": 94,
+        "head": 113,
+        "detail": 132,
+        "secondary": 66,
+        "primary": 198
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "pixels": {
+        "fixed": 88,
+        "head": 115,
+        "detail": 87,
+        "secondary": 87,
+        "primary": 226
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "pixels": {
+        "fixed": 91,
+        "head": 115,
+        "detail": 80,
+        "primary": 203,
+        "secondary": 87
+      }
+    }
+  ],
+  "edits": {
+    "base": 6004,
+    "mask": 7427
+  }
+}

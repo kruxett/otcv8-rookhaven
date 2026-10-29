@@ -1,0 +1,54 @@
+{
+  "stage": "south-idle addon concept only; addon2 awaiting graphic approval",
+  "native_draw_order": [
+    "base",
+    "addon1 if bits&1",
+    "addon2 if bits&2"
+  ],
+  "all_four_combinations_reconstructed": true,
+  "existing_base_pixel_changes": 0,
+  "addon2_changes_to_existing_character_pixels": 0,
+  "protected_face_hands_changes": 0,
+  "lower_pose_changes": 0,
+  "addon_pixel_overlap": 0,
+  "ase_ora_layer_readback": "PASS",
+  "variant_components": {
+    "0": [
+      549
+    ],
+    "1": [
+      640
+    ],
+    "2": [
+      735
+    ],
+    "3": [
+      826
+    ]
+  },
+  "retained_base_pixels_under_raw_addon1_transparency": 18,
+  "retained_base_note": "Native alpha overlays cannot erase the base. These 18 original base pixels remain, rather than using a whole-character replacement.",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "source_job": "b1afde33-2523-4a13-8fe8-5bc2af132609",
+  "files": {
+    "addon-combinations-preview.png": "e05f04d4e53a3e450c8dedb0452d7207c4878ce90a6a795ea76a33e21354cbdb",
+    "addon1-overlay.png": "c813a30daf4c9931e9ad333350ae5f80a725a1ad07f0824a038cddef6c2b71c1",
+    "addon2-overlay.png": "a37a1ac57e1a8e76a328c4819dca086083218e092013b56995f4c07516aa5d6e",
+    "base.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-addons.aseprite": "63f218d4017d44a6a59d9792d6abfd9247189a78f4e3ab6e1b244637b4f492dc",
+    "rune-sentinel-addons.ora": "45a72794acce93b9e0eac6dcf1cd383ab18ed03154b85629331c61f72aa83cc4",
+    "variant-0.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "variant-1.png": "8dbfa13d224343f7e372640ce321b90aa5d94d21d829ea6e697016b03e41be02",
+    "variant-2.png": "63585d36be5469f9670b9dd636dfedf48a834a1220456b107bc752e976fc4ad6",
+    "variant-3.png": "aa5b54afc509db799c7d33e62c40148e725d2a3173865681634650b07a99a3d4"
+  },
+  "not_completed": [
+    "four directions and walking for base and addons",
+    "neutral base and four player-color masks for all layers",
+    "female counterpart",
+    "DAT/SPR import and in-game rendering"
+  ]
+}

@@ -1,0 +1,873 @@
+{
+  "outfit_variants": 48,
+  "families": 25,
+  "dat_sha256": "9354cb7610c6f2165e565f5c0d02d356da62642d50dcd2d0467d0119d43212f6",
+  "spr_sha256": "b089afb47af72386a6314a274014167a3fc48092fe8c2b7a9dfb40bd9ef53baf",
+  "items": [
+    {
+      "type": "1",
+      "looktype": "128",
+      "name": "Citizen",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\128-1"
+    },
+    {
+      "type": "1",
+      "looktype": "129",
+      "name": "Hunter",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\129-1"
+    },
+    {
+      "type": "1",
+      "looktype": "130",
+      "name": "Mage",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\130-1"
+    },
+    {
+      "type": "1",
+      "looktype": "131",
+      "name": "Knight",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\131-1"
+    },
+    {
+      "type": "1",
+      "looktype": "132",
+      "name": "Nobleman",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\132-1"
+    },
+    {
+      "type": "1",
+      "looktype": "133",
+      "name": "Summoner",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\133-1"
+    },
+    {
+      "type": "1",
+      "looktype": "134",
+      "name": "Warrior",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\134-1"
+    },
+    {
+      "type": "1",
+      "looktype": "143",
+      "name": "Barbarian",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\143-1"
+    },
+    {
+      "type": "1",
+      "looktype": "144",
+      "name": "Druid",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\144-1"
+    },
+    {
+      "type": "1",
+      "looktype": "145",
+      "name": "Wizard",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\145-1"
+    },
+    {
+      "type": "1",
+      "looktype": "146",
+      "name": "Oriental",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\146-1"
+    },
+    {
+      "type": "1",
+      "looktype": "151",
+      "name": "Pirate",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\151-1"
+    },
+    {
+      "type": "1",
+      "looktype": "152",
+      "name": "Assassin",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\152-1"
+    },
+    {
+      "type": "1",
+      "looktype": "153",
+      "name": "Beggar",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\153-1"
+    },
+    {
+      "type": "1",
+      "looktype": "154",
+      "name": "Shaman",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\154-1"
+    },
+    {
+      "type": "1",
+      "looktype": "251",
+      "name": "Norseman",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\251-1"
+    },
+    {
+      "type": "1",
+      "looktype": "268",
+      "name": "Nightmare",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\268-1"
+    },
+    {
+      "type": "1",
+      "looktype": "273",
+      "name": "Jester",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\273-1"
+    },
+    {
+      "type": "1",
+      "looktype": "278",
+      "name": "Brotherhood",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\278-1"
+    },
+    {
+      "type": "1",
+      "looktype": "289",
+      "name": "Demon Hunter",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\289-1"
+    },
+    {
+      "type": "1",
+      "looktype": "325",
+      "name": "Yalaharian",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\325-1"
+    },
+    {
+      "type": "1",
+      "looktype": "328",
+      "name": "Newly Wed",
+      "premium": "no",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "source": "rookhaven\\328-1"
+    },
+    {
+      "type": "1",
+      "looktype": "335",
+      "name": "Warmaster",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\335-1"
+    },
+    {
+      "type": "1",
+      "looktype": "367",
+      "name": "Wayfarer",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\367-1"
+    },
+    {
+      "type": "0",
+      "looktype": "136",
+      "name": "Citizen",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\136-0"
+    },
+    {
+      "type": "0",
+      "looktype": "137",
+      "name": "Hunter",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\137-0"
+    },
+    {
+      "type": "0",
+      "looktype": "138",
+      "name": "Mage",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\138-0"
+    },
+    {
+      "type": "0",
+      "looktype": "139",
+      "name": "Knight",
+      "premium": "no",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\139-0"
+    },
+    {
+      "type": "0",
+      "looktype": "140",
+      "name": "Noblewoman",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\140-0"
+    },
+    {
+      "type": "0",
+      "looktype": "141",
+      "name": "Summoner",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\141-0"
+    },
+    {
+      "type": "0",
+      "looktype": "142",
+      "name": "Warrior",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\142-0"
+    },
+    {
+      "type": "0",
+      "looktype": "147",
+      "name": "Barbarian",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\147-0"
+    },
+    {
+      "type": "0",
+      "looktype": "148",
+      "name": "Druid",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\148-0"
+    },
+    {
+      "type": "0",
+      "looktype": "149",
+      "name": "Wizard",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\149-0"
+    },
+    {
+      "type": "0",
+      "looktype": "150",
+      "name": "Oriental",
+      "premium": "yes",
+      "unlocked": "yes",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\150-0"
+    },
+    {
+      "type": "0",
+      "looktype": "155",
+      "name": "Pirate",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\155-0"
+    },
+    {
+      "type": "0",
+      "looktype": "156",
+      "name": "Assassin",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\156-0"
+    },
+    {
+      "type": "0",
+      "looktype": "157",
+      "name": "Beggar",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\157-0"
+    },
+    {
+      "type": "0",
+      "looktype": "158",
+      "name": "Shaman",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\158-0"
+    },
+    {
+      "type": "0",
+      "looktype": "252",
+      "name": "Norsewoman",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\252-0"
+    },
+    {
+      "type": "0",
+      "looktype": "269",
+      "name": "Nightmare",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\269-0"
+    },
+    {
+      "type": "0",
+      "looktype": "270",
+      "name": "Jester",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\270-0"
+    },
+    {
+      "type": "0",
+      "looktype": "279",
+      "name": "Brotherhood",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\279-0"
+    },
+    {
+      "type": "0",
+      "looktype": "288",
+      "name": "Demon Hunter",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\288-0"
+    },
+    {
+      "type": "0",
+      "looktype": "324",
+      "name": "Yalaharian",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\324-0"
+    },
+    {
+      "type": "0",
+      "looktype": "329",
+      "name": "Newly Wed",
+      "premium": "no",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        1,
+        1,
+        3
+      ],
+      "source": "rookhaven\\329-0"
+    },
+    {
+      "type": "0",
+      "looktype": "336",
+      "name": "Warmaster",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\336-0"
+    },
+    {
+      "type": "0",
+      "looktype": "366",
+      "name": "Wayfarer",
+      "premium": "yes",
+      "unlocked": "no",
+      "enabled": "yes",
+      "base_and_full_directions": 4,
+      "phases": 3,
+      "layout": [
+        2,
+        4,
+        3,
+        1,
+        3
+      ],
+      "source": "rookhaven\\366-0"
+    }
+  ],
+  "note": "All enabled server-defined outfit variants, both sexes, base/full addons, four directions, all three native phases."
+}

@@ -1,0 +1,37 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "38003b70-80da-4625-af97-bac74ef80dd2",
+  "asset_id": "ce97f625-3ccb-5228-b809-585838e5e5e3",
+  "seed": 2026102874,
+  "source_asset": "acdf0db0-ce23-587e-8f51-750da848f071",
+  "description": "Repair ONLY the six masked pixels. They are STEEL HELMET BROW/SIDE PLATES, not skin or hair. Remove accidental brown/tan flesh-color bleed from these metal pixels. Draw neutral SILVER GRAYSCALE metal, matching the surrounding helmet planes and continuous brow band. Each edited pixel must have equal R=G=B values: pure gray only, shades of #404040 #707070 #A0A0A0 #D0D0D0 #F0F0F0. Preserve opacity. No flesh, brown, gold or other hue. All unmasked pixels, including the real face, armor and limbs, are frozen. Do not redesign anything.",
+  "mask": "helmet-color-repair-mask.png",
+  "affected_coordinates": [
+    [
+      34,
+      38
+    ],
+    [
+      36,
+      38
+    ],
+    [
+      37,
+      38
+    ],
+    [
+      39,
+      38
+    ],
+    [
+      35,
+      39
+    ],
+    [
+      41,
+      40
+    ]
+  ],
+  "reason": "The first full AI result had six tan/skin pixels inside the recolorable helmet. AI corrects these to neutral metal; no manually drawn sprite changes.",
+  "status": "completed; graphic approval pending"
+}

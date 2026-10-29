@@ -1,0 +1,46 @@
+{
+  "stage": "south idle color design studies, not completed outfits",
+  "native_body_checks": [
+    {
+      "candidate": "a-wildwarden",
+      "bbox": [
+        30,
+        27,
+        64,
+        64
+      ],
+      "original_face_hand_guard_changes": 0,
+      "native_foot_coverage_changes": 0,
+      "outside_inpaint_mask_changes": 0,
+      "source_sha256": "2711013c890586bc25c534a2257446833de6aab5bcede330ce3d3f8e53b2d7fd"
+    },
+    {
+      "candidate": "b-duskstrider",
+      "bbox": [
+        27,
+        30,
+        64,
+        64
+      ],
+      "original_face_hand_guard_changes": 0,
+      "native_foot_coverage_changes": 0,
+      "outside_inpaint_mask_changes": 0,
+      "source_sha256": "4ac30d357be653b3410cdadc09a3186de8f9dddb4d4f54ac9ce3ecb2d2f39ce9"
+    },
+    {
+      "candidate": "c-rune-sentinel",
+      "bbox": [
+        32,
+        31,
+        64,
+        64
+      ],
+      "original_face_hand_guard_changes": 0,
+      "native_foot_coverage_changes": 0,
+      "outside_inpaint_mask_changes": 0,
+      "source_sha256": "de37901733d76a63ae98041432f631d5df37a9074763c3536d12fdae20d5b7da"
+    }
+  ],
+  "editable_layer_roundtrip": "PASS: ASE decompressed cels and ORA layer PNGs match exact source pixels",
+  "editable_stage_note": "These are south-idle color concepts only. The hidden Citizen mask is a reference, not a finished new outfit mask. Four directions, walking frames and final recoloring layers follow chosen design approval."
+}

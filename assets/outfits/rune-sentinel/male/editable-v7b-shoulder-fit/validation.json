@@ -1,0 +1,195 @@
+{
+  "stage": "south-idle design study; new mantle addon2 awaiting graphic approval",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "a3ecb5a3-b268-40fa-8108-09ccd77495bc",
+  "base_and_addon1_unchanged": true,
+  "outside_mask_changes": 0,
+  "protected_face_hands_changes": 0,
+  "source_changes": 79,
+  "shoulder_attachment_overlap_pixels": 30,
+  "attachment_overlap_coordinates": [
+    [
+      47,
+      36
+    ],
+    [
+      48,
+      36
+    ],
+    [
+      49,
+      36
+    ],
+    [
+      50,
+      36
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      47,
+      38
+    ],
+    [
+      48,
+      38
+    ],
+    [
+      49,
+      38
+    ],
+    [
+      50,
+      38
+    ],
+    [
+      51,
+      38
+    ],
+    [
+      52,
+      38
+    ],
+    [
+      47,
+      39
+    ],
+    [
+      48,
+      39
+    ],
+    [
+      49,
+      39
+    ],
+    [
+      50,
+      39
+    ],
+    [
+      51,
+      39
+    ],
+    [
+      52,
+      39
+    ],
+    [
+      47,
+      40
+    ],
+    [
+      48,
+      40
+    ],
+    [
+      49,
+      40
+    ],
+    [
+      50,
+      40
+    ],
+    [
+      51,
+      40
+    ],
+    [
+      48,
+      41
+    ],
+    [
+      49,
+      41
+    ],
+    [
+      50,
+      41
+    ],
+    [
+      51,
+      41
+    ]
+  ],
+  "variant_4_connected_components": {
+    "0": [
+      549
+    ],
+    "1": [
+      640
+    ],
+    "2": [
+      585
+    ],
+    "3": [
+      661
+    ]
+  },
+  "native_overlay_order": [
+    "base",
+    "addon1 if bit1",
+    "addon2 if bit2"
+  ],
+  "all_four_combinations_exported": true,
+  "ase_ora_readback": "PASS, pixel-identical layer cels/PNGs",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "retained_base_coverage_pixels": 0,
+  "remaining": [
+    "user graphic approval",
+    "all directions and walking phases",
+    "four-channel player-color masks",
+    "female outfit and addons",
+    "native import and in-game visual check"
+  ],
+  "files": {
+    "addon-combinations-preview.png": "09ddb5a5c2cdcf0d3cbc02ca0738533746902e2de1305ece694fab7ca07c673d",
+    "addon1-overlay.png": "c813a30daf4c9931e9ad333350ae5f80a725a1ad07f0824a038cddef6c2b71c1",
+    "addon2-overlay.png": "0927a515e7ae66b20f55e134865189fcba3ec430e2129ae67c5905ee5332c915",
+    "base.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-mantle.aseprite": "2ac21a5bcae6263b378c0859a31403493e703752ab69df4f724875cdf8ba00b7",
+    "rune-sentinel-mantle.ora": "03bf9f6754a1d61431c86fcc36ae1a3e2584aceacd0b92c1875701f2c93d223c",
+    "variant-0.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "variant-1.png": "8dbfa13d224343f7e372640ce321b90aa5d94d21d829ea6e697016b03e41be02",
+    "variant-2.png": "b0f79024e3845e510cace23ef70ef9c79d4a6b1ea813bcf0b58c65805203d148",
+    "variant-3.png": "9b708ded8c9cd93c524e74f6e31be7a03af0037a8a07edace2695ee8da96cb08"
+  },
+  "workbench_id": "cc3a515f-7af0-4e2c-a05e-4d50fbce2b8c",
+  "native_shoulder_roots": {
+    "near": [
+      32,
+      38
+    ],
+    "far": [
+      49,
+      38
+    ]
+  },
+  "all_pixels_below_y43_unchanged_by_addon2": true,
+  "native_head_mask_changes_by_addon2": 0,
+  "near_shoulder_new_coverage_pixels": 27,
+  "far_shoulder_new_coverage_pixels": 9,
+  "visual_review": "Compared native Citizen body mask, Knight shoulder caps and Warrior native shoulder addon. Near pad moved from elbow y44..47 to upper-arm root y37..40. Far pad replaces original shoulder cap centered near (48,38), not an inset on the lower arm. Four native bit combinations reviewed at 1x and enlargement.",
+  "edit_mask": "../source/v7-shoulder-placement/final-craft-mask.png",
+  "drawing_note": "Final craft mask includes exact PixelLab workbench edits beyond original inpaint selection; original generation mask preserved separately."
+}

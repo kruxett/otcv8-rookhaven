@@ -1,0 +1,21 @@
+{
+  "context_image": {
+    "file": "style-context.png",
+    "usage_description": "Top three are actual Tibia reference costumes and pixel craft. Bottom is the immutable target Citizen pose. Adopt craft and costume richness, not reference weapons, poses or identical outfit."
+  },
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "description": "WILDWARDEN: a distinctive forest guardian with a compact dark-steel stag crown and TWO short forked bone antler prongs; broad cool SLATE-GRAY fur shoulder yoke clearly resting across both shoulders; deep emerald quilted leather torso with a wide bronze belt clasp; dark leather bracers and strapped tall boots. Premium Druid/Norseman/Warmaster character, fresh design. Fur is cool gray, never peach/cream; no dangling bone/cloth near the arms. Bold antler silhouette, readable chest armor, calm dark cloth areas. Native Tibia 8.60 pixel art for a paid original outfit, not a recolor of the starter. Top context images are REAL Tibia costume/pixel-style references only; the bottom CITIZEN is the exact pose target. Keep his fixed face, eyes, two hands, shoulder-elbow-wrist pose and foot positions unchanged. Exactly TWO arms following those original wrist anchors. No additional skin anywhere in the mask. Clearly separate sleeves/bracers from the existing peach hands with dark cuffs. No pale fleshy sleeve panels. New headgear is allowed only in the masked hair/head margin; never redraw a face inside headgear. Same south-facing oblique camera and roughly 32px body, with modest extra headgear height. Rich deliberate 2-3px clusters, strong silhouette, layered shading like the references, dark outlines and upper-left light. Distinct materials, no noisy confetti or smooth antialiasing. No weapons, shields, pets, detached ornaments, glow, shadows, words, panel borders or extra body parts. Transparent background.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 2026102640,
+  "job_id": "2f46dd6e-7a57-4a1c-a3e7-420787398f9d",
+  "image_file": "../citizen-native-south.png",
+  "mask_file": "../design-mask.png",
+  "stage": "south idle design study only, no integration or completed animation"
+}

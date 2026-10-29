@@ -1,0 +1,15 @@
+{
+  "canvas": [
+    144,
+    192
+  ],
+  "protected_pixels": 22698,
+  "outside_mask_changes": 0,
+  "alpha_changes": 3,
+  "changed_pixels": 4949,
+  "sha256": "3d1beaf7dcb7db9a285cafa8531391c418d78f7b53564a5de8d9706e0e1cc5ab",
+  "alpha_values": [
+    0,
+    255
+  ]
+}

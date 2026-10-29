@@ -1,0 +1,29 @@
+{
+  "direction": "west",
+  "phase": 0,
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "3d34b58f-b9fa-4d61-b773-1da66e676e5b",
+  "asset_id": "61d8a0bd-0e0a-5a89-acd8-14e62d0dd746",
+  "seed": 2026102803,
+  "description": "Draw THIS exact original Citizen idle pose wearing the Rune Sentinel costume shown in the style reference. Native Tibia 8.60 pixel density. Steel open-face helmet with THREE compact silver crown prongs containing cyan crystals; dark navy tunic/tabard and articulated steel bracers/boots, aged-gold breastplate/belt borders. BOTH upper arms have matching fitted rounded gold-rimmed steel shoulder caps with teal rune insets, sitting ON the true shoulder roots near head level, never down at elbows. Carry same armor design and material palette into this requested direction. Native anatomy and perspective MUST be the target original pose: head center/tilt, shoulder roots, elbows, two original hands, legs and foot locations fixed. Preserve all unmasked source RGBA exactly. Keep solid body/foot coverage wherever source is opaque, no holes or transparent boot pixels. No new skin beyond the original exposed skin. No extra hands/arms, hair, long mantle, weapon, shield, flag, spikes on shoulders, wings, aura, text, blur or particles. Binary alpha and transparent64x64; no rescaling. Style top-left is SOUTH only: use its design/materials, NEVER copy its head-facing or arm positions. WEST view, facing LEFT exactly like native target, including its original mostly occluded left-facing head profile. Do NOT replace it with a south-facing frontal face. Show appropriate side/back helmet planes, crest in left-facing perspective. Shoulder guards sit on actual target upper arms; one may be partly hidden.",
+  "source_file": "native-source.png",
+  "mask_file": "generation-mask.png",
+  "context_file": "context.png",
+  "guard_file": "fixed-native-pixels.png",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "status": "Direction color study ready for user review, native fixed pixels and coverage verified.",
+  "charged_generations": 5,
+  "final_workbench_id": "983a5a44-e60f-4042-bccb-ea6c04f5b8cc",
+  "native_coverage_repaired_pixels": 66,
+  "repair_file": "native-coverage-repair.json",
+  "final_art": "full-outfit.png",
+  "raw_art": "pixellab-raw.png"
+}

@@ -1,0 +1,161 @@
+{
+  "base": "one actual AI base pose for each of12 frames, reused exactly before generation",
+  "tier0": "base reference only, black mask, no new-layer output",
+  "tier1": "addon1 rear helmet comb only, all12 poses",
+  "tier2": "addon2 shoulder/collar regions only, all12 poses, disjoint with base helmet and addon1 domain",
+  "export": "PixelLab New layer with changes, transparent everywhere outside explicit pre-generation mask",
+  "no_post_generation_art_clipping_or_color_processing": true,
+  "native_eyes_hands_and_contours_excluded": true,
+  "crest_rear_projection_constrained_by_mask": {
+    "north": "below helmet",
+    "east": "left of helmet",
+    "south": "above helmet",
+    "west": "right of helmet"
+  },
+  "per_pose_domains": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "native_head_bbox": [
+        9,
+        8,
+        20,
+        20
+      ],
+      "crown_domain_pixels": 103,
+      "shoulder_domain_pixels": 89
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "native_head_bbox": [
+        9,
+        8,
+        20,
+        20
+      ],
+      "crown_domain_pixels": 99,
+      "shoulder_domain_pixels": 96
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "native_head_bbox": [
+        10,
+        8,
+        21,
+        20
+      ],
+      "crown_domain_pixels": 95,
+      "shoulder_domain_pixels": 99
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "native_head_bbox": [
+        8,
+        9,
+        17,
+        20
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 102
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "native_head_bbox": [
+        8,
+        9,
+        17,
+        20
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 94
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "native_head_bbox": [
+        8,
+        8,
+        17,
+        19
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 79
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "native_head_bbox": [
+        9,
+        8,
+        20,
+        17
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 115
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "native_head_bbox": [
+        9,
+        8,
+        20,
+        17
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 126
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "native_head_bbox": [
+        8,
+        8,
+        19,
+        17
+      ],
+      "crown_domain_pixels": 98,
+      "shoulder_domain_pixels": 110
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "native_head_bbox": [
+        8,
+        9,
+        20,
+        20
+      ],
+      "crown_domain_pixels": 103,
+      "shoulder_domain_pixels": 81
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "native_head_bbox": [
+        8,
+        9,
+        20,
+        20
+      ],
+      "crown_domain_pixels": 99,
+      "shoulder_domain_pixels": 69
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "native_head_bbox": [
+        8,
+        10,
+        20,
+        21
+      ],
+      "crown_domain_pixels": 95,
+      "shoulder_domain_pixels": 67
+    }
+  ]
+}

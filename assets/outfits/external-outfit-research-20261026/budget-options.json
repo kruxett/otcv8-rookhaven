@@ -1,0 +1,57 @@
+{
+  "budget_preference_SEK": 50,
+  "preference": "Free first. User likes OTSP20 and21; no graphic or implementation approval yet.",
+  "currency_reference": {
+    "amount": 1.0,
+    "base": "USD",
+    "date": "2026-10-26",
+    "rates": {
+      "SEK": 9.9558
+    }
+  },
+  "price_verification": "Fresh publisher HTML JSON-LD actual offers and visible sale price. Search/open cached prices differ; base price is not current sale price.",
+  "paid_options": [
+    {
+      "name": "Class Outfits",
+      "url": "https://westudesign.itch.io/tibia-style-class-outfits-9-rpg-characters-male-female-godot-wst",
+      "male_and_female_characters": 18,
+      "outfit_families": 9,
+      "sale_USD": 9.0,
+      "SEK_approx_before_possible_tax": 90,
+      "offer_valid_until": "2026-11-04T18:00:00Z",
+      "addons": "Not advertised; not verified without purchase."
+    },
+    {
+      "name": "Profession Outfits",
+      "url": "https://westudesign.itch.io/character-profession-outfits-6-jobs-male-female-32x32-godot-wst",
+      "male_and_female_characters": 12,
+      "outfit_families": 6,
+      "sale_USD": 6.0,
+      "SEK_approx_before_possible_tax": 60,
+      "offer_valid_until": "2026-11-04T18:00:00Z",
+      "addons": "Not advertised; not verified without purchase."
+    }
+  ],
+  "other_free_sources": [
+    {
+      "name": "Oneda",
+      "url": "https://otland.net/threads/onedas-gallery-free-to-use.275069/",
+      "status": "Author explicitly permits free use; individual outfits, animations and WIPs. No verified complete matched male/female plus addon set."
+    },
+    {
+      "name": "OT Sprites archive / Ciel",
+      "url": "https://otsprites.wordpress.com/2024/10/08/outfits-por-ciel/",
+      "status": "Four Ciel sheets inspected across two posts, several anime designs, no attached tint or addon layers. Original author commercial permission unverified. Not recommended over OTSP for current shop."
+    },
+    {
+      "name": "SpriteGG",
+      "url": "https://spritegg.com/browse",
+      "status": "Current browse result has two weapon assets, no outfits."
+    },
+    {
+      "name": "LPC",
+      "url": "https://lpc.opengameart.org/static/lpc-style-guide/styleguide.html",
+      "status": "Different character perspective/proportions; not a native Tibia outfit replacement."
+    }
+  ]
+}

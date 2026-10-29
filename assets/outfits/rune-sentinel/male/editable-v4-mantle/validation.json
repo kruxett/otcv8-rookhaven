@@ -1,0 +1,197 @@
+{
+  "stage": "south-idle design study; new mantle addon2 awaiting graphic approval",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "aec73ff3-91d7-4882-938c-1e9f4d735f82",
+  "base_and_addon1_unchanged": true,
+  "outside_mask_changes": 0,
+  "protected_face_hands_changes": 0,
+  "source_changes": 134,
+  "shoulder_attachment_overlap_pixels": 35,
+  "attachment_overlap_coordinates": [
+    [
+      48,
+      36
+    ],
+    [
+      49,
+      36
+    ],
+    [
+      50,
+      36
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      48,
+      38
+    ],
+    [
+      49,
+      38
+    ],
+    [
+      50,
+      38
+    ],
+    [
+      51,
+      38
+    ],
+    [
+      48,
+      39
+    ],
+    [
+      49,
+      39
+    ],
+    [
+      50,
+      39
+    ],
+    [
+      51,
+      39
+    ],
+    [
+      52,
+      39
+    ],
+    [
+      53,
+      39
+    ],
+    [
+      49,
+      40
+    ],
+    [
+      50,
+      40
+    ],
+    [
+      51,
+      40
+    ],
+    [
+      52,
+      40
+    ],
+    [
+      53,
+      40
+    ],
+    [
+      54,
+      40
+    ],
+    [
+      55,
+      40
+    ],
+    [
+      50,
+      41
+    ],
+    [
+      51,
+      41
+    ],
+    [
+      52,
+      41
+    ],
+    [
+      53,
+      41
+    ],
+    [
+      54,
+      41
+    ],
+    [
+      55,
+      41
+    ],
+    [
+      56,
+      41
+    ],
+    [
+      52,
+      42
+    ],
+    [
+      53,
+      42
+    ],
+    [
+      54,
+      42
+    ],
+    [
+      55,
+      42
+    ]
+  ],
+  "variant_4_connected_components": {
+    "0": [
+      549
+    ],
+    "1": [
+      640
+    ],
+    "2": [
+      574
+    ],
+    "3": [
+      664
+    ]
+  },
+  "native_overlay_order": [
+    "base",
+    "addon1 if bit1",
+    "addon2 if bit2"
+  ],
+  "all_four_combinations_exported": true,
+  "ase_ora_readback": "PASS, pixel-identical layer cels/PNGs",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "retained_base_coverage_pixels": 0,
+  "remaining": [
+    "user graphic approval",
+    "all directions and walking phases",
+    "four-channel player-color masks",
+    "female outfit and addons",
+    "native import and in-game visual check"
+  ],
+  "files": {
+    "addon-combinations-preview.png": "aae258fc1939f192afd2798e8f341b0f7cb6b5df0b9702bd420bfe613dcc6614",
+    "addon1-overlay.png": "c813a30daf4c9931e9ad333350ae5f80a725a1ad07f0824a038cddef6c2b71c1",
+    "addon2-overlay.png": "63a52e923d4ef7ff000e0fe546a0b0b7862c31703dc7cd24ba3d628028dae3da",
+    "base.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-mantle.aseprite": "3dc4b8bc21209b37c1b1ad6ee238224da4f858678253ebab028b8e034cd991fb",
+    "rune-sentinel-mantle.ora": "2561aefeaaa614118039e8ca992808f5e530d4f2b520c9d835581ebc82d3c1a8",
+    "variant-0.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "variant-1.png": "8dbfa13d224343f7e372640ce321b90aa5d94d21d829ea6e697016b03e41be02",
+    "variant-2.png": "42ee61e95b3454673477727c4127ba51af4cdb93aa7617aa1c437fc40d840fba",
+    "variant-3.png": "133fdfc38aae4f7223bb4c90cff272eb248d26050f28763808d8cac0c1ebb531"
+  }
+}

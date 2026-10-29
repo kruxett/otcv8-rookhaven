@@ -1,0 +1,9 @@
+Module
+  name: game_questreward
+  description: Forgotten Ancients reward selection
+  author: Rookhaven
+  autoload: true
+  sandboxed: true
+  scripts: [ questreward ]
+  @onLoad: init()
+  @onUnload: terminate()

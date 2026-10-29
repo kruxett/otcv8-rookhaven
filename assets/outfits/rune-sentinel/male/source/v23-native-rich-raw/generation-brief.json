@@ -1,0 +1,33 @@
+{
+  "preserve_from_pose_reference": [
+    "Original head/body proportions and native oblique Tibia camera.",
+    "Face, eyes, hands and original limb/foot contours are protected in the actual inpaint mask, not only the prompt.",
+    "Shoulder-elbow-wrist and hip-knee-foot pose in all twelve native animation/direction frames.",
+    "Four distinct directions; NORTH is back with no face/front rune, SOUTH front, EAST/WEST their native side visibility.",
+    "Idle and two actual walk phases; no fabricated interpolation or extra limbs."
+  ],
+  "keep_design_identity": [
+    "Complete Rune Sentinel wardrobe from the earlier selected design concept, not a generic recolor or round smooth knight.",
+    "Layered plate and short split tabard, dark cloth versus light/dark steel, strong belt and hip plates, worked bracers, paired full boots, readable inset rune.",
+    "Addon 1: short three-fin ceremonial helmet crest rotating with the helmet, rear sweep S-up/E-left/N-down/W-right.",
+    "Addon 2: paired sculpted shoulder armor and collar attached at shoulder roots, with proper far-side occlusion.",
+    "Same base garment and leg coverage under either addon; body pose unchanged."
+  ],
+  "references": {
+    "pose": "Citizen all12 original frames repeated over3 worn stages",
+    "style": "Complete Knight and Warmaster art + native color masks, all facings/poses/addon stages",
+    "concept": "Original Rune Sentinel costume identity only; not single-facing geometry/animation anchor"
+  },
+  "output": [
+    "One 240x240 sheet,36 frames, joint full-sheet generation.",
+    "Art only; native masks supplied as references, not requested as a second simultaneous output.",
+    "White/gray recolorable clothing, original protected native skin colors.",
+    "Preserve raw PixelLab output; no recoloring, addon isolation or cloning before visual review."
+  ],
+  "review": [
+    "Check all protected source bytes and native foot/limb contours.",
+    "View every direction and walk phase, especially rear/side head visibility and paired leg coverage.",
+    "Review addon attachment and helmet fin rotation, material clarity and silhouette at native scale.",
+    "Reject a poor raw result; do not conceal problems by mask extraction or color stripping."
+  ]
+}

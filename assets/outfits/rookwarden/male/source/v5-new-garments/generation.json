@@ -1,0 +1,21 @@
+{
+  "context_image": {
+    "file": "style-context.png",
+    "usage_description": "TOP: original Rookwarden costume design. BOTTOM: exact immutable target body poses, 4 direction rows x 3 idle/walking columns. COPY TOP COSTUME DESIGN ONLY, NEVER ITS BODY POSE."
+  },
+  "bounding_box": {
+    "x": 0,
+    "y": 48,
+    "width": 144,
+    "height": 192
+  },
+  "description": "Draw genuinely NEW GARMENTS on the exact twelve existing Tibia body poses. This must be a new costume with new clothing shapes and seam layout, NOT recolouring the original Nobleman armour. Replace bulky round white metal pauldrons with a short jagged RAVEN-FEATHER SHOULDER MANTLE of three broad charcoal feather lobes; replace noble tunic with an asymmetrically fastened dark TEAL SPLIT OVERCOAT, substantial leather chest harness with one big bronze clasp, contrasting pale ivory lining visible on the two distinct pointed coat tails. Short cloak extends slightly behind the shoulders and upper legs only inside the allowed mask. Redraw the cloth shapes and materials from scratch, with big clear pixel clusters readable at 32 pixels, few deliberate highlights, old Tibia pixel style. No repetitive tiny noise. Costume identical in all twelve cells. Row1 NORTH back of head; row2 EAST face upper right; row3 SOUTH face lower left; row4 WEST back of head upper left. Columns idle / walk first step / walk opposite step. EXACT original oblique Tibia body poses: fixed head, face, hands and boots outside the mask must remain unchanged, do not draw extra faces, hands, feet or limbs inside garments. The exposed hand locations are absolute wrist anchors for the sleeves. Preserve the existing shoulder/elbow/wrist alignment and existing torso direction for every frame. Only the CLOTH is new. The white head/hair and boots are intentionally frozen pose anchors and will be finished separately, do not try to copy them into the clothes. Garment outline MAY change in the masked transparent margin to show the new mantle and coat shape; outside the mask retain exact original RGBA. Keep substantial transparent gaps around the body. No weapons, wings, horns, glow, symbols, writing, ground shadows, new poses, new animation or camera change.",
+  "no_background": true,
+  "output_method": "Modify current layer",
+  "crop_to_mask": true,
+  "seed": 20261159,
+  "image_file": "native-pose-sheet.png",
+  "mask_file": "garment-redesign-mask.png",
+  "job_id": "fd7a0c37-e9af-42e5-af76-ba02539f465a",
+  "asset_id": "49ecc28c-f26a-57d3-86bb-7f6229d2a8cf"
+}

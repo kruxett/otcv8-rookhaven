@@ -1,0 +1,31 @@
+{
+  "rookwarden_default_export_content_equal": {
+    "base.png": true,
+    "color-options-preview.png": true,
+    "color-preview.png": true,
+    "layers-overview.png": true,
+    "mask.png": true,
+    "native-reference.png": true,
+    "previous-color-concept.png": true,
+    "rookwarden-male.aseprite": true,
+    "walking-color-preview.gif": true
+  },
+  "rookwarden_ora_entries_equal": true,
+  "pre_cleanup_generated_isolated_pixels": [
+    {
+      "direction": "south",
+      "phase": 0,
+      "new_isolated_component": [
+        [
+          38,
+          27
+        ],
+        [
+          38,
+          28
+        ]
+      ]
+    }
+  ],
+  "cleanup_status": "Two generated pixels removed in source and both layers; final validation has no new isolated components."
+}

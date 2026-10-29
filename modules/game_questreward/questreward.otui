@@ -1,0 +1,127 @@
+SsythariRewardButton < Button
+  height: 86
+  border-width: 1
+  border-color: #555555
+
+  UIItem
+    id: icon
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 8
+    size: 32 32
+    virtual: true
+    selectable: false
+    draggable: false
+    phantom: true
+
+  Label
+    id: title
+    anchors.left: icon.right
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-left: 8
+    margin-right: 8
+    margin-top: 9
+    height: 15
+    font: verdana-11px-monochrome
+    phantom: true
+
+  Label
+    id: role
+    anchors.left: title.left
+    anchors.right: title.right
+    anchors.top: title.bottom
+    margin-top: 2
+    height: 14
+    color: #b0b0b0
+    phantom: true
+
+  Label
+    id: summary
+    anchors.left: title.left
+    anchors.right: title.right
+    anchors.top: role.bottom
+    margin-top: 2
+    height: 14
+    color: #b0b0b0
+    phantom: true
+
+  Label
+    id: bonuses
+    anchors.left: title.left
+    anchors.right: title.right
+    anchors.top: summary.bottom
+    margin-top: 2
+    height: 14
+    color: #c8a456
+    phantom: true
+
+MainWindow
+  id: questRewardWindow
+  !text: tr("The Ssythari's Hoard")
+  size: 420 336
+  movable: false
+
+  Label
+    id: description
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    text-wrap: true
+
+  SsythariRewardButton
+    id: wand
+    anchors.top: description.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+
+  SsythariRewardButton
+    id: rod
+    anchors.top: wand.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+
+  Label
+    id: notice
+    anchors.top: rod.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 6
+    height: 16
+    text-wrap: true
+    color: #b0b0b0
+    !text: tr('One reward per character. Stay beside the chest.')
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: buttons.top
+    margin-bottom: 5
+    height: 28
+    text-wrap: true
+    color: #e0a090
+
+  Panel
+    id: buttons
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 22
+
+    Button
+      id: confirm
+      !text: tr('Choose')
+      width: 80
+      anchors.right: cancel.left
+      margin-right: 8
+      enabled: false
+
+    Button
+      id: cancel
+      !text: tr('Cancel')
+      width: 80
+      anchors.right: parent.right

@@ -1,0 +1,76 @@
+{
+  "artwork_creator": "PixelLab generative AI, same canonical costume across native views",
+  "manual_artistic_sprite_edits": 0,
+  "technical_color_process": "Automatic Rec709 hue removal on native recolorable pixels only",
+  "technical_hue_pixels": 259,
+  "south_canonical_byte_exact": true,
+  "layer_merge_byte_exact": true,
+  "aseprite_and_openraster_readback_exact": true,
+  "directions": {
+    "north": {
+      "native_canvas": [
+        64,
+        64
+      ],
+      "alpha_exact_to_native": true,
+      "fixed_skin_and_other_nonmask_exact": true,
+      "costume_is_neutral_grayscale": true,
+      "technical_hue_pixels": 86,
+      "only_hue_changed_after_ai": true,
+      "binary_alpha": [
+        0,
+        255
+      ],
+      "rgba_sha256": "abe73a9d3f1d7083395e41bbf12b35d7bba2c3b9b0df7839af4beff230dd127f"
+    },
+    "east": {
+      "native_canvas": [
+        64,
+        64
+      ],
+      "alpha_exact_to_native": true,
+      "fixed_skin_and_other_nonmask_exact": true,
+      "costume_is_neutral_grayscale": true,
+      "technical_hue_pixels": 95,
+      "only_hue_changed_after_ai": true,
+      "binary_alpha": [
+        0,
+        255
+      ],
+      "rgba_sha256": "e6d360c93b981c4aaee40779a38046afc6ce1a4436a2e74e62e463b78dd353ad"
+    },
+    "south": {
+      "native_canvas": [
+        64,
+        64
+      ],
+      "alpha_exact_to_native": true,
+      "fixed_skin_and_other_nonmask_exact": true,
+      "costume_is_neutral_grayscale": true,
+      "technical_hue_pixels": 0,
+      "only_hue_changed_after_ai": true,
+      "binary_alpha": [
+        0,
+        255
+      ],
+      "rgba_sha256": "d6b1ccaa5b7ac5b401f34cf037e1739a9d9c5122f2ebeb6a9c852ce561871a99"
+    },
+    "west": {
+      "native_canvas": [
+        64,
+        64
+      ],
+      "alpha_exact_to_native": true,
+      "fixed_skin_and_other_nonmask_exact": true,
+      "costume_is_neutral_grayscale": true,
+      "technical_hue_pixels": 78,
+      "only_hue_changed_after_ai": true,
+      "binary_alpha": [
+        0,
+        255
+      ],
+      "rgba_sha256": "f6881a201d68bae37ca6cf22f638b5eb702c5f278310620477cfef4b890cfdf4"
+    }
+  },
+  "scope": "Four idle phase0 BASE frames, addon0. Design review, walking phases, addons, female version and game integration remain. Technical checks do not establish aesthetic approval."
+}

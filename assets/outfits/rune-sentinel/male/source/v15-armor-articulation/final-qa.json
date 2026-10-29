@@ -1,0 +1,20 @@
+{
+  "source_size": [
+    64,
+    64
+  ],
+  "alpha_exact_to_previous": true,
+  "alpha_exact_to_native": true,
+  "fixed_skin_and_other_nonmask_pixels_exact": true,
+  "costume_is_neutral_grayscale": true,
+  "changed_pixels": 30,
+  "changed_regions": {
+    "legs_and_boots": 26,
+    "near_arm_edge": 4
+  },
+  "all_changes_match_pixel_lab_patch_decision": true,
+  "binary_alpha": [
+    0,
+    255
+  ]
+}

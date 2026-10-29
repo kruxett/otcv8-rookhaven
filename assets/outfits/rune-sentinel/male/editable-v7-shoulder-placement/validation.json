@@ -1,0 +1,149 @@
+{
+  "stage": "south-idle design study; new mantle addon2 awaiting graphic approval",
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "a3ecb5a3-b268-40fa-8108-09ccd77495bc",
+  "base_and_addon1_unchanged": true,
+  "outside_mask_changes": 0,
+  "protected_face_hands_changes": 0,
+  "source_changes": 92,
+  "shoulder_attachment_overlap_pixels": 23,
+  "attachment_overlap_coordinates": [
+    [
+      47,
+      36
+    ],
+    [
+      48,
+      36
+    ],
+    [
+      49,
+      36
+    ],
+    [
+      50,
+      36
+    ],
+    [
+      47,
+      37
+    ],
+    [
+      48,
+      37
+    ],
+    [
+      49,
+      37
+    ],
+    [
+      50,
+      37
+    ],
+    [
+      51,
+      37
+    ],
+    [
+      47,
+      38
+    ],
+    [
+      48,
+      38
+    ],
+    [
+      49,
+      38
+    ],
+    [
+      50,
+      38
+    ],
+    [
+      51,
+      38
+    ],
+    [
+      52,
+      38
+    ],
+    [
+      48,
+      39
+    ],
+    [
+      49,
+      39
+    ],
+    [
+      50,
+      39
+    ],
+    [
+      51,
+      39
+    ],
+    [
+      52,
+      39
+    ],
+    [
+      49,
+      40
+    ],
+    [
+      50,
+      40
+    ],
+    [
+      51,
+      40
+    ]
+  ],
+  "variant_4_connected_components": {
+    "0": [
+      549
+    ],
+    "1": [
+      640
+    ],
+    "2": [
+      612
+    ],
+    "3": [
+      683
+    ]
+  },
+  "native_overlay_order": [
+    "base",
+    "addon1 if bit1",
+    "addon2 if bit2"
+  ],
+  "all_four_combinations_exported": true,
+  "ase_ora_readback": "PASS, pixel-identical layer cels/PNGs",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "retained_base_coverage_pixels": 0,
+  "remaining": [
+    "user graphic approval",
+    "all directions and walking phases",
+    "four-channel player-color masks",
+    "female outfit and addons",
+    "native import and in-game visual check"
+  ],
+  "files": {
+    "addon-combinations-preview.png": "b40cf36f0126100f884e224fa58c9a336a3def50de9356f12fcaf9dc5c7ab753",
+    "addon1-overlay.png": "c813a30daf4c9931e9ad333350ae5f80a725a1ad07f0824a038cddef6c2b71c1",
+    "addon2-overlay.png": "937d1e436f49e595898510db7b4e51b631c8aabffcf6e0aafa0146181e965dbe",
+    "base.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "rune-sentinel-mantle.aseprite": "e7b3ca1f5901b9be8db19311a6fb35d8708e0641dd53d044e5782f84110bab30",
+    "rune-sentinel-mantle.ora": "46a16a2db397b357539a562a2eebc25ed57d86803094b486921e9ac211863995",
+    "variant-0.png": "e65643bc71e54d07ef62bc6191feed780f83de6980917ae705488045da18957f",
+    "variant-1.png": "8dbfa13d224343f7e372640ce321b90aa5d94d21d829ea6e697016b03e41be02",
+    "variant-2.png": "2c1dc7f5e91e9ade5bb01769d80b45b98b6a68f10b72b3eb1746068ca5688bc5",
+    "variant-3.png": "b442d7d03fe13dcb713fd5d99f711c8d95898780ef2f0ac30559d1e372898def"
+  }
+}

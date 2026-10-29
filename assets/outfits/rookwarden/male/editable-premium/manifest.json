@@ -1,0 +1,66 @@
+{
+  "status": "editable graphic proposal, not imported",
+  "native_canvas": [
+    64,
+    64
+  ],
+  "sheet_canvas": [
+    192,
+    256
+  ],
+  "columns": [
+    "idle",
+    "step1",
+    "step2"
+  ],
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "unscaled_translation_from_48px_reference": [
+    24,
+    24
+  ],
+  "channel_pixels": {
+    "(255, 255, 0, 255)": 1022,
+    "(255, 0, 0, 255)": 2587,
+    "(0, 255, 0, 255)": 931,
+    "(0, 0, 255, 255)": 1381
+  },
+  "fixed_pixels": 1652,
+  "default_player_colors": {
+    "head": 57,
+    "body": 49,
+    "legs": 2,
+    "feet": 58
+  },
+  "checks": [
+    "source alpha unchanged",
+    "only neutral grayscale under color masks",
+    "fixed pixels byte-identical",
+    "pure native mask colors",
+    "all 133 palette colors on all 4 channels",
+    "per-channel isolation",
+    "white tint identity",
+    "ASE cels/flags lossless readback",
+    "ORA PNG/XML readback",
+    "96 legacy SPR tiles roundtrip"
+  ],
+  "preview_note": "Software preview follows local shader multiplication and local palette formula. No native game rendering or outfit import performed.",
+  "source": "assets\\outfits\\rookwarden\\male\\source\\v7-premium-garments\\pixellab-premium-finished.png",
+  "layers_source": "assets\\outfits\\rookwarden\\male\\source\\v8-premium-recolorable",
+  "files": {
+    "base.png": "0d28908ace4b8274160d976507c89fb9574e89aa4b76d071ccf6e31fd331c302",
+    "color-options-preview.png": "8059d5a78a8df44ae218d80f4cc9a7251711009da05e5a109f48468a73f00811",
+    "color-preview.png": "4e1d877ea6da1d716c8f0af67002a64cef64f8525a36d7ecd4a51d9f310cc0e7",
+    "layers-overview.png": "90f1d130553008b2b67f37aceba51bfbcf50c5959b3c10d4a886e39101002378",
+    "mask.png": "93aeb8f2543c565b3d87de12bd806c64d1a45125bd413a5bbac6f77b863100fe",
+    "native-reference.png": "bed5c8b2ead0e80eee5123c6e6d730649743aecb1c4cc0c20ad7687aff4c42f5",
+    "previous-color-concept.png": "5b242e2a5fc7e40c2311339d18bbd04e3fec61e008977f7d19cfc345ba657a50",
+    "rookwarden-male.aseprite": "f67973de6768354270a05bc305aebb7d2083605ed1b48ea4ccad78039df6a4f5",
+    "rookwarden-male.ora": "02d537b6ae92dfd6f56587e8cf18442aad0b4599f3344776f9f2c5849b413126",
+    "walking-color-preview.gif": "d3d7311d48e3587ac08d1775448d336e8855ac24444e1cae856f28ee145da64a"
+  }
+}

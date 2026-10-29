@@ -1,0 +1,21 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "9350af4a-d155-4ca6-af18-660ccb3928a6",
+  "asset_id": "2e942e6e-5f7f-5ea9-b015-3f60a1d7633d",
+  "seed": 2026102887,
+  "description": "FOUR NATIVE FRAMES of ONE Rune Sentinel BASE outfit. NORTH=top-left, EAST=top-right, SOUTH=bottom-left, WEST=bottom-right, each cell64x64 with32px human. SOUTH IS CANONICAL AND FROZEN. Redraw other costumes to be the SAME outfit. Copy south's metal construction and dark undergarment: fitted steel helmet/brow/side panels, solid beveled chest/back plates, belt, two short hip plates, small shoulder caps, fitted bracers, paired knee caps, FULL broad greaves and matching steel boots. North/west look too much like puffy Citizen clothes: replace white fabric texture with deliberate STEEL PLATES and CHARCOAL CLOTH sleeves/upper thighs/joints (#202020 cloth against #C0C0C0 steel). No speckled scratches/checkerboard. All plates have corresponding paired coverage and ends, not white wires. EAST: remove huge circular plate on NEAR UPPER ARM. This long arm ends at LOWER HAND. Give it a small shoulder cap, dark upper sleeve, short bracer near the hand; narrow foreshortened CHEST PLATE lies to the RIGHT of this arm. No shield/chest gem on arm. NORTH: back of helmet/backplate, no new face or front chest rune. WEST: LEFT-facing original occluded face. EAST: RIGHT-facing original raised-hand gesture. Single DIAMOND RUNESTONE stays on FRONT of chest, only foreshortened if visible in profile. Preserve exact native anatomy, limb bends, all hand/face/foot positions, silhouette and opacity. Masked pixels stay opaque. No poses, rescaling or added limbs. Crisp native pixel clusters, fixed upper-left light. Perspective changes shading/occlusion, not garment identity. Neutral grayscale costume only, real skin untouched. No crest/spikes/addons, cape, flag, weapon, particles or text.",
+  "source": "coherence-source.png",
+  "mask": "coherence-mask.png",
+  "layout": "coherence-layout.json",
+  "reason": "The independent first-pass north/west looked too much like white Citizen clothing; east copied an oversized circular upper-arm plate. Present all views together with south frozen to improve garment identity and anatomy-specific placement.",
+  "canvas": [
+    128,
+    128
+  ],
+  "native_cells": [
+    64,
+    64
+  ],
+  "visible_figure_scale": "original32px; no rescaling",
+  "status": "completed; base graphic review pending"
+}

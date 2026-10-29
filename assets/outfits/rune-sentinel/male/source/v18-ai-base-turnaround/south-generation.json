@@ -1,0 +1,13 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "520bdc61-dbe5-4d5e-b331-2182ae38702a",
+  "asset_id": "047cd1c9-9634-5c6f-9458-40fc404fc6ca",
+  "seed": 2026102883,
+  "description": "Finish the SAME premium Rune Sentinel BASE costume. Refine only the masked breastplate, hip armor and legs; keep the good helmet, shoulders, arms, exact native Citizen body/face/hands and pose. At native32px, make ONE clear inset DIAMOND RUNESTONE in a stepped metal frame the chest focal point. Broad clean breastplate facets around it, no chainmail/checkered noise. Give BOTH hips matching short overlapping armor plates with equally deliberate lower bevels. Both legs have the SAME physical armor construction: a shaped knee plate, cloth joint, broad fitted shin guard with TWO clear side edges and a matching lower end at the ankle. No thin white wire along one leg and a missing counterpart. Use the full leg surface for solid greaves like native Knight/Nightmare references; retain the exact original leg widths, bends, foot placements and skin. Both boots share a fitted armored toe design. Shading follows upper-left light; symmetry of equipment does not mean mirrored lighting. Keep dark undergarment visible between metal pieces and around joints. All costume paint must be NEUTRAL WHITE/GRAY/CHARCOAL, equal RGB, no blue/gold/skin color in the armor. The real face/hands are frozen. Keep every existing opaque pixel opaque, including dark seams. Native crisp pixel clusters, same32px size, no scale, new limbs, skirt covering legs, glow haze, weapon or text. BASE ONLY, no addon crest or fancy shoulder expansion. This is a crafted complete rune-order elite guard, not generic starter clothes with surface scratches.",
+  "source": "south-before.png",
+  "mask": "south-armor-mask.png",
+  "context": "south-context.png",
+  "scope": "Refine the canonical south BASE costume before transferring the same design to native north/east/west Citizen poses. No walking/addons/game integration yet.",
+  "artwork_policy": "AI draws all costume geometry; only disclosed automatic hue normalization permitted afterward.",
+  "status": "completed; base graphic review pending"
+}

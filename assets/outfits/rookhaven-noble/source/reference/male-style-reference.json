@@ -1,0 +1,24 @@
+{
+  "source": "nobleman-south.png",
+  "looktype": 132,
+  "source_crop": [
+    31,
+    31,
+    64,
+    64
+  ],
+  "native_body_size": [
+    33,
+    33
+  ],
+  "reference_canvas": [
+    48,
+    48
+  ],
+  "placed_at": [
+    7,
+    7
+  ],
+  "rescaled": false,
+  "role": "Existing native Nobleman idle south appearance; base layer with neutral white tint. Translation only for reference canvas."
+}

@@ -1,0 +1,79 @@
+{
+  "generator": "PixelLab create_image_pro",
+  "model": "pro",
+  "job_id": "abc3214a-3868-4caf-9f21-9efb7d16435d",
+  "asset_id": "c82b2d07-f583-5a2e-8956-55e387af586c",
+  "seed": 2026102919,
+  "description": "Create ONE COMPLETE ORIGINAL RUNE SENTINEL MALE BASE OUTFIT SPRITESHEET in ONE generation using ALL full reference sheets together. Output192x256 transparent PNG: 3 columns of64px cells (idle0,walk1,walk2), 4 rows (NORTH/back,EAST/right,SOUTH/front,WEST/left). Native roughly32px Tibia humans, original lower-right cell placement from Citizen. All12 sprites are the SAME new premium rune-order elite guard, drawn together, not12 costume variants. Invent a complete coherent wardrobe: fitted open-face steel helmet/angular brow, solid crafted breastplate with ONE inset diamond runestone in a stepped frame, strong belt/two short overlapping hip plates, fitted bracers, plain shoulder caps, dark tailored undergarment, paired knee plates/full greaves and armored boots. Exclusive sculpted metal across the WHOLE body, not Citizen recolored or covered in wrinkles. Broad readable metal planes, clear cloth joints, subtle angular craftsmanship; no speckled/checkerboard noise. Chest stone stays on FRONT, foreshortened/occluded in profiles, absent on back. Same component shapes, paired coverage, lengths and attachments in EVERY facing/walk phase, with perspective, occlusion and upper-left lighting. Learn actual classic Tibia art style from the COMPLETE Knight/Nightmare/Brotherhood sheets, how armor turns and moves. Their LEFT half is base, RIGHT half shows addons: output BASE ONLY with its own complete valuable design; head crest/ornate enlarged shoulders are later addons. Preserve Citizen's corresponding anatomy, face/hands, head/limb proportions, arm/leg bends and foot poses in ALL12 slots. Pixel art at native scale, no downsampling or oversized illustration. NEUTRAL white/silver/gray/charcoal clothing with natural skin tones. Transparent background. No copied outfit, extra limb, banner, weapons, shield, cape, addon spikes/crest, particles, labels, borders or text.",
+  "requested_size": [
+    192,
+    256
+  ],
+  "candidates": 1,
+  "cost_generations": 10,
+  "reference_frame_count": 84,
+  "reference_images": [
+    {
+      "name": "Citizen",
+      "ref": "upload:75e29f86-219d-4866-97cb-2f7caf1ace88",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\references\\128-citizen-REFERENCE.png",
+      "frames": 12,
+      "size": [
+        192,
+        256
+      ],
+      "usage": "COMPLETE 12-FRAME ANATOMY/MOTION TEMPLATE. 3 columns=idle0/walk1/walk2; 4 rows=NORTH/EAST/SOUTH/WEST. Native64px cells, roughly32px figure at lower-right. Preserve corresponding head, face, hands, arm/leg/foot placements, proportions and gait. Fully redesign the clothing."
+    },
+    {
+      "name": "Knight",
+      "ref": "upload:7f6fb159-f2ed-4633-a9cf-99d48d166d2b",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\references\\131-knight-REFERENCE.png",
+      "frames": 24,
+      "size": [
+        384,
+        256
+      ],
+      "usage": "COMPLETE KNIGHT SHEETS: LEFT half=12 base frames; RIGHT half=12 all-addon frames. Both contain ALL4 facings and ALL3 phases. Study classic Tibia armor, clean pixel planes and corresponding equipment through turning/walking. Do not copy design; weapons/addon ornaments are reference only."
+    },
+    {
+      "name": "Nightmare",
+      "ref": "upload:3bdd06e1-4228-49c0-ac03-029f638e2ffb",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\references\\268-nightmare-REFERENCE.png",
+      "frames": 24,
+      "size": [
+        384,
+        256
+      ],
+      "usage": "COMPLETE NIGHTMARE SHEETS: base12 LEFT, all-addons12 RIGHT, all directions/phases. Study premium whole-body plate construction and consistent helmet, waist and greaves across all frames. Do not copy it or include its shield/weapons/addon parts."
+    },
+    {
+      "name": "Brotherhood",
+      "ref": "upload:7aa21ae5-11dc-427f-b2b2-c38f95af0eab",
+      "path": "C:\\GitRepos\\kruxett\\otcv8-rookhaven\\assets\\outfits\\rune-sentinel\\male\\source\\v19-full-sheets-pro\\references\\278-brotherhood-REFERENCE.png",
+      "frames": 24,
+      "size": [
+        384,
+        256
+      ],
+      "usage": "COMPLETE BROTHERHOOD SHEETS: base12 LEFT, all-addons12 RIGHT, all directions/phases. Study exclusive whole-garment identity, layering, clear silhouettes and consistent clothing construction. Not a direct-copy design or a new anatomy template."
+    }
+  ],
+  "workflow": "A fresh complete twelve-frame outfit generated jointly from four entire native reference sheets. No rejected Rune Sentinel image, south-view anchor or per-direction generation.",
+  "rows": [
+    "north",
+    "east",
+    "south",
+    "west"
+  ],
+  "columns": [
+    "idle0",
+    "walk1",
+    "walk2"
+  ],
+  "cell_size": [
+    64,
+    64
+  ],
+  "artwork_policy": "PixelLab generative AI draws the entire new sheet. Preserve original returned PNG. Only exact crops, previews and editable project packaging; do not hand-paint artwork or silently repair failed poses.",
+  "status": "processing"
+}

@@ -1,0 +1,1 @@
+Internally rejected. Native base pose preserved and calmer shading, but isolated addon layers were not anchored to corresponding body positions. Helmet overlays duplicated faces; shoulder overlays floated near the head. No user approval; never import this attempt.

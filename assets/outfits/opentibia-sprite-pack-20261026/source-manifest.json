@@ -1,0 +1,43 @@
+{
+  "upstream": "https://github.com/peonso/opentibia_sprite_pack",
+  "commit": "ae88e1828671b349e729dd21177dde15ea41e123",
+  "license": "CC BY4.0; original LICENSE.txt and AUTHORS.md retained",
+  "files": [
+    {
+      "path": "client_files/otsp.dat",
+      "bytes": 86625,
+      "sha256": "86fcea80f5be850cc12758fd181b949f59828a0e9441450591d8deeb4649b2de"
+    },
+    {
+      "path": "client_files/otsp.spr",
+      "bytes": 9280502,
+      "sha256": "6869462cf5d9cc3bb15b3f76df8d447f2d2f3de99c638619b98ce56f43bd9a05"
+    },
+    {
+      "path": "client_files/otsp.otfi",
+      "bytes": 92,
+      "sha256": "fe92ccb887c503c5055de77e1d716e027d9a0c4258d1e2e09778cb86e231c000"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 18652,
+      "sha256": "cce5d01fa4a83b794271bd2c28cffdf99afd43c803e6ddefddae39b591ea7448"
+    },
+    {
+      "path": "AUTHORS.md",
+      "bytes": 4901,
+      "sha256": "4790cacc6aa6a117179ad59c0c38641b3e814084ca013749bb7d781d6c473578"
+    },
+    {
+      "path": "GUIDE.md",
+      "bytes": 1796,
+      "sha256": "3beee39f97425bb46eb1d4aa30b3f4c13b6abd7c9a20ddf9e42da3cc0b6debf3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 767,
+      "sha256": "8319bd8c1214df9ef3d8366e1bbdf9034b1c3e83e6bf2a71db292933c3da8eb8"
+    }
+  ],
+  "purpose": "Read-only extraction and outfit review; no gameplay DAT/SPR replaced."
+}

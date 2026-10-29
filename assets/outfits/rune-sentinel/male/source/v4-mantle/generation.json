@@ -1,0 +1,21 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "aec73ff3-91d7-4882-938c-1e9f4d735f82",
+  "asset_id": "6211f8d5-6304-51a1-a682-e91b4bde8e73",
+  "seed": 2026102692,
+  "charged_generations": 5,
+  "description": "Replace the rejected floating-banner idea with ADDON 2: a wearable ARMORED RUNE MANTLE attached directly to this Rune Sentinel's shoulder armor. Draw ONE broad stepped dark-steel pauldron over the visible upper-right shoulder, physically seated ON the existing shoulder, with a bold gold clasp and small inset turquoise rune. Two overlapping angular armor plates, no long spikes. From its rear edge hangs a SHORT deep navy/teal cloth mantle behind the arm and body, ending around the upper calves, with ONE broad gold angular hem and two readable cloth folds. This is a compact guard's ceremonial shoulder mantle, not a giant cape. The ATTACHMENT must be unmistakable: pauldron overlaps existing shoulder by 3-4px with a connected gold clasp; cloth emerges from under the pauldron. Strong 2-3px pixel clusters, dark cool fabric distinct from skin; rich steel highlights and restrained cyan rune, matching the existing armor. Keep exact native Tibia 8.60 south pose: preserve helmet/head/face, existing chest jewel, arm positions, both hands, cuffs and boots. Source is BASE outfit; the crown addon is separate and unchanged. Do not invent another arm. No free-floating ornament, banner, pole, flag, wings, feathers, shield, weapon, aura, text, soft glow or antialiasing. Preserve solid body coverage where source is opaque: addon artwork must be drawable ON TOP without erasing the underlying body. Fully transparent background, binary alpha, native 64x64 pixels. Improve silhouette around shoulder/back while retaining a clean readable humanoid.",
+  "source_file": "base.png",
+  "mask_file": "mantle-generation-mask.png",
+  "context_file": "mantle-context.png",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "status": "Internal trial; too subtle and mantle hem appears across thighs. Refined into v5 before presenting."
+}

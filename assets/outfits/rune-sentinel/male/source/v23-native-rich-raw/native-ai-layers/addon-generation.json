@@ -1,0 +1,18 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "8a1d3e74-e3d5-4f72-969d-2b278214362b",
+  "asset_id": "ae9d5572-1077-53b9-80dc-8b4ceee0cd43",
+  "status": "complete",
+  "description": "Paint TWO INDEPENDENT premium Rune Sentinel ADDON LAYERS, ALL24 native poses TOGETHER, over the visible finished base outfit. Preserve this base; output is a NEW TRANSPARENT LAYER, not repainted characters.\n240x240 grid6x6 cells40px. Columns0-2 idle/walkA/walkB NORTH(even rows)/SOUTH(odd); columns3-5 EAST(even)/WEST(odd).\nRows0-1 are the BASE REFERENCE, not selected.\nRows2-3 selected rear-helmet regions = ADDON1 only: THREE short attached swept STEEL FINS on the helmet's REAR rim. Low dorsal comb, not vertical crown/horns. Mask fixes actual rear placement: NORTH tips DOWN toward collar, EAST LEFT, SOUTH UP, WEST RIGHT. Same3-fin construction in every phase, projected/occluded with head. Attach roots visibly to existing helmet, never floating. The bottom-right diagram shows rear projection; do not draw diagram or arrows.\nRows4-5 selected shoulder regions = ADDON2 only: TWO substantial fitted SCULPTED LAYERED STEEL PAULDRONS with dark undercuts and worked short collar where allowed. BOTH shoulder roots, not elbows/forearms; proper far-side foreshortening and occlusion. Premium visible improvement, not random tiny white speckles. This source tier has plain helmet only because addons are separate layers; do NOT add helmet/crest here.\nLearn native addon attachments from complete Knight/Warmaster art+mask references. All finished base armor, chest rune, tabard, belt, bracers, trousers, boots, faces/hands, limbs and foot positions MUST remain unchanged. Never paint extra body parts, face, hair or clothing outside the selected equipment shapes.\nOnly WHITE/GRAY/CHARCOAL metal matching existing armor, deliberate2-3px edge clusters and meaningful dark seams. No skin tones, colored particles, tiny scratches, checkerboard or dithering. Transparent around the actual new equipment. Original native actor proportions and exact walk poses remain fixed.",
+  "context_usage": "Visible full base at(480,360)240x240 is alignment authority, original12 poses copied identically across3 row pairs. Top Warmaster full art+mask and bottom-left Knight full art+mask show all4 views/3 phases/native addon constructions. Bottom-right diagram specifies rear projection only. Generate head-comb overlays ONLY rows2-3 and shoulder overlays ONLY rows4-5; source body remains reference, output transparent outside mask. New layer export allows native base+either/both composition without manual art extraction.",
+  "source": "addon-generation-visible-base-all36.png",
+  "mask": "addon-generation-domains.png",
+  "context": "addon-native-reference-context.png",
+  "output_method": "New layer with changes",
+  "base_poses_generated_from_all_native_views": true,
+  "both_addons_all24_poses_jointly": true,
+  "estimated_generations": 9,
+  "no_post_generation_art_processing": true,
+  "actual_generations": 9,
+  "total_generations_this_turn": 43
+}

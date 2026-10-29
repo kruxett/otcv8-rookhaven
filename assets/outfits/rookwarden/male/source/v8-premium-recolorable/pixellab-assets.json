@@ -1,0 +1,22 @@
+{
+  "concept_workbench_image": "e64637ce-8c32-4a35-ae30-3ddc6d00cd0e",
+  "base_workbench_image": "5600b737-37e9-4b40-a32f-430f69a31f10",
+  "mask_workbench_image": "53cabc8f-d778-40e1-9042-6c5ea9b3f53e",
+  "gallery": {
+    "concept": "gallery:e7805b2b-7474-43c5-ad90-abc183ef4711",
+    "base": "gallery:da4aee1a-65a1-48d4-97f2-7f98ef6b449c",
+    "mask": "gallery:0a0bcf3c-7a4c-4905-8b20-1e5e44aa38fe"
+  },
+  "workbench_canvas": [
+    144,
+    192
+  ],
+  "editor_canvas": [
+    192,
+    256
+  ],
+  "native_cell": [
+    64,
+    64
+  ]
+}

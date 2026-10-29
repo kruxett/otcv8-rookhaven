@@ -1,0 +1,156 @@
+{
+  "source": "source\\v7-premium-garments\\pixellab-premium-finished.png",
+  "source_sha256": "81b0fd96e327d05516abd1f2d886c21ee69f46213c294dd5c87471c092ee84ab",
+  "generator": "PixelLab pixelart_workbench guarded pixel conversion",
+  "channels": {
+    "head": "#ffff00ff",
+    "primary": "#ff0000ff",
+    "secondary": "#00ff00ff",
+    "detail": "#0000ffff"
+  },
+  "default_outfit_colors": {
+    "head": 57,
+    "body": 49,
+    "legs": 2,
+    "feet": 58
+  },
+  "mask_rule": "Opaque pure yellow/red/green/blue; transparent means fixed color.",
+  "frames": [
+    {
+      "direction": "north",
+      "phase": 0,
+      "pixels": {
+        "fixed": 106,
+        "head": 106,
+        "primary": 211,
+        "detail": 147,
+        "secondary": 62
+      }
+    },
+    {
+      "direction": "north",
+      "phase": 1,
+      "pixels": {
+        "fixed": 103,
+        "head": 108,
+        "primary": 234,
+        "detail": 109,
+        "secondary": 65
+      }
+    },
+    {
+      "direction": "north",
+      "phase": 2,
+      "pixels": {
+        "fixed": 105,
+        "head": 108,
+        "primary": 231,
+        "detail": 98,
+        "secondary": 61
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 0,
+      "pixels": {
+        "fixed": 172,
+        "detail": 134,
+        "head": 63,
+        "secondary": 82,
+        "primary": 212
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 1,
+      "pixels": {
+        "fixed": 188,
+        "detail": 125,
+        "primary": 179,
+        "head": 63,
+        "secondary": 83
+      }
+    },
+    {
+      "direction": "east",
+      "phase": 2,
+      "pixels": {
+        "fixed": 178,
+        "head": 63,
+        "detail": 100,
+        "secondary": 93,
+        "primary": 220
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 0,
+      "pixels": {
+        "fixed": 155,
+        "head": 63,
+        "primary": 252,
+        "detail": 124,
+        "secondary": 79
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 1,
+      "pixels": {
+        "fixed": 167,
+        "head": 63,
+        "primary": 217,
+        "detail": 101,
+        "secondary": 87
+      }
+    },
+    {
+      "direction": "south",
+      "phase": 2,
+      "pixels": {
+        "fixed": 161,
+        "head": 63,
+        "primary": 252,
+        "detail": 103,
+        "secondary": 81
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 0,
+      "pixels": {
+        "fixed": 108,
+        "head": 106,
+        "detail": 158,
+        "primary": 184,
+        "secondary": 58
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 1,
+      "pixels": {
+        "fixed": 103,
+        "head": 108,
+        "detail": 98,
+        "primary": 200,
+        "secondary": 100
+      }
+    },
+    {
+      "direction": "west",
+      "phase": 2,
+      "pixels": {
+        "fixed": 106,
+        "head": 108,
+        "detail": 84,
+        "primary": 195,
+        "secondary": 80
+      }
+    }
+  ],
+  "edits": {
+    "base": 5900,
+    "mask": 7573
+  }
+}

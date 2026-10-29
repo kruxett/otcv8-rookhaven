@@ -1,0 +1,20 @@
+{
+  "generation_job_id": "a12a5b1d-7307-4ca4-8db1-8cbb6e26ad33",
+  "base_workbench_image": "43170641-a63a-4c0f-aa09-2f3de5c97ccd",
+  "mask_workbench_image": "77c99727-6fc4-4132-bb76-c0dcaad6a4b0",
+  "clean_concept_workbench_image": "92cd67e5-0dec-4b00-ab73-aaef1f70734c",
+  "gallery": {
+    "base": "gallery:65839057-69fd-437c-9493-79a1f5eca313",
+    "mask": "gallery:9ad71f4e-5c08-4a58-8dbf-a96f73ff5a54",
+    "concept": "gallery:b4b01ca2-80af-4ba6-9a9a-922ccd0fb104"
+  },
+  "reference_looktype": 128,
+  "workbench_canvas": [
+    144,
+    192
+  ],
+  "editor_canvas": [
+    192,
+    256
+  ]
+}

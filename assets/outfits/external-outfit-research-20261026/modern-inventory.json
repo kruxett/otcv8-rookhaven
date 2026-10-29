@@ -1,0 +1,263 @@
+{
+  "status": "Selection preview only; no imported outfits or shop changes.",
+  "source": "Installed official Tibia client; original art, addon layers and player-color masks. Not freely licensed.",
+  "catalog_sha256": "97d0963444e147f5eebb02ed8024abc7e2e80707ef03b08dce226117bebdcb4d",
+  "appearance_sha256": "501594e860be8a531ca465ae6e7638da05e3a4d5cef2d038d4f2321ae6729f5f",
+  "source_version_file": "appearances-501594e860be8a531ca465ae6e7638da05e3a4d5cef2d038d4f2321ae6729f5f.dat",
+  "names_source": "https://github.com/opentibiabr/canary/blob/main/data/XML/outfits.xml",
+  "families": [
+    {
+      "name": "Rune Master",
+      "male": 1384,
+      "female": 1385
+    },
+    {
+      "name": "Dream Warden",
+      "male": 577,
+      "female": 578
+    },
+    {
+      "name": "Crystal Warlord",
+      "male": 512,
+      "female": 513
+    },
+    {
+      "name": "Lion of War",
+      "male": 1206,
+      "female": 1207
+    },
+    {
+      "name": "Royal Costume",
+      "male": 1457,
+      "female": 1456
+    },
+    {
+      "name": "Death Herald",
+      "male": 667,
+      "female": 666
+    }
+  ],
+  "all12_variants": {
+    "512": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "513": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "577": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "578": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "666": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "667": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1206": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1207": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1384": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1385": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1456": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ],
+    "1457": [
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 1,
+        "group": 0
+      },
+      {
+        "nx": 4,
+        "ny": 3,
+        "nz": 2,
+        "layers": 2,
+        "frames": 8,
+        "group": 1
+      }
+    ]
+  },
+  "frames_composed_including_all4_directions": 544,
+  "modern_idle_groups_preserved_in_source": true,
+  "walking_preview": "All8 original walk frames;100ms illustrative preview speed.",
+  "source_art_repainted": false,
+  "import_limitations": "8.60 DAT conversion and in-game checks not yet done. Separate modern idle/movement groups and timing require an explicit conversion choice."
+}

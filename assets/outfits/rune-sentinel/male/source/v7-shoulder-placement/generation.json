@@ -1,0 +1,34 @@
+{
+  "generator": "PixelLab inpaint_image_pro_flash",
+  "job_id": "a3ecb5a3-b268-40fa-8108-09ccd77495bc",
+  "asset_id": "bd528240-6207-548b-aa77-06062a1dd830",
+  "seed": 2026102731,
+  "description": "Correct BOTH SHOULDER PAULDRONS of this Rune Sentinel. Exact native anatomical anchors from original Citizen/Warrior: NEAR shoulder is the thin sleeve stripe LEFT OF THE HEAD at (32,38), FAR shoulder is (49,38). BOTH shoulders are around the SAME y level! The near elbow is LOWER at y44..46: NEVER put the shoulder cap there. Build two matching broad gold-rimmed steel shoulder domes at shoulder height, centered near (30,36) and (50,36), about 7-8px wide each, with a small bright teal rune inset and layered curved bottom band. The near dome visibly projects to the LEFT of the helmet at x27..32,y34..40, its INNER lower edge attaches to the ORIGINAL upper-arm sleeve at x32..34,y39..42, partly occluded by the head. The far dome sits ON TOP of the original round shoulder at x47..54,y34..40, with its outer edge curving OVER the upper arm, NOT sunk inside it. Both pads should be visibly distinct at 1x. Upper-left silver highlight, dark steel lower plate, clean broad aged-gold trim, one teal rune each; compact native old Tibia 8.60 shapes. Study actual Warrior TWO-shoulder addon and Knight shoulder caps in context for correct positioning. Keep original head, face, arms, hands, chest, legs and feet EXACTLY; all body below y43 is frozen. Native head-mask pixels are protected. Do not add skin or move either arm. No vertical fins, horns, flags, wings, floating parts, weapons or extra limbs. Only draw the two fitted shoulder caps in these exact shoulder zones. No blur, anti-aliasing, text or aura. Transparent64x64, binary alpha. Source is BASE outfit; crown addon is separate.",
+  "source_file": "base.png",
+  "mask_file": "mantle-generation-mask.png",
+  "context_file": "native-placement-context.png",
+  "guard_file": "preserved-face-hands-guard.png",
+  "bounding_box": {
+    "x": 64,
+    "y": 64,
+    "width": 64,
+    "height": 64
+  },
+  "output_method": "Modify current layer",
+  "no_background": true,
+  "crop_to_mask": true,
+  "status": "Native shoulder-root correction and manually fitted caps; awaiting user graphic approval",
+  "charged_generations": 5,
+  "final_workbench_id": "cc3a515f-7af0-4e2c-a05e-4d50fbce2b8c",
+  "initial_workbench_id": "04f9826a-c699-4132-a6db-508e6dcd94c0",
+  "manual_patches": [
+    "native-shoulder-domes-patch.json",
+    "fitted-native-shoulder-caps-patch.json"
+  ],
+  "final_craft_mask": "final-craft-mask.png",
+  "final_art": "pixellab-mantle.png",
+  "raw_generation_art": "pixellab-mantle-raw.png",
+  "internal_dome_trial": "pixellab-mantle-domes.png",
+  "final_editable": "../../editable-v7b-shoulder-fit/rune-sentinel-shoulders.aseprite",
+  "final_gallery_reference": "gallery:633c73c3-a9b4-489c-baac-e42c1d7a6769"
+}

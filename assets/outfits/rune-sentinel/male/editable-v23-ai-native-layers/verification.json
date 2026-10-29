@@ -1,0 +1,41 @@
+{
+  "status": "Native AI layer proposal, user graphic approval pending, not imported",
+  "pixel_art_drawing": "PixelLab AI only",
+  "art_postprocessing": "Known complete-frame rectangle packing and standard alpha compositing only; no recoloring, repainting or guessed part extraction.",
+  "native_face_hand_and_contour_RGBA_preserved_all4_combinations": true,
+  "all_original_native_body_pixels_covered": true,
+  "base_legs_identical_all4_combinations": true,
+  "helmet_crest_identical_with_or_without_addon2": true,
+  "AI_addon_alpha_outside_requested_domains": 0,
+  "all3_art_layers_byte_exact_to_PixelLab_source_cells": true,
+  "ASE_ORA_readback_passed": true,
+  "four_tint_channels_independent": true,
+  "sprite_860_lossless_tiles": 288,
+  "working_base_mask_nearest_label_pixels": 122,
+  "addon_mask_labels": "entire addon1 yellow, entire addon2 red, source alpha retained",
+  "final_layer_workflow_jobs": [
+    "36246344-9f1a-4a4c-8de4-62a05b7a07d1",
+    "8a1d3e74-e3d5-4f72-969d-2b278214362b"
+  ],
+  "all_jobs_this_user_turn": [
+    "139a9a9b-972d-4381-8c20-bf43f632893b",
+    "d521d620-4cbb-49da-8c9d-30779d501d55",
+    "5689b301-2a4a-4dbf-a104-02d8e8c75f29",
+    "36246344-9f1a-4a4c-8de4-62a05b7a07d1",
+    "8a1d3e74-e3d5-4f72-969d-2b278214362b"
+  ],
+  "generations_this_user_turn": 43,
+  "limitations": [
+    "User must review visual design and working mask boundaries.",
+    "No new outfit ID, DAT/SPR import, shop access, female counterpart or in-game rendering test."
+  ],
+  "DAT_SPR_unchanged": true,
+  "source_file_sha256": {
+    "base-pixellab-original.png": "e611907994b80cf8444631602c858c9fb7cda1808d847dc76c0b214e1f0e0a90",
+    "addons-pixellab-original.png": "b048a9ed568de42d2469db527769308ba4b49a9831aebae3a246de27df0822e8",
+    "rune-sentinel-ai-native-layers.aseprite": "aab13d8d3e579f784940ede3f69132446bb6c4dfe1ec62e96f999ee58c82774f",
+    "rune-sentinel-ai-native-layers.ora": "78e0721e08eb2d1e21399ee314082451d170cb7d711950ae3630b4351d92557a"
+  },
+  "visual_review": "All36 composed states inspected separately at integer nearest zoom; rear-crest placement, shoulder attachment, native protected anatomy and unchanged underlying garments checked. Graphic approval remains with user.",
+  "remaining_generations_after_turn": 1616
+}

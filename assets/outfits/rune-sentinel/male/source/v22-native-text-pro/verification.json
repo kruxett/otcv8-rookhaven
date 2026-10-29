@@ -1,0 +1,708 @@
+{
+  "canvas_expected": [
+    512,
+    512
+  ],
+  "canvas_actual": [
+    512,
+    512
+  ],
+  "manual_artistic_edits": 0,
+  "visual_verdict": "pending human/model visual inspection",
+  "original_PixelLab_output_preserved": true,
+  "changed_art_pixels": 24506,
+  "style_reference_changed_pixels": 42825,
+  "art_alpha_values": [
+    0,
+    255
+  ],
+  "frames": [
+    {
+      "tier": 0,
+      "direction": "Norr",
+      "phase": 0,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 587,
+      "warm_head_pixels": 21,
+      "native_warm_head_pixels": 8,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 6
+    },
+    {
+      "tier": 0,
+      "direction": "Norr",
+      "phase": 1,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 576,
+      "warm_head_pixels": 24,
+      "native_warm_head_pixels": 4,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 6
+    },
+    {
+      "tier": 0,
+      "direction": "Norr",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 555,
+      "warm_head_pixels": 20,
+      "native_warm_head_pixels": 3,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 5
+    },
+    {
+      "tier": 0,
+      "direction": "Öster",
+      "phase": 0,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 607,
+      "warm_head_pixels": 37,
+      "native_warm_head_pixels": 40,
+      "isolated_white_clusters": 1,
+      "native_isolated_white_clusters": 7
+    },
+    {
+      "tier": 0,
+      "direction": "Öster",
+      "phase": 1,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 571,
+      "warm_head_pixels": 35,
+      "native_warm_head_pixels": 38,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 7
+    },
+    {
+      "tier": 0,
+      "direction": "Öster",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 569,
+      "warm_head_pixels": 41,
+      "native_warm_head_pixels": 41,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 0,
+      "direction": "Söder",
+      "phase": 0,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 606,
+      "warm_head_pixels": 24,
+      "native_warm_head_pixels": 37,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 7
+    },
+    {
+      "tier": 0,
+      "direction": "Söder",
+      "phase": 1,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 581,
+      "warm_head_pixels": 30,
+      "native_warm_head_pixels": 35,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 7
+    },
+    {
+      "tier": 0,
+      "direction": "Söder",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 584,
+      "warm_head_pixels": 31,
+      "native_warm_head_pixels": 38,
+      "isolated_white_clusters": 2,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 0,
+      "direction": "Väster",
+      "phase": 0,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 584,
+      "warm_head_pixels": 31,
+      "native_warm_head_pixels": 6,
+      "isolated_white_clusters": 2,
+      "native_isolated_white_clusters": 6
+    },
+    {
+      "tier": 0,
+      "direction": "Väster",
+      "phase": 1,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 542,
+      "warm_head_pixels": 33,
+      "native_warm_head_pixels": 1,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 6
+    },
+    {
+      "tier": 0,
+      "direction": "Väster",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 547,
+      "warm_head_pixels": 35,
+      "native_warm_head_pixels": 3,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 5
+    },
+    {
+      "tier": 1,
+      "direction": "Norr",
+      "phase": 0,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 596,
+      "warm_head_pixels": 20,
+      "native_warm_head_pixels": 8,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Norr",
+      "phase": 1,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 571,
+      "warm_head_pixels": 21,
+      "native_warm_head_pixels": 4,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Norr",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 559,
+      "warm_head_pixels": 24,
+      "native_warm_head_pixels": 3,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 1,
+      "direction": "Öster",
+      "phase": 0,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 624,
+      "warm_head_pixels": 48,
+      "native_warm_head_pixels": 40,
+      "isolated_white_clusters": 2,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Öster",
+      "phase": 1,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 588,
+      "warm_head_pixels": 39,
+      "native_warm_head_pixels": 38,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Öster",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 586,
+      "warm_head_pixels": 43,
+      "native_warm_head_pixels": 41,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 10
+    },
+    {
+      "tier": 1,
+      "direction": "Söder",
+      "phase": 0,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 606,
+      "warm_head_pixels": 23,
+      "native_warm_head_pixels": 37,
+      "isolated_white_clusters": 1,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Söder",
+      "phase": 1,
+      "bbox": [
+        7,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 585,
+      "warm_head_pixels": 29,
+      "native_warm_head_pixels": 35,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Söder",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 584,
+      "warm_head_pixels": 30,
+      "native_warm_head_pixels": 38,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 10
+    },
+    {
+      "tier": 1,
+      "direction": "Väster",
+      "phase": 0,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 595,
+      "warm_head_pixels": 34,
+      "native_warm_head_pixels": 6,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Väster",
+      "phase": 1,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 557,
+      "warm_head_pixels": 39,
+      "native_warm_head_pixels": 1,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 1,
+      "direction": "Väster",
+      "phase": 2,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 554,
+      "warm_head_pixels": 33,
+      "native_warm_head_pixels": 3,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 2,
+      "direction": "Norr",
+      "phase": 0,
+      "bbox": [
+        5,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 628,
+      "warm_head_pixels": 25,
+      "native_warm_head_pixels": 35,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Norr",
+      "phase": 1,
+      "bbox": [
+        5,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 595,
+      "warm_head_pixels": 27,
+      "native_warm_head_pixels": 31,
+      "isolated_white_clusters": 1,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 2,
+      "direction": "Norr",
+      "phase": 2,
+      "bbox": [
+        6,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 590,
+      "warm_head_pixels": 27,
+      "native_warm_head_pixels": 30,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 2,
+      "direction": "Öster",
+      "phase": 0,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 630,
+      "warm_head_pixels": 38,
+      "native_warm_head_pixels": 44,
+      "isolated_white_clusters": 1,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Öster",
+      "phase": 1,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 600,
+      "warm_head_pixels": 35,
+      "native_warm_head_pixels": 42,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Öster",
+      "phase": 2,
+      "bbox": [
+        8,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 584,
+      "warm_head_pixels": 35,
+      "native_warm_head_pixels": 45,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 10
+    },
+    {
+      "tier": 2,
+      "direction": "Söder",
+      "phase": 0,
+      "bbox": [
+        5,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 622,
+      "warm_head_pixels": 28,
+      "native_warm_head_pixels": 41,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Söder",
+      "phase": 1,
+      "bbox": [
+        5,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 611,
+      "warm_head_pixels": 27,
+      "native_warm_head_pixels": 39,
+      "isolated_white_clusters": 2,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Söder",
+      "phase": 2,
+      "bbox": [
+        6,
+        4,
+        40,
+        38
+      ],
+      "opaque_pixels": 608,
+      "warm_head_pixels": 28,
+      "native_warm_head_pixels": 42,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 10
+    },
+    {
+      "tier": 2,
+      "direction": "Väster",
+      "phase": 0,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 579,
+      "warm_head_pixels": 28,
+      "native_warm_head_pixels": 33,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 9
+    },
+    {
+      "tier": 2,
+      "direction": "Väster",
+      "phase": 1,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 554,
+      "warm_head_pixels": 23,
+      "native_warm_head_pixels": 28,
+      "isolated_white_clusters": 1,
+      "native_isolated_white_clusters": 8
+    },
+    {
+      "tier": 2,
+      "direction": "Väster",
+      "phase": 2,
+      "bbox": [
+        8,
+        5,
+        40,
+        38
+      ],
+      "opaque_pixels": 552,
+      "warm_head_pixels": 37,
+      "native_warm_head_pixels": 30,
+      "isolated_white_clusters": 0,
+      "native_isolated_white_clusters": 8
+    }
+  ],
+  "nonempty_frames": 36,
+  "mask_palette_top12": [
+    [
+      [
+        0,
+        0,
+        0,
+        0
+      ],
+      39637
+    ],
+    [
+      [
+        247,
+        4,
+        3,
+        255
+      ],
+      5469
+    ],
+    [
+      [
+        252,
+        252,
+        11,
+        255
+      ],
+      4915
+    ],
+    [
+      [
+        19,
+        248,
+        7,
+        255
+      ],
+      3642
+    ],
+    [
+      [
+        5,
+        6,
+        248,
+        255
+      ],
+      2077
+    ],
+    [
+      [
+        21,
+        235,
+        22,
+        255
+      ],
+      440
+    ],
+    [
+      [
+        220,
+        12,
+        10,
+        255
+      ],
+      375
+    ],
+    [
+      [
+        188,
+        40,
+        16,
+        255
+      ],
+      210
+    ],
+    [
+      [
+        251,
+        252,
+        248,
+        255
+      ],
+      203
+    ],
+    [
+      [
+        58,
+        222,
+        41,
+        255
+      ],
+      124
+    ],
+    [
+      [
+        137,
+        154,
+        6,
+        255
+      ],
+      100
+    ],
+    [
+      [
+        24,
+        29,
+        160,
+        255
+      ],
+      78
+    ]
+  ]
+}
