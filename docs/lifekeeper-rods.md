@@ -250,9 +250,9 @@ The runner now allows its own tile, restores fixture CAP for the level checks,
 and returns to the normal temple/PZ logout position. No gameplay validation was
 relaxed to make those tests pass.
 
-No DEV publication or protected-client build has been performed. A release must
-rebuild the protected executable/archive with the new module and deploy their
-matching RH2 pin together. The October 12 results below remain historical.
+Published as [DEV10101](dev10101-release.md) on 2026-10-29 with the rebuilt
+protected executable/archive, matching RH2 pin and server Lua/data deployment.
+The October 12 results below remain historical.
 
 ## Where a rod ID must be listed
 

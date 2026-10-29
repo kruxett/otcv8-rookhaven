@@ -180,7 +180,8 @@ try{
  foreach($dir in @($backupRoot,$generatedRoot,$blankRoot)){[void][IO.Directory]::CreateDirectory($dir)}
  Snapshot-Profiles;Install-Profiles;Prepared-Profiles
  # No --test, --local-passives, environment profile override or injected Lua.
- $process=Start-Process -FilePath $exe -WorkingDirectory $copy -WindowStyle Hidden -PassThru -RedirectStandardOutput (Join-Path $stage 'stdout.log') -RedirectStandardError (Join-Path $stage 'stderr.log')
+ # This interactive QA target must be visible for the required version check.
+ $process=Start-Process -FilePath $exe -WorkingDirectory $copy -WindowStyle Normal -PassThru -RedirectStandardOutput (Join-Path $stage 'stdout.log') -RedirectStandardError (Join-Path $stage 'stderr.log')
  $null=$process.Handle;$nativeRuns++;[void](Track);Profile-State 'REAL_UPDATER_STARTED'
  $deadline=[DateTime]::UtcNow.AddSeconds(300);$stable=$null;$stableId=''
  while([DateTime]::UtcNow -lt $deadline){

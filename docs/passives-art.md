@@ -96,6 +96,11 @@ database/config and existing test profile were preserved, and owned processes
 were stopped. This checks artwork and UI presentation, not combat balance or
 a published client update.
 
+The approved 174 icons and matching server catalog paths were subsequently
+published in [DEV10101](dev10101-release.md), 2026-10-29. Current PNG preservation,
+catalog metadata and package equality were rechecked for that release. The
+October 28 screenshots remain the six-tree native art/UI inspection evidence.
+
 Local evidence is under
 `out/passive-icon-study-20261028/native-01/`: `native-examples.html`,
 `result.json`, `passive-icons-native-receipt.json` and

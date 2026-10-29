@@ -63,6 +63,9 @@ tool, leave account/password blank, then create the stage's `finish-ui` marker.
 This marker means observation is done and cleanup may proceed; retain a separate
 GUI observation receipt/screenshot. A timeout fails the combined run and still
 attempts restoration. Do not interrupt the guard process while profiles are moved.
+The interactive QA client is launched visibly for this inspection. A completion
+marker only ends the observation; the separate receipt must state when capture
+or activation failed rather than treating it as a successful visual check.
 Native promotion's detached self-deletion helper has a thirty-retry asynchronous
 contract. The guard observes file/bridge/helper disappearance for up to 45
 seconds after initial child stability; it never deletes an executable itself.
