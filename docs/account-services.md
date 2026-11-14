@@ -15,6 +15,29 @@ Email is mandatory and checked for syntax. This feature does not send mail,
 verify ownership or implement password recovery. Existing accounts can still
 log in and add characters with their existing email/password rules.
 
+## Production security work remains
+
+The creation checks are not a claim that the inherited authentication system is
+ready for public production. The targeted review on 2026-11-14 confirmed:
+
+* The client/server accept the OpenTibia default RSA key. Its private component
+  is [publicly distributed with TFS](https://github.com/otland/forgottenserver/blob/master/key.pem).
+  RSA/XTEA framing with that key does not provide confidentiality against an
+  attacker who obtains the traffic. Replace the shared default with server-owned
+  keys and review the legacy transport before production. Normal login uses the
+  same key path, so changing only the new registration service would be insufficient.
+* Accounts retain unsalted SHA1 password hashes for current compatibility. Move
+  to a modern slow password hash, with legacy verification and upgrade on successful
+  login so existing accounts can keep their passwords. See the
+  [OWASP password-storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
+* Per-IP counters are process-local and reset on restart; they do not provide
+  distributed abuse protection. Email syntax checks do not establish ownership.
+
+These authentication upgrades have not been implemented in DEV10102. Use disposable
+DEV test credentials. The account/character server validation, bounded packets,
+ordinary privilege defaults, bans, transaction checks and rate limits remain
+independent protections against manipulated creation requests.
+
 ## DEV and production configuration
 
 The native server registers service `0x03` (RHA1 version 1) on the **existing login
@@ -36,7 +59,9 @@ clientAccountIpLimitPerHour = 3      -- successful registrations per IP per proc
 
 For production, build with the normal production `DEFAULT_SERVER_ENDPOINT` and
 `UPDATER_CHANNEL=prod`, deploy the matching protected client/server pins, and
-enable the same server feature flag. No account-service code changes are needed.
+enable the same server feature flag. No endpoint changes inside the account-service
+module are needed. Complete the authentication security work above before public
+production.
 Registration and character creation can also close independently. Missing towns,
 database errors and bans fail closed; existing login stays available.
 

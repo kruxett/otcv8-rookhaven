@@ -5,11 +5,11 @@ client is loopback-only; its archive is overlaid with the current UI and driver.
 """
 from pathlib import Path
 import argparse,concurrent.futures,hashlib,json,os,re,shutil,socket,subprocess,time,zipfile
-from wire import Wire,string
+from wire import Wire,string,u16 as wire_u16
 
 ROOT=Path(__file__).resolve().parents[2];SERVER=ROOT.parent/'Rookhaven';LOCAL=ROOT/'out/local-server'
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--engine',type=Path,required=True)
-p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');args=p.parse_args()
+p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');p.add_argument('--attack-only',action='store_true');args=p.parse_args()
 assert not args.ui_only or args.client,'--ui-only requires --client'
 run=args.output.resolve();run.mkdir(parents=True,exist_ok=False)
 runtime=run/'runtime';database=run/'database';handles=[];processes=[];server=None
@@ -94,7 +94,29 @@ try:
         w=connection()
         try:return w.handshake()
         finally:w.close()
-    if not args.ui_only:
+    if args.attack_only:
+        boot();pw='AttackFixtureOnly'
+        check(create(1,'attackqa',pw,"john.o'hara@example.invalid")['success']==1,'valid email punctuation safely persisted')
+        check(sql("SELECT email FROM accounts WHERE name='attackqa'")=="john.o'hara@example.invalid",'SQL escaping preserves apostrophes without executing input')
+        check(create(1,"a' OR '1'='1",pw,'injection@example.invalid')['success']==0,'registration SQL injection rejected')
+        check(create(2,"' OR name='attackqa' -- ",pw,'Injected Hero')['success']==0,'authentication SQL injection cannot select another account')
+        check(create(2,'attackqa',pw,"Hero');DROP TABLE players;--")['success']==0,'character SQL payload refused')
+        check(create(2,'attackqa',pw,'God Pretender')['success']==0,'staff impersonation prefix refused')
+        def refused(extra,label):
+            try:create(2,'attackqa',pw,'Tampered Hero',1,extra);raise AssertionError(label+' accepted')
+            except (EOFError,ConnectionResetError):check(True,label)
+        refused(b'\x06\xff\xff','extra privilege and level fields fail closed')
+        refused(b'x'*600,'oversized encrypted request fails closed')
+        for version,block,label in [(2,b'\0'*128,'unknown handshake version refused'),(1,b'\0'*128,'RSA block without required magic refused')]:
+            w=connection()
+            try:
+                w.send(bytes([3,version])+wire_u16(860)+block,False)
+                try:w.receive();raise AssertionError(label+' accepted')
+                except (EOFError,ConnectionResetError):check(True,label)
+            finally:w.close()
+        check(sql("SELECT COUNT(*) FROM players WHERE account_id=(SELECT id FROM accounts WHERE name='attackqa')")=='0','all refused attacks preserved account and character state')
+        check(create(2,'attackqa',pw,'Unharmed Hero')['success']==1 and len(login('attackqa',pw)['characters'])==1,'ordinary creation and login work after malformed traffic')
+    if not args.ui_only and not args.attack_only:
         boot();policy1=policy();check(policy1['account']==1 and policy1['character']==1 and policy1['limit']==3 and policy1['town'],'encrypted policy handshake')
         pw='AccountsLoopbackOnly'
         for account,password,email in [('abc',pw,'one@example.invalid'),('validqa','short','one@example.invalid'),('validqa',pw,''),('validqa',pw,'bad@host'),('validqa',pw,'a..b@example.invalid'),('validqa',pw,'a@-host.invalid')]:
