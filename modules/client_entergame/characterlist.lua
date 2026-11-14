@@ -257,6 +257,8 @@ function CharacterList.create(characters, account, otui)
   charactersWindow = g_ui.displayUI(otui)
   characterList = charactersWindow:getChildById('characters')
   autoReconnectButton = charactersWindow:getChildById('autoReconnect')
+  charactersWindow:getChildById('emptyCharacters'):setVisible(#characters == 0)
+  charactersWindow:getChildById('buttonOk'):setEnabled(#characters > 0)
 
   -- characters
   G.characters = characters
@@ -363,7 +365,7 @@ function CharacterList.hide(showLogin)
   autoReconnectEvent = nil
 
   showLogin = showLogin or false
-  charactersWindow:hide()
+  if charactersWindow then charactersWindow:hide() end
 
   if showLogin and EnterGame and not g_game.isOnline() then
     EnterGame.show()
@@ -371,7 +373,7 @@ function CharacterList.hide(showLogin)
 end
 
 function CharacterList.showAgain()
-  if characterList and characterList:hasChildren() then
+  if characterList then
     CharacterList.show()
   end
 end

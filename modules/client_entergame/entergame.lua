@@ -51,6 +51,8 @@ local function onSessionKey(protocol, sessionKey)
 end
 
 local function onCharacterList(protocol, characters, account, otui)
+  -- Character creation must use this login's world, even if the selector changes later.
+  G.accountEndpoint = G.host
   if rememberPasswordBox:isChecked() then
     local account = g_crypt.encrypt(G.account)
     local password = g_crypt.encrypt(G.password)
@@ -411,6 +413,9 @@ function EnterGame.hide()
 end
 
 function EnterGame.openWindow()
+  if AccountServicesUI and AccountServicesUI.isVisible() then
+    return AccountServicesUI.raise()
+  end
   if g_game.isOnline() then
     CharacterList.show()
   elseif not g_game.isLogging() and not CharacterList.isVisible() then
@@ -463,8 +468,8 @@ function EnterGame.doLogin(account, password, token, host)
   G.clientVersion = getSavedClientVersion()
 
   if not rememberPasswordBox:isChecked() then
-    g_settings.set('account', G.account)
-    g_settings.set('password', G.password)
+    g_settings.remove('account')
+    g_settings.remove('password')
   end
   g_settings.set('host', G.host)
   g_settings.set('server', G.server)
@@ -569,6 +574,22 @@ function EnterGame.doLogin(account, password, token, host)
     loadBox = nil
     EnterGame.show()
   end
+end
+
+function EnterGame.getAccountEndpoint(fromCharacterList)
+  if g_game.isOnline() or g_game.isLogging() or loadBox then return nil end
+  local address = fromCharacterList and G.accountEndpoint or serverHostTextEdit:getText()
+  if type(address) ~= 'string' then return nil end
+  local parts = address:split(':')
+  local port, version = tonumber(parts[2] or 7171), tonumber(parts[3] or 860)
+  if #parts > 3 or not parts[1] or #parts[1] < 1 or address:find('/') or
+      not port or port < 1 or port > 65535 or port ~= math.floor(port) or version ~= 860 then return nil end
+  g_game.setClientVersion(version)
+  g_game.setProtocolVersion(g_game.getClientProtocolVersion(version))
+  g_game.setCustomProtocolVersion(0)
+  g_game.setCustomOs(-1)
+  g_game.chooseRsa(address)
+  return {address=address, host=parts[1], port=port, version=version}
 end
 
 function EnterGame.doLoginHttp()

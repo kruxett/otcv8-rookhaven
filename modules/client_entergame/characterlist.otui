@@ -60,7 +60,7 @@ StaticMainWindow
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: characterListScrollBar.left
-    anchors.bottom: accountStatusCaption.top
+    anchors.bottom: createCharacter.top
     margin-bottom: 5
     padding: 1
     focusable: false
@@ -70,11 +70,31 @@ StaticMainWindow
   VerticalScrollBar
     id: characterListScrollBar
     anchors.top: parent.top
-    anchors.bottom: accountStatusCaption.top
+    anchors.bottom: createCharacter.top
     anchors.right: parent.right
     margin-bottom: 5
     step: 14
     pixels-scroll: true
+
+  Label
+    id: emptyCharacters
+    !text: tr('Create your first character to begin.')
+    anchors.top: characters.top
+    anchors.left: characters.left
+    anchors.right: characters.right
+    margin-top: 12
+    text-align: center
+    phantom: true
+    visible: false
+
+  Button
+    id: createCharacter
+    !text: tr('Create character')
+    width: 140
+    anchors.left: parent.left
+    anchors.bottom: accountStatusCaption.top
+    margin-bottom: 10
+    @onClick: AccountServicesUI.openCharacter()
 
   Label
     id: accountStatusCaption

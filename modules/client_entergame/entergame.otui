@@ -138,6 +138,7 @@ EnterGameWindow
     margin-top: 9
 
   Button
+    id: loginButton
     !text: tr('Login')
     anchors.left: parent.left
     anchors.right: parent.right
@@ -155,3 +156,13 @@ EnterGameWindow
     margin-top: 5
     color: green
     text-auto-resize: true
+
+  Button
+    !text: tr('Create account')
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: loginButton.bottom
+    margin-top: 10
+    margin-left: 50
+    margin-right: 50
+    @onClick: AccountServicesUI.openAccount()

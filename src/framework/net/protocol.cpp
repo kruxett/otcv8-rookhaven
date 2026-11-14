@@ -23,7 +23,7 @@
 #include "protocol.h"
 #include "connection.h"
 #include <framework/core/application.h>
-#include <random>
+#include <openssl/rand.h>
 
 #include <framework/net/packet_player.h>
 #include <framework/net/packet_recorder.h>
@@ -269,12 +269,8 @@ void Protocol::internalRecvData(uint8* buffer, uint32 size)
 
 void Protocol::generateXteaKey()
 {
-    std::mt19937 eng(std::time(NULL));
-    std::uniform_int_distribution<uint32> unif(0, 0xFFFFFFFF);
-    m_xteaKey[0] = unif(eng);
-    m_xteaKey[1] = unif(eng);
-    m_xteaKey[2] = unif(eng);
-    m_xteaKey[3] = unif(eng);
+    if (RAND_bytes(reinterpret_cast<unsigned char*>(m_xteaKey), sizeof(m_xteaKey)) != 1)
+        stdext::throw_exception("Unable to establish an encrypted connection.");
 }
 
 void Protocol::setXteaKey(uint32 a, uint32 b, uint32 c, uint32 d)

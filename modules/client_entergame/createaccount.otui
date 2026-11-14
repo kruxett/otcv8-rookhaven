@@ -1,0 +1,114 @@
+MainWindow
+  id: createAccountWindow
+  !text: tr('Create account')
+  size: 400 450
+  @onEscape: AccountServicesUI.close()
+  @onEnter: AccountServicesUI.submit()
+
+  Label
+    !text: tr('An email address is required. Keep your account details safe.')
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 32
+    text-wrap: true
+
+  Label
+    !text: tr('Account name')
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+
+  TextEdit
+    id: account
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    max-length: 20
+
+  Label
+    !text: tr('Email')
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+
+  TextEdit
+    id: email
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    max-length: 254
+
+  Label
+    !text: tr('Password')
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+
+  PasswordTextEdit
+    id: password
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    max-length: 40
+
+  Label
+    !text: tr('Confirm password')
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    margin-top: 8
+
+  PasswordTextEdit
+    id: confirm
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 2
+    max-length: 40
+
+  Label
+    !text: tr('Account: 4-20 letters, numbers or underscores.\nPassword: 10-40 characters.')
+    anchors.top: prev.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 8
+    height: 32
+    text-wrap: true
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: separator.top
+    margin-bottom: 8
+    height: 64
+    text-wrap: true
+    color: #c6b58c
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: submit.top
+    margin-bottom: 10
+
+  Button
+    id: submit
+    !text: tr('Create')
+    width: 80
+    anchors.bottom: parent.bottom
+    anchors.right: cancel.left
+    margin-right: 10
+    enabled: false
+    @onClick: AccountServicesUI.submit()
+
+  Button
+    id: cancel
+    !text: tr('Cancel')
+    width: 80
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: AccountServicesUI.close()

@@ -1,0 +1,88 @@
+MainWindow
+  id: createCharacterWindow
+  !text: tr('Create character')
+  size: 400 390
+  @onEscape: AccountServicesUI.close()
+  @onEnter: AccountServicesUI.submit()
+
+  UICreature
+    id: preview
+    size: 88 88
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 6
+    animate: true
+    fixed-creature-size: true
+    phantom: true
+
+  Label
+    !text: tr('Character name')
+    anchors.top: parent.top
+    anchors.left: preview.right
+    margin-left: 16
+
+  TextEdit
+    id: name
+    anchors.top: prev.bottom
+    anchors.left: prev.left
+    anchors.right: parent.right
+    margin-top: 2
+    max-length: 29
+
+  Label
+    !text: tr('Sex')
+    anchors.top: prev.bottom
+    anchors.left: prev.left
+    margin-top: 8
+
+  ComboBox
+    id: sex
+    anchors.top: prev.bottom
+    anchors.left: prev.left
+    anchors.right: parent.right
+    margin-top: 2
+    @onOptionChange: AccountServicesUI.updatePreview()
+
+  Label
+    id: description
+    anchors.top: preview.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 14
+    height: 64
+    text-wrap: true
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: separator.top
+    margin-bottom: 8
+    height: 64
+    text-wrap: true
+    color: #c6b58c
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: submit.top
+    margin-bottom: 10
+
+  Button
+    id: submit
+    !text: tr('Create')
+    width: 80
+    anchors.bottom: parent.bottom
+    anchors.right: cancel.left
+    margin-right: 10
+    enabled: false
+    @onClick: AccountServicesUI.submit()
+
+  Button
+    id: cancel
+    !text: tr('Cancel')
+    width: 80
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    @onClick: AccountServicesUI.close()
