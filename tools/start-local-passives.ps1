@@ -1,8 +1,9 @@
-param([switch]$Stop, [switch]$Refresh, [switch]$AdminQA)
+param([switch]$Stop, [switch]$Refresh, [switch]$AdminQA, [string]$RsaKeyFile='')
 $ErrorActionPreference = 'Stop'
 $clientRoot = Split-Path $PSScriptRoot -Parent
 $serverRoot = Join-Path (Split-Path $clientRoot -Parent) 'Rookhaven'
 $localRoot = Join-Path $clientRoot 'out/local-server'
+if (-not $RsaKeyFile) { $RsaKeyFile = Join-Path $localRoot 'auth/key.pem' }
 $runtime = Join-Path $localRoot 'passives-runtime'
 $dbBin = Join-Path $localRoot 'mariadb-11.4.9-winx64/bin'
 $databaseExe = [IO.Path]::GetFullPath((Join-Path $dbBin 'mariadbd.exe'))
@@ -20,7 +21,7 @@ if ($Stop) {
     Write-Host 'Local passives server and its own database stopped.'
     exit
 }
-foreach ($required in @($databaseExe, $databaseCli, $serverExe, (Join-Path $package 'checksum_expected.txt'))) {
+foreach ($required in @($databaseExe, $databaseCli, $serverExe, $RsaKeyFile, (Join-Path $package 'checksum_expected.txt'))) {
     if (-not (Test-Path -LiteralPath $required)) { throw "Missing $required. Run tools/build-local-passives.ps1 first." }
 }
 if ($Refresh) {
@@ -106,6 +107,7 @@ if ($Refresh -or -not (Test-Path -LiteralPath (Join-Path $runtime 'config.lua'))
     $config = @'
 ip = "127.0.0.1"
 bindOnlyGlobalAddress = true
+rsaKeyFile = "key.pem"
 loginProtocolPort = 7174
 gameProtocolPort = 7175
 statusProtocolPort = 7174
@@ -172,10 +174,11 @@ classicEquipmentSlots = true
     Copy-Item -LiteralPath (Join-Path $package 'checksum_expected.txt') -Destination (Join-Path $runtime 'data/checksum_expected.txt') -Force
     Copy-Item -LiteralPath (Join-Path $package 'checksum_expected.json') -Destination (Join-Path $runtime 'local-package.json') -Force
     # Copies outside data needed by this server's startup loader.
-    foreach ($file in @('global.lua','schema.sql','key.pem')) {
+    foreach ($file in @('global.lua','schema.sql')) {
         $sourceFile = Join-Path $serverRoot $file
         if (Test-Path -LiteralPath $sourceFile) { Copy-Item -LiteralPath $sourceFile -Destination $runtime -Force }
     }
+    Copy-Item -LiteralPath $RsaKeyFile -Destination (Join-Path $runtime 'key.pem') -Force
 }
 if (-not $ownedServer) {
     if (Get-NetTCPConnection -LocalPort 7174,7175 -State Listen -ErrorAction SilentlyContinue) {

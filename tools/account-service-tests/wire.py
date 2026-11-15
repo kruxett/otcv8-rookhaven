@@ -32,6 +32,7 @@ class Reader:
     def complete(self):assert self.pos==len(self.data),'trailing reply'
 connect_lock=threading.Lock()
 last_connect=0
+connect_spacing=.55
 class Wire:
     def __init__(self,pem,port):
         self.public=load_pem_private_key(pem,None).public_key().public_numbers()
@@ -39,14 +40,15 @@ class Wire:
         # Respect the existing shared native connection flood protection.
         global last_connect
         with connect_lock:
-            time.sleep(max(0,.55-(time.monotonic()-last_connect)))
+            time.sleep(max(0,connect_spacing-(time.monotonic()-last_connect)))
             self.socket=socket.create_connection(('127.0.0.1',port),5);last_connect=time.monotonic()
         self.socket.settimeout(6)
     def close(self):self.socket.close()
     def rsa(self,data):
-        assert len(data)<=128
-        data+=os.urandom(128-len(data))
-        return pow(int.from_bytes(data,'big'),self.public.e,self.public.n).to_bytes(128,'big')
+        size=(self.public.n.bit_length()+7)//8
+        assert len(data)<=size
+        data+=os.urandom(size-len(data))
+        return pow(int.from_bytes(data,'big'),self.public.e,self.public.n).to_bytes(size,'big')
     def send(self,payload,encrypted=True):
         if encrypted:
             payload=u16(len(payload))+payload

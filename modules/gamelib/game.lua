@@ -17,6 +17,10 @@ function g_game.findPlayerItem(itemId, subType)
 end
 
 function g_game.chooseRsa(host)
+  if DEFAULT_SERVER_RSA then
+    g_game.setRsa(DEFAULT_SERVER_RSA)
+    return
+  end
   if G.currentRsa ~= CIPSOFT_RSA and G.currentRsa ~= OTSERV_RSA then return end
   if host:ends('.tibia.com') or host:ends('.cipsoft.com') then
     g_game.setRsa(CIPSOFT_RSA)
@@ -114,5 +118,5 @@ function g_game.getClientProtocolVersion(client)
 end
 
 if not G.currentRsa then
-  g_game.setRsa(OTSERV_RSA)
+  g_game.setRsa(DEFAULT_SERVER_RSA or OTSERV_RSA)
 end

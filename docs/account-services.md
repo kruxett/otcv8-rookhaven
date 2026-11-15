@@ -15,28 +15,43 @@ Email is mandatory and checked for syntax. This feature does not send mail,
 verify ownership or implement password recovery. Existing accounts can still
 log in and add characters with their existing email/password rules.
 
-## Production security work remains
+## Authentication security upgrade (DEV10103)
 
-The creation checks are not a claim that the inherited authentication system is
-ready for public production. The targeted review on 2026-11-14 confirmed:
+All three authentication paths share versioned scrypt hashes (`N=131072, r=8,
+p=1`, random 16-byte salt, 32-byte result). Schema migration 34→35 widens the
+password column to binary-collated ASCII VARCHAR(255). New registrations never
+write SHA1. Existing SHA1 accounts upgrade after successful authentication;
+wrong passwords do not change the stored value. Binary compare-and-swap prevents
+a concurrent upgrade overwriting a newer password. Existing short passwords and
+blank email addresses remain usable. The cost follows the
+[OWASP password-storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
 
-* The client/server accept the OpenTibia default RSA key. Its private component
-  is [publicly distributed with TFS](https://github.com/otland/forgottenserver/blob/master/key.pem).
-  RSA/XTEA framing with that key does not provide confidentiality against an
-  attacker who obtains the traffic. Replace the shared default with server-owned
-  keys and review the legacy transport before production. Normal login uses the
-  same key path, so changing only the new registration service would be insufficient.
-* Accounts retain unsalted SHA1 password hashes for current compatibility. Move
-  to a modern slow password hash, with legacy verification and upgrade on successful
-  login so existing accounts can keep their passwords. See the
-  [OWASP password-storage guidance](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html).
-* Per-IP counters are process-local and reset on restart; they do not provide
-  distributed abuse protection. Email syntax checks do not establish ownership.
+Two dedicated workers perform slow hashes outside the game/IO/database workers,
+with at most eight queued jobs and 60 admitted operations per IP per minute.
+Limits reject overload explicitly. Database transactions never span a hash or a
+worker callback. Character creation rechecks the exact authenticated stored hash
+under the account lock, then applies existing bans, capacity and creation rules.
+Accepted creation requests can finish after a lost connection; ordinary login
+or refresh reconciles an unreceived reply without duplicating the account.
 
-These authentication upgrades have not been implemented in DEV10102. Use disposable
-DEV test credentials. The account/character server validation, bounded packets,
-ordinary privilege defaults, bans, transaction checks and rate limits remain
-independent protections against manipulated creation requests.
+The coordinated release uses a private environment-specific RSA-2048 key for
+normal login, game login and creation. Invalid, truncated or 1024-bit keys fail
+startup. The public modulus is compiled into the matching client; private keys
+are runtime secrets and must never enter Git, client archives or release logs.
+Old clients require the new release before connecting.
+
+The updater now uses HTTPS, verifies certificate chains and hostnames against
+the operating system trust store on Windows, and refuses HTTPS→HTTP redirects.
+Artifact downloads always use HTTPS, including historical HTTP base URLs in an
+authenticated manifest. There is no cleartext retry on verification failure.
+The first migration from an old HTTP updater cannot authenticate its own initial
+download retroactively: distribute the new full client over its verified HTTPS
+download address. Later updates use the corrected updater.
+
+This is not a claim that the entire legacy RSA/XTEA game transport is a modern
+authenticated TLS protocol. Review that transport before public production.
+Counters remain process-local and reset on restart, and email syntax does not
+verify ownership. Email verification and password recovery remain separate work.
 
 ## DEV and production configuration
 
@@ -55,13 +70,27 @@ clientCharacterCreationEnabled = true
 clientCharacterLimit = 8            -- clamped to 1..20
 clientCharacterTownId = 1           -- Rookhaven; must have a valid temple tile
 clientAccountIpLimitPerHour = 3      -- successful registrations per IP per process
+rsaKeyFile = "C:/private/rookhaven-rsa.pem" -- private RSA-2048 key, exponent 65537
 ```
 
 For production, build with the normal production `DEFAULT_SERVER_ENDPOINT` and
-`UPDATER_CHANNEL=prod`, deploy the matching protected client/server pins, and
+`UPDATER_CHANNEL=prod` and `SERVER_RSA_PUBLIC_KEY_FILE=<production modulus file>`,
+provision a separate production private key and authenticated updater endpoint,
+deploy the matching protected client/server pins, and
 enable the same server feature flag. No endpoint changes inside the account-service
-module are needed. Complete the authentication security work above before public
-production.
+module are needed. The DEV public modulus is `tools/keys/dev-rsa.txt`; QA uses
+its separate key. The build refuses a missing public-key file. Do not reuse the
+DEV or QA private key for production.
+
+For local QA, `tools/build-dev.ps1 -QaClient` and the local-passives builder
+prepare a separate RSA-2048 fixture through `tools/prepare-local-rsa.py`
+(Python with cryptography). Its protected private key and public modulus live
+under ignored `out/local-server/auth/`; existing keys are validated and preserved.
+The local server launchers and native probes use that same fixture. An external
+key pair can be selected with `-ServerRsaPublicKeyFile` for the client and
+`-RsaKeyFile` for the local server. `-BuildOnly` compiles without running the
+graphics-dependent installer, for headless build hosts; package verification is
+still a separate required release check.
 Registration and character creation can also close independently. Missing towns,
 database errors and bans fail closed; existing login stays available.
 
@@ -111,7 +140,8 @@ ordinary login/game login. These paths are covered by:
 The runner uses loopback ports 33314/7187/7188, an owned runtime/database copy and
 the existing QA-only profile, which it preserves/restores. It never changes live
 DEV/PROD or the source fixture. Supply a current native engine and its matching
-DLL directory; `--client` must be a loopback-only QA package. `--ui-only` reruns
+DLL directory and `--rsa-key <private loopback fixture key>`; `--client` must be
+a loopback-only QA package compiled with the matching public modulus. `--ui-only` reruns
 just the native UI path after a UI/driver change. Python requires cryptography;
 the two isolated Lua checks can run under LuaJIT or Lupa from the client root.
 Screenshots/build outputs do not replace these existing-path regressions.

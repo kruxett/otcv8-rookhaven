@@ -70,7 +70,7 @@ try:
     # its original server name. Disable that fixture only in this private copy.
     obsolete=runtime/'data/scripts/quiver_weight_startup.lua'
     if obsolete.exists():obsolete.rename(obsolete.with_name('#quiver_weight_startup.lua'))
-    shutil.copyfile(LOCAL/'passives-runtime/key.pem',runtime/'key.pem')
+    shutil.copyfile(LOCAL/'auth/key.pem',runtime/'key.pem')
     with zipfile.ZipFile(args.engine_package) as z:z.extractall(runtime)
     shutil.copyfile(runtime/'premium-scroll-qa.exe',runtime/'tfs-visual-qa.exe')
     report['visual_engine_sha256']=hashlib.sha256((runtime/'tfs-visual-qa.exe').read_bytes()).hexdigest()

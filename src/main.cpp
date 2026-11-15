@@ -159,6 +159,10 @@ int main(int argc, const char* argv[]) {
     g_lua.pushCString(DEFAULT_UPDATER_CHANNEL);
     g_lua.setGlobal("DEFAULT_UPDATER_CHANNEL");
 #endif
+#ifdef DEFAULT_SERVER_RSA
+    g_lua.pushCString(DEFAULT_SERVER_RSA);
+    g_lua.setGlobal("DEFAULT_SERVER_RSA");
+#endif
 
     g_http.init();
 

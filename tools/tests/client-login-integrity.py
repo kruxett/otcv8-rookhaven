@@ -63,6 +63,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--runtime', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--game-port', type=int, default=7175)
     parser.add_argument('--qa-disabled', action='store_true')
     parser.add_argument('--ingress', action='store_true', help='Also check checksum/framing and authenticated malformed packets')
     args = parser.parse_args()
@@ -73,14 +74,15 @@ def main():
     rows = []
 
     def rsa_block(data):
-        assert len(data) <= 128
-        return pow(int.from_bytes(data.ljust(128, b'\0'), 'big'), rsa.e, rsa.n).to_bytes(128, 'big')
+        size=(rsa.n.bit_length()+7)//8
+        assert len(data) <= size
+        return pow(int.from_bytes(data.ljust(size, b'\0'), 'big'), rsa.e, rsa.n).to_bytes(size, 'big')
 
     def attempt(label, variant='valid', should_accept=False, malformed=None):
         time.sleep(0.25)
         accepted = False
         responses = []
-        with socket.create_connection(('127.0.0.1', 7175), timeout=8) as sock:
+        with socket.create_connection(('127.0.0.1', args.game_port), timeout=8) as sock:
             challenge = receive(sock)
             timestamp, random = struct.unpack('<IB', challenge[-5:])
             payload = b'\0' + struct.pack('<4I', *key) + b'\0'

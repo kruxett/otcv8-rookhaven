@@ -4,6 +4,35 @@
 #include <chrono>
 
 #include "session.h"
+#ifdef _WIN32
+#include <windows.h>
+#include <wincrypt.h>
+#endif
+
+namespace {
+bool loadTrust(boost::asio::ssl::context& context) {
+#ifdef _WIN32
+    auto store = CertOpenSystemStoreA(0, "ROOT");
+    if (!store) return false;
+    auto* target = SSL_CTX_get_cert_store(context.native_handle());
+    PCCERT_CONTEXT certificate = nullptr;
+    while ((certificate = CertEnumCertificatesInStore(store, certificate)) != nullptr) {
+        const unsigned char* bytes = certificate->pbCertEncoded;
+        if (auto* decoded = d2i_X509(nullptr, &bytes, certificate->cbCertEncoded)) {
+            X509_STORE_add_cert(target, decoded);
+            X509_free(decoded);
+        }
+    }
+    CertCloseStore(store, 0);
+    ERR_clear_error(); // Duplicate trusted roots are harmless.
+    return true;
+#else
+    boost::system::error_code error;
+    context.set_default_verify_paths(error);
+    return !error;
+#endif
+}
+}
 
 void HttpSession::start() {
     if (m_result->redirects >= 10) {
@@ -14,7 +43,7 @@ void HttpSession::start() {
         return;
     }
     auto parsedUrl = parseURI(m_url);
-    if (parsedUrl.domain.empty()) {
+    if (parsedUrl.domain.empty() || (parsedUrl.protocol != "http" && parsedUrl.protocol != "https")) {
         auto self(shared_from_this());
         boost::asio::post(m_service, [self] {
             self->onError("Invalid url", self->m_url);
@@ -69,13 +98,14 @@ void HttpSession::on_connect(const boost::system::error_code& ec) {
     if (ec)
         return onError("connection error", ec.message());
 
-    if (m_url.find("https") == 0 || m_url.find("HTTPS") == 0)
+    if (parseURI(m_url).protocol == "https")
     {
         //m_context.set_options(boost::asio::ssl::context::default_workarounds | boost::asio::ssl::context::tlsv12_client);
         m_context = std::make_shared< boost::asio::ssl::context >(boost::asio::ssl::context::tlsv12_client);
+        if (!loadTrust(*m_context)) return onError("HTTPS trust store unavailable");
         m_ssl = std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket&>>(m_socket, *m_context);
         m_ssl->set_verify_mode(boost::asio::ssl::verify_peer);
-        m_ssl->set_verify_callback([](bool, boost::asio::ssl::verify_context&) { return true; });         
+        m_ssl->set_verify_callback(boost::asio::ssl::host_name_verification(m_domain));
 
         if(!SSL_set_tlsext_host_name(m_ssl->native_handle(), m_domain.c_str()))
         {
@@ -135,8 +165,11 @@ void HttpSession::on_read_header(const boost::system::error_code& ec, size_t byt
 
     const auto location = msg["Location"];
     if (!location.empty()) {
+        const std::string destination(location.data(), location.size());
+        if (m_ssl && parseURI(destination).protocol != "https") return onError("Insecure HTTPS redirect refused");
+        ++m_result->redirects;
         auto session = std::make_shared<HttpSession>(m_service,
-                                                     std::string(location.data(), location.size()),
+                                                     destination,
                                                      m_agent,
                                                      m_timeout,
                                                      m_isJson,

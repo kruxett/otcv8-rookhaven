@@ -6,7 +6,10 @@ local function owned(p)
 end
 local function emit(p,label)
   local guild=p:getGuild()
+  local hashRow=assert(db.storeQuery('SELECT LENGTH(password)>40 AS modern FROM accounts WHERE id='..p:getAccountId()))
+  local modern=result.getNumber(hashRow,'modern')==1;result.free(hashRow)
   local r={label=label,level=p:getLevel(),vocation=p:getVocation():getId(),group=p:getGroup():getId(),
+    modernPassword=modern,
     torch=p:getItemCount(2050),knife=p:getItemCount(2382),robe=p:getItemCount(2651),bag=p:getItemCount(1987),apple=p:getItemCount(2674),
     guild=guild and guild:getName() or '',rank=p:getGuildLevel(),canInvite=GuildSystem.hasPermission(p,'canInvite'),canCreate=GuildSystem.canCreateGuild(p)}
   p:sendTextMessage(MESSAGE_STATUS_CONSOLE_BLUE,'ACCOUNTS_NATIVE '..json.encode(r))
@@ -25,6 +28,9 @@ function cmd.onSay(p,words,param)
       end
     end
     error('No adjacent Guildmaster tile')
+  elseif param=='legacy' then
+    assert(db.query("UPDATE accounts SET password='187d2b6338c8ec41cbd81200aff7668975b918b2' WHERE id="..p:getAccountId()))
+    emit(p,param)
   elseif param=='rest' then
     assert(p:teleportTo(p:getTown():getTemplePosition()))
     p:removeCondition(CONDITION_INFIGHT);emit(p,param)

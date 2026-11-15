@@ -5,6 +5,8 @@ if ($ClientOnly -and $ServerOnly) { throw 'Choose ClientOnly or ServerOnly.' }
 $clientRoot = Split-Path $PSScriptRoot -Parent
 $serverRoot = Join-Path (Split-Path $clientRoot -Parent) 'Rookhaven'
 $packageDir = Join-Path $clientRoot 'out/install/x64-LocalPassives'
+& $Python (Join-Path $PSScriptRoot 'prepare-local-rsa.py') | Out-Null
+if ($LASTEXITCODE) { throw 'Private loopback RSA fixture preparation failed.' }
 if (-not $ServerOnly) {
     & (Join-Path $PSScriptRoot 'build-dev.ps1') -Jobs $Jobs -QaClient -Python $Python `
         -BuildDirectory (Join-Path $clientRoot 'out/build/x64-LocalPassives') `

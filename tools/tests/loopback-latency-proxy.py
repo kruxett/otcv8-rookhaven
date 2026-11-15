@@ -148,9 +148,10 @@ async def run(args):
                             if zlib.adler32(body[4:]) != struct.unpack_from("<I", body)[0]:
                                 raise ValueError("QA client checksum mismatch")
                             if key is None:
-                                if len(body) != 265:
+                                block_size=(modulus.bit_length()+7)//8
+                                if len(body) != 9+2*block_size:
                                     raise ValueError("Unexpected owned 860 handshake shape")
-                                plain = pow(int.from_bytes(body[9:137], "big"), exponent, modulus).to_bytes(128, "big")
+                                plain = pow(int.from_bytes(body[9:9+block_size], "big"), exponent, modulus).to_bytes(block_size, "big")
                                 if plain[0] != 0:
                                     raise ValueError("Cannot decrypt owned fixture handshake")
                                 key = struct.unpack_from("<IIII", plain, 1)

@@ -151,6 +151,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 # Default login endpoint baked into the binary (ip:port:version)
 set(DEFAULT_SERVER_ENDPOINT "game.rookhaven-ot.com:7171:860" CACHE STRING "Default login endpoint (ip:port:version) baked into the client executable")
+set(SERVER_RSA_PUBLIC_KEY_FILE "" CACHE FILEPATH "Environment-specific RSA-2048 public modulus (decimal); private key stays on the server")
+if(NOT EXISTS "${SERVER_RSA_PUBLIC_KEY_FILE}")
+    message(FATAL_ERROR "Set SERVER_RSA_PUBLIC_KEY_FILE to the matching environment's RSA-2048 public modulus")
+endif()
+file(READ "${SERVER_RSA_PUBLIC_KEY_FILE}" SERVER_RSA_PUBLIC_KEY)
+string(STRIP "${SERVER_RSA_PUBLIC_KEY}" SERVER_RSA_PUBLIC_KEY)
+string(LENGTH "${SERVER_RSA_PUBLIC_KEY}" SERVER_RSA_PUBLIC_KEY_LENGTH)
+if(NOT SERVER_RSA_PUBLIC_KEY MATCHES "^[0-9]+$" OR NOT SERVER_RSA_PUBLIC_KEY_LENGTH EQUAL 617)
+    message(FATAL_ERROR "Invalid RSA-2048 public modulus")
+endif()
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${SERVER_RSA_PUBLIC_KEY_FILE}")
 if(NOT DEFINED CLIENT_VERSION)
     set(CLIENT_VERSION "0.3.2" CACHE STRING "Client version string (compile-time fallback; init.lua may override at runtime)")
 endif()
@@ -269,6 +280,7 @@ endif()
 # Bake the default server endpoint into the executable so it isn't present in Lua sources
 target_compile_definitions(${CLIENT_TARGET} PRIVATE
     DEFAULT_SERVER_ENDPOINT="${DEFAULT_SERVER_ENDPOINT}"
+    DEFAULT_SERVER_RSA="${SERVER_RSA_PUBLIC_KEY}"
     DEFAULT_UPDATER_CHANNEL="${UPDATER_CHANNEL}"
     RUNTIME_DLL_RELATIVE="lib"
     BUILD_REVISION=${BUILD_REVISION}
@@ -286,6 +298,7 @@ endif()
 set(VCPKG_APPLOCAL_DEPS OFF CACHE BOOL "" FORCE)
 
 if(MSVC)
+    target_link_libraries(${CLIENT_TARGET} crypt32)
     target_link_options(${CLIENT_TARGET} PRIVATE
         $<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup>)
 

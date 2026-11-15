@@ -1,18 +1,29 @@
 param(
     [string]$VcpkgRoot = 'C:\vcpkg-client',
+    [string]$VcpkgInstalledDirectory = '',
     [string]$VisualStudioPath = '',
     [ValidateRange(1, 64)]
     [int]$Jobs = 8,
     [string]$BuildDirectory = '',
     [string]$InstallDirectory = '',
     [string]$DefaultServerEndpoint = 'testserver2.rookhaven-ot.com:7173:860',
+    [string]$ServerRsaPublicKeyFile = '',
     [switch]$QaClient,
+    [switch]$BuildOnly,
     [string]$Python = 'C:/Users/marcu/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe'
 )
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
+if (-not $ServerRsaPublicKeyFile) {
+    if ($QaClient) {
+        & $Python (Join-Path $PSScriptRoot 'prepare-local-rsa.py') | Out-Null
+        if ($LASTEXITCODE) { throw 'Private loopback RSA fixture preparation failed.' }
+        $ServerRsaPublicKeyFile = Join-Path $projectRoot 'out/local-server/auth/public-modulus.txt'
+    } else { $ServerRsaPublicKeyFile = Join-Path $PSScriptRoot 'keys/dev-rsa.txt' }
+}
 $toolchain = Join-Path $VcpkgRoot 'scripts\buildsystems\vcpkg.cmake'
+if (-not $VcpkgInstalledDirectory) { $VcpkgInstalledDirectory = Join-Path $VcpkgRoot 'installed' }
 if (-not (Test-Path -LiteralPath $toolchain)) {
     throw "Client vcpkg is missing at $VcpkgRoot."
 }
@@ -32,6 +43,15 @@ if (-not (Get-Command cl -ErrorAction SilentlyContinue) -or $env:VSCMD_ARG_TGT_A
 }
 
 $cmake = (Get-Command cmake -ErrorAction Stop).Source
+function Invoke-DevCMake([string[]]$Arguments, [string]$Failure) {
+    $savedPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        & $cmake @Arguments
+        $code = $LASTEXITCODE
+    } finally { $ErrorActionPreference = $savedPreference }
+    if ($code -ne 0) { throw "$Failure (exit $code)." }
+}
 Get-Command ninja -ErrorAction Stop | Out-Null
 $buildDir = Join-Path $projectRoot 'out\build\x64-DevRelease'
 $installDir = Join-Path $projectRoot 'out\install\x64-DevRelease'
@@ -54,20 +74,20 @@ $configureArgs = @(
     '-DUSE_STATIC_LIBS=ON',
     '-DVCPKG_TARGET_TRIPLET=x64-windows-static',
     '-DVCPKG_HOST_TRIPLET=x64-windows-static',
-    "-DVCPKG_INSTALLED_DIR=$(Join-Path $VcpkgRoot 'installed')",
+    "-DVCPKG_INSTALLED_DIR=$VcpkgInstalledDirectory",
     "-DVCPKG_OVERLAY_TRIPLETS=$tripletDir",
     '-DVCPKG_BUILD_TYPE=release',
     "-DDEFAULT_SERVER_ENDPOINT=$DefaultServerEndpoint",
+    "-DSERVER_RSA_PUBLIC_KEY_FILE=$ServerRsaPublicKeyFile",
     '-DUPDATER_CHANNEL=dev',
     '-DGENERATE_LEGACY_BUILD_CHECKSUMS=OFF',
     "-DROOKHAVEN_QA_CLIENT=$($QaClient.IsPresent.ToString().ToUpperInvariant())",
     "-DPython3_EXECUTABLE=$Python",
     "-DCMAKE_INSTALL_PREFIX=$installDir"
 )
-& $cmake @configureArgs
-if ($LASTEXITCODE -ne 0) { throw 'DEV configure failed.' }
-& $cmake --build $buildDir --parallel $Jobs
-if ($LASTEXITCODE -ne 0) { throw 'DEV build failed.' }
+Invoke-DevCMake $configureArgs 'DEV configure failed'
+Invoke-DevCMake @('--build',$buildDir,'--parallel',"$Jobs") 'DEV build failed'
+if ($BuildOnly) { Write-Host "DEV native build: $(Join-Path $buildDir 'RookhavenClient.exe')"; return }
 # POST_BUILD does not run when only Lua/UI resources changed. Refresh the staging
 # resources and bytecode explicitly so every DEV package contains current sources.
 foreach ($resourceDir in @('data', 'modules', 'layouts')) {
@@ -77,17 +97,14 @@ foreach ($resourceDir in @('data', 'modules', 'layouts')) {
         throw "Unsafe resource staging path: $stagingPath"
     }
     if (Test-Path -LiteralPath $stagingPath) { Remove-Item -LiteralPath $stagingPath -Recurse -Force }
-    & $cmake -E copy_directory (Join-Path $projectRoot $resourceDir) (Join-Path $buildDir $resourceDir)
-    if ($LASTEXITCODE -ne 0) { throw "DEV resource copy failed: $resourceDir" }
+    Invoke-DevCMake @('-E','copy_directory',(Join-Path $projectRoot $resourceDir),(Join-Path $buildDir $resourceDir)) "DEV resource copy failed: $resourceDir"
 }
 Copy-Item -LiteralPath (Join-Path $projectRoot 'init.lua') -Destination (Join-Path $buildDir 'init.lua') -Force
 $compilerEntry = Select-String -LiteralPath (Join-Path $buildDir 'CMakeCache.txt') -Pattern '^LUAC_EXECUTABLE:FILEPATH=(.+)$'
 if (-not $compilerEntry) { throw 'DEV Lua bytecode compiler is missing from CMake cache.' }
 $luaCompiler = $compilerEntry.Matches[0].Groups[1].Value
-& $cmake "-DROOT_DIR=$buildDir" "-DLUAC_EXECUTABLE=$luaCompiler" -P (Join-Path $PSScriptRoot 'luac_compile.cmake')
-if ($LASTEXITCODE -ne 0) { throw 'DEV bytecode compilation failed.' }
-& $cmake --install $buildDir
-if ($LASTEXITCODE -ne 0) { throw 'DEV install failed.' }
+Invoke-DevCMake @("-DROOT_DIR=$buildDir","-DLUAC_EXECUTABLE=$luaCompiler",'-P',(Join-Path $PSScriptRoot 'luac_compile.cmake')) 'DEV bytecode compilation failed'
+Invoke-DevCMake @('--install',$buildDir) 'DEV install failed'
 if (-not $QaClient) {
     $manifest = Get-Content -LiteralPath (Join-Path $buildDir 'generated/rookhaven_resources.json') -Raw | ConvertFrom-Json
     $binaryHash = (Get-FileHash -LiteralPath (Join-Path $installDir 'RookhavenClient.exe') -Algorithm SHA256).Hash.ToLowerInvariant()

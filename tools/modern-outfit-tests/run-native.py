@@ -105,7 +105,7 @@ try:
     config_before = source_config.read_bytes()
     shutil.copytree(source_db, database)
     shutil.copytree(SERVER / 'data', runtime / 'data')
-    shutil.copyfile(LOCAL / 'passives-runtime/key.pem', runtime / 'key.pem')
+    shutil.copyfile(LOCAL / 'auth/key.pem', runtime / 'key.pem')
     with zipfile.ZipFile(args.engine_package) as archive:
         archive.extractall(runtime)
     exe = runtime / 'premium-scroll-qa.exe'
@@ -155,7 +155,8 @@ try:
     key = (0x18273645, 0x29384756, 0x38475619, 0x47561928)
 
     def rsa_block(value):
-        return pow(int.from_bytes(value.ljust(128, b'\0'), 'big'), rsa.e, rsa.n).to_bytes(128, 'big')
+        block_size=(rsa.n.bit_length()+7)//8
+        return pow(int.from_bytes(value.ljust(block_size, b'\0'), 'big'), rsa.e, rsa.n).to_bytes(block_size, 'big')
 
     def login(name='Passive Tester'):
         sock = socket.create_connection(('127.0.0.1', 7184), timeout=10)

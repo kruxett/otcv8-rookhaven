@@ -4,12 +4,14 @@ The supplied native server must be built from current sources. The optional QA
 client is loopback-only; its archive is overlaid with the current UI and driver.
 """
 from pathlib import Path
-import argparse,concurrent.futures,hashlib,json,os,re,shutil,socket,subprocess,time,zipfile
+import argparse,concurrent.futures,hashlib,json,os,re,shutil,socket,subprocess,sys,time,zipfile,zlib
 from wire import Wire,string,u16 as wire_u16
+import wire
+wire.connect_spacing=1.05 # Keep legitimate regressions below the shared 60/min auth budget.
 
 ROOT=Path(__file__).resolve().parents[2];SERVER=ROOT.parent/'Rookhaven';LOCAL=ROOT/'out/local-server'
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--engine',type=Path,required=True)
-p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');p.add_argument('--attack-only',action='store_true');args=p.parse_args()
+p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--rsa-key',type=Path,required=True);p.add_argument('--encoder',type=Path);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');p.add_argument('--attack-only',action='store_true');p.add_argument('--ingress-only',action='store_true');args=p.parse_args()
 assert not args.ui_only or args.client,'--ui-only requires --client'
 run=args.output.resolve();run.mkdir(parents=True,exist_ok=False)
 runtime=run/'runtime';database=run/'database';handles=[];processes=[];server=None
@@ -42,7 +44,7 @@ try:
     if obsolete.exists():obsolete.rename(obsolete.with_name('#quiver_weight_startup.lua'))
     for f in args.dll_directory.resolve().glob('*.dll'):shutil.copyfile(f,runtime/f.name)
     shutil.copyfile(args.engine.resolve(),runtime/'accounts-qa.exe')
-    shutil.copyfile(LOCAL/'passives-runtime/key.pem',runtime/'key.pem');pem=(runtime/'key.pem').read_bytes()
+    shutil.copyfile(args.rsa_key.resolve(),runtime/'key.pem');pem=(runtime/'key.pem').read_bytes()
     report['server_sha256']=hashlib.sha256((runtime/'accounts-qa.exe').read_bytes()).hexdigest()
     config=original_config.decode('utf-8-sig')
     for name,value in [('mysqlPort','33314'),('loginProtocolPort','7187'),('statusProtocolPort','7187'),('gameProtocolPort','7188'),('serverName','"Rookhaven Accounts QA"')]:
@@ -107,22 +109,41 @@ try:
             except (EOFError,ConnectionResetError):check(True,label)
         refused(b'\x06\xff\xff','extra privilege and level fields fail closed')
         refused(b'x'*600,'oversized encrypted request fails closed')
-        for version,block,label in [(2,b'\0'*128,'unknown handshake version refused'),(1,b'\0'*128,'RSA block without required magic refused')]:
+        for version,block,label in [(2,b'\0'*256,'unknown handshake version refused'),(1,b'\0'*256,'RSA block without required magic refused')]:
             w=connection()
             try:
                 w.send(bytes([3,version])+wire_u16(860)+block,False)
                 try:w.receive();raise AssertionError(label+' accepted')
                 except (EOFError,ConnectionResetError):check(True,label)
             finally:w.close()
+        old_pem=(LOCAL/'passives-runtime/key.pem').read_bytes()
+        w=Wire(old_pem,7187)
+        try:
+            try:w.handshake();raise AssertionError('previous default key accepted')
+            except (EOFError,ConnectionResetError):check(True,'previous default RSA-1024 client is refused')
+        finally:w.close()
         check(sql("SELECT COUNT(*) FROM players WHERE account_id=(SELECT id FROM accounts WHERE name='attackqa')")=='0','all refused attacks preserved account and character state')
         check(create(2,'attackqa',pw,'Unharmed Hero')['success']==1 and len(login('attackqa',pw)['characters'])==1,'ordinary creation and login work after malformed traffic')
-    if not args.ui_only and not args.attack_only:
+    if args.ingress_only:
+        boot()
+        legacy=hashlib.sha1(b'passivetest').hexdigest()
+        sql("INSERT INTO accounts(name,password,type,email) VALUES ('passivetest','"+legacy+"',1,'ingress@example.invalid') ON DUPLICATE KEY UPDATE password=VALUES(password)")
+        check(create(2,'passivetest','passivetest','Passive Tester')['success']==1,'ordinary owned avatar provisioned for existing ingress probe')
+        sql("UPDATE accounts SET password='"+legacy+"' WHERE name='passivetest'")
+        result=subprocess.run([sys.executable,str(ROOT/'tools/tests/client-login-integrity.py'),'--runtime',str(runtime),'--output',str(run/'ingress'),'--game-port','7188','--ingress'],capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW)
+        (run/'ingress.log').write_bytes(result.stdout+result.stderr)
+        check(result.returncode==0,'existing native RH2 login and malformed-ingress probe works with RSA-2048')
+    if not args.ui_only and not args.attack_only and not args.ingress_only:
         boot();policy1=policy();check(policy1['account']==1 and policy1['character']==1 and policy1['limit']==3 and policy1['town'],'encrypted policy handshake')
         pw='AccountsLoopbackOnly'
         for account,password,email in [('abc',pw,'one@example.invalid'),('validqa','short','one@example.invalid'),('validqa',pw,''),('validqa',pw,'bad@host'),('validqa',pw,'a..b@example.invalid'),('validqa',pw,'a@-host.invalid')]:
             check(create(1,account,password,email)['success']==0,'invalid registration rejected '+str(len(report['checks'])))
         check(sql("SELECT COUNT(*) FROM accounts WHERE name='validqa'")=='0','rejected registration made no account')
         check(create(1,'nativeaccounts',pw,'native+qa@example.invalid')['success']==1,'mandatory email registration succeeds')
+        stored=sql("SELECT password FROM accounts WHERE name='nativeaccounts'")
+        check(stored.startswith('$rh$scrypt$1$131072$8$1$') and len(stored)>40,'registration stores versioned slow hash')
+        parts=stored.split('$');salt=bytes.fromhex(parts[-2]);expected=bytes.fromhex(parts[-1])
+        check(hashlib.scrypt(pw.encode(),salt=salt,n=131072,r=8,p=1,maxmem=256*1024*1024,dklen=32)==expected,'native scrypt matches independent standard implementation')
         check(sql("SELECT CONCAT(type,':',premium_ends_at,':',email) FROM accounts WHERE name='nativeaccounts'")=='1:0:native+qa@example.invalid','ordinary account privileges and email persisted')
         check(create(1,'NATIVEACCOUNTS',pw,'another@example.invalid')['success']==0,'case insensitive duplicate account rejected')
         check(login('nativeaccounts',pw).get('characters')==[],'ordinary login supports zero characters')
@@ -171,7 +192,19 @@ try:
         check(create(1,'lostreplyqa',pw,'lost@example.invalid')['success']==0 and login('lostreplyqa',pw).get('characters')==[],
               'lost creation reply can reconcile by normal login without duplicate account')
         sql("INSERT INTO accounts(name,password,type,email) VALUES ('legacyqa','"+hashlib.sha1(b'short').hexdigest()+"',1,'')")
+        check('error' in login('legacyqa','wrong') and sql("SELECT LENGTH(password) FROM accounts WHERE name='legacyqa'")=='40','wrong legacy password cannot upgrade or authenticate')
+        check(login('legacyqa','short').get('characters')==[] and sql("SELECT password FROM accounts WHERE name='legacyqa'").startswith('$rh$scrypt$'),'existing short-password account upgrades on ordinary login')
         check(create(2,'legacyqa','short','Legacy Hero')['success']==1,'legacy accounts retain existing password and email rules when adding a character')
+        sql("INSERT INTO accounts(name,password,type,email) VALUES ('legacychar','"+hashlib.sha1(b'short').hexdigest()+"',1,'')")
+        check(create(2,'legacychar','short','Legacy Creator')['success']==1 and sql("SELECT password FROM accounts WHERE name='legacychar'").startswith('$rh$scrypt$'),'character creation upgrades legacy authentication too')
+        check(sql("SELECT password FROM accounts WHERE name='legacyqa'")!=sql("SELECT password FROM accounts WHERE name='legacychar'"),'same passwords receive independent random salts')
+        legacy=hashlib.sha1(b'short').hexdigest()
+        sql("INSERT INTO accounts(name,password,type,email) VALUES ('legacyrace','"+legacy+"',1,'')")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
+            answers=list(pool.map(lambda _:login('legacyrace','short'),range(2)))
+        check(all(x.get('characters')==[] for x in answers) and sql("SELECT password FROM accounts WHERE name='legacyrace'").startswith('$rh$scrypt$'),'concurrent first logins preserve the migrated password')
+        sql("UPDATE accounts SET password='$rh$scrypt$1$999999999999$8$1$malformed' WHERE name='legacyrace'")
+        check('error' in login('legacyrace','short'),'malformed or attacker-selected stored work parameters fail closed')
         sql("UPDATE players SET deletion=UNIX_TIMESTAMP() WHERE name='First Hero'")
         check(create(2,'nativeaccounts',pw,'Replacement Hero')['success']==1 and len(login('nativeaccounts',pw)['characters'])==3,'soft deleted characters do not consume live character slots')
         sql("INSERT INTO ip_bans(ip,reason,banned_at,expires_at,banned_by) VALUES (16777343,'fixture',UNIX_TIMESTAMP(),0,"+ban_issuer+"),(2130706433,'fixture',UNIX_TIMESTAMP(),0,"+ban_issuer+")")
@@ -192,6 +225,7 @@ try:
         before_profile=digest(profile)
         if profile.exists():shutil.copytree(profile,run/'profile-before')
         client=run/'client';shutil.copytree(args.client.resolve(),client)
+        report['client_sha256']=hashlib.sha256((client/'RookhavenClient.exe').read_bytes()).hexdigest()
         with zipfile.ZipFile(client/'data.zip') as z:entries={n:z.read(n) for n in z.namelist()}
         entries['startup_original.luac']=entries.pop('init.luac')
         entries['init.lua']=b"function T() dofile('/accounts-probe.lua') end\nreturn dofile('/startup_original.lua')\n"
@@ -201,6 +235,21 @@ try:
                 if not f.is_file():continue
                 n='modules/'+folder+'/'+f.name;entries.pop(n[:-4]+'.luac',None) if n.endswith('.lua') else None;entries[n]=f.read_bytes()
         entries['layouts/retro/styles/40-entergame.otui']=(ROOT/'layouts/retro/styles/40-entergame.otui').read_bytes()
+        if entries['startup_original.luac'].startswith(b'ENC3'):
+            assert args.encoder,'Encrypted QA package requires --encoder for its owned test overlays'
+            overlay=run/'encoded-overlays';overlay.mkdir()
+            for folder in ('data','modules','layouts'):(overlay/folder).mkdir()
+            entries['init.luac']=entries.pop('init.lua');mapping={}
+            for name,content in entries.items():
+                if content.startswith(b'ENC3'):continue
+                relative=name if name=='init.luac' or name.split('/')[0] in ('data','modules','layouts') else 'data/__probe_root__/'+name
+                target=overlay/relative;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(content);mapping[name]=target
+            seed=re.search(r'set\(RUNTIME_DATA_ZIP_PASSWORD\s+"([^"]+)"',(ROOT/'CMakeLists.txt').read_text())[1]
+            seed_file=run/'overlay-seed.u32';seed_file.write_text(str(zlib.adler32(seed.encode())&0xffffffff))
+            encoded=subprocess.run([str(args.encoder.resolve()),str(overlay),str(seed_file)],capture_output=True,creationflags=subprocess.CREATE_NO_WINDOW)
+            (run/'overlay-encoder.log').write_bytes(encoded.stdout+encoded.stderr);assert encoded.returncode==0,'QA overlay encryption failed'
+            for name,target in mapping.items():
+                content=target.read_bytes();assert content.startswith(b'ENC3'),name;entries[name]=content
         with zipfile.ZipFile(client/'data.zip','w',zipfile.ZIP_DEFLATED) as z:
             for n,b in entries.items():z.writestr(n,b)
         subprocess.run(['python',str(ROOT/'tools/passives/package-checksums.py'),str(client/'data.zip'),str(runtime/'data/checksum_expected.txt')],check=True,capture_output=True)

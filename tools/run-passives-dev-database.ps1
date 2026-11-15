@@ -7,6 +7,7 @@ if ($ResumeFailedStartup -and $FinalAttempt) { throw 'A final independent proof 
 $clientRoot = [IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))
 $serverRoot = [IO.Path]::GetFullPath((Join-Path $clientRoot '../Rookhaven'))
 $localRoot = [IO.Path]::GetFullPath((Join-Path $clientRoot 'out/local-server'))
+$fixtureKey = Join-Path $localRoot 'auth/key.pem'
 $proofDirectory = if ($FinalAttempt) { 'out/passives-dev-database-final' } else { 'out/passives-dev-database' }
 $runtimeDirectory = if ($FinalAttempt) { 'passives-db-upgrade-final-runtime' } else { 'passives-db-upgrade-runtime' }
 $proofRoot = [IO.Path]::GetFullPath((Join-Path $clientRoot $proofDirectory))
@@ -161,7 +162,7 @@ function Read-Checksums($Object) {
     return $out
 }
 try {
-    foreach ($required in @($dbCli,$dumpCli,$sourceExe,(Join-Path $serverRoot 'data/global.lua'),(Join-Path $serverRoot 'schema.sql'),(Join-Path $serverRoot 'key.pem'))) {
+    foreach ($required in @($dbCli,$dumpCli,$sourceExe,(Join-Path $serverRoot 'data/global.lua'),(Join-Path $serverRoot 'schema.sql'),$fixtureKey)) {
         if (-not (Test-Path -LiteralPath $required)) { throw "Missing local proof input: $required." }
     }
     if (@(Get-Process tfs -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $sourceExe }).Count) { throw 'Stop the owned ordinary local fixture server before dumping its fixture.' }
@@ -186,7 +187,8 @@ try {
         if ((Get-FileHash -LiteralPath $proofExe -Algorithm SHA256).Hash -cne $retained.serverExeSha256 -or (Get-FileHash -LiteralPath $sourceExe -Algorithm SHA256).Hash -cne $retained.serverExeSha256) { throw 'Retained proof binary or frozen source binary changed.' }
         if ([IO.File]::ReadAllText((Join-Path $runtime 'config.lua')).Trim() -cne (Proof-Config).Trim()) { throw 'Retained proof runtime configuration changed.' }
         foreach ($relative in @('data/global.lua','data/migrations/30.lua','data/lib/passives/test.lua','data/lib/passives/config.lua','data/lib/passives/routes.lua','data/lib/class_spells/class_spells.lua','data/lib/class_spells/config.lua','data/npc/scripts/The Nameless.lua','schema.sql','key.pem')) {
-            if ((Get-FileHash -LiteralPath (Join-Path $runtime $relative) -Algorithm SHA256).Hash -cne (Get-FileHash -LiteralPath (Join-Path $serverRoot $relative) -Algorithm SHA256).Hash) { throw "Retained runtime input changed: $relative." }
+            $expectedInput = if ($relative -eq 'key.pem') {$fixtureKey} else {Join-Path $serverRoot $relative}
+            if ((Get-FileHash -LiteralPath (Join-Path $runtime $relative) -Algorithm SHA256).Hash -cne (Get-FileHash -LiteralPath $expectedInput -Algorithm SHA256).Hash) { throw "Retained runtime input changed: $relative." }
         }
         foreach ($dll in @(Get-ChildItem -LiteralPath (Split-Path $sourceExe -Parent) -Filter '*.dll' -File)) {
             if ((Get-FileHash -LiteralPath (Join-Path $runtime $dll.Name) -Algorithm SHA256).Hash -cne (Get-FileHash -LiteralPath $dll.FullName -Algorithm SHA256).Hash) { throw 'Retained runtime dependency changed.' }
@@ -243,7 +245,8 @@ try {
     foreach ($dll in @(Get-ChildItem -LiteralPath (Split-Path $sourceExe -Parent) -Filter '*.dll' -File)) { Copy-Item -LiteralPath $dll.FullName -Destination $runtime }
     Copy-Item -LiteralPath (Join-Path $serverRoot 'data') -Destination $runtime -Recurse
     # The native loader uses data/global.lua, already copied with data above.
-    foreach ($name in @('schema.sql','key.pem')) { Copy-Item -LiteralPath (Join-Path $serverRoot $name) -Destination $runtime }
+    Copy-Item -LiteralPath (Join-Path $serverRoot 'schema.sql') -Destination $runtime
+    Copy-Item -LiteralPath $fixtureKey -Destination (Join-Path $runtime 'key.pem')
     $config = Proof-Config
     [IO.File]::WriteAllText((Join-Path $runtime 'config.lua'),$config,[Text.UTF8Encoding]::new($false))
     $report.serverExeSha256 = (Get-FileHash -LiteralPath $proofExe -Algorithm SHA256).Hash

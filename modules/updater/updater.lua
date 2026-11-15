@@ -121,6 +121,14 @@ local function updateFiles(data, keepCurrentFiles)
   if not data["files"] or type(data["url"]) ~= 'string' or data["url"]:len() < 4 then
     return Updater.error("Invalid data from updater api: " .. json.encode(data, 2))
   end
+  -- Authenticated metadata may still contain the historical HTTP base URL.
+  -- Fetch every artifact over HTTPS; never fall back to cleartext on failure.
+  if data.url:sub(1, 7):lower() == "http://" then
+    data.url = "https://" .. data.url:sub(8)
+  end
+  if data.url:sub(1, 8):lower() ~= "https://" then
+    return Updater.error("The updater requires a secure download address.")
+  end
   if data["keepFiles"] then
     keepCurrentFiles = true
   end

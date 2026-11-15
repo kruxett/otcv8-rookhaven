@@ -1,11 +1,13 @@
 param([switch]$SkipFlagOffBaseline,[switch]$NativeOnly,[switch]$AccessFixes,[switch]$AdditionalRegressionsOnly,
- [string]$ServerRoot='', [string]$ServerExecutable='')
+ [string]$ServerRoot='', [string]$ServerExecutable='', [string]$RsaKeyFile='')
 # All writes target an owned cold database copy, copied runtime, and probe profile.
 $ErrorActionPreference='Stop'
 Set-StrictMode -Version Latest
 $clientRoot=[IO.Path]::GetFullPath((Split-Path $PSScriptRoot -Parent))
 $serverRoot=if ($ServerRoot) {[IO.Path]::GetFullPath($ServerRoot)} else {[IO.Path]::GetFullPath((Join-Path $clientRoot '../Rookhaven'))}
 $localRoot=Join-Path $clientRoot 'out/local-server'
+if (-not $RsaKeyFile) {$RsaKeyFile=Join-Path $localRoot 'auth/key.pem'}
+if (-not (Test-Path -LiteralPath $RsaKeyFile)) {throw 'Run tools/prepare-local-rsa.py or provide the matching loopback -RsaKeyFile.'}
 $sourceDb=Join-Path $localRoot 'passives-db'
 $sourceConfig=Join-Path $localRoot 'passives-runtime/config.lua'
 $dbBin=Join-Path $localRoot 'mariadb-11.4.9-winx64/bin'
@@ -97,7 +99,8 @@ try {
  Copy-Item -LiteralPath $sourceDb -Destination $dbData -Recurse
  Copy-Item -LiteralPath (Join-Path $serverRoot 'data') -Destination $runtime -Recurse
  Copy-Item -LiteralPath $sourceConfig -Destination (Join-Path $runtime 'config.lua')
- foreach ($file in @('global.lua','schema.sql','key.pem')) {if (Test-Path -LiteralPath (Join-Path $serverRoot $file)) {Copy-Item -LiteralPath (Join-Path $serverRoot $file) -Destination $runtime}}
+ foreach ($file in @('global.lua','schema.sql')) {if (Test-Path -LiteralPath (Join-Path $serverRoot $file)) {Copy-Item -LiteralPath (Join-Path $serverRoot $file) -Destination $runtime}}
+ Copy-Item -LiteralPath $RsaKeyFile -Destination (Join-Path $runtime 'key.pem') -Force
  Copy-Item -LiteralPath $sourceExe -Destination (Join-Path $runtime 'tfs.exe')
  Get-ChildItem -LiteralPath (Split-Path $sourceExe -Parent) -Filter '*.dll' | Copy-Item -Destination $runtime
  Copy-Item -LiteralPath (Join-Path $package 'checksum_expected.txt') -Destination (Join-Path $runtime 'data/checksum_expected.txt') -Force

@@ -1,6 +1,7 @@
 local failed,done,loggingOut,reconnected=false,false,false,false
 local receipts,requests={},{}
 local maxLogin=false
+local tlsChecks=0
 local function fail(why)
   if failed then return end;failed=true;print('ACCOUNTS_UI_FAILED '..tostring(why));g_app.exit()
 end
@@ -33,6 +34,7 @@ local function logout(nextStep)
 end
 local function finish()
   qa('state',function(r)
+    assert(r.modernPassword,'game login did not upgrade the legacy password')
     assert(r.guild=='Accounts QA Guild'and r.rank==3 and r.canInvite and not r.canCreate,'guild membership/rank/permissions did not survive reconnect')
     assert(r.knife==1 and r.torch==1 and r.bag==1 and r.apple==1 and r.robe==1,'starter items duplicated or lost after reconnect')
     qa('rest',function()logout(function()
@@ -75,9 +77,12 @@ local function guild()
               g_game.getProtocolGame():sendExtendedOpcode(101,json.encode({action='create',name='Second QA Guild'}))
               later(400,function()qa('state',function(r)
                 assert(r.guild=='Accounts QA Guild'and not r.canCreate,'member could create another guild')
-                qa('rest',function()logout(function()
-                  reconnected=true;later(400,function()loggingOut=false;CharacterList.doLogin()end)
-                end)end)
+                qa('legacy',function(r)
+                  assert(not r.modernPassword,'legacy game-login fixture not installed')
+                  qa('rest',function()logout(function()
+                    reconnected=true;later(400,function()loggingOut=false;CharacterList.doLogin()end)
+                  end)end)
+                end)
               end)end)
             end)
           end)end)
@@ -106,6 +111,17 @@ local function createdCharacter()
 end
 later(350,function()
   assert(LOCAL_PASSIVES_TEST and Services.updater==''and g_resources.getLayout()=='retro')
+  HTTP.timeout=15
+  HTTP.postJSON('https://updater2.rookhaven-ot.com/api/updater',{version=10103,platform='windows',channel='dev'},function(data,err)
+    assert(not err and type(data)=='table' and data.upToDate==true,'authenticated DEV updater failed: '..tostring(err))
+    tlsChecks=tlsChecks+1;print('AUTH_TLS_PASS valid DEV certificate')
+  end)
+  for _,host in ipairs({'self-signed.badssl.com','expired.badssl.com','wrong.host.badssl.com'})do
+    HTTP.get('https://'..host..'/',function(_,err)
+      assert(type(err)=='string' and err:find('HTTPS handshake error') and err:find('certificate verify failed'),'invalid certificate was not refused: '..host..' '..tostring(err))
+      tlsChecks=tlsChecks+1;print('AUTH_TLS_PASS refused '..host)
+    end)
+  end
   local original=ProtocolAccounts.request
   ProtocolAccounts.request=function(self,endpoint,action,values,callback)
     assert(endpoint.host=='127.0.0.1'and endpoint.port==7187,'wrong server target')
@@ -121,9 +137,10 @@ later(350,function()
       later(800,function()
         if modules.game_outfit.destroy then modules.game_outfit.destroy(true,true)end
         if maxLogin then
+          assert(tlsChecks==4,'native HTTPS certificate checks did not finish')
           assert(#g_game.getLocalPlayer():getName()==29,'maximum character name was truncated')
           logout(function()
-            done=true;print('ACCOUNTS_UI_NATIVE_OK register=true emailRequired=true noPlaintextSettings=true rememberedEncrypted=true character=true preview=true duplicateSubmit=true firstItems=true reconnect=true guildmaster=true maximumRsaCredentials=true');g_app.exit()
+            done=true;print('ACCOUNTS_UI_NATIVE_OK register=true emailRequired=true noPlaintextSettings=true rememberedEncrypted=true character=true preview=true duplicateSubmit=true firstItems=true reconnect=true guildmaster=true maximumRsaCredentials=true tlsCertificates=true');g_app.exit()
           end)
           return
         end

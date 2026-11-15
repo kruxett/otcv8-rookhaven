@@ -71,7 +71,7 @@ try:
     # its original server name. Disable that fixture only in this private copy.
     obsolete=runtime/'data/scripts/quiver_weight_startup.lua'
     if obsolete.exists():obsolete.rename(obsolete.with_name('#quiver_weight_startup.lua'))
-    shutil.copyfile(LOCAL/'passives-runtime/key.pem',runtime/'key.pem')
+    shutil.copyfile(LOCAL/'auth/key.pem',runtime/'key.pem')
     for file in args.engine_directory.resolve().iterdir():
         if file.is_file() and file.suffix.lower() in ('.dll','.exe'):
             shutil.copyfile(file,runtime/file.name)

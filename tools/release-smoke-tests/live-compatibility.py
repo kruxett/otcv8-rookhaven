@@ -78,8 +78,7 @@ def main():
         pins[version] = (cfg[version + "ResourceFingerprint"], cfg[version + "ExeSha256"])
         require(all(re.fullmatch("[0-9a-f]{64}", value) for value in pins[version]), "Invalid compatibility pin")
     require(pins["old"] != pins["new"], "Old and new compatibility claims must differ")
-    const = (ROOT / "modules/gamelib/const.lua").read_text()
-    rsa = int("".join(re.findall(r'"(\d+)"', const.split("OTSERV_RSA  =", 1)[1].split("CIPSOFT_RSA", 1)[0])))
+    rsa = int((ROOT / "tools/keys/dev-rsa.txt").read_text().strip())
     key = tuple(secrets.randbits(32) for _ in range(4))
     rows = []
     report = {"state": "FAIL", "cases": rows, "characterListPassed": False,
@@ -88,8 +87,9 @@ def main():
               "normalLoginAndShopInitializationMayPersist": True}
 
     def rsa_block(data):
-        require(len(data) <= 128, "Dedicated QA login fields exceed the native RSA block")
-        return pow(int.from_bytes(data.ljust(128, b"\0"), "big"), 65537, rsa).to_bytes(128, "big")
+        size=(rsa.bit_length()+7)//8
+        require(len(data) <= size, "Dedicated QA login fields exceed the native RSA block")
+        return pow(int.from_bytes(data.ljust(size, b"\0"), "big"), 65537, rsa).to_bytes(size, "big")
 
     def send(sock, data, encrypted=False):
         if encrypted:
