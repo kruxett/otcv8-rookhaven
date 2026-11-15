@@ -3,8 +3,8 @@
 The retro login window opens **Create account**. Registration requires an account
 name, email and confirmed password, then uses ordinary login to open the empty
 character list. **Create character** is available from that list. It offers a
-name, sex and actual starter-outfit preview; a successful creation refreshes the
-ordinary character list without entering the game automatically.
+name, sex, actual starter-outfit preview and compact naming guidance; a successful
+creation refreshes the ordinary character list without entering the game automatically.
 
 Characters start at level 1, group 1 and vocation 0 (Unawakened), with HP 150,
 mana 0 and CAP 400. The configured town supplies the temple position. Existing
@@ -33,6 +33,13 @@ worker callback. Character creation rechecks the exact authenticated stored hash
 under the account lock, then applies existing bans, capacity and creation rules.
 Accepted creation requests can finish after a lost connection; ordinary login
 or refresh reconciles an unreceived reply without duplicating the account.
+
+The playable DEV server uses an optimized Release build with matching app-local
+Release libraries. The same scrypt parameters measured about 2.31 seconds in the
+previous Debug OpenSSL library and 0.60 seconds in Release on the DEV host. The
+password policy and stored hashes are unchanged. Character selection performs a
+separate authentication from the character-list login; character creation also
+authenticates before writing, then refreshes the list through ordinary login.
 
 The coordinated release uses a private environment-specific RSA-2048 key for
 normal login, game login and creation. Invalid, truncated or 1024-bit keys fail
@@ -133,7 +140,7 @@ ordinary login/game login. These paths are covered by:
   fresh MariaDB from the retained SQL seed, successful/rejected creation,
   duplicates, bans, parallel character caps, feature flags, invalid town,
   transaction failure/recovery and private error redaction. With `--client`,
-  it runs the actual new native QA client and retro views, both preview sizes,
+  it runs the actual new native QA client and retro views, both window sizes,
   first items, normal login, remembered encryption, maximum RSA credentials,
   reconnect, Guildmaster creation and persisted leader permissions.
 

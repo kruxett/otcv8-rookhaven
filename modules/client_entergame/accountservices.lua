@@ -45,16 +45,12 @@ local function open(kind)
     field('sex'):addOption(tr('Male'), 1)
     field('sex'):addOption(tr('Female'), 0)
     AccountServicesUI.updatePreview()
-    field('description'):setText(tr('Begin as Unawakened at level 1. Choose your class as you progress.'))
   end
   field(kind == 1 and 'account' or 'name'):focus()
   status(tr('Checking availability...'))
   request(0, {}, function(success, message, name, policy)
     if not success then status(message, true); return end
     state.policy, state.allowed = policy, kind == 1 and policy.account or kind == 2 and policy.character
-    if kind == 2 then
-      field('description'):setText(tr('Begin as Unawakened at level 1 in %s. Choose your class as you progress.', policy.town))
-    end
     status(state.allowed and (kind == 1 and tr('Create an account on %s.', policy.world) or
       tr('Names use 3-29 letters and single spaces. Up to %s characters per account.', policy.limit)) or
       tr('Creation is currently closed on this server.'), not state.allowed)

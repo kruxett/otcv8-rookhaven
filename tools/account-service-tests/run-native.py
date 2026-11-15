@@ -259,7 +259,7 @@ try:
         check(app.wait(timeout=180)==0 and 'ACCOUNTS_UI_NATIVE_OK' in log('client'),'native account and character UI with normal first login and reconnect')
         report['client_log_tail']=log('client')[-1200:]
         for f in profile.glob('accounts-*.png'):shutil.copyfile(f,run/f.name)
-        check(sql("SELECT COUNT(*) FROM players WHERE name='Ui New Hero' AND level=1 AND vocation=0 AND group_id=1")=='1','UI character remains ordinary Unawakened')
+        check(sql("SELECT COUNT(*) FROM players WHERE name='Ui New Hero' AND level=1 AND vocation=0 AND group_id=1 AND sex=0 AND looktype=136")=='1','UI character keeps the selected sex and ordinary starter outfit/progression')
         check(sql("SELECT COUNT(*) FROM guilds WHERE name='Accounts QA Guild'")=='1','in-game Guildmaster creation persisted')
     report['status']='PASS'
 finally:

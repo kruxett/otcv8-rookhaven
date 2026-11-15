@@ -1,7 +1,7 @@
 MainWindow
   id: createCharacterWindow
   !text: tr('Create character')
-  size: 400 390
+  size: 400 245
   @onEscape: AccountServicesUI.close()
   @onEnter: AccountServicesUI.submit()
 
@@ -44,21 +44,12 @@ MainWindow
     @onOptionChange: AccountServicesUI.updatePreview()
 
   Label
-    id: description
-    anchors.top: preview.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    margin-top: 14
-    height: 64
-    text-wrap: true
-
-  Label
     id: status
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: separator.top
     margin-bottom: 8
-    height: 64
+    height: 48
     text-wrap: true
     color: #c6b58c
 
