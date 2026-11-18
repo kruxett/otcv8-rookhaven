@@ -96,6 +96,14 @@ StaticMainWindow
     margin-bottom: 10
     @onClick: AccountServicesUI.openCharacter()
 
+  Button
+    id: accountManagement
+    !text: tr('Manage account')
+    width: 140
+    anchors.right: parent.right
+    anchors.bottom: createCharacter.bottom
+    @onClick: AccountManagementUI.open()
+
   Label
     id: accountStatusCaption
     !text: tr('Account Status') .. ':'

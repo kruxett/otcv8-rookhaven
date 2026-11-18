@@ -20,7 +20,8 @@ import zlib
 MASK = 0xFFFFFFFF
 DELTA = 0x9E3779B9
 CLIENT_EXE = "RookhavenClient.exe"
-RESOURCE_ROOTS = ("modules/game_passives/", "data/images/game/passives/",
+RESOURCE_ROOTS = ("modules/client_entergame/", "modules/gamelib/", "modules/game_guild/",
+                  "modules/game_cyclopedia/", "modules/game_passives/", "data/images/game/passives/",
                   "modules/game_inventory/", "modules/game_lava_smelt/", "modules/game_personalstore/",
                   "data/images/items/legendary/")
 ITEM_ASSET_SOURCES = ("data/things/860/Tibia.dat", "data/things/860/Tibia.spr")

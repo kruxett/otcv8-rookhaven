@@ -1,6 +1,6 @@
 # Rookhaven development and test selection
 
-This is the shared test-selection policy for client and server work. Select
+This is the shared test-selection policy for client, game server and website work. Select
 tests from the current change and its actual dependencies. The passive system
 is one subsystem; its complete suite is not a default gate for Rookhaven work.
 
@@ -39,6 +39,7 @@ changed. Trace the modified function/data and its consumers instead.
 | Isolated item/spell/quest logic | Success, relevant refusal/boundary cases, costs/state and real use path | A shared hook or service changes behavior for existing consumers |
 | Shared combat, container, persistence or protocol code | Focused rule tests plus integration cases for affected existing consumers | A common invariant or broad contract affects many consumers and cannot be bounded safely |
 | UI behavior | Changed interactions, ordering/state, reopen/refresh where relevant and small supported retro layout | Shared widgets, transport or state model changes other views |
+| Website frontend or API | Relevant lint/build/UI checks and affected unit/integration tests; isolated database when needed | Shared account, character, guild, currency or schema contracts affect the native server or client |
 | Build/package/deployment | Changed artifact/source equality, checksums/version, compatibility, updater/startup and runtime readback as relevant | Build tooling, compatibility, migration or restart behavior changes |
 
 Cover meaningful failures: for example, a rejected craft must preserve donor,

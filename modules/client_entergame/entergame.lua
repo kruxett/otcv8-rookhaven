@@ -461,7 +461,7 @@ function EnterGame.doLogin(account, password, token, host)
 
   G.account = account or enterGame:getChildById('accountNameTextEdit'):getText()
   G.password = password or enterGame:getChildById('accountPasswordTextEdit'):getText()
-  G.authenticatorToken = token or ''
+  G.authenticatorToken = token or enterGame:getChildById('authenticatorCode'):getText():trim()
   G.stayLogged = true
   G.server = serverSelector:getText():trim()
   G.host = host or serverHostTextEdit:getText()

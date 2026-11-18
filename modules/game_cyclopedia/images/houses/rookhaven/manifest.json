@@ -1,0 +1,2182 @@
+{
+  "format": 1,
+  "source": "Native OTCv8 map framebuffer; base map, no player decoration",
+  "map": "rookalmost.otbm",
+  "mapSha256": "5a722ee9e29cbc32eab37e549a1ab54df05f12c19e9cc93dc9bd2d774e740bb8",
+  "housesXmlSha256": "04a1f04353ff6203d6550924596503e3c576cdcd0648df6f14959a742015e359",
+  "clientDataZipSha256": "4542965ad0051dab74d738b2a76c34f1e3b753113f069ad3ea0dbd6937ebbde5",
+  "serverSha256": "bc8bf9d249713937c3e448cb41b5141d4fad83b2f79354f41c108d7d9f8daff4",
+  "clientSha256": "82d0cc3c28e41cb1071f304e0e709498e61864e4068fecfe4aee022989ba52fd",
+  "previewSize": [
+    186,
+    210
+  ],
+  "houses": [
+    {
+      "id": 1,
+      "name": "Stillshore Square 1",
+      "floor": 7,
+      "entry": {
+        "y": 32065,
+        "x": 31919,
+        "z": 7
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32059,
+        "maxy": 32064,
+        "z": 7,
+        "minx": 31917,
+        "maxx": 31920
+      },
+      "cropWorldBounds": [
+        31916,
+        32058,
+        31922,
+        32066
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32061,
+        "x": 31918
+      },
+      "frameSha256": "689f46c67920fc1ff554ff43bc0ad0ae456f711142e211d56bad9265cd37b094",
+      "image": "1.png",
+      "size": [
+        192,
+        256
+      ],
+      "sha256": "dee858d7b95b7f0549b044b76f03f58ec400e7e16ad9d945f37e92d5e3d39338",
+      "preview": "previews/1.png",
+      "previewSha256": "44de2aa42a85bc8015e7dfcef41fd483a24c53a6b350fcbc76767a3a571f9ac0"
+    },
+    {
+      "id": 2,
+      "name": "Stillshore Square 2",
+      "floor": 7,
+      "entry": {
+        "y": 32069,
+        "x": 31922,
+        "z": 7
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32070,
+        "maxy": 32075,
+        "z": 7,
+        "minx": 31921,
+        "maxx": 31923
+      },
+      "cropWorldBounds": [
+        31920,
+        32069,
+        31925,
+        32077
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32072,
+        "x": 31922
+      },
+      "frameSha256": "755f872ad9dc793431bfe7201e38cf692b07ea9d05d946af8d7bf22b3aeff08d",
+      "image": "2.png",
+      "size": [
+        160,
+        256
+      ],
+      "sha256": "550d1a28bd131c6bcb5b46bbec8d9ddd5bf12b6acc305295f91c9eb88387c94c",
+      "preview": "previews/2.png",
+      "previewSha256": "007141bc1ac93578c5888727cf4a84b667abd271cda0f6bed2335876ee4f78ce"
+    },
+    {
+      "id": 3,
+      "name": "Stillshore Homestead",
+      "floor": 7,
+      "entry": {
+        "y": 32045,
+        "x": 31894,
+        "z": 7
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32039,
+        "maxy": 32044,
+        "z": 7,
+        "minx": 31892,
+        "maxx": 31895
+      },
+      "cropWorldBounds": [
+        31891,
+        32038,
+        31897,
+        32046
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32041,
+        "x": 31893
+      },
+      "frameSha256": "7be133b2ed8a64abbe41eeb0bad37f05badd4085ff8780abced88a940d7b2da9",
+      "image": "3.png",
+      "size": [
+        192,
+        256
+      ],
+      "sha256": "c3ffdb8d3409e39edf187965fcdbc5f6a370a3e7adbcadccf8b57ed9d7829668",
+      "preview": "previews/3.png",
+      "previewSha256": "ef89c1757cfddfecc63a61dd845a4e9747b5d7889d24b1a22ccd6cc976afa746"
+    },
+    {
+      "id": 4,
+      "name": "Stillshore Complex 1",
+      "floor": 7,
+      "entry": {
+        "y": 32066,
+        "x": 31894,
+        "z": 7
+      },
+      "tileCount": 11,
+      "tileBounds": {
+        "miny": 32067,
+        "maxy": 32071,
+        "z": 7,
+        "minx": 31893,
+        "maxx": 31895
+      },
+      "cropWorldBounds": [
+        31892,
+        32066,
+        31897,
+        32073
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32069,
+        "x": 31894
+      },
+      "frameSha256": "4e82859a674a98765d298c2ea881924065085233a955b09a1999110b8423de93",
+      "image": "4.png",
+      "size": [
+        160,
+        224
+      ],
+      "sha256": "db918977293f161db5756f08f9c0cd7b8429acc735780aacaa3c6fa9c3959fc4",
+      "preview": "previews/4.png",
+      "previewSha256": "ddb93ad6d25d3ef0bada27f38b9c2cd6cf8b5e280251440dce260ca75d34233c"
+    },
+    {
+      "id": 5,
+      "name": "Stillshore Complex 2",
+      "floor": 7,
+      "entry": {
+        "y": 32066,
+        "x": 31891,
+        "z": 7
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32067,
+        "maxy": 32070,
+        "z": 7,
+        "minx": 31886,
+        "maxx": 31891
+      },
+      "cropWorldBounds": [
+        31885,
+        32066,
+        31893,
+        32072
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32068,
+        "x": 31888
+      },
+      "frameSha256": "7b31c545bffcee87c7c7f92eca3e685cec1974fe07876cf92338fbdb1a8f86d7",
+      "image": "5.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "933366d5ba061ac65dd452e7c8eabea52c022ed2fce1b8bf6599b3cba9fcbb56",
+      "preview": "previews/5.png",
+      "previewSha256": "f297a1d9a734949e6903ed1730c1029711af093b3fe1685f50d04a56cb1c03b6"
+    },
+    {
+      "id": 6,
+      "name": "Stillshore Complex 3",
+      "floor": 7,
+      "entry": {
+        "y": 32065,
+        "x": 31891,
+        "z": 7
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32064,
+        "maxy": 32066,
+        "z": 7,
+        "minx": 31886,
+        "maxx": 31890
+      },
+      "cropWorldBounds": [
+        31885,
+        32063,
+        31892,
+        32068
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32065,
+        "x": 31888
+      },
+      "frameSha256": "df1326510658558e53d053c655f19da5813cd382fc1002c834af254f674298ca",
+      "image": "6.png",
+      "size": [
+        224,
+        160
+      ],
+      "sha256": "ca5821ce60963a9faf6ffcbef123f595f05ce9e1989c0b2868a00be6064029cf",
+      "preview": "previews/6.png",
+      "previewSha256": "92736216dea3ff93f0f8a56efdc7c4857b6ccc6ef92a34c5755122a15edb5c0a"
+    },
+    {
+      "id": 7,
+      "name": "Stillshore Complex 4",
+      "floor": 6,
+      "entry": {
+        "y": 32065,
+        "x": 31894,
+        "z": 6
+      },
+      "tileCount": 20,
+      "tileBounds": {
+        "miny": 32066,
+        "maxy": 32071,
+        "z": 6,
+        "minx": 31891,
+        "maxx": 31895
+      },
+      "cropWorldBounds": [
+        31890,
+        32065,
+        31897,
+        32073
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32068,
+        "x": 31893
+      },
+      "frameSha256": "7c97757617862ef44fed58bf86fce89e72373f6ca820feb38e96cef8ff716e58",
+      "image": "7.png",
+      "size": [
+        224,
+        256
+      ],
+      "sha256": "58a0da7c9f7e91be2de0bb6962d0d996d880971164f52f1dc2dec7fe6891363d",
+      "preview": "previews/7.png",
+      "previewSha256": "536ead8a568c87ff22b705f2e5c934352856b944692d8a291f2668f5cd2ae458"
+    },
+    {
+      "id": 8,
+      "name": "Stillshore Complex 5",
+      "floor": 6,
+      "entry": {
+        "y": 32065,
+        "x": 31891,
+        "z": 6
+      },
+      "tileCount": 27,
+      "tileBounds": {
+        "miny": 32064,
+        "maxy": 32070,
+        "z": 6,
+        "minx": 31886,
+        "maxx": 31890
+      },
+      "cropWorldBounds": [
+        31885,
+        32063,
+        31892,
+        32072
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32067,
+        "x": 31888
+      },
+      "frameSha256": "7047e4cd0cb87a98251780d00142a70d916f22fbb35f1a87cdd4ec5a0bab0cb3",
+      "image": "8.png",
+      "size": [
+        224,
+        288
+      ],
+      "sha256": "69968492302538ee114c6f44709cb4172bb7b31106c1caf56bf878bca32bddbf",
+      "preview": "previews/8.png",
+      "previewSha256": "ad3804fa7d6ed7c391b4e28fe5a87c77cb4028a0b0391c994bed715f5d0b23a8"
+    },
+    {
+      "id": 9,
+      "name": "Stillshore Farm",
+      "floor": 7,
+      "entry": {
+        "y": 32056,
+        "x": 31904,
+        "z": 7
+      },
+      "tileCount": 37,
+      "tileBounds": {
+        "miny": 32051,
+        "maxy": 32057,
+        "z": 7,
+        "minx": 31899,
+        "maxx": 31906
+      },
+      "cropWorldBounds": [
+        31898,
+        32050,
+        31908,
+        32059
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32054,
+        "x": 31902
+      },
+      "frameSha256": "231e15a1c455ca20c7fd66bc06c3266d40f3f05a4f0b71910d4525fa28d192b6",
+      "image": "9.png",
+      "size": [
+        320,
+        288
+      ],
+      "sha256": "4688bec29b1bc5afa5a97dcb8eb1219139f6844902964d6230f858f118669373",
+      "preview": "previews/9.png",
+      "previewSha256": "2bae1a4d48cdf17206395b3cee7b84657c1cab1a4c3e5d0461527ca1fc437219"
+    },
+    {
+      "id": 10,
+      "name": "Rookhaven Mill 1",
+      "floor": 6,
+      "entry": {
+        "y": 32206,
+        "x": 32046,
+        "z": 6
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32202,
+        "maxy": 32205,
+        "z": 6,
+        "minx": 32042,
+        "maxx": 32047
+      },
+      "cropWorldBounds": [
+        32041,
+        32201,
+        32049,
+        32207
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32203,
+        "x": 32044
+      },
+      "frameSha256": "7b10ea70382b154e26f58d6a3b762b8849bd62140caa4a69cfa76676648fa869",
+      "image": "10.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "fdade6c35bda63d9bc191e60fe9961f8ff1517d8e02b1adb4625b4efa2c4b7fb",
+      "preview": "previews/10.png",
+      "previewSha256": "0c72e637bdc0c2162dfb8806771a6fdeeb232503ee322f1012d615feb96b04bd"
+    },
+    {
+      "id": 11,
+      "name": "Rookhaven Mill 2",
+      "floor": 6,
+      "entry": {
+        "y": 32203,
+        "x": 32040,
+        "z": 6
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32204,
+        "maxy": 32207,
+        "z": 6,
+        "minx": 32039,
+        "maxx": 32044
+      },
+      "cropWorldBounds": [
+        32038,
+        32203,
+        32046,
+        32209
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32205,
+        "x": 32041
+      },
+      "frameSha256": "772b9642ca8a5b1e12690419bf9cec640a09d4697b9307eb9ea3e684d66b75ea",
+      "image": "11.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "461120ef92bcf63026af4180da9336814f15cb7416ea901786497c19865e28cb",
+      "preview": "previews/11.png",
+      "previewSha256": "2c6ac768e5e34c2d842276803a1293258b88b4f9a0ce5a3c822d68a432386c5a"
+    },
+    {
+      "id": 12,
+      "name": "Rookhaven Westhome",
+      "floor": 6,
+      "entry": {
+        "y": 32194,
+        "x": 32027,
+        "z": 6
+      },
+      "tileCount": 22,
+      "tileBounds": {
+        "miny": 32193,
+        "maxy": 32198,
+        "z": 6,
+        "minx": 32024,
+        "maxx": 32028
+      },
+      "cropWorldBounds": [
+        32023,
+        32192,
+        32030,
+        32200
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32196,
+        "x": 32026
+      },
+      "frameSha256": "54bef398287f8ab886ac89ce2b1067cb5bdf93faa82f15526007c2809a6f30b1",
+      "image": "12.png",
+      "size": [
+        224,
+        256
+      ],
+      "sha256": "6b41bb24112d53bd2680bcba33fe024f769e24feb2341b771d5de44e35937fd5",
+      "preview": "previews/12.png",
+      "previewSha256": "136de2ec8a8ecc433695d81d9e7bdf55b14c5a9c9279d16cdeb72db0747427fc"
+    },
+    {
+      "id": 13,
+      "name": "Rookhaven Academy 1",
+      "floor": 8,
+      "entry": {
+        "y": 32165,
+        "x": 32094,
+        "z": 8
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32161,
+        "maxy": 32164,
+        "z": 8,
+        "minx": 32092,
+        "maxx": 32096
+      },
+      "cropWorldBounds": [
+        32091,
+        32160,
+        32098,
+        32166
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32162,
+        "x": 32094
+      },
+      "frameSha256": "9fc7556ed1f4d8c740d0095c72b15111e2feb5723ffa70755fa71e00c6ccd6bd",
+      "image": "13.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "4f1c79fabee45e141671a00ac360ddbbbe3cb795aa6adcaa42a546d7fab59364",
+      "preview": "previews/13.png",
+      "previewSha256": "e477ae1e68223645b7c6e2c41591d0ba2402f407951b94d4b3f66d1b5e7c5c42"
+    },
+    {
+      "id": 14,
+      "name": "Rookhaven Academy 2",
+      "floor": 8,
+      "entry": {
+        "y": 32165,
+        "x": 32099,
+        "z": 8
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32160,
+        "maxy": 32164,
+        "z": 8,
+        "minx": 32098,
+        "maxx": 32100
+      },
+      "cropWorldBounds": [
+        32097,
+        32159,
+        32102,
+        32166
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32162,
+        "x": 32099
+      },
+      "frameSha256": "c6b76369bd920e3d1e43c27b0076045572d09b76b526de7ecb67b29cf6696d0b",
+      "image": "14.png",
+      "size": [
+        160,
+        224
+      ],
+      "sha256": "5bda382f3db33cbd638184e33ea4948a0daa91af2d637e2c5238a7ebeb2e6581",
+      "preview": "previews/14.png",
+      "previewSha256": "4fc2f85eb3630bfb86d98468db1eb3cc7bc47ccb7eccd14799c35e60aeb4c7b7"
+    },
+    {
+      "id": 15,
+      "name": "Rookhaven Academy 3",
+      "floor": 8,
+      "entry": {
+        "y": 32165,
+        "x": 32105,
+        "z": 8
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32160,
+        "maxy": 32164,
+        "z": 8,
+        "minx": 32102,
+        "maxx": 32107
+      },
+      "cropWorldBounds": [
+        32101,
+        32159,
+        32109,
+        32166
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32162,
+        "x": 32104
+      },
+      "frameSha256": "51eb990d229687208cbb606fe49c848fd5d84bbe70e612626a6cbe2db7fbb1f8",
+      "image": "15.png",
+      "size": [
+        256,
+        224
+      ],
+      "sha256": "881df71c0087cc630e2a929f6fc54a38b23cf71c6d9d8ef90fc350f51c5763cc",
+      "preview": "previews/15.png",
+      "previewSha256": "ebb7a29c20ac94be2db71255e28f0e83cd3fdb0c8ebe83f6a7ed3abac37c2982"
+    },
+    {
+      "id": 16,
+      "name": "Rookhaven Academy 4",
+      "floor": 8,
+      "entry": {
+        "y": 32165,
+        "x": 32110,
+        "z": 8
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32159,
+        "maxy": 32164,
+        "z": 8,
+        "minx": 32109,
+        "maxx": 32112
+      },
+      "cropWorldBounds": [
+        32108,
+        32158,
+        32114,
+        32166
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32161,
+        "x": 32110
+      },
+      "frameSha256": "089ac5ca9b0cfb30e6fd7f1992479727e274967d606cde53dfcdff57fd0aed1d",
+      "image": "16.png",
+      "size": [
+        192,
+        256
+      ],
+      "sha256": "f9bce5636f6a4da5f480b192777d7f23d0ea991a293a75930e5d0723a153e58e",
+      "preview": "previews/16.png",
+      "previewSha256": "b48f39dff316af0188241201d5edb59c261a058a4cb04c374d945700301c40f7"
+    },
+    {
+      "id": 17,
+      "name": "Rookhaven Academy 5",
+      "floor": 8,
+      "entry": {
+        "y": 32167,
+        "x": 32119,
+        "z": 8
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32163,
+        "maxy": 32168,
+        "z": 8,
+        "minx": 32114,
+        "maxx": 32118
+      },
+      "cropWorldBounds": [
+        32113,
+        32162,
+        32120,
+        32170
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32166,
+        "x": 32116
+      },
+      "frameSha256": "097e5b56b4b37d44dc5ce91fc519ca870cf857a6645568a33b8ee281b3ef28ff",
+      "image": "17.png",
+      "size": [
+        224,
+        256
+      ],
+      "sha256": "9ed303ad6448b542dcaa01c2d74c7ac3c40ce681871c08b76d49ae5d1cfedad5",
+      "preview": "previews/17.png",
+      "previewSha256": "9f167c3c18a3279fd18e93b9845032fd6adcf47e8be54eeb522bfaf03210d749"
+    },
+    {
+      "id": 18,
+      "name": "Rookhaven Academy 6",
+      "floor": 8,
+      "entry": {
+        "y": 32163,
+        "x": 32119,
+        "z": 8
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32159,
+        "maxy": 32162,
+        "z": 8,
+        "minx": 32114,
+        "maxx": 32119
+      },
+      "cropWorldBounds": [
+        32113,
+        32158,
+        32121,
+        32164
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32160,
+        "x": 32116
+      },
+      "frameSha256": "a0d790d3d659028f713aaccf0eeb3233dbda1438633924469e6174dcbd8f4d29",
+      "image": "18.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "6148fe7447ec3302600a8e2d71f36820693432382a4d3417d3cf98c3c250e0b4",
+      "preview": "previews/18.png",
+      "previewSha256": "67e30732b6a4e1791eb29519f5f5a74679cbe6d2549b291bd3824f91a69529a5"
+    },
+    {
+      "id": 19,
+      "name": "Rookhaven Academy 7",
+      "floor": 8,
+      "entry": {
+        "y": 32167,
+        "x": 32123,
+        "z": 8
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32162,
+        "maxy": 32166,
+        "z": 8,
+        "minx": 32122,
+        "maxx": 32125
+      },
+      "cropWorldBounds": [
+        32121,
+        32161,
+        32127,
+        32168
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32164,
+        "x": 32123
+      },
+      "frameSha256": "8a8969befec0abd905b91baab38a86893b76526d08ced80f2d1d5c4f44672a9c",
+      "image": "19.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "12849da2374b897135fce332c446a432bb3c409b84e060e3d03b392a763cf6b9",
+      "preview": "previews/19.png",
+      "previewSha256": "33b0c4c1a160c121fc6796d9c99b48993135baca7278e5186fd9d596d195632d"
+    },
+    {
+      "id": 20,
+      "name": "Rookhaven Academy 8",
+      "floor": 8,
+      "entry": {
+        "y": 32168,
+        "x": 32125,
+        "z": 8
+      },
+      "tileCount": 28,
+      "tileBounds": {
+        "miny": 32162,
+        "maxy": 32168,
+        "z": 8,
+        "minx": 32126,
+        "maxx": 32132
+      },
+      "cropWorldBounds": [
+        32125,
+        32161,
+        32134,
+        32170
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32165,
+        "x": 32129
+      },
+      "frameSha256": "11de85b1e3cb27a376eff88e72ecaa29617c8d4307cba35399fe91d3a1df8032",
+      "image": "20.png",
+      "size": [
+        288,
+        288
+      ],
+      "sha256": "a75f5b8d9f864e276ff47aef5280ee06abb93ab73851d4571ede78624c68ef6c",
+      "preview": "previews/20.png",
+      "previewSha256": "190c8d7bcf7121574ca139295f7bb6101a6add3ac34e3152ecda6dddb1a096a7"
+    },
+    {
+      "id": 21,
+      "name": "Rookhaven Academy 9",
+      "floor": 8,
+      "entry": {
+        "y": 32171,
+        "x": 32125,
+        "z": 8
+      },
+      "tileCount": 15,
+      "tileBounds": {
+        "miny": 32167,
+        "maxy": 32171,
+        "z": 8,
+        "minx": 32126,
+        "maxx": 32130
+      },
+      "cropWorldBounds": [
+        32125,
+        32166,
+        32132,
+        32173
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32169,
+        "x": 32129
+      },
+      "frameSha256": "a81a7b4dcac40b9c3f8827213875246e93c059c1f8c4362c8377fa1b72f01761",
+      "image": "21.png",
+      "size": [
+        224,
+        224
+      ],
+      "sha256": "f63448e7c38963491d05889a47310a6e5c1dad3ad927451abad76cd833a1fede",
+      "preview": "previews/21.png",
+      "previewSha256": "12dd8a5096516d0d764e77aa1c53f1602c43bcc782b177fb13191563a220fb8a"
+    },
+    {
+      "id": 22,
+      "name": "Rookhaven Academy 10",
+      "floor": 8,
+      "entry": {
+        "y": 32171,
+        "x": 32138,
+        "z": 8
+      },
+      "tileCount": 31,
+      "tileBounds": {
+        "miny": 32167,
+        "maxy": 32172,
+        "z": 8,
+        "minx": 32132,
+        "maxx": 32138
+      },
+      "cropWorldBounds": [
+        32131,
+        32166,
+        32140,
+        32174
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32169,
+        "x": 32135
+      },
+      "frameSha256": "b9814b11fb8b5ca6ab2ae02b2a435b2761d34168f4c088250b8e347e26326be1",
+      "image": "22.png",
+      "size": [
+        288,
+        256
+      ],
+      "sha256": "ef5b2f0320a90dd079e4fa26daf9d718ad5a1dbcfdd119d95b4196cac0c83412",
+      "preview": "previews/22.png",
+      "previewSha256": "880a47b642c85dfe6b1a9003ba153ac3d726524a1611c7593606d7a8f6cda87d"
+    },
+    {
+      "id": 23,
+      "name": "Rookhaven Academy 11",
+      "floor": 8,
+      "entry": {
+        "y": 32172,
+        "x": 32140,
+        "z": 8
+      },
+      "tileCount": 30,
+      "tileBounds": {
+        "miny": 32167,
+        "maxy": 32172,
+        "z": 8,
+        "minx": 32140,
+        "maxx": 32145
+      },
+      "cropWorldBounds": [
+        32139,
+        32166,
+        32147,
+        32174
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32169,
+        "x": 32142
+      },
+      "frameSha256": "4bcced2bb9a6a400fba22f2737692c77f5af52526042009ff6dbc794aafd4e56",
+      "image": "23.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "880d41c99d51b7c7f021f05f5bbfe9f7c4010ac901c0063fe0d0a64ec441f04d",
+      "preview": "previews/23.png",
+      "previewSha256": "3a54678af22bf57cf3491347d6f5681211a247c22ba378a839524e5c7da65ae6"
+    },
+    {
+      "id": 24,
+      "name": "Rookhaven Academy 12",
+      "floor": 8,
+      "entry": {
+        "y": 32174,
+        "x": 32147,
+        "z": 8
+      },
+      "tileCount": 33,
+      "tileBounds": {
+        "miny": 32167,
+        "maxy": 32174,
+        "z": 8,
+        "minx": 32147,
+        "maxx": 32151
+      },
+      "cropWorldBounds": [
+        32146,
+        32166,
+        32153,
+        32176
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32170,
+        "x": 32149
+      },
+      "frameSha256": "9ceb270baa070200b0d7d06323751b5ca341a83bd058fbd7c5dcc6f356c82aff",
+      "image": "24.png",
+      "size": [
+        224,
+        320
+      ],
+      "sha256": "1c03930af249d35917cd756af6bd4551fa8e2452046184c32c8f61c53ab6b1ae",
+      "preview": "previews/24.png",
+      "previewSha256": "531d85b15f67756ae36715e85995c7db25c95d285567d54c3ea5bb3e039502d7"
+    },
+    {
+      "id": 25,
+      "name": "Rookhaven Academy 13",
+      "floor": 8,
+      "entry": {
+        "y": 32177,
+        "x": 32150,
+        "z": 8
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32175,
+        "maxy": 32178,
+        "z": 8,
+        "minx": 32151,
+        "maxx": 32156
+      },
+      "cropWorldBounds": [
+        32150,
+        32174,
+        32158,
+        32180
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32176,
+        "x": 32153
+      },
+      "frameSha256": "faba63f762af36785c6ad074c81048e7e8d8f48fd2adf4238beb6ce72befc767",
+      "image": "25.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "2d196572d992df38647fbf008af8d7062c607f56eb17157beeba8a5c295df3f4",
+      "preview": "previews/25.png",
+      "previewSha256": "55e8c596cacc0aad322877508e637be0b1f886b1a678c6e90ca5724b284f22aa"
+    },
+    {
+      "id": 26,
+      "name": "Rookhaven Academy 14",
+      "floor": 8,
+      "entry": {
+        "y": 32180,
+        "x": 32151,
+        "z": 8
+      },
+      "tileCount": 28,
+      "tileBounds": {
+        "miny": 32180,
+        "maxy": 32184,
+        "z": 8,
+        "minx": 32150,
+        "maxx": 32156
+      },
+      "cropWorldBounds": [
+        32149,
+        32179,
+        32158,
+        32186
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32182,
+        "x": 32153
+      },
+      "frameSha256": "fe34f00f5f2afab8875ef51d2e75e4314be54d5b028f352c70584ed7b6054909",
+      "image": "26.png",
+      "size": [
+        288,
+        224
+      ],
+      "sha256": "4ccccebf0f13714c997f9e858bf476e09014e320d41fecfd12deea77956d0214",
+      "preview": "previews/26.png",
+      "previewSha256": "0c0b2a2b533d1744ba1558a9f9ca7dfe45c268f37dd772665405b1282cf4610b"
+    },
+    {
+      "id": 27,
+      "name": "Rookhaven Academy 15",
+      "floor": 8,
+      "entry": {
+        "y": 32185,
+        "x": 32146,
+        "z": 8
+      },
+      "tileCount": 22,
+      "tileBounds": {
+        "miny": 32186,
+        "maxy": 32190,
+        "z": 8,
+        "minx": 32143,
+        "maxx": 32148
+      },
+      "cropWorldBounds": [
+        32142,
+        32185,
+        32150,
+        32192
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32188,
+        "x": 32145
+      },
+      "frameSha256": "cdfccb39dcf5af6aa864a9fed31a6b91a3270d259e6082e2ddc657275b049090",
+      "image": "27.png",
+      "size": [
+        256,
+        224
+      ],
+      "sha256": "9e40dbf2165bf72126226c34e7e8f67558c814489b735eed8e2578733065b35d",
+      "preview": "previews/27.png",
+      "previewSha256": "fdf4241b4b61f43e8832d22620f06331d66567d0270ec7cad4995156eddae137"
+    },
+    {
+      "id": 28,
+      "name": "Rookhaven Academy 16",
+      "floor": 8,
+      "entry": {
+        "y": 32180,
+        "x": 32146,
+        "z": 8
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32178,
+        "maxy": 32182,
+        "z": 8,
+        "minx": 32142,
+        "maxx": 32145
+      },
+      "cropWorldBounds": [
+        32141,
+        32177,
+        32147,
+        32184
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32180,
+        "x": 32143
+      },
+      "frameSha256": "b5b3697fffda68e734534cb3335cc4866f19195b84ceb2184a3c120afb98baee",
+      "image": "28.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "c10e496408bce2b881d65c19b9879a7e7f774bd4db7caee10e3ad9f377df3958",
+      "preview": "previews/28.png",
+      "previewSha256": "7b6f7a071763d3ceffa5f6639da2ab0042dca1a9587bcefe6edd00424583d4b2"
+    },
+    {
+      "id": 29,
+      "name": "Rookhaven Academy 17",
+      "floor": 8,
+      "entry": {
+        "y": 32178,
+        "x": 32135,
+        "z": 8
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32179,
+        "maxy": 32183,
+        "z": 8,
+        "minx": 32132,
+        "maxx": 32136
+      },
+      "cropWorldBounds": [
+        32131,
+        32178,
+        32138,
+        32185
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32181,
+        "x": 32134
+      },
+      "frameSha256": "644c734eb81bad6d490385fd14a83a4568a5831ea345a23263d0343b7a171dbd",
+      "image": "29.png",
+      "size": [
+        224,
+        224
+      ],
+      "sha256": "a639c245498dd486400bf9be2b9b9f081d61f25d61a608c4fac247207d3f6215",
+      "preview": "previews/29.png",
+      "previewSha256": "191bf17f6f9fe3ad28ef66312600aa1bedcf0fa8bd7ad6ef34e7ee91aab4a115"
+    },
+    {
+      "id": 30,
+      "name": "Rookhaven Academy 18",
+      "floor": 8,
+      "entry": {
+        "y": 32176,
+        "x": 32130,
+        "z": 8
+      },
+      "tileCount": 20,
+      "tileBounds": {
+        "miny": 32177,
+        "maxy": 32183,
+        "z": 8,
+        "minx": 32128,
+        "maxx": 32130
+      },
+      "cropWorldBounds": [
+        32127,
+        32176,
+        32132,
+        32185
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32180,
+        "x": 32129
+      },
+      "frameSha256": "fadb2d71ee6342c353b986c1678919445a10207d7f1a163e01a80e570b723697",
+      "image": "30.png",
+      "size": [
+        160,
+        288
+      ],
+      "sha256": "6bbc96f3d516168154b0edcf1c9330b1c9b497b39159917d53a88c6ebc599b7b",
+      "preview": "previews/30.png",
+      "previewSha256": "25915124f8e13318001029260ac1db00ef8372a467a3eb84d860fb57ee5b1210"
+    },
+    {
+      "id": 31,
+      "name": "Rookhaven Academy 19",
+      "floor": 8,
+      "entry": {
+        "y": 32173,
+        "x": 32121,
+        "z": 8
+      },
+      "tileCount": 28,
+      "tileBounds": {
+        "miny": 32174,
+        "maxy": 32179,
+        "z": 8,
+        "minx": 32120,
+        "maxx": 32126
+      },
+      "cropWorldBounds": [
+        32119,
+        32173,
+        32128,
+        32181
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32177,
+        "x": 32123
+      },
+      "frameSha256": "0bf996065888f852b1cb13e32381f7b41b1f2c485034093196d5f1b7e3c1cdc4",
+      "image": "31.png",
+      "size": [
+        288,
+        256
+      ],
+      "sha256": "179af9ae8652847efa79db0ba602b0ed8f8106bcc55d123441f49d08b843221b",
+      "preview": "previews/31.png",
+      "previewSha256": "1817d9c6ecca31b23a7f15203af5ade49bc67fc319e4409b5a7b061fc3730edd"
+    },
+    {
+      "id": 32,
+      "name": "Rookhaven Academy 20",
+      "floor": 8,
+      "entry": {
+        "y": 32174,
+        "x": 32094,
+        "z": 8
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32173,
+        "maxy": 32175,
+        "z": 8,
+        "minx": 32095,
+        "maxx": 32099
+      },
+      "cropWorldBounds": [
+        32094,
+        32172,
+        32101,
+        32177
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32174,
+        "x": 32097
+      },
+      "frameSha256": "b38fdc146b301eb7544d5f0daf7e5dc3042fc401052a52b073ea716138be3b37",
+      "image": "32.png",
+      "size": [
+        224,
+        160
+      ],
+      "sha256": "561a20684e00cafff6ae7b4686dc9340dfa65cd5bb59999b1404220a1e78bfd6",
+      "preview": "previews/32.png",
+      "previewSha256": "e33b42754195584636e4276395a633c904764f8bc03251446f1d3cda68e165d5"
+    },
+    {
+      "id": 33,
+      "name": "Rookhaven Academy 21",
+      "floor": 8,
+      "entry": {
+        "y": 32166,
+        "x": 32098,
+        "z": 8
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32167,
+        "maxy": 32171,
+        "z": 8,
+        "minx": 32097,
+        "maxx": 32099
+      },
+      "cropWorldBounds": [
+        32096,
+        32166,
+        32101,
+        32173
+      ],
+      "camera": {
+        "z": 8,
+        "y": 32169,
+        "x": 32098
+      },
+      "frameSha256": "a21a6b33e1b6031d2b4403fad63957d2db22701514ea4258eeb1399066dd4bb7",
+      "image": "33.png",
+      "size": [
+        160,
+        224
+      ],
+      "sha256": "d0d4bec003cc316a83357adb431e4696e39f670e35a4a1b0a0d26adc7ccf9c28",
+      "preview": "previews/33.png",
+      "previewSha256": "d96b90b4158b271793f7f47eeb5c4258bc2b105a751482c1658d210e2982b4ab"
+    },
+    {
+      "id": 34,
+      "name": "Rookhaven Barn 1",
+      "floor": 6,
+      "entry": {
+        "y": 32183,
+        "x": 32082,
+        "z": 6
+      },
+      "tileCount": 15,
+      "tileBounds": {
+        "miny": 32181,
+        "maxy": 32187,
+        "z": 6,
+        "minx": 32083,
+        "maxx": 32085
+      },
+      "cropWorldBounds": [
+        32082,
+        32180,
+        32087,
+        32189
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32184,
+        "x": 32084
+      },
+      "frameSha256": "a076e266c836b54093c316f4a916756fa833e852f59988abbfaca2924bb6daca",
+      "image": "34.png",
+      "size": [
+        160,
+        288
+      ],
+      "sha256": "6ad4949a8029238ea67884ecef3e9038a2a374239f88ebdb8c9df367f2081f88",
+      "preview": "previews/34.png",
+      "previewSha256": "375ff9a828753fa198cd59fb093280a9b3442d04a5de7e1ff4b9d7a6c611c766"
+    },
+    {
+      "id": 35,
+      "name": "Rookhaven Barn 2",
+      "floor": 6,
+      "entry": {
+        "y": 32183,
+        "x": 32081,
+        "z": 6
+      },
+      "tileCount": 10,
+      "tileBounds": {
+        "miny": 32184,
+        "maxy": 32187,
+        "z": 6,
+        "minx": 32080,
+        "maxx": 32082
+      },
+      "cropWorldBounds": [
+        32079,
+        32183,
+        32084,
+        32189
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32185,
+        "x": 32081
+      },
+      "frameSha256": "32fa6671b75aedd32184df5c4720b263b7df2904b7367c7d5f299ebbdc0da5c2",
+      "image": "35.png",
+      "size": [
+        160,
+        192
+      ],
+      "sha256": "3dc28b5f2cd4bfd3fdcfe499eb01367a148bb5205325e003efc3375a70a52d1f",
+      "preview": "previews/35.png",
+      "previewSha256": "9b13eaf2077fdf51c0dcd829d2d452507ef8de5f3d062031418e9ea017db7417"
+    },
+    {
+      "id": 36,
+      "name": "Riverside Home 1",
+      "floor": 7,
+      "entry": {
+        "y": 32244,
+        "x": 31800,
+        "z": 7
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32240,
+        "maxy": 32243,
+        "z": 7,
+        "minx": 31796,
+        "maxx": 31800
+      },
+      "cropWorldBounds": [
+        31795,
+        32239,
+        31802,
+        32245
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32241,
+        "x": 31798
+      },
+      "frameSha256": "9b19d69d05101195a91dfc68c40a68914ca1e3b963bf0cd12e1645169692bc1a",
+      "image": "36.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "1bb60186b9d1172e189fbfbc78677380966a06b8e6593d51dbf925b557b8bf36",
+      "preview": "previews/36.png",
+      "previewSha256": "c6709c30f05235a1edc5d0e207e25f580965256f63d85bbf236f10f4567b16e9"
+    },
+    {
+      "id": 37,
+      "name": "Riverside Home 2",
+      "floor": 7,
+      "entry": {
+        "y": 32249,
+        "x": 31793,
+        "z": 7
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32245,
+        "maxy": 32248,
+        "z": 7,
+        "minx": 31789,
+        "maxx": 31793
+      },
+      "cropWorldBounds": [
+        31788,
+        32244,
+        31795,
+        32250
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32246,
+        "x": 31791
+      },
+      "frameSha256": "6dd029e78e563f0643a6c619f94cc88451501985879ff07a98a6bce7da22054d",
+      "image": "37.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "0d4fae65c90d4e822100fd2246fe6d9168033897e828bae6103df182cfe8105b",
+      "preview": "previews/37.png",
+      "previewSha256": "8dd56229e736d2444c1a252f3f014f35670e232aba04eed4dedce85cd208f930"
+    },
+    {
+      "id": 38,
+      "name": "Riverside Home 3",
+      "floor": 7,
+      "entry": {
+        "y": 32257,
+        "x": 31799,
+        "z": 7
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32253,
+        "maxy": 32256,
+        "z": 7,
+        "minx": 31795,
+        "maxx": 31799
+      },
+      "cropWorldBounds": [
+        31794,
+        32252,
+        31801,
+        32258
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32254,
+        "x": 31797
+      },
+      "frameSha256": "c0595db42ef69f579546948b4fecc8a489a8bb3409bec39e5c379d8f01303d98",
+      "image": "38.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "7623a43309e8551d3986ac57b5c380804e8bd9f0c5306eb89469e0e0a7264707",
+      "preview": "previews/38.png",
+      "previewSha256": "5844faf55eca5c8f14d4dd24ded6a1c06f48509bbb6faf27a44ccf02b7a4c07d"
+    },
+    {
+      "id": 39,
+      "name": "Riverside Home 4",
+      "floor": 7,
+      "entry": {
+        "y": 32256,
+        "x": 31806,
+        "z": 7
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32252,
+        "maxy": 32256,
+        "z": 7,
+        "minx": 31807,
+        "maxx": 31811
+      },
+      "cropWorldBounds": [
+        31806,
+        32251,
+        31813,
+        32258
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32254,
+        "x": 31809
+      },
+      "frameSha256": "4726890e069a6287c0d60d31f83668bc2fd9cc3e92ab77513c718e82f1dae7e9",
+      "image": "39.png",
+      "size": [
+        224,
+        224
+      ],
+      "sha256": "a745883a03386ba4d1236301c4c6dffcf0cde8d9e0c60846781fc8682b58cd8b",
+      "preview": "previews/39.png",
+      "previewSha256": "af7438cdd5276c0738f69021542bf33149285a04b37abf26c93994946b9f73ba"
+    },
+    {
+      "id": 40,
+      "name": "Riverside Home 5",
+      "floor": 7,
+      "entry": {
+        "y": 32256,
+        "x": 31822,
+        "z": 7
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32252,
+        "maxy": 32255,
+        "z": 7,
+        "minx": 31817,
+        "maxx": 31822
+      },
+      "cropWorldBounds": [
+        31816,
+        32251,
+        31824,
+        32257
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32253,
+        "x": 31819
+      },
+      "frameSha256": "428bd18ad542f1d86d64d2b7a1b8359dda54ea4db4cf7d9b04c0d21f998019da",
+      "image": "40.png",
+      "size": [
+        256,
+        192
+      ],
+      "sha256": "7bde8862e88e820c365c44552e35829e9c6bc1b5cb8862824f71056059baca75",
+      "preview": "previews/40.png",
+      "previewSha256": "0f13c80c3b5c03422a7791569bf8e2c0aa88632a253a8b8fae5b938c4c84f0d2"
+    },
+    {
+      "id": 41,
+      "name": "Riverside Home 6",
+      "floor": 7,
+      "entry": {
+        "y": 32247,
+        "x": 31832,
+        "z": 7
+      },
+      "tileCount": 22,
+      "tileBounds": {
+        "miny": 32243,
+        "maxy": 32246,
+        "z": 7,
+        "minx": 31826,
+        "maxx": 31832
+      },
+      "cropWorldBounds": [
+        31825,
+        32242,
+        31834,
+        32248
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32244,
+        "x": 31829
+      },
+      "frameSha256": "aa710682bd96bd5cd16c3bbfc7e18e2411515899dd3ccb6d8203970a29ff9c84",
+      "image": "41.png",
+      "size": [
+        288,
+        192
+      ],
+      "sha256": "7541912a06fea8bafa811874407b45fc37a5440ae46759cb7f723a27d405354b",
+      "preview": "previews/41.png",
+      "previewSha256": "6c5d7ed1dc63a97c3ee9174a220e43eda8309c28bc0e6f5ca579dfa4ebf1944c"
+    },
+    {
+      "id": 42,
+      "name": "Riverside Home 7",
+      "floor": 7,
+      "entry": {
+        "y": 32238,
+        "x": 31832,
+        "z": 7
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32235,
+        "maxy": 32239,
+        "z": 7,
+        "minx": 31831,
+        "maxx": 31835
+      },
+      "cropWorldBounds": [
+        31830,
+        32234,
+        31837,
+        32241
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32236,
+        "x": 31833
+      },
+      "frameSha256": "44d1aa5ebb557217bc7a34473e8803399b91d68a2a2b0c236078fa330c84e9c0",
+      "image": "42.png",
+      "size": [
+        224,
+        224
+      ],
+      "sha256": "485e98afd6474af1b37808d7e46a064413e9557f1d0f15ab7d1112998fe139ae",
+      "preview": "previews/42.png",
+      "previewSha256": "209fab1a61a47fa330220a3847f1677f33259e8ee7fae7cd34d20e82445f0f05"
+    },
+    {
+      "id": 43,
+      "name": "Riverside Home 8",
+      "floor": 7,
+      "entry": {
+        "y": 32238,
+        "x": 31824,
+        "z": 7
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32234,
+        "maxy": 32237,
+        "z": 7,
+        "minx": 31823,
+        "maxx": 31827
+      },
+      "cropWorldBounds": [
+        31822,
+        32233,
+        31829,
+        32239
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32235,
+        "x": 31825
+      },
+      "frameSha256": "67404dbc75ac9013ed3c6bf9b95f5c2bce74a1afe75b80770c88cb36567595fc",
+      "image": "43.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "5d2759403fde1dbc2eafa69cbb9b7b1504eda6ccc614e940a74bed444bb36414",
+      "preview": "previews/43.png",
+      "previewSha256": "03627dfd75df9611228203e005a871db684344b9bf2950b79d968d05a29b5253"
+    },
+    {
+      "id": 44,
+      "name": "Riverside Apartments 1",
+      "floor": 7,
+      "entry": {
+        "y": 32269,
+        "x": 31842,
+        "z": 7
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32270,
+        "maxy": 32274,
+        "z": 7,
+        "minx": 31840,
+        "maxx": 31843
+      },
+      "cropWorldBounds": [
+        31839,
+        32269,
+        31845,
+        32276
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32272,
+        "x": 31841
+      },
+      "frameSha256": "444f8420eb8693394e89075e702ea4dbed40633c3c59b9b3f4ce427785fbbb35",
+      "image": "44.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "ae42e3ea21f3469fd894d2f92c1a711c3ce6c7f3368ca4c0ac236984932134df",
+      "preview": "previews/44.png",
+      "previewSha256": "34a7570ac617f14649cc89f4d15c92f4f708e62f27818b80e97598887dfb5eb8"
+    },
+    {
+      "id": 45,
+      "name": "Riverside Apartments 2",
+      "floor": 7,
+      "entry": {
+        "y": 32269,
+        "x": 31847,
+        "z": 7
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32270,
+        "maxy": 32274,
+        "z": 7,
+        "minx": 31845,
+        "maxx": 31848
+      },
+      "cropWorldBounds": [
+        31844,
+        32269,
+        31850,
+        32276
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32272,
+        "x": 31846
+      },
+      "frameSha256": "482bcf232be48644bb34e56df8bed79d5c6d18c504d762cecf2d9d0aff45831a",
+      "image": "45.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "81cec889bdd4c79ffdf532e15a5f64d6bfa1faa98ffee6678acff0f8164f7363",
+      "preview": "previews/45.png",
+      "previewSha256": "92cc0c9d596480c31f47e152e3ea30ed572b403392b2a18e8943b64904e53702"
+    },
+    {
+      "id": 46,
+      "name": "Riverside Apartments 3",
+      "floor": 7,
+      "entry": {
+        "y": 32267,
+        "x": 31842,
+        "z": 7
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32262,
+        "maxy": 32266,
+        "z": 7,
+        "minx": 31840,
+        "maxx": 31843
+      },
+      "cropWorldBounds": [
+        31839,
+        32261,
+        31845,
+        32268
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32264,
+        "x": 31841
+      },
+      "frameSha256": "56c664d01ebf9fc112186162a1ee72c69d05137ccfb494389ac45913adf432d2",
+      "image": "46.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "0c75564e38c37e02f29cc7008faf43a16df756dbfaa6417d2d14c5d175f21377",
+      "preview": "previews/46.png",
+      "previewSha256": "399ddfb29419828f4b9a578599358ba4910d70df74fde70db0966c84b558949f"
+    },
+    {
+      "id": 47,
+      "name": "Riverside Apartments 4",
+      "floor": 7,
+      "entry": {
+        "y": 32267,
+        "x": 31847,
+        "z": 7
+      },
+      "tileCount": 17,
+      "tileBounds": {
+        "miny": 32262,
+        "maxy": 32266,
+        "z": 7,
+        "minx": 31845,
+        "maxx": 31848
+      },
+      "cropWorldBounds": [
+        31844,
+        32261,
+        31850,
+        32268
+      ],
+      "camera": {
+        "z": 7,
+        "y": 32264,
+        "x": 31846
+      },
+      "frameSha256": "b59b6e3816858f96b81d24777f5da09bddfcd8d8d87ebbf441ea8501e4879454",
+      "image": "47.png",
+      "size": [
+        192,
+        224
+      ],
+      "sha256": "8e9df336582d635dd9376fb16456872bd147c7fb8c1b4a6217a9afdef760a15f",
+      "preview": "previews/47.png",
+      "previewSha256": "fc8b07cdd0cefe6d7bee47902ecb19cb5a55b56310530e9f6d5eaae9ded46987"
+    },
+    {
+      "id": 48,
+      "name": "Riverside Apartments 5",
+      "floor": 6,
+      "entry": {
+        "y": 32266,
+        "x": 31842,
+        "z": 6
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32262,
+        "maxy": 32265,
+        "z": 6,
+        "minx": 31840,
+        "maxx": 31843
+      },
+      "cropWorldBounds": [
+        31839,
+        32261,
+        31845,
+        32267
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32263,
+        "x": 31841
+      },
+      "frameSha256": "53713fed491f2607b9e489193da615e8b9dd119f5eb3fa2b10db9990cbf86d36",
+      "image": "48.png",
+      "size": [
+        192,
+        192
+      ],
+      "sha256": "0252046b23fe732cff5d026dad2145dcc2c04cc47fbb94663c9716cbae8e1aee",
+      "preview": "previews/48.png",
+      "previewSha256": "75bdc23d25492b217241d5e4d4bbd0ba2592d525db496e3f3006731c0378eaf3"
+    },
+    {
+      "id": 49,
+      "name": "Riverside Apartments 6",
+      "floor": 6,
+      "entry": {
+        "y": 32266,
+        "x": 31846,
+        "z": 6
+      },
+      "tileCount": 13,
+      "tileBounds": {
+        "miny": 32262,
+        "maxy": 32265,
+        "z": 6,
+        "minx": 31845,
+        "maxx": 31848
+      },
+      "cropWorldBounds": [
+        31844,
+        32261,
+        31850,
+        32267
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32263,
+        "x": 31846
+      },
+      "frameSha256": "0619783d11a6daed52c5b50d95a92a55e1dda15296eea83b289a050fae030242",
+      "image": "49.png",
+      "size": [
+        192,
+        192
+      ],
+      "sha256": "188f62a468b370bae56d8a82dcf9432b53016623800f7a3e16fa3b4bbcb984ff",
+      "preview": "previews/49.png",
+      "previewSha256": "de773c310a4ba7c388132cb86693d0897c5a2aa2ac76fe3058d9c2a9e055f5f2"
+    },
+    {
+      "id": 50,
+      "name": "Riverside Apartments 7",
+      "floor": 6,
+      "entry": {
+        "y": 32268,
+        "x": 31842,
+        "z": 6
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32269,
+        "maxy": 32274,
+        "z": 6,
+        "minx": 31840,
+        "maxx": 31843
+      },
+      "cropWorldBounds": [
+        31839,
+        32268,
+        31845,
+        32276
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32271,
+        "x": 31841
+      },
+      "frameSha256": "ce28ff5f573dd769a40c57daa67f109e7a34ba1ac39a73963a6eee4a42ec1e59",
+      "image": "50.png",
+      "size": [
+        192,
+        256
+      ],
+      "sha256": "945fa9a967c52ccf3a380df40a3b4ef85ac74ad512bb43d913f9c84cb15c2a38",
+      "preview": "previews/50.png",
+      "previewSha256": "70a9e84592bc40480766372afb0675cd4f0a3fe474bfce35190dd10f04abfa22"
+    },
+    {
+      "id": 51,
+      "name": "Riverside Apartments 8",
+      "floor": 6,
+      "entry": {
+        "y": 32268,
+        "x": 31847,
+        "z": 6
+      },
+      "tileCount": 21,
+      "tileBounds": {
+        "miny": 32269,
+        "maxy": 32274,
+        "z": 6,
+        "minx": 31845,
+        "maxx": 31848
+      },
+      "cropWorldBounds": [
+        31844,
+        32268,
+        31850,
+        32276
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32271,
+        "x": 31846
+      },
+      "frameSha256": "8f68649225f0bc747fc2d4c48ba72a2fc8e769237398c10debfaccadfaa33948",
+      "image": "51.png",
+      "size": [
+        192,
+        256
+      ],
+      "sha256": "0735d9809a2e5490d5a37e53e8ac316929e15a3da7eac9ca2911bb3fdbe3d15b",
+      "preview": "previews/51.png",
+      "previewSha256": "efc36abf6248a331a7967974c89f782825ce6146095dbb271f6251e1453f8ffb"
+    },
+    {
+      "id": 52,
+      "name": "Riverside Apartments 9",
+      "floor": 5,
+      "entry": {
+        "y": 32267,
+        "x": 31846,
+        "z": 5
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32265,
+        "maxy": 32267,
+        "z": 5,
+        "minx": 31840,
+        "maxx": 31845
+      },
+      "cropWorldBounds": [
+        31839,
+        32264,
+        31847,
+        32269
+      ],
+      "camera": {
+        "z": 5,
+        "y": 32266,
+        "x": 31842
+      },
+      "frameSha256": "d7e5b8586f5d862e8912e2a0cfde87ae824ad4c7a6ed8d826193bd70d8acea34",
+      "image": "52.png",
+      "size": [
+        256,
+        160
+      ],
+      "sha256": "1abb7788417e11b502b913835d5806f9a0727385080582792886f00154ded0a6",
+      "preview": "previews/52.png",
+      "previewSha256": "ca115cdf093401bed63e7e5475929029bde9333c7552f6e77fda25c8f25c5645"
+    },
+    {
+      "id": 53,
+      "name": "Riverside Apartments 10",
+      "floor": 5,
+      "entry": {
+        "y": 32270,
+        "x": 31846,
+        "z": 5
+      },
+      "tileCount": 23,
+      "tileBounds": {
+        "miny": 32269,
+        "maxy": 32274,
+        "z": 5,
+        "minx": 31840,
+        "maxx": 31845
+      },
+      "cropWorldBounds": [
+        31839,
+        32268,
+        31847,
+        32276
+      ],
+      "camera": {
+        "z": 5,
+        "y": 32271,
+        "x": 31842
+      },
+      "frameSha256": "50ee0674b37f85786e8d8d28fab30c4c4db88200d8487f9260eac4169a25451b",
+      "image": "53.png",
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "d16976ca8d9f8dc2e34a9a42f193611af89f8f6de21b9a0c6f78dfb36717f920",
+      "preview": "previews/53.png",
+      "previewSha256": "8d5252640a82848874c0bf651d173ad29a519ac83760d1c6e2d0747fed5b29a3"
+    },
+    {
+      "id": 54,
+      "name": "Riverside Apartments 11",
+      "floor": 5,
+      "entry": {
+        "y": 32270,
+        "x": 31848,
+        "z": 5
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32271,
+        "maxy": 32274,
+        "z": 5,
+        "minx": 31844,
+        "maxx": 31848
+      },
+      "cropWorldBounds": [
+        31843,
+        32270,
+        31850,
+        32276
+      ],
+      "camera": {
+        "z": 5,
+        "y": 32272,
+        "x": 31846
+      },
+      "frameSha256": "1198d1f6df4d83d54dff30ca16a3d204a32682ede06bc2ec3ae16f1fd00b4c1c",
+      "image": "54.png",
+      "size": [
+        224,
+        192
+      ],
+      "sha256": "92b5482401706d632dbc2572cd802346c586bdb06a93a87788d1d19696bd0f9d",
+      "preview": "previews/54.png",
+      "previewSha256": "96dab63181e14d5cdb54fc17624adae30f54e08b5635a5c11470b62ae283a0c8"
+    },
+    {
+      "id": 55,
+      "name": "Riverside Home 9",
+      "floor": 6,
+      "entry": {
+        "y": 32237,
+        "x": 31816,
+        "z": 6
+      },
+      "tileCount": 29,
+      "tileBounds": {
+        "miny": 32235,
+        "maxy": 32238,
+        "z": 6,
+        "minx": 31808,
+        "maxx": 31815
+      },
+      "cropWorldBounds": [
+        31807,
+        32234,
+        31817,
+        32240
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32236,
+        "x": 31811
+      },
+      "frameSha256": "10d505b09144bc619a69c7cd5b43d18f53c08348eb43584b155698f0d2f755e5",
+      "image": "55.png",
+      "size": [
+        320,
+        192
+      ],
+      "sha256": "f7e524bf15b58aabcea18bd26ad9118dddcc94c03c9d9171e8f42dac24841540",
+      "preview": "previews/55.png",
+      "previewSha256": "e576dc33414bdf3e838da4e5c3835a194906b7c017e328be5490e5ce12bb549b"
+    },
+    {
+      "id": 56,
+      "name": "Riverside Home 10",
+      "floor": 6,
+      "entry": {
+        "y": 32241,
+        "x": 31802,
+        "z": 6
+      },
+      "tileCount": 16,
+      "tileBounds": {
+        "miny": 32240,
+        "maxy": 32242,
+        "z": 6,
+        "minx": 31796,
+        "maxx": 31801
+      },
+      "cropWorldBounds": [
+        31795,
+        32239,
+        31803,
+        32244
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32241,
+        "x": 31798
+      },
+      "frameSha256": "9ebb5e430b560b8cd412ea71b892799f7e2047e4f8418082fe20b20394c995e8",
+      "image": "56.png",
+      "size": [
+        256,
+        160
+      ],
+      "sha256": "b872575b6ee7fd2d9f393857693252c342c71694add194b2d08adb3413867956",
+      "preview": "previews/56.png",
+      "previewSha256": "a8eaacfde3cb476139d06e35352a3abf4aed4632cfef6c917c3249fbcecdd083"
+    },
+    {
+      "id": 57,
+      "name": "Riverside Home 11",
+      "floor": 6,
+      "entry": {
+        "y": 32253,
+        "x": 31824,
+        "z": 6
+      },
+      "tileCount": 19,
+      "tileBounds": {
+        "miny": 32252,
+        "maxy": 32254,
+        "z": 6,
+        "minx": 31817,
+        "maxx": 31823
+      },
+      "cropWorldBounds": [
+        31816,
+        32251,
+        31825,
+        32256
+      ],
+      "camera": {
+        "z": 6,
+        "y": 32253,
+        "x": 31820
+      },
+      "frameSha256": "4ebbb89ecb9abf0cd45bd81ac76d685bbbbf041eab0cdcef15a4dd514ecd21b1",
+      "image": "57.png",
+      "size": [
+        288,
+        160
+      ],
+      "sha256": "30fbe5fa74052779e24ff6eec8061c8cf64987de4a682eeaaefae1d6182eb585",
+      "preview": "previews/57.png",
+      "previewSha256": "ff458c4b3e3a9a5f132245b280e2827101767e41b262a027b10f6bb0c58620a0"
+    }
+  ]
+}

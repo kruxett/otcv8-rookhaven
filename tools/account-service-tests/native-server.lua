@@ -17,6 +17,12 @@ local function emit(p,label)
 end
 local cmd=TalkAction('/accountsqa')
 function cmd.onSay(p,words,param)
+  if param=='housesave' and p:getName()=='Home Buyer' and p:getGroup():getId()==1 and (p:getIp()==0x0100007F or p:getIp()==0x7F000001) then
+    saveServer();return false
+  end
+  if param=='houserevision' and p:getName()=='Home Buyer' and p:getGroup():getId()==1 and (p:getIp()==0x0100007F or p:getIp()==0x7F000001) then
+    local house=assert(p:getHouse());assert(db.query('UPDATE houses SET market_revision=market_revision+1 WHERE id='..house:getId()));return false
+  end
   if not owned(p) then return false end
   if param=='guildmaster' then
     local npc=assert(Npc('Crestwick'),'Crestwick not spawned')
@@ -29,7 +35,7 @@ function cmd.onSay(p,words,param)
     end
     error('No adjacent Guildmaster tile')
   elseif param=='legacy' then
-    assert(db.query("UPDATE accounts SET password='187d2b6338c8ec41cbd81200aff7668975b918b2' WHERE id="..p:getAccountId()))
+    assert(db.query("UPDATE accounts SET password='a661ca04795f6d5032e665a14c89c2e5ac7516c4' WHERE id="..p:getAccountId()))
     emit(p,param)
   elseif param=='rest' then
     assert(p:teleportTo(p:getTown():getTemplePosition()))

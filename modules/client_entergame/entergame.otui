@@ -28,6 +28,21 @@ EnterGameWindow
     anchors.right: parent.right
     anchors.top: prev.bottom
     margin-top: 2
+
+  MenuLabel
+    !text: tr('Authenticator code (if enabled)')
+    anchors.left: parent.left
+    anchors.top: prev.bottom
+    margin-top: 8
+    text-auto-resize: true
+
+  TextEdit
+    id: authenticatorCode
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 2
+    max-length: 6
     
   Panel
     id: serverSelectorPanel
@@ -166,3 +181,13 @@ EnterGameWindow
     margin-left: 50
     margin-right: 50
     @onClick: AccountServicesUI.openAccount()
+
+  Button
+    !text: tr('Account recovery')
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: prev.bottom
+    margin-top: 5
+    margin-left: 50
+    margin-right: 50
+    @onClick: AccountManagementUI.openRecovery()

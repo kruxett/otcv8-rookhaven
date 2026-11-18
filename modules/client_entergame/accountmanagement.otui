@@ -1,0 +1,143 @@
+AccountManagerLabel < Label
+  font: verdana-11px-rounded
+  color: #c6b58c
+  text-wrap: true
+  height: 24
+
+AccountManagerField < TextEdit
+  height: 20
+
+AccountManagerPassword < PasswordTextEdit
+  height: 20
+
+AccountManagerButton < Button
+  height: 22
+
+AccountManagerCharacter < Label
+  height: 18
+  focusable: true
+  phantom: false
+  color: #bbbbbb
+  text-offset: 2 0
+  $focus:
+    background-color: #ffffff22
+    color: #ffffff
+
+AccountManagerCharacters < Panel
+  height: 130
+  TextList
+    id: list
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: scrollbar.left
+    vertical-scrollbar: scrollbar
+    focusable: false
+  VerticalScrollBar
+    id: scrollbar
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
+    step: 18
+    pixels-scroll: true
+
+MainWindow
+  id: accountManagementWindow
+  !text: tr('Account Management')
+  size: 470 490
+  @onEscape: AccountManagementUI.back()
+
+  Label
+    id: identity
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 18
+    text-wrap: true
+
+  Button
+    id: accountTab
+    !text: tr('Account')
+    anchors.left: parent.left
+    anchors.top: identity.bottom
+    margin-top: 6
+    width: 140
+    @onClick: AccountManagementUI.tab('account')
+
+  Button
+    id: charactersTab
+    !text: tr('Characters')
+    anchors.left: accountTab.right
+    anchors.top: accountTab.top
+    margin-left: 8
+    width: 140
+    @onClick: AccountManagementUI.tab('characters')
+
+  Button
+    id: securityTab
+    !text: tr('Security')
+    anchors.left: charactersTab.right
+    anchors.right: parent.right
+    anchors.top: accountTab.top
+    margin-left: 8
+    @onClick: AccountManagementUI.tab('security')
+
+  Panel
+    id: content
+    anchors.top: accountTab.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: authenticatorCaption.top
+    margin-top: 12
+    margin-bottom: 8
+    layout:
+      type: verticalBox
+      spacing: 5
+
+  Label
+    id: authenticatorCaption
+    !text: tr('Current authenticator code (if enabled)')
+    anchors.left: parent.left
+    anchors.bottom: authenticator.bottom
+    text-auto-resize: true
+
+  TextEdit
+    id: authenticator
+    anchors.right: parent.right
+    anchors.bottom: status.top
+    margin-bottom: 8
+    width: 112
+    max-length: 6
+
+  Label
+    id: status
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: separator.top
+    margin-bottom: 8
+    height: 44
+    text-wrap: true
+    color: #c6b58c
+
+  HorizontalSeparator
+    id: separator
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: close.top
+    margin-bottom: 8
+
+  Button
+    id: back
+    !text: tr('Back')
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    width: 86
+    @onClick: AccountManagementUI.back()
+
+  Button
+    id: close
+    !text: tr('Close')
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    width: 86
+    @onClick: AccountManagementUI.close()

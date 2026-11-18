@@ -115,6 +115,8 @@ void ProtocolGame::sendLoginPacket(uint challengeTimestamp, uint8 challengeRando
     }
 
     msg->addString("RH2");
+    msg->addString("MFA1");
+    msg->addString(m_authenticatorToken);
 
     // encrypt with RSA
     if (g_game.getFeature(Otc::GameLoginPacketEncryption)) {

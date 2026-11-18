@@ -115,7 +115,6 @@ local CYCLOPEDIA_DEBUG = ClientLog and ClientLog.isEnabled and ClientLog.isEnabl
 -- These remain intentionally disabled until the dedicated rollout phase.
 local HARD_DISABLED_TABS = {
     items = true,
-    houses = true,
     charms = true,
     bosstiary = true,
     bossSlot = true,
@@ -340,9 +339,7 @@ local function applyTabVisibilityFromCapabilities()
         items:setVisible(false)
     end
 
-    if houses then
-        houses:setVisible(false)
-    end
+    if houses then houses:setVisible(Cyclopedia.Capabilities.houses == true) end
 end
 
 local function rebalanceTopTabs()
@@ -382,6 +379,25 @@ local function rebalanceTopTabs()
     end
 end
 
+function Cyclopedia.setHouseMarketCapability(enabled)
+    Cyclopedia.HouseMarketEnabled = enabled == true
+    Cyclopedia.Capabilities.houses = Cyclopedia.HouseMarketEnabled
+    -- Resolve through the controller: the legacy tab locals are declared
+    -- further down this file, outside these early helpers' lexical scope.
+    local ui = controllerCyclopedia and controllerCyclopedia.ui
+    local houseTab = ui and ui:recursiveGetChildById('houses')
+    if houseTab then
+        houseTab:setVisible(Cyclopedia.HouseMarketEnabled)
+        houseTab:setEnabled(true)
+        local characterTab = ui:recursiveGetChildById('character')
+        local bestiaryTab = ui:recursiveGetChildById('bestiary')
+        if characterTab then
+            characterTab:addAnchor(AnchorLeft, Cyclopedia.HouseMarketEnabled and 'houses' or 'map', AnchorRight)
+        end
+        if bestiaryTab then bestiaryTab:setMarginLeft(Cyclopedia.HouseMarketEnabled and 206 or 224) end
+    end
+end
+
 function Cyclopedia.applyCapabilities(capabilities)
     if type(capabilities) ~= "table" then
         return
@@ -390,6 +406,8 @@ function Cyclopedia.applyCapabilities(capabilities)
     for key, value in pairs(capabilities) do
         Cyclopedia.Capabilities[key] = value and true or false
     end
+    -- House writes use their own versioned native contract and feature flag.
+    Cyclopedia.Capabilities.houses = Cyclopedia.HouseMarketEnabled == true
 
     -- Keep rollout safety constraints in force regardless of server capability state.
     for tabId, _ in pairs(HARD_DISABLED_TABS) do
@@ -1449,6 +1467,8 @@ end
 -- houses.list response
 -- Format: id,name,townName,rent,beds,sqm,ownerName,state,paidUntil~...
 function Cyclopedia.parseAndLoadHousesList(data)
+    -- Native house replies own this view; ignore legacy read-only snapshots.
+    if Cyclopedia.HouseMarketEnabled then return end
     local houses = {}
     local townsSet = {}
     local townsList = {}
@@ -1521,6 +1541,8 @@ end
 
 -- Format: townName~townName~...
 function Cyclopedia.parseAndLoadHouseTowns(data)
+    -- Native house replies own this view; ignore legacy read-only snapshots.
+    if Cyclopedia.HouseMarketEnabled then return end
     local towns = {}
     local seen = {}
     if data and data ~= "" then
@@ -1545,6 +1567,8 @@ end
 -- Safe to call even when the house tab is not open (Cyclopedia.reloadHouseList
 -- guards against nil UI references inside house.lua).
 function Cyclopedia.applyHousesTownFilter()
+    -- Native house replies own this view; ignore legacy read-only snapshots.
+    if Cyclopedia.HouseMarketEnabled then return end
     if not Cyclopedia.House.CachedData then return end
     local townFilter = Cyclopedia.House.lastTown or nil
     local lowerFilter = townFilter and townFilter:lower() or nil
@@ -1701,13 +1725,14 @@ function controllerCyclopedia:onGameStart()
         end
 
         if houses then
-            houses:setVisible(false)
-            houses:disable()
+            houses:setVisible(Cyclopedia.Capabilities.houses == true)
+            houses:enable()
         end
 
         windowTypes = {
             bestiary = { obj = bestiary, func = showBestiary },
             map = { obj = map, func = showMap },
+            houses = { obj = houses, func = showHouse },
             character = { obj = character, func = showCharacter },
         }
 
@@ -1716,7 +1741,7 @@ function controllerCyclopedia:onGameStart()
         if map then map:setVisible(true) end
         if character then character:setVisible(true) end
         if items then items:setVisible(false) end
-        if houses then houses:setVisible(false) end
+        if houses then houses:setVisible(Cyclopedia.Capabilities.houses == true) end
         if charms then charms:setVisible(false) end
         if bosstiary then bosstiary:setVisible(false) end
         if bossSlot then bossSlot:setVisible(false) end

@@ -9,10 +9,11 @@ Module
     - tab/character/character
     - tab/charms/charms
     - tab/house/house
+    - tab/house/market
     - tab/items/items
     - tab/magicalArchives/magicalArchives
     - tab/map/map
     - utils
   sandboxed: true
-  @onLoad: controllerCyclopedia:init()
-  @onUnload: controllerCyclopedia:terminate()
+  @onLoad: controllerCyclopedia:init(); HouseMarketUI.init()
+  @onUnload: HouseMarketUI.terminate(); controllerCyclopedia:terminate()

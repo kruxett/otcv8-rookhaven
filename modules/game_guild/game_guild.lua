@@ -17,6 +17,12 @@ local memberSortMode = 'rank'
 local selectedRankPermissionId = nil
 local worldNamesEvent = nil
 local worldNamesEnabled = false
+local inputWindows = {}
+local currentGuildId
+local function closeInputs()
+  for widget in pairs(inputWindows) do widget:destroy() end
+  inputWindows = {}
+end
 
 local function cancelWorldNamesEvent()
   if worldNamesEvent then
@@ -133,6 +139,8 @@ end
 local function makeInputWindow(title, onOk)
   local win = g_ui.createWidget('GuildInputWindow', rootWidget)
   if not win then return end
+  inputWindows[win]=true
+  win.onDestroy=function()inputWindows[win]=nil end
 
   local titleWidget = win:recursiveGetChildById('windowTitle')
   if titleWidget then titleWidget:setText(title) end
@@ -150,6 +158,8 @@ local function makeInputWindow(title, onOk)
 
   local cancelBtn = win:recursiveGetChildById('cancelBtn')
   if cancelBtn then cancelBtn.onClick = function() win:destroy() end end
+  local field=win:recursiveGetChildById('inputField');if field then field:focus()end
+  return win
 end
 
 function switchTab(tabName)
@@ -206,6 +216,10 @@ local function formatActivityLine(entry)
     return string.format('%s changed %s\'s title.', actor, payload.targetName or 'a member')
   elseif event == 'motd_updated' then
     return string.format('%s updated the MOTD.', actor)
+  elseif event == 'guild_renamed' then
+    return string.format('%s renamed the guild to %s.', actor, payload.name or '')
+  elseif event == 'invite_revoked' then
+    return string.format('%s withdrew the invitation for %s.', actor, payload.name or '')
   elseif event == 'rank_created' then
     return string.format('%s created rank %s.', actor, payload.rankName or '')
   elseif event == 'rank_renamed' then
@@ -224,6 +238,7 @@ local function formatActivityLine(entry)
 end
 
 local function renderNoGuild(data)
+  closeInputs();currentGuildId=nil
   local canCreate = data.permissions and data.permissions.canCreate == true
   local noGuildInfoLabel = W('noGuildInfoLabel')
   local noGuildTipsLabel = W('noGuildTipsLabel')
@@ -306,6 +321,7 @@ end
 
 local function renderGuildData(data)
   local info = data.info or {}
+  if currentGuildId~=info.id then closeInputs();currentGuildId=info.id end
   local members = data.members or {}
   local invites = data.invites or {}
   local ranks = data.ranks or {}
@@ -352,6 +368,15 @@ local function renderGuildData(data)
       if motdEdit then
         sendAction('set_motd', { motd = motdEdit:getText() })
       end
+    end
+  end
+
+  local renameGuildBtn=W('renameGuildBtn')
+  if renameGuildBtn then
+    renameGuildBtn:setVisible(isLeader)
+    renameGuildBtn.onClick=function()
+      local input=makeInputWindow('New guild name',function(name)sendAction('rename',{name=name})end)
+      if input then input:recursiveGetChildById('inputField'):setText(info.name or '')end
     end
   end
 
@@ -569,6 +594,12 @@ local function renderGuildData(data)
           local inviteeName = row:recursiveGetChildById('inviteeName')
           if inviteeName then
             inviteeName:setText(string.format('%s  [expires in %s]', invite.name or '', formatTimeLeft(invite.expiresAt)))
+          end
+          local withdraw=row:recursiveGetChildById('withdrawInviteBtn')
+          if withdraw then
+            local target=invite.name
+            withdraw:setVisible(canInvite)
+            withdraw.onClick=function()sendAction('revoke_invite',{name=target})end
           end
         end
       end
@@ -800,6 +831,7 @@ local function onGuildOpcode(protocol, opcode, buffer)
 end
 
 local function onGameEnd()
+  closeInputs();currentGuildId=nil
   cancelWorldNamesEvent()
   clearWorldNames()
   if guildWindow then

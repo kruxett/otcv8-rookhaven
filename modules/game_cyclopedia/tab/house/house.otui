@@ -1,7 +1,25 @@
+HouseMarketEntry < House
+  Label
+    id: size
+    width: 360
+  Label
+    id: beds
+    visible: false
+  Label
+    id: rentTitle
+    visible: false
+  Label
+    id: rent
+    visible: false
+  UIWidget
+    id: rentGold
+    visible: false
+
 UIWidget
   id: Cat5
   anchors.fill: parent
   visible: false
+  margin-bottom: 42
   UIWidget
     id: TopBase
     anchors.top: parent.top
@@ -64,7 +82,7 @@ UIWidget
       @onClick: modules.game_cyclopedia.Cyclopedia.houseFilter(self)
   UIWidget
     id: LateralBase
-    size: 250 358
+    size: 250 352
     anchors.top: TopBase.bottom
     anchors.left: parent.left
     image-source: /images/ui/2pixel_up_frame_borderimage
@@ -135,9 +153,12 @@ UIWidget
         margin: 1
         background-color: black
         Label
+          id: previewMessage
           !text: tr('No house selected')
+          size: 170 64
+          text-wrap: true
+          text-align: center
           color: #C0C0C0
-          text-auto-resize: true
           anchors.centerIn: parent
       UIWidget
         id: houseImage
@@ -292,7 +313,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     //image-source: /images/ui/widget-borderimage
@@ -393,6 +414,7 @@ UIWidget
       margin-top: 3
       image-source: /game_cyclopedia/images/icon_gold
     Label
+      id: sectionTitle
       !text: tr('Auction Information')
       anchors.top: prev.bottom
       anchors.left: parent.left
@@ -404,7 +426,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/widget-borderimage
@@ -526,70 +548,28 @@ UIWidget
       anchors.left: prev.right
       margin-left: 8
     Label
-      !text: tr('Move Date:')
+      text: Type LEAVE:
       color: #909090
       text-align: right
       size: 90 15
       anchors.top: paid.bottom
       anchors.left: parent.left
       margin-top: 8
-    ComboBox
-      id: year
-      size: 70 20
-      color: #C0C0C0
-      anchors.left: prev.right
-      anchors.top: prev.top
-      margin-left: 5
-      text-offset: 15 1
-      margin-top: -3
-    Label
-      !text: tr('-')
-      color: #C0C0C0
+    TextEdit
+      id: confirmation
+      size: 193 20
+      max-length: 5
       anchors.top: prev.top
       anchors.left: prev.right
-      margin-left: 3
-      margin-top: 2
-    ComboBox
-      id: month
-      size: 51 20
-      color: #C0C0C0
-      text-offset: 20 1
-      anchors.left: prev.right
-      anchors.top: year.top
       margin-left: 5
     Label
-      !text: tr('-')
-      color: #C0C0C0
-      anchors.top: prev.top
-      anchors.left: prev.right
-      margin-left: 3
-      margin-top: 2
-    ComboBox
-      id: day
-      size: 50 20
-      color: #C0C0C0
-      text-offset: 15 1
-      anchors.left: prev.right
-      anchors.top: year.top
-      margin-left: 5
-    UIWidget
-      id: error
-      !tooltip: tr('Select a date in the future!')
-      anchors.left: prev.right
-      anchors.verticalCenter: month.verticalCenter
-      //image-source: /game_cyclopedia/images/icon-info-error
-      margin-left: 5
-      visible: false
-    UIWidget
-      !tooltip: tr('You will move out at the daily server save of the selected day.')
-      anchors.right: parent.right
-      anchors.verticalCenter: month.verticalCenter
-      //image-source: /images/icons/show_gui_help_grey
-    Label
-      !text: tr('All items you have left in the house will be automatically\nsent to your inbox.')
-      text-auto-resize: true
-      anchors.top: prev.bottom
+      id: information
+      text: You move out at the next server restart.\nAll belongings move to your depot.\nThe request can be cancelled before then.
+      text-wrap: true
+      height: 72
+      anchors.top: confirmation.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
       margin-top: 10
       color: #C0C0C0
   UIWidget
@@ -598,7 +578,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/widget-borderimage
@@ -720,73 +700,30 @@ UIWidget
       anchors.left: prev.right
       margin-left: 8
     Label
-      !text: tr('Transfer Date:')
+      text: Transfer at:
       color: #909090
       text-align: right
       size: 90 15
       anchors.top: paid.bottom
       anchors.left: parent.left
       margin-top: 8
-    ComboBox
-      id: year
-      size: 70 20
-      color: #C0C0C0
-      anchors.left: prev.right
-      anchors.top: prev.top
-      margin-left: 5
-      text-offset: 15 1
-      margin-top: -3
     Label
-      !text: tr('-')
+      id: scheduleValue
+      text: After acceptance, at restart
       color: #C0C0C0
+      size: 240 15
       anchors.top: prev.top
       anchors.left: prev.right
-      margin-left: 3
-      margin-top: 2
-    ComboBox
-      id: month
-      size: 51 20
-      color: #C0C0C0
-      text-offset: 20 1
-      anchors.left: prev.right
-      anchors.top: year.top
       margin-left: 5
     Label
-      !text: tr('-')
-      color: #C0C0C0
-      anchors.top: prev.top
-      anchors.left: prev.right
-      margin-left: 3
-      margin-top: 2
-    ComboBox
-      id: day
-      size: 50 20
-      color: #C0C0C0
-      text-offset: 15 1
-      anchors.left: prev.right
-      anchors.top: year.top
-      margin-left: 5
-    UIWidget
-      id: error
-      !tooltip: tr('Select a date in the future!')
-      anchors.left: prev.right
-      anchors.verticalCenter: month.verticalCenter
-      //image-source: /game_cyclopedia/images/icon-info-error
-      margin-left: 5
-      visible: false
-    UIWidget
-      !tooltip: tr('You will move out at the daily server save of the selected day.')
-      anchors.right: parent.right
-      anchors.verticalCenter: month.verticalCenter
-      image-source: /images/icons/show_gui_help_grey
-    Label
-      !text: tr('New Owner:')
+      id: targetLabel
+      text: New Owner:
       color: #909090
       text-align: right
       size: 90 15
-      anchors.top: year.bottom
+      anchors.top: scheduleValue.bottom
       anchors.left: parent.left
-      margin-top: 3
+      margin-top: 6
     TextEdit
       id: owner
       size: 193 16
@@ -810,6 +747,7 @@ UIWidget
       anchors.verticalCenter: owner.verticalCenter
       image-source: /images/icons/show_gui_help_grey
     Label
+      id: priceLabel
       !text: tr('Transfer Price:')
       color: #909090
       text-align: right
@@ -832,10 +770,13 @@ UIWidget
       margin-left: 5
       image-source: /game_cyclopedia/images/icon_gold
     Label
-      !text: tr('Please remeber to take your personal belongings out of\nthe house before you move out. Items remaining in the\nhouse become the property of the new owner after the transfer.\nThe only exception are items which have been purchased\nin the Store. They will be sent yo your inbox.')
-      text-auto-resize: true
-      anchors.top: prev.bottom
+      id: information
+      text: The recipient must accept the offer. Ownership and seller payment complete at server restart. Belongings move to the current owner's depot.
+      text-wrap: true
+      height: 72
+      anchors.top: price.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
       margin-top: 10
       color: #C0C0C0
   UIWidget
@@ -844,7 +785,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/widget-borderimage
@@ -1017,10 +958,13 @@ UIWidget
       margin-left: 5
       image-source: /game_cyclopedia/images/icon_gold
     Label
-      !text: tr('If you want to keep this house. click on "Cancel Transfer".')
-      text-auto-resize: true
-      anchors.top: prev.bottom
+      id: information
+      text: Ownership changes at the next server restart. Belongings move to the current owner's depot.
+      text-wrap: true
+      height: 70
+      anchors.top: transferPrice.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
       margin-top: 10
       color: #C0C0C0
   UIWidget
@@ -1029,7 +973,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/widget-borderimage
@@ -1202,10 +1146,13 @@ UIWidget
       margin-left: 5
       image-source: /game_cyclopedia/images/icon_gold
     Label
-      !text: tr('Make sure to have enough gold in your bank account to\npay the costs for this house transfer and the next rent.\nRemember to edit the door rights as only the guest list\nwill be reset after the transfer!')
-      text-auto-resize: true
-      anchors.top: prev.bottom
+      id: information
+      text: Ownership changes at the next server restart. Belongings move to the current owner's depot.
+      text-wrap: true
+      height: 70
+      anchors.top: transferPrice.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
       margin-top: 10
       color: #C0C0C0
   UIWidget
@@ -1214,7 +1161,7 @@ UIWidget
     text-align: top
     text-offset: 0 1
     color: #909090
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/widget-borderimage
@@ -1387,15 +1334,18 @@ UIWidget
       margin-left: 5
       image-source: /game_cyclopedia/images/icon_gold
     Label
-      !text: tr('Reject the transfer if you do not want the house\ntransferred to you.')
-      text-auto-resize: true
-      anchors.top: prev.bottom
+      id: information
+      text: Ownership changes at the next server restart. Belongings move to the current owner's depot.
+      text-wrap: true
+      height: 70
+      anchors.top: transferPrice.bottom
       anchors.left: parent.left
+      anchors.right: parent.right
       margin-top: 10
       color: #C0C0C0
   UIWidget
     id: ListBase
-    size: 413 358
+    size: 413 352
     anchors.top: LateralBase.top
     anchors.left: LateralBase.right
     image-source: /images/ui/panel_flat
@@ -1424,3 +1374,42 @@ UIWidget
       margin-bottom: 3
       step: 80
       pixel-scroll: true
+
+  Button
+    id: housePrevious
+    text: Previous
+    size: 58 20
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    @onClick: modules.game_cyclopedia.HouseMarketUI.list({page=modules.game_cyclopedia.Cyclopedia.House.page-1})
+  Button
+    id: houseNext
+    text: Next
+    size: 48 20
+    anchors.left: housePrevious.right
+    anchors.top: housePrevious.top
+    margin-left: 4
+    @onClick: modules.game_cyclopedia.HouseMarketUI.list({page=modules.game_cyclopedia.Cyclopedia.House.page+1})
+  Button
+    id: houseRefresh
+    text: Refresh
+    size: 58 20
+    anchors.left: houseNext.right
+    anchors.top: housePrevious.top
+    margin-left: 4
+    @onClick: modules.game_cyclopedia.HouseMarketUI.refresh()
+  Label
+    id: housePage
+    size: 64 20
+    text-align: center
+    anchors.left: houseRefresh.right
+    anchors.top: housePrevious.top
+    margin-left: 4
+  Label
+    id: houseStatus
+    height: 24
+    anchors.left: housePage.right
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    text-wrap: true
+    color: #C0C0C0

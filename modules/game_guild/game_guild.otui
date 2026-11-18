@@ -131,12 +131,21 @@ GuildInvitedRow < Panel
   Label
     id: inviteeName
     anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.right: withdrawInviteBtn.left
     anchors.verticalCenter: parent.verticalCenter
     margin-left: 10
     font: verdana-11px-rounded
     color: #a8b8c8
     phantom: true
+
+  Button
+    id: withdrawInviteBtn
+    text: Withdraw
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    size: 80 20
+    margin-right: 3
+    visible: false
 
 GuildActivityRow < Label
   height: 16
@@ -157,6 +166,7 @@ GuildNoGuildPanel < Panel
     phantom: true
 
 GuildInputWindow < MainWindow
+  id: guildInputWindow
   !text: tr('Guild')
   size: 300 110
   @onEscape: self:destroy()
@@ -378,7 +388,7 @@ MainWindow
       margin-top: 10
       margin-left: 4
       height: 14
-      text: Message of the Day:
+      text: Public description / Message of the Day:
       font: verdana-11px-rounded
       color: #a0a0a0
 
@@ -401,6 +411,15 @@ MainWindow
       size: 80 20
       text: Save MOTD
       font: verdana-11px-rounded
+      visible: false
+
+    Button
+      id: renameGuildBtn
+      anchors.top: saveMotdBtn.top
+      anchors.left: parent.left
+      margin-left: 4
+      size: 100 20
+      text: Rename guild
       visible: false
 
     Button

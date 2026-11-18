@@ -58,12 +58,15 @@ download address. Later updates use the corrected updater.
 This is not a claim that the entire legacy RSA/XTEA game transport is a modern
 authenticated TLS protocol. Review that transport before public production.
 Counters remain process-local and reset on restart, and email syntax does not
-verify ownership. Email verification and password recovery remain separate work.
+verify ownership. Native account/password/character and authenticator management
+are described in [client-only management](client-only-management.md). Email
+verification and password recovery have prepared opt-in code and stay disabled.
 
 ## DEV and production configuration
 
 The native server registers service `0x03` (RHA1 version 1) on the **existing login
-port**. The client uses the selected login endpoint; the character view snapshots
+port**. RHA2 version 2 extends it with native account management and authenticator
+support while retaining RHA1 creation compatibility. The client uses the selected login endpoint; the character view snapshots
 the endpoint/account from the successful login. It has no separate DEV URLs,
 web server, database credentials or web-login fallback.
 
@@ -77,6 +80,11 @@ clientCharacterCreationEnabled = true
 clientCharacterLimit = 8            -- clamped to 1..20
 clientCharacterTownId = 1           -- Rookhaven; must have a valid temple tile
 clientAccountIpLimitPerHour = 3      -- successful registrations per IP per process
+clientAccountManagementEnabled = true
+clientTwoFactorEnabled = true       -- new setup; existing protection stays enforced
+clientEmailVerificationEnabled = false
+clientPasswordRecoveryEnabled = false
+clientAccountMailOutbox = ""         -- private existing directory; future activation
 rsaKeyFile = "C:/private/rookhaven-rsa.pem" -- private RSA-2048 key, exponent 65537
 ```
 
@@ -152,3 +160,29 @@ a loopback-only QA package compiled with the matching public modulus. `--ui-only
 just the native UI path after a UI/driver change. Python requires cryptography;
 the two isolated Lua checks can run under LuaJIT or Lupa from the client root.
 Screenshots/build outputs do not replace these existing-path regressions.
+
+## Native houses and production configuration
+
+House management now lives in the existing Cyclopedia Houses tab. The complete
+normal/selected/pressed house button resources are reused. Guild Manager adds
+leader rename and invitation withdrawal; its MOTD is also the public description.
+
+Keep environment settings on the selected native server, alongside its existing
+mysqlHost/mysqlPort/mysqlUser/mysqlPass/mysqlDatabase values and private RSA key:
+
+```lua
+clientHouseMarketEnabled = false -- enable after deploying matching client/server
+houseMarketAuctionHours = 48
+houseMarketBidIncrement = 100
+houseMarketMaxOwnerAuctionDays = 7
+```
+
+DEV and PROD use their own private config.lua/database/key and selected client
+server/updater channel. No database credentials belong in client resources. The
+website uses its environment's ConnectionStrings__TibiaDatabase with SELECT only;
+it neither initializes schema nor finalizes house auctions. Native migrations
+upgrade to version 37, preserving legacy pending transfers and escrow provenance.
+Email verification/recovery and SMTP remain disabled until separately configured.
+See [housing integration](housing-client-integration.md) for current test evidence
+and the web repo's COINS-SHOP.md for disabled Coins preparation. These are local
+changes, not a claim that DEV/updater has received them.

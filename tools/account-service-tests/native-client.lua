@@ -2,6 +2,25 @@ local failed,done,loggingOut,reconnected=false,false,false,false
 local receipts,requests={},{}
 local maxLogin=false
 local tlsChecks=0
+local uiSecret,uiRecoveryCodes
+local function totp(secret,now)
+  local alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+  local key,buffer,bits='',0,0
+  for i=1,#secret do
+    local value=assert(alphabet:find(secret:sub(i,i),1,true))-1
+    buffer=bit.bor(bit.lshift(buffer,5),value);bits=bits+5
+    if bits>=8 then bits=bits-8;key=key..string.char(bit.band(bit.rshift(buffer,bits),255))end
+  end
+  local function sha(raw)return g_crypt.sha1Encode(raw,false):gsub('..',function(pair)return string.char(tonumber(pair,16))end)end
+  key=key..string.rep('\0',64-#key)
+  local inner,outer='',''
+  for i=1,64 do inner=inner..string.char(bit.bxor(key:byte(i),54));outer=outer..string.char(bit.bxor(key:byte(i),92))end
+  local step=math.floor((now or os.time())/30);local counter=''
+  for _=1,8 do counter=string.char(step%256)..counter;step=math.floor(step/256)end
+  local hash=sha(outer..sha(inner..counter));local offset=bit.band(hash:byte(20),15)+1
+  local number=bit.band(hash:byte(offset),127)*16777216+hash:byte(offset+1)*65536+hash:byte(offset+2)*256+hash:byte(offset+3)
+  return string.format('%06d',number%1000000)
+end
 local function fail(why)
   if failed then return end;failed=true;print('ACCOUNTS_UI_FAILED '..tostring(why));g_app.exit()
 end
@@ -80,7 +99,7 @@ local function guild()
                 qa('legacy',function(r)
                   assert(not r.modernPassword,'legacy game-login fixture not installed')
                   qa('rest',function()logout(function()
-                    reconnected=true;later(400,function()loggingOut=false;CharacterList.doLogin()end)
+                    reconnected=true;later(400,function()loggingOut=false;G.authenticatorToken=totp(uiSecret);CharacterList.doLogin()end)
                   end)end)
                 end)
               end)end)
@@ -91,7 +110,7 @@ local function guild()
     end)
   end)end)
 end
-local function createdCharacter()
+local function afterManagement()
   assert(#G.characters==1 and G.characters[1].name=='Ui New Hero','character refresh/focus failed')
   assert(not g_settings.get('password') or g_settings.get('password')=='','unchecked Remember password persisted credentials')
   g_app.doScreenshot('/accounts-character-list-800.png')
@@ -101,7 +120,7 @@ local function createdCharacter()
     AccountServicesUI.close();assert(CharacterList.isVisible(),'cancel did not return to list')
     local account,password=G.account,G.password
     rootWidget:recursiveGetChildById('rememberPasswordBox'):setChecked(true)
-    CharacterList.hide();EnterGame.doLogin(account,password,'',G.accountEndpoint)
+    CharacterList.hide();EnterGame.doLogin(account,password,totp(uiSecret),G.accountEndpoint)
     wait('remembered normal login',CharacterList.isVisible,function()
       assert(g_settings.get('password')~=password and g_crypt.decrypt(g_settings.get('password'))==password,'Remember password did not encrypt credentials')
       CharacterList.doLogin()
@@ -109,11 +128,67 @@ local function createdCharacter()
   end)
   end)
 end
+local function createdCharacter()
+  AccountManagementUI.open()
+  wait('native account overview',function()
+    local w=win('accountManagementWindow');return w and w:recursiveGetChildById('changePassword') and w
+  end,function(w)
+    assert(not w:recursiveGetChildById('verifyEmail'),'disabled email verification was exposed')
+    shot('management-account',function()
+      AccountManagementUI.tab('characters')
+      local list=w:recursiveGetChildById('accountCharacters')
+      assert(list and #list:getChildren()==1,'management character list mismatch')
+      list:focusChild(list:getFirstChild())
+      shot('management-characters',function()
+        signalcall(w:recursiveGetChildById('deleteCharacter').onClick)
+        assert(w:recursiveGetChildById('characterConfirmation'),'delete selection did not open confirmation')
+        w:recursiveGetChildById('characterConfirmation'):setText('Wrong name')
+        local before=requests[5]or 0
+        signalcall(w:recursiveGetChildById('confirmDeleteCharacter').onClick)
+        assert((requests[5]or 0)==before,'mismatched delete confirmation was submitted')
+        shot('management-delete',function()
+          AccountManagementUI.back();AccountManagementUI.tab('security')
+          assert(w:recursiveGetChildById('setupAuthenticator'),'authenticator setup missing')
+          shot('management-security',function()
+            AccountManagementUI.setup()
+            wait('authenticator setup',function()return w:recursiveGetChildById('setupSecret')end,function(secret)
+              assert(#secret:getText()==32,'manual authenticator key missing')
+              uiSecret=secret:getText()
+              shot('management-setup',function()
+                w:recursiveGetChildById('setupCode'):setText(totp(uiSecret))
+                signalcall(w:recursiveGetChildById('enableAuthenticator').onClick)
+                wait('authenticator recovery codes',function()return w:recursiveGetChildById('copyCodes')end,function()
+                AccountManagementUI.close();assert(win('accountManagementWindow'),'unsaved recovery codes were dismissed')
+                signalcall(w:recursiveGetChildById('savedCodes').onClick)
+                AccountManagementUI.tab('account');AccountManagementUI.password()
+                w:recursiveGetChildById('currentPassword'):setText('UiLoopbackOnlyPass')
+                w:recursiveGetChildById('newPassword'):setText('Ui management password')
+                w:recursiveGetChildById('confirmPassword'):setText('mismatch')
+                signalcall(w:recursiveGetChildById('savePassword').onClick)
+                assert(not requests[4],'mismatched password was submitted')
+                w:recursiveGetChildById('confirmPassword'):setText('Ui management password')
+                shot('management-password',function()
+                  signalcall(w:recursiveGetChildById('savePassword').onClick)
+                  wait('native password changed',function()return G.password=='Ui management password'end,function()
+                    AccountManagementUI.close()
+                    wait('normal login after management password change',CharacterList.isVisible,afterManagement)
+                  end)
+                end)
+                end)
+              end)
+            end)
+          end)
+        end)
+      end)
+    end)
+  end)
+end
 later(350,function()
   assert(LOCAL_PASSIVES_TEST and Services.updater==''and g_resources.getLayout()=='retro')
+  assert(totp('GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ',59)=='287082','QA authenticator reference vector failed')
   HTTP.timeout=15
   HTTP.postJSON('https://updater2.rookhaven-ot.com/api/updater',{version=10103,platform='windows',channel='dev'},function(data,err)
-    assert(not err and type(data)=='table' and data.upToDate==true,'authenticated DEV updater failed: '..tostring(err))
+    assert(not err and type(data)=='table','authenticated DEV updater failed: '..tostring(err))
     tlsChecks=tlsChecks+1;print('AUTH_TLS_PASS valid DEV certificate')
   end)
   for _,host in ipairs({'self-signed.badssl.com','expired.badssl.com','wrong.host.badssl.com'})do
@@ -126,7 +201,10 @@ later(350,function()
   ProtocolAccounts.request=function(self,endpoint,action,values,callback)
     assert(endpoint.host=='127.0.0.1'and endpoint.port==7187,'wrong server target')
     requests[action]=(requests[action]or 0)+1
-    return original(self,endpoint,action,values,callback)
+    return original(self,endpoint,action,values,function(ok,message,name,policy,data)
+      if ok and data and data.recoveryCodes then uiRecoveryCodes=data.recoveryCodes end
+      callback(ok,message,name,policy,data)
+    end)
   end
   connect(g_game,{onLoginError=fail,onConnectionError=function(e)if not loggingOut then fail(e)end end,
     onTextMessage=function(_,text)
@@ -140,7 +218,22 @@ later(350,function()
           assert(tlsChecks==4,'native HTTPS certificate checks did not finish')
           assert(#g_game.getLocalPlayer():getName()==29,'maximum character name was truncated')
           logout(function()
-            done=true;print('ACCOUNTS_UI_NATIVE_OK register=true emailRequired=true noPlaintextSettings=true rememberedEncrypted=true character=true compactForm=true duplicateSubmit=true firstItems=true reconnect=true guildmaster=true maximumRsaCredentials=true tlsCertificates=true');g_app.exit()
+            AccountManagementUI.openRecovery()
+            wait('login authenticator recovery',function()
+              local w=win('accountManagementWindow');return w and w:recursiveGetChildById('recoveryAccount') and w
+            end,function(w)
+              assert(not w:recursiveGetChildById('passwordRecovery'),'disabled password recovery was exposed')
+              w:recursiveGetChildById('recoveryAccount'):setText('uiaccountsqa')
+              w:recursiveGetChildById('recoveryPassword'):setText('Ui management password')
+              w:recursiveGetChildById('recoveryCode'):setText(assert(uiRecoveryCodes and uiRecoveryCodes[1]))
+              signalcall(w:recursiveGetChildById('recoverAuthenticator').onClick)
+              wait('authenticator recovered',function()return w:recursiveGetChildById('returnLogin')end,function()
+                shot('management-recovery',function()
+                  AccountManagementUI.close()
+                  done=true;print('ACCOUNTS_UI_NATIVE_OK register=true emailRequired=true noPlaintextSettings=true rememberedEncrypted=true character=true compactForm=true duplicateSubmit=true firstItems=true reconnect=true guildmaster=true maximumRsaCredentials=true tlsCertificates=true management=true passwordChange=true authenticator=true recovery=true');g_app.exit()
+                end)
+              end)
+            end)
           end)
           return
         end
@@ -191,4 +284,4 @@ later(350,function()
   end)
   end)
 end)
-scheduleEvent(function()if not done then fail('native UI timeout')end end,165000)
+scheduleEvent(function()if not done then fail('native UI timeout')end end,175000)

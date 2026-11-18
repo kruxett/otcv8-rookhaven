@@ -83,6 +83,10 @@ function ProtocolLogin:sendLoginPacket()
   end
 
   msg:addString(self.accountPassword)
+  if g_game.getProtocolVersion() == 860 then
+    msg:addString('MFA1')
+    msg:addString(self.authenticatorToken or '')
+  end
 
   if self.getLoginExtendedData then
     local data = self:getLoginExtendedData()
