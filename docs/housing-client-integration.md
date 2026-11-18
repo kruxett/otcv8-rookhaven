@@ -6,7 +6,9 @@ payments are a separate website feature; house transactions use gold.
 
 ## Implementation, 2026-11-17
 
-Local, unpublished work across the client, native server and public web API.
+The native client/server implementation was prepared locally on November 17
+and published on DEV10105 on November 18. Public web API cutover remains
+unpublished. See the [release record](dev10105-management-housing-release.md).
 Playable DEV and its updater remain on the earlier release.
 
 - The existing Cyclopedia Houses tab now uses opcode 118 for paginated search,

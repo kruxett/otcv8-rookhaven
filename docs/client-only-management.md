@@ -8,13 +8,17 @@ spending Coins in the existing in-client item shop.
 
 ## Delivery order and current status
 
-1. **Implemented and locally verified, unpublished:** account/character parity with the old website. Native account
+The native client and game server are published on DEV. See the
+[DEV10105 release record](dev10105-management-housing-release.md). Website
+cutover and Coins work below remain unpublished.
+
+1. **Live on DEV10105, 2026-11-18:** account/character parity with the old website. Native account
    overview, password change, character deletion, authenticator setup/removal and
    recovery codes use the selected game server's encrypted account service.
    Verify ordinary login/game login, creation, reconnect and refusal/transaction
    cases, as well as the real retro UI. Guild parity now includes leader rename and invitation withdrawal. The native
    MOTD is the existing public guild description; it is not a second text field.
-2. **Implemented and locally verified, unpublished:** native house purchases,
+2. **Live on DEV10105, 2026-11-18:** native house purchases,
    proxy/owner auctions, private offers, gifts/transfers, leaving/cancellation and
    native access lists through the existing Cyclopedia Houses tab, original
    house cards and seven original form panels. The abandoned replacement

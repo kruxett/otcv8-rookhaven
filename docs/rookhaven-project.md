@@ -82,10 +82,13 @@ verification. Existing DEV authorization does not authorize a PROD deployment.
 
 ## Client-only cutover, 2026-11-17
 
-Native account/character management and housing/guild parity are implemented and
-locally verified. Website player-authentication/mutation routes and automatic
-schema/auction writers are unmapped. Use SELECT-only website database credentials.
+Native account/character management and housing/guild parity are live on
+DEV10105 as of 2026-11-18. See the
+[release record](dev10105-management-housing-release.md). The website's staged
+source removes player-authentication/mutation routes and automatic schema/auction
+writers; that website cutover has not been deployed. Use SELECT-only website
+database credentials when publishing it.
 Read [client-only management](client-only-management.md) and
 [housing integration](housing-client-integration.md) for current flags and evidence.
 Coins catalogue/page preparation remains disabled; it does not activate payments.
-These changes are unpublished: the playable DEV release has not changed.
+The native client/server are published on DEV; the website changes remain unpublished.
