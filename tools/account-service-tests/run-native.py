@@ -19,6 +19,7 @@ p.add_argument('--house-market',action='store_true')
 p.add_argument('--house-ui-only',action='store_true')
 p.add_argument('--house-rent',action='store_true')
 p.add_argument('--house-photos',action='store_true');p.add_argument('--house-photo-limit',type=int,default=10000)
+p.add_argument('--shop-ui',action='store_true')
 p.add_argument('--legacy-house-schema',action='store_true')
 p.add_argument('--web-public',action='store_true')
 p.add_argument('--guild-parity',action='store_true')
@@ -26,6 +27,7 @@ p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--rsa-
 assert not args.ui_only or args.client,'--ui-only requires --client'
 assert not args.house_ui_only or (args.house_market and args.client),'--house-ui-only requires --house-market and --client'
 assert not args.house_photos or (args.house_ui_only and args.house_photo_limit>0),'--house-photos requires the isolated house UI fixture'
+assert not args.shop_ui or (args.house_ui_only and not args.house_photos),'--shop-ui requires the ordinary house UI fixture'
 run=args.output.resolve();run.mkdir(parents=True,exist_ok=False)
 runtime=run/'runtime';database=run/'database';handles=[];processes=[];server=None
 report={'status':'FAIL','scope':'owned loopback native account/login/UI and cold database copy','checks':[]}
@@ -361,13 +363,15 @@ try:
         entries['accounts-probe.lua']=entries['accounts-probe.lua'].replace(b'__HOUSE_TOWN_EXPECTATIONS__',json.dumps(house_towns).encode())
         photo_manifest=ROOT/'modules/game_cyclopedia/images/houses/rookhaven/manifest.json'
         entries['accounts-probe.lua']=entries['accounts-probe.lua'].replace(b'__HOUSE_PHOTO_MANIFEST__',photo_manifest.read_bytes() if photo_manifest.exists() else b'{"houses":[]}')
+        entries['accounts-probe.lua']=entries['accounts-probe.lua'].replace(b'__SHOP_UI__',b'true' if args.shop_ui else b'false')
         if args.house_photos:
             entries['accounts-probe.lua']=(ROOT/'tools/house-photos/native-client.lua').read_bytes().replace(b'__PHOTO_CATALOGUE__',(runtime/'house-photo-catalogue.json').read_bytes()).replace(b'__PHOTO_LIMIT__',str(args.house_photo_limit).encode())
-        for folder in ('client_entergame','gamelib','game_cyclopedia','game_guild'):
+        for folder in ('client_entergame','gamelib','game_cyclopedia','game_guild','game_shop'):
             for f in (ROOT/'modules'/folder).rglob('*'):
                 if not f.is_file():continue
                 native_house_photo=f.is_relative_to(ROOT/'modules/game_cyclopedia/images/houses/rookhaven') and f.suffix in ('.png','.json')
-                if f.suffix not in ('.lua','.otui','.otmod') and not native_house_photo:continue
+                shop_image=f.is_relative_to(ROOT/'modules/game_shop/images') and f.suffix=='.png'
+                if f.suffix not in ('.lua','.otui','.otmod') and not native_house_photo and not shop_image:continue
                 n=f.relative_to(ROOT).as_posix();entries.pop(n[:-4]+'.luac',None) if n.endswith('.lua') else None;entries[n]=f.read_bytes()
         entries['layouts/retro/styles/40-entergame.otui']=(ROOT/'layouts/retro/styles/40-entergame.otui').read_bytes()
         if entries['startup_original.luac'].startswith(b'ENC3'):

@@ -131,7 +131,7 @@ UIWidget
       visible: false
     UIWidget
       id: MapViewbase
-      size: 188 212
+      size: 234 182
       anchors.top: parent.top
       anchors.left: parent.left
       margin-top: 8

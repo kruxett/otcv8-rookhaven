@@ -24,10 +24,15 @@ process cleanup are handled by the existing runner. `--house-photo-limit 3` is
 available for a capture sample; the exporter refuses an incomplete catalogue.
 
 The exporter checks native house IDs/names against the loaded house XML and
-requires every floor/frame. It crops the actual 32px tile projection with one
-context tile on each side, without redrawing or replacing pixels. It preserves
-those native crops and creates 186x210 previews with nearest-neighbour resizing
-and black margins to retain proportions in the existing 188x212 image frame.
+requires every floor/frame. It preserves the entire native 576x448 source and
+uses the entire screenshot, including surrounding map. The capture centres the
+house bounds even when the photographer cannot stand in their middle. Export
+checks that all house tiles fit and their centre is within half a native tile
+of the frame centre. It creates 232x180 previews with nearest-neighbour resizing,
+filling a 234x182 frame in the existing side panel. There is no crop or added
+padding; the frame follows the complete screenshot's proportions. Black map void on an
+upper floor is part of the actual game rendering. Use `--output <new-folder>`
+to re-export an existing capture without overwriting its previous evidence.
 No new window or layout is required. The existing missing-photo fallback remains.
 
 Assets are in `modules/game_cyclopedia/images/houses/rookhaven/`, with a manifest
@@ -38,17 +43,17 @@ multiple floors, choose and verify its main view before extending the exporter.
 Regenerate the affected photos when the house geometry or its base graphics
 change; player furniture and live occupation are intentionally not dynamic.
 
-Current capture: `out/account-management-20261116/house-photos-all-02`, PASS:
-57 native house/floor frames, 57 matching crops and 57 proportional previews.
-The three review sheets were inspected, including upper floors and Academy
-basements. The original fixture database/config/profile were preserved, and all
-owned processes were stopped. This is local preparation, not DEV publication.
+Current capture: `out/housing-keyring-fix-20261118/full-frames-centered`, PASS:
+57 complete native house/floor frames. All original pixels are retained in the
+full-size assets. Every preview is exactly the entire source resized, with no
+crop or added padding. All house centres are within half a native tile of the
+frame centre. This replaces the earlier cropped/letterboxed DEV10105 assets.
 
-Current native integration: `house-photos-native-ui-04`, PASS. All 57 photos
-were selected via the original paged house list, with no missing-image fallback.
-Seven representative screenshots match the shipped preview pixels exactly;
-the seven original panels, stale confirmation refusal, native guest editor and
-recipient acceptance also pass. The preceding UI probe exposed a test-fixture
-attempt to parse an encrypted manifest through the safe/raw resource reader.
-The fixture now injects that catalogue into its own test driver; the production
-view has no manifest parsing or new decryption API.
+Current native integration: `out/housing-keyring-fix-20261118/native-ui-02`, PASS.
+All 57 photos were selected via the original paged house list; all four town
+filters match the authoritative IDs (26/0/9/22). Seven representative screenshots
+match the shipped preview pixels exactly at 800x640. Original house forms,
+stale confirmation refusal, guest editor, recipient acceptance and reopen pass;
+the screenshots also cover 1280x800. Original fixture database/config/profile
+were preserved and all owned processes stopped. The production view has no
+manifest parsing or new decryption API. Release status is recorded separately.

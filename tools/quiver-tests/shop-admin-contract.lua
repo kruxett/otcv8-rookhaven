@@ -326,6 +326,7 @@ buy(foodFull, foodCategory, foodIndex)
 check(foodFull.storage[910500] == 1000 and #foodFull.deliveries == 0 and shop.historyByGuid[foodFull.guid] == nil,
 	"Failed Food Ring delivery consumed points or history")
 check(keyring.title == "Keyring" and keyring.cost == 250, "Existing Keyring identity/price changed")
+check(keyring.type == "image" and keyring.image == "/game_shop/images/keyring.png", "Keyring must use its dedicated packaged graphic")
 local mage = player("Mage")
 buy(mage, keyringCategory, keyringIndex)
 check(mage.learned["Keychain Consume"] and mage.learned["Keychain Unlock"] and mage.learned["Keychain List"]

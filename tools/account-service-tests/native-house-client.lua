@@ -2,6 +2,7 @@
 local done,failed,expectedLogout=false,false,false
 local recipientLogin,recipientChecked=false,false
 local previewAll,previewsVerified,previewsRunning=nil,false,false
+local shopVerified=false
 local function fail(e)
   if failed then return end;failed=true;print('HOUSES_UI_FAILED '..tostring(e))
   local w=rootWidget:recursiveGetChildById('Cat5')
@@ -83,6 +84,32 @@ end
 local function finish()
   if not previewsVerified and g_resources.fileExists('/game_cyclopedia/images/houses/rookhaven/manifest.json')then
     if not previewsRunning then previewsRunning=true;previewAll(finish)end
+    return
+  end
+  if __SHOP_UI__ and not shopVerified then
+    modules.game_cyclopedia.HouseMarketUI.hide()
+    local store=modules.game_shop
+    store.show();store.check()
+    wait('real shop catalogue',function()return store.shop and store.shop.categories:getChildCount()>=3 end,function()
+      store.shop.categories:focusChild(store.shop.categories:getChildById('category_2'))
+      later(300,function()
+        local row=store.shop.offers:getChildById('offer_2_7')
+        assert(row and row.offerId==1001 and row.title:getText()=='Keyring (250 points)','Keyring identity/price changed')
+        assert(row.image and row.image:getImageTextureWidth()==32 and row.image:getImageTextureHeight()==32,'Keyring texture missing or incorrect')
+        assert(g_resources.fileExists('/game_shop/images/keyring.png'),'Keyring graphic not packaged')
+        store.shop.offers:ensureChildVisible(row)
+        later(300,function()
+          assert(row.image:isVisible() and row.image:getWidth()>0 and row.image:getHeight()>0,'Keyring image hidden')
+          print('KEYRING_IMAGE_RECT '..json.encode(row.image:getRect()))
+          g_app.doScreenshot('/accounts-shop-keyring-800.png')
+          store.shop.categories:focusChild(store.shop.categories:getChildById('category_1'))
+          store.shop.categories:focusChild(store.shop.categories:getChildById('category_2'))
+          assert(store.shop.offers:getChildById('offer_2_7').image:getImageTextureWidth()==32,'Keyring lost after category change')
+          store.hide();store.show();assert(store.shop:isVisible(),'Shop reopen failed')
+          shopVerified=true;print('KEYRING_UI_NATIVE_OK actualCatalogue=true packagedImage=true categorySwitch=true reopen=true price=250');finish()
+        end)
+      end)
+    end)
     return
   end
   done=true;print('HOUSES_UI_NATIVE_OK browse=true owner=true listing=true cancellation=true leaveConfirmation=true accessEditor=true reopen=true originalSevenPanels='..tostring(recipientChecked)..' recipientAcceptance='..tostring(recipientChecked)..' guildParity=__GUILD_UI__');g_app.exit()
@@ -183,6 +210,7 @@ previewAll=function(complete)
         w.ListBase.AuctionList:ensureChildVisible(row);click(row)
         wait('selected photo '..id,function()return settled()and data().id==id end,function()
           local frame=w.LateralBase.MapViewbase
+          assert(frame.houseImage:getWidth()==232 and frame.houseImage:getHeight()==180,'full screenshot frame proportions changed')
           assert(frame.houseImage:isVisible()and not frame.noHouse:isVisible(),'missing native preview '..id)
           assert(g_resources.fileExists('/game_cyclopedia/images/houses/rookhaven/previews/'..id..'.png'),'missing photograph resource '..id)
           assert(not seen[id]and data().name==info.name,'wrong or duplicate preview identity')

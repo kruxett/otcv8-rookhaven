@@ -25,7 +25,11 @@ later(400,function()
     local message=json.decode(buffer);local current=active
     if not current or message.id~=current.house.id or message.z~=current.floor.z then return end
     local map=modules.game_interface.getMapPanel()
-    map:followCreature(nil);map:setCameraPosition(message.position);map:setMultifloor(false);map:lockVisibleFloor(message.z)
+    local f=current.floor
+    -- Centre the house bounds, even when its middle tile cannot hold a player.
+    -- The raw 18x14 framebuffer has one extra tile below/right of the camera.
+    local camera={x=math.floor((f.minx+f.maxx)/2),y=math.floor((f.miny+f.maxy)/2),z=f.z}
+    map:followCreature(nil);map:setCameraPosition(camera);map:setMultifloor(false);map:lockVisibleFloor(message.z)
     map:setVisibleDimension({width=15,height=11});map:setFloorFading(0)
     map:setDrawNames(false);map:setDrawGuildNames(false);map:setDrawHealthBars(false);map:setDrawManaBar(false);map:setDrawTexts(false);map:setDrawLights(false)
     map:setCrosshair('');g_game.getLocalPlayer():setOutfit({type=0,auxType=0,head=0,body=0,legs=0,feet=0,addons=0,mount=0,wings=0,aura=0,shader='',healthBar=0,manaBar=0})
@@ -36,7 +40,7 @@ later(400,function()
       local dimensions=map:getVisibleDimension();assert(dimensions.width==15 and dimensions.height==11,'unexpected native projection')
       local file='/accounts-photo-'..message.id..'-'..message.z..'.png'
       g_app.doMapScreenshot(file)
-      print('HOUSE_PHOTO_FRAME '..json.encode({file=file,id=message.id,z=message.z,position=message.position,dimension=dimensions}))
+      print('HOUSE_PHOTO_FRAME '..json.encode({file=file,id=message.id,z=message.z,position=camera,dimension=dimensions}))
       if index==1 then g_app.doScreenshot('/accounts-photo-native-render.png')end
       later(200,nextPhoto)
     end)
