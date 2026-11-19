@@ -260,6 +260,9 @@ add_custom_command(OUTPUT "${ROOKHAVEN_MANIFEST}"
 target_sources(${CLIENT_TARGET} PRIVATE "${ROOKHAVEN_MANIFEST}")
 target_include_directories(${CLIENT_TARGET} PRIVATE "${CMAKE_BINARY_DIR}/generated")
 target_link_libraries(${CLIENT_TARGET} ${framework_LIBRARIES})
+if(WIN32)
+    target_link_libraries(${CLIENT_TARGET} windowscodecs ole32)
+endif()
 
 # Resource changes must also rerun the post-build copy and bytecode packaging.
 file(GLOB_RECURSE _client_resource_inputs CONFIGURE_DEPENDS

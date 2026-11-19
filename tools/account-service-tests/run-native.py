@@ -23,8 +23,11 @@ p.add_argument('--shop-ui',action='store_true')
 p.add_argument('--legacy-house-schema',action='store_true')
 p.add_argument('--web-public',action='store_true')
 p.add_argument('--guild-parity',action='store_true')
+p.add_argument('--guild-scale',action='store_true')
+p.add_argument('--guild-ui',action='store_true')
 p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--rsa-key',type=Path,required=True);p.add_argument('--encoder',type=Path);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');p.add_argument('--attack-only',action='store_true');p.add_argument('--ingress-only',action='store_true');args=p.parse_args()
 assert not args.ui_only or args.client,'--ui-only requires --client'
+assert not args.guild_ui or (args.guild_scale and args.client),'--guild-ui requires --guild-scale and --client'
 assert not args.house_ui_only or (args.house_market and args.client),'--house-ui-only requires --house-market and --client'
 assert not args.house_photos or (args.house_ui_only and args.house_photo_limit>0),'--house-photos requires the isolated house UI fixture'
 assert not args.shop_ui or (args.house_ui_only and not args.house_photos),'--shop-ui requires the ordinary house UI fixture'
@@ -124,7 +127,7 @@ try:
         sql("UPDATE server_config SET value='36' WHERE config='db_version'")
     if args.house_market:
         from housing import run as housing_regressions
-        housing_regressions(pem,sql,check,boot,create,lambda:stop(server),runtime,args.house_ui_only,args.house_rent)
+        housing_regressions(pem,sql,check,boot,create,lambda:stop(server),runtime,args.house_ui_only or args.guild_scale,args.house_rent)
         if args.legacy_house_schema:
             check(sql("SELECT COUNT(*) FROM information_schema.statistics WHERE table_schema=DATABASE() AND table_name='web_house_sale_listings' AND index_name='legacy_single_house'")=='0','migration replaces legacy single-house listing uniqueness without dropping data')
     if args.house_core:
@@ -299,7 +302,7 @@ try:
         outbox=run/'private-mail';outbox.mkdir()
         boot('\nclientEmailVerificationEnabled = true\nclientPasswordRecoveryEnabled = true\nclientAccountMailOutbox = "'+outbox.as_posix()+'"\n')
         email_regressions(pem,sql,check,outbox)
-    if args.web_public or args.guild_parity:
+    if args.web_public or args.guild_parity or args.guild_scale:
         assert args.house_market,'Public native-schema fixture requires --house-market'
         stop(server)
         # Native fixtures seed three ordinary characters. The web gets its own
@@ -313,6 +316,9 @@ try:
     if args.guild_parity:
         from guild import run as guild_regressions
         guild_regressions(pem,sql,check,guild_id)
+    if args.guild_scale:
+        from guild_scale import run as guild_scale_regressions
+        report['guild_scale']=guild_scale_regressions(pem,sql,check,guild_id,boot)
     if args.web_public:
         read_password=os.urandom(24).hex()
         grant="CREATE USER 'web_public_qa'@'127.0.0.1' IDENTIFIED BY '"+read_password+"'; GRANT SELECT ON rookhaven_accounts_qa.* TO 'web_public_qa'@'127.0.0.1';"
@@ -339,7 +345,7 @@ try:
         check(result.returncode==0,'public website reads native schema using SELECT-only credentials')
         check(sql('SELECT id,balance FROM players ORDER BY id')==before,'public website queries never change player banks')
     if args.client:
-        if args.house_market and not args.house_ui_only:
+        if args.house_market and not args.house_ui_only and not args.guild_ui:
             stop(server)
             house_id=sql("SELECT COALESCE(MIN(CASE WHEN owner=(SELECT id FROM players WHERE name='Home Buyer') THEN id END),MIN(id)) FROM houses")
             sql("UPDATE houses SET owner=(SELECT id FROM players WHERE name='Home Buyer'),bid=0,bid_end=0,highest_bidder=0 WHERE id="+house_id)
@@ -357,7 +363,7 @@ try:
         original_startup=entries.pop('init.luac')
         if 'startup_original.luac' not in entries:entries['startup_original.luac']=original_startup
         entries['init.lua']=b"function T() dofile('/accounts-probe.lua') end\nreturn dofile('/startup_original.lua')\n"
-        driver='native-house-client.lua' if args.house_market else 'native-client.lua'
+        driver='native-guild-client.lua' if args.guild_ui else 'native-house-client.lua' if args.house_market else 'native-client.lua'
         entries['test.lua']=b'T()\n';entries['accounts-probe.lua']=Path(__file__).with_name(driver).read_bytes().replace(b'__GUILD_UI__',b'true' if args.guild_parity else b'false').replace(b'__RECIPIENT_UI__',b'false' if args.guild_parity else b'true')
         house_towns={h.attrib['houseid']:int(h.attrib['townid']) for h in ET.parse(runtime/'data/world/Untitled-1-house.xml').getroot()}
         entries['accounts-probe.lua']=entries['accounts-probe.lua'].replace(b'__HOUSE_TOWN_EXPECTATIONS__',json.dumps(house_towns).encode())
@@ -397,11 +403,15 @@ try:
         shutil.copyfile(Path(__file__).with_name('native-server.lua'),runtime/'data/scripts/accounts-owned-qa.lua')
         boot('\nclientHouseMarketEnabled = true\n' if args.house_market else '')
         app=start(client/'RookhavenClient.exe',['--local-passives','--test'],'client',client)
-        expected='HOUSE_PHOTOS_OK' if args.house_photos else 'HOUSES_UI_NATIVE_OK' if args.house_market else 'ACCOUNTS_UI_NATIVE_OK'
-        check(app.wait(timeout=270 if args.house_photos else 180)==0 and expected in log('client'),'native house framebuffer photographs' if args.house_photos else 'native housing UI' if args.house_market else 'native account and character UI with normal first login and reconnect')
+        expected='GUILDS_UI_NATIVE_OK' if args.guild_ui else 'HOUSE_PHOTOS_OK' if args.house_photos else 'HOUSES_UI_NATIVE_OK' if args.house_market else 'ACCOUNTS_UI_NATIVE_OK'
+        report['client_exit_code']=app.wait(timeout=600 if args.guild_ui else 270 if args.house_photos else 180)
+        check(report['client_exit_code']==0 and expected in log('client'),'native large-guild and emblem UI' if args.guild_ui else 'native house framebuffer photographs' if args.house_photos else 'native housing UI' if args.house_market else 'native account and character UI with normal first login and reconnect')
         report['client_log_tail']=log('client')[-1200:]
         for f in profile.glob('accounts-*.png'):shutil.copyfile(f,run/f.name)
-        if args.house_market and not args.house_photos:
+        if args.guild_ui:
+            check(sql('SELECT name FROM guilds WHERE id='+guild_id)=='UI Renamed Guild','guild rename UI still persists')
+            check(sql('SELECT revision FROM guild_emblems WHERE guild_id='+guild_id)=='5','native PNG chooser, preview and Save persist a new emblem revision')
+        elif args.house_market and not args.house_photos:
             check(sql("SELECT COUNT(*) FROM house_lists h JOIN houses x ON x.id=h.house_id JOIN players p ON p.id=x.owner WHERE p.name='Home Buyer' AND h.list LIKE '%Home Seller%'")=='1','native access editor persisted guest list')
             if args.guild_parity:
                 check(sql('SELECT name FROM guilds WHERE id='+guild_id)=='UI Renamed Guild','native guild rename UI persisted and refreshed')
@@ -409,6 +419,9 @@ try:
         elif not args.house_photos:
             check(sql("SELECT COUNT(*) FROM players WHERE name='Ui New Hero' AND level=1 AND vocation=0 AND group_id=1 AND sex=0 AND looktype=136")=='1','UI character keeps the selected sex and ordinary starter outfit/progression')
             check(sql("SELECT COUNT(*) FROM guilds WHERE name='Accounts QA Guild'")=='1','in-game Guildmaster creation persisted')
+    if args.guild_scale:
+        from guild_scale import finish_disband
+        finish_disband(pem,sql,check,guild_id)
     report['status']='PASS'
 finally:
     for child in reversed(processes):stop(child)

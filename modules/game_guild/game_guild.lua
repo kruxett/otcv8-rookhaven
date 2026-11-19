@@ -19,6 +19,17 @@ local worldNamesEvent = nil
 local worldNamesEnabled = false
 local inputWindows = {}
 local currentGuildId
+local selectedTab = 'infoTab'
+local currentPage = 1
+local requestSequence = 0
+local latestViewRequest = 0
+local refreshEvent, filterEvent, importEvent
+local importGeneration = 0
+local emblemMeta = {revision=0,present=false,enabled=false}
+local emblemCache, emblemRequest, previewPixels
+local paintedWindow, paintedHeader, paintedPreview
+local emblemBusy = false
+local refreshEmblem, updatePager
 local function closeInputs()
   for widget in pairs(inputWindows) do widget:destroy() end
   inputWindows = {}
@@ -55,6 +66,24 @@ local function sendAction(action, params)
   if params then
     for k, v in pairs(params) do
       payload[k] = v
+    end
+  end
+  if action == 'open' then
+    requestSequence = requestSequence + 1
+    latestViewRequest = requestSequence
+    payload.requestId = latestViewRequest
+    payload.section = selectedTab:gsub('Tab$', '')
+    payload.page = currentPage
+    payload.sort = memberSortMode
+    if guildWindow then
+      local search = guildWindow:recursiveGetChildById('memberSearchField')
+      local online = guildWindow:recursiveGetChildById('memberOnlineOnlyCheck')
+      payload.search = search and search:getText() or ''
+      payload.onlineOnly = online and online:isChecked() or false
+      for _,id in ipairs({'guildPreviousBtn','guildNextBtn'}) do
+        local button=guildWindow:recursiveGetChildById(id)
+        if button then button:setEnabled(false) end
+      end
     end
   end
   protocol:sendExtendedOpcode(GUILD_OPCODE, json.encode(payload))
@@ -100,6 +129,23 @@ local function W(id)
   return guildWindow:recursiveGetChildById(id)
 end
 
+local function queueRefresh(delay)
+  if refreshEvent then removeEvent(refreshEvent) end
+  refreshEvent = scheduleEvent(function()
+    refreshEvent=nil
+    if guildWindow and g_game.isOnline() then sendAction('open') end
+  end, delay or 100)
+end
+
+local function filtersChanged(delay)
+  if filterEvent then removeEvent(filterEvent) end
+  filterEvent=scheduleEvent(function()
+    filterEvent=nil
+    currentPage=1
+    sendAction('open')
+  end,delay or 250)
+end
+
 local function showGuildError(message)
   if displayErrorBox then
     displayErrorBox('Guild', message or 'An error occurred.')
@@ -110,6 +156,133 @@ local function showGuildError(message)
   if localPlayer and localPlayer.say then
     localPlayer:say(message or 'Guild error.', SpeakDefault)
   end
+end
+
+updatePager=function(data)
+  local paging=data.paging
+  local bar=W('guildPager')
+  if bar then bar:setVisible(paging~=nil) end
+  if not paging then return end
+  currentPage=paging.page or 1
+  local units={members={'member','members'},invites={'invitation','invitations'},activity={'event','events'}}
+  local unit=units[data.type=='no_guild' and 'invites' or data.section] or {'entry','entries'}
+  W('guildPageLabel'):setText(string.format('Page %d / %d  -  %d %s',currentPage,paging.pages or 1,
+    paging.total or 0,unit[paging.total==1 and 1 or 2]))
+  for _,entry in ipairs({{'guildPreviousBtn',-1},{'guildNextBtn',1}}) do
+    local step=entry[2]
+    local button=W(entry[1])
+    button:setEnabled(step<0 and currentPage>1 or step>0 and currentPage<(paging.pages or 1))
+    button.onClick=function() currentPage=currentPage+step;sendAction('open') end
+  end
+end
+
+local function emblemStatus(text)
+  local label=W('emblemStatus')
+  if label then label:setText(text) end
+end
+
+local function paintEmblem(pixels)
+  if paintedWindow~=guildWindow then
+    paintedWindow=guildWindow;paintedHeader=nil;paintedPreview=nil
+  end
+  for _,id in ipairs({'guildCrest','emblemPreview'}) do
+    local widget=W(id)
+    local desired=id=='emblemPreview' and previewPixels or pixels
+    local key=desired or false
+    local previous=paintedPreview
+    if id=='guildCrest' then previous=paintedHeader end
+    if widget and previous~=key then
+      if desired and widget:setGuildEmblemPixels(desired) then
+        widget:setImageClip({x=0,y=0,width=32,height=32})
+      else
+        widget:setImageSource('/images/game/emblems/emblem_member')
+        widget:setImageClip({x=0,y=0,width=0,height=0})
+      end
+      if id=='guildCrest' then paintedHeader=key else paintedPreview=key end
+    end
+  end
+end
+
+local function paintPreview(pixels)
+  if not pixels or not W('emblemPreview') then return false end
+  if paintedPreview~=pixels then
+    if not W('emblemPreview'):setGuildEmblemPixels(pixels) then return false end
+    W('emblemPreview'):setImageClip({x=0,y=0,width=32,height=32})
+    paintedPreview=pixels
+  end
+  return true
+end
+
+local function emblemButtons()
+  local leader=myLevel>=3 and emblemMeta.enabled==true
+  for _,id in ipairs({'chooseEmblemBtn','saveEmblemBtn','cancelEmblemBtn','removeEmblemBtn'}) do
+    local button=W(id)
+    if button then button:setVisible(leader);button:setEnabled(not emblemBusy) end
+  end
+  if W('chooseEmblemBtn') then W('chooseEmblemBtn'):setEnabled(leader and not emblemBusy and g_platform.guildEmblemImportAvailable()) end
+  if W('saveEmblemBtn') then W('saveEmblemBtn'):setEnabled(leader and not emblemBusy and previewPixels~=nil) end
+  if W('cancelEmblemBtn') then W('cancelEmblemBtn'):setEnabled(leader and not emblemBusy and previewPixels~=nil) end
+  if W('removeEmblemBtn') then W('removeEmblemBtn'):setEnabled(leader and not emblemBusy and emblemMeta.present) end
+end
+
+local function chooseEmblem()
+  if emblemBusy or not currentGuildId then return end
+  if not g_platform.beginGuildEmblemImport() then return showGuildError('The image chooser is already open or unavailable.') end
+  local generation,target=importGeneration,currentGuildId
+  emblemBusy=true;emblemButtons();emblemStatus('Choosing an image...')
+  local function poll()
+    importEvent=nil
+    local value=g_platform.pollGuildEmblemImport()
+    if value=='pending' then importEvent=scheduleEvent(poll,100);return end
+    if generation~=importGeneration or target~=currentGuildId or not guildWindow then return end
+    emblemBusy=false
+    if value:sub(1,7)=='pixels:' then
+      previewPixels=value:sub(8)
+      -- Keep the header on the saved emblem until Save succeeds.
+      if paintPreview(previewPixels) then
+        emblemStatus('Preview - save to share with your guild.')
+      else previewPixels=nil;emblemStatus('The image could not be imported.') end
+    elseif value:sub(1,6)=='error:' then emblemStatus(value:sub(7))
+    else emblemStatus(previewPixels and 'Preview - not saved.' or 'No changes saved.') end
+    emblemButtons()
+  end
+  importEvent=scheduleEvent(poll,100)
+end
+
+refreshEmblem=function(data)
+  local meta=data.emblem or {enabled=false,revision=0,present=false}
+  if not emblemCache or emblemCache.guildId~=currentGuildId then emblemCache=nil end
+  if emblemMeta.revision~=meta.revision or emblemMeta.present~=meta.present or not meta.enabled then
+    previewPixels=nil;emblemBusy=false;emblemRequest=nil;importGeneration=importGeneration+1
+  end
+  emblemMeta=meta
+  paintEmblem(meta.enabled and meta.present and emblemCache and emblemCache.revision==meta.revision and emblemCache.pixels or nil)
+  if previewPixels then paintPreview(previewPixels) end
+  if not meta.enabled then emblemStatus('Guild emblems are currently disabled.')
+  elseif previewPixels then emblemStatus('Preview - not saved.')
+  else emblemStatus(meta.present and 'Your guild emblem.' or 'Your guild has no custom emblem yet.') end
+  if meta.enabled and meta.present and not emblemRequest and (not emblemCache or emblemCache.revision~=meta.revision) then
+    requestSequence=requestSequence+1
+    emblemRequest={id=requestSequence,guildId=currentGuildId,revision=meta.revision}
+    sendAction('emblem',{requestId=requestSequence})
+  end
+  W('chooseEmblemBtn').onClick=chooseEmblem
+  W('saveEmblemBtn').onClick=function()
+    if not previewPixels or emblemBusy then return end
+    emblemBusy=true;emblemButtons();emblemStatus('Saving emblem...')
+    sendAction('set_emblem',{revision=emblemMeta.revision,first=previewPixels:sub(1,2732),second=previewPixels:sub(2733)})
+  end
+  W('cancelEmblemBtn').onClick=function()
+    previewPixels=nil;paintEmblem(emblemCache and emblemCache.pixels);emblemButtons();emblemStatus('No changes saved.')
+  end
+  W('removeEmblemBtn').onClick=function()
+    local box
+    local function close() if box then box:destroy() end end
+    box=displayGeneralBox('Remove Guild Emblem','Remove the current emblem? This counts as one of the three daily changes.',{
+      {text='Remove',callback=function()close();emblemBusy=true;emblemButtons();sendAction('clear_emblem',{revision=emblemMeta.revision})end},
+      {text='Cancel',callback=close}},nil,close)
+  end
+  emblemButtons()
 end
 
 local function ensureWindow()
@@ -162,8 +335,14 @@ local function makeInputWindow(title, onOk)
   return win
 end
 
-function switchTab(tabName)
+function switchTab(tabName, rendering)
   if not guildWindow then return end
+  local changed=selectedTab~=tabName
+  selectedTab=tabName
+  if changed then
+    currentPage=1
+    if filterEvent then removeEvent(filterEvent);filterEvent=nil end
+  end
 
   local tabs = {
     { tab = 'infoTab', panel = 'infoPanel' },
@@ -180,6 +359,7 @@ function switchTab(tabName)
     if tab then tab:setChecked(active) end
     if panel then panel:setVisible(active) end
   end
+  if changed and not rendering then sendAction('open') end
 end
 
 local function formatTimeLeft(expiresAt)
@@ -239,6 +419,10 @@ end
 
 local function renderNoGuild(data)
   closeInputs();currentGuildId=nil
+  emblemCache=nil;emblemRequest=nil;previewPixels=nil;emblemBusy=false;importGeneration=importGeneration+1
+  W('guildNameLabel'):setText('Guild Manager')
+  W('guildSummaryLine'):setText('Accept an invitation or visit a Guildmaster to found your guild.')
+  paintEmblem(nil)
   local canCreate = data.permissions and data.permissions.canCreate == true
   local noGuildInfoLabel = W('noGuildInfoLabel')
   local noGuildTipsLabel = W('noGuildTipsLabel')
@@ -321,7 +505,11 @@ end
 
 local function renderGuildData(data)
   local info = data.info or {}
-  if currentGuildId~=info.id then closeInputs();currentGuildId=info.id end
+  if currentGuildId~=info.id then
+    closeInputs();currentGuildId=info.id
+    emblemCache=nil;emblemRequest=nil;previewPixels=nil;emblemBusy=false;importGeneration=importGeneration+1
+    emblemMeta={revision=0,present=false,enabled=false}
+  end
   local members = data.members or {}
   local invites = data.invites or {}
   local ranks = data.ranks or {}
@@ -347,13 +535,15 @@ local function renderGuildData(data)
 
   local guildNameLabel = W('guildNameLabel')
   if guildNameLabel then guildNameLabel:setText(info.name or 'Guild') end
+  W('guildSummaryLine'):setText(string.format('%d members  -  %d online  -  %s',data.memberCount or #members,
+    data.onlineCount or 0,isLeader and 'Guild leader' or 'Member'))
 
   local infoGuildName = W('infoGuildName')
   local infoOwnerName = W('infoOwnerName')
   local infoMemberCount = W('infoMemberCount')
   if infoGuildName then infoGuildName:setText(info.name or '') end
   if infoOwnerName then infoOwnerName:setText(info.ownerName or '') end
-  if infoMemberCount then infoMemberCount:setText(tostring(#members)) end
+  if infoMemberCount then infoMemberCount:setText(string.format('%d (%d online)', data.memberCount or #members, data.onlineCount or 0)) end
 
   local motdEdit = W('motdEdit')
   if motdEdit then
@@ -383,7 +573,12 @@ local function renderGuildData(data)
   local leaveGuildBtn = W('leaveGuildBtn')
   if leaveGuildBtn then
     leaveGuildBtn:setVisible(not isLeader)
-    leaveGuildBtn.onClick = function() sendAction('leave') end
+    leaveGuildBtn.onClick = function()
+      local box
+      local function close() if box then box:destroy() end end
+      box=displayGeneralBox('Leave Guild','Leave this guild? You will need another invitation to rejoin.',{
+        {text='Leave',callback=function()close();sendAction('leave')end},{text='Cancel',callback=close}},nil,close)
+    end
   end
 
   local disbandGuildBtn = W('disbandGuildBtn')
@@ -440,39 +635,7 @@ local function renderGuildData(data)
     if not membersListPanel then return end
     clearChildren(membersListPanel)
 
-    local search = ''
-    if memberSearchField then
-      search = string.lower(memberSearchField:getText() or '')
-    end
-    local onlineOnly = memberOnlineOnlyCheck and memberOnlineOnlyCheck:isChecked() or false
-
-    local filtered = {}
-    for _, member in ipairs(members) do
-      local nick = member.nick or ''
-      local hay = string.lower((member.name or '') .. ' ' .. nick .. ' ' .. (member.rankName or ''))
-      if (search == '' or string.find(hay, search, 1, true)) and (not onlineOnly or member.online) then
-        table.insert(filtered, member)
-      end
-    end
-
-    table.sort(filtered, function(a, b)
-      if memberSortMode == 'name' then
-        return (a.name or '') < (b.name or '')
-      elseif memberSortMode == 'level' then
-        if (a.level or 0) == (b.level or 0) then return (a.name or '') < (b.name or '') end
-        return (a.level or 0) > (b.level or 0)
-      elseif memberSortMode == 'lastseen' then
-        if a.online ~= b.online then return a.online end
-        if (a.lastSeen or 0) == (b.lastSeen or 0) then return (a.name or '') < (b.name or '') end
-        return (a.lastSeen or 0) > (b.lastSeen or 0)
-      elseif memberSortMode == 'online' then
-        if a.online ~= b.online then return a.online end
-        return (a.name or '') < (b.name or '')
-      end
-
-      if (a.rankLevel or 0) == (b.rankLevel or 0) then return (a.name or '') < (b.name or '') end
-      return (a.rankLevel or 0) > (b.rankLevel or 0)
-    end)
+    local filtered = members -- Already filtered and ordered across the entire guild by the server.
 
     if #filtered == 0 then
       local empty = g_ui.createWidget('GuildSectionLabel', membersListPanel)
@@ -503,13 +666,16 @@ local function renderGuildData(data)
           local suffix = member.online and ' | Online' or ''
           memberRank:setText((member.rankName or '') .. suffix)
         end
+        row:setTooltip(string.format('%s\n%s%s',memberName and memberName:getText() or member.name,
+          member.rankName or '',canManageMembers and member.rankLevel<myLevel and '\nClick to manage this member.' or ''))
+        row:recursiveGetChildById('memberActionsHint'):setVisible(canManageMembers and member.rankLevel<myLevel)
 
         if canManageMembers then
           local memberCopy = member
           local ranksCopy = ranks
           local myLevelCopy = myLevel
           row.onMouseRelease = function(widget, mousePos, mouseButton)
-            if mouseButton ~= MouseRightButton then return end
+            if mouseButton ~= MouseRightButton and mouseButton ~= MouseLeftButton then return end
 
             local menu = g_ui.createWidget('PopupMenu', rootWidget)
             if not menu then return end
@@ -541,7 +707,11 @@ local function renderGuildData(data)
 
             if isLeader and memberCopy.rankLevel and memberCopy.rankLevel < 3 then
               menu:addOption('Transfer Leadership', function()
-                sendAction('transfer_leadership', { name = memberCopy.name })
+                local box
+                local function close() if box then box:destroy() end end
+                box=displayGeneralBox('Transfer Leadership','Make '..memberCopy.name..' the guild leader? You will lose leadership.',{
+                  {text='Transfer',callback=function()close();sendAction('transfer_leadership',{name=memberCopy.name})end},
+                  {text='Cancel',callback=close}},nil,close)
               end)
             end
 
@@ -569,15 +739,15 @@ local function renderGuildData(data)
     memberSortBox:setCurrentOptionByData(memberSortMode, true)
     memberSortBox.onOptionChange = function(widget, option, dataValue)
       memberSortMode = dataValue or 'rank'
-      buildMembersList()
+      filtersChanged(1)
     end
   end
 
   if memberSearchField then
-    memberSearchField.onTextChange = function() buildMembersList() end
+    memberSearchField.onTextChange = function() filtersChanged() end
   end
   if memberOnlineOnlyCheck then
-    memberOnlineOnlyCheck.onCheckChange = function() buildMembersList() end
+    memberOnlineOnlyCheck.onCheckChange = function() filtersChanged(1) end
   end
   buildMembersList()
 
@@ -765,7 +935,7 @@ local function onGuildOpcode(protocol, opcode, buffer)
 
   if data.type == 'world_names' then
     if not worldNamesEnabled then return end
-    clearWorldNames()
+    if data.reset~=false then clearWorldNames() end
     for _, entry in ipairs(data.players or {}) do
       local creature = g_map.getCreatureById(tonumber(entry.id) or 0)
       if creature and creature:isPlayer() and type(entry.name) == 'string' then
@@ -776,13 +946,33 @@ local function onGuildOpcode(protocol, opcode, buffer)
   end
 
   if data.type == 'error' then
+    emblemBusy=false;emblemRequest=nil;emblemButtons()
     showGuildError(data.message or 'An error occurred.')
+    return
+  end
+
+  if data.type=='guild_emblem' then
+    local expected=emblemRequest
+    if not expected or data.requestId~=expected.id or data.guildId~=currentGuildId or
+        data.guildId~=expected.guildId or data.revision~=expected.revision or not guildWindow then return end
+    emblemRequest=nil
+    if type(data.pixels)=='string' and W('guildCrest'):setGuildEmblemPixels(data.pixels) then
+      emblemCache={guildId=data.guildId,revision=data.revision,pixels=data.pixels}
+      paintEmblem(data.pixels)
+      if previewPixels then paintPreview(previewPixels) end
+    end
+    return
+  end
+
+  if data.type=='guild_refresh' then
+    if ensureWindow() then queueRefresh() end
     return
   end
 
   if data.type == 'success' then
     if data.refresh then
-      sendAction('open')
+      emblemBusy=false
+      queueRefresh()
     end
     return
   end
@@ -791,14 +981,13 @@ local function onGuildOpcode(protocol, opcode, buffer)
     debugGuild('Ignoring unexpected payload type: %s', tostring(data.type))
     return
   end
+  if data.requestId~=latestViewRequest or not guildWindow then return end
 
   if not ensureWindow() then
     return
   end
 
   guildWindow:show()
-  guildWindow:raise()
-  guildWindow:focus()
   if guildButton then guildButton:setOn(true) end
 
   if data.type == 'no_guild' then
@@ -816,6 +1005,7 @@ local function onGuildOpcode(protocol, opcode, buffer)
     myLevel = 0
     permissions = data.permissions or { canInvite = false, canKick = false, canSetMotd = false, canManageRanks = false, canSetTitle = false, canCreate = false }
     renderNoGuild(data)
+    updatePager(data)
     return
   end
 
@@ -826,12 +1016,20 @@ local function onGuildOpcode(protocol, opcode, buffer)
     if noGuildWrapper then noGuildWrapper:setVisible(false) end
 
     renderGuildData(data)
-    switchTab('infoTab')
+    switchTab(selectedTab,true)
+    updatePager(data)
+    refreshEmblem(data)
   end
 end
 
 local function onGameEnd()
   closeInputs();currentGuildId=nil
+  importGeneration=importGeneration+1;emblemCache=nil;emblemRequest=nil;previewPixels=nil;emblemBusy=false
+  paintedWindow=nil;paintedHeader=nil;paintedPreview=nil
+  if refreshEvent then removeEvent(refreshEvent);refreshEvent=nil end
+  if filterEvent then removeEvent(filterEvent);filterEvent=nil end
+  requestSequence=requestSequence+1;latestViewRequest=requestSequence
+  selectedTab='infoTab';currentPage=1
   cancelWorldNamesEvent()
   clearWorldNames()
   if guildWindow then
@@ -846,6 +1044,12 @@ local function onGameEnd()
 end
 
 function hide()
+  closeInputs()
+  importGeneration=importGeneration+1;previewPixels=nil;emblemBusy=false;emblemRequest=nil
+  paintedWindow=nil;paintedHeader=nil;paintedPreview=nil
+  if refreshEvent then removeEvent(refreshEvent);refreshEvent=nil end
+  if filterEvent then removeEvent(filterEvent);filterEvent=nil end
+  requestSequence=requestSequence+1;latestViewRequest=requestSequence
   if guildWindow then
     guildWindow:destroy()
     guildWindow = nil

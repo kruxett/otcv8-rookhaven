@@ -223,6 +223,20 @@ void UIWidget::setImageSource(const std::string& source)
     m_imageMustRecache = true;
 }
 
+bool UIWidget::setGuildEmblemPixels(const std::string& data) {
+    if (data.size()!=5464 || data.substr(5462)!="==") return false;
+    for (size_t i=0;i<5462;++i) {
+        const auto c=data[i];
+        if (!((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')||c=='+'||c=='/')) return false;
+    }
+    const auto pixels=g_crypt.base64Decode(data);
+    if (pixels.size()!=4096 || g_crypt.base64Encode(pixels)!=data) return false;
+    ImagePtr image(new Image(Size(32,32),4,reinterpret_cast<uint8*>(const_cast<char*>(pixels.data()))));
+    m_imageTexture=TexturePtr(new Texture(image));
+    m_imageMustRecache=true;
+    return true;
+}
+
 void UIWidget::setImageSourceBase64(const std::string& data) {
     if (data.size() % 4 != 0 || data.empty()) {
         m_imageTexture = nullptr;

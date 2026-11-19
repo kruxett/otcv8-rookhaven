@@ -30,6 +30,7 @@
 #include <framework/core/modulemanager.h>
 #include <framework/core/module.h>
 #include <framework/util/crypt.h>
+#include <framework/util/guildemblemimport.h>
 #include <framework/core/resourcemanager.h>
 #include <framework/graphics/texturemanager.h>
 #include <framework/stdext/net.h>
@@ -101,6 +102,9 @@ void Application::registerLuaFunctions()
 
     // Platform
     g_lua.registerSingletonClass("g_platform");
+    g_lua.bindSingletonFunction("g_platform", "guildEmblemImportAvailable", &GuildEmblemImport::available);
+    g_lua.bindSingletonFunction("g_platform", "beginGuildEmblemImport", &GuildEmblemImport::begin);
+    g_lua.bindSingletonFunction("g_platform", "pollGuildEmblemImport", &GuildEmblemImport::poll);
 #ifdef UNSAFE_LUA_FUNCTIONS
     g_lua.bindSingletonFunction("g_platform", "spawnProcess", &Platform::spawnProcess, &g_platform);
     g_lua.bindSingletonFunction("g_platform", "copyFile", &Platform::copyFile, &g_platform);
@@ -674,6 +678,7 @@ void Application::registerLuaFunctions()
     g_lua.bindClassMemberFunction<UIWidget>("setQRCode", &UIWidget::setQRCode);
     g_lua.bindClassMemberFunction<UIWidget>("setImageSource", &UIWidget::setImageSource);
     g_lua.bindClassMemberFunction<UIWidget>("setImageSourceBase64", &UIWidget::setImageSourceBase64);
+    g_lua.bindClassMemberFunction<UIWidget>("setGuildEmblemPixels", &UIWidget::setGuildEmblemPixels);
     g_lua.bindClassMemberFunction<UIWidget>("setImageClip", &UIWidget::setImageClip);
     g_lua.bindClassMemberFunction<UIWidget>("setImageOffsetX", &UIWidget::setImageOffsetX);
     g_lua.bindClassMemberFunction<UIWidget>("setImageOffsetY", &UIWidget::setImageOffsetY);

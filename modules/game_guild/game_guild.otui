@@ -17,6 +17,16 @@ GuildMemberRow < Panel
   $hover:
     background-color: #262e38
 
+  Label
+    id: memberActionsHint
+    anchors.right: parent.right
+    anchors.verticalCenter: parent.verticalCenter
+    margin-right: 8
+    width: 16
+    text: >
+    color: #c8aa6e
+    phantom: true
+
   Panel
     id: onlineIndicator
     anchors.left: parent.left
@@ -40,7 +50,7 @@ GuildMemberRow < Panel
     id: memberRank
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    margin-right: 10
+    margin-right: 30
     font: verdana-11px-rounded
     color: #8a9ab0
     text-auto-resize: true
@@ -208,26 +218,62 @@ GuildInputWindow < MainWindow
 
 MainWindow
   id: guildWindow
-  !text: tr('Guild')
+  !text: tr('Guild Manager')
   size: 720 500
   @onEscape: modules.game_guild.hide()
+
+  Panel
+    id: guildHeaderFrame
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 52
+    background-color: #202020
+    border-width: 1
+    border-color: #4a4437
+    phantom: true
+
+  UIWidget
+    id: guildCrest
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 10
+    margin-left: 10
+    size: 32 32
+    image-source: /images/game/emblems/emblem_member
+    image-smooth: false
+    phantom: true
 
   Label
     id: guildNameLabel
     anchors.top: parent.top
-    anchors.left: parent.left
+    anchors.left: guildCrest.right
     anchors.right: refreshBtn.left
-    margin-top: 2
+    margin-top: 9
+    margin-left: 10
     margin-right: 4
     height: 16
     font: verdana-11px-rounded
     color: #c0a060
 
+  Label
+    id: guildSummaryLine
+    anchors.top: guildNameLabel.bottom
+    anchors.left: guildNameLabel.left
+    anchors.right: refreshBtn.left
+    height: 16
+    margin-top: 3
+    color: #a6a6a6
+    font: verdana-11px-rounded
+    text: Guild management
+
   Button
     id: closeBtn
     anchors.top: parent.top
     anchors.right: parent.right
-    size: 60 16
+    margin-top: 16
+    margin-right: 8
+    size: 60 20
     text: Close
     font: verdana-11px-rounded
     color: #cc7755
@@ -237,14 +283,15 @@ MainWindow
     id: refreshBtn
     anchors.top: parent.top
     anchors.right: closeBtn.left
+    margin-top: 16
     margin-right: 2
-    size: 60 16
+    size: 60 20
     text: Refresh
     font: verdana-11px-rounded
 
   Panel
     id: guildTabsRow
-    anchors.top: guildNameLabel.bottom
+    anchors.top: guildHeaderFrame.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     height: 24
@@ -256,7 +303,7 @@ MainWindow
       anchors.left: parent.left
       anchors.verticalCenter: parent.verticalCenter
       size: 82 22
-      text: Info
+      text: Overview
       font: verdana-11px-rounded
       checkable: true
       checked: true
@@ -289,8 +336,8 @@ MainWindow
       anchors.left: invitesTab.right
       anchors.verticalCenter: parent.verticalCenter
       margin-left: 2
-      size: 82 22
-      text: Ranks
+      size: 108 22
+      text: Ranks & rights
       font: verdana-11px-rounded
       checkable: true
       @onClick: modules.game_guild.switchTab('ranksTab')
@@ -311,6 +358,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -422,6 +470,97 @@ MainWindow
       text: Rename guild
       visible: false
 
+    Panel
+      id: emblemPanel
+      anchors.top: saveMotdBtn.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 12
+      height: 108
+      background-color: #242424
+      border-width: 1
+      border-color: #484238
+
+      UIWidget
+        id: emblemPreview
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 12
+        margin-top: 12
+        size: 64 64
+        image-source: /images/game/emblems/emblem_member
+        image-smooth: false
+        phantom: true
+
+      Label
+        id: emblemTitle
+        anchors.left: emblemPreview.right
+        anchors.top: parent.top
+        margin-left: 14
+        margin-top: 10
+        height: 16
+        text: Guild emblem
+        color: #c8aa6e
+        font: verdana-11px-rounded
+        text-auto-resize: true
+
+      Label
+        id: emblemStatus
+        anchors.left: emblemTitle.left
+        anchors.right: parent.right
+        anchors.top: emblemTitle.bottom
+        margin-top: 3
+        margin-right: 8
+        height: 30
+        text-wrap: true
+        color: #c4c4c4
+        font: verdana-11px-rounded
+
+      Label
+        anchors.left: emblemTitle.left
+        anchors.top: emblemStatus.bottom
+        height: 14
+        text: Static PNG, 32 x 32, up to 64 KiB. Three changes per guild each UTC day.
+        color: #929292
+        font: verdana-11px-rounded
+        text-auto-resize: true
+
+      Button
+        id: chooseEmblemBtn
+        anchors.left: emblemTitle.left
+        anchors.bottom: parent.bottom
+        margin-bottom: 8
+        size: 100 20
+        text: Choose image
+        visible: false
+
+      Button
+        id: saveEmblemBtn
+        anchors.left: chooseEmblemBtn.right
+        anchors.bottom: chooseEmblemBtn.bottom
+        margin-left: 4
+        size: 62 20
+        text: Save
+        visible: false
+
+      Button
+        id: cancelEmblemBtn
+        anchors.left: saveEmblemBtn.right
+        anchors.bottom: chooseEmblemBtn.bottom
+        margin-left: 4
+        size: 62 20
+        text: Cancel
+        visible: false
+
+      Button
+        id: removeEmblemBtn
+        anchors.right: parent.right
+        anchors.bottom: chooseEmblemBtn.bottom
+        margin-right: 8
+        size: 70 20
+        text: Remove
+        visible: false
+
     Button
       id: leaveGuildBtn
       anchors.bottom: parent.bottom
@@ -452,6 +591,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -477,6 +617,8 @@ MainWindow
       height: 20
       font: verdana-11px-rounded
       max-length: 30
+      placeholder: Character name
+      placeholder-color: #6E706F
 
     Button
       id: inviteBtn
@@ -500,6 +642,9 @@ MainWindow
       height: 20
       font: verdana-11px-rounded
       max-length: 30
+      tooltip: Search names, titles and ranks across the entire guild.
+      placeholder: Search all members...
+      placeholder-color: #6E706F
       text: 
 
     ComboBox
@@ -548,6 +693,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -588,6 +734,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -722,6 +869,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -762,6 +910,7 @@ MainWindow
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
+    margin-bottom: 28
     margin-top: 6
     visible: false
 
@@ -836,3 +985,37 @@ MainWindow
       layout:
         type: verticalBox
         spacing: 0
+
+  Panel
+    id: guildPager
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 24
+    visible: false
+    border-top-width: 1
+    border-color: #484238
+
+    Button
+      id: guildPreviousBtn
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      size: 70 20
+      text: Previous
+
+    Button
+      id: guildNextBtn
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      size: 70 20
+      text: Next
+
+    Label
+      id: guildPageLabel
+      anchors.left: guildPreviousBtn.right
+      anchors.right: guildNextBtn.left
+      anchors.verticalCenter: parent.verticalCenter
+      height: 16
+      text-align: center
+      color: #c8aa6e
+      font: verdana-11px-rounded
