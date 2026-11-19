@@ -1,3 +1,6 @@
+GuildListPanel < ScrollablePanel
+  @onScrollHeightChange: modules.game_guild.updateListScrollBar(self)
+
 GuildSectionLabel < Label
   height: 16
   font: verdana-11px-rounded
@@ -450,6 +453,20 @@ MainWindow
       font: verdana-11px-rounded
       max-length: 255
 
+    Label
+      id: motdReadOnly
+      anchors.top: motdTitleLabel.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      margin-left: 4
+      margin-right: 4
+      text-wrap: true
+      text-auto-resize: true
+      font: verdana-11px-rounded
+      color: #dfdfdf
+      visible: false
+
     Button
       id: saveMotdBtn
       anchors.top: motdEdit.bottom
@@ -563,9 +580,9 @@ MainWindow
 
     Button
       id: leaveGuildBtn
-      anchors.bottom: parent.bottom
+      anchors.top: infoMemberCount.bottom
       anchors.left: parent.left
-      margin-bottom: 4
+      margin-top: 12
       margin-left: 4
       size: 100 22
       text: Leave Guild
@@ -596,6 +613,7 @@ MainWindow
     visible: false
 
     Label
+      id: inviteNameLabel
       anchors.top: parent.top
       anchors.left: parent.left
       margin-top: 2
@@ -649,18 +667,17 @@ MainWindow
 
     ComboBox
       id: memberSortBox
-      anchors.top: inviteNameField.bottom
+      anchors.top: parent.top
       anchors.right: memberOnlineOnlyCheck.left
-      margin-top: 4
+      margin-top: 0
       margin-right: 4
       size: 120 20
       font: verdana-11px-rounded
 
     CheckBox
       id: memberOnlineOnlyCheck
-      anchors.top: inviteNameField.bottom
+      anchors.top: parent.top
       anchors.right: parent.right
-      margin-top: 6
       margin-right: 4
       size: 80 16
       text: Online
@@ -669,17 +686,19 @@ MainWindow
 
     VerticalScrollBar
       id: membersScrollBar
+      step: 30
+      visible: false
       anchors.top: memberSearchField.bottom
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 4
       width: 10
 
-    Panel
+    GuildListPanel
       id: membersListPanel
       anchors.top: memberSearchField.bottom
       anchors.left: parent.left
-      anchors.right: membersScrollBar.left
+      anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 4
       layout:
@@ -710,17 +729,19 @@ MainWindow
 
     VerticalScrollBar
       id: invitesScrollBar
+      step: 26
+      visible: false
       anchors.top: parent.top
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 20
       width: 10
 
-    Panel
+    GuildListPanel
       id: invitesListPanel
       anchors.top: parent.top
       anchors.left: parent.left
-      anchors.right: invitesScrollBar.left
+      anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 20
       layout:
@@ -845,17 +866,19 @@ MainWindow
 
     VerticalScrollBar
       id: ranksScrollBar
+      step: 30
+      visible: false
       anchors.top: parent.top
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 84
       width: 10
 
-    Panel
+    GuildListPanel
       id: ranksListPanel
       anchors.top: parent.top
       anchors.left: parent.left
-      anchors.right: ranksScrollBar.left
+      anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 84
       layout:
@@ -886,17 +909,19 @@ MainWindow
 
     VerticalScrollBar
       id: activityScrollBar
+      step: 18
+      visible: false
       anchors.top: parent.top
       anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 20
       width: 10
 
-    Panel
+    GuildListPanel
       id: activityListPanel
       anchors.top: parent.top
       anchors.left: parent.left
-      anchors.right: activityScrollBar.left
+      anchors.right: parent.right
       anchors.bottom: parent.bottom
       margin-top: 20
       layout:

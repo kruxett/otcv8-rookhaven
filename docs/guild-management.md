@@ -22,6 +22,14 @@ and JSON limits remain unchanged. Nearby guild labels also use bounded chunks.
 The client keeps the selected tab, debounces search, rejects stale read replies
 after newer requests or closing/logout, and clamps pages after list changes.
 
+Ordinary members use a compact read-only view: the selected crest stays in the
+header, while the emblem editor, PNG instructions, invitation management and
+rank-permission controls are hidden. Descriptions appear as wrapped text rather
+than disabled edit fields; empty descriptions leave no placeholder. Hidden
+management rows do not reserve space in the member and rank lists. Guild list
+panels are real scroll areas; their rail and gutter appear only on overflow,
+and scrolling resets when a filter or resize makes the content fit again.
+
 ## Emblems
 
 On Windows, the leader chooses a static **32 × 32 PNG, at most 64 KiB** using
@@ -97,6 +105,12 @@ native 800×640 / 1280×800 UI checks. Its `GUILD_IMPORT_WAIT` log entries ident
 the owned malformed and valid PNG fixtures to choose in the visible OS dialog.
 No player account or live DEV/PROD database is used. The runner records actual
 binary hashes, reply sizes, exit codes, screenshots and restoration results.
+
+`--house-market --house-ui-only --guild-parity --guild-ui-polish` runs the focused
+member/leader presentation pass: normal member login, every member tab, real
+mouse-wheel scrolling, filtering, empty results, resize transitions and role
+reconnects, plus the leader's retained image and description controls. It uses
+the same disposable fixture and captures both supported window sizes.
 
 The completed 2026-11-19 run passed 65 native checks. It started with 1,002
 members, verified every page, then removed one through the real kick action;

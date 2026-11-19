@@ -137,6 +137,14 @@ local function queueRefresh(delay)
   end, delay or 100)
 end
 
+function updateListScrollBar(area)
+  local bar=area.verticalScrollBar
+  if not bar then return end
+  local needed=bar:getMaximum()>bar:getMinimum()
+  bar:setVisible(needed)
+  area:setMarginRight(needed and 12 or 0)
+end
+
 local function filtersChanged(delay)
   if filterEvent then removeEvent(filterEvent) end
   filterEvent=scheduleEvent(function()
@@ -160,6 +168,7 @@ end
 
 updatePager=function(data)
   local paging=data.paging
+  if data.type=='guild_data' and data.section~=selectedTab:gsub('Tab$','') then paging=nil end
   local bar=W('guildPager')
   if bar then bar:setVisible(paging~=nil) end
   if not paging then return end
@@ -191,7 +200,7 @@ local function paintEmblem(pixels)
     local key=desired or false
     local previous=paintedPreview
     if id=='guildCrest' then previous=paintedHeader end
-    if widget and previous~=key then
+    if widget and (id=='guildCrest' or myLevel>=3) and previous~=key then
       if desired and widget:setGuildEmblemPixels(desired) then
         widget:setImageClip({x=0,y=0,width=32,height=32})
       else
@@ -337,6 +346,7 @@ end
 
 function switchTab(tabName, rendering)
   if not guildWindow then return end
+  if tabName=='invitesTab' and permissions.canInvite~=true then tabName='infoTab' end
   local changed=selectedTab~=tabName
   selectedTab=tabName
   if changed then
@@ -419,6 +429,7 @@ end
 
 local function renderNoGuild(data)
   closeInputs();currentGuildId=nil
+  guildWindow:setHeight(500)
   emblemCache=nil;emblemRequest=nil;previewPixels=nil;emblemBusy=false;importGeneration=importGeneration+1
   W('guildNameLabel'):setText('Guild Manager')
   W('guildSummaryLine'):setText('Accept an invitation or visit a Guildmaster to found your guild.')
@@ -532,6 +543,19 @@ local function renderGuildData(data)
   local canManageRanks = permissions.canManageRanks == true
   local canSetTitle = permissions.canSetTitle == true
   local canManageMembers = canKick or canSetTitle or canManageRanks or isLeader
+  if not isLeader then
+    if previewPixels or emblemBusy then importGeneration=importGeneration+1 end
+    previewPixels=nil;emblemBusy=false
+  end
+  guildWindow:setHeight((isLeader or canSetMotd or canManageRanks) and 500 or 400)
+  W('emblemPanel'):setVisible(isLeader)
+  W('invitesTab'):setVisible(canInvite)
+  W('ranksTab'):setText(canManageRanks and 'Ranks & rights' or 'Ranks')
+  W('ranksTab'):setWidth(canManageRanks and 108 or 82)
+  W('ranksTab'):addAnchor(AnchorLeft,canInvite and 'invitesTab' or 'membersTab',AnchorRight)
+  if not canInvite and selectedTab=='invitesTab' then
+    selectedTab='infoTab';currentPage=1;queueRefresh()
+  end
 
   local guildNameLabel = W('guildNameLabel')
   if guildNameLabel then guildNameLabel:setText(info.name or 'Guild') end
@@ -549,7 +573,13 @@ local function renderGuildData(data)
   if motdEdit then
     motdEdit:setText(info.motd or '')
     motdEdit:setEnabled(canSetMotd)
+    motdEdit:setVisible(canSetMotd)
   end
+  local hasDescription=(info.motd or '')~=''
+  W('motdTitleLabel'):setVisible(canSetMotd or hasDescription)
+  W('motdTitleLabel'):setText(canSetMotd and 'Public description / Message of the Day:' or 'Guild description:')
+  W('motdReadOnly'):setText(info.motd or '')
+  W('motdReadOnly'):setVisible(not canSetMotd and hasDescription)
 
   local saveMotdBtn = W('saveMotdBtn')
   if saveMotdBtn then
@@ -573,6 +603,7 @@ local function renderGuildData(data)
   local leaveGuildBtn = W('leaveGuildBtn')
   if leaveGuildBtn then
     leaveGuildBtn:setVisible(not isLeader)
+    leaveGuildBtn:addAnchor(AnchorTop,canSetMotd and 'saveMotdBtn' or hasDescription and 'motdReadOnly' or 'infoMemberCount',AnchorBottom)
     leaveGuildBtn.onClick = function()
       local box
       local function close() if box then box:destroy() end end
@@ -611,6 +642,8 @@ local function renderGuildData(data)
   end
 
   local inviteNameField = W('inviteNameField')
+  W('inviteNameLabel'):setVisible(canInvite)
+  if inviteNameField then inviteNameField:setVisible(canInvite) end
   local inviteBtn = W('inviteBtn')
   if inviteBtn then
     inviteBtn:setVisible(canInvite)
@@ -628,6 +661,12 @@ local function renderGuildData(data)
 
   local membersListPanel = W('membersListPanel')
   local memberSearchField = W('memberSearchField')
+  memberSearchField:addAnchor(AnchorTop,canInvite and 'inviteNameField' or 'parent',canInvite and AnchorBottom or AnchorTop)
+  memberSearchField:setMarginTop(canInvite and 4 or 2)
+  W('memberSortBox'):addAnchor(AnchorTop,canInvite and 'inviteNameField' or 'parent',canInvite and AnchorBottom or AnchorTop)
+  W('memberSortBox'):setMarginTop(canInvite and 4 or 2)
+  W('memberOnlineOnlyCheck'):addAnchor(AnchorTop,canInvite and 'inviteNameField' or 'parent',canInvite and AnchorBottom or AnchorTop)
+  W('memberOnlineOnlyCheck'):setMarginTop(canInvite and 6 or 4)
   local memberSortBox = W('memberSortBox')
   local memberOnlineOnlyCheck = W('memberOnlineOnlyCheck')
 
@@ -665,12 +704,13 @@ local function renderGuildData(data)
         if memberRank then
           local suffix = member.online and ' | Online' or ''
           memberRank:setText((member.rankName or '') .. suffix)
+          memberRank:setMarginRight(canManageMembers and member.rankLevel<myLevel and 30 or 10)
         end
         row:setTooltip(string.format('%s\n%s%s',memberName and memberName:getText() or member.name,
           member.rankName or '',canManageMembers and member.rankLevel<myLevel and '\nClick to manage this member.' or ''))
         row:recursiveGetChildById('memberActionsHint'):setVisible(canManageMembers and member.rankLevel<myLevel)
 
-        if canManageMembers then
+        if canManageMembers and member.rankLevel<myLevel then
           local memberCopy = member
           local ranksCopy = ranks
           local myLevelCopy = myLevel
@@ -764,6 +804,7 @@ local function renderGuildData(data)
           local inviteeName = row:recursiveGetChildById('inviteeName')
           if inviteeName then
             inviteeName:setText(string.format('%s  [expires in %s]', invite.name or '', formatTimeLeft(invite.expiresAt)))
+            inviteeName:addAnchor(AnchorRight,canInvite and 'withdrawInviteBtn' or 'parent',canInvite and AnchorLeft or AnchorRight)
           end
           local withdraw=row:recursiveGetChildById('withdrawInviteBtn')
           if withdraw then
@@ -783,7 +824,10 @@ local function renderGuildData(data)
       local row = g_ui.createWidget('GuildRankRow', ranksListPanel)
       if row then
         local rankName = row:recursiveGetChildById('rankName')
-        if rankName then rankName:setText(rank.name .. '  (Tier ' .. rank.level .. ')') end
+        if rankName then
+          rankName:setText(canManageRanks and (rank.name .. '  (Tier ' .. rank.level .. ')') or rank.name)
+          rankName:addAnchor(AnchorRight,canManageRanks and 'renameRankBtn' or 'parent',canManageRanks and AnchorLeft or AnchorRight)
+        end
 
         local rankId = rank.id
         local deleteRankBtn = row:recursiveGetChildById('deleteRankBtn')
@@ -843,6 +887,8 @@ local function renderGuildData(data)
   if permMotdCheck then permMotdCheck:setVisible(canManageRanks) end
   if permRanksCheck then permRanksCheck:setVisible(canManageRanks) end
   if permTitleCheck then permTitleCheck:setVisible(canManageRanks) end
+  W('ranksListPanel'):setMarginTop(canManageRanks and 84 or 22)
+  W('ranksScrollBar'):setMarginTop(canManageRanks and 84 or 22)
 
   if canManageRanks and rankPermTargetBox then
     rankPermTargetBox:clearOptions()

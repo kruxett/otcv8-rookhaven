@@ -9,8 +9,16 @@ def run(pem,sql,check,boot,create,stop,runtime,ui_only=False,rent_only=False):
     people={}
     for account,name in [('homeseller','Home Seller'),('homebuyer','Home Buyer'),('homerival','Home Rival')]:
         check(create(1,account,pw,account+'@example.invalid')['success']==1,'housing fixture account '+account)
-        check(create(2,account,pw,name)['success']==1,'housing fixture character '+name)
-        people[account]=int(sql("SELECT id FROM players WHERE name='"+name+"'"))
+        created=create(2,account,pw,name)
+        check(created['success']==1,'housing fixture character '+name)
+        assert created['name']==name,'fixture received a different character identity'
+        deadline=time.monotonic()+2
+        while True:
+            persisted=sql("SELECT id FROM players WHERE name='"+name+"'")
+            if persisted:break
+            assert time.monotonic()<deadline,'successful fixture character is missing from SQL: '+name
+            time.sleep(.05)
+        people[account]=int(persisted)
     stop()
     sql("UPDATE accounts SET premium_ends_at=UNIX_TIMESTAMP()+864000 WHERE name IN ('homeseller','homebuyer','homerival')")
     sql('UPDATE players SET balance=10000 WHERE id IN ('+','.join(map(str,people.values()))+')')
