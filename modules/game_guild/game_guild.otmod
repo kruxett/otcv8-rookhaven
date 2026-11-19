@@ -5,6 +5,6 @@ Module
   website:
   autoload: true
   sandboxed: true
-  scripts: [ game_guild ]
+  scripts: [ guild_directory, game_guild ]
   @onLoad: init()
   @onUnload: terminate()

@@ -47,7 +47,7 @@ needs compatibility work before use with the current game database.
 
 The website's `Data/DatabaseInitializer.cs` runs in Development and can execute
 schema changes and the bundled SQL. That SQL seeds `db_version=29`; the current
-native game server requires version 38. Treat the website SQL as an older local
+native game server requires version 39. Treat the website SQL as an older local
 fixture until its schema and web-specific additions have been reconciled with
 native migrations. Connecting the unreviewed development initializer to live
 DEV/PROD is not part of adding this repository.

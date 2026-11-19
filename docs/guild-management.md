@@ -30,6 +30,39 @@ management rows do not reserve space in the member and rank lists. Guild list
 panels are real scroll areas; their rail and gutter appear only on overflow,
 and scrolling resets when a filter or resize makes the content fit again.
 
+## Public guild discovery
+
+`My Guild` and `Browse Guilds` share the existing retro window. Both guildless
+and guilded characters can search all guilds, sort by name/member count/online
+count, and filter to guilds marked as recruiting. Each bounded page shows the
+saved crest, a short public description and authoritative total/online counts.
+Opening a profile shows the public description, leader and paged roster with
+rank, level, online state and permanent class (with Ascension in the tooltip).
+Roster search, ordering and online filtering apply before pagination.
+
+The leader can select `Not specified`, `Recruiting` or `Closed to recruitment`
+in My Guild. Migration 38 upgrades the schema to **39** and adds
+`guilds.recruitment_status`, defaulting existing guilds to `Not specified`.
+Startup validates the new column. The existing website's public SELECT queries
+remain compatible; no website account or mutation route is introduced.
+
+Contact opens the existing private chat tab with the leader; it sends no message
+or invitation automatically. Messages use the normal online-recipient rules.
+Applications and offline message delivery are not added by this discovery view.
+
+Public responses use explicit allowlists: no account data, permissions,
+invitations, internal activity or last-login timestamps. Browsing never changes
+the player's runtime guild or management authority. Recruitment writes derive
+the guild from the player and check the current database owner. Public image
+reads use the same fixed raw pixels and feature flag as private image reads;
+upload/removal still require ownership and retain their existing quotas.
+
+The server returns ten rows per page and never includes image payloads in list
+replies. Visible-page images are fetched sequentially under the shared action
+rate budget and cached by guild/revision (at most 64 entries in the client).
+Changing mode, closing or logout cancels queued reads and invalidates stale
+responses; read failures/timeouts leave Refresh and Back available.
+
 ## Emblems
 
 On Windows, the leader chooses a static **32 × 32 PNG, at most 64 KiB** using
@@ -76,12 +109,13 @@ server's private environment configuration and restart to disable reads and
 writes without deleting stored images. The same setting works on DEV and PROD.
 No database connection or upload destination is embedded in the client.
 
-Migration 37 upgrades the required schema to **38**, creates the bounded image,
+Migration 37 introduced schema **38**, creating the bounded image,
 quota and guard tables, and widens old 15-character guild titles to 30 without
 shrinking wider existing columns. Startup verifies transactional engines, keys,
 cascading ownership, image width and the required columns before opening game
 services. Do not run the new server against schema 37 or downgrade an upgraded
-database with an older executable.
+database with an older executable. The directory migration raises the current
+required schema to **39**.
 
 Publish the matching native client, Lua/OTUI resources and server together using
 the existing DEV release workflow and matching integrity pins. The old client
@@ -111,6 +145,14 @@ member/leader presentation pass: normal member login, every member tab, real
 mouse-wheel scrolling, filtering, empty results, resize transitions and role
 reconnects, plus the leader's retained image and description controls. It uses
 the same disposable fixture and captures both supported window sizes.
+
+`--house-market --house-ui-only --guild-parity --guild-directory` additionally
+tests public discovery through the real native protocol with fourteen guilds
+and a 152-member roster, then exercises the native guildless/member/leader UI
+at 800x640 and 1280x800. It checks whole-list filters/order, literal SQL search,
+out-of-range/missing guilds, public image reads and the disable flag, refusal of
+unauthorized changes, restart persistence, normal contact chat and return to
+the unchanged private management paths. Fixtures/profiles are restored.
 
 The completed 2026-11-19 run passed 65 native checks. It started with 1,002
 members, verified every page, then removed one through the real kick action;

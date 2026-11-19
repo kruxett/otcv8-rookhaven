@@ -26,10 +26,12 @@ p.add_argument('--guild-parity',action='store_true')
 p.add_argument('--guild-scale',action='store_true')
 p.add_argument('--guild-ui',action='store_true')
 p.add_argument('--guild-ui-polish',action='store_true')
+p.add_argument('--guild-directory',action='store_true')
 p.add_argument('--dll-directory',type=Path,required=True);p.add_argument('--rsa-key',type=Path,required=True);p.add_argument('--encoder',type=Path);p.add_argument('--client',type=Path);p.add_argument('--ui-only',action='store_true');p.add_argument('--attack-only',action='store_true');p.add_argument('--ingress-only',action='store_true');args=p.parse_args()
 assert not args.ui_only or args.client,'--ui-only requires --client'
 assert not args.guild_ui or (args.guild_scale and args.client),'--guild-ui requires --guild-scale and --client'
 assert not args.guild_ui_polish or (args.guild_parity and args.house_ui_only and args.client),'--guild-ui-polish requires the isolated guild fixture and --house-ui-only'
+assert not args.guild_directory or (args.guild_parity and args.house_ui_only and args.client and not args.guild_scale and not args.guild_ui_polish),'--guild-directory requires its own guild fixture and QA client'
 assert not args.house_ui_only or (args.house_market and args.client),'--house-ui-only requires --house-market and --client'
 assert not args.house_photos or (args.house_ui_only and args.house_photo_limit>0),'--house-photos requires the isolated house UI fixture'
 assert not args.shop_ui or (args.house_ui_only and not args.house_photos),'--shop-ui requires the ordinary house UI fixture'
@@ -318,6 +320,9 @@ try:
     if args.guild_parity:
         from guild import run as guild_regressions
         guild_regressions(pem,sql,check,guild_id)
+    if args.guild_directory:
+        from guild_directory import run as directory_regressions
+        report['guild_directory']=directory_regressions(pem,sql,check,guild_id,boot,lambda:stop(server))
     if args.guild_ui_polish:
         account=sql("SELECT id FROM accounts WHERE name='homerival'")
         rank=sql('SELECT id FROM guild_ranks WHERE guild_id='+guild_id+' AND level=1 LIMIT 1')
@@ -375,7 +380,7 @@ try:
         original_startup=entries.pop('init.luac')
         if 'startup_original.luac' not in entries:entries['startup_original.luac']=original_startup
         entries['init.lua']=b"function T() dofile('/accounts-probe.lua') end\nreturn dofile('/startup_original.lua')\n"
-        driver='native-guild-polish.lua' if args.guild_ui_polish else 'native-guild-client.lua' if args.guild_ui else 'native-house-client.lua' if args.house_market else 'native-client.lua'
+        driver='native-guild-directory.lua' if args.guild_directory else 'native-guild-polish.lua' if args.guild_ui_polish else 'native-guild-client.lua' if args.guild_ui else 'native-house-client.lua' if args.house_market else 'native-client.lua'
         entries['test.lua']=b'T()\n';entries['accounts-probe.lua']=Path(__file__).with_name(driver).read_bytes().replace(b'__GUILD_UI__',b'true' if args.guild_parity else b'false').replace(b'__RECIPIENT_UI__',b'false' if args.guild_parity else b'true')
         house_towns={h.attrib['houseid']:int(h.attrib['townid']) for h in ET.parse(runtime/'data/world/Untitled-1-house.xml').getroot()}
         entries['accounts-probe.lua']=entries['accounts-probe.lua'].replace(b'__HOUSE_TOWN_EXPECTATIONS__',json.dumps(house_towns).encode())
@@ -415,12 +420,16 @@ try:
         shutil.copyfile(Path(__file__).with_name('native-server.lua'),runtime/'data/scripts/accounts-owned-qa.lua')
         boot('\nclientHouseMarketEnabled = true\n' if args.house_market else '')
         app=start(client/'RookhavenClient.exe',['--local-passives','--test'],'client',client)
-        expected='GUILDS_POLISH_NATIVE_OK' if args.guild_ui_polish else 'GUILDS_UI_NATIVE_OK' if args.guild_ui else 'HOUSE_PHOTOS_OK' if args.house_photos else 'HOUSES_UI_NATIVE_OK' if args.house_market else 'ACCOUNTS_UI_NATIVE_OK'
-        report['client_exit_code']=app.wait(timeout=600 if args.guild_ui else 270 if args.house_photos else 180)
-        check(report['client_exit_code']==0 and expected in log('client'),'native member/leader guild layout and actual scroll overflow' if args.guild_ui_polish else 'native large-guild and emblem UI' if args.guild_ui else 'native house framebuffer photographs' if args.house_photos else 'native housing UI' if args.house_market else 'native account and character UI with normal first login and reconnect')
+        expected='GUILDS_DIRECTORY_NATIVE_OK' if args.guild_directory else 'GUILDS_POLISH_NATIVE_OK' if args.guild_ui_polish else 'GUILDS_UI_NATIVE_OK' if args.guild_ui else 'HOUSE_PHOTOS_OK' if args.house_photos else 'HOUSES_UI_NATIVE_OK' if args.house_market else 'ACCOUNTS_UI_NATIVE_OK'
+        report['client_exit_code']=app.wait(timeout=600 if args.guild_ui else 300 if args.guild_directory else 270 if args.house_photos else 180)
+        check(report['client_exit_code']==0 and expected in log('client'),'native public guild directory, foreign profiles and existing management' if args.guild_directory else 'native member/leader guild layout and actual scroll overflow' if args.guild_ui_polish else 'native large-guild and emblem UI' if args.guild_ui else 'native house framebuffer photographs' if args.house_photos else 'native housing UI' if args.house_market else 'native account and character UI with normal first login and reconnect')
         report['client_log_tail']=log('client')[-1200:]
         for f in profile.glob('accounts-*.png'):shutil.copyfile(f,run/f.name)
-        if args.guild_ui_polish:
+        if args.guild_directory:
+            check(sql('SELECT COUNT(*) FROM guild_membership WHERE guild_id='+guild_id)=='152','directory UI preserves every guild membership')
+            check(sql('SELECT revision FROM guild_emblems WHERE guild_id='+guild_id)=='1','directory UI preserves the saved emblem')
+            check(sql('SELECT recruitment_status FROM guilds WHERE id='+guild_id)=='2','leader recruitment UI persists the selected status')
+        elif args.guild_ui_polish:
             check(sql('SELECT COUNT(*) FROM guild_membership WHERE guild_id='+guild_id)=='22','UI review preserves every guild membership')
             check(sql('SELECT revision FROM guild_emblems WHERE guild_id='+guild_id)=='1','read-only member/leader review preserves the chosen emblem')
             check(sql('SELECT motd FROM guilds WHERE id='+guild_id)=='','leader can clear the description through the native UI')

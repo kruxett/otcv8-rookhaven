@@ -133,7 +133,9 @@ local function queueRefresh(delay)
   if refreshEvent then removeEvent(refreshEvent) end
   refreshEvent = scheduleEvent(function()
     refreshEvent=nil
-    if guildWindow and g_game.isOnline() then sendAction('open') end
+    if guildWindow and g_game.isOnline() then
+      if GuildDirectory.isActive() then GuildDirectory.refresh() else sendAction('open') end
+    end
   end, delay or 100)
 end
 
@@ -304,10 +306,21 @@ local function ensureWindow()
     return false
   end
 
+  GuildDirectory.attach(guildWindow,sendAction,function(active)
+    closeInputs();importGeneration=importGeneration+1;previewPixels=nil;emblemBusy=false;emblemRequest=nil
+    paintedWindow=nil;paintedHeader=nil;paintedPreview=nil
+    W('browseGuildsBtn'):setChecked(active);W('myGuildBtn'):setChecked(not active)
+    W('guildDirectoryPanel'):setVisible(active)
+    for _,id in ipairs({'guildTabsRow','noGuildWrapper','infoPanel','membersPanelWrapper','invitesPanelWrapper','ranksPanelWrapper','activityPanelWrapper','guildPager'})do
+      W(id):hide()
+    end
+    if active then guildWindow:setHeight(500) else sendAction('open') end
+  end)
+
   local refreshBtn = W('refreshBtn')
   if refreshBtn then
     refreshBtn.onClick = function()
-      sendAction('open')
+      if GuildDirectory.isActive() then GuildDirectory.refresh() else sendAction('open') end
     end
   end
 
@@ -317,6 +330,9 @@ local function ensureWindow()
 
   return true
 end
+
+function browseGuilds()GuildDirectory.open()end
+function showMyGuild()GuildDirectory.close()end
 
 local function makeInputWindow(title, onOk)
   local win = g_ui.createWidget('GuildInputWindow', rootWidget)
@@ -408,6 +424,8 @@ local function formatActivityLine(entry)
     return string.format('%s updated the MOTD.', actor)
   elseif event == 'guild_renamed' then
     return string.format('%s renamed the guild to %s.', actor, payload.name or '')
+  elseif event == 'recruitment_updated' then
+    return string.format('%s updated the recruitment status.',actor)
   elseif event == 'invite_revoked' then
     return string.format('%s withdrew the invitation for %s.', actor, payload.name or '')
   elseif event == 'rank_created' then
@@ -547,8 +565,14 @@ local function renderGuildData(data)
     if previewPixels or emblemBusy then importGeneration=importGeneration+1 end
     previewPixels=nil;emblemBusy=false
   end
-  guildWindow:setHeight((isLeader or canSetMotd or canManageRanks) and 500 or 400)
+  guildWindow:setHeight((isLeader or canSetMotd or canManageRanks) and 550 or 400)
   W('emblemPanel'):setVisible(isLeader)
+  W('recruitmentSettings'):setVisible(isLeader)
+  local recruitment=W('recruitmentStatusBox')
+  recruitment:clearOptions()
+  for _,entry in ipairs({{'Not specified',0},{'Recruiting',1},{'Closed to recruitment',2}})do recruitment:addOption(entry[1],entry[2])end
+  recruitment:setCurrentOption(({[0]='Not specified',[1]='Recruiting',[2]='Closed to recruitment'})[info.recruitmentStatus] or 'Not specified')
+  W('saveRecruitmentBtn').onClick=function()sendAction('set_recruitment',{status=recruitment:getCurrentOption().data})end
   W('invitesTab'):setVisible(canInvite)
   W('ranksTab'):setText(canManageRanks and 'Ranks & rights' or 'Ranks')
   W('ranksTab'):setWidth(canManageRanks and 108 or 82)
@@ -997,7 +1021,10 @@ local function onGuildOpcode(protocol, opcode, buffer)
     return
   end
 
+  if GuildDirectory.handle(data) then return end
+
   if data.type=='guild_emblem' then
+    if GuildDirectory.isActive() then emblemRequest=nil;return end
     local expected=emblemRequest
     if not expected or data.requestId~=expected.id or data.guildId~=currentGuildId or
         data.guildId~=expected.guildId or data.revision~=expected.revision or not guildWindow then return end
@@ -1028,6 +1055,7 @@ local function onGuildOpcode(protocol, opcode, buffer)
     return
   end
   if data.requestId~=latestViewRequest or not guildWindow then return end
+  if GuildDirectory.isActive() then return end
 
   if not ensureWindow() then
     return
@@ -1069,6 +1097,7 @@ local function onGuildOpcode(protocol, opcode, buffer)
 end
 
 local function onGameEnd()
+  GuildDirectory.detach()
   closeInputs();currentGuildId=nil
   importGeneration=importGeneration+1;emblemCache=nil;emblemRequest=nil;previewPixels=nil;emblemBusy=false
   paintedWindow=nil;paintedHeader=nil;paintedPreview=nil
@@ -1090,6 +1119,7 @@ local function onGameEnd()
 end
 
 function hide()
+  GuildDirectory.detach()
   closeInputs()
   importGeneration=importGeneration+1;previewPixels=nil;emblemBusy=false;emblemRequest=nil
   paintedWindow=nil;paintedHeader=nil;paintedPreview=nil
@@ -1118,7 +1148,7 @@ function toggle()
   guildWindow:raise()
   guildWindow:focus()
   if guildButton then guildButton:setOn(true) end
-  sendAction('open')
+  if GuildDirectory.isActive() then GuildDirectory.refresh() else sendAction('open') end
 end
 
 function canInviteMembers()
@@ -1131,6 +1161,7 @@ function inviteByName(name)
 end
 
 function init()
+  g_ui.importStyle('guild_directory')
   connect(g_game, { onGameStart = onGameStart, onGameEnd = onGameEnd })
   ProtocolGame.registerExtendedOpcode(GUILD_OPCODE, onGuildOpcode)
   if g_game.isOnline() then onGameStart() end

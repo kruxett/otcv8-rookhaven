@@ -293,12 +293,49 @@ MainWindow
     font: verdana-11px-rounded
 
   Panel
-    id: guildTabsRow
+    id: guildModeRow
     anchors.top: guildHeaderFrame.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     height: 24
     margin-top: 4
+
+    Button
+      id: myGuildBtn
+      anchors.top: parent.top
+      anchors.left: parent.left
+      size: 100 22
+      text: My Guild
+      checkable: true
+      checked: true
+      @onClick: modules.game_guild.showMyGuild()
+
+    Button
+      id: browseGuildsBtn
+      anchors.top: parent.top
+      anchors.left: myGuildBtn.right
+      margin-left: 2
+      size: 110 22
+      text: Browse Guilds
+      checkable: true
+      @onClick: modules.game_guild.browseGuilds()
+
+  GuildDirectoryPanel
+    id: guildDirectoryPanel
+    anchors.top: guildModeRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 4
+    visible: false
+
+  Panel
+    id: guildTabsRow
+    anchors.top: guildModeRow.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 24
+    margin-top: 2
     visible: true
 
     Button
@@ -488,8 +525,41 @@ MainWindow
       visible: false
 
     Panel
-      id: emblemPanel
+      id: recruitmentSettings
       anchors.top: saveMotdBtn.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 24
+      margin-top: 8
+      visible: false
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-top: 4
+        margin-left: 4
+        width: 92
+        height: 16
+        text: Recruitment:
+
+      ComboBox
+        id: recruitmentStatusBox
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 100
+        size: 190 20
+
+      Button
+        id: saveRecruitmentBtn
+        anchors.left: recruitmentStatusBox.right
+        anchors.top: parent.top
+        margin-left: 4
+        size: 60 20
+        text: Save
+
+    Panel
+      id: emblemPanel
+      anchors.top: recruitmentSettings.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       margin-top: 12
@@ -931,7 +1001,7 @@ MainWindow
 
   Panel
     id: noGuildWrapper
-    anchors.top: guildTabsRow.bottom
+    anchors.top: guildModeRow.bottom
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom

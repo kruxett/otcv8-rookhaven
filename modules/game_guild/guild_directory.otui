@@ -1,0 +1,259 @@
+GuildDirectoryRow < Panel
+  height: 44
+  margin-bottom: 2
+  border-width: 1
+  border-color: #303030
+  background-color: #1c1c1c
+  focusable: true
+  $hover:
+    background-color: #262e38
+
+  UIWidget
+    id: directoryGuildCrest
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    margin-left: 6
+    size: 32 32
+    image-source: /images/game/emblems/emblem_member
+    image-smooth: false
+    phantom: true
+
+  Label
+    id: directoryGuildName
+    anchors.top: parent.top
+    anchors.left: directoryGuildCrest.right
+    anchors.right: directoryGuildCounts.left
+    margin-top: 5
+    margin-left: 8
+    margin-right: 6
+    height: 16
+    color: #c8aa6e
+    phantom: true
+
+  Label
+    id: directoryGuildCounts
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 5
+    margin-right: 8
+    size: 192 16
+    text-align: right
+    color: #a6a6a6
+    phantom: true
+
+  Label
+    id: directoryGuildDescription
+    anchors.top: directoryGuildName.bottom
+    anchors.left: directoryGuildName.left
+    anchors.right: directoryGuildStatus.left
+    margin-top: 1
+    margin-right: 6
+    height: 16
+    color: #c4c4c4
+    phantom: true
+
+  Label
+    id: directoryGuildStatus
+    anchors.top: directoryGuildName.bottom
+    anchors.right: parent.right
+    margin-top: 1
+    margin-right: 8
+    size: 170 16
+    text-align: right
+    color: #8a9ab0
+    phantom: true
+
+GuildDirectoryPanel < Panel
+  Panel
+    id: directoryFilters
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 24
+
+    TextEdit
+      id: directorySearch
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: directorySort.left
+      margin-right: 4
+      height: 20
+      max-length: 30
+      placeholder: Search guilds...
+
+    ComboBox
+      id: directorySort
+      anchors.top: parent.top
+      anchors.right: directoryRecruitingOnly.left
+      margin-right: 6
+      size: 120 20
+
+    CheckBox
+      id: directoryRecruitingOnly
+      anchors.top: parent.top
+      anchors.right: parent.right
+      margin-top: 3
+      size: 120 16
+      text: Recruiting only
+
+  VerticalScrollBar
+    id: directoryListBar
+    anchors.top: directoryFilters.bottom
+    anchors.right: parent.right
+    anchors.bottom: directoryPager.top
+    margin-bottom: 4
+    width: 10
+    step: 46
+    visible: false
+
+  GuildListPanel
+    id: directoryGuildList
+    anchors.top: directoryFilters.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: directoryPager.top
+    margin-bottom: 4
+    vertical-scrollbar: directoryListBar
+    layout:
+      type: verticalBox
+      fit-children: false
+
+  Button
+    id: directoryBackBtn
+    anchors.top: parent.top
+    anchors.left: parent.left
+    size: 110 20
+    text: Back to guilds
+    visible: false
+
+  Panel
+    id: directoryProfile
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: directoryPager.top
+    margin-top: 28
+    margin-bottom: 4
+    visible: false
+
+    Label
+      id: directoryLeader
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: directoryContactBtn.left
+      margin-top: 3
+      height: 18
+      color: #dfdfdf
+
+    Button
+      id: directoryContactBtn
+      anchors.top: parent.top
+      anchors.right: parent.right
+      size: 110 20
+      text: Contact leader
+
+    Label
+      id: directoryDescription
+      anchors.top: directoryLeader.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      margin-top: 4
+      text-wrap: true
+      text-auto-resize: true
+      color: #c4c4c4
+
+    TextEdit
+      id: directoryMemberSearch
+      anchors.top: directoryDescription.bottom
+      anchors.left: parent.left
+      anchors.right: directoryMemberSort.left
+      margin-top: 12
+      margin-right: 4
+      height: 20
+      max-length: 30
+      placeholder: Search members...
+
+    ComboBox
+      id: directoryMemberSort
+      anchors.top: directoryDescription.bottom
+      anchors.right: directoryOnlineOnly.left
+      margin-top: 12
+      margin-right: 6
+      size: 120 20
+
+    CheckBox
+      id: directoryOnlineOnly
+      anchors.top: directoryDescription.bottom
+      anchors.right: parent.right
+      margin-top: 15
+      size: 80 16
+      text: Online
+
+    VerticalScrollBar
+      id: directoryMemberBar
+      anchors.top: directoryMemberSearch.bottom
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 4
+      width: 10
+      step: 30
+      visible: false
+
+    GuildListPanel
+      id: directoryMemberList
+      anchors.top: directoryMemberSearch.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 4
+      vertical-scrollbar: directoryMemberBar
+      layout:
+        type: verticalBox
+        fit-children: false
+
+  Label
+    id: directoryStatus
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-top: 140
+    height: 44
+    text-align: center
+    text-wrap: true
+    color: #c8aa6e
+    phantom: true
+    visible: false
+
+  Panel
+    id: directoryPager
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: 24
+    border-top-width: 1
+    border-color: #484238
+
+    Button
+      id: directoryPreviousBtn
+      anchors.left: parent.left
+      anchors.verticalCenter: parent.verticalCenter
+      size: 70 20
+      text: Previous
+      enabled: false
+
+    Button
+      id: directoryNextBtn
+      anchors.right: parent.right
+      anchors.verticalCenter: parent.verticalCenter
+      size: 70 20
+      text: Next
+      enabled: false
+
+    Label
+      id: directoryPageLabel
+      anchors.left: directoryPreviousBtn.right
+      anchors.right: directoryNextBtn.left
+      anchors.verticalCenter: parent.verticalCenter
+      height: 16
+      text-align: center
+      color: #c8aa6e

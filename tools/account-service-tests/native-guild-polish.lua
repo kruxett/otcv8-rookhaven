@@ -51,7 +51,7 @@ local function memberAppearance(emptyDescription)
   assert(W('ranksTab'):getText()=='Ranks' and tabGap>=0 and tabGap<=3,'hidden invitation tab leaves a gap: '..tabGap)
 end
 local function leaderReview()
-  assert(w:getHeight()==500 and W('emblemPanel'):isVisible(),'leader lost emblem management')
+  assert(w:getHeight()==550 and W('emblemPanel'):isVisible(),'leader lost emblem management')
   assert(W('chooseEmblemBtn'):isVisible()and W('chooseEmblemBtn'):isEnabled(),'leader cannot choose emblem image')
   assert(W('motdEdit'):isVisible()and W('saveMotdBtn'):isVisible(),'leader lost description editing')
   assert(W('invitesTab'):isVisible()and W('ranksTab'):getText()=='Ranks & rights','leader lost management tabs')
