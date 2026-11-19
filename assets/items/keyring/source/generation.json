@@ -1,7 +1,7 @@
 {
-  "status": "user-approved-installed-in-source",
+  "status": "user-approved-published-live-verified",
   "installed": true,
-  "published": false,
+  "published": true,
   "provider": "PixelLab MCP",
   "model": "pro-flash",
   "jobId": "abffb93e-c310-4ac7-8908-676459d85442",
@@ -41,5 +41,6 @@
   "generatorBytesPreserved": true,
   "styleReferenceSha256": "8b72631bffe15acea1358e7918d6ec845429f5e9225763279bbe86ae21eac198",
   "approval": "User approved the displayed enlarged proposal: K\u00f6r p\u00e5 den.",
-  "sourceFile": "assets/items/keyring/source/pixellab-keyring-style.png"
+  "sourceFile": "assets/items/keyring/source/pixellab-keyring-style.png",
+  "releaseVersion": 10108
 }
