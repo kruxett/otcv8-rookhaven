@@ -1,0 +1,14 @@
+{
+  "provider": "PixelLab MCP",
+  "model": "pixen",
+  "jobId": "5105b74a-1cc9-4646-ba8b-bf53c7fbfcee",
+  "assetId": "1c64555a-1c26-56b5-b222-b52a4c7228d8",
+  "nativeSize": [
+    32,
+    32
+  ],
+  "transparent": true,
+  "costGenerations": 1,
+  "sha256": "3a73b55c0444961b9ec01a47aebb5fdeb4f5b2e1dc9de9f1d314e58a27a5b1e4",
+  "purpose": "Original standalone Keyring shop illustration. No DAT/SPR item replacement."
+}

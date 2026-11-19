@@ -1,14 +1,45 @@
 {
+  "status": "user-approved-installed-in-source",
+  "installed": true,
+  "published": false,
   "provider": "PixelLab MCP",
-  "model": "pixen",
-  "jobId": "5105b74a-1cc9-4646-ba8b-bf53c7fbfcee",
-  "assetId": "1c64555a-1c26-56b5-b222-b52a4c7228d8",
+  "model": "pro-flash",
+  "jobId": "abffb93e-c310-4ac7-8908-676459d85442",
+  "assetId": "549c0a37-8660-50a3-af37-cd4a57d593b4",
+  "styleReferenceUsed": true,
+  "styleReferencePurpose": "Pixel rendering, contours, shading and palette only. Original Keyring spell composition.",
+  "request": {
+    "description": "Original Keyring SPELL icon for the Rookhaven RPG, drawn directly at 32x32 pixels. This learned support ability absorbs collected keys into the character's permanent magical key collection and later uses the matching remembered key on a nearby door. Preserve this clear motif: THREE DISTINCT OLD KEYS floating together within two restrained broken arcs of blue magic, a compact magical key collection. Arrange one antique-brass key upright in the centre and two shorter blue-grey iron keys slanting to either side, separate and visibly readable, each with an unmistakable squared toothed key bit. They are remembered-key spell symbols, without a physical carrier or metal keyring loop. Draw the keys as solid, richly shaded fantasy metal: dark brown or charcoal contour, 3-4 deliberate shades per material, soft aged-gold midtones, cool grey-blue steel, tiny warm-ivory highlights, top-left lighting and slightly worn irregular surfaces. The magic is a few thin desaturated steel-blue curved strokes behind the keys with one subtle sage-green accent at bottom right. Match the style reference's crisp dark contour, compact proportions, small hand-painted pixel clusters, shaded volume, restrained palette and material contrast. The reference is ONLY for drawing style; invent the entire key-and-spell design. No quiver or copied object from the reference. Transparent background, 2px clear margin all sides, whole design visible. No luminous cyan disc, no neon halo, no flat vector badge, no bloom, no lettering, no UI frame, no texture outside the sprite.",
+    "width": 32,
+    "height": 32,
+    "max_colors": 32,
+    "no_background": true,
+    "style_image": {
+      "usage_description": "Rookhaven's actual approved Magic Quiver shop sprite. Use only its pixel rendering, dark contours, material shading, restrained palette and contrast. Do not copy the quiver's silhouette, content or decorative design.",
+      "localReference": "assets/items/magic-quiver/sprite.png"
+    },
+    "style_options": {
+      "color_palette": true,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  "costGenerations": 5,
+  "sha256": "957040e553255a46d3938986f3ea407f6bf117bf4337fa6608170a2ea9b29978",
   "nativeSize": [
     32,
     32
   ],
-  "transparent": true,
-  "costGenerations": 1,
-  "sha256": "3a73b55c0444961b9ec01a47aebb5fdeb4f5b2e1dc9de9f1d314e58a27a5b1e4",
-  "purpose": "Original standalone Keyring shop illustration. No DAT/SPR item replacement."
+  "visibleBounds": [
+    2,
+    1,
+    29,
+    28
+  ],
+  "binaryTransparency": true,
+  "generatorBytesPreserved": true,
+  "styleReferenceSha256": "8b72631bffe15acea1358e7918d6ec845429f5e9225763279bbe86ae21eac198",
+  "approval": "User approved the displayed enlarged proposal: K\u00f6r p\u00e5 den.",
+  "sourceFile": "assets/items/keyring/source/pixellab-keyring-style.png"
 }
